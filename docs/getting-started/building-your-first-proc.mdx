@@ -1,0 +1,114 @@
+---
+sidebar_position: 2
+title: Building with FLOWX
+---
+
+## Prerequisites
+
+Let's explore a simple flow 🚀
+
+<Steps>
+  <Step title="BPMN Process">
+    [Design a BPMN Process](../flowx-designer/managing-a-process-flow)
+  </Step>
+  <Step title="Process Flow">
+    Define and manage a process flow using [**FLOWX Process Designer**](../terms/flowx-process-designer)  
+ </Step>
+  <Step title="Process Execution">
+   Run a process instance in [**FLOWX Engine**](../terms/flowxai-process-engine)
+  </Step>
+    <Step title="Front-End Application">
+    Create the [**Front-End App**](../terms/flowx-frontend-application)  
+    </Step>
+  <Step title="Plugins">
+    Connect [**Plugins**](../terms/flowx-plugins)
+    </Step>
+</Steps>
+
+
+## Designing the BPMN Process: Requesting a New Credit Card from a Bank App
+
+Let's initiate by designing the BPMN process diagram for a sample use case: requesting a new credit card from a bank app.
+
+## Sample Process Steps
+
+Taking a [**business process example**](../terms/flowx-process) of a credit card application, it involves the following steps:
+
+
+<Steps>
+
+  <Step title="Create Business Process Example">
+    [Create a business process example](../terms/flowx-process) of a credit card application.
+  </Step>
+
+
+  <Step title="Initiate Credit Card Request">
+    A user initiates a request for a new credit card - _**Start Event**_
+  </Step>
+
+
+  <Step title="Fill in Personal Data">
+    The user fills in a form with their personal data - _**User Task**_
+  </Step>
+
+
+  <Step title="Automated Credit Score Check">
+    The bank system performs a credit score check automatically using a send event that communicates with the credit score adapter, followed by a receive event to collect the response from the adapter - _**Automatic Task**_
+  </Step>
+
+
+  <Step title="Credit Score Bifurcation">
+    The process bifurcates based on the credit score using an _**Exclusive Gateway**_
+  </Step>
+
+
+  <Step title="Save Credit Card Type">
+    Each branch entails a service task that saves the appropriate credit card type to the process data - _**Automatic Task**_
+  </Step>
+
+
+  <Step title="Branch Reconciliation">
+    The branches reconvene through a _**Closing Gateway**_
+  </Step>
+
+
+  <Step title="View and Confirm Credit Card Details">
+    The user views the credit card details and confirms - _**User Task**_
+  </Step>
+
+
+  <Step title="Parallel Branching">
+    After user confirmation, the process divides into two parallel branches - _**Parallel Gateway**_. One registers the request in the bank's systems (bank system adapter/integration), and the other sends a confirmation email (notification plugin) to the user
+  </Step>
+
+
+  <Step title="External API Call">
+    An additional automatic task follows: a call to an external API to compute the distance between the user's address and the bank locations ([Google Maps Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/overview)) - _**Automatic Task**_
+  </Step>
+
+
+  <Step title="Sort Location Distances">
+    A task is utilized to sort the location distances and present the top three to the user - _**Automatic Task**_
+  </Step>
+
+
+  <Step title="Select Card Pickup Point">
+    The user selects the card pickup point from the bank location suggestions - _**User Task**_
+  </Step>
+
+
+  <Step title="Receive Confirmation">
+    A receive task awaits confirmation from the bank that the user has collected the new card, concluding the process flow - _**End Event**_
+  </Step>
+</Steps>
+
+
+## Sample Process Diagram
+
+Here's what the [**BPMN**](../terms/bpmn) diagram illustrates:
+
+![Request a new credit card](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/request_a_credit_card_new.png)
+
+<Tip>
+Download the sample [here](./assets/sample_bpmn_process_new_credit_card.bpmn).
+</Tip>

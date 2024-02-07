@@ -1,18 +1,19 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Docs",
+  "versions": ["v1","v2"],
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/dark.png",
+    "light": "/logo/light.png"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#fdb913",
+    "light": "#fdb913",
+    "dark": "#fdb913",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#fdb913",
+      "to": "#fdb913"
     }
   },
   "topbarLinks": [
@@ -27,46 +28,38 @@
   },
   "tabs": [
     {
-      "name": "API Reference",
-      "url": "api-reference"
+      "name": "Release Notes",
+      "url": "release-notes"
     }
   ],
   "anchors": [
     {
       "name": "Documentation",
       "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "url": "docs/getting-started/building-your-first-proc",
+      "version": "v1"
     },
+
     {
+      "name": "Release Notes",
+      "icon": "file",
+      "url": "release-notes"
+    },
+
+      {
       "name": "Community",
-      "icon": "slack",
+      "icon": "discord",
       "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
     }
   ],
   "navigation": [
     {
-      "group": "Get Started",
+      "group": "Getting Started",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
-      ]
-    },
-    {
-      "group": "Essentials",
-      "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
-      ]
+        "docs/getting-started/building-your-first-proc",
+        "docs/getting-started/learn-more"
+      ],
+      "version": "v1"
     },
     {
       "group": "API Documentation",
@@ -81,11 +74,33 @@
         "api-reference/endpoint/create",
         "api-reference/endpoint/delete"
       ]
-    }
+    },
+
+    {
+        "group": "Release Notes",
+        "pages": [
+          "release-notes/overview",
+          {
+            "group": "V3.4.0",
+            "pages": [
+              "release-notes/v3.4.0-september-2023/v3.4.0-september-2023",
+              "release-notes/v3.4.0-september-2023/deployment-guidelines-v3.4.0"
+            ]
+          }
+        ]
+      }
+
+
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
     "linkedin": "https://www.linkedin.com/company/mintsearch"
+  },
+
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
   }
+  
+
 }

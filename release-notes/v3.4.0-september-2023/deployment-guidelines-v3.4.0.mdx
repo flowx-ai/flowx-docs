@@ -1,0 +1,252 @@
+<Note>
+Do not forget, when upgrading to a new platform version, always ensure that your installed component versions match the versions specified in the release notes. To verify this, navigate to **FLOWX.AI Designer > Platform Status**.
+</Note>
+
+<Warning> 
+After updating to **3.4.0** FLOWX.AI release, it is not possible to import old process definitions into the new platform release (available for exports from releases **< 3.4.0**).
+</Warning>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/release_platform_version_check.png)
+
+## Component versions   
+
+| 🧩                            | 3.4.0       | 3.3.0   | 3.2.0  | 3.1.0  | 3.0.0  | 2.14.0   | 2.13.0  | 2.12.0  | 2.11.0  | 2.10.0  | 2.9.0   | 2.8.1   | 2.8.0   | 2.7.0   | 2.6.0   | 2.5.0   | 2.4.0   | 2.3.0   |
+| ------------------------------ | ----------- | ------- | ------ | ------ | ------ | -------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| **process-engine**             | **4.2.4**   | 3.6.0   | 2.2.1  | 2.1.2  | 2.0.7  | 0.4.104  | 0.4.95  | 0.4.90  | 0.4.83  | 0.4.60  | 0.4.49  | 0.4.44  | 0.4.42  | 0.4.42  | 0.4.36  | 0.4.29  | 0.4.22  | 0.4.21  |
+| **admin**                      | **3.2.3**   | 2.5.2   | 2.2.2  | 2.1.3  | 2.0.8  | 0.3.119  | 0.3.103 | 0.3.92  | 0.3.81  | 0.3.60  | 0.3.55  | 0.3.47  | 0.3.43  | 0.3.40  | 0.3.36  | 0.3.34  | 0.3.29  | 0.3.23  |
+| **designer**                   | **3.33.10** | 3.28.11 | 3.21.1 | 3.15.1 | 3.2.1  | 2.78.4-1 | 2.63.6  | 2.60.7  | 2.48.9  | 2.39.2  | 2.33.0  | 2.28.1  | 2.24.2  | 2.23.0  | 2.19.2  | 2.18.2  | 2.17.4  | 2.15.2  |
+| **@flowx/ui-sdk**              | **3.33.10** | 3.28.11 | 3.21.1 | 3.15.1 | 3.2.1  | n/a      | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     |
+| **@flowx/ui-toolkit**          | **3.33.10** | 3.28.11 | 3.21.1 | 3.15.1 | 3.2.1  | n/a      | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     |
+| **@flowx/ui-theme**            | **3.33.10** | 3.28.11 | 3.21.1 | 3.15.1 | 3.2.1  | n/a      | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     |
+| **paperflow-web-components**   | -           | -       | -      | -      | -      | 2.78.4-1 | 2.63.6  | 2.60.7  | 0.2.10  | 0.2.10  | 0.2.10  | 0.2.6   | 0.2.6   | 0.2.6   | 0.2.6   | 0.2.6   | 0.2.6   | 0.2.6   |
+| **flowx-process-renderer**     | -           | -       | -      | -      | -      | 2.78.4-1 | 2.63.6  | 2.60.7  | 2.48.9  | 2.39.2  | 2.33.0  | 2.28.1  | 2.24.2  | 2.23.0  | 2.19.2  | 2.18.2  | 2.17.4  | 2.15.2  |
+| **cms-core**                   | **1.3.6**   | 1.3.0   | 1.2.0  | 1.0.3  | 1.0.2  | 0.2.38   | 0.2.36  | 0.2.33  | 0.2.30  | 0.2.25  | 0.2.23  | 0.2.23  | 0.2.23  | 0.2.23  | 0.2.23  | 0.2.20  | 0.2.20  | 0.2.18  |
+| **scheduler-core**             | **1.2.0**   | 1.0.4   | 1.0.4  | 1.0.4  | 1.0.1  | 0.0.34   | 0.0.34  | 0.0.34  | 0.0.33  | 0.0.28  | 0.0.27  | 0.0.27  | 0.0.27  | 0.0.27  | 0.0.27  | 0.0.24  | 0.0.24  | 0.0.23  |
+| **events-gateway**             | **1.0.6**   | 1.0.2   | -      | -      | -      | -        | -       | -       | -       | -       | -       | -       | -       | -       | -       | -       | -       | -       |
+| **notification-plugin**        | **2.0.5**   | 2.0.4   | 2.0.4  | 2.0.3  | 2.0.1  | 1.0.206  | 1.0.206 | 1.0.206 | 1.0.205 | 1.0.200 | 1.0.198 | 1.0.198 | 1.0.197 | 1.0.194 | 1.0.194 | 1.0.191 | 1.0.191 | 1.0.190 |
+| **document-plugin**            | **2.0.6**   | 2.0.4   | 2.0.3  | 2.0.3  | 2.0.2  | 1.0.53   | 1.0.53  | 1.0.53  | 1.0.52  | 1.0.47  | 1.0.42  | 1.0.41  | 1.0.38  | 1.0.37  | 1.0.37  | 1.0.35  | 1.0.35  | 1.0.31  |
+| **ocr-plugin**                 | 1.0.8       | 1.0.8   | 1.0.2  | 0.1.33 | 0.1.33 | 0.1.33   | 0.1.33  | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.0.109 |
+| **license-core**               | **1.0.4**   | 1.0.2   | 1.0.2  | 1.0.2  | 1.0.1  | 0.1.28   | 0.1.28  | 0.1.28  | 0.1.27  | 0.1.23  | 0.1.19  | 0.1.18  | 0.1.18  | 0.1.18  | 0.1.18  | 0.1.15  | 0.1.15  | 0.1.13  |
+| **customer-management-plugin** | **0.2.6**   | 0.2.4   | 0.2.3  | 0.2.3  | 0.2.1  | 0.1.28   | 0.1.28  | 0.1.28  | 0.1.27  | 0.1.23  | 0.1.22  | 0.1.22  | 0.1.22  | 0.1.22  | 0.1.22  | 0.1.20  | 0.1.20  | 0.1.18  |
+| **task-management-plugin**     | **3.0.0**   | 2.1.2   | 1.0.4  | 1.0.4  | 1.0.1  | 0.0.42   | 0.0.42  | 0.0.40  | 0.0.37  | 0.0.29  | 0.0.28  | 0.0.28  | 0.0.27  | 0.0.27  | 0.0.27  | 0.0.22  | 0.0.22  | 0.0.21  |
+| **data-search**                | **0.2.3**   | 0.2.0   | 0.1.4  | 0.1.4  | 0.1.3  | 0.0.8    | 0.0.8   | 0.0.6   | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     |
+| **audit-core**                 | **2.1.0**   | 1.0.6   | 1.0.5  | 1.0.4  | 1.0.1  | 0.0.8    | 0.0.5   | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     |
+| **reporting-plugin**           | **0.1.2**   | 0.0.40  | 0.0.40 | 0.0.40 | 0.0.39 | 0.0.39   | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     |
+| **advancing-controller**       | **0.3.2**   | 0.3.0   | 0.1.4  | 0.1.4  | 0.1.2  | 0.0.6    | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     |
+| **iOS renderer**               | **2.3.0**   | 2.1.0   | 2.0.1  | 2.0.0  | 2.0.0  | n/a      | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     |
+| **Android renderer**           | **2.1.4**   | 2.0.1   | 2.0.1  | 2.0.1  | 2.0.1  | n/a      | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     |
+
+
+<Warning>
+With the release of **FLOWX.AI 3.0**, there have been some changes that you need to be aware when upgrading to the latest version:
+* The `flowx-process-renderer` has been migrated to `@flowx\ui-sdk`.
+* As of **FLOWX.AI 3.0**, the `paperflow-web-components` library will be deprecated (some components still can be found inside this lib). Instead, the new components can be found in `@flowx/ui-toolkit@3.0`.
+</Warning>
+
+### Recommended Versions for FLOWX.AI 3.4.0 ☑️
+
+| FLOWX.AI Platform Version | Component name               | Recommended version (tested versions) |
+| ------------------------- | ---------------------------- | ------------------------------------- |
+| 3.4                       | Keycloak                     | 18.0.x                                |
+| 3.4                       | Kafka                        | 3.2.3                                 |
+| 3.4                       | PostgreSQL                   | 14.3.0                                |
+| 3.4                       | MongoDB                      | 5.0.8                                 |
+| 3.4                       | Redis                        | 6.2.6                                 |
+| 3.4                       | Elasticsearch                | 7.17                                  |
+| 3.4                       | OracleDB                     | 19.8.0.0.0                            |
+| 3.4                       | Angular (Web SDK)            | 15.0.0                                |
+
+
+<Info>
+FlowX.AI supports any version of the third-party components listed as prerequisites.
+
+For optimal performance and reliability, our internal QA process validates new releases using specific versions as indicated in the provided table.
+While exploring alternative versions that suit your company's specific requirements, we recommend referring to the compatibility matrix for guidance.
+
+In the unlikely event that you encounter any compatibility issues with FlowX.AI, please open a support ticket [**here**](https://support.flowx.ai/), and our dedicated team will address and resolve any identified bugs following our standard support process.
+
+Compatibility Matrix:
+
+* FLOWX.AI Platform: Recommended and tested versions
+* Third-Party Components: Supported versions based on specific requirements and client preferences
+</Info>
+
+
+# Additional configuration
+
+This section outlines the supplementary configurations required to leverage the newly introduced features within FLOWX.AI.
+
+## Data Model Update Procedure
+
+<Warning>
+When deploying the new version, it's mandatory to migrate the data model index using the following procedure.
+</Warning>
+
+Follow the next steps:
+
+1. **Access Kibana**: Start by connecting to Kibana and locate the data model index, which is typically named "process-data-model."
+
+2. **Open Kibana Devtools**: Navigate to Kibana → Devtools. In the Console tab, you should proceed with the following steps.
+
+3. **Check Index Documents**: Copy and paste the following script into the left-hand window, replacing any existing content, and then execute it. This script will retrieve the existing documents in the index to validate that the index name is correct.
+
+```json
+GET process-data-model/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+```
+
+4. **Update Documents**: Replace any existing content in the left window with the following script, and then run it. This script updates the documents in the index by adding a new attribute, "processDefinitionVersionId," with the same value as "processDefinitionId."
+
+```json
+POST process-data-model/_update_by_query?wait_for_completion=false
+{
+    "query": {
+        "match_all": {}
+    },
+    "script": {
+        "source": "ctx._source.processDefinitionVersionId=ctx._source.processDefinitionId",
+        "lang": "painless"
+    }
+}
+```
+
+5. **Verify the Update**: Re-run the script from step 3 to confirm that the new attribute, "processDefinitionVersionId," has been added with the same value as "processDefinitionId."
+
+These steps will ensure a smooth migration of the data model index when deploying the new version.
+
+## Access rights for Fonts
+
+In order to utilize the new fonts feature in the CMS microservice, it's mandatory to configure the following access rights:
+
+| Module        | Scope  | Role default value | Microservice       |
+| ------------- | ------ | ------------------ | ------------------ |
+| manage-themes | import | ROLE_THEMES_IMPORT | Content Management |
+|               | import | ROLE_THEMES_EDIT   | Content Management |
+|               | import | ROLE_THEMES_ADMIN  | Content Management |
+| manage-themes | read   | ROLE_THEMES_READ   | Content Management |
+|               | read   | ROLE_THEMES_EDIT   | Content Management |
+|               | read   | ROLE_THEMES_ADMIN  | Content Management |
+|               | read   | ROLE_THEMES_IMPORT | Content Management |
+| manage-themes | edit   | ROLE_THEMES_EDIT   | Content Management |
+|               | edit   | ROLE_THEMES_ADMIN  | Content Management |
+| manage-themes | admin  | ROLE_THEMES_ADMIN  | Content Management |
+
+## Markdown support 
+
+New lib added:
+
+* `marked@^5.0.0` refers to a specific version of the "marked" library or package in the npm ecosystem. "marked" is an open-source JavaScript library used for parsing and rendering Markdown text into HTML.
+
+To install the lib please make sure to run the following command:
+
+`npm install marked@^5.0.0`
+
+## Timer events 
+
+Incorporating new Kafka Topics and Consumer Groups.
+
+### Admin
+
+1. **KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_SET**:
+   - Facilitates the transmission of scheduled message requests from the Admin microservice to the Scheduler.
+   - Utilize when setting up scheduled messages for precise timing and orchestration.
+
+2. **KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_STOP**:
+   - Responsible for forwarding requests from the Admin microservice to the Scheduler to halt scheduled messages.
+   - Utilize to cease previously scheduled messages for streamlined management.
+
+3. **KAFKA_TOPIC_PROCESS_START_FOR_EVENT_IN**:
+   - Enabling the initiation of process definitions that commence with a timer start event node.
+   - Aids in the launch of process flows driven by time-based triggers.
+
+### Scheduler
+
+1. **KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_IN_SET**:
+   - Receives scheduled message setting requests from the Admin and Process engine microservices.
+   - Utilized for setting up precise message scheduling with a focus on timing accuracy.
+
+
+2. **KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_IN_STOP**:
+   - Handles requests from the Admin and Process engine microservices to terminate scheduled messages.
+   - Essential for promptly halting scheduled messages according to operational requirements.
+ 
+
+3. **KAFKA_TOPIC_AUDIT_OUT**:
+   - Introduction of audit functionality to the Scheduler microservice through Kafka.
+   - Enables tracking and management of scheduling activities.
+
+New consumer groups:
+
+```yaml
+kafka:
+  consumer:
+    threads: 1
+    scheduled-timer-events:
+      threads: 1
+      group-id: scheduled-timer-events
+    stop-scheduled-timer-events:
+      threads: 1
+      group-id: stop-scheduled-timer-events
+```
+
+### Process engine
+
+1. **KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_SET**:
+    - Sent to the scheduler for setting scheduled messages.
+
+2. **KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_STOP**:
+    - Sent to the scheduler for stopping scheduled messages.
+
+New consumer groups:
+
+```yaml
+kafka:
+  consumer:
+    threads: 1
+    scheduled-timer-events:
+      threads: 1
+      group-id: scheduled-timer-events
+    stop-scheduled-timer-events:
+      threads: 1
+      group-id: stop-scheduled-timer-events
+```
+
+### New service account
+
+A new service account has been introduced. This service account is essential for enabling the usage of the Start Timer Event node. Detailed information is available in the following section:
+
+[Service accounts](../../docs/platform-setup-guides/access-management/configuring-an-iam-solution#scheduler-service-account)
+
+## Scheduler: New timer-event-scheduler (Cron)
+
+Introducing a new timer event scheduler designed to manage timer events. This scheduler scans for expired messages every second, processing batches of 100 messages per iteration. For situations with higher message volumes, the scheduler ensures thorough message consumption:
+
+```yaml
+timer-event-scheduler:
+  batchSize: 100 
+  cronExpression: "*/1 * * * * *" #every 1 seconds
+```
+
+## Scheduler: new recovery mechanism
+
+```yaml
+flowx:
+  timer-calculator:
+    delay-max-repetitions: 1000000
+```
+
+<Info>
+You have a "next execution" set for 10:25, and the cycle step is 10 minutes. If the instance goes down for 2 hours, the next execution time should be 12:25, not 10:35. To calculate this, you add 10 minutes repeatedly to 10:25 until you reach the current time. So, it would be 10:25 + 10 min + 10 min + 10 min, until you reach the current time of 12:25. This ensures that the next execution time is adjusted correctly after the downtime.
+</Info>
+
+* `FLOWX_TIMER_CALCULATOR_DELAY_MAX_REPETITIONS` - This means that, for example, if our cycle step is set to one second and the system experiences a downtime of two weeks, which is equivalent to 1,209,600 seconds, and we have the "max repetitions" set to 1,000,000, it will attempt to calculate the next schedule. However, when it reaches the maximum repetitions, an exception is thrown, making it impossible to calculate the next schedule. As a result, the entry remains locked and needs to be rescheduled. This scenario represents a critical case where the system experiences extended downtime, and the cycle step is very short (e.g., 1 second), leading to the inability to determine the next scheduled event.
+
+
+
+
+
+

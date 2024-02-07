@@ -1,0 +1,164 @@
+---
+sidebar_position: 2
+---
+
+Welcome to the FLOWX.AI 3.4 release! 🚀 This update introduces exciting new features and improvements to enhance your experience with FLOWX.AI. Get ready for an extraordinary journey! 🚀
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/7x786b.gif)
+
+## **What's New?** 🆕
+
+# Introducing the Enhanced Versioning Module
+
+We are excited to unveil the latest enhancements to our Versioning module, designed to improve your experience and streamline your workflow.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/versioning.png)
+
+**Watch our video overview** to discover all the new features and improvements:
+
+
+<iframe
+    width="800"
+    height="480"
+    src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/Release%203.4%20%282%29.mp4"
+    frameBorder="0"
+    allow="autoplay; fullscreen"
+    allowfullscreen
+    title="Video Player"
+></iframe>
+
+For more in-depth information and to explore the Versioning module further, please visit our documentation:
+
+[Versioning Module Documentation](../../docs/building-blocks/process/versioning)
+
+Stay updated and take advantage of these exciting updates in our Versioning module!
+
+
+
+### Fresh nodes: Timer Events
+
+These nodes enable you to trigger specific actions or events at predefined time intervals, durations, or cycles. With timer event nodes, you can design processes that respond to time-related conditions, ensuring smoother workflow execution and enhanced automation.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/timer_events.png)
+
+Three primary Timer Event node types:
+
+* [**Timer Start Event**](../../docs/building-blocks/node/timer-events/timer-start-event) (interrupting/non-interrupting)
+* [**Timer Intermediate Event**](../../docs/building-blocks/node/timer-events/timer-intermediate-event)
+* [**Timer Boundary Event**](../../docs/building-blocks/node/timer-events/timer-boundary-event) (interrupting/non-interrupting)
+
+So whether it's reminders, recurring tasks, or tasks with deadlines, these Timer Event nodes are your go-to for keeping things in sync with the clock.
+
+[Timer Events](../../docs/building-blocks/node/timer-events)
+
+### FLOWX.AI Designer 
+
+#### Font Management
+
+Font Management allows you to upload and manage multiple font files, which can be later utilized when configuring UI templates using the UI Designer. You can now upload multiple TTF font files, the platform will identify additional data like font family, weight, and style for each file. That can be done using the new menu entry added under **Content Management > Font files**.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/fonts.png)
+
+[Font Management](../../docs/platform-deep-dive/core-components/core-extensions/content-management/font-files)
+
+### UI Designer
+
+#### Attributed strings for Markdown support
+
+Enhance the design of UI components with the new Markdown support, including features such as bold, italic, strikethrough, and clickable URLs. This feature integrates with the following UI components: text, [switch](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/switch-form-field), and [message indicators](../../docs/building-blocks/ui-designer/ui-component-types/indicators), ensuring a consistent and polished rendering experience.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/attributed_strings.gif)
+
+:::info
+Supported tags in the current iteration: bold, italic, bold italic, strikethrough and URLs.
+
+#### Example:
+
+- **Bold** 
+
+```markdown
+**Bold**
+```
+
+- *italic*
+
+```markdown
+*italic*
+```
+
+- ***bold italic***
+
+```markdown
+***bold italic***
+```
+- strikethrough
+
+```markdown
+~~strikethrough~~
+```
+- URL
+
+```markdown
+[URL](https://url.net)
+```
+
+Let's take the following Markdown text example:
+
+```markdown
+Be among the *first* to receive updates about our **exciting new products** and releases. Subscribe [here](flowx.ai/newsletter) to stay in the loop! Do not ~~miss~~ it!
+```
+When running the process, it will be displayed like this:
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/text_markdown.png)
+:::
+
+## **Bug Fixes** 🔧
+
+* Addressed a bug where the boundary sequence incorrectly moved to the parent node after copy-paste.
+* Resolved an issue where the "Select Sequence" buttons within the node UI interface could overlap, ensuring a better user experience.
+
+## **Changed** 🛠️
+
+### Process Designer
+
+#### Keyboard commands
+
+* To edit a selected node label, press "R," which puts the label in edit mode. After editing, press "Enter" to save the new name.
+* To copy selected nodes, use "CMD/Ctrl + C," and to paste them into a selected swimlane, use "CMD/Ctrl + V."
+* To delete selected node(s), press "Backspace."
+
+#### Data model
+
+* Revamped Object-Level Settings with Enhanced Attribute Flags.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/data_model_obj.png)
+
+### Other Bits
+
+* Bid farewell to the autoarrange function in the [**Process Designer**](../../docs/terms/flowx-process-designer).
+
+## **Gremlins to Watch Out For** 🙁
+
+* **Slider UI element**: Our slider component can be a bit mysterious at times. Currently, it enjoys a game of hide-and-seek with the correct value when sourced from process data.
+* **Document preview UI element**: Our document preview component has a unique sense of style. It prefers to take up only a portion of the screen, even when told to "fill" the entire width. It's a rebel with a cause.
+* **Business rules**: Our [**business rule**](../../docs/terms/business-rules) have a language barrier, but they're working on it. Changing the language of a business rule doesn't always lead to using the new language for execution. It's like they have a favorite phrase they won't let go of.
+* **Process Designer**: Deleting a boundary node in the process designer and coming back from the UI Designer doesn't always clean up the associated sequence from the boundary event. It's like they left a party and forgot their hat.
+* **Timer Events**: 
+    * Our timer events can sometimes be a bit shy and not show up on the canvas when added after creating a new process version or branch. They need a little nudge to make their appearance after refreshing the page.
+    * Mandatory Fields Error Messages: Our system has a sense of humor when it comes to mandatory fields. It forgets to deliver the error messages when these fields are left empty. It's a bit too laid-back.
+    * Timer Expression Validators: Our timer expressions can be a bit wild and free-spirited because they don't always follow the rules. We haven't implemented their validators yet, so they do as they please.
+    * Timer Events on Read-Only Process Versions: Our timer events are a bit of a rebel when it comes to read-only process versions. They refuse to disable their fields, as if they have a mind of their own.
+* **Versioning**: 
+    * Our versioning system can be a bit finicky at times. It might throw a server error when merging branches or refuse to ignore the Flowx UUID key, causing conflicts. And sometimes, the branching graph prefers to play hide-and-seek during import/export. But hey, we're working on it!
+    * Swimlane Allocation UI: Even after a process definition is deleted, you might catch a glimpse of the UI for swimlane allocation. It's like a ghost from the past that refuses to fade away.
+
+
+## **Additional information**
+
+For deployment guidelines, refer to:
+ 
+[Deployment guidelines v3.4.0](./deployment-guidelines-v3.4.0.md)
+
+
+
+
