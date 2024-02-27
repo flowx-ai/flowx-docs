@@ -62,9 +62,14 @@
       "version": "v1"
     },
     {
-      "group": "API Documentation",
+      "group": "Platform overview",
       "pages": [
-        "api-reference/introduction"
+      {
+        "group": "Frameworks and standards",
+        "pages":[
+        "docs/platform-overview/frameworks-and-standards/frameworks-and-standards/business-process-industry-standards/business-process-industry-standards"
+        ]
+      }
       ]
     },
     {
@@ -80,6 +85,15 @@
         "group": "Release Notes",
         "pages": [
           "release-notes/overview",
+          {
+            "group": "V3.4.7",
+            "pages": [
+              "release-notes/v3.4.7-january-2024/v3.4.7-january-2024",
+              "release-notes/v3.4.7-january-2024/deployment-guidelines-v3.4.7"
+            ]
+            
+          },
+
           {
             "group": "V3.4.0",
             "pages": [

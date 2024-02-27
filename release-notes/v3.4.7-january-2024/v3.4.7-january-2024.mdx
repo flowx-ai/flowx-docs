@@ -1,0 +1,95 @@
+---
+sidebar_position: 2
+---
+Welcome to the FLOWX.AI v3.4.7 patch release! This update brings several enhancements and fixes to improve your FLOWX.AI experience. While it may not be a major version update, it's packed with valuable improvements.
+
+## **What's new** 
+
+### Process Engine 🚂 
+
+#### 🆕 **Default Data Transmission to Frontend (Improvement)**
+
+In version 3.4.7 of the FLOWX.AI Platform, we're introducing a practical improvement related to sending data to the frontend. This enhancement aims to simplify the process of displaying process data in the frontend UI, reducing the time and effort required for configuration.
+
+###### Background
+
+Previously, the Configurator required explicit mention of objects to be sent to the frontend for displaying data in User Task UI. This often included configuring keys for various UI elements. To make this process more straightforward, we've implemented a default mechanism that automatically sends all keys configured as sources for UI elements to the frontend.
+
+###### Changes and Benefits
+
+To streamline the configuration process, we've made the following updates in the UI Configuration:
+
+* **Label Change**: We've updated the label in the configuration UI under "Message" to "Custom UI Payload" for clarity.
+* **Runtime Behavior (Default Data Transmission)**: During runtime, the Backend (BE) will automatically send to the frontend all data available as process variables with matching keys. This includes default keys and objects specified in the "Message" option of the root element for User Tasks.
+* **Default Keys Sent to Frontend**: For various UI elements, predefined keys will be sent to the frontend by default.
+
+#### 🆕 **Managing Subprocesses Expiration**
+
+We introduced a new mechanism for precise control over subprocesses expiration.
+
+<Check>
+Additional Configuration needed! Check the [**deployment guidelines**](deployment-guidelines-v3.4.7#process-engine).
+</Check>
+
+### Documents Plugin 📄
+
+🆕 **PDF to JPEG Conversion Improvement**
+
+We have enhanced the PDF to JPEG conversion functionality. This improvement allows users to configure the DPI (dots per inch) value for converting PDFs to JPEG files, resulting in higher resolution images.  
+
+<Check>
+Additional Configuration needed! Check the [**deployment guidelines**](deployment-guidelines-v3.4.7#additional-configuration).
+</Check>
+
+### OCR Plugin 👁️ 
+
+🆕 **Control Aspect Ratio**
+
+Introduced a mechanism to fine-tune the OCR by defining a range of acceptable aspect ratios for particular documents. Adjusting these ratios of the documents can help tailor the OCR plugin to different types of documents.
+
+<Check>
+Additional Configuration needed! Check the [**deployment guidelines**](deployment-guidelines-v3.4.7#ocr-plugin).
+</Check>
+### License Core
+
+* Improved licensing core for a refined experience, ensuring improved functionality and ease of use.
+
+## **Bug Fixes** 🔧
+
+### Process Engine 🚂
+
+#### Bug Fix: Subprocess Party Time 🎉
+
+So, to make sure the subprocesses don't miss the farewell fireworks when the parent process expires, we've equipped them with a "Subprocess Farewell Dance Routine"! Now, when the parent process decides it's time to go, the subprocesses won't be hanging around like party crashers - they'll join the exit dance and wrap things up properly.
+
+#### Bug Fix: Subprocess Timeout Tango - Interrupted Edition 💃🕰️
+
+In the grand dance of subprocesses, we stumbled upon a partner who wasn't quite following the choreography. The bug report stated that subprocesses were not gracefully bowing out after an interrupting timer event. Now, when the timer says it's time to leave, the subprocesses won't be sticking around for an encore! 
+
+
+### Advancing Controller
+
+#### Bug Fix: Parallel Advancing Ballet - Failure Recovery 🩰🐞
+
+To ensure our parallel advancing ballet doesn't lose its rhythm, we've introduced the "Failure Recovery Pirouette." Now, when an advancing event faces failure, the partitions won't be left wondering if the music stopped—they'll gracefully exit the stage, and inactive partitions will automatically join the backstage crew, making room for the next act.
+
+Thank you for being part of the FLOWX.AI Platform community, where even bugs are fixed with a twirl and a leap! 😄🩰🎭
+
+## **Gremlins to Watch Out For** 🙁
+
+Keep an eye out for these quirks:
+
+* **Document preview UI element**: Our document preview component has a unique sense of style. It prefers to take up only a portion of the screen, even when told to "fill" the entire width. It's a rebel with a cause.
+* **Business rules**: Our business rule have a language barrier, but they're working on it. Changing the language of a business rule doesn't always lead to using the new language for execution. It's like they have a favorite phrase they won't let go of.
+* **Process Designer**: Deleting a boundary node in the process designer and coming back from the UI Designer doesn't always clean up the associated sequence from the boundary event. It's like they left a party and forgot their hat.
+* **Datepicker Date Transformation**: Our Datepicker seems to possess a hidden talent. It mysteriously transforms random text into the current date when used with validators in UI Designer.
+
+## **Additional information**
+
+For deployment guidelines, refer to:
+ 
+<Card title="Deployment guidelines v3.4.7" href="./deployment-guidelines-v3.4.7">
+</Card>
+
+
+
