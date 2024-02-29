@@ -1,20 +1,21 @@
-# Intro to DMN
-
-As we've seen in the previous chapter, Business Process Model and Notation ([**BPMN**](intro-to-bpmn/)) is used to define business processes as a sequence of activities. If we need to branch off different process paths, we use gateways. These have rules attached to them in order to decide on which outgoing path should the process continue on.
+---
+title: Intro to DMN
+description: As we've seen in the previous chapter, Business Process Model and Notation ([**BPMN**](intro-to-bpmn/)) is used to define business processes as a sequence of activities. If we need to branch off different process paths, we use gateways. These have rules attached to them in order to decide on which outgoing path should the process continue on.
+---
 
 ![Process with gateways](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/process_with_gateways.png)
 
-:::info
+<Info>
 For more information on how to define DMN gateway decisions, check the [**Exclusive gateway node**](../../../building-blocks/node/exclusive-gateway-node.md) section.
-:::
+</Info>
 
 We needed a convenient way of specifying the [**business rules**](../../../terms/business-rules) and we picked two possible ways of writing business rules:
 
 * defining them as DMN decisions
 
-:::info
+<Info>
 You can now define a DMN Business Rule Action directly in [**FLOWX Designer**](../../../terms/flowx-ai-designer). For more information, check the [**DMN Business Rule Action**](../../../building-blocks/actions/business-rule-action/dmn-business-rule-action.md) section.
-:::
+</Info>
 
 * adding [MVEL](intro-to-mvel.md#what-is-mvel) scripts
 
@@ -24,9 +25,9 @@ You can now define a DMN Business Rule Action directly in [**FLOWX Designer**](.
 
 **The Business Process Model and Notation** is used to create the majority of process models **(BPMN)**. The DMN standard was developed to complement BPMN by providing a mechanism for modeling decision-making represented by a Task within a process model. DMN does not have to be used in conjunction with BPMN, but it is highly compatible.
 
-:::warning
+<Warning>
 FLOWX.AI supports [DMN 1.3](https://www.omg.org/spec/DMN/1.3/) version.
-:::
+</Warning>
 
 ### DMN Elements
 
@@ -80,50 +81,46 @@ A decision table represents decision logic which can be depicted as a table in D
 
 **Hit Policy examples**
 
-import Tabs from '@theme/Tabs';
-
-import TabItem from '@theme/TabItem';
-
 <Tabs>
-<TabItem value="unique" label="Unique">
+<Tab title="Unique">
 <ul>
 <li>unique result</li>
 <li>only one rule will match, or no rule</li>
 </ul>
-</TabItem>
+</Tab>
 
-<TabItem value="first" label="First">
+<Tab title="First">
 <ul>
 <li>unique result</li>
 <li>the order matter</li>
 <li>continues with the first rule that matches</li>
 </ul>
-</TabItem>
+</Tab>
 
-<TabItem value="priority" label="Priority">
+<Tab title="Priority">
 <ul>
 <li>rule outputs are prioritized</li>
 <li>rules may overlap, but only match with the highest output priority counts </li>
 </ul>
-</TabItem>
+</Tab>
 
-<TabItem value="any" label="Any">
+<Tab title ="Any">
 <ul>
 <li> unique results </li>
 <li>multiple rules can be satisfied </li>
 <li>all satisfied rules must generate the same output, otherwise the rule is violated</li>
 </ul>
-</TabItem>
+</Tab>
 
-<TabItem value="ruleorder" label="Rule order">
+<Tab title = "Rule order">
 <ul>
 <li>multiple results</li>
 <li>the rules are evaluated in the order they are defined</li>
 <li>the satisfied rules can generate different outputs</li>
 </ul>
-</TabItem>
+</Tab>
 
-<TabItem value="collectorder" label="Collect order">
+<Tab title ="Collect order">
 <ul>
 <li> multiple results </li>
 <li>the rules are evaluated in an arbitrary order </li>
@@ -136,7 +133,7 @@ import TabItem from '@theme/TabItem';
   <li>COUNT</li>
   </ul>
 </ul>
-</TabItem>
+</Tab>
 </Tabs>
 
 ### DMN Model

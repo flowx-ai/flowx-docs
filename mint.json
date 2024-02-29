@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/schema.json",
   "name": "Docs",
-  "versions": ["v1","v2"],
+  "versions": ["v3.x","v2.x"],
   "logo": {
     "dark": "/logo/dark.png",
     "light": "/logo/light.png"
@@ -19,12 +19,12 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "https://flowxai.zendesk.com/"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Feedback",
+    "url": "https://flowxai.canny.io/documentation-feedback"
   },
   "tabs": [
     {
@@ -37,7 +37,7 @@
       "name": "Documentation",
       "icon": "book-open-cover",
       "url": "docs/getting-started/building-your-first-proc",
-      "version": "v1"
+      "version": "v3.x"
     },
 
     {
@@ -46,10 +46,16 @@
       "url": "release-notes"
     },
 
-      {
+    {
+      "name": "Academy",
+      "icon": "school",
+      "url": "https://academy.flowx.ai/"
+    },
+    
+    {
       "name": "Community",
       "icon": "discord",
-      "url": "https://mintlify.com/community"
+      "url": "https://discord.gg/TEagTA56"
     }
   ],
   "navigation": [
@@ -59,25 +65,121 @@
         "docs/getting-started/building-your-first-proc",
         "docs/getting-started/learn-more"
       ],
-      "version": "v1"
+      "version": "v3.x"
     },
     {
       "group": "Platform overview",
       "pages": [
-      {
-        "group": "Frameworks and standards",
-        "pages":[
-        "docs/platform-overview/frameworks-and-standards/frameworks-and-standards/business-process-industry-standards/business-process-industry-standards"
-        ]
-      }
+        {
+          "group": "Frameworks and standards",
+          "icon": "gears",
+          "pages": [
+            {
+              "group": "Business process industry and standards",
+              "pages": [
+
+                "docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn",
+                "docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn",
+                "docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel"
+              ]
+            },
+            {
+              "group": "Event-driven architecture frameworks",
+              "pages": [
+              
+                "docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts",
+                "docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch",
+                "docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kubernetes",
+                "docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-nginx",
+                "docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis"
+
+
+              ]
+            }
+          ]
+
+        },
+        "docs/platform-overview/flowx-architecture"
+
       ]
     },
+
     {
-      "group": "Endpoint Examples",
+      "group": "Building blocks",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        {
+          "group": "Process",
+          "icon": "network-wired",
+          "pages": [
+            "docs/building-blocks/process/process",
+            "docs/building-blocks/process/process-definition",
+            "docs/building-blocks/process/process-instance",
+            "docs/building-blocks/process/subprocess",
+            "docs/building-blocks/process/versioning"
+
+          ]
+        },
+
+        {
+          "group": "Nodes",
+          "icon": "circle-nodes",
+          "pages": [
+            "docs/building-blocks/node/node",
+            "docs/building-blocks/node/start-end-node",
+            "docs/building-blocks/node/message-send-received-task-node",
+            "docs/building-blocks/node/task-node",
+            "docs/building-blocks/node/user-task-node",
+            "docs/building-blocks/node/exclusive-gateway-node",
+            "docs/building-blocks/node/parallel-gateway",
+            "docs/building-blocks/node/milestone-node",
+            "docs/building-blocks/node/subprocess-run-node",
+            {
+              "group": "Message events",
+              "pages": [
+                "docs/building-blocks/node/message-events/message-events",
+                "docs/building-blocks/node/message-events/message-catch-start-event",
+                {
+                  "group": "Message intermediate events",
+                  "pages": [
+                    "docs/building-blocks/node/message-events/message-intermediate/message-intermediate",
+                    "docs/building-blocks/node/message-events/message-intermediate/message-throw-intermediate-event",
+                    "docs/building-blocks/node/message-events/message-intermediate/message-catch-intermediate-event",
+                    "docs/building-blocks/node/message-events/message-intermediate/example-intermediate-message-events"
+                  ]
+                },
+
+                "docs/building-blocks/node/message-events/message-catch-boundary-event"
+              ]
+            },
+
+            {
+              "group": "Timer events",
+              "pages": [
+                "docs/building-blocks/node/timer-events/timer-events",
+                "docs/building-blocks/node/timer-events/timer-start-event",
+                "docs/building-blocks/node/timer-events/timer-intermediate-event",
+                "docs/building-blocks/node/timer-events/timer-boundary-event",
+                "docs/building-blocks/node/timer-events/timer-expressions"
+              ]
+            }
+
+          ]
+        },
+
+        {
+          "group": "Actions",
+          "icon": "bolt",
+          "pages": [
+            "docs/building-blocks/actions/actions",
+            {
+              "group": "Business rule actions",
+              "pages": [
+                "docs/building-blocks/actions/business-rule-action/business-rule-action",
+                "docs/building-blocks/actions/business-rule-action/dmn-business-rule-action"
+              ]
+            }
+          ]
+        }
       ]
     },
 
@@ -107,7 +209,7 @@
 
   ],
   "footerSocials": {
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "linkedin": "https://www.linkedin.com/company/flowxai/"
   },
 
   "feedback": {

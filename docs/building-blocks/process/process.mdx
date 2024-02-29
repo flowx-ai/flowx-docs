@@ -1,0 +1,44 @@
+---
+title: "Process Designer"
+description: "The FLOWX.AI Process Designer workspace is designed for creating and editing business processes, the menu contains all elements required to create a process."
+---
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/versioning.png)
+
+When you encounter a process definition menu, it encompasses the following essential elements:
+
+1. **Process definition name**(*foodOrder_process*): This serves as the name of the process definition, providing a clear identifier for the workflow.
+2. **Version - main (Work In Progress)**: This section displays both the version branch name and the current state of the published version. It offers insights into the active development state of the workflow.
+3. **Branching Icon**: When selected, this icon opens up additional options to enhance visibility and control over the various process definitions and their branches.
+4. **Submit Changes**: To commit alterations to the workflow, you can employ this designated action found within the version menu. Triggering the submission action prompts the appearance of a modal window, inviting you to provide a commit message for context.
+5. **Autosaved**: This reassuring notification indicates that any modifications made to the workflow have been automatically saved, eliminating the need for manual user intervention. It ensures the safety of your work.
+6. **Start**: This option signifies the ability to initiate the execution of a process definition, setting it in motion.
+7. **Lock Icon**: Utilize this icon to switch the current work mode from "Edit mode" to "Readonly." It empowers you to control the accessibility and editing permissions for the workflow.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/process_designer_overview.png)
+
+We have designed FLOWX.AI components to closely resemble their BPMN counterparts for ease of use. In the following sections, we will provide more details on how to use the process designer.
+
+Check the following section for more details about nodes and how to use them:
+
+[Nodes](../node/node.md)
+
+## Process definition
+
+The process is the core building block of the platform. Think of it as a representation of your business use case, for example making a request for a new credit card, placing an online food order, registering your new car or creating an online fundraiser supporting your cause.
+
+A process is nothing more than a series of steps that need to be followed in order to get to the desired outcome: getting a new credit card, gathering online donations from friends or having your lunch brought to you. These steps involve a series of actions, whether automated or handled by a human, that allows you to complete your chosen business objective.
+
+[Process definition](./process-definition.md)
+
+## Process instance
+
+Once the desired processes are defined in the platform, they are ready to be used. Each time a process needs to be used, for example, each time a customer wants to request a new credit card, a new instance of the specified process definition is started in the platform. Think of the process definition as a blueprint for a house, and of the process instance as each house of that type that is being built.
+
+From this point on, the platform takes care of following the process flow, handling the necessary actions, storing and interpreting the resulting data.
+
+[Process instance](./active-process/process-instance.md)
+
+[Exceptions](./active-process/failed-process-start.md)
+
+

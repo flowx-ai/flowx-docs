@@ -1,0 +1,122 @@
+---
+title: "Exclusive gateway"
+description: "In the world of process [flows](../../terms/flowx-process), decisions play a crucial role, and that's where the Exclusive Gateway comes into play. This powerful tool enables you to create conditional pathways with ease."
+---
+
+## Configuring an Exclusive Gateway node
+
+![Exclusive gateway](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/gateway_exclusive.png#center)
+
+To configure this node effectively, it's essential to set up both the **input** and **output** sequences within the gateway process.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/gateway_exclusive_diagram.png)
+
+### General configuration
+
+* **Node name**: Give your node a meaningful name.
+* **Can go back**: Enabling this option allows users to revisit this step after completing it.
+
+<Info>
+When a step has "Can Go Back" set to false, all preceding steps become inaccessible.
+</Info>
+
+* [**Swimlane**](../../platform-deep-dive/user-roles-management/swimlanes.md): Choose a swimlane, ensuring that specific user roles have access only to certain process nodes. If there are no multiple swimlanes, the value is **Default**.
+
+* [**Stage** ](../../platform-deep-dive/plugins/custom-plugins/task-management/using-stages.md): Assign a stage to the node.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/gateway_exclusive_stages.png)
+
+### Gateway decisions
+
+* **Language**: When configuring conditions, you can use [MVEL](/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel.md) (or [DMN](#configuring-a-dmn-exclusive-gateway-node)) expressions that evaluate to either **true** or **false**.
+* **Conditions**: In the **Gateway Decisions** tab, you can see that the conditions (**if, else if, else**) are already built-in and you can **select** the destination node when the condition is **true**.
+
+<Warning>
+The order of expressions matters; the first **true** evaluation stops execution, and the token moves to the selected node.
+</Warning>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/gateway_rule.png)
+
+After the exclusive portion of the process, where one path is chosen over another, you'll need to either end each path (as in the example below) or reunite them into a single process (as in the example above) using a new exclusive gateway without any specific configuration.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/end_other_FLOW.png)
+
+## MVEL example
+
+### Getting input from a Switch UI element
+
+Let's consider the following example: we want to create a process that displays 2 screens and one modal. The gateway will direct the token down a path based on whether a switch element (in our case, VAT) is toggled to true or false.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/vat_example.png)
+
+If, during the second screen, the VAT switch is toggled on, the token will follow the second path, displaying a modal.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/vat_on.gif) 
+
+After interacting with the modal, the token will return to the main path, and the process will continue its primary flow.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/process_run_xor.png)
+
+#### Example configuration
+
+* **Language**: MVEL 
+* **Expression**: 
+
+```java
+input.application.company.vat == true // you can use the same method to access a value for other supported scripts in our platform: JavaScript, Python and Groovy
+```
+
+<Info>
+Essentially, you are accessing a specific value or property within a structured data object. The format is usually `input.{{key from where you want to access a value}}`. In simpler terms, it's a way to verify if a particular property within your input data structure (input.application.company.vat key attached to Switch UI element) is set to the value true. If it is, the condition is met and returns true; otherwise, it returns false.
+</Info>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/config_example_xor.png)
+
+<Info>
+The `application.company.vat` key corresponds to the switch UI element.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/VAT_key.png)
+</Info>
+
+## DMN example
+
+If you prefer to use [DMN](/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn.md) to define your gateway decisions, you can do so using exclusive gateways.
+
+![Gateway Decisions](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/dmn_gif.gif)
+
+### Getting input from a Switch UI element 
+
+**Gateway Decision - DMN example** [(Applicable only for Exclusive Gateway - XOR)](exclusive-gateway-node.md)
+
+![Gateway Decision](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/xor_dmn_decision.png)
+
+#### Configuration example
+
+* **Language**: DMN
+* **Expression**: `application.company.vat`
+
+<Info>
+In our case, the expression field will be filled in with `application.company.vat` key, which corresponds to the switch UI element.
+</Info>
+
+* **Hit Policy**: Unique
+* **Type**: Boolean
+* **Next Node name**: Enter the name of the nodes to which you prefer the token to be directed.
+
+### Getting input from multiple UI elements 
+
+Consider another scenario in which the process relies on user-provided information, such as age and membership status, to determine eligibility for a discount. This decision-making process utilizes a DMN (Decision Model and Notation) decision table, and depending on the input, it may either conclude or continue with other flows.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/dmn_input.gif)
+
+#### Configuration example
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/dmn_multiple_UI_elements.png)
+
+<Info>
+In our case, the expressions fields will be populated with the `application.company.vat` and `application.client.membership` keys, which correspond to the user input collected on the initial screen.
+</Info>
+
+The process is visualized as follows:
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/dmn_example.gif)
