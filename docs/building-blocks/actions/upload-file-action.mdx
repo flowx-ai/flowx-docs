@@ -1,16 +1,11 @@
 ---
-sidebar_position: 3
+title: Upload file action
+description: An **Upload File action** is an [**action**](../../terms/flowx-actions) type that allows you to upload a file to a service available on [**Kafka**](../../terms/flowx-kafka).
 ---
 
-# Upload File action
-
-:::info
-**What is it?** An **Upload File action** is an [**action**](../../terms/flowx-actions) type that allows you to upload a file to a service available on [**Kafka**](../../terms/flowx-kafka).
-
 **Why is it useful?** The action will receive a file from the frontend and send it to Kafka, and will also attach some metadata.
-:::
 
-### Configuring an Upload File action
+## Configuring an Upload file action
 
 Multiple options are available for this type of action and can be configured via the [**FLOWX Designer**](../../terms/flowx-ai-designer). To configure an Upload File action, use the **Actions** tab at the [task node level](../../flowx-designer/managing-a-process-flow/adding-an-action-to-a-node.md), which has the following configuration options:
 
@@ -19,7 +14,7 @@ Multiple options are available for this type of action and can be configured via
 * [Parameters](#parameters)
 * [Data to send (for Manual actions)](#data-to-send)
 
-#### Action Edit
+### Action edit
 
 * **Name** - used internally to make a distinction between different actions on nodes in the process. We recommend defining an action naming standard to be able to quickly find the process actions
 * **Order** - if multiple actions are defined on the same node, the running order should be set using this option
@@ -32,26 +27,26 @@ Multiple options are available for this type of action and can be configured via
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/upload_file_action_edit.png)
 
-#### **Back in steps**
+### Back in steps
 
 * **Allow BACK on this action** - back in process is a functionality that allows you to go back in a business process and redo a series of previous actions in the process. For more details, check [Moving a token backwards in a process](../../flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process.md) section.
 
-#### Parameters
+### Parameters
 
 * **Address** - the Kafka topic where the file will be posted
 * **Document Type** - other metadata that can be set (useful for the [document plugin](../../platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin.md))
 * **Folder** - allows you to configure a value by which the file will be identified in the future
 * **Advanced configuration (Show headers)** - this represents a JSON value that will be sent on the headers of the Kafka message
 
-#### Data to send
+### Data to send
 
 * **Keys** - are used when data is sent from the frontend via an action to validate the data (you can find more information in the [User Task configuration](../node/user-task-node.md) section)
 
-:::warning
+<Warning>
 **Data to send** option is configurable only when the action **trigger type** is **Manual**.
-:::
+</Warning>
 
-### Example
+## Example
 
 An example of **Upload File Action** is to send a file to the [document plugin](../../platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin.md). In this case, the configuration will look like this:
 

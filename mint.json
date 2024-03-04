@@ -177,7 +177,65 @@
                 "docs/building-blocks/actions/business-rule-action/business-rule-action",
                 "docs/building-blocks/actions/business-rule-action/dmn-business-rule-action"
               ]
-            }
+            },
+
+            "docs/building-blocks/actions/send-data-to-user-interface",
+            "docs/building-blocks/actions/upload-file-action",
+            "docs/building-blocks/actions/start-subprocess-action",
+            "docs/building-blocks/actions/append-params-to-parent-process"
+
+
+          ]
+        },
+
+        {
+          "group": "UI Designer",
+          "icon": "paintbrush",
+          "pages": [
+            "docs/building-blocks/ui-designer/ui-designer",
+            {
+              "group": "Root components",
+              "pages": [
+                "docs/building-blocks/ui-designer/ui-component-types/root-components/root-components",
+                "docs/building-blocks/ui-designer/ui-component-types/root-components/container",
+                "docs/building-blocks/ui-designer/ui-component-types/root-components/card",
+                "docs/building-blocks/ui-designer/ui-component-types/root-components/custom"
+              ]
+            },
+
+            {
+              "group": "Collections UI elements",
+              "pages": [
+                "docs/building-blocks/ui-designer/ui-component-types/collection/collection",
+                "docs/building-blocks/ui-designer/ui-component-types/collection/collection_prototype"
+              ]
+            },
+
+            {
+              "group": "Form elements",
+              "pages": [
+                "docs/building-blocks/ui-designer/ui-component-types/form-elements/input-form-field",
+                "docs/building-blocks/ui-designer/ui-component-types/form-elements/text-area",
+                "docs/building-blocks/ui-designer/ui-component-types/form-elements/select-form-field",
+                "docs/building-blocks/ui-designer/ui-component-types/form-elements/checkbox-form-field",
+                "docs/building-blocks/ui-designer/ui-component-types/form-elements/radio-form-field",
+                "docs/building-blocks/ui-designer/ui-component-types/form-elements/switch-form-field",
+                "docs/building-blocks/ui-designer/ui-component-types/form-elements/datepicker-form-field",
+                "docs/building-blocks/ui-designer/ui-component-types/form-elements/slider",
+                "docs/building-blocks/ui-designer/ui-component-types/form-elements/segmented-button"
+              ]
+            },
+            
+            "docs/building-blocks/ui-designer/ui-component-types/buttons",
+            "docs/building-blocks/ui-designer/ui-component-types/file-preview",
+            "docs/building-blocks/ui-designer/ui-component-types/image",
+            "docs/building-blocks/ui-designer/ui-component-types/indicators",
+            "docs/building-blocks/ui-designer/ui-component-types/typography",
+            "docs/building-blocks/ui-designer/ui-actions",
+            "docs/building-blocks/ui-designer/validators",
+            "docs/building-blocks/ui-designer/dynamic-and-computed-values",
+            "docs/building-blocks/ui-designer/layout-configuration"
+
           ]
         }
       ]

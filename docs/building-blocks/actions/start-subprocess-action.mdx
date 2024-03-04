@@ -1,24 +1,20 @@
 ---
-sidebar_position: 4
+title: Start subprocess action
+description: A **Start subprocess action** is an [**action**](../../terms/flowx-actions) that allows you to start a [**subprocess**](../../terms/flowx-subprocess) from another (parent) [**process**](../../terms/flowx-process).
 ---
 
-# Start Subprocess action
-
-:::info
-**What is it?** A **Start Subprocess action** is an [**action**](../../terms/flowx-actions) that allows you to start a [**subprocess**](../../terms/flowx-subprocess) from another (parent) [**process**](../../terms/flowx-process).
-
 **Why is it important?**  Using [**subprocesses**](../process/subprocess.md) is a good way to split the complexity of your business flow into multiple, simple and reusable processes.
-:::
 
-## Configuring a Start Subprocess action
+
+## Configuring a Start subprocess action
 
 To use a process as a [subprocess](../process/subprocess.md), you must first create it. Once the subprocess is created, you can start it from another (parent) process. To do this, you will need to add a **Start Subprocess** action to a [**User task**](../node/task-node.md) node in the parent process or by using a [subprocess run node](../node/subprocess-run-node.md).
 
 Here are the steps to start a subprocess from a parent process:
 
 1. First, create a [process](../process/process.md) designed to be used as a [subprocess](../process/subprocess.md).
-2. In the parent process, create a **User task** node where you want to start the subprocess created at step 1.
-3. Add a **Start Subprocess** action to the Task Node.
+2. In the parent process, create a **user task** node where you want to start the subprocess created at step 1.
+3. Add a **Start subprocess** action to the task node.
 4. Configure the **Start Subprocess** action and from the dropdown list choose the subprocess created at step 1.
 
 By following these steps, you can start a subprocess from a parent process and control its execution based on your specific use case.
@@ -32,7 +28,7 @@ The following properties must be configured for a **Start subprocess** action:
 * [Parameters](#parameters)
 * [Data to send (for Manual actions)](#data-to-send)
 
-### Action Edit
+### Action edit
 
 * **Name** - used internally to make a distinction between different actions on nodes in the process. We recommend defining an action naming standard to be able to quickly find the process actions
 * **Order** - if multiple actions are defined on the same node, the running order should be set using this option
@@ -53,7 +49,7 @@ The following properties must be configured for a **Start subprocess** action:
 * **Branch** - a dropdown menu displaying available branches on the subprocess (both opened and merged)
 * **Version** - the type of version that should be used within the subprocess
 
-:::info
+<Info>
 * **Latest Work in Progress**:
     * Displayed if the selected branch is not merged into another branch.
     * This configuration is used when there is a work-in-progress (WIP) version on the selected branch or when there is no WIP version on the selected branch due to either work in progress being submitted or the branch being merged.
@@ -62,7 +58,7 @@ The following properties must be configured for a **Start subprocess** action:
     * This configuration is used when there is submitted work on the selected branch, and the current branch has been submitted on another branch (latest submitted work on the selected branch is not the merged version).
 * **Custom Version**:
     * Displayed if the selected branch contains submitted versions.
-:::
+</Info>
 
 * **Custom version** - displayed if the selected branch contains submitted versions
 * **Copy from current state** - if a value is set here, it will overwrite the default behavior (of copying the whole data from the subprocess) with copying just the data that is specified (based on keys)
@@ -78,11 +74,9 @@ The following properties must be configured for a **Start subprocess** action:
 
 * **Keys** - are used when data is sent from the frontend via an action to validate the data (you can find more information in the [**User Task configuration**](../node/user-task-node.md) section)
 
-:::warning
+<Warning>
 **Data to send** option is configurable only when the action **trigger type** is **Manual**.
-:::
-
-
+</Warning>
 
 ## Example
 
