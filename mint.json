@@ -246,6 +246,51 @@
       ]
     },
 
+
+    {
+      "group": "FLOWX.AI Designer",
+      "pages": [
+        "docs/flowx-designer/overview",
+        {
+          "group": "Managing a process flow",
+          "icon": "arrow-progress",
+          "pages": [
+            "docs/flowx-designer/managing-a-process-flow/creating-a-new-process-definition",
+            "docs/flowx-designer/managing-a-process-flow/adding-a-new-node",
+            "docs/flowx-designer/managing-a-process-flow/adding-an-action-to-a-node",
+            "docs/flowx-designer/managing-a-process-flow/handling-decisions-in-the-flow",
+            "docs/flowx-designer/managing-a-process-flow/adding-more-flow-branches",
+            "docs/flowx-designer/managing-a-process-flow/creating-a-user-interface",
+            "docs/flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process",
+            "docs/flowx-designer/managing-a-process-flow/export-import-a-process-definition"
+          ]
+          }
+      
+      ]
+    },
+
+    {
+      "group": "Platform Deep Dive",
+      "pages": [
+        {
+          "group": "Core components",
+          "icon": "cubes",
+          "pages": [
+            "docs/flowx-designer/managing-a-process-flow/creating-a-new-process-definition",
+            "docs/flowx-designer/managing-a-process-flow/adding-a-new-node",
+            "docs/flowx-designer/managing-a-process-flow/adding-an-action-to-a-node",
+            "docs/flowx-designer/managing-a-process-flow/handling-decisions-in-the-flow",
+            "docs/flowx-designer/managing-a-process-flow/adding-more-flow-branches",
+            "docs/flowx-designer/managing-a-process-flow/creating-a-user-interface",
+            "docs/flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process",
+            "docs/flowx-designer/managing-a-process-flow/export-import-a-process-definition"
+          ]
+          }
+      
+      ]
+    },
+
+
     {
         "group": "Release Notes",
         "pages": [
