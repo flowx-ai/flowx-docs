@@ -235,9 +235,14 @@
             "docs/building-blocks/ui-designer/validators",
             "docs/building-blocks/ui-designer/dynamic-and-computed-values",
             "docs/building-blocks/ui-designer/layout-configuration"
-
           ]
-        }
+        },
+
+        "docs/building-blocks/token",
+        "docs/building-blocks/supported-scripts"
+
+
+
       ]
     },
 

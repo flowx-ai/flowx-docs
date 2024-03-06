@@ -1,18 +1,18 @@
 ---
-sidebar_position: 6
+title: Supported scripts
+icon: file-code
+description: "Scripts are used to define and run [actions](./actions/actions.md) but also properties inside [nodes](./node/node.md). For now, the following script languages are supported."
 ---
 
-# Supported scripts
+<CardGroup>
 
-## Supported scripts
+<Card title = "Python" icon = "python" href= "#python"></Card>
+<Card title = "DMN" icon = "code" href= "#dmn"></Card>
+<Card title = "MVEL" icon = "code" href= "#mvel"></Card>
+<Card title = "Groovy" icon = "code" href= "#groovy"></Card>
+<Card title = "JavaScript (Nashorn)" icon = "code" href= "#nashorn-engine-javascript"></Card>
+</CardGroup>
 
-Scripts are used to define and run [actions](./actions/actions.md) but also properties inside [nodes](./node/node.md). For now, the following script languages are supported:
-
-* [Python](#python) (Jython)
-* [DMN](supported-scripts.md#dmn)
-* [MVEL](supported-scripts.md#mvel)
-* [Groovy](supported-scripts.md#groovy)
-* [JavaScript](supported-scripts.md#nashorn-engine-javascript) (Nashorn Engine)
 
 | Scripting Language          | Version      |
 | --------------------------- | ------------ |
@@ -24,24 +24,20 @@ Scripts are used to define and run [actions](./actions/actions.md) but also prop
 
 ## Python
 
-:::info
-We use **Jython**.
-:::
-
 **Jython** is an implementation of the high-level, dynamic, object-oriented language [Python](http://www.python.org/) seamlessly integrated with the [Java](http://www.javasoft.com/) platform. Jython is an open-source solution.
 
-#### Properties:
+### Properties
 
 * Supports **Python 2.7** most common python libs can be imported, ex: math, time, etc.
 * Java libs can also be imported: [details here ](https://www.tutorialspoint.com/jython/jython\_importing\_java\_libraries.htm)
 
-#### Useful links:
+### Useful links:
 
-[Python 2.7.18 documentation](https://docs.python.org/2.7/)
+<Card title = "Python 2.7.18 documentation" href= "https://docs.python.org/2.7/" icon ="link"></Card>
 
-[Jython](https://www.jython.org/)
+<Card title = "Jython" href="https://www.jython.org/" icon = "link"></Card>
 
-[Jython FAQs](https://wiki.python.org/jython/JythonFaq)
+<Card title ="Jython FAQs" href="https://wiki.python.org/jython/JythonFaq" icon ="link"></Card>
 
 ## DMN
 
@@ -49,21 +45,19 @@ Decision Model and Notation (DMN) is a standard for Business Decision Management
 
 FLOWX uses [BPMN.io](https://bpmn.io/) (based on **camunda-engine-dmn** version **7.14.0**) which is built on [DMN 1.3](https://www.omg.org/spec/DMN/1.3/PDF) standards.
 
-#### Properties:
+### Properties
 
 **camunda-engine-dmn** supports [DMN 1.3](https://www.omg.org/spec/DMN/1.3/PDF), including Decision Tables, Decision Literal Expressions, Decision Requirements Graphs, and the Friendly Enough Expression Language (FEEL)
 
-#### Useful links:
+### Useful links:
 
-[Decision Model and Notation (DMN)](https://www.omg.org/dmn/)
+<Card title ="Decision Model and Notation (DMN)" href ="https://www.omg.org/dmn/" icon ="link"></Card>
 
-[DMN 1.3 specs](https://www.omg.org/spec/DMN/1.3/PDF)
+<Card title ="DMN 1.3 specs" href="https://www.omg.org/spec/DMN/1.3/PDF" icon = "link"></Card>
 
 **More information:**
 
-[Intro to DMN](../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn.md)
-
-[DMN Business Rule Action](./actions/business-rule-action/dmn-business-rule-action.md)
+<Card title ="DMN Business rule action" href= "/docs/building-blocks/actions/business-rule-action/dmn-business-rule-action"></Card>
 
 ## MVEL
 
@@ -71,15 +65,15 @@ MVEL is a powerful expression language for Java-based applications. It provides 
 
 * FLOWX uses [**mvel2 - 2.4.10 version**](https://mvnrepository.com/artifact/org.mvel/mvel2/2.4.10.Final)
 
-#### Useful links:
+### Useful links
 
-[Mvel documentation](http://mvel.documentnode.com/)
+<Card title ="Mvel documentation" href="http://mvel.documentnode.com/" icon ="link"></Card>
 
-[Maven repository: Mvel 2.4.0 final](https://mvnrepository.com/artifact/org.mvel/mvel2/2.4.0.)
+<Card title ="Maven repository: Mvel 2.4.0 final" href = "https://mvnrepository.com/artifact/org.mvel/mvel2/2.4.0." icon ="link"></Card>
 
-#### More information:
+### More information
 
-[Intro to MVEL](../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel.md)
+<Card title = "Intro to MVEL" href="/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel"></Card>
 
 ## Groovy
 
@@ -87,19 +81,19 @@ Groovy is a multi-faceted language for the Java platform. The language can be us
 
 We use and recommend **Groovy 3.0.8** version, using **groovy-jsr223** engine.
 
-:::info
+<Info>
 **Groovy** has multiple ways of integrating with Java, some of which provide richer options than available with **JSR-223** (e.g. greater configurability and more security control). **JSR-223** is recommended when you need to keep the choice of language used flexible and you don't require integration mechanisms not supported by **JSR-223**.
-:::
+</Info>
 
-:::info
+<Info>
 **JSR-223** (spec) is **a standard scripting API for Java Virtual Machine (JVM) languages** . The JVM languages provide varying levels of support for the JSR-223 API and interoperability with the Java runtime.
-:::
+</Info>
 
-#### Useful links:
+### Useful links
 
-[Groovy Language Documentation](http://docs.groovy-lang.org/docs/groovy-3.0.8/html/documentation/)
+<Card title ="Groovy Language Documentation" href="http://docs.groovy-lang.org/docs/groovy-3.0.8/html/documentation/" icon ="link"></Card>
 
-[[Java] Class GroovyScriptEngineImpl](https://docs.groovy-lang.org/latest/html/gapi/org/codehaus/groovy/jsr223/GroovyScriptEngineImpl.html)
+<Card title ="[Java] Class GroovyScriptEngineImpl" href ="https://docs.groovy-lang.org/latest/html/gapi/org/codehaus/groovy/jsr223/GroovyScriptEngineImpl.html" icon ="link"></Card>
 
 ## Nashorn Engine (JavaScript)
 
@@ -107,8 +101,8 @@ Nashorn engine is an open source implementation of the [ECMAScript Edition 5.1 L
 
 Latest version of **Nashorn** is **15.4**, available from [Maven Central](https://search.maven.org/artifact/org.openjdk.nashorn/nashorn-core/15.4/jar). You can check the [changelog](https://github.com/openjdk/nashorn/blob/main/CHANGELOG.md) to see what's new.
 
-#### Useful links:
+### Useful links
 
-[GitHub - Nashorn](https://github.com/openjdk/nashorn)
+<Card title = "GitHub - Nashorn" href = "https://github.com/openjdk/nashorn" icon ="link"></Card>
 
-[OpenJDK - Nashorn](https://openjdk.org/projects/nashorn/)
+<Card title = "OpenJDK - Nashorn" href = "https://openjdk.org/projects/nashorn/" icon ="link"> </Card>

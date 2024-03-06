@@ -1,9 +1,8 @@
 ---
-sidebar_position: 5
+title: Token
+description: Token is the concept that describes the current position in the process flow. When you start the process you have a graph of [nodes](./node/node.md) and based on the configuration you will go from one to another based on the defined sequence (connection between nodes).
+icon: "coins"
 ---
-# Token
-
-Token is the concept that describes the current position in the process flow. When you start the process you have a graph of [nodes](./node/node.md) and based on the configuration you will go from one to another based on the defined sequence (connection between nodes).
 
 The token is a [BPMN](../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/intro-to-bpmn.md) concept that represents a state within a process instance. It keeps track of the current position in the process flow and is used to store data related to the current process instance state.
 
@@ -13,13 +12,17 @@ In case of [parallel gateways](./node/parallel-gateway.md), child tokens are cre
 
 The image below shows how a token advances through a process flow:
 
+<Frame>
+
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/image%20%28140%29%20%281%29%20%281%29%20%281%29%20%281%29%20%281%29.png)
+
+</Frame>
 
 The token will only move to the next node when there are no more mandatory actions from the current node that need to be executed. The token will also wait on a node in case the node is set to receive an event from an external system through Kafka.
 
 There will be cases when the token needs to be stopped in a node until some input is received from the user. If the input from the user is needed for further advancing in the process, the token should only advance after all data was received. A mandatory manual action can be used in this case and linked to the user action. This way we make sure that the process flow advances only after the user input is received.
 
-### Checking the token status
+## Checking the token status
 
 The current process instance status can be retrieved using the FLOWX Designer. It will display some info on the tokens related to that process instance and the current nodes they are in.
 
@@ -29,7 +32,7 @@ In case more details are needed about the token, you can click the **Process sta
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/token_view_button.gif)
 
-### Token status details
+## Token status details
 
 The following token details are available when you access and view the JSON file of a token in FLOWX Designer:
 
