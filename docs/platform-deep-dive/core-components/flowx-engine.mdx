@@ -1,0 +1,28 @@
+---
+title: FlowX Engine
+description: The engine is the core of the platform, it is the service that runs instances of the process definitions, generates UI, communicates with the frontend and also with custom integrations and plugins. It keeps track of all currently running process instances and makes sure the process flows run correctly.
+---
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/image%20%2820%29.png)
+
+## Orchestration
+
+Creating and interacting with process instances is pretty straightforward, as most of the interaction happens automatically and is handled by the engine.
+
+The only points that need used interaction are starting the process and executing user tasks on it (for example when a user fills in a form on the screen and saves the results).
+
+[FLOWX.AI Engine setup guide](../../platform-setup-guides/flowx-engine-setup-guide/flowx-engine-setup-guide.md)
+
+## Triggering or skipping nodes 
+
+There might be cases when you want to include or exclude process nodes based on some information that is available at start. For example, in case of a bank onboarding process, you might want a few extra nodes in the process in case the person trying to onboard is a minor.
+
+For these cases, we have added the possibility of defining flow names. For each process node, we can choose to set if they are only available in certain cases. In the example above, we will need a flow name, let's call it _enroll\_minor_. And we'll have to add this to the extra nodes.
+
+When starting a process, in case a value is set on the _flowName_ key in the values map, it will be used in order to decide which nodes to be included in a certain process instance. This means that if an adult starts the bank onboarding process, no extra key will be added when starting the process, so the extra nodes that have the _enroll\_minor_ flow name set will not be included. Those nodes will only be included in case a minor person starts an onboarding process.
+
+<Info>
+If no _flowName_ value is set on a node, this means the node will be included in all possible flows.
+</Info>
+
+A node could also be a part of multiple flow names.

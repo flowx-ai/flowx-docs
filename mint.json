@@ -30,6 +30,10 @@
     {
       "name": "Release Notes",
       "url": "release-notes"
+    },
+    {
+      "name": "SDKs",
+      "url": "sdks"
     }
   ],
   "anchors": [
@@ -45,7 +49,6 @@
       "icon": "file",
       "url": "release-notes"
     },
-
     {
       "name": "Academy",
       "icon": "school",
@@ -59,6 +62,13 @@
     }
   ],
   "navigation": [
+    
+    {
+      "group": "",
+      "pages":
+      ["docs/introduction"]
+    },
+
     {
       "group": "Getting Started",
       "pages": [
@@ -274,18 +284,119 @@
       "pages": [
         {
           "group": "Core components",
-          "icon": "cubes",
+          "icon": "puzzle",
           "pages": [
-            "docs/flowx-designer/managing-a-process-flow/creating-a-new-process-definition",
-            "docs/flowx-designer/managing-a-process-flow/adding-a-new-node",
-            "docs/flowx-designer/managing-a-process-flow/adding-an-action-to-a-node",
-            "docs/flowx-designer/managing-a-process-flow/handling-decisions-in-the-flow",
-            "docs/flowx-designer/managing-a-process-flow/adding-more-flow-branches",
-            "docs/flowx-designer/managing-a-process-flow/creating-a-user-interface",
-            "docs/flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process",
-            "docs/flowx-designer/managing-a-process-flow/export-import-a-process-definition"
+            "docs/platform-deep-dive/core-components/flowx-engine",
+            "docs/platform-deep-dive/core-components/advancing-controller",
+            "docs/platform-deep-dive/core-components/events-gateway"
           ]
-          }
+          },
+
+          {
+            "group": "Core extensions",
+            "icon": "puzzle-piece",
+            "pages": [
+              {
+                "group": "Content management",
+                "pages": [
+                  "docs/platform-deep-dive/core-extensions/content-management/content-management",
+                  "docs/platform-deep-dive/core-extensions/content-management/enumerations",
+                  "docs/platform-deep-dive/core-extensions/content-management/substitution-tags",
+                  "docs/platform-deep-dive/core-extensions/content-management/content-models",
+                  "docs/platform-deep-dive/core-extensions/content-management/languages",
+                  "docs/platform-deep-dive/core-extensions/content-management/source-systems",
+                  "docs/platform-deep-dive/core-extensions/content-management/media-library",
+                  "docs/platform-deep-dive/core-extensions/content-management/font-files"
+                  
+                ]
+                },
+
+
+                "docs/platform-deep-dive/core-extensions/generic-parameters",
+                "docs/platform-deep-dive/core-extensions/license-engine",
+                "docs/platform-deep-dive/core-extensions/audit",
+                "docs/platform-deep-dive/core-extensions/scheduler",
+                "docs/platform-deep-dive/core-extensions/search-data-service"
+
+            ]
+            },
+
+            {
+              "group": "Plugins",
+              "icon": "puzzle-piece-simple",
+              "pages": [
+                "docs/platform-deep-dive/plugins/custom-plugins",
+                {
+                  "group": "Documents plugin",
+                  "pages": [
+                    "docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin-overview",
+                    "docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/generating-from-html-templates",
+                    "docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/managing-html-templates",
+                    "docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/uploading-a-new-document",
+                    "docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/converting-documents-to-different-formats",
+                    "docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/splitting-a-document",
+                    "docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/deleting-a-file",
+                    "docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/getting-urls-to-documents",
+                    "docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/listing-stored-files"
+
+                     
+
+                  ]
+                  },
+
+                  {
+                    "group": "Notifications plugin",
+                    "pages": [
+                      "docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/notifications-plugin-overview",
+                      "docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/managing-notification-templates",
+                      "docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-a-notification",
+                      "docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-an-email-with-attachments",
+                      "docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/forwarding-notifications-to-an-external-system",
+                      {
+                        "group": "OTP flow",
+                        "pages": [
+                          "docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/otp-flow",
+                          "docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/generate-otp",
+                          "docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/validate-otp"
+                   
+                        ]
+                        }
+                    ]
+                    },
+
+                    {
+                      "group": "Task management",
+                      "pages": [
+                        "docs/platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview",
+                        "docs/platform-deep-dive/plugins/custom-plugins/task-management/using-allocation-rules",
+                        "docs/platform-deep-dive/plugins/custom-plugins/task-management/using-hooks",
+                        "docs/platform-deep-dive/plugins/custom-plugins/task-management/using-out-of-office-records",
+                        "docs/platform-deep-dive/plugins/custom-plugins/task-management/using-stages"
+                      ]
+                      },
+
+                      "docs/platform-deep-dive/plugins/custom-plugins/ocr-plugin",
+
+                      {
+                        "group": "Customer management",
+                        "pages": [
+                          "docs/platform-deep-dive/plugins/custom-plugins/customer-management/customer-management-overview",
+                          "docs/platform-deep-dive/plugins/custom-plugins/customer-management/crm-plugin-example"
+                        ]
+                      },
+
+                      {
+                          "group": "Reporting plugin",
+                          "pages": [
+                            "docs/platform-deep-dive/plugins/custom-plugins/reporting/reporting-overview",
+                            "docs/platform-deep-dive/plugins/custom-plugins/reporting/access-and-authorization"
+                          ]
+                       },
+
+                       "docs/platform-deep-dive/plugins/wysiwyg"
+
+              ]
+              }
       
       ]
     },
@@ -312,9 +423,33 @@
             ]
           }
         ]
+      },
+
+      {
+        "group": "Rest API",
+        "pages": [
+          "docs/api/rest",
+          "docs/api/rest2",
+          "docs/api/rest3",
+          "docs/api/rest4",
+          "docs/api/list-buckets",
+          "docs/api/list-objects-in-buckets",
+          "docs/api/download-file"
+        ]
+
+      },
+
+
+      {
+        "group": "SDKs",
+        "pages": [
+          "sdks/sdks-overview",
+          "sdks/angular-renderer",
+          "sdks/ios-renderer",
+          "sdks/android-renderer"
+        ]
+
       }
-
-
   ],
   "footerSocials": {
     "linkedin": "https://www.linkedin.com/company/flowxai/"
