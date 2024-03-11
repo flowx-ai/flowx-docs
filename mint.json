@@ -20,11 +20,17 @@
     {
       "name": "Support",
       "url": "https://flowxai.zendesk.com/"
+    },
+
+    {
+      "name": "Academy",
+      "url": "https://academy.flowx.ai/"
     }
+
   ],
   "topbarCtaButton": {
-    "name": "Feedback",
-    "url": "https://flowxai.canny.io/documentation-feedback"
+    "name": "Community",
+    "url": "https://discord.gg/TEagTA56"
   },
   "tabs": [
     {
@@ -37,37 +43,10 @@
     }
   ],
   "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "docs/getting-started/building-your-first-proc",
-      "version": "v3.x"
-    },
-
-    {
-      "name": "Release Notes",
-      "icon": "file",
-      "url": "release-notes"
-    },
-    {
-      "name": "Academy",
-      "icon": "school",
-      "url": "https://academy.flowx.ai/"
-    },
     
-    {
-      "name": "Community",
-      "icon": "discord",
-      "url": "https://discord.gg/TEagTA56"
-    }
   ],
   "navigation": [
     
-    {
-      "group": "",
-      "pages":
-      ["docs/introduction"]
-    },
 
     {
       "group": "Getting Started",
