@@ -1,24 +1,21 @@
 ---
-sidebar_position: 3
+title: Overview
+description: Integration management helps you configure integrations between the following components,[**FLOWX.AI Engine**](../../../../terms/flowxai-process-engine), [**plugins**](../../../../terms/flowx-plugins), or different adapters. The only requirement is that they should connect to [Kafka](../../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts.md) to communicate with the [FLOWX.AI Engine](../../flowx-engine/).
 ---
-
-# Integration management
-
-Integration management helps you configure integrations between the following components: [**FLOWX.AI Engine**](../../../../terms/flowxai-process-engine), [**plugins**](../../../../terms/flowx-plugins), or different adapters. The only requirement is that they should connect to [Kafka](../../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts.md) to communicate with the [FLOWX.AI Engine](../../flowx-engine/).
 
 Integration management enables you to keep track of each integration and its correspondent component and different scenarios used: creating an OTP, document generation, notifications, etc.
 
 [Integrations](../../../integrations/integrations.md)
 
-:::warning
+<Warning>
 Integrations must be compatible with [**Kafka**](../../../../terms/flowx-kafka), so they can communicate with external adapters and [**FLOWX.AI Engine**](../../../../terms/flowxai-process-engine). Communication is done through Kafka topics (handled by consumers and producers, see [Kafka configuration](../../../../platform-setup-guides/flowx-engine-setup-guide/flowx-engine-setup-guide.md#configuring-kafka) section for more details).
-:::
+</Warning>
 
 After defining one integration (inside **Integration management**) you can open a compatible node and start using them.
 
-:::info
+<Info>
 Integrations are used with the following nodes: [task nodes](../../../../building-blocks/node/task-node.md), [user task nodes](../../../../building-blocks/node/user-task-node.md), [send message task](../../../../building-blocks/node/message-send-received-task-node.md#message-send-task), and [receive message task](../../../../building-blocks/node/message-send-received-task-node.md#message-receive-task).
-:::
+</Info>
 
 You can easily create or import an integration using the **Integration management** feature just by accessing **FLOWX Designer → Integration management**.
 
@@ -142,20 +139,21 @@ The following details need to be configured:
 * **Example value** - example value based on the type of the input
 * **Mandatory** - could be mandatory or not
 
-<div class="image-scaled">
+
+<Frame>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/input_properties_attributes.png)
 
-</div>
+</Frame>
 
 
 ### Headers
 
 All integrations have `processInstanceId` as a default header parameter.
 
-:::info
+<Info>
 If you have actions that contain [callbacks](../../../../building-blocks/actions/actions.md#callbacks-actions), multiple headers can be added, like the action name or the name of the node.
-:::
+</Info>
 
 Headers may also contain Kafka authorization (token in the header).
 
@@ -173,9 +171,9 @@ Use predefined integrations, that you have already configured, on different proc
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/integrations_node_config.png)
 
-:::info
+<Info>
 Data stream topics are used to select the integration and the key on which the response is saved.
-:::
+</Info>
 
 If your integration has scenarios that are already used in another process, you will always be notified.
 

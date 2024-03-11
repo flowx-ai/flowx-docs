@@ -14,13 +14,14 @@ description: "Scripts are used to define and run [actions](./actions/actions.md)
 </CardGroup>
 
 
-| Scripting Language          | Version      |
-| --------------------------- | ------------ |
-| Python (Jython)             | 2.7.0        |
-| DMN                         | 1.3          |
-| MVEL                        | 2.4.10.Final |
-| Groovy                      | 3.0.8        |
-| Nashorn engine (JavaScript) | 15.4         |
+| Scripting Language | Version      | Engine             | Engine version |
+| ------------------ | ------------ | ------------------ | -------------- |
+| Python             | 2.7.0        | Jython             |                |
+| DMN                | 1.3          | camunda.engine.dmn | 7.14.0         |
+| MVEL               | 2.4.10.Final | -                  | -              |
+| Groovy             | 3.0.8        | groovy-jsr223      | -              |
+| JavaScript         |              | Nashorn            | 15.4           |
+
 
 ## Python
 
@@ -29,7 +30,7 @@ description: "Scripts are used to define and run [actions](./actions/actions.md)
 ### Properties
 
 * Supports **Python 2.7** most common python libs can be imported, ex: math, time, etc.
-* Java libs can also be imported: [details here ](https://www.tutorialspoint.com/jython/jython\_importing\_java\_libraries.htm)
+* Java libs can also be imported: [details here ](https://www.tutorialspoint.com/jython/jython_importing_java_libraries.htm)
 
 ### Useful links:
 
@@ -106,3 +107,5 @@ Latest version of **Nashorn** is **15.4**, available from [Maven Central](https:
 <Card title = "GitHub - Nashorn" href = "https://github.com/openjdk/nashorn" icon ="link"></Card>
 
 <Card title = "OpenJDK - Nashorn" href = "https://openjdk.org/projects/nashorn/" icon ="link"> </Card>
+
+

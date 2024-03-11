@@ -295,7 +295,15 @@
                 "docs/platform-deep-dive/core-extensions/license-engine",
                 "docs/platform-deep-dive/core-extensions/audit",
                 "docs/platform-deep-dive/core-extensions/scheduler",
-                "docs/platform-deep-dive/core-extensions/search-data-service"
+                "docs/platform-deep-dive/core-extensions/search-data-service",
+
+                {
+                  "group": "Integration management",
+                  "pages": [
+                    "docs/platform-deep-dive/core-extensions/integration-management/integration-management-overview",      
+                    "docs/platform-deep-dive/core-extensions/integration-management/configuring-access-rights-for-intgr-mngmnt"     
+                  ]
+                }
 
             ]
             },
@@ -375,6 +383,32 @@
                        "docs/platform-deep-dive/plugins/wysiwyg"
 
               ]
+              },
+
+              {
+                "group": "Integrations",
+                "icon": "link",
+                "pages": [
+                  "docs/platform-deep-dive/integrations/integrations-overview",      
+                  "docs/platform-deep-dive/integrations/building-a-connector",
+                  "docs/platform-deep-dive/integrations/creating-a-kafka-consumer",
+                  "docs/platform-deep-dive/integrations/creating-a-kafka-producer",
+                  "docs/platform-deep-dive/integrations/mock-integrations",
+                  "docs/platform-deep-dive/integrations/jaeger-setup-for-microservices"     
+                ]
+              },
+
+
+              "docs/platform-deep-dive/third-party-components",
+
+
+              {
+                "group": "User roles management",
+                "icon": "user",
+                "pages": [
+                  "docs/platform-deep-dive/user-roles-management/swimlanes",      
+                  "docs/platform-deep-dive/user-roles-management/business-filters"     
+                ]
               }
       
       ]
@@ -413,7 +447,9 @@
           "docs/api/rest4",
           "docs/api/list-buckets",
           "docs/api/list-objects-in-buckets",
-          "docs/api/download-file"
+          "docs/api/download-file",
+          "docs/api/add-kafka-mock",
+          "docs/api/view-kafka-exchanges"
         ]
 
       },

@@ -1,6 +1,7 @@
-# Building a connector
-
-Connectors are the vital gateway to enhancing FLOWX.AI's capabilities. They seamlessly integrate external systems, introducing new functionalities by operating as independently deployable, self-contained microservices.
+---
+title:
+description: Connectors are the vital gateway to enhancing FLOWX.AI's capabilities. They seamlessly integrate external systems, introducing new functionalities by operating as independently deployable, self-contained microservices.
+---
 
 ## Connector essentials
 
@@ -22,9 +23,9 @@ Connectors act as lightweight business logic layers, performing essential tasks:
 
 2. **Create a Kafka Producer:** Refer to [**this guide**](./creating-a-kafka-producer.md) for instructions on setting up a Kafka producer.
 
-:::info
+<Info>
 Adaptable Kafka settings can yield advantageous event-driven communication patterns. Fine-tuning partition counts and consumers based on load testing is crucial for optimal performance.
-:::
+</Info>
 
 ### Design considerations
 
@@ -33,9 +34,9 @@ Efficient Connector design within an event-driven architecture demands:
 * Load balancing solutions for varying communication types between the Connector and legacy systems.
 * Custom implementations for request load balancing, Connector scaling, and more.
 
-:::caution
+<Check>
 Incorporate all received Kafka headers in responses to ensure seamless communication with the [**Engine**](../../terms/flowxai-process-engine).
-:::
+</Check>
 
 ### Connector configuration sample
 
@@ -64,9 +65,9 @@ spring:
 2. **Select Listening Topic:** Decide the primary topic for your connector to listen on ( you can do this at the following path → `quickstart-connector/src/main/resources/config/application-kafka.yml`):
 
 
-:::caution
+<Check>
 If the connector needs to listen to multiple topics, ensure you add settings and configure a separate thread pool executor for each needed topic (refer to `KafkaConfiguration`, you can find it at `quickstart-connector/src/main/java/ai/flowx/quickstart/connector/config/KafkaConfiguration.java`).
-:::
+</Check>
 
 
 3. **Define Reply Topic**: Determine the reply topic, aligning with the Engine's topic pattern.
@@ -240,11 +241,19 @@ To integrate and utilize the connector within FLOWX.AI Designer, follow these st
 
 * [**Message Kafka Send Node**](../../building-blocks/node/message-send-received-task-node.md#message-send-task): Transmit a message to a topic monitored by the connector. Make sure you choose **Kafka Send Action** type.
 
+<Frame>
+
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/connector_topic.png)
+
+</Frame>
 
 * [**Message Kafka Receive Node**](../../building-blocks/node/message-send-received-task-node.md#message-receive-task): Await a message from the connector on a topic monitored by the engine.
 
+<Frame>
+
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/connector_topic_out.png)
+
+</Frame>
 
 2. **Connector Operations**: The connector identifies and processes the incoming message.
 3. **Handling Response**: Upon receiving a response, the connector serializes and deposits the message onto the specified OUT topic.
@@ -252,4 +261,6 @@ To integrate and utilize the connector within FLOWX.AI Designer, follow these st
 
 You can check another example of a more complex connector by checking the following repository:
 
-[Currency Exchange Example Connector](https://github.com/flowx-ai/quickstart-connector/tree/example/currency-exchange)
+
+<Card title = "Currency Exchange Example Connector" href = "https://github.com/flowx-ai/quickstart-connector/tree/example/currency-exchange">
+</Card>

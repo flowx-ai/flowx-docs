@@ -1,8 +1,7 @@
-# Integrations
-
-## What is an integration?
-
-Integrations play a crucial role in **connecting legacy systems** or **third-party applications** to the [**FLOWX.AI Process engine**](../../terms/flowxai-process-engine). They enable seamless communication by leveraging custom code and the [**Kafka**](../../terms/flowx-kafka) messaging system.
+---
+title: Overview
+description: Integrations play a crucial role in **connecting legacy systems** or **third-party applications** to the [**FLOWX.AI Process engine**](../../terms/flowxai-process-engine). They enable seamless communication by leveraging custom code and the [**Kafka**](../../terms/flowx-kafka) messaging system.
+---
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/custom_intg.svg)
 
@@ -38,8 +37,8 @@ For Java-based Connector microservices, you can use the following startup code a
 
 It's essential to configure the engine to consume events from topics that follow a predefined naming pattern. The naming pattern is defined using a topic prefix and suffix, such as "*ai.flowx.dev.engine.receive*."
 
-:::info
-The suggested naming convention is as follows:
+<Tip>
+We recommend the following naming convention for your topics:
 
 ```yaml
  topic:
@@ -53,4 +52,4 @@ The suggested naming convention is as follows:
 
     pattern: ${kafka.topic.naming.prefix}${kafka.topic.naming.engineReceivePattern}*
 ```
-:::
+</Tip>
