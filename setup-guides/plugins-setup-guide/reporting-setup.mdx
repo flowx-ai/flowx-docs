@@ -1,8 +1,8 @@
-# Reporting setup
-
-## Introduction
-
-The Reporting Setup Guide assists in configuring the reporting plugin, relying on specific dependencies and configurations.
+---
+title: Reporting
+description: The Reporting setup guide assists in configuring the reporting plugin, relying on specific dependencies and configurations.
+icon: chart-simple
+---
 
 ## Dependencies
 
@@ -86,9 +86,9 @@ sparkApplication: #Defines the Spark application configuration.
       ENGINE_DATABASE_PASSWORD: "password"
       REPORTING_DATABASE_PASSWORD: "password"
 ```
-:::info
-Note: Passwords are currently set as plain strings, which is not secure practice in a production environment.
-:::
+<Info>
+NOTE: Passwords are currently set as plain strings, which is not secure practice in a production environment.
+</Info>
 
 ### With webhook
 
@@ -130,9 +130,9 @@ sparkApplication:
 ```
 
 
-:::info
+<Info>
 In Kubernetes-based Spark deployments managed by the Spark Operator, you can define the sparkApplication configuration to customize the behavior, resources, and environment for both the driver and executor components of Spark jobs. The driver section allows fine-tuning of parameters specifically pertinent to the driver part of the Spark application.
-:::
+</Info>
 
 Below are the configurable values within the chart values.yml file (with webhook):
 

@@ -1,17 +1,19 @@
-# OCR plugin setup
-
-The OCR plugin is a docker image that can be deployed using the following infrastructure prerequisites:
+---
+title: OCR plugin
+description: The OCR plugin is a docker image that can be deployed using the following infrastructure prerequisites.
+icon: file-magnifying-glass
+---
 
 ## Infrastructure Prerequisites:
 
 * S3 bucket or alternative (for example, minio)
 * Kafka cluster
 
-:::caution IMPORTANT
+<Warning>
 Starting with `ocr-plugin 1.X` it no longer requires RabbitMQ.
 
 The following environment from previous releases must be removed in order to use OCR plugin: `CELERY_BROKER_URL`.
-:::
+</Warning>
 
 
 ## Deployment/Configuration
@@ -69,9 +71,9 @@ You can override the following environment variables:
 
 Please note that the default values and examples provided here are for illustrative purposes. Make sure to replace them with the appropriate values based on your Kafka configuration.
 
-:::caution
+<Info>
 When configuring the OCR plugin, make sure to use the correct outgoing topic names that match [**the pattern expected by the Engine**](../../../platform-setup-guides/flowx-engine-setup-guide/flowx-engine-setup-guide.md#configuring-kafka), which listens for messages on topics with specific names.
-:::
+</Info>
 
 ### Authorization
 
@@ -147,11 +149,11 @@ You can override the following environment variables:
 | `OCR_WORKER_COUNT`       | Number of workers                                                                                           | `5`           |
 | `OCR_WORK_QUEUE_TIMEOUT` | If no activity has occurred for a certain number of seconds, an attempt will be made to refresh the workers | `10`          |
 
-:::info
+<Info>
 If no worker is released after `OCR_WORK_QUEUE_TIMEOUT` seconds, the application will verify whether any workers have become unresponsive and need to be restarted.
 
 If none of the workers have died, it means they are likely blocked in some process. In this case, the application will terminate all the workers and shut down itself, hoping that the container will be restarted.
-:::
+</Info>
 
 ### Control Aspect Ratio
 
@@ -162,6 +164,6 @@ If none of the workers have died, it means they are likely blocked in some proce
 | `OCR_SIGNATURE_MIN_RATIO` | This variable sets the minimum acceptable aspect ratio for a signed scanned document (in this context, the OCR plugin will consider a detected signature only if the document aspect ratio is less than or equal to the specified maximum ratio) | `1.39`        |
 
 
-:::info KEEP IN MIND
+<Info>
 The plugin has been tested with aspect ratio values between 1.38 and 1.43. However, caution is advised when using untested values outside this range, as they may potentially disrupt the functionality. Adjust these parameters at your own risk and consider potential consequences, as untested values might lead to plugin instability or undesired behavior.
-:::
+</Info>

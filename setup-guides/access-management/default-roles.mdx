@@ -1,0 +1,106 @@
+# Default roles
+
+Below you can find the list of all the default roles that you can add or import into the Identity and Access Management solution to properly manage the access to all the FLOWX.AI microservices.
+
+### Default roles
+
+A complete list of all the default roles based on modules (access scope):
+
+| Module                             | Scopes | Role default value                                   | Microservice    |
+| ---------------------------------- | ------ | ---------------------------------------------------- | --------------- |
+| manage-platform                    | read   | ROLE_ADMIN_MANAGE_PLATFORM_READ                      | Admin           |
+| manage-platform                    | admin  | ROLE_ADMIN_MANAGE_PLATFORM_ADMIN                     | Admin           |
+| manage-processes                   | import | ROLE_ADMIN_MANAGE_PROCESS_IMPORT                     | Admin           |
+| manage-processes                   | read   | ROLE_ADMIN_MANAGE_PROCESS_READ                       | Admin           |
+| manage-processes                   | edit   | ROLE_ADMIN_MANAGE_PROCESS_EDIT                       | Admin           |
+| manage-processes                   | admin  | ROLE_ADMIN_MANAGE_PROCESS_ADMIN                      | Admin           |
+| manage-integrations                | admin  | ROLE_ADMIN_MANAGE_INTEGRATIONS_ADMIN                 | Admin           |
+| manage-integrations                | read   | ROLE_ADMIN_MANAGE_INTEGRATIONS_READ                  | Admin           |
+| manage-integrations                | edit   | ROLE_ADMIN_MANAGE_INTEGRATIONS_EDIT                  | Admin           |
+| manage-integrations                | import | ROLE_ADMIN_MANAGE_INTEGRATIONS_IMPORT                | Admin           |
+| manage-configurations              | import | ROLE_ADMIN_MANAGE_CONFIG_IMPORT                      | Admin           |
+| manage-configurations              | read   | ROLE_ADMIN_MANAGE_CONFIG_READ                        | Admin           |
+| manage-configurations              | edit   | ROLE_ADMIN_MANAGE_CONFIG_EDIT                        | Admin           |
+| manage-configurations              | admin  | ROLE_ADMIN_MANAGE_CONFIG_ADMIN                       | Admin           |
+| manage-users                       | read   | ROLE_ADMIN_MANAGE_USERS_READ                         | Admin           |
+| manage-users                       | edit   | ROLE_ADMIN_MANAGE_USERS_EDIT                         | Admin           |
+| manage-users                       | admin  | ROLE_ADMIN_MANAGE_USERS_ADMIN                        | Admin           |
+| manage-processes                   | edit   | ROLE_ENGINE_MANAGE_PROCESS_EDIT                      | Engine          |
+| manage-processes                   | admin  | ROLE_ENGINE_MANAGE_PROCESS_ADMIN                     | Engine          |
+| manage-instances                   | read   | ROLE_ENGINE_MANAGE_INSTANCE_READ                     | Engine          |
+| manage-instances                   | admin  | ROLE_ENGINE_MANAGE_INSTANCE_ADMIN                    | Engine          |
+| manage-licenses                    | read   | ROLE_LICENSE_MANAGE_READ                             | License         |
+| manage-licenses                    | edit   | ROLE_LICENSE_MANAGE_EDIT                             | License         |
+| manage-licenses                    | admin  | ROLE_LICENSE_MANAGE_ADMIN                            | License         |
+| manage-contents                    | import | ROLE_CMS_CONTENT_IMPORT                              | CMS             |
+| manage-contents                    | read   | ROLE_CMS_CONTENT_READ                                | CMS             |
+| manage-contents                    | edit   | ROLE_CMS_CONTENT_EDIT                                | CMS             |
+| manage-contents                    | admin  | ROLE_CMS_CONTENT_ADMIN                               | CMS             |
+| manage-media-library               | import | ROLE_MEDIA_LIBRARY_IMPORT                            | CMS             |
+| manage-media-library               | read   | ROLE_MEDIA_LIBRARY_READ                              | CMS             |
+| manage-media-library               | edit   | ROLE_MEDIA_LIBRARY_EDIT                              | CMS             |
+| manage-media-library               | admin  | ROLE_MEDIA_LIBRARY_ADMIN                             | CMS             |
+| manage-taxonomies                  | import | ROLE_CMS_TAXONOMIES_IMPORT                           | CMS             |
+| manage-taxonomies                  | read   | ROLE_CMS_TAXONOMIES_READ                             | CMS             |
+| manage-taxonomies                  | edit   | ROLE_CMS_TAXONOMIES_EDIT                             | CMS             |
+| manage-taxonomies                  | admin  | ROLE_CMS_TAXONOMIES_ADMIN                            | CMS             |
+| manage-themes                      | admin  | ROLE_THEMES_ADMIN                                    | CMS             |
+| manage-themes                      | edit   | ROLE_THEMES_EDIT                                     | CMS             |
+| manage-themes                      | read   | ROLE_THEMES_READ                                     | CMS             |
+| manage-themes                      | import | ROLE_THEMES_IMPORT                                   | CMS             |
+| manage-tasks                       | read   | ROLE_TASK_MANAGER_TASKS_READ                         | Task management |
+| manage-hooks                       | import | ROLE_TASK_MANAGER_HOOKS_IMPORT                       | Task management |
+| manage-hooks                       | read   | ROLE_TASK_MANAGER_HOOKS_READ                         | Task management |
+| manage-hooks                       | edit   | ROLE_TASK_MANAGER_HOOKS_EDIT                         | Task management |
+| manage-hooks                       | admin  | ROLE_TASK_MANAGER_HOOKS_ADMIN                        | Task management |
+| manage-process-allocation-settings | import | ROLE_TASK_MANAGER_PROCESS_ALLOCATION_SETTINGS_IMPORT | Task management |
+| manage-process-allocation-settings | read   | ROLE_TASK_MANAGER_PROCESS_ALLOCATION_SETTINGS_READ   | Task management |
+| manage-process-allocation-settings | edit   | ROLE_TASK_MANAGER_PROCESS_ALLOCATION_SETTINGS_EDIT   | Task management |
+| manage-process-allocation-settings | admin  | ROLE_TASK_MANAGER_PROCESS_ALLOCATION_SETTINGS_ADMIN  | Task management |
+| manage-out-of-office-users         | import | ROLE_TASK_MANAGER_OOO_IMPORT                         | Task management |
+| manage-out-of-office-users         | read   | ROLE_TASK_MANAGER_OOO_READ                           | Task management |
+| manage-out-of-office-users         | edit   | ROLE_TASK_MANAGER_OOO_EDIT                           | Task management |
+| manage-out-of-office-users         | admin  | ROLE_TASK_MANAGER_OOO_ADMIN                          | Task management |
+| manage-notification-templates      | import | ROLE_NOTIFICATION_TEMPLATES_IMPORT                   | Notifications   |
+| manage-notification-templates      | read   | ROLE_NOTIFICATION_TEMPLATES_READ                     | Notifications   |
+| manage-notification-templates      | edit   | ROLE_NOTIFICATION_TEMPLATES_EDIT                     | Notifications   |
+| manage-notification-templates      | admin  | ROLE_NOTIFICATION_TEMPLATES_ADMIN                    | Notifications   |
+| manage-notifications               | import | ROLE_MANAGE_NOTIFICATIONS_IMPORT                     | Notifications   |
+| manage-notifications               | read   | ROLE_MANAGE_NOTIFICATIONS_READ                       | Notifications   |
+| manage-notifications               | edit   | ROLE_MANAGE_NOTIFICATIONS_EDIT                       | Notifications   |
+| manage-notifications               | admin  | ROLE_MANAGE_NOTIFICATIONS_ADMIN                      | Notifications   |
+| manage-document-templates          | import | ROLE_DOCUMENT_TEMPLATES_IMPORT                       | Documents       |
+| manage-document-templates          | read   | ROLE_DOCUMENT_TEMPLATES_READ                         | Documents       |
+| manage-document-templates          | edit   | ROLE_DOCUMENT_TEMPLATES_EDIT                         | Documents       |
+| manage-document-templates          | admin  | ROLE_DOCUMENT_TEMPLATES_ADMIN                        | Documents       |
+
+
+### Importing roles
+
+<Info>
+You can import a super admin group and its default roles in Keycloak using the following script file.
+</Info>
+
+<Card title = "Download script + roles" href ="../../platform-deep-dive/assets/importUsers.zip" icon ="download">
+</Card>
+
+You need to edit the following script parameters:
+
+* `baseAuthUrl`
+* `username`
+* `password`
+* `realm`
+* `the name of the group for super admins`
+
+The requests package is needed in order to run the script. It can be installed with the following command:
+
+```py
+pip3 install requests
+```
+
+The script can be run with the following command:
+
+```py
+python3 importUsers.py
+```
+

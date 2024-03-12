@@ -1,6 +1,8 @@
-# Documents plugin setup
-
-The Documents plugin provides functionality for generating, persisting, combining, and manipulating documents within the [**FLOWX.AI**](../../../../terms/flowx) system.
+---
+title: Documents plugin
+description: The Documents plugin provides functionality for generating, persisting, combining, and manipulating documents within the **FlowX.AI** system.
+icon: file
+---
 
 The plugin is available as a docker image.
 
@@ -100,9 +102,9 @@ Set the following values with the corresponding Redis-related values:
 
 ### Conversion
 
-:::caution
+<Info>
 Configuration available starting with **3.4.7** platform version.
-:::
+</Info>
 
 * `FLOWX_CONVERT_DPI`:	Sets the DPI (dots per inch) for PDF to JPEG conversion. Higher values result in higher resolution images. (Default value: `150`).
 
@@ -159,9 +161,9 @@ Each action in the service corresponds to a Kafka event. Configure a separate Ka
 * `KAFKA_TOPIC_OCR_OUT`: This Kafka topic is used for the output messages related to optical character recognition (OCR), it produces messages with the OCR results (the topic on which the engine will expect the reply)
 * `KAFKA_TOPIC_OCR_IN`: This Kafka topic is used for the input messages related to optical character recognition (OCR), it receives messages indicating the request to perform OCR on a document (the topic that listens for the request from the engine)
 
-:::caution
+<Check>
 Ensure that the Engine is listening to messages on topics with specific patterns. Use the correct outgoing topic names when configuring the documents plugin.
-:::
+</Check>
 
 Each of these Kafka topics corresponds to a specific action or functionality within the service, allowing communication and data exchange between different components or services in a decoupled manner.
 
@@ -176,15 +178,15 @@ Depending on your use case, you can choose either a file system or an S3-compati
 * `APPLICATION_FILESTORAGE_PARTITIONSTRATEGY`: Set the partition strategy for file storage. Use `NONE` to save documents in `minio/amazon-s3` as before, with a bucket for each process instance. Use `PROCESS_DATE` to save documents in a single bucket with a subfolder structure, for example: `bucket/2022/2022-07-04/process-id-xxxx/customer-id/file.pdf`.      
 * `APPLICATION_FILE_STORAGE_S3_TEMP_BUCKET` - Upon file upload, the initial destination is a sandbox, from which it is subsequently transferred to the designated bucket.
 
-:::info
+<Info>
 Make sure to follow the recommended [bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html) when choosing the bucket prefix name.
-:::
+</Info>
 
 ### Setting maximum file size
 
 To control the maximum file size permitted for uploads, configure the `SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE` and `SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE` variables.
 
-:::info
+<Info>
 The limit is set by default to 50MB:
 
 ```yml
@@ -195,7 +197,7 @@ spring:
       max-file-size: ${MULTIPART_MAX_FILE_SIZE:50MB}    #increase the multipart file size on the request
       max-request-size: ${MULTIPART_MAX_FILE_SIZE:50MB} #increase the request size
 ```
-:::
+</Info>
 
 ### Custom font path for PDF templates
 

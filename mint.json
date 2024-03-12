@@ -23,34 +23,40 @@
     },
 
     {
-      "name": "Academy",
-      "url": "https://academy.flowx.ai/"
+      "name": "Community",
+      "url": "https://discord.gg/TEagTA56"
     }
 
   ],
   "topbarCtaButton": {
-    "name": "Community",
-    "url": "https://discord.gg/TEagTA56"
+    "name": "Academy",
+    "url": "https://academy.flowx.ai/"
   },
   "tabs": [
     {
-      "name": "Release Notes",
+      "name": "Release notes",
       "url": "release-notes"
     },
     {
       "name": "SDKs",
       "url": "sdks"
+    },
+
+    {
+      "name": "Setup guides",
+      "url": "setup-guides"
     }
   ],
   "anchors": [
     
   ],
   "navigation": [
-    
 
+    
     {
       "group": "Getting Started",
       "pages": [
+        "docs/introduction",
         "docs/getting-started/building-your-first-proc",
         "docs/getting-started/learn-more"
       ],
@@ -259,7 +265,7 @@
     },
 
     {
-      "group": "Platform Deep Dive",
+      "group": "Platform deep dive",
       "pages": [
         {
           "group": "Core components",
@@ -464,10 +470,98 @@
           "sdks/android-renderer"
         ]
 
+      },
+
+      {
+        "group": "Microservices",
+        "pages": [
+          "setup-guides/setup-guides-overview",
+
+          {
+            "group": "FlowX Engine",
+            "icon": "engine",
+            "pages": [
+              "setup-guides/flowx-engine-setup-guide/engine-setup",
+              "setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes",
+
+              {
+                "group": "Process instance indexing",
+                "pages": [
+                  "setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/elasticsearch-indexing",
+                  "setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/process-instance-indexing-config-guidelines"
+                ]
+        
+              }
+            ]
+    
+          },
+          "setup-guides/designer-setup-guide",
+          "setup-guides/admin-setup-guide",
+          "setup-guides/cms-setup",     
+          "setup-guides/scheduler-setup-guide",
+          "setup-guides/events-gateway-setup",
+          "setup-guides/audit-setup-guide",
+          "setup-guides/search-data-service-setup-guide",
+          "setup-guides/license-engine-setup"   
+          
+        ]
+      },
+
+
+      {
+        "group": "Plugins",
+        "pages": [
+          "setup-guides/plugins-setup-guide/plugins-setup-guide-overview",
+          "setup-guides/plugins-setup-guide/documents-plugin-setup",
+          "setup-guides/plugins-setup-guide/notifications-plugin-setup",
+          "setup-guides/plugins-setup-guide/task-management-plugin-setup",
+          "setup-guides/plugins-setup-guide/ocr-plugin-setup",
+          "setup-guides/plugins-setup-guide/reporting-setup",
+          "setup-guides/plugins-setup-guide/customer-management-plugin-configuration"
+
+        ]
+      },
+
+      {
+        "group": "Microservices access rights",
+        "pages": [
+          {
+            "group": "Access management",
+            "icon": "lock",
+            "pages": [
+              "setup-guides/access-management/access-management-overview",
+              "setup-guides/access-management/configuring-an-iam-solution",
+              "setup-guides/access-management/default-roles"
+
+            ]
+            },
+            "setup-guides/access-management/configuring-access-rights-for-admin",  
+            "setup-guides/access-management/configuring-access-rights-for-engine",
+            "setup-guides/access-management/configuring-access-rights-for-cms",
+            "setup-guides/access-management/configuring-access-rights-for-license"
+        
+        ]
+      },
+
+
+
+      {
+        "group": "Plugins access rights",
+        "pages": [
+          "setup-guides/plugins-access-rights/configuring-access-rights-for-documents",
+          "setup-guides/plugins-access-rights/configuring-access-rights-for-notifications",
+          "setup-guides/plugins-access-rights/configuring-access-rights-for-task-management"
+        ]
       }
+  
+  
+
+
   ],
   "footerSocials": {
-    "linkedin": "https://www.linkedin.com/company/flowxai/"
+    "linkedin": "https://www.linkedin.com/company/flowxai/",
+    "twitter": "https://twitter.com/FlowX_ai",
+    "youtube": "https://www.youtube.com/@flowx_ai3398"
   },
 
   "feedback": {

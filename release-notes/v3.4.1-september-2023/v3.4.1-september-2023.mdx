@@ -1,0 +1,77 @@
+---
+sidebar_position: 2
+---
+
+# v3.4.1-September 2023 (Patch Release)
+
+Welcome to the FLOWX.AI v3.4.1 patch release! In this update, we've fine-tuned your FLOWX.AI experience with fixes and enhancements. While it may not be a major version update, it's packed with valuable improvements.
+
+## **What's new**
+
+### Scheduler Configuration
+
+* We've introduced a new configuration for the Scheduler microservice. Learn more in our [<u>**deployment guidelines**</u>](./deployment-guidelines-v3.4.1.md#scheduler-configuration).
+
+
+## **Bug Fixes** 🔧
+
+### Timer Events
+
+* **Fixed Timer Events Shyness**
+
+    - We've given our timer events a little nudge, and they will now reliably appear on the canvas after refreshing the page.
+
+* **Resolved Mandatory Fields Error Messages**
+
+    - Our system has become more serious about mandatory fields and will now consistently display error messages when required fields are empty.
+
+* **Improved Timer Expression Validators**
+
+    -  We've implemented validators for timer expressions, ensuring they follow the rules as expected.
+
+* **Fixed Timer Events in Read-Only Process Versions**
+
+    - Timer events will now behave appropriately and disable their fields in read-only process versions.
+
+### Versioning 
+
+* **Enhanced Versioning System** 
+
+    -  We've made significant improvements to the versioning system to resolve these issues. Branch merging and UUID handling have been optimized, and the branching graph now consistently appears during import/export operations.
+
+### Swimlane allocation
+
+* **Removed Lingering UI After Process Definition Deletion**
+
+    - We've cleared away this lingering UI, so you won't encounter remnants of deleted process definitions in the swimlane allocation interface anymore.
+
+
+
+### Revised Cache Key Organization
+
+* Check the deployment guidelines for more information:
+
+[Revised Cache Key Organization](deployment-guidelines-v3.4.1.md#revised-cache-key-organization)
+
+### Other Bits
+
+* Bid farewell to the autoarrange function in the [**Process Designer**](../../docs/terms/flowx-process-designer).
+
+## **Gremlins to Watch Out For** 🙁
+
+Keep an eye out for these quirks:
+
+* **Slider UI element**: Our slider component can be a bit mysterious at times. Currently, it enjoys a game of hide-and-seek with the correct value when sourced from process data.
+* **Document preview UI element**: Our document preview component has a unique sense of style. It prefers to take up only a portion of the screen, even when told to "fill" the entire width. It's a rebel with a cause.
+* **Business rules**: Our business rule have a language barrier, but they're working on it. Changing the language of a business rule doesn't always lead to using the new language for execution. It's like they have a favorite phrase they won't let go of.
+* **Process Designer**: Deleting a boundary node in the process designer and coming back from the UI Designer doesn't always clean up the associated sequence from the boundary event. It's like they left a party and forgot their hat.
+
+
+## **Additional information**
+
+For deployment guidelines, refer to:
+ 
+[Deployment guidelines v3.4.1](./deployment-guidelines-v3.4.1.md)
+
+
+

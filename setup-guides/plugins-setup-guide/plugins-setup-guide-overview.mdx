@@ -1,6 +1,7 @@
-# Plugins setup guides
-
-To set up a plugin in your environment, you must go through the next steps:
+---
+title: Overview
+description: To set up a plugin in your environment, you must go through the next steps.
+---
 
 * make sure you have all the prerequisites deployed on your environment (for example a [Redis](../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis.md) cache instance, a DB instance, etc)
 * make the necessary configurations for each plugin (DB connection data, related Kafka topic names, etc)
@@ -13,29 +14,31 @@ Some of them require some custom templates to be configured, for these cases, a 
 
 Let's go into more details on setting up and using each of them:
 
-#### More details about the notification plugin
+<CardGroup cols={2}>
 
-[Notifications plugin setup](notifications-plugin-setup/)
+<Card title ="Documents plugin" href="documents-plugin-setup" icon ="file">
 
-#### More details about the customer management plugin
+</Card>
 
+<Card title ="Notifications plugin" href = "notifications-plugin-setup" icon ="envelope">
 
-[Customer Management plugin configuration](customer-management-plugin-configuration)
+</Card>
 
+<Card title ="Task management" href ="task-management-plugin-setup" icon ="list-check">
 
-#### More details about the OCR plugin
+</Card>
 
+<Card title ="OCR plugin" href ="ocr-plugin-setup" icon = "file-magnifying-glass">
 
-[OCR plugin setup](ocr-plugin-setup)
+</Card>
 
+<Card title ="Reporting" href ="reporting-setup" icon ="chart-simple">
 
-#### More details about the document management plugin
+</Card>
 
+<Card title ="Customer management" href ="customer-management-plugin-configuration" icon ="users">
 
-[Documents plugin setup](documents-plugin-setup/)
+</Card>
 
+</CardGroup>
 
-#### More details about the task management plugin
-
-
-[Task management plugin setup](task-management-plugin-setup/)
