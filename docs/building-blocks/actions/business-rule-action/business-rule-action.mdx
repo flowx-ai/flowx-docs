@@ -1,17 +1,19 @@
 ---
-title: Supported languages
-description: A business rule is an action type that allows you to configure a script on a [**BPMN**](../../../terms/bpmn) task [**node**](../../../terms/flowx-node). When the [**process instance**](../../../terms/flowx-process-instance) [**token**](../../../terms/token) reaches this task, the defined script will be executed.
+title: Business rules types
+description: A business rule is an action type that allows you to configure a script on a <Tooltip tip="BPMN stands for Business Process Model and Notation. It is a graphical representation used to specify business processes in a business process model.">BPMN</Tooltip>
+ task <Tooltip tip ="Nodes are used to define the flow and behavior of a process. Different types of nodes can be added to a process definition using the FLOWX Designer. Each node type has a specific purpose and configuration."> node </Tooltip>). When the **process instance token** reaches this task, the defined script will be executed.
 ---
 
 The script can read and write the data available on the process at the moment the script is executed. For this reason, it is very important to understand what data is available on the process when the script is executed.
 
-Business rules can be attached to a node by using actions with [**action rules**](../actions.md#action-rules) on them. These can be specified using [DMN rules](dmn-business-rule-action.md), [MVEL](../../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel.md) expressions, or scripts written in JavaScript, Python, or Groovy.
+Business rules can be attached to a node by using actions with [**action rules**](../actions#action-rules) on them. These can be specified using [DMN rules](./dmn-business-rule-action), [MVEL](../../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel) expressions, or scripts written in JavaScript, Python, or Groovy.
 
 ![Business rule action](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/business_rule_action.png)
 
 For more information about supported scripting languages, see the next section:
 
-[Supported scripts](../../supported-scripts.md)
+<Card title ="Supported scripts" href= "../../supported-scripts" icon ="link">
+</Card>
 
 You can also test your rules by using the **Test Rule** function.
 
@@ -200,4 +202,4 @@ switch (gender) {
 
 For more detailed information on each type of Business Rule Action, refer to the following sections:
 
-[DMN Business Rule Action](dmn-business-rule-action.md)
+[DMN Business Rule Action](./dmn-business-rule-action)

@@ -1,30 +1,33 @@
 ---
 title: Overview
-description: The activity that a node has to handle is defined using an [**action**](../../terms/flowx-actions). These can have various types, they can be used to specify the communication details for plugins or integrations.
+description: The activity that a node has to handle is defined using an <Tooltip tip = "Actions in the FLOWX.AI platform are used to define the activity that a node has to handle. They can have various types and are used to specify the communication details for plugins or integrations."> **action** </Tooltip>. These can have various types, they can be used to specify the communication details for plugins or integrations.
 ---
 
-**Why it is important?** Actions can be used to include [**business rules**](../../terms/business-rules) in a [**process**](../../terms/flowx-process), and also to send various data to be displayed in the front-end applications.
+**Why it is important?** Actions can be used to include <Tooltip tip ="Business rules are actions that can be configured on task/user task nodes in a business process. Business rules can be written in various script languages such as MVEL, JavaScript, Python, Groovy, or DMN (Decision Model and Notation)."> **business rules** </Tooltip> in a <Tooltip tip= "A process is a representation of a business use case, such as requesting a new credit card. These steps can involve a combination of automated actions and human interactions."> **process**</Tooltip>, and also to send various data to be displayed in the front-end applications.
 
 
 The FLOWX.AI platform handles the following **types of actions**:
 
-* [Business rule](./business-rule-action)
+* [Business rule](./business-rule-action/business-rule-action)
 * Save Data
-* [Kafka send](../node/message-send-received-task-node.md)
-* [Send data to user interface](./send-data-to-user-interface.md)
+* [Kafka send](../node/message-send-received-task-node)
+* [Send data to user interface](./send-data-to-user-interface)
 * [Upload file](./upload-file-action)
 * [Start subprocess](./start-subprocess-action)
 * [Append params to parent process](./append-params-to-parent-process)
 
 <Info>
-You can only define and add actions on the following types of [**nodes**](../../terms/flowx-node): [**send message task**](../node/message-send-received-task-node.md#message-send-task), [**task**](../node/task-node.md) and [**user task**](../node/user-task-node.md).
+You can only define and add actions on the following types of **nodes**: [**send message task**](../node/message-send-received-task-node#message-send-task), [**task**](../node/task-node) and [**user task**](../node/user-task-node).
 </Info>
 
 ### Action rules
 
 Business rules can be attached to a node by using actions with [**action rules**](#action-rules) on them. These can be specified using [DMN rules](./business-rule-action/dmn-business-rule-action), MVEL expressions, or scripts written in JavaScript, Python, or Groovy.
 
-[Supported scripts](../supported-scripts.md)
+
+<Card title ="Supported scripts" href ="../supported-scripts" icon ="link">
+More information about supported scripting languages, here.
+</Card>
 
 Each button on the user interface corresponds to a manual user action.
 
@@ -36,13 +39,14 @@ Actions can be:
 
 Some actions can be set to run immediately after another action is performed. In order to achieve this, we need to set the `parentName` field on the action to be used as a callback. The callback actions can be performed when a certain message is received by the Engine. In order for this to happen the `callbacksForAction` header needs to be set on the message. Callback actions can also be configured to run immediately after the parent action is run, by setting the `autoRunChildren` flag to true for the parent action.
 
-[Business Rule Action](./business-rule-action)
+<Card title ="Business rule action" href ="./business-rule-action" icon ="link">
+</Card>
 
 ### Action parameters
 
 **Action params** are used to set extra values for actions. They are stored as key/value pairs. For example, we can set a topic to use for sending outgoing messages or the message format to be sent to the front-end.
 
-The decision that needs to be defined on an exclusive gateway is defined using a **node rule**. Similar to action rules, these can be set using [DMN](../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn.md) or [MVEL](../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel.md).
+The decision that needs to be defined on an exclusive gateway is defined using a **node rule**. Similar to action rules, these can be set using [DMN](../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn) or [MVEL](../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel).
 
 There are two possible kinds of actions:
 
@@ -61,7 +65,8 @@ Actions have a few characteristics that need to be set:
 
 For more information, check the following section:
 
-[Adding an action to a node](../../flowx-designer/managing-a-process-flow/adding-an-action-to-a-node.md)
+<Card title= "Adding an action to a node" href= "../../flowx-designer/managing-a-process-flow/adding-an-action-to-a-node">
+</Card>
 
 ## Linking actions together
 
@@ -73,7 +78,7 @@ A parent action has a flag `autoRunChildren`, set to `false` by default. When th
 
 ### Callback actions
 
-Child actions can be marked as callbacks to be run after a reply from an external system is received. They will need to be set when defining the interaction with the external system (the [Kafka send action](../node/message-send-received-task-node.md#configuring-a-message-send-task-node)).
+Child actions can be marked as callbacks to be run after a reply from an external system is received. They will need to be set when defining the interaction with the external system (the [Kafka send action](../node/message-send-received-task-node#configuring-a-message-send-task-node)).
 
 For example, a callback function might be used to handle a user's interaction with a web page, such as upload a file. When the user performs the action, the callback function is executed, allowing the web application to respond appropriately.
 

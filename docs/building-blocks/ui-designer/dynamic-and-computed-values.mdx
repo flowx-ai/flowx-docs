@@ -7,7 +7,7 @@ description: In modern application development, the ability to create dynamic an
 
 Dynamic values exemplify the capacity to dynamically populate various properties of UI elements in response to process parameters or substitution tags. This dynamic customization occurs at runtime, allowing the application to adapt to specific scenarios or user inputs. With dynamic values, the UI can be tailored down to details, including labels, placeholders, error messages, and other properties.
 
-This capability is now extended to an array of UI elements and their corresponding properties, utilizing process parameters or [**substitution tags**](../../platform-deep-dive/core-components/core-extensions/content-management/substitution-tags.md):
+This capability is now extended to an array of UI elements and their corresponding properties, utilizing process parameters or [**substitution tags**](../../platform-deep-dive/core-extensions/content-management/substitution-tags):
 
 
 | Element                                                                 | Property                                                         | Accepts Params/Subst Tags |
@@ -15,16 +15,16 @@ This capability is now extended to an array of UI elements and their correspondi
 | [**Form Elements**](./ui-component-types/form-elements)                 | Default Value (except switch)                                    | Yes                       |
 |                                                                         | Label, Placeholder                                               | Yes                       |
 |                                                                         | Helper Text, Validators                                          | Yes                       |
-| [**Document Preview**](./ui-component-types/file-preview.md)            | Title, Subtitle                                                  | Yes                       |
-| [**Card**](./ui-component-types/root-components/card.md)                | Title, Subtitle                                                  | Yes                       |
+| [**Document Preview**](./ui-component-types/file-preview)            | Title, Subtitle                                                  | Yes                       |
+| [**Card**](./ui-component-types/root-components/card)                | Title, Subtitle                                                  | Yes                       |
 | Form                                                                    | Title                                                            | Yes                       |
 | Message                                                                 | Message                                                          | Yes                       |
-| [**Buttons**](./ui-component-types/buttons.md)                          | Label                                                            | Yes                       |
+| [**Buttons**](./ui-component-types/buttons)                          | Label                                                            | Yes                       |
 | Select, Checkbox, Radio,Segmented Button (Static)                       | Label, Value                                                     | Subst Tags Only           |
 | Text                                                                    | Text                                                             | Yes                       |
 | Link                                                                    | Link Text                                                        | Yes                       |
-| [**Modal**](../../building-blocks/node/milestone-node.md#modal)         | Modal Dismiss Alert, Title, Message, Confirm Label, Cancel Label | Yes                       |
-| [**Step**](../../building-blocks/node/milestone-node.md#stepper--steps) | Label                                                            | Yes                       |
+| [**Modal**](../../building-blocks/node/milestone-node#modal)         | Modal Dismiss Alert, Title, Message, Confirm Label, Cancel Label | Yes                       |
+| [**Step**](../../building-blocks/node/milestone-node#stepper--steps) | Label                                                            | Yes                       |
 
 ### Example using Substitution tags
 
@@ -197,11 +197,11 @@ The UI Designer allows the inclusion of JavaScript expressions for generating co
 - **Link**: The link text can also accept JavaScript expressions, enabling dynamic generation of the link text based on process parameters or other conditions.
 
 
-:::caution
+<Tip>
 When working with computed values, it's important to note that they are designed to be displayed as integers and strings.
-:::
+</Tip>
 
-:::caution
+<Info>
 For input elements (e.g., text input), you may require a default value from a process variable, while a number input may need a computed value.
-:::
+</Info>
 

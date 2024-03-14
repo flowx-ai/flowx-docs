@@ -1,19 +1,23 @@
 ---
-title: "Process instance"
-description: "A process instance is a specific execution of a business process that is defined on the FLOWX.AI platform. Once a process definition is added to the platform, it can be executed, monitored, and optimized by creating an instance of the definition."
+title: Process instance
+description: A process instance is a specific execution of a business process that is defined on the FlowX.AI platform. Once a process definition is added to the platform, it can be executed, monitored, and optimized by creating an instance of the definition.
 ---
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/proc_instance_progress.png)
+</Frame>
+
 
 ## Overview
 
 Once the desired processes are defined in the platform, they are ready to be used. Each time a process needs to be used, for example each time a customer wants to request, for example, a new credit card, a new instance of the specified process definition is started in the platform. Think of the process definition as a blueprint for a house, and of the process instance as each house of that type being built.
 
-The [**FLOWX Engine**](../../../terms/flowxai-process-engine) is responsible for executing the steps in the process definition and handling all the business logic. The token represents the current position in the process and moves from one node to the next based on the sequences and rules defined in the exclusive gateways. In the case of parallel gateways, child tokens are created and eventually merged back into the parent token.
+The **FlowX Engine** is responsible for executing the steps in the process definition and handling all the business logic. The token represents the current position in the process and moves from one node to the next based on the sequences and rules defined in the exclusive gateways. In the case of parallel gateways, child tokens are created and eventually merged back into the parent token.
 
 Kafka events are used for communication between FLOWX.AI components such as the engine and integrations/plugins. Each event type is associated with a Kafka topic to track and orchestrate the messages sent on Kafka. The engine updates the UI by sending messages through sockets.
 
-[More about Kafka](../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts.md)
+<Card title= "More about Kafka" href="../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts">
+</Card>
 
 ## Checking the Process Status
 
@@ -54,10 +58,10 @@ Understanding the various elements within process status data is crucial. Here's
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_tokens.png)
 
 <Info>
-For more information about token status details, [here](../../token.md).
+For more information about token status details, [here](../token).
 </Info>
 
-* **Subprocesses** - :exclamation:displayed only if the current [process instance](../../../terms/flowx-process-instance) generated a [subprocess](../subprocess.md) instance
+* **Subprocesses** - displayed only if the current process instance generated a [subprocess](./subprocess) instance
 * **Exceptions** - errors that let you know where the process is blocked, with a direct link to the node where the process is breaking for easy editing
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_exceptions.png)
@@ -66,13 +70,13 @@ For more information about token status details, [here](../../token.md).
 For more information on token status details and exceptions, check the following section:
 </Info>
 
-[Failed process start](./failed-process-start.md)
 
 * **Audit Log** - the audit log displays events registered for process instances, tokens, tasks, and exceptions in reverse chronological order by timestamp
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_status_audit.png)
 
-[Audit](../../../platform-deep-dive/core-components/core-extensions/audit.md)
+<Card title="Audit" href="../../platform-deep-dive/core-extensions/audit">
+</Card>
 
 ### Process menu
 
@@ -102,9 +106,10 @@ To start a new process instance, a request must be made to the [FLOWX Engine](..
 
 To be able to start a new process instance, the current user needs to have the appropriate role/permissions:
 
-[Configuring access roles for processes](../../../platform-setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes.md)
+<Card title="Configuring access roles for processes" href="../../../setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes">
+</Card>
 
-When starting a new process instance, we can also set it to [inherit some values from a previous process instance](../../../platform-deep-dive/core-components/flowx-engine.md#orchestration).
+When starting a new process instance, we can also set it to [inherit some values from a previous process instance](../../platform-deep-dive/core-components/flowx-engine#orchestration).
 
 ## Troubleshooting possible errors
 
@@ -154,10 +159,18 @@ When you click **view** button, a detailed exception will be displayed.
 
 #### Possible sources:
 
-* [Action](../../actions/actions.md)
-* [Node](../../node/node.md)
-* [Subprocess](../subprocess.md)
-* [Process Definition](../process-definition.md)
+<CardGroup>
+
+<Card title="Actions" href="../actions/actions">
+</Card>
+<Card title="Node" href="../node/node">
+</Card>
+<Card title="Subprocess" href="./subprocess">
+</Card>
+<Card title="Process Definition" href="./process-definition">
+</Card>
+
+</CardGroup>
 
 ### Exceptions type
 

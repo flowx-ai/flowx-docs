@@ -1,11 +1,11 @@
 ---
 title: Overview
-description: The FLOWX.AI platform offers a variety of ready-to-use [UI components](./ui-component-types/ui-component-types.md) that can be used to create rich web interfaces. These include common form elements like [input fields](./ui-component-types/form-elements/input-form-field.md), [dynamic dropdown menus](./ui-component-types/form-elements/select-form-field.md#example---dynamic-dropdowns), [checkboxes](./ui-component-types/form-elements/checkbox-form-field.md), [radio](./ui-component-types/form-elements/radio-form-field.md), and [switch buttons](./ui-component-types/form-elements/switch-form-field.md), as well as other UI elements like image, text, anchor links, etc. The properties of each component can be customized further using the details tab, and [design flexibility](./#styling) is achieved by adding styles or CSS classes to the pre-defined components. The UI templates are built in a hierarchical structure, with a root component at the top.
+description: The FLOWX.AI platform offers a variety of ready-to-use [UI components](./ui-designer#ui-component-types) that can be used to create rich web interfaces. These include common form elements like [input fields](./ui-component-types/form-elements/input-form-field), [dynamic dropdown menus](./ui-component-types/form-elements/select-form-field#example---dynamic-dropdowns), [checkboxes](./ui-component-types/form-elements/checkbox-form-field), [radio](./ui-component-types/form-elements/radio-form-field), and [switch buttons](./ui-component-types/form-elements/switch-form-field), as well as other UI elements like image, text, anchor links, etc. The properties of each component can be customized further using the details tab, and [design flexibility](./#styling) is achieved by adding styles or CSS classes to the pre-defined components. The UI templates are built in a hierarchical structure, with a root component at the top.
 ---
 
 ## Using UI designer
 
-The FLOWX.AI platform includes an intuitive **UI Designer** for creating diverse UI templates. You can use various elements such as basic buttons, indicators, and forms, as well as predefined [collections](./ui-component-types/collection/collection.md) and [prototypes](./ui-component-types/collection/collection_prototype.md). To access the UI Designer, follow these steps:
+The FLOWX.AI platform includes an intuitive **UI Designer** for creating diverse UI templates. You can use various elements such as basic buttons, indicators, and forms, as well as predefined [collections](./ui-component-types/collection/collection) and [prototypes](./ui-component-types/collection/collection_prototype). To access the UI Designer, follow these steps:
 
 1. Open **FLOWX.AI Designer** and select **Definitions** from the **Processes** tab.
 2. Select a **process** from the process definitions list.
@@ -15,7 +15,7 @@ The FLOWX.AI platform includes an intuitive **UI Designer** for creating diverse
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/access_ui_designer.gif)
 
 <Info>
-The UI designer is available for [**User task**](../node/user-task-node.md) nodes and [**Milestone**](../node/milestone-node.md) nodes (nodes that require human interaction).
+The UI designer is available for [**User task**](../node/user-task-node) nodes and [**Milestone**](../node/milestone-node) nodes (nodes that require human interaction).
 </Info>
 
 After adding a specific component to the node, the right-side menu will display more configuration options.
@@ -30,22 +30,23 @@ To undo or redo an action, users can simply click the corresponding icons in the
 
 ## UI components
 
-FLOWX.AI offers a wide range of [UI components](./ui-component-types) that can be customized using the UI Designer. For example, when configuring a [card](./ui-component-types/root-components/card) element (which is a root component), the following properties can be customized:
+FLOWX.AI offers a wide range of [UI components](./ui-designer#ui-components) that can be customized using the UI Designer. For example, when configuring a [card](./ui-component-types/root-components/card) element (which is a root component), the following properties can be customized:
 
 
 #### Settings
 
-* **Message** - a valid JSON string that is pushed to the frontend application when the process reaches [user task](../node/user-task-node.md); this property is only available for [Root components](./ui-component-types/root-components/root-components.md)
+* **Message** - a valid JSON string that is pushed to the frontend application when the process reaches [user task](../node/user-task-node); this property is only available for [Root components](./ui-component-types/root-components/root-components)
 * **Properties** - custom properties that vary depending on the component type
 * **Has Accordion** (available only for **Card** component) - a Bootstrap accordion is a component that organizes content within collapsible items, allowing only one collapsed item to be displayed at a time
 
-<div className= "image-scaled">
+<Frame>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_designer_settings.png)
 
-</div>
+</Frame>
 
-[Root components](./ui-component-types/root-components)
+<Card title="Root components" href="./ui-component-types/root-components">
+</Card>
 
 By utilizing the UI Designer, users can easily create rich web interfaces with customizable UI components.
 
@@ -57,7 +58,7 @@ Users can customize the direction, alignment, gap, sizing, and spacing of their 
 
 ### Layout 
 
-Layout configuration is available for components that group children: [root components](./ui-component-types/root-components/) and [forms](./ui-component-types/form-elements/form-elements.md) (more details about layouts can be found [here](https://tburleson-layouts-demos.firebaseapp.com/#/docs)):
+Layout configuration is available for components that group children: [root components](./ui-component-types/root-components/) and [forms](./ui-component-types/form-elements) (more details about layouts can be found [here](https://tburleson-layouts-demos.firebaseapp.com/#/docs)):
 
    * Direction - horizontal or vertical
    * Alignment - start, center, end, stretch
@@ -66,7 +67,8 @@ Layout configuration is available for components that group children: [root comp
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/layout_styling.gif)
 
-[Layout](https://tburleson-layouts-demos.firebaseapp.com/#/docs)
+<Card title ="Layout" href="https://tburleson-layouts-demos.firebaseapp.com/#/docs">
+</Card>
 
 ### Sizing
 
@@ -88,9 +90,13 @@ Margin and padding are CSS properties used to create space between elements in a
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_spacing.gif)
 
-[Margin](https://www.w3schools.com/css/css_margin.asp)
+<CardGroup>
+<Card title="Margin" href="https://www.w3schools.com/css/css_margin.asp" icon ="link">
+</Card>
 
-[Padding](https://www.w3schools.com/css/css_padding.asp)
+<Card title="Padding" href="https://www.w3schools.com/css/css_padding.asp" icon ="link">
+</Card>
+</CardGroup>
 
 ### Typography
 
@@ -98,9 +104,9 @@ Margin and padding are CSS properties used to create space between elements in a
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/input_typography.png)
 
-:::info
-To learn how to upload custom font files, check the [<u>**Font Management**</u>](../../platform-deep-dive/core-components/core-extensions/content-management/font-files.md) section.
-:::
+<Info>
+To learn how to upload custom font files, check the [**Font Management**](../../platform-deep-dive/core-extensions/content-management/font-files) section.
+</Info>
 
 
 ### Background
@@ -115,15 +121,20 @@ To learn how to upload custom font files, check the [<u>**Font Management**</u>]
 
 **Border** - border properties can be customized under the **Border** section, users can set the radius, width, or color of their component's borders
 
-[Border width](https://www.w3schools.com/css/css_border_width.asp)
+<CardGroup>
+<Card title="Border width" href="https://www.w3schools.com/css/css_border_width.asp" icon ="link">
+</Card>
 
-[Border radius](https://www.w3schools.com/css/css_border_rounded.asp)
+<Card title ="Border radius" href="https://www.w3schools.com/css/css_border_rounded.asp" icon="link">
+</Card>
+</CardGroup>
 
-<div className= "image-scaled">
+
+<Frame>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_designer_styling.gif#center)
 
-</div>
+</Frame>
 
 ### Advanced
 
@@ -140,52 +151,46 @@ Clicking on a specific component in the tree will highlight the selection in the
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_designer_tree1.gif)
 
-For more information on the different types of components available in FLOWX.AI, please refer to the next section:
-
-[Component types](./ui-component-types/ui-component-types.md)
-
 
 ## UI component types
 
 Different UI component types can be configured using UI Designer. The components can be configured only using user task nodes or milestone nodes.
 
 <Info>
-Depending on the [component type](./ui-component-types) different properties are available for configuration.
+Depending on the [component type](./ui-designer#ui-component-types) different properties are available for configuration.
 </Info>
 
 Understanding these component types will help you to better utilize the UI Designer tool and create rich web interfaces efficiently.
 
 # UI component types
 
-Different UI component types can be configured using UI Designer. The components can be configured only using [user task](../../node/user-task-node.md) nodes or [milestone](../../node/milestone-node.md) nodes.
+Different UI component types can be configured using UI Designer. The components can be configured only using [user task](../../node/user-task-node) nodes or [milestone](../../node/milestone-node) nodes.
 
 Understanding these component types will help you to better utilize the UI Designer tool and create rich web interfaces efficiently.
-
-### User task node UI components
 
 <AccordionGroup>
 
 <Accordion title="Layout (root components)" icon ="object-group">
 
-* [Container](root-components/container.md)
-* [Card](root-components/card.md)
-* [Custom](root-components/custom.md)
+* [Container](./ui-component-types/root-components/container)
+* [Card](./ui-component-types/root-components/card)
+* [Custom](./ui-component-types/root-components/custom)
 
 </Accordion>
 
 <Accordion title="Collection" icon ="layer-group">
 
-* [Collection](../ui-component-types/collection/collection.md)
-* [Collection Prototype](../ui-component-types/collection/collection_prototype.md)
+* [Collection](./ui-component-types/collection/collection)
+* [Collection Prototype](./ui-component-types/collection/collection_prototype)
 
 </Accordion>
 
 <Accordion title = "Basic" icon = "list">
 
 
-* [Button](buttons.md)
-* [File Upload](./buttons.md#file-upload)
-* [Image](image.md)
+* [Button](./ui-component-types/buttons)
+* [File Upload](./ui-component-types/buttons#file-upload)
+* [Image](./ui-component-types/image)
 
 </Accordion>
 
@@ -198,24 +203,24 @@ Understanding these component types will help you to better utilize the UI Desig
 
 <Accordion title ="Forms" icon = "object-ungroup">
 
-Form elements are a crucial aspect of creating user interfaces as they serve as the means of collecting information from the users. These elements come in various types, including simple forms, [inputs](input-form-field.md), [text areas](input-form-field.md), drop-down menus ([select](select-form-field.md)), [checkboxes](checkbox-form-field.md), [radio buttons](radio-form-field.md), toggle switches ([switch](switch-form-field.md)), [segmented buttons](segmented-button.md), [sliders](slider.md) and [date pickers](datepicker-form-field.md). Each of these form elements serves a unique purpose and offers different options for capturing user input. 
+Form elements are a crucial aspect of creating user interfaces as they serve as the means of collecting information from the users. These elements come in various types, including simple forms, [inputs](./ui-component-types/form-elements/input-form-field), [text areas](./ui-component-types/form-elements/text-area), drop-down menus ([select](./ui-component-types/form-elements/select-form-field)), [checkboxes](./ui-component-types/form-elements/checkbox-form-field), [radio buttons](./ui-component-types/form-elements/radio-form-field), toggle switches ([switch](./ui-component-types/form-elements/switch-form-field)), [segmented buttons](./ui-component-types/form-elements/segmented-button), [sliders](./ui-component-types/form-elements/slider) and [date pickers](./ui-component-types/form-elements/datepicker-form-field). Each of these form elements serves a unique purpose and offers different options for capturing user input. 
 
 * [Form](./form-elements)
-* [Input](form-elements/input-form-field.md)
-* [Textarea](./form-elements/text-area.md)
-* [Select](form-elements/select-form-field.md)
-* [Checkbox](form-elements/checkbox-form-field.md)
-* [Radio](form-elements/radio-form-field.md)
-* [Switch](./form-elements/switch-form-field.md)
-* [Segmented button](./form-elements/segmented-button.md)
-* [Slider](./form-elements/slider.md)
-* [Datepicker](form-elements/datepicker-form-field.md)
+* [Input](form-elements/input-form-field)
+* [Textarea](./form-elements/text-area)
+* [Select](form-elements/select-form-field)
+* [Checkbox](form-elements/checkbox-form-field)
+* [Radio](form-elements/radio-form-field)
+* [Switch](./form-elements/switch-form-field)
+* [Segmented button](./form-elements/segmented-button)
+* [Slider](./form-elements/slider)
+* [Datepicker](form-elements/datepicker-form-field)
 
 </Accordion>
 
 <Accordion title = "Indicators" icon = "arrow-pointer">
 
-* [Message](./indicators.md)
+* [Message](./ui-component-types/indicators)
 
 </Accordion>
 
@@ -231,6 +236,6 @@ Form elements are a crucial aspect of creating user interfaces as they serve as 
 * Modal
 * Container
 
-For more information about Milestone node UI components, click [here](../../node/milestone-node.md).
+For more information about Milestone node UI components, click [here](../../node/milestone-node).
 
 </Accordion>

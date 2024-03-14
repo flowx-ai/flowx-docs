@@ -1,10 +1,13 @@
 ---
 title: "Timer start event (interrupting)"
-description: "A Timer start event initiates a process instance based on a specified time or schedule."
+description: "A Timer Start Event initiates a process instance based on a specified time or schedule."
 ---
+
+<Frame>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/timer_start_interrupting.png#center)
 
+</Frame>
 
 <Warning>
 Please note that a process definition version can accommodate only one Timer Start Event.
@@ -46,7 +49,7 @@ In this scenario, the Timer Start Event is used to trigger an employee onboardin
 * Start Event (Timer Start Event) - New Hire Start Date
   - Timer Definition: 2023-09-01T09:00:00Z (ISO 8601 format) → This means the process will initiate automatically at the specified date and time.
   - This event serves as the trigger for the entire process.
-  - Transition: → Employee Onboarding Notification
+  - Transition → Employee Onboarding Notification
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/start_timer_date.png)
 * Employee Onboarding Notification
   - Notify new employee about onboarding requirements by sending an email notification with a template called "Important Onboarding Information"

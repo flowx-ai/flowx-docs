@@ -7,11 +7,11 @@ Using **subprocesses** is a good way to split the complexity of your business fl
 
 ## Configuring a Start subprocess action
 
-To use a process as a [subprocess](../process/subprocess) you must first create it. Once the subprocess is created, you can start it from another (parent) process. To do this, you will need to add a **Start Subprocess** action to a [**User task**](../node/task-node.md) node in the parent process or by using a [subprocess run node](../node/subprocess-run-node.md).
+To use a process as a [subprocess](../process/subprocess) you must first create it. Once the subprocess is created, you can start it from another (parent) process. To do this, you will need to add a **Start Subprocess** action to a [**User task**](../node/task-node) node in the parent process or by using a [subprocess run node](../node/subprocess-run-node).
 
 Here are the steps to start a subprocess from a parent process:
 
-1. First, create a [process](../process/process.md) designed to be used as a [subprocess](../process/subprocess.md).
+1. First, create a [process](../process/process-definition) designed to be used as a [subprocess](../process/subprocess).
 2. In the parent process, create a **user task** node where you want to start the subprocess created at step 1.
 3. Add a **Start subprocess** action to the task node.
 4. Configure the **Start Subprocess** action and from the dropdown list choose the subprocess created at step 1.
@@ -40,7 +40,7 @@ The following properties must be configured for a **Start subprocess** action:
 
 ### Back in steps
 
-* **Allow BACK on this action** - back in process is a functionality that allows you to go back in a business process and redo a series of previous actions in the process. For more details, check [**Moving a token backwards in a process**](../../flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process.md) section.
+* **Allow BACK on this action** - back in process is a functionality that allows you to go back in a business process and redo a series of previous actions in the process. For more details, check [**Moving a token backwards in a process**](../../flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process) section.
 
 ### Parameters
 
@@ -71,7 +71,7 @@ The following properties must be configured for a **Start subprocess** action:
 
 ### Data to send
 
-* **Keys** - are used when data is sent from the frontend via an action to validate the data (you can find more information in the [**User Task configuration**](../node/user-task-node.md) section)
+* **Keys** - are used when data is sent from the frontend via an action to validate the data (you can find more information in the [**User task configuration**](../node/user-task-node) section)
 
 <Warning>
 **Data to send** option is configurable only when the action **trigger type** is **Manual**.
@@ -79,7 +79,7 @@ The following properties must be configured for a **Start subprocess** action:
 
 ## Example
 
-Let's create a main [**process**](../../terms/flowx-process), in this process we will add a user task node that will represent a menu page. In this newly added node we will add multiple subprocess actions that will represent menu items. When you select a menu item, a subprocess will run representing that particular menu item.
+Let's create a main **process**, in this process we will add a user task node that will represent a menu page. In this newly added node we will add multiple subprocess actions that will represent menu items. When you select a menu item, a subprocess will run representing that particular menu item.
 
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/subprocess_menu1.png)

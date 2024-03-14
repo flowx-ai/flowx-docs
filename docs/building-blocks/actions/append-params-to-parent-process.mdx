@@ -1,13 +1,13 @@
 ---
 title: Append params to parent process
-description: It is a type of [**action**](../../terms/flowx-actions) that allows you to send data from a [subprocess](../process/subprocess.md) to a parent [process](../process/process.md).
+description: It is a type of **action** that allows you to send data from a [subprocess](../process/subprocess) to a parent [process](../process/process).
 ---
 
-**Why is it important?**  If you are using subprocesses that produce data that needs to be sent back to the main [**process**](../../terms/flowx-process-definition), you can do that by using an **Append Params to Parent Process** action.
+**Why is it important?**  If you are using subprocesses that produce data that needs to be sent back to the main **process**, you can do that by using an **Append Params to Parent Process** action.
 
 ## Configuring an Append params to parent process
 
-After you create a process designed to be used as a [subprocess](../process/subprocess.md), you can configure the action. To do this, you need to add an **Append Params to Parent Process** on a [**Task Node**](../node/task-node.md) in the subprocess.
+After you create a process designed to be used as a [subprocess](../process/subprocess), you can configure the action. To do this, you need to add an **Append Params to Parent Process** on a [**Task node**](../node/task-node) in the subprocess.
 
 The following properties must be configured:
 
@@ -29,7 +29,7 @@ The following properties must be configured:
 
 ### Back in steps
 
-* **Allow BACK on this action** - back in process is a functionality that allows you to go back in a business process and redo a series of previous actions in the process. For more details, check [**Moving a token backwards in a process**](../../flowx-designer/managing-a-process-flow/) section
+* **Allow BACK on this action** - back in process is a functionality that allows you to go back in a business process and redo a series of previous actions in the process. For more details, check [**Moving a token backwards in a process**](../../flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process) section
 
 ### Parameters
 
@@ -42,11 +42,11 @@ To recap: if you have a **Copy from current state** with a simple **JSON** -`{"a
 
 **Advanced configuration**
 
-* **Show Target Process** - ID of the parent process where you need to copy the params, this was made available on to the `${parentProcessInstanceId}` variable, if you defined it when you [started the subprocess](start-subprocess-action)
+* **Show Target Process** - ID of the parent process where you need to copy the params, this was made available on to the `${parentProcessInstanceId}` variable, if you defined it when you [started the subprocess](./start-subprocess-action)
 
 ### Data to send
 
-* **Keys** - are used when data is sent from the frontend via an action to validate the data (you can find more information in the [User Task configuration](../node/user-task-node.md) section)
+* **Keys** - are used when data is sent from the frontend via an action to validate the data (you can find more information in the [User Task configuration](../node/user-task-node) section)
 
 <Warning>
 **Data to send** option is configurable only when the action **trigger type** is **Manual.**

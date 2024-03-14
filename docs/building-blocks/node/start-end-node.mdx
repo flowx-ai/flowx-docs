@@ -7,11 +7,11 @@ description: "Let's go through all the options for configuring start and end nod
 
 The start node represents the beginning of a process and it is mandatory to add one when creating a process.
 
-<div class = "image-scaled">
+<Frame>
 
 ![Start node](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/start_node.png#center)
 
-</div>
+</Frame>
 
 A process can have one or more start nodes. If you defined multiple start nodes, each should have a start condition value configured. When starting a new process instance the desired start condition should be used.
 
@@ -29,18 +29,22 @@ Node configuration is done by accessing the **Node Config** tab. You have the fo
 * **Node name** - the name of the node
 * **Can go back** - switching this option to true will allow users to return to this step after completing it
 
-:::info
+<Info>
 When encountering a step with `canGoBack` switched to false, all steps found behind it will become unavailable.
-:::
+</Info>
 
-* [**Swimlane**](../../platform-deep-dive/user-roles-management/swimlanes.md) - choose a swimlane (if there are multiple swimlanes on the process) to make sure only certain user roles have access only for certain process nodes- if there are no multiple swimlanes, the value is **Default**
-* [**Stage** ](../../platform-deep-dive/plugins/custom-plugins/task-management/using-stages.md)- assign a stage to the node
+* [**Swimlane**](../../platform-deep-dive/user-roles-management/swimlanes) - choose a swimlane (if there are multiple swimlanes on the process) to make sure only certain user roles have access only for certain process nodes- if there are no multiple swimlanes, the value is **Default**
+* [**Stage** ](../../platform-deep-dive/plugins/custom-plugins/task-management/using-stages)- assign a stage to the node
 
 #### Start condition
 
 The start condition should be set as a string value. This string value will need to be set on the payload for the start process request on the `startCondition` key.
 
+<Frame>
+
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/start_node_condition.png)
+
+</Frame>
 
 To test the start condition, we can send a start request via REST:
 
@@ -79,11 +83,11 @@ A response with the error code `bad request` and title `Start node for process d
 
 ## End node
 
-<div class = "image-scaled">
+<Frame>
 
 ![End Event](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/end-event.png#center)
 
-</div>
+</Frame>
 
 An end node is used to mark where the process finishes. When the process reaches this node, the process is considered completed and its status will be set to `Finished`.
 

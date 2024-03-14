@@ -1,13 +1,13 @@
 ---
 title: Upload file action
-description: An **Upload File action** is an [**action**](../../terms/flowx-actions) type that allows you to upload a file to a service available on [**Kafka**](../../terms/flowx-kafka).
+description: An **Upload File action** is an **action** type that allows you to upload a file to a service available on <Tooltip tip ="In FLOWX.AI, Kafka handles all communication between the FLOWX Engine and external plugins and integrations. It is also used for notifying running process instances when certain events occur.">**Kafka**</Tooltip>.
 ---
 
 **Why is it useful?** The action will receive a file from the frontend and send it to Kafka, and will also attach some metadata.
 
 ## Configuring an Upload file action
 
-Multiple options are available for this type of action and can be configured via the [**FLOWX Designer**](../../terms/flowx-ai-designer). To configure an Upload File action, use the **Actions** tab at the [task node level](../../flowx-designer/managing-a-process-flow/adding-an-action-to-a-node.md), which has the following configuration options:
+Multiple options are available for this type of action and can be configured via the **FlowX Designer**. To configure an Upload File action, use the **Actions** tab at the [task node level](../../flowx-designer/managing-a-process-flow/adding-an-action-to-a-node), which has the following configuration options:
 
 * [Action Edit](#action-edit)
 * [Back in steps (for Manual actions)](#back-in-steps)
@@ -29,18 +29,18 @@ Multiple options are available for this type of action and can be configured via
 
 ### Back in steps
 
-* **Allow BACK on this action** - back in process is a functionality that allows you to go back in a business process and redo a series of previous actions in the process. For more details, check [Moving a token backwards in a process](../../flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process.md) section.
+* **Allow BACK on this action** - back in process is a functionality that allows you to go back in a business process and redo a series of previous actions in the process. For more details, check [Moving a token backwards in a process](../../flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process) section.
 
 ### Parameters
 
 * **Address** - the Kafka topic where the file will be posted
-* **Document Type** - other metadata that can be set (useful for the [document plugin](../../platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin.md))
+* **Document Type** - other metadata that can be set (useful for the [document plugin](../../platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin))
 * **Folder** - allows you to configure a value by which the file will be identified in the future
 * **Advanced configuration (Show headers)** - this represents a JSON value that will be sent on the headers of the Kafka message
 
 ### Data to send
 
-* **Keys** - are used when data is sent from the frontend via an action to validate the data (you can find more information in the [User Task configuration](../node/user-task-node.md) section)
+* **Keys** - are used when data is sent from the frontend via an action to validate the data (you can find more information in the [User Task configuration](../node/user-task-node) section)
 
 <Warning>
 **Data to send** option is configurable only when the action **trigger type** is **Manual**.
@@ -48,7 +48,7 @@ Multiple options are available for this type of action and can be configured via
 
 ## Example
 
-An example of **Upload File Action** is to send a file to the [document plugin](../../platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin.md). In this case, the configuration will look like this:
+An example of **Upload File Action** is to send a file to the [document plugin](../../platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin-overview). In this case, the configuration will look like this:
 
 **Parameters configuration**
 

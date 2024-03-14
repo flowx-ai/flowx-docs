@@ -1,11 +1,11 @@
 ---
-title: "Demonstrating intermediate message events in business processes"
+title: Intermediate message events in business processes
 description: "Business processes often involve dynamic communication and coordination between different stages or departments. Intermediate Message Events play an important role in orchestrating information exchange, ensuring effective synchronization, and enhancing the overall efficiency of these processes."
 ---
 
-[Throw and catch on sequence - credit card request process example](#throw-and-catch-on-sequence---credit-card-request-process-example)
 
-[Throw and catch - interprocess communication](#interprocess-communication-with-throw-and-catch-events)
+* [Throw and catch on sequence - credit card request process example](#throw-and-catch-on-sequence---credit-card-request-process-example)
+* [Throw and catch - interprocess communication](#interprocess-communication-with-throw-and-catch-events)
 
 
 ## Throw and catch on sequence - Credit card request process example
@@ -93,19 +93,24 @@ In summary, when a customer initiates a new credit card request, the bank verifi
 
 To implement the illustrated BPMN process for the credit card request, follow these configuration steps:
 
-1. **FLOWX.AI Designer**: Open FLOWX.AI Designer.
-
-2. **Draw BPMN Diagram**: Import the provided BPMN diagram into FLOWX.AI Designer or recreate it by drawing the necessary elements. 
-
-3. **Customize Swimlanes**: Set up the "Default" and "Backoffice" swimlanes to represent different departments or stakeholders involved in the process. This helps visually organize and assign tasks to specific areas.
-
-4. **Define User Tasks**: Specify the details for each user task. Configure User Task 1, User Task 2, and User Task 3 with appropriate screens. 
+<Steps>
+<Step>
+ **FLOWX.AI Designer**: Open FLOWX.AI Designer.
+</Step>
+<Step>
+**Draw BPMN Diagram**: Import the provided BPMN diagram into FLOWX.AI Designer or recreate it by drawing the necessary elements. 
+</Step>
+<Step>
+**Customize Swimlanes**: Set up the "Default" and "Backoffice" swimlanes to represent different departments or stakeholders involved in the process. This helps visually organize and assign tasks to specific areas.
+</Step>
+<Step>
+**Define User Tasks**: Specify the details for each user task. Configure User Task 1, User Task 2, and User Task 3 with appropriate screens. 
 
 * **User Task 1** - *customer_request_new_credit_card*
 
-:::tip
+<Tip>
 We will use the value from `application.income` key added on the slider UI element to create an MVEL business rule in the next step.
-:::
+</Tip>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/user_task1_interm.gif)
 
@@ -119,32 +124,41 @@ In this screen, we configured a modal to display the approval.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/user_task3_interm.gif)
 
-5. **Configure Gateways**: Adjust the conditions for the Exclusive Gateway based on your business rules. Define the conditions for positive and negative verifications, guiding the process down the appropriate paths. 
+</Step>
+<Step>
+**Configure Gateways**: Adjust the conditions for the Exclusive Gateway based on your business rules. Define the conditions for positive and negative verifications, guiding the process down the appropriate paths. 
 
-:::tip
+<Tip>
 In our example, we used an MVEL rule to determine eligibility based on the income of the user. We used the `application.income` key configured in the first user task to create the rule.
-:::
+</Tip>
 
 ![MVEL Example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/mvel_example_gateway.png)
 
 Also, add Parallel gateways to open/close parallel paths.
 
 ![Parallel](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/parallel_open_close.gif)
-
-6. **Set Message Events**: Configure the Message Throw and Message Catch Intermediate Events in the "Default" and "Backoffice" swimlanes, respectively. Ensure that the Message Catch Intermediate Event in the "Backoffice" swimlane is set up to wait for the specific message thrown by the Message Throw event. This facilitates communication between different stages of the process.
-
-7. **Define End Events**: Customize the End Events for approved and rejected applications in the "Default" swimlane. Also, set an end event in the "Backoffice" swimlane to indicate the completion of the back-office tasks. 
-
-8. **Configure Send Message Task**: Set up the Send Message Task in the "Backoffice" swimlane to send a rejection letter as a notification to the user. 
+</Step>
+<Step>
+**Set Message Events**: Configure the Message Throw and Message Catch Intermediate Events in the "Default" and "Backoffice" swimlanes, respectively. Ensure that the Message Catch Intermediate Event in the "Backoffice" swimlane is set up to wait for the specific message thrown by the Message Throw event. This facilitates communication between different stages of the process.
+</Step>
+<Step>
+ **Define End Events**: Customize the End Events for approved and rejected applications in the "Default" swimlane. Also, set an end event in the "Backoffice" swimlane to indicate the completion of the back-office tasks. 
+</Step>
+<Step>
+**Configure Send Message Task**: Set up the Send Message Task in the "Backoffice" swimlane to send a rejection letter as a notification to the user. 
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/sending_a_notification.png)
 
 Define the content of the rejection letter, the method of notification, and any additional details required for a seamless user experience. More details on how to configure a notification can be found in the following section:
 
-[Sending a notification](../../../../platform-deep-dive/plugins/custom-plugins/notifications-plugin/using-notifications-plugin/sending-a-notification.md)
-
-9. **Validate and Test**: Validate the BPMN diagram for correctness and completeness. Test the process flow by simulating different scenarios, such as positive and negative verifications.
-
+<Card>
+[**Sending a notification**](../../../../platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-a-notification)
+</Card>
+</Step>
+<Step>
+**Validate and Test**: Validate the BPMN diagram for correctness and completeness. Test the process flow by simulating different scenarios, such as positive and negative verifications.
+</Step>
+</Steps>
 
 ### Configuring intermediate message events
 
@@ -156,11 +170,12 @@ In this section, we explore the essential steps and parameters involved in setti
 
 A Message Throw Intermediate Event is an event in a process where a message is sent to trigger communication or action with another part of the process (can be correlated with a catch event). It represents the act of throwing a message to initiate a specific task or notification. The event creates a connection between the sending and receiving components, allowing information or instructions to be transmitted. Once the message is thrown, the process continues its flow while expecting a response or further actions from the receiving component.
 
-<div class= "image-scaled">
+<Frame>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/message_throw_intrmdt.png)
 
-</div>
+</Frame>
+
 
 #### General Configuration
 
@@ -168,16 +183,16 @@ A Message Throw Intermediate Event is an event in a process where a message is s
 
 * **Correlate with catch message events** - The dropdown contains all catch messages from the process definitions accessible to the user, in our example: `throwcatchsequenceloan`
 
-:::info
+<Info>
 It is imperative to define the message for the catch event first. This ensures its availability in the dropdown menu when configuring the throw intermediate event. 
-:::
+</Info>
 
 * **Correlation key** - This is a process key that uniquely identifies the instance to which the message is sent. In our example, we utilized the `processInstanceId` as the identifier, dynamically generated at runtime. This key is crucial for establishing a clear and distinct connection between the sender and recipient in the messaging process.
 
 
-:::info
+<Info>
 A correlation key is a key that can have the same value across multiple instances, and it is used to match instances based on their shared value. It is not important what the attribute's name is (even though we map based on this attribute), but rather the value itself when performing the matching between instances.
-:::
+</Info>
 
 * **The Send data field** - This feature empowers you to define a JSON structure containing the data to be transmitted alongside the message. In our illustrative example, we utilized dynamic data originating from user input, specifically bound to a slider UI element.
 
@@ -189,18 +204,21 @@ A correlation key is a key that can have the same value across multiple instance
 
 In the end, this is what we have:
 
+<Frame>
+
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/message_throw_config.png)
 
+</Frame>
 
 ### Message catch intermediate event
 
 A Message Catch Intermediate Event is a type of event in a process that waits for a specific message before continuing with the process flow. It enables the process to synchronize and control the flow based on the arrival of specific messages, ensuring proper coordination between process instances.
 
-<div class= "image-scaled">
+<Frame>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/message_catch_intrmdt.png)
 
-</div>
+</Frame>
 
 #### General Configuration
 
@@ -210,23 +228,29 @@ A Message Catch Intermediate Event is a type of event in a process that waits fo
 * **Receive data** - The process key that will be used to store the data received from the throw event along with the message.
 * **Stage** - Assign a stage to the node.
 
+<Frame>
+
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/message_catch_intrmdt_cfg.png)
 
+</Frame>
 
 ### Testing the final result
 
 After configuring the BPMN process and setting up all the nodes, it is crucial to thoroughly test the process to ensure its accuracy and effectiveness. 
 
-:::info
+<Info>
 We will test the path where the user gets rejected.
-:::
+</Info>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/testing_the_proc_interm.gif)
 
 In the end, the user will receive this notification via email:
 
+<Frame>
+
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/notification_received.png)
 
+</Frame>
 
 ## Interprocess communication with throw and catch events
 
@@ -287,14 +311,19 @@ graph TD
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/throw_and_catch_subpr.png)
 
 
-1. Open **FLOWX.AI Designer** and create a new process.
-2. Add a User Task for user input:
+<Steps>
+<Step>
+Open **FLOWX.AI Designer** and create a new process.
+</Step>
+<Step>
+Add a User Task for user input:
 
 - Within the designer interface, add a "User Task" element to collect user input. Configure the user task to capture the necessary information that will be sent along with the message.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/user_task_loan_subrp.gif)
-
-3. Integrate a **[<u>Subprocess Run Node</u>](../../../node/subprocess-run-node.md)**:
+</Step>
+<Step>
+Integrate a **[Subprocess Run Node](../../../node/subprocess-run-node)**:
 
 - Add a "Subprocess Run Node" and configure it:
 
@@ -314,9 +343,12 @@ graph TD
 
 For a more comprehensive guide on configuring the "Start Subprocess" action, refer to the following section:
 
-[Start Subprocess action](../../../../building-blocks/actions/start-subprocess-action.md)
+[Start Subprocess action](../../../../building-blocks/actions/start-subprocess-action)
 
-4. Insert a Throw Event for Message Initiation:
+</Step>
+<Step>
+
+Insert a Throw Event for Message Initiation:
 
 - Add a "Throw Event" to the canvas, indicating the initiation of a message.
 - Configure the throw message intermediate event node:
@@ -335,6 +367,8 @@ For a more comprehensive guide on configuring the "Start Subprocess" action, ref
   }
 }
 ```
+</Step>
+</Steps>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/throw_in_anthr_proc.png)
 
@@ -342,14 +376,24 @@ For a more comprehensive guide on configuring the "Start Subprocess" action, ref
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/catch_from_anthr_proc.png)
 
-1. Insert an Intermediate Message Catch event and configure it:
+<Steps>
+<Step>
+
+Insert an Intermediate Message Catch event and configure it:
 
 * **Correlate with throwing events** - Utilize the same correlation settings added for the associated throw message event.
 * **Correlation Key** - Set the correlation key to the parent process instance ID, identified as `parentProcessInstanceId`.
 * **Receive data** - Specify the process key that will store the data received from the throw event along with the corresponding message.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/catch_interm_from_anthr_prc.png)
+</Frame>
 
-2. Integrate and Fine-Tune a Service Task for Additional Verification.
+</Step>
+<Step>
+
+Integrate and Fine-Tune a Service Task for Additional Verification.
 
 * Incorporate a service task to execute the additional verification process. Tailor the configuration to align with your preferred method of conducting supplementary checks.
+</Step>
+</Steps>

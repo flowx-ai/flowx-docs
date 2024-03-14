@@ -1,6 +1,6 @@
 ---
-title: "Subprocess"
-description: "Sub-processes are smaller process flows that can be triggered by actions in the main process. They can also inherit some process parameter values from the parent process and send their results back to the parent process when they are completed. The subprocesses will communicate with the front-end apps using the same connection details as their parent process."
+title: Subprocess
+description: Sub-processes are smaller process flows that can be triggered by actions in the main process. They can also inherit some process parameter values from the parent process and send their results back to the parent process when they are completed. The subprocesses will communicate with the front-end apps using the same connection details as their parent process.
 ---
 Subprocesses can be started in two ways:
 
@@ -29,6 +29,12 @@ The sub-processes can be started in async or sync mode, by setting a specific ac
 
 If the subprocesses are started in sync mode, they will notify the parent process when they are completed and the parent process will handle receiving the process data from the child and resuming its flow.
 
-[Subprocess node](../node/subprocess-run-node.md)
+<CardGroup>
 
-[Start a subprocess action](../actions/start-subprocess-action.md)
+<Card title="Subprocess run nude" href="../node/subprocess-run-node" icon ="link">
+</Card>
+
+<Card title="Start a subprocess action" href="../actions/start-subprocess-action" icon="link">
+</Card>
+
+</CardGroup>

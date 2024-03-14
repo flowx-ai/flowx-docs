@@ -1,19 +1,20 @@
 ---
 title: Configuring a DMN business rule action
-description: If you're new to the concept of [**Decision Model and Notation (DMN)**](../../../terms/dmn), you can get started with a brief overview in the [Intro to DMN](../../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn.md) section.
+description: If you're new to the concept of <Tooltip tip ="DMN stands for Decision Model and Notation. It is a graphical language used to specify business decisions. DMN helps convert complex decision-making code into easily readable diagrams."> **Decision Model and Notation (DMN)** </Tooltip>, you can get started with a brief overview in the [Intro to DMN](../../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn) section.
 ---
 
 ## Creating a DMN Business Rule action
 
-To create and link a DMN [**business rule**](../../../terms/business-rules) action to a task [**node**](../../../terms/flowx-node) in FLOWX, follow these steps:
+To create and link a DMN <Tooltip tip ="Business rules are actions that can be configured on task/user task nodes in a business process. Business rules can be written in various script languages such as MVEL, JavaScript, Python, Groovy, or DMN (Decision Model and Notation).">**business rule** </Tooltip> action to a task **node** in FLOWX, follow these steps:
 
-1. Launch [**FLOWX Designer**](../../../terms/flowx-ai-designer) and navigate to [**Process Definitions**](../../../terms/flowx-process-definition).
+<Steps>
+1. Launch <Tooltip tip ="The Designer is the FLOWX.AI no-code visual development environment. It allows users to create web and mobile applications without having to know how to code."> **FlowX Designer** </Tooltip> and navigate to <Tooltip tip ="The core of the platform is the process definition, which is the blueprint of the business process made up of nodes that are linked by sequences."> **Process Definitions** </Tooltip>.
 2. Locate and select your specific process from the list, then click on **Edit Process**.
 3. Choose a **task node**, and click the **Edit** button (represented by a key icon). This action will open the node configuration menu.
-4. Inside the node configuration menu, head to the [**Actions**](../../../terms/flowx-actions) tab and click the "**+**" button to add a new action.
+4. Inside the node configuration menu, head to the **Actions** tab and click the "**+**" button to add a new action.
 5. From the dropdown menu, select the action type as **Business Rule**.
 6. In the **Language** dropdown menu, pick **DMN**.
-
+</Steps>
 
 For a visual guide, refer to the following recording:
 
@@ -21,11 +22,11 @@ For a visual guide, refer to the following recording:
 
 ## Using a DMN Business Rule Action
 
-Consider a scenario where a bank needs to perform client information tasks/actions to send salutations, similar to what was previously created using MVEL [here](./business-rule-action.md#mvel-example). 
+Consider a scenario where a bank needs to perform client information tasks/actions to send salutations, similar to what was previously created using MVEL [here](./business-rule-action#business-rules-examples). 
 
 A business person or specialist can use DMN to design this business rule, without having to delve into technical definitions.
 
-Here is an example of an [MVEL](../../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel.md) script defined as a business rule action inside a [Service Task](../../node/task-node.md) node:
+Here is an example of an **MVEL** script defined as a business rule action inside a **Service Task** node:
 
 ```java
 if (input.application.client.gender == 'F') {

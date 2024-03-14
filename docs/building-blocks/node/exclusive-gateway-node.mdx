@@ -1,11 +1,15 @@
 ---
 title: "Exclusive gateway"
-description: "In the world of process [flows](../../terms/flowx-process), decisions play a crucial role, and that's where the Exclusive Gateway comes into play. This powerful tool enables you to create conditional pathways with ease."
+description: "In the world of process flows, decisions play a crucial role, and that's where the Exclusive Gateway comes into play. This powerful tool enables you to create conditional pathways with ease."
 ---
 
 ## Configuring an Exclusive Gateway node
 
+<Frame>
+
 ![Exclusive gateway](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/gateway_exclusive.png#center)
+
+</Frame>
 
 To configure this node effectively, it's essential to set up both the **input** and **output** sequences within the gateway process.
 
@@ -20,15 +24,15 @@ To configure this node effectively, it's essential to set up both the **input** 
 When a step has "Can Go Back" set to false, all preceding steps become inaccessible.
 </Info>
 
-* [**Swimlane**](../../platform-deep-dive/user-roles-management/swimlanes.md): Choose a swimlane, ensuring that specific user roles have access only to certain process nodes. If there are no multiple swimlanes, the value is **Default**.
+* [**Swimlane**](../../platform-deep-dive/user-roles-management/swimlanes): Choose a swimlane, ensuring that specific user roles have access only to certain process nodes. If there are no multiple swimlanes, the value is **Default**.
 
-* [**Stage** ](../../platform-deep-dive/plugins/custom-plugins/task-management/using-stages.md): Assign a stage to the node.
+* [**Stage** ](../../platform-deep-dive/plugins/custom-plugins/task-management/using-stages): Assign a stage to the node.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/gateway_exclusive_stages.png)
 
 ### Gateway decisions
 
-* **Language**: When configuring conditions, you can use [MVEL](/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel.md) (or [DMN](#configuring-a-dmn-exclusive-gateway-node)) expressions that evaluate to either **true** or **false**.
+* **Language**: When configuring conditions, you can use [MVEL](/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel) (or [DMN](#dmn-example)) expressions that evaluate to either **true** or **false**.
 * **Conditions**: In the **Gateway Decisions** tab, you can see that the conditions (**if, else if, else**) are already built-in and you can **select** the destination node when the condition is **true**.
 
 <Warning>

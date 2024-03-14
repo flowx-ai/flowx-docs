@@ -5,7 +5,7 @@ description: "Boundary events are integral components linked to **user tasks** w
 
 **Why is it important?** It empowers processes to actively listen for and capture designated messages during the execution of associated user tasks. 
 
-When an event is received, it progresses through the sequence from the intermediate [**node**](../../../terms/flowx-node). Multiple intermediate boundary events can exist on the same user task, but only one can be activated at a time.
+When an event is received, it progresses through the sequence from the intermediate **node**. Multiple intermediate boundary events can exist on the same user task, but only one can be activated at a time.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/message_catch_boundary_multiple.png)
 
@@ -16,9 +16,13 @@ Message Catch Boundary Events can be categorized by their behavior, resulting in
 
 ## Message catch interrupting event
 
+<Frame>
+
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/message_catch_interrupting_event.png#center)
 
-In the case of an Interrupting Message Catch Boundary Event triggered by a received message, it immediately interrupts the ongoing task. The associated task concludes, and the [**process flow**](../../../terms/flowx-process) advances based on the received message. 
+</Frame>
+
+In the case of an Interrupting Message Catch Boundary Event triggered by a received message, it immediately interrupts the ongoing task. The associated task concludes, and the **process flow** advances based on the received message. 
 
 - **Use Cases:**
   - Suitable for scenarios where the receipt of a specific message requires an immediate interruption of the current activity.

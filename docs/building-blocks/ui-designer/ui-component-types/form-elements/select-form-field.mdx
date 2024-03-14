@@ -26,7 +26,7 @@ These allow you to customize the settings for the Select Field:
 
 #### General
    
-* **Process data key** - creates the binding between form element and process data so it can be later used in [decisions](../../../node/exclusive-gateway-node.md), [business rules](../../../actions/business-rule-action/business-rule-action.md) or [integrations](../../../node/message-send-received-task-node.md#from-integration)
+* **Process data key** - creates the binding between form element and process data so it can be later used in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration)
 
 #### Properties
    
@@ -44,7 +44,7 @@ These allow you to customize the settings for the Select Field:
 
 #### Validators
 
-There are multiple validators can be added to a select (more details [here](../../validators.md)).
+There are multiple validators can be added to a select (more details [here](../../validators)).
 
 #### Expressions
    
@@ -74,9 +74,10 @@ For more details on how to configure a UI action, click [**here**](../../ui-acti
 
 Styling the Select field using CSS properties allows you to customize the appearance of the dropdown list and make it more visually appealing and consistent with the overall design of the website or application. 
 
-[UI Designer styling](../../ui-designer.md#styling)
+<Card title="UI Designer styling" href="../../ui-designer#styling">
+</Card>
 
-For example, a FORM element with a [layout](../../ui-designer.md#layout) configuration including direction of Horizontal and some inputs, and a select element will look like this:
+For example, a FORM element with a [layout](../../ui-designer#layout) configuration including direction of Horizontal and some inputs, and a select element will look like this:
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/select_form_field1.png)
 
@@ -97,16 +98,16 @@ As mentioned previously, you can create dropdowns including static data, enumera
 
 To create this kind of process, we need the following elements:
 
-* a [**start**](../../../node/start-end-node.md#start-node) node and an [**end**](../../../node/start-end-node.md#end-node) node
-* a [**start milestone**](../../../node/start-end-node.md#start-node) UI element to it and an [**end milestone**](../../../node/milestone-node.md) node
+* a [**start**](../../../node/start-end-node#start-node) node and an [**end**](../../../node/start-end-node#end-node) node
+* a [**start milestone**](../../../node/milestone-node) and an [**end milestone**](../../../node/milestone-node) node
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/dynamic_dropdown1.gif)
 
-* a [**task node**](../../../node/task-node.md) (this will be used to set which data will be displayed on the dropdowns)
+* a [**task node**](../../../node/task-node) (this will be used to set which data will be displayed on the dropdowns)
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/dynamic_dropdown2.gif)
 
-* a [**user task node**](../../../node/user-task-node.md) (here we have the client forms and here we add the SELECT elements)
+* a [**user task node**](../../../node/user-task-node) (here we have the client forms and here we add the SELECT elements)
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/dynamic_dropdown3.gif)
 
@@ -195,8 +196,8 @@ output.put("application",
 
 Follow the next steps to configure the UI needed:
 
-1. Select the **user task node** and click the **brush icon** to open [**UI Designer**](../../ui-designer.md)
-2. Add a [**card**](../root-components/card.md) element as a [**root component**](../root-components/) (this will group the other elements inside it) with the following properties:
+1. Select the **user task node** and click the **brush icon** to open [**UI Designer**](../../ui-designer).
+2. Add a [**Card**](../root-components/card) UI element as a [**root component**](../root-components/) (this will group the other elements inside it) with the following properties:
    * **Message** - `{"application": ${application}}`
    * **Title** - _Customer Contract_
 3. Inside the **card**, add a [**form element**](./).

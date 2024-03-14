@@ -445,7 +445,7 @@
       },
 
       {
-        "group": "Rest API",
+        "group": "API reference",
         "pages": [
           "docs/api/rest",
           "docs/api/rest2",

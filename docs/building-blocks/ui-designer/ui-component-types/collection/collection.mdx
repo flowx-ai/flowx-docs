@@ -1,6 +1,6 @@
 ---
 title: Collection
-description: The Collection component is similar to a [Container element](../root-components/custom.md), allowing you to iterate through a list of elements and display them according to their configuration.
+description: The Collection component is similar to a [container element](../root-components/container), allowing you to iterate through a list of elements and display them according to their configuration.
 ---
 
 ## Configurable properties:
@@ -17,10 +17,13 @@ Here's an example of configuring a Collection component to display a list of pro
 
 ![Collection configuration for displaying employees](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/collection_example.png)
 
-Source collection data example using an [**MVEL business rule**](../../../actions/business-rule-action/business-rule-action.md):
+Source collection data example using an [**MVEL business rule**](../../../actions/business-rule-action/business-rule-action):
 
+<Frame>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/collection_mvel.png)
+
+</Frame>
 
 ```java
 output.put("processData", //this is the key
@@ -76,4 +79,5 @@ To send and display dynamic data received on the keys you define to the frontend
 To enable the definition of multiple prototypes for a single Collection and display elements from the same collection differently, an additional container known as a *collection prototype* is required. For more information on collection prototypes, please refer to the next section:
 </Tip>
 
-[Collection prototype](collection_prototype.md)
+<Card title= "Collection prototype" href="collection_prototype" icon="link">
+</Card>
