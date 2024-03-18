@@ -9,6 +9,10 @@ Kafka topic names can be set by using environment variables:
 * `KAFKA_TOPIC_OTP_VALIDATE_IN` - the event sent on this topic (with an OTP and an identifier) will check if the OTP is valid
 * `KAFKA_TOPIC_OTP_VALIDATE_OUT` - the response for this request will validate an OTP, the reply is sent back to the Engine on this topic
 
+<Tip>
+You can check the defined topics by going to **FlowX Designer > Platform Status > notification-plugin-mngt > kafkaTopicsHealthCheckIndicator > details > configuration > topic > otp**.
+</Tip>
+
 <Info>
 The Engine is listening for messages on topics with names of a certain pattern, make sure to use an outgoing topic name that matches the pattern configured in the Engine.
 </Info>

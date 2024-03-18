@@ -21,13 +21,13 @@ Ensure that the uploaded document contains more than one file.
 
 You have two options to obtain the file ID:
 
-- Extract the file ID from a [**Response Message**](./uploading-a-new-document.md#response-message-example-1) of an upload file request. For more details, refer to the [**upload process documentation**](uploading-a-new-document.md).
+- Extract the file ID from a [**Response Message**](./uploading-a-new-document#response-message-example-2) of an upload file request. For more details, refer to the [**upload process documentation**](./uploading-a-new-document).
 
-- Extract the file ID from a [**Response Message**](./generate-docs-based-on-templates/generating-from-html-templates.md#receiving-the-document-generation-reply) of a generate from template request. For more details, refer to the [**document generation reply documentation**](./generate-docs-based-on-templates/generating-from-html-templates.md).
+- Extract the file ID from a [**Response Message**](./generating-from-html-templates#receiving-the-document-generation-reply) of a generate from template request. For more details, refer to the [**document generation reply documentation**](./generating-from-html-templates).
 
 
 <Info>
-In the following example, we will use the `fileId` generated for a document with multiple files using [<u>**Uploading a New Document**</u>](./uploading-a-new-document.md) scenario.
+In the following example, we will use the `fileId` generated for a document with multiple files using [**Uploading a New Document**](./uploading-a-new-document) scenario.
 
 ```json
 {
@@ -49,16 +49,18 @@ In the following example, we will use the `fileId` generated for a document with
 
 To create a process that splits a document into multiple parts, follow these steps:
 
-1. Create a process that includes a [**Message Event Send (Kafka)**](../../../../../building-blocks/node/message-send-received-task-node.md#configuring-a-message-send-task-node) node and [**a Message Event Receive (Kafka)**](../../../../../building-blocks/node/message-send-received-task-node.md#configuring-a-message-receive-task-node) node:
+1. Create a process that includes a [**Send Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node#configuring-a-message-send-task-node) node and a [**Receive Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node#configuring-a-message-receive-task-node) node:
 
 * Use the **Send Message Task** node to send the splitting request.
 * Use the **Receive Message Task** node to receive the splitting reply.
 
 2. Configure the **first node (Send Message Task)** by adding a **Kafka Send Action**.
 
-3. Specify the [**Kafka topic**](../../../plugins-setup-guide/documents-plugin-setup/documents-plugin-setup.md#kafka-configuration) where you want to send the splitting request.
+3. Specify the [**Kafka topic**](../../../../../setup-guides/plugins-setup-guide/documents-plugin-setup#kafka-configuration) where you want to send the splitting request.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/kafka_split_topic.png)
+</Frame>
 
 <Tip>
 To identify your defined topics in your current environment, follow the next steps:
@@ -73,7 +75,9 @@ To identify your defined topics in your current environment, follow the next ste
 
 4. Fill in the body of the message request.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/split_kafka_action.png)
+</Frame>
 
 #### Message request example
 
@@ -104,7 +108,9 @@ To identify your defined topics in your current environment, follow the next ste
 
 5. Configure the **second node (Receive Message Task)** by adding a Data stream topic:
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/split_response_kafka.png)
+</Frame>
 
 <Info>
 The response will be sent to this `..out` Kafka topic.
@@ -112,7 +118,9 @@ The response will be sent to this `..out` Kafka topic.
 
 ## Receiving the reply
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/split_response.png)
+</Frame>
 
 The following values are expected in the reply body:
 

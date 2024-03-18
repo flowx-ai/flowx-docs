@@ -38,8 +38,19 @@ Set the following Elasticsearch-related configurations using environment variabl
 * `SPRING_ELASTICSEARCH_REST_DISABLESSL` 
 * `SPRING_ELASTICSEARCH_REST_USERNAME`
 * `SPRING_ELASTICSEARCH_REST_PASSWORD`
-* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME`: Customize the index for Search Data Service, similar to the Process Engine configuration
+* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME` (default: `process-instance`) Customize the index for Search Data service, similar to the [Process Engine configuration](./flowx-engine-setup-guide/configuring-elasticsearch-indexing/)
 
+```yaml
+spring:
+  elasticsearch:
+    rest:
+      uris: http://localhost:9200
+      disableSsl: false
+      username: ""
+      password: ""
+    index-settings:
+      name: process_instance
+```
 
 ### Authorization & Access Roles Configuration
 

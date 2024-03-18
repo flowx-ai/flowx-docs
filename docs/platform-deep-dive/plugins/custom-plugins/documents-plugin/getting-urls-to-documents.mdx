@@ -1,6 +1,6 @@
 ---
 title: Getting URLs
-description: In certain scenarios, obtaining URLs pointing to uploaded documents for use in integrations is essential. This process involves adding a custom action to your workflow that requests URLs from the Documents Plugin.
+description: In certain scenarios, obtaining URLs pointing to uploaded documents for use in integrations is essential. This process involves adding a custom action to your workflow that requests URLs from the Documents plugin.
 ---
 
 ## Prerequisites
@@ -25,18 +25,20 @@ Before retrieving document URLs, ensure:
 To obtain document URLs, follow these steps:
 
 1. Create a process with the following nodes:
-   - [**Message Event Send**](../../../../../building-blocks/node/message-send-received-task-node.md#configuring-a-message-send-task-node) - to send the get URLs request
-   - [**Kafka Event Receive**](../../../../../building-blocks/node/message-send-received-task-node.md#configuring-a-message-receive-task-node) - to receive the get URLs reply
-   - [**User Task Node**](../../../../../building-blocks/node/user-task-node.md) - where to perform the file upload action
-   - [**Start / End Milestone**](../../../../../building-blocks/node/milestone-node.md) nodes - to [create a page](../../../../../building-blocks/node/milestone-node.md#modal)
+   - [**Send Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node) - to send the get URLs request
+   - [**Receive Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node) - to receive the get URLs reply
+   - [**User Task**](../../../../building-blocks/node/user-task-node) node - where to perform the file upload action
+   - [**Start / End Milestone**](../../../../building-blocks/node/milestone-node) nodes - to [create a page](../../../../building-blocks/node/milestone-node#page)
 
-2. Configure the **User Task Node**:
+2. Configure the **User Task** node:
 
 #### Node Config
 
 * **Data stream topics**: Add the topic where the response will be sent; in this example `ai.flowx.updates.document.html.persist.v1` and its key: `uploadedDocument`.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/node_config_get_urls.png)
+</Frame>
 
 #### Actions
 
@@ -45,25 +47,29 @@ To obtain document URLs, follow these steps:
     * Send Data to User Interface
 * Save Data action
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_document_actions.png)
+</Frame>
 
 3. Configure the parameters for the **Upload Action**:
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_action_get_urls.png)
+</Frame>
 
 <Info>
 For more details on uploading a document and configuring the file upload child actions, refer to the following sections:
 
-* [**Upload document**](uploading-a-new-document.md)
-* [**Upload action**](../../../../../building-blocks/actions/upload-file-action.md)
+* [**Upload document**](./uploading-a-new-document)
+* [**Upload action**](../../../../building-blocks/actions/upload-file-action)
 </Info>
 
-4. Next, configure the **Message Event Send** node by adding a **Kafka Send Action** and specifying the `..in` [**Kafka topic**](../../../plugins-setup-guide/documents-plugin-setup/documents-plugin-setup.md#kafka-configuration) to send the request.
+4. Next, configure the **Message Event Send** node by adding a **Kafka Send Action** and specifying the `..in` [**Kafka topic**](../../../../../setup-guides/plugins-setup-guide/documents-plugin-setup#kafka-configuration) to send the request.
 
 <Tip>
 Identify defined topics in your environment:
 
-- Navigate to **Platform Status > FLOWX Components > document-plugin-mngt**  and press the eye icon on the right side.
+- Navigate to **Platform Status > FlowX Components > document-plugin-mngt**  and press the eye icon on the right side.
 - In the details screen, expand the `KafkaTopicsHealthCheckIndicator` line and then **details → configuration → topic → document → get**. Here will find the in and out topics for getting URLs for documents.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/get_urls_kafka.png)
@@ -71,7 +77,9 @@ Identify defined topics in your environment:
 
 5. Fill in the body of the request message for the action:
 
+<Frame>
 ![Request Message](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/getting_urls_node.png)
+</Frame>
 
 - `types`: A list of document types.
 
@@ -88,13 +96,17 @@ Example of a message following the custom integration data model:
 }
 ```
 
-6. Configure the [**Kafka Receive Event Node**](../../../../../building-blocks/node/message-send-received-task-node.md#configuring-a-message-receive-task-node) by adding the `..out` kafka topic on which the response will be sent.
+6. Configure the [**Receive Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node#configuring-a-message-receive-task-node) by adding the `..out` kafka topic on which the response will be sent.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/get_urls_stream.png)
+</Frame>
 
 ## Receiving the reply
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/getting_urls_response.png)
+</Frame>
 
 The response body should include the following values:
 

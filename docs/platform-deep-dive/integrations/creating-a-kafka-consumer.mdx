@@ -1,9 +1,7 @@
 ---
 title: Creating a Kafka consumer
-description: This guide focuses on creating a [**Kafka**](../../terms/flowx-kafka) consumer using Spring Boot.
+description: This guide focuses on creating a **Kafka** consumer using Spring Boot.
 ---
-
-
 
 Here are some tips, including the required configurations and code samples, to help you implement a Kafka consumer in Java.
 
@@ -75,4 +73,4 @@ public void listen(ConsumerRecord<String, String> record) throws JsonProcessingE
   // process received DTO
 }
 ```
-Make sure to replace "TOPIC_NAME_HERE" with the actual name of the Kafka topic you want to consume from. Additionally, ensure that you have the necessary serialization and deserialization logic based on your specific use case.
+Make sure to replace *"TOPIC_NAME_HERE"* with the actual name of the Kafka topic you want to consume from. Additionally, ensure that you have the necessary serialization and deserialization logic based on your specific use case.

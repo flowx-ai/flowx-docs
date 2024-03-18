@@ -6,18 +6,18 @@ description: As we've seen in the previous chapter, Business Process Model and N
 ![Process with gateways](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/process_with_gateways.png)
 
 <Info>
-For more information on how to define DMN gateway decisions, check the [**Exclusive gateway node**](../../../building-blocks/node/exclusive-gateway-node.md) section.
+For more information on how to define DMN gateway decisions, check the [**Exclusive gateway node**](../../../building-blocks/node/exclusive-gateway-node) section.
 </Info>
 
-We needed a convenient way of specifying the [**business rules**](../../../terms/business-rules) and we picked two possible ways of writing business rules:
+We needed a convenient way of specifying the <Tooltip tip="Business rules are actions that can be configured on task/user task nodes in a business process. Business rules can be written in various script languages such as MVEL, JavaScript, Python, Groovy, or DMN (Decision Model and Notation)."> **business rules** </Tooltip> and we picked two possible ways of writing business rules:
 
 * defining them as DMN decisions
 
 <Info>
-You can now define a DMN Business Rule Action directly in [**FLOWX Designer**](../../../terms/flowx-ai-designer). For more information, check the [**DMN Business Rule Action**](../../../building-blocks/actions/business-rule-action/dmn-business-rule-action.md) section.
+You can now define a DMN Business Rule Action directly in <Tooltip tip="The Designer is the FLOWX.AI no-code visual development environment. It allows users to create web and mobile applications without having to know how to code."> **FlowX Designer** </Tooltip>. For more information, check the [**DMN business rule action**](../../../building-blocks/actions/business-rule-action/dmn-business-rule-action) section.
 </Info>
 
-* adding [MVEL](intro-to-mvel.md#what-is-mvel) scripts
+* adding [MVEL](./intro-to-mvel) scripts
 
 ### What is Decision Model and Notation (DMN)?
 
@@ -33,10 +33,10 @@ FLOWX.AI supports [DMN 1.3](https://www.omg.org/spec/DMN/1.3/) version.
 
 There are 4 basic elements of the **Decision Model and Notation**:
 
-* [Decision](intro-to-dmn.md#decision)
-* [Business Knowledge Model](intro-to-dmn.md#business-knowledge-model)
-* [Input Data](intro-to-dmn.md#input-data)
-* [Knowledge Source](intro-to-dmn.md#knowledge-source)
+* [Decision](#decision)
+* [Business Knowledge Model](#business-knowledge-model)
+* [Input Data](#input-data)
+* [Knowledge Source](#knowledge-source)
 
 
 
@@ -146,9 +146,10 @@ You can use this XML example with FLOWX Designer, adding it to a Business Rule A
 
 As mentioned previously, DMN can be used with FLOWX Designer for the following scenarios:
 
-* For defining gateway decisions, using [exclusive gateways](../../../building-blocks/node/exclusive-gateway-node.md).
-* For defining [business rules actions](../../../building-blocks/actions/business-rule-action/business-rule-action.md) attached to a [task node](../../../building-blocks/node/task-node.md).
+* For defining gateway decisions, using [exclusive gateways](../../../building-blocks/node/exclusive-gateway-node)
+* For defining [business rules actions](../../../building-blocks/actions/business-rule-action/business-rule-action) attached to a [task node](../../../building-blocks/node/task-node)
 
 ### In depth docs
 
-[DMN Documentation](https://www.omg.org/dmn)
+<Card title="DMN Documentation" href="https://www.omg.org/dmn" icon="link">
+</Card>

@@ -19,9 +19,9 @@ Connectors act as lightweight business logic layers, performing essential tasks:
 
 ## Creating a connector 
 
-1. **Create a Kafka Consumer:** Follow [**this guide**](./creating-a-kafka-consumer.md) to configure a Kafka consumer for your Connector.
+1. **Create a Kafka Consumer:** Follow [**this guide**](./creating-a-kafka-consumer) to configure a Kafka consumer for your Connector.
 
-2. **Create a Kafka Producer:** Refer to [**this guide**](./creating-a-kafka-producer.md) for instructions on setting up a Kafka producer.
+2. **Create a Kafka Producer:** Refer to [**this guide**](./creating-a-kafka-producer) for instructions on setting up a Kafka producer.
 
 <Info>
 Adaptable Kafka settings can yield advantageous event-driven communication patterns. Fine-tuning partition counts and consumers based on load testing is crucial for optimal performance.
@@ -35,7 +35,7 @@ Efficient Connector design within an event-driven architecture demands:
 * Custom implementations for request load balancing, Connector scaling, and more.
 
 <Check>
-Incorporate all received Kafka headers in responses to ensure seamless communication with the [**Engine**](../../terms/flowxai-process-engine).
+Incorporate all received Kafka headers in responses to ensure seamless communication with the FlowX Engine.
 </Check>
 
 ### Connector configuration sample
@@ -223,7 +223,8 @@ spring:
 
 For detailed setup instructions, refer to the Setting Up FLOWX.AI Quickstart Connector Readme:
 
-[Readme file](https://github.com/flowx-ai/quickstart-connector/tree/feature/easy-start/doc)
+<Card title="Readme file" href="https://github.com/flowx-ai/quickstart-connector/tree/feature/easy-start/doc" icon ="files">
+</Card>
 
 Prerequisites:
 
@@ -237,9 +238,9 @@ Prerequisites:
 
 To integrate and utilize the connector within FLOWX.AI Designer, follow these steps:
 
-1. **Process Designer Configuration**: Utilize the designated communication nodes within the [Process Designer](../../building-blocks/process/):
+1. **Process Designer Configuration**: Utilize the designated communication nodes within the [Process Designer](../../building-blocks/process/process):
 
-* [**Message Kafka Send Node**](../../building-blocks/node/message-send-received-task-node.md#message-send-task): Transmit a message to a topic monitored by the connector. Make sure you choose **Kafka Send Action** type.
+* [**Send Message Task**](../../building-blocks/node/message-send-received-task-node#message-send-task): Transmit a message to a topic monitored by the connector. Make sure you choose **Kafka Send Action** type.
 
 <Frame>
 
@@ -247,7 +248,7 @@ To integrate and utilize the connector within FLOWX.AI Designer, follow these st
 
 </Frame>
 
-* [**Message Kafka Receive Node**](../../building-blocks/node/message-send-received-task-node.md#message-receive-task): Await a message from the connector on a topic monitored by the engine.
+* [**Receive Message Task**](../../building-blocks/node/message-send-received-task-node#message-receive-task): Await a message from the connector on a topic monitored by the engine.
 
 <Frame>
 
@@ -262,5 +263,5 @@ To integrate and utilize the connector within FLOWX.AI Designer, follow these st
 You can check another example of a more complex connector by checking the following repository:
 
 
-<Card title = "Currency Exchange Example Connector" href = "https://github.com/flowx-ai/quickstart-connector/tree/example/currency-exchange">
+<Card title = "Currency Exchange Example Connector" href = "https://github.com/flowx-ai/quickstart-connector/tree/example/currency-exchange" icon="link">
 </Card>

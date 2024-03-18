@@ -3,7 +3,7 @@ title: Intro to BPMN
 description: The core element of the platform is a process. Think of it as a representation of your business use case, for example making a request for a new credit card, placing an online food order, registering your new car or creating an online fundraiser supporting your cause. 
 ---
 
-To easily design and model process flows, we use the standard [**BPMN 2.0**](../../../terms/bpmn) graphical representation.
+To easily design and model process flows, we use the standard **BPMN 2.0** graphical representation.
 
 ## What is Business Process Model and Notation (BPMN)?
 
@@ -15,7 +15,7 @@ This is why we chose it for modeling the process flows.
 
 ## BPMN 2.0 elements
 
-A BPMN business [**process flow**](../../../../terms/flowx-process) is represented as a set of process elements connected by sequences.
+A BPMN business **process flow** is represented as a set of process elements connected by sequences.
 
 Let's review the most common types of elements:
 
@@ -23,26 +23,33 @@ Let's review the most common types of elements:
 
 Events describe something that happens during the course of a process. There are three main events types: start events, intermediate events, and end events. These three types are also defined as either catching events (they react to a trigger) or throwing events (they are triggered by the process).
 
+<Frame>
 ![basic event types](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/events.png)
+</Frame>
 
 ### Activities
 
 An activity represents a unit of work to be performed by the business process. An activity can be atomic (a task) or can represent a group of more activities (a subprocess).
 
+<Frame>
 ![various types of activities](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/activities.png)
+</Frame>
 
 ### Gateways
 
 Gateways are used to control how a process flows. They act as a decision point that picks which sequence flow should the [**process instance**](../../../../terms/flowx-process-instance) take. This is based on the result of the evaluation of condition(s) specified (in case of exclusive gateways) or they can be used to split a process into more branches (in case of parallel gateways).
 
+<Frame>
 ![exclusive and parallel gateways](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/gateways.png)
+</Frame>
 
 ### Pools and lanes 
 
 Pools and lanes are used in order to group the process steps by process participants. To show that certain user roles are responsible for performing specific process steps you can divide the process using lanes.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/swimlanes_pool.png)
-
+</Frame>
 
 ## BPMN basic concepts
 
@@ -63,10 +70,11 @@ There are 3 types of events:
 
 **Start & End events**
 
-| Start Event Icon                                                                                                                                                                              | End Event Icon                                                                                                                                                                              |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/bpmn-basic-concepts/event_start.png#center) | ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/bpmn-basic-concepts/event_end.png#center) |
-| event that triggers the process                                                                                                                                                               | event that defines the state that terminates the process                                                                                                                                    |
+
+|                                                                                    Start Event Icon                                                                                    |                                                                                    End Event Icon                                                                                    |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/bpmn-basic-concepts/event_start.png) | ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/bpmn-basic-concepts/event_end.png) |
+|                                                                            event that triggers the process                                                                             |                                                               event that defines the state that terminates the process                                                               |
 
 ### Intermediate events
 
@@ -76,10 +84,10 @@ There are 3 types of events:
 * Receive Message Event - incoming message occurring during the process flow, somewhere between start and end
 * Send Message Event - outgoing message
 
-| Send Message Event Icon                                                                                                                                                                        | Receive Message Event Icon                                                                                                                                                                        |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                                                                                    Send Message Event Icon                                                                                     |                                                                                    Receive Message Event Icon                                                                                     |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/bpmn-basic-concepts/message_send.png#center) | ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/bpmn-basic-concepts/message_receive.png#center) |
-| outgoing message                                                                                                                                                                               | incoming message                                                                                                                                                                                  |
+|                                                                                        outgoing message                                                                                        |                                                                                         incoming message                                                                                          |
 
 ### Activities
 
@@ -87,10 +95,10 @@ There are 3 types of events:
 
 * it is an atomic activity within a process flow. You create a task when the activity cannot be broken down to a finer level of detail. A task can only belong to one lane.
 
-| User task                                                                                                                                                                                   | Service task                                                                                                                                                                                   |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                                                                                          User task                                                                                          |                                                                                          Service task                                                                                          |
+| :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/bpmn-basic-concepts/user_task.png#center) | ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/bpmn-basic-concepts/service_task.png#center) |
-| a task that requires the human to perform an action                                                                                                                                         | a task that uses a Web service, an automated application, or other kinds of service in completing the task.                                                                                    |
+|                                                                     a task that requires the human to perform an action                                                                     |                                          a task that uses a Web service, an automated application, or other kinds of service in completing the task.                                           |
 
 
 **Send Task**
@@ -125,10 +133,10 @@ In business processes, you typically need to make choices — **business decisio
 
 In many cases, you want to split up the flow within your business process. For example the sales and risk departments may examine a new mortgage application at the same time. This reduces the total cycle time for a case. To express parallel flow in BPMN, you use a **parallel gateway**.
 
-| Exclusive gateway (XOR)                                                                                                                                           | Parallel gateway (AND)                                                                                                                                           |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                                                                      Exclusive gateway (XOR)                                                                      |                                                                      Parallel gateway (AND)                                                                      |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/gateway_exclusive.png#center) | ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/gateway_parallel.png#center) |
-| <ul><li>defines a decision point</li></ul>                                                                                                                        | <ul><li>no decision making; </li><li>all outgoing branches are activated</li></ul>                                                                               |
+|                                                            <ul><li>defines a decision point</li></ul>                                                             |                                        <ul><li>no decision making </li><li>all outgoing branches are activated</li></ul>                                        |
 
 **Closing gateway**
 

@@ -5,7 +5,7 @@ description: To use the notification plugin for sending emails with attachments,
 
 <Check>
 
-Check first the [Send a notification](sending-a-notification) section.
+Check first the [Send a notification](./sending-a-notification) section.
 
 </Check>
 
@@ -22,7 +22,7 @@ Let's pick a simple use-case. Imagine we need to send a copy of a contract signe
 </Frame>
 
 <Card>
-[See the example from <u>**Generating a doucment from template**</u>](generating-from-html-template) section 
+See the example from [<u>**Generating a document from template**</u>](../documents-plugin/generating-from-html-templates) section 
 </Card>
 
 The steps for sending the notification are the following:
@@ -31,21 +31,20 @@ The steps for sending the notification are the following:
 
 <Step>
 
-Configure the template that you want to use for the email, see the [Managing notification templates](managing-notification-templates) section for more information.
-
-</Step>
-
-<Step>
- Check that the needed topics are defined correctly on the following environment variables:
-
-* `KAFKA_TOPIC_NOTIFICATION_INTERNAL_IN`
-* `KAFKA_TOPIC_NOTIFICATION_INTERNAL_OUT`
+Configure the template that you want to use for the email, see the [Managing notification templates](./managing-notification-templates) section for more information.
 
 </Step>
 
 <Step>
 
-Use the [**FLOWX.AI Designer**](../../../../../terms/flowx-ai-designer) to add a new [Kafka send event](../../../../../building-blocks/node/message-send-received-task-node.md#configuring-a-message-send-task-node) action to the correct node in the process definition.
+Check that the needed topics are defined by going to **`FlowX Designer > Platform Status > notification-plugin-mngt > kafkaTopicsHealthCheckIndicator > details > configuration > topic > notifications`**.
+
+
+</Step>
+
+<Step>
+
+Use the **FlowX Designer** to add a new [Send Message Task (Kafka)](../../../../building-blocks/node/message-send-received-task-node#send-message-task) action to the correct node in the process definition.
 
 </Step>
 

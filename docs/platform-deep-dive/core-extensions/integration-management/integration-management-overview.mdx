@@ -1,20 +1,18 @@
 ---
 title: Overview
-description: Integration management helps you configure integrations between the following components,[**FLOWX.AI Engine**](../../../../terms/flowxai-process-engine), [**plugins**](../../../../terms/flowx-plugins), or different adapters. The only requirement is that they should connect to [Kafka](../../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts.md) to communicate with the [FLOWX.AI Engine](../../flowx-engine/).
+description: Integration management helps you configure integrations between the following components, **FlowX Engine**, **plugins** or different adapters.
 ---
 
+<Check>
+ The only requirement is that they should connect to [Kafka](../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts) to communicate with the FlowX Engine.  Communication is done through Kafka topics (handled by consumers and producers, see [Kafka configuration](../../../../setup-guides/flowx-engine-setup-guide/engine-setup) section for more details).
+</Check>
+
 Integration management enables you to keep track of each integration and its correspondent component and different scenarios used: creating an OTP, document generation, notifications, etc.
-
-[Integrations](../../../integrations/integrations.md)
-
-<Warning>
-Integrations must be compatible with [**Kafka**](../../../../terms/flowx-kafka), so they can communicate with external adapters and [**FLOWX.AI Engine**](../../../../terms/flowxai-process-engine). Communication is done through Kafka topics (handled by consumers and producers, see [Kafka configuration](../../../../platform-setup-guides/flowx-engine-setup-guide/flowx-engine-setup-guide.md#configuring-kafka) section for more details).
-</Warning>
 
 After defining one integration (inside **Integration management**) you can open a compatible node and start using them.
 
 <Info>
-Integrations are used with the following nodes: [task nodes](../../../../building-blocks/node/task-node.md), [user task nodes](../../../../building-blocks/node/user-task-node.md), [send message task](../../../../building-blocks/node/message-send-received-task-node.md#message-send-task), and [receive message task](../../../../building-blocks/node/message-send-received-task-node.md#message-receive-task).
+Integrations are used with the following nodes: [task nodes](../../../building-blocks/node/task-node), [user task nodes](../../../building-blocks/node/user-task-node), [send message task](../../../building-blocks/node/message-send-received-task-node#message-send-task), and [receive message task](../../../building-blocks/node/message-send-received-task-node).
 </Info>
 
 You can easily create or import an integration using the **Integration management** feature just by accessing **FLOWX Designer → Integration management**.
@@ -25,7 +23,7 @@ You can easily create or import an integration using the **Integration managemen
 
 To access Integration management:
 
-1. Open **FLOWX Designer** and go to the **General Settings** tab.
+1. Open **FlowX Designer** and go to the **General Settings** tab.
 2. From the expanded menu, select **Integration management**.
 3. From the list, select an **Integration**.
 4. Click the **arrow** icon to expand the list with the scenarios.
@@ -36,7 +34,7 @@ To access Integration management:
 
 For more details on how to configure access rights for Integrations Management, check the following section:
 
-[Configuring access rights for Integration Management](configuring-access-rights-for-intgr-mngmnt.md)
+[Configuring access rights for Integration Management](configuring-access-rights-for-intgr-mngmnt)
 
 
 ## Creating a new integration

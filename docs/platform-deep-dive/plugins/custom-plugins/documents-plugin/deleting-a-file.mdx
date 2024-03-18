@@ -47,7 +47,7 @@ In the example below, we use a `fileId` generated for a document using [<u>**Upl
 
 To delete files, follow these steps:
 
-1. Create a process that includes a [**Message Event Send (Kafka)**](../../../../../building-blocks/node/message-send-received-task-node.md#configuring-a-message-send-task-node) node and [**a Message Event Receive (Kafka)**](../../../../../building-blocks/node/message-send-received-task-node.md#configuring-a-message-receive-task-node) node:
+1. Create a process that includes a [**Send Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node) node and [**Message Event Receive (Kafka)**](../../../../../building-blocks/node/message-send-received-task-node.md#configuring-a-message-receive-task-node) node:
 
 * Use the **Send Message Task** node to send the delete request.
 * Use the **Receive Message Task** node to receive the delete reply.
@@ -56,7 +56,7 @@ To delete files, follow these steps:
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/delete_file_action.png)
 
-3. Specify the [**Kafka topic**](../../../plugins-setup-guide/documents-plugin-setup/documents-plugin-setup.md#kafka-configuration) for sending the delete request.
+3. Specify the [**Kafka topic**](../../../../../setup-guides/plugins-setup-guide/documents-plugin-setup) for sending the delete request.
 
 <Tip>
 To identify defined topics in your environment:

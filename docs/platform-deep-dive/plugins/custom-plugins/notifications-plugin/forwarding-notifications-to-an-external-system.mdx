@@ -3,19 +3,24 @@ title: Forwarding notifications
 description: If the Notification service is not directly connected to an SMTP / SMS server and you want to use an external system for sending the notifications, you can use the notification plugin just to forward the notifications to your custom implementation.
 ---
 
-### Define needed Kafka topics
+### Check needed Kafka topics
 
-Kafka topic names can be set by using environment variables:
+Yu will need the name of the kafka topics defined at the following environment variables:
 
 * `KAFKA_TOPIC_NOTIFICATION_INTERNAL_IN` - topic used to trigger the request to send a notification
 * `KAFKA_TOPIC_NOTIFICATION_EXTERNAL_OUT` - the notification will be forwarded on this topic to be handled by an external system
 * `KAFKA_TOPIC_NOTIFICATION_INTERNAL_OUT` - topic used for sending replies after sending the notification
 
+<Tip>
+You can check the defined topics by going to **FlowX Designer > Platform Status > notification-plugin-mngt > kafkaTopicsHealthCheckIndicator > details > configuration > topic > notification**.
+</Tip>
+
+
 ### Example: send a notification from a business flow
 
 Let's pick a simple use case. Imagine we need to send a new welcome letter when we onboard a new customer. You must follow the next steps:
 
-1. Configure the [template](managing-notification-templates.md) that you want to use for the welcome email, use the [WYSIWYG Editor](../../../wysiwyg.md)
+1. Configure the [template](./managing-notification-templates) that you want to use for the welcome email, use the [WYSIWYG Editor](../../wysiwyg)
 
 <Check>
 Make sure that the **Forward on Kafka** checkbox is ticked, so the notification will be forwarded to an external adapter.
@@ -23,7 +28,7 @@ Make sure that the **Forward on Kafka** checkbox is ticked, so the notification 
 
 2. Configure the data model for the template. 
 
-3. To configure a document template, first, you need to define some information stored in the [Body](../../../wysiwyg.md#notification-templates):
+3. To configure a document template, first, you need to define some information stored in the [Body](../../wysiwyg#notification-templates):
 
 * **Type** - MAIL (for email notifications)
 * ❗️**Forward on Kafka** - if this box is checked, the notification is not being sent directly by the plugin to the destination, but forwarded to another adapter
@@ -35,8 +40,8 @@ Make sure that the **Forward on Kafka** checkbox is ticked, so the notification 
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/data_model_notif.png)
 
-4. Use the FLOWX.AI Designer to create a process definition.
-5. Add a [**Kafka send event node**](../../../../../building-blocks/node/message-send-received-task-node.md#configuring-a-message-send-task-node) and a [**Kafka receive event node**](../../../../../building-blocks/node/message-send-received-task-node.md#configuring-a-message-receive-task-node) (one to send the request, one to receive the reply).
+4. Use the FlowX Designer to create a process definition.
+5. Add a [**Send Message Task**](../../../../building-blocks/node/message-send-received-task-node#configuring-a-message-send-task-node) and a [**Receive Message Task**](../../../../building-blocks/node/message-send-received-task-node#configuring-a-message-receive-task-node) (one to send the request, one to receive the reply).
 5. Check if the needed topic (defined at the following environment variable) is configured correctly: `KAFKA_TOPIC_NOTIFICATION_INTERNAL_IN`.
 6. Add the proper configuration to the action, the Kafka topic, and the body message.
 

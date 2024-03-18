@@ -1,6 +1,6 @@
 ---
 title: FlowX CMS
-description: The Headless Content Management System is part of the core components of the [**FLOWX platform**](../../../../terms/flowx). It can be easily added to your custom FLOWX deployment to **enhance the core platform capabilities with functionality specific to taxonomies and managing various content types**.
+description: The Headless Content Management System is part of the core components of the **FlowX.AI** platform. It can be easily added to your custom FLOWX deployment to **enhance the core platform capabilities with functionality specific to taxonomies and managing various content types**.
 ---
 
 <Frame>
@@ -39,11 +39,12 @@ The service includes the following features:
 
 </CardGroup>
 
-It can be quickly deployed on the chosen infrastructure, preloaded with the needed taxonomies or contents using a REST interface, and then connected to the [**FLOW.AI Engine**](../../../../terms/flowxai-process-engine) through [**Kafka**](../../../../terms/flowxai-process-engine) events.
+It can be quickly deployed on the chosen infrastructure, preloaded with the needed taxonomies or contents using a REST interface, and then connected to the **FlowX Engine** through **Kafka** events.
 
 Let's go through the steps needed to deploy and set up the service:
 
-[CMS setup guide](../../../../platform-setup-guides/audit-setup-guide/)
+<Card title="CMS setup guide" href="../../../../setup-guides/cms-setup" icon="files">
+</Card>
 
 ## Using the service
 
@@ -73,11 +74,11 @@ The Engine is listening for messages on topics with names of a certain pattern, 
 
 ### Example: Request a label by language or source system code
 
-Used to translate custom codes into labels using the specified [language](languages.md) or a certain [source system](source-systems.md).
+Used to translate custom codes into labels using the specified [language](./languages.mdx) or a certain [source system](./source-systems).
 
 Various external systems and integrations might use different labels for the same information. In the processes, it is easier to use the corresponding code and translate this into the needed label when necessary: for example when sending data to other integrations, when generating documents, etc.
 
-You will need to add a [Kafka send event](../../../../building-blocks/node/message-send-received-task-node.md) CMS service.
+You will need to add a [Kafka send event](../../../building-blocks/node/message-send-received-task-node) CMS service.
 
 The following values are expected in the request body:
 

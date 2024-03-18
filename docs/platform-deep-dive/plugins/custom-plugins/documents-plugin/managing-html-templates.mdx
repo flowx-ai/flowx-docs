@@ -3,7 +3,7 @@ title: Managing templates
 description: The Documents plugin provides the flexibility to define and manage HTML templates for document generation, enabling customization through various parameter types.
 ---
 
-Additionally, the platform incorporates a [**What You See Is What You Get (WYSIWYG)**](../../../../wysiwyg.md) editor, allowing users to have a real-time, visual representation of the document or content during the editing process. Furthermore, you have the capability to test and review your template by downloading it as a PDF.
+Additionally, the platform incorporates a [**What You See Is What You Get (WYSIWYG)**](../../wysiwyg) editor, allowing users to have a real-time, visual representation of the document or content during the editing process. Furthermore, you have the capability to test and review your template by downloading it as a PDF.
 
 <Tip>
 A WYSIWYG editor, typically provides two main views:
@@ -25,9 +25,9 @@ To create a document template, navigate to the **Document Templates** section in
 
 Now follow the next steps to design a new template:
 
-1. **Open the WYSIWYG Editor**:
+1. **Open the WYSIWYG editor**:
 
-Access the WYSIWYG editor within the Document Management Plugin, found in the **FLOWX Designer → Plugins → Document templates** section.
+Access the WYSIWYG editor within the Document Management Plugin, found in the **FlowX Designer → Plugins → Document templates** section.
 
 * **Language Configuration**: Create a dedicated template for each language specified in your system.
 
@@ -35,7 +35,7 @@ Access the WYSIWYG editor within the Document Management Plugin, found in the **
 To confirm the installed languages on the platform, go to **FLOWX.AI Designer → Content Management → Languages**.
 </Check>
 
-2. **Design the Document Header**:
+2. **Design the document header**:
 
 Begin by creating a header section for the document, including details such as the company logo and title.
 
@@ -47,7 +47,7 @@ Begin by creating a header section for the document, including details such as t
 </header>
 ```
 
-Data Specifications (process data):
+Data specifications (process data):
 
 ```json
 "data": {
@@ -85,10 +85,11 @@ Data specifications:
     "clientId": "JD123456"
 }
 ```
-
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/client_infor.png)
+</Frame>
 
-4. **Dynamic Table for Offer Details:**
+4. **Dynamic table for offer details:**
 
 Create a dynamic table to showcase various details of the offer. 
 
@@ -128,7 +129,9 @@ Data specifications:
 }
 ```
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/table_offer.png)
+</Frame>
 
 5. **Dynamic sections for certain conditions:**
 
@@ -162,7 +165,9 @@ Data specifications:
 }
 ```
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/display_conditions.png)
+</Frame>
 
 6. **Lists**:
 
@@ -196,7 +201,9 @@ Data specifications:
 }
 ```
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/list_html.png)
+</Frame>
 
 7. **Include Image for Authorized Signature:**
 
@@ -216,14 +223,16 @@ Data Specifications:
     "signature": "INSERT_BASE64_IMAGE"
 }
 ```
-
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/authorized_sign.png)
+</Frame>
 
 8. **Barcodes**:
 
 Set the `includeBarcode` parameter to true if you want to include a barcode. For information on how to use barcodes and OCR plugin, check the following section:
 
-[OCR plugin](../../../ocr-plugin.md)
+<Card title="OCR plugin" href="../ocr-plugin">
+</Card>
 
 9. **Checkboxes for Consent**:
 
@@ -240,15 +249,18 @@ Consent checkboxes in HTML templates are commonly used to obtain explicit agreem
     </section>
 ```
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/checkbox_html.gif)
+</Frame>
 
 10. **Data Model**:
 
 In the documents template we have the **Data Model** tab. Here you define parameters, which are dynamic data fields that will be replaced with the values you define in the payload, like first name, or company name. 
-
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/data_model_input.png)
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/dataModelTemplate.png)
+</Frame>
 
 ## Styling
 
@@ -328,9 +340,9 @@ In the end the template will look like this:
 
 The final result after generating the template without dynamic data:
 
-:::tip
-Download PDF sample [<u>**here**</u>](../../../../../assets/HTMLExample.pdf).
-:::
+<Info>
+Download PDF sample [**here**](../../../assets/HTMLExample.pdf).
+</Info>
 
 ### With dynamic data
 
@@ -361,5 +373,5 @@ The final result after generating the template with the following dummy process 
 ```
 
 <Tip>
-Download a PDF sample [**here**](../../../../../assets/726_ManageHTMLTemplate%20.pdf).
+Download a PDF sample [**here**](../../../assets/726_ManageHTMLTemplate%20.pdf).
 </Tip>

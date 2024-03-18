@@ -1,6 +1,6 @@
 ---
 title: Uploading a new document
-description: This guide provides a detailed walkthrough for seamlessly integrating document uploads into a [**process definition**](../../../../../terms/flowx-process-definition) by incorporating a user task node with an **Upload action**. This feature empowers users to actively engage with the process and select the desired file for upload.
+description: This guide provides a detailed walkthrough for seamlessly integrating document uploads into a **process definition** by incorporating a user task node with an **Upload action**. This feature empowers users to actively engage with the process and select the desired file for upload.
 ---
 
 <Info>
@@ -22,22 +22,20 @@ To upload a document using this process, follow the steps outlined below.
 
 ## Uploading and reviewing a document - step by step
 
-### Defining the process
-
-After exploring how to generate documents in the [previous section](./generate-docs-based-on-templates/generating-from-html-templates.md), let's create a process that enables users to generate a document, review/sign it, and subsequently upload it again.
+After exploring how to generate documents in the [previous section](./generating-from-html-templates), let's create a process that enables users to generate a document, review/sign it, and subsequently upload it again.
 
 Consider a scenario where a user inputs data, a document is generated for preview, and the user must then sign and uploads it. The following types of nodes are involved:
 
-- [**Start**](../../../../../building-blocks/node/start-end-node.md#start-node) and [**End**](../../../../../building-blocks/node/start-end-node.md#end-node) nodes
-- [**Milestone**](../../../../../building-blocks/node/milestone-node.md) nodes to configure the [**stepper/steps**](../../../../../building-blocks/node/milestone-node.md#stepper--steps) structure
-- A [**User Task**](../../../../../building-blocks/node/user-task-node.md) for user input
-- [**Message Event Send**](../../../../../building-blocks/node/message-send-received-task-node.md#message-send-task) and [**Message Event Receive**](../../../../../building-blocks/node/message-send-received-task-node.md#message-receive-task) for document generation and retrieval
-- [**Service Task**](../../../../../building-blocks/node/task-node.md) for adding the generated document path
+- [**Start**](../../../../building-blocks/node/start-end-node#start-node) and [**End**](../../../../building-blocks/node/start-end-node#end-node) nodes
+- [**Milestone**](../../../../building-blocks/node/milestone-node) nodes to configure the [**stepper/steps**](../../../../building-blocks/node/milestone-node#stepper--steps) structure
+- A [**User Task**](../../../../building-blocks/node/user-task-node) for user input
+- [**Send Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node#send-message-task) and [**Receive Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node#receive-message-task) for document generation and retrieval
+- [**Service Task**](../../../../building-blocks/node/task-node) for adding the generated document path
 - User Tasks for document preview and upload
 
-### Configuring the process
+## Configuring the process
 
-1. Follow the steps in [**Generating from HTML templates**](./generate-docs-based-on-templates/generating-from-html-templates.md) to set up the document generation part of the process.
+1. Follow the steps in [**Generating from HTML templates**](./generating-from-html-templates) to set up the document generation part of the process.
 
 <Info>
 If your goal is to only upload a new file without generating it from templates or requiring user input, you can skip the template generation step.
@@ -49,7 +47,7 @@ If your goal is to only upload a new file without generating it from templates o
 
 After following the steps you should have something similar to the following request/response examples:
 
-#### Request message example
+### Request message example
 
 This JSON structure represents a Kafka message sent through the `..in` topic to initiate a request in the Process Engine. It includes information for generating an "AccountCreation" document with a custom ID "119237" in English. Data specifies client details extracted dynamically from user input (first name, last name, age, country) and company information (name, registration date).
 
@@ -84,7 +82,7 @@ This an example of a message that follows the custom integration data model.
 }
 ```
 
-#### Response message example
+### Response message example
 
 This JSON structure represents the response received on the `..out` Kafka topic, where the Process Engine expects a reply. It contains details about the generated PDF file corresponding to the custom ID "119237" and the "AccountCreation" template. The response provides file-related information such as file ID, document type, document label, storage path, download path, number of pages, and any potential errors (null if none). The paths provided in the response facilitate access and download of the generated PDF file.
 
@@ -113,7 +111,7 @@ This JSON structure represents the response received on the `..out` Kafka topic,
 ![Preview and Upload](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/preview_and_upload.png)
 
 
-#### Document path - Service Task
+### Document path - Service Task
 
 Configure a business rule to construct a file path for the generated document. Ensure the base admin path is specified.
 
@@ -121,9 +119,9 @@ Configure a business rule to construct a file path for the generated document. E
 Ensuring the base admin path is specified is crucial, as it grants the required administrative rights to access the endpoint responsible for document generation.
 </Check>
 
-##### **Actions**
+#### Actions
 
-###### Actions Edit
+##### Actions Edit
 
 - **Action Type**: Set to **Business Rule**
 - **Trigger Type**: Choose **Automatic** because is not a user-triggered action
@@ -133,7 +131,7 @@ Ensuring the base admin path is specified is crucial, as it grants the required 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/create_document_path.png)
 </Frame>
 
-###### Parameters
+##### Parameters
 
 - **Language**: We will use **MVEL** for this example
 - **Body Message**: Fill in the body message request
@@ -151,7 +149,6 @@ if(downloadPath != null){
 ```
 
 <Accordion title = "Explanation of MVEL code">
-
 
 
 * **adminPath**: Base URL for the admin path.
@@ -183,11 +180,11 @@ if(downloadPath != null){
 
 </Accordion>
 
-#### Preview document - User Task
+### Preview document - User Task
 
-##### **Actions**
+#### Actions
 
-###### Actions edit
+##### Actions edit
 
 * **Action Type**: Set to **Save Data**.
 * **Trigger Type**: Choose **Manual** to allow user-triggered action.
@@ -207,9 +204,9 @@ Let's see what we have until now:
 
 ![Preview Document](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/preview_document_vis.gif)
 
-#### Upload document - User Task
+### Upload document - User Task
 
-##### **Node Config**
+#### Node Config
 
 * **Swimlane**: Choose a swimlane (if multiple) to restrict access to specific user roles.
 * **Stage**: Assign a stage to the node.
@@ -219,7 +216,7 @@ Let's see what we have until now:
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_document_node_config.png)
 </Frame>
 
-##### **Actions**
+#### Actions
 
 Configure the following node actions:
 
@@ -232,20 +229,20 @@ Configure the following node actions:
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_document_actions.png)
 </Frame>
 
-###### Upload file action
+#### Upload file action
 
-This is a standard predefined FLOWX.AI Node Action for uploading files. This is done through Kafka and by using `persist` topics.
+This is a standard predefined FlowX Node Action for uploading files. This is done through Kafka and by using `persist` topics.
 
 <Accordion title ="Configuring the File Upload action">
 
-##### Action edit
+#### Action edit
 
 * **Action Type**: Set to **Upload File**.
 * **Trigger Type**: Choose **Manual** to allow user-triggered action.
 * **Required Type**: Set it as **Optional**.
 * **Repeatable**: Check this option if the action can be triggered multiple times. 
 
-##### Parameters
+#### Parameters
 
 * **Topics**: Kafka topic where the file will be posted, in this example `ai.flowx.in.document.persist.v1`.
 
@@ -273,18 +270,19 @@ To identify your defined topics in your current environment, follow the next ste
 `callbacksForAction` - the value of this key is a string that specifies a callback action associated with the "upload_document" destination ID (node). This is part of an event-driven system (Kafka send action) where this callback will be called once the "upload_document" action is completed.
 </Tip>
 
-##### **Data to send**
+#### Data to send
 
 * **Keys**: Used when data is sent from the frontend via an action for data validation.
 
 </Accordion>
-
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_config_a.png)
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_config_b.png)
+</Frame>
 
 Now, configure the child actions of Upload File Action.
 
-###### 1. Business Rule 
+#### 1. Business Rule 
 
 This is necessary to create the path to display the uploaded document.
 
@@ -317,11 +315,12 @@ if(downloadPath != null){
 
 </Accordion>
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_business_rule_a.png)
-
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_business_rule_b.png)
+</Frame>
 
-###### 2. Send Data to User Interface
+#### 2. Send Data to User Interface
 
 This is necessary to send the previously created information to the frontend.
 
@@ -351,11 +350,12 @@ This is necessary to send the previously created information to the frontend.
 
 </Accordion>
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/send_to_UI_a.png)
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/send_to_UI_b.png)
+</Frame>
 
-
-###### Save Data
+#### Save Data
 
 Configure the last node action to save all the data.
 
@@ -367,7 +367,7 @@ Configure the last node action to save all the data.
 * **Required Type**: Set as **Mandatory**.
 
 
-#### Request message example
+### Request message example
 
 To initiate the document processing, a Kafka request with the following JSON payload will be sent through `..in` topic:
 
@@ -383,7 +383,7 @@ This an example of a message that follows the custom integration data model.
 }
 ```
 
-#### Response message example
+### Response message example
 
 Upon successful processing, you will receive a JSON response on the `..out` topic with details about the processed document:
 

@@ -9,31 +9,31 @@ The following access authorizations are provided, with the specified access scop
 
 Available scopes:
 
-* import - users can import integrations
-* read - users can view integrations
-* edit - users can edit integrations
-* admin - users can delete integrations
+* **import** - users can import integrations
+* **read** - users can view integrations
+* **edit**- users can edit integrations
+* **admin** - users can delete integrations
 
 Integration management is preconfigured with the following default users roles for each of the access scopes mentioned above:
 
 * manage-integrations
-  * import:
+  * **import**:
     * ROLE_ADMIN_MANAGE_INTEGRATIONS_IMPORT
     * ROLE_ADMIN_MANAGE_INTEGRATIONS_EDIT
     * ROLE_ADMIN_MANAGE_INTEGRATIONS_ADMIN
-  * read:
+  * **read**:
     * ROLE_ADMIN_MANAGE_INTEGRATIONS_READ
     * ROLE_ADMIN_MANAGE_INTEGRATIONS_IMPORT
     * ROLE_ADMIN_MANAGE_INTEGRATIONS_EDIT
     * ROLE_ADMIN_MANAGE_INTEGRATIONS_ADMIN
-  * edit:
+  * **edit**:
     * ROLE_ADMIN_MANAGE_INTEGRATIONS_EDIT
     * ROLE_ADMIN_MANAGE_INTEGRATIONS_ADMIN
-  * admin:
+  * **admin**:
     * ROLE_ADMIN_MANAGE_INTEGRATIONS_ADMIN
 
 <Warning>
-These roles need to be defined in the chosen identity provider solution. It can be either kyecloak, RH-SSO, or another identity provider solution. For more details on how to define service accounts, check the [Access rights](../../../../platform-setup-guides/access-management/configuring-an-iam-solution.md#adding-service-accounts) section.
+These roles need to be defined in the chosen identity provider solution. It can be either kyecloak, RH-SSO, or another identity provider solution. For more details on how to define service accounts, check the [Access rights](../../../../setup-guides/access-management/configuring-an-iam-solution) section.
 </Warning>
 
 In case other custom roles are needed, you can configure them using environment variables. More than one role can be set for each access scope.
