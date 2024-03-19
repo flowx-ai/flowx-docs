@@ -38,7 +38,7 @@ When encountering a step with `canGoBack` switched to false, all steps found beh
 
 </Frame>
 
-To configure a send message task, we first need to add a new node and then configure an [**action**](../../terms/flowx-actions) (**Kafka Send Action** type):
+To configure a send message task, we first need to add a new node and then configure an **action** (**Kafka Send Action** type):
 
 <Steps>
 
@@ -52,7 +52,7 @@ To configure a send message task, we first need to add a new node and then confi
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/kafka_send_task.gif)
 
-Multiple options are available for this type of action and can be configured via the FLOWX.AI Designer. To configure and [add an action to a node](../../flowx-designer/managing-a-process-flow/adding-an-action-to-a-node.md), use the [**Actions**](../../terms/flowx-actions) tab at the node level, which has the following configuration options:
+Multiple options are available for this type of action and can be configured via the FLOWX.AI Designer. To configure and [add an action to a node](../../flowx-designer/managing-a-process-flow/adding-an-action-to-a-node), use the **Actions** tab at the node level, which has the following configuration options:
 
 * [Action Edit](#action-edit)
 * [Back in steps (for Manual actions)](#back-in-steps)
@@ -61,7 +61,7 @@ Multiple options are available for this type of action and can be configured via
 
 #### Action Edit
 
-* **Name** - used internally to make a distinction between different [actions](../actions/actions.md) on nodes in the process. We recommend defining an action naming standard to easily find the process actions
+* **Name** - used internally to make a distinction between different [actions](../actions/actions) on nodes in the process. We recommend defining an action naming standard to easily find the process actions
 * **Order** - if multiple actions are defined on the same node, set the running order using this option
 * **Timer Expression** - it can be used if a delay is required on that action. The format used for this is [ISO 8601 duration format](./timer-events/timer-expressions#iso-8601) (for example, a delay of 30 seconds will be set up as `PT30S`)
 * **Action Type** - should be set to **Kafka Send Action** for actions used to send messages to external systems
@@ -82,7 +82,7 @@ Multiple options are available for this type of action and can be configured via
 
 #### Data to Send
 
-* **Keys** - are used when data is sent from the frontend via an action to validate the data (you can find more information in the [User Task Configuration](user-task-node/) section)
+* **Keys** - are used when data is sent from the frontend via an action to validate the data (you can find more information in the [User Task Configuration](./user-task-node) section)
 
 <Warning>
 You can configure **Data to Send** option only when the action **trigger type** is **Manual**.

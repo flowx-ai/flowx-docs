@@ -47,7 +47,7 @@ notification-mdb:
 
 ### Redis server
 
-The plugin can use the [Redis component](../../../../platform-setup-guides/platform-setup-guides-docs.md#redis-configuration) already deployed for the engine.
+The plugin can use the [Redis component](../../docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis) already deployed for the **FlowX Engine**.
 
 ## Configuration 
 
@@ -65,7 +65,7 @@ A specific service account should be configured in the OpenID provider to allow 
 ### OpenID connect settings
 
 * `SECURITY_TYPE`: Indicates that OAuth 2.0 is the chosen security type, default value: `oauth2`.
-* `SECURITY_PATHAUTHORIZATIONS_0_PATH`: Defines a security path or endpoint pattern. In this case, it specifies that the security settings apply to all paths under the "/api/" path. The ** is a wildcard that means it includes all subpaths under "/api/**".
+* `SECURITY_PATHAUTHORIZATIONS_0_PATH`: Defines a security path or endpoint pattern. In this case, it specifies that the security settings apply to all paths under the "/api/" path. The `**` is a wildcard that means it includes all subpaths under "/api/**".
 * `SECURITY_PATHAUTHORIZATIONS_0_ROLESALLOWED`: Specifies the roles allowed for accessing the specified path. In this case, the roles allowed are empty (""). This might imply that access to the "/api/**" paths is open to all users or that no specific roles are required for authorization.
 * `SECURITY_OAUTH2_BASE_SERVER_URL`: This setting specifies the base URL of the OpenID server, which is used for authentication and authorization.
 * `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`: The task management service account is utilized to facilitate process initiation, enable the use of the task management plugin (requiring the `FLOWX_ROLE` and role mapper), and access data from Keycloak.
@@ -73,9 +73,11 @@ A specific service account should be configured in the OpenID provider to allow 
 
 More details about the necessary service account, here:
 
-[Task management service account](../../../../platform-setup-guides/access-management/configuring-an-iam-solution.md#task-management-service-account)
+<Card title="Task management service account" href="../access-management/configuring-an-iam-solution#task-management-service-account" icon ="file">
+</Card>
 
-### Engine datasource configuration
+
+### FlowX Engine datasource configuration
 
 The service needs to retrieve the data for a process instance from the engine database. So it needs to have all the correct information to connect to the engine database.
 
@@ -117,8 +119,8 @@ Each action available in the service corresponds to a Kafka event. A separate Ka
 
 * `KAFKA_TOPIC_PROCESS_START_OUT` - is used for running hooks, the engine receives a start process request for a hook on this topic, and it needs to be matched with the corresponding `...start_in` topic on the engine side
 * `KAFKA_TOPIC_PROCESS_OPERATIONS_OUT`- is used to update the engine on task manager operations such as assignment, unassignment, hold, unhold and terminate it is matched with the `...operations_in` topic on the engine side
-* `KAFKA_TOPIC_PROCESS_SCHEDULE_IN`- is used to receive a message from the task manager when it's time to run a hook (for hooks configured with SLA, for more details on how to configure a hook with SLA, click [here](../../custom-plugins/task-management/using-hooks.md#types-of-hooks))
-* `KAFKA_TOPIC_PROCESS_SCHEDULE_OUT_SET`- sends a message to the scheduler to set hooks or exclude users from automatic assignment when they are assigned to [out of office feature](../../custom-plugins/task-management/using-out-of-office-records.md), it needs to be matched with the configuration in the scheduler
+* `KAFKA_TOPIC_PROCESS_SCHEDULE_IN`- is used to receive a message from the task manager when it's time to run a hook (for hooks configured with SLA, for more details on how to configure a hook with SLA, click [here](../../docs/platform-deep-dive/plugins/custom-plugins/task-management/using-hooks))
+* `KAFKA_TOPIC_PROCESS_SCHEDULE_OUT_SET`- sends a message to the scheduler to set hooks or exclude users from automatic assignment when they are assigned to [out of office feature](../../docs/platform-deep-dive/plugins/custom-plugins/task-management/using-out-of-office-records), it needs to be matched with the configuration in the scheduler
 * `KAFKA_TOPIC_PROCESS_SCHEDULE_OUT_STOP`- ends a message to the scheduler to stop the schedule for the above actions. It needs to be matched with the configuration in the scheduler
 * `KAFKA_TOPIC_EXCLUDE_USERS_SCHEDULE_IN`- is used to receive a message from the scheduler when users need to be excluded
 * `KAFKA_TOPIC_TASK_IN`- used to receive a message from the engine to start a new task. It needs to be matched with the corresponding task_out topic on the engine side.

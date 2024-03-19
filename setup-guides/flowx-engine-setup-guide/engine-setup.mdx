@@ -15,9 +15,9 @@ The FlowX Engine requires the following components to be set up before it can be
 # Dependencies
 
 * [**Database**](#database---postgres--oracle)
-* [**Redis server**](../platform-setup-guides-docs.md#redis-configuration)
-* [**Kafka**](#kafka-configuration)
-* [**Logging**](../platform-setup-guides-docs.md#logging)
+* [**Redis server**](../setup-guides-overview#redis-configuration)
+* [**Kafka**](#configuring-kafka)
+* [**Logging**](../setup-guides-overview#logging)
 
 For Microservices architecture, some Microservices holds their data individually using separate Databases.
 
@@ -62,14 +62,14 @@ A basic Postgres configuration can be set up using a helm values.yaml file as it
 
 * **Redis server** - a Redis cluster is required for the engine to cache process definitions, compiled scripts, and Kafka responses
 * **Kafka cluster** - Kafka is the backbone of the engine and all plugins and integrations are accessed via the Kafka broker
-* **Additional dependencies** - details about how to set up logging via Elasticsearch, monitoring, and tracing via Jaeger, can be found [**here**](../platform-setup-guides-docs.md)
+* **Additional dependencies** - details about how to set up logging via Elasticsearch, monitoring, and tracing via Jaeger, can be found [**here**](../setup-guides-overview)
 
 ## Configuration
 
-* [**Datasource configuration**](../platform-setup-guides-docs.md#datasource-configuration)
-* [**Redis configuration**](../platform-setup-guides-docs.md#redis-configuration)
-* [**Logging**](../platform-setup-guides-docs.md#logging)
-* [**Configuring access roles for processes**](configuring-access-roles-for-processes)
+* [**Datasource configuration**](../setup-guides-overview#datasource-configuration)
+* [**Redis configuration**](../setup-guides-overview#redis-configuration)
+* [**Logging**](../setup-guides-overview#logging)
+* [**Configuring access roles for processes**](./configuring-access-roles-for-processes)
 * [**Kafka configuration**](#configuring-kafka)
 
 ### Authorization & access roles
@@ -94,7 +94,7 @@ security:
 * `SECURITY_OAUTH2_CLIENT_CLIENT_ID`: A unique identifier for a client application that is registered with the OAuth 2.0 Authorization Server, this is used to authenticate the client application when it attempts to access resources on behalf of a user.
 * `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`: Secret Key that is used to authenticate requests made by an authorization client.
 * `SECURITY_OAUTH2_REALM`: Security configuration env var in the Spring Security OAuth2 framework, it is used to specify the realm name used when authenticating with OAuth2 providers.
-* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`: The process engine requires a process engine service account to make direct calls to the Keycloak API. This setting specifies the service account that is essential so the of [**Start Catch Event**](../../building-blocks/node/message-events/message-catch-start-event.md) node is possible. Ensure that you provide the correct client ID for this service account.
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`: The process engine requires a process engine service account to make direct calls to the Keycloak API. This setting specifies the service account that is essential so the of [**Start Catch Event**](../../docs/building-blocks/node/message-events/message-catch-start-event) node is possible. Ensure that you provide the correct client ID for this service account.
 * `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET`: Along with the client ID, you must also specify the client secret associated with the service account for proper authentication.
 
 ```yaml
@@ -112,7 +112,7 @@ security:
 
 More details about the necessary service account, here:
 
-[Process engine service account](../../platform-setup-guides/access-management/configuring-an-iam-solution.md#process-engine-service-account)
+[Process engine service account](../access-management/configuring-an-iam-solution#process-engine-service-account)
 
 ### Configuring Kafka
 
@@ -318,13 +318,13 @@ A response should be sent on a `callbackTopic` if it is mentioned in the headers
 <Info>
 Task manager operations could be the following: assignment, unassignment, hold, unhold, terminate and it is matched with the `...operations.out` topic on the engine side. For more information check the Task Management plugin documentation:
 
-📄[**Task management plugin**](../../platform-deep-dive/plugins/custom-plugins/task-management/task-management.md)
+📄 [**Task management plugin**](../../docs/platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview)
 </Info>
 
 
 #### Topics related to the scheduler extension
 
-[Scheduler](../../platform-deep-dive/core-components/core-extensions/scheduler.md)
+[Scheduler](../../docs/platform-deep-dive/core-extensions/scheduler)
 
 * `KAFKA_TOPIC_PROCESS_EXPIRE_IN` - the topic name that the Engine listens on for requests to expire processes
 
@@ -344,7 +344,8 @@ Task manager operations could be the following: assignment, unassignment, hold, 
 | KAFKA_TOPIC_PROCESS_SCHEDULE_IN_RUN_ACTION | ai.flowx.dev.core.trigger.run.action.v1      |
 | KAFKA_TOPIC_PROCESS_SCHEDULE_IN_ADVANCE    | ai.flowx.dev.core.trigger.advance.process.v1 |
 
-[Using the scheduler](../../platform-deep-dive/core-components/core-extensions/scheduler.md#using-the-scheduler)
+<Card title="Using the scheduler" href="../../docs/platform-deep-dive/core-extensions/scheduler#using-the-scheduler" icon="file">
+</Card>
 
 #### Topics related to Timer Events
 
@@ -433,11 +434,12 @@ To use advancing controller, the following env vars are needed for `process-engi
 
 * `ADVANCING_DATASOURCE_PASSWORD` - environment variable used to set the password for a data source connection
 
-[Advancing controller setup](../flowx-engine-setup-guide/advancing-controller-setup-guide)
+<Card title="Advancing controller setup" href="../advancing-controller-setup-guide" icon ="gears">
+</Card>
 
 ### Configuring Scheduler  
 
-Below you can find a configuration .yaml to use [scheduler](../../platform-deep-dive/core-components/core-extensions/scheduler.md) service together with FLOWX.AI Engine:
+Below you can find a configuration .yaml to use [scheduler](../../docs/platform-deep-dive/core-extensions/scheduler) service together with FLOWX.AI Engine:
 
 
 ```yaml
@@ -458,7 +460,8 @@ scheduler:
 * **masterElection**: A configuration for electing a master.
 
 
-[Scheduler setup guide](../scheduler-setup-guide.md)
+<Card title="Scheduler setup guide" href="../scheduler-setup-guide" icon="gears">
+</Card>
 
 ### Managing Subprocesses Expiration
 

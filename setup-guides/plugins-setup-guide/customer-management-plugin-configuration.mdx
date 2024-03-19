@@ -225,23 +225,19 @@ Basic Postgres configuration
 
 The following variables need to be set in order to connect to the identity management platform:
 
-`SECURITY_OAUTH2_BASE_SERVER_URL`
+* `SECURITY_OAUTH2_BASE_SERVER_URL`
+* `SECURITY_OAUTH2_CLIENT_CLIENT_ID`
+* `SECURITY_OAUTH2_REALM`
 
-`SECURITY_OAUTH2_CLIENT_CLIENT_ID`
-
-`SECURITY_OAUTH2_REALM`
-
-### Datasource c**onfiguration**
+### Datasource configuration
 
 To store audit for searches this plugins use a postgres database.
 
 The following configuration details need to be added using environment variables:
 
-`SPRING_DATASOURCE_URL`
-
-`SPRING_DATASOURCE_USERNAME`&#x20;
-
-`SPRING_DATASOURCE_PASSWORD`
+* `SPRING_DATASOURCE_URL`
+* `SPRING_DATASOURCE_USERNAME`
+* `SPRING_DATASOURCE_PASSWORD`
 
 You will need to make sure that the user, password, connection link and db name are configured correctly, otherwise you will receive errors at start time.
 
@@ -269,36 +265,30 @@ elasticsearch:
 
 The following Kafka related configurations can be set by using environment variables:
 
-`SPRING_KAFKA_BOOTSTRAP_SERVERS` - address of the Kafka server
-
-`SPRING_KAFKA_CONSUMER_GROUP_ID` - group of consumers
-
-`KAFKA_CONSUMER_THREADS` - the number of Kafka consumer threads
-
-`KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` - the interval between retries after `AuthorizationException` is thrown by `KafkaConsumer`
-
-`KAFKA_MESSAGE_MAX_BYTES` - this is the largest size of the message that can be received by the broker from a producer.
+* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - address of the Kafka server
+* `SPRING_KAFKA_CONSUMER_GROUP_ID` - group of consumers
+* `KAFKA_CONSUMER_THREADS` - the number of Kafka consumer threads
+* `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` - the interval between retries after `AuthorizationException` is thrown by `KafkaConsumer`
+* `KAFKA_MESSAGE_MAX_BYTES` - this is the largest size of the message that can be received by the broker from a producer.
 
 Each action available in the service corresponds to a Kafka event. A separate Kafka topic must be configured for each use-case.
 
-:::caution
+<Warning>
 The Engine is listening for messages on topics with names of a certain pattern, make sure to use correct outgoing topic names when configuring the documents plugin.
-:::
+</Warning>
 
 Needed topics:
 
-`KAFKA_TOPIC_CUSTOMER_SEARCH_IN`
+* `KAFKA_TOPIC_CUSTOMER_SEARCH_IN`
+* `KAFKA_TOPIC_CUSTOMER_SEARCH_OUT`
 
-`KAFKA_TOPIC_CUSTOMER_SEARCH_OUT`
-
-:::caution
+<Info>
 In order to match a request made to the customer management plugin, the engine will have to send the process id on a Kafka header.
-:::
+</Info>
 
 ### Logging
 
 The following environment variables could be set in order to control log levels:
 
-`LOGGING_LEVEL_ROOT` - root spring boot microservice logs
-
-`LOGGING_LEVEL_APP` - app level logs
+* `LOGGING_LEVEL_ROOT` - root spring boot microservice logs
+* `LOGGING_LEVEL_APP` - app level logs

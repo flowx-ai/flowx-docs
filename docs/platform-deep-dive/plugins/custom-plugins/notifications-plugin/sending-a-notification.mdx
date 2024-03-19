@@ -49,11 +49,11 @@ Check the detailed [example](#example-send-a-notification-from-a-business-flow) 
 
 Let's pick a simple use-case, say we need to send a new welcome letter when we onboard a new customer. The steps are the following:
 
-1. Configure the template that you want to use for the welcome email, see the previous section, [Managing notification templates](managing-notification-templates.md) for more information.
+1. Configure the template that you want to use for the welcome email, see the previous section, [Managing notification templates](./managing-notification-templates) for more information.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/send_a_notif_from_business_flow.gif)
 
-2. Use the FlowX.AI Designer to add a [**Send Message Task**](../../../../../building-blocks/node/message-send-received-task-node.md#message-send-task) and a [**Receive Message Task**](../../../).
+2. Use the FlowX.AI Designer to add a [**Send Message Task**](../../../../building-blocks/node/message-send-received-task-node#send-message-task) and a [**Receive Message Task**](../../../../building-blocks/node/message-send-received-task-node#receive-message-task).
 3. On the **Send Message Task** add a proper configuration to the action, the Kafka topic and request body message to be sent:
 
 * **Topics** - `KAFKA_TOPIC_NOTIFICATION_INTERNAL_IN` - (in our example, `flowx-notifications-qa`)

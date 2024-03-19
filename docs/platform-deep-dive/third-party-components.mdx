@@ -6,20 +6,20 @@ icon: cube
 
 ### Open-source
 
-* [Keycloak](third-party-components.md#keycloak)
-* [Kafka](third-party-components.md#kafka) / [ZooKeeper](third-party-components.md#zookeeper)
-* [Jaeger](third-party-components.md#jaeger)
-* [AKHQ](third-party-components.md#akhq)
-* [PostgreSQL](third-party-components.md#postrgresql)
-* [MongoDB](third-party-components.md#mongodb)
-* [Redis](third-party-components.md#redis)
-* [NGINX](third-party-components.md#nginx)
-* [EFK (Elastic Search, Fluentd, Kibana)](third-party-components.md#efk-kibana-fluentd-elastic-search)
-* [S3 (MinIO)](third-party-components.md#s3-minio)
+* [Keycloak](#keycloak)
+* [Kafka](#kafka) / [ZooKeeper](#zookeeper)
+* [Jaeger](#jaeger)
+* [AKHQ](#akhq)
+* [PostgreSQL](#postrgresql)
+* [MongoDB](#mongodb)
+* [Redis](#redis)
+* [NGINX](#nginx)
+* [EFK (Elastic Search, Fluentd, Kibana)](#efk-kibana-fluentd-elastic-search)
+* [S3 (MinIO)](#s3-minio)
 
 ### Not open-source 
 
-* [OracleDB](third-party-components.md#oracledb)
+* [OracleDB](#oracledb)
 
 ### Third-party open-source components supported/tested versions
 
@@ -81,7 +81,7 @@ Kafka is a unified platform for handling all the real-time data feeds. Kafka sup
 
 Kafka is very fast and performs 2 million writes/sec. Kafka persists all data to the disk, which essentially means that all the writes go to the page cache of the OS (RAM). This makes it very efficient to transfer data from a page cache to a network socket.
 
-[Intro to Kafka](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts.md)
+[Intro to Kafka](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts)
 
 [Kafka documentation](https://kafka.apache.org/documentation/)
 
@@ -128,7 +128,7 @@ It is also be used as a Pub/Sub messaging solution, allowing messages to be pass
 It is used by FLOWX.AI for caching the process definitions-related data.
 
 
-[Intro to Redis](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis.md)
+[Intro to Redis](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis)
 
 
 [Redis documentation](https://redis.io/docs/)
@@ -142,7 +142,7 @@ FLOWX utilizes the Nginx engine as a load balancer and for routing the web traff
 The FLOWX.AI Designer SPA will use the backend service to manage the platform via REST calls, will use API calls to manage specific content for the plugins, and will use REST and SSE calls to connect to the engine.
 
 
-[Intro to NGINX](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-nginx.md)
+[Intro to NGINX](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-nginx)
 
 
 [NGINX documentation](https://nginx.org/en/docs/)

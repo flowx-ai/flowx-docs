@@ -28,7 +28,7 @@ The plugin supports **1D Code 128** barcodes. For more information about this ba
 You can utilize the OCR plugin to process generic document templates by either using a specific flow on FLOWX.AI (HTML template) or any other document editor.
 
 <Tip>
-Using a specific flow on FLOWX.AI offers several advantages:
+Using a specific flow on FlowX.AI offers several advantages:
 
 * Centralized management of templates and flows within a single application.
 * Access to template history and version control.
@@ -39,17 +39,18 @@ Using a specific flow on FLOWX.AI offers several advantages:
 1. Prepare and print generic document templates.
 2. End-users complete, sign, and scan the documents.
 3. Upload the scanned documents to the flow.
-4. FLOWX validates the template (barcode) and the signatures.
+4. FlowX validates the template (barcode) and the signatures.
 
-### Scenario for FLOWX.AI generated documents
+### Scenario for FlowX.AI generated documents
 
-1. Utilize the [**Documents plugin**](./documents-plugin) to create a [**document template**](./documents-plugin/using-documents-plugin/generate-docs-based-on-templates).
+1. Utilize the [**Documents plugin**](./documents-plugin/documents-plugin-overview) to create a [**document template**](./documents-plugin/generating-from-html-templates).
 
-[Generating documents based on templates](./documents-plugin/using-documents-plugin/generate-docs-based-on-templates)
+<Card title= "Generating documents based on templates" href="./documents-plugin/generating-from-html-templates" icon ="file">
+</Card>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/ocr_doc_template.gif)
 
-2. Create a process and add a [**Kafka Send Action**](../../../building-blocks/node/message-send-received-task-node.md#configuring-a-message-send-task-node) to a [**Message event send**](../../../building-blocks/node/message-send-received-task-node.md#message-send-task) node. Here you specify the [**kafka topic**](../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts.md#topics) (address) where the template will be generated.
+2. Create a process and add a [**Kafka Send Action**](../../../building-blocks/node/message-send-received-task-node#configuring-a-message-send-task-node) to a [**Send Message Task**](../../../building-blocks/node/message-send-received-task-node#send-message-task) node. Here you specify the [**kafka topic**](../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts#topics) (address) where the template will be generated.
 
 <Frame>
 
@@ -58,7 +59,7 @@ Using a specific flow on FLOWX.AI offers several advantages:
 </Frame>
 
 <Info>
-The Kafka topic for generating the template must match the topic defined in the **`KAFKA_TOPIC_DOCUMENT_GENERATE_HTML_IN`** variable. Refer to the [**Kafka configuration guide**](../../../platform-setup-guides/flowx-engine-setup-guide/flowx-engine-setup-guide.md#configuring-kafka) for more details. For additional information, please see the [**Documents plugin setup guide**](../plugins-setup-guide/documents-plugin-setup).
+The Kafka topic for generating the template must match the topic defined in the **`KAFKA_TOPIC_DOCUMENT_GENERATE_HTML_IN`** variable. **DEVELOPER**: Refer to the [**Kafka configuration guide**](../../../../setup-guides/flowx-engine-setup-guide/engine-setup#configuring-kafka) for more details. For additional information, please see the [**Documents plugin setup guide**](../../../../setup-guides/plugins-setup-guide/documents-plugin-setup).
 </Info>
 
 3. Fill in the **Message**. The request body should include the following values:
@@ -78,7 +79,7 @@ The Kafka topic for generating the template must match the topic defined in the 
 </Frame>
 
 <Info>
-The [**`data` parameters**](../wysiwyg.md) must be defined in the document template beforehand. For more information, check the [**WYSIWYG Editor**](../wysiwyg.md) section.
+The [**`data` parameters**](../wysiwyg) must be defined in the document template beforehand. For more information, check the [**WYSIWYG editor**](../wysiwyg) section.
 
 <Frame>
 
@@ -95,7 +96,7 @@ The [**`data` parameters**](../wysiwyg.md) must be defined in the document templ
 * to include a **custom barcode**, set `includeBarCode: false` and provide the desired data in the `data` field
 </Check>
 
-5. Add a [**Receive Message Task**](../../../building-blocks/node/message-send-received-task-node.md#message-receive-task) node and specify the topic where you want to receive the response.
+5. Add a [**Receive Message Task**](../../../building-blocks/node/message-send-received-task-node#receive-message-task) node and specify the topic where you want to receive the response.
 
 <Check>
 Ensure that the topic matches the one defined in the **`KAFKA_TOPIC_DOCUMENT_GENERATE_HTML_OUT`** variable. 
@@ -107,7 +108,7 @@ Ensure that the topic matches the one defined in the **`KAFKA_TOPIC_DOCUMENT_GEN
 
 </Frame>
 
-6. Add a [**User Task**](../../../building-blocks/node/user-task-node) node and configure an [**Upload File**](../../../building-blocks/actions/upload-file-action.md) action to send the file (defined by the **`KAFKA_TOPIC_DOCUMENT_PERSIST_IN`** variable) to the storage solution (for example, S3).
+6. Add a [**User Task**](../../../building-blocks/node/user-task-node) node and configure an [**Upload file**](../../../building-blocks/actions/upload-file-action) action to send the file (defined by the **`KAFKA_TOPIC_DOCUMENT_PERSIST_IN`** variable) to the storage solution (for example, S3).
 
 <Frame>
 
@@ -121,6 +122,7 @@ Ensure that the topic matches the one defined in the **`KAFKA_TOPIC_DOCUMENT_GEN
 
 ### Setup guide
 
-Refer to the OCR plugin setup guide for detailed instructions on setting up the OCR plugin:
 
-[OCR plugin setup](../plugins-setup-guide/ocr-plugin-setup)
+<Card title="OCR plugin setup" href="../../../../setup-guides/plugins-setup-guide/ocr-plugin-setup" icon ="gears">
+**DEVELOPER**: Refer to the OCR plugin setup guide for detailed instructions on setting up the OCR plugin.
+</Card>

@@ -9,10 +9,10 @@ description: "The core of the platform is the process definition, which is the b
 Once a process is defined and set as published on the platform, it can be executed, monitored, and optimized. When a business process is started, a new instance of the definition is created.
 
 <CardGroup>
-<Card title="Process instance" href="./active-process/process-instance" icon="file">
+<Card title="Process instance" href="./process-instance" icon="file">
 </Card>
 
-<Card title="Failed process start" href="./active-process/failed-process-start" icon="file">
+<Card title="Failed process start" href="./process-instance#exceptions" icon="file">
 </Card>
 </CardGroup>
 
@@ -59,7 +59,7 @@ In the **Audit log** tab you will find the following items:
 Some items in the Audit log are filterable, making it easy to track changes in the process.
 </Info>
 
-<Card title ="Audit" href="../../platform-deep-dive/core-components/core-extensions/audit">
+<Card title ="Audit" href="../../platform-deep-dive/core-extensions/audit">
 </Card>
 
 ## Data model
@@ -91,7 +91,7 @@ The Data Model supports the following attribute types:
 * ENUM
 
 <Info>
-When you export or import a [**process definition**](process-definition.md), the data model will be included.
+When you export or import a [**process definition**](./process-definition), the data model will be included.
 </Info>
 
 ### Data model reference
@@ -122,7 +122,7 @@ The **Use in Reporting** tag is used for keys that will be used further in the r
 
 ### Generating data model
 
-A data model can be generated using data values from a [process instance](./active-process/process-instance.md). This can be done by either merging the data model with an existing one or replacing it entirely.
+A data model can be generated using data values from a [process instance](./process-instance). This can be done by either merging the data model with an existing one or replacing it entirely.
 
 To generate a data model, follow these steps:
 
@@ -172,7 +172,7 @@ For more details about access management, check the following sections:
 <Card title="User roles management - Swimlanes" href="../../platform-deep-dive/user-roles-management/swimlanes" icon="file">
 </Card>
 
-<Card title ="Configuring access roles for processes" href="../../platform-setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes" icon="file">
+<Card title ="Configuring access roles for processes" href="../../../setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes" icon="file">
 </Card>
 
 </CardGroup>
@@ -185,13 +185,13 @@ In the General settings, you can edit the process definition name, include the p
 
 * **Process definition name** - edit process definition name
 * **Use process in reporting** - if switched on, the process will be included in reporting
-* **Use process in task management** - if switched on, tasks will be created and displayed in the Task manager plugin, more information [here](../../platform-deep-dive/plugins/custom-plugins/task-management/task-management.md)
+* **Use process in task management** - if switched on, tasks will be created and displayed in the Task manager plugin, more information [here](../../platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview)
 * **General data** - data that you can set and receive on a response
 * **Expiry time** - a user can set up a `expiryTime` function on a process, for example, a delay of 30s will be set up like: `30 16 11 4 7 1`
 
 For more information about **Cron Expressions** and **ISO 8601** formatting, check the following section;
 
-[Timer Expressions](../node/timer-events/timer-expressions.md)
+[Timer Expressions](../node/timer-events/timer-expressions)
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process_settings.png)
 
@@ -206,7 +206,7 @@ When you create a new swimlane, it comes with two default permissions assigned b
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process_permissions.png)
 </Frame>
 
-<Card title="Configuring access rights for processes" href="../../platform-setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes">
+<Card title="Configuring access rights for processes" href="../../../setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes">
 </Card>
 
 ### Task Management

@@ -14,7 +14,7 @@ icon: clock
 
 * [MongoDB](https://www.mongodb.com/2) database
 * Ability to connect to a Kafka instance used by the engine
-* Scheduler service account - needed in order to use Start Timer event node - see [**here**](./access-management/configuring-an-iam-solution.md#scheduler-service-account)
+* Scheduler service account - needed in order to use Start Timer event node - see [**here**](./access-management/configuring-an-iam-solution#scheduler-service-account)
 
 The service comes with most of the needed configuration properties filled in, but there are a few that need to be set up using some custom environment variables.
 
@@ -92,12 +92,12 @@ security:
 ```
 
 * `SECURITY_OAUTH2_BASE_SERVER_URL`: This setting specifies the base URL of the OpenID server, which is used for authentication and authorization.
-* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`:This setting specifies the service account that is essential for enabling the [**Start Timer event node**](../building-blocks/node/timer-events/timer-start-event.md). Ensure that you provide the correct client ID for this service account.
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`:This setting specifies the service account that is essential for enabling the [**Start Timer event node**](../docs/building-blocks/node/timer-events/timer-start-event). Ensure that you provide the correct client ID for this service account.
 * `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET`: Along with the client ID, you must also specify the client secret associated with the service account for proper authentication.
 
 More details about the necessary service account, here:
 
-[Scheduler service account](../platform-setup-guides/access-management/configuring-an-iam-solution.md#scheduler-service-account)
+[Scheduler service account](./access-management/configuring-an-iam-solution#scheduler-service-account)
 
 ### Retry mechanism
 

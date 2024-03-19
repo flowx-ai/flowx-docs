@@ -59,18 +59,15 @@ cms-mdb:
 
 
 
-## Configuration <a href="#bad24571-ff23-4ec3-83d9-8a2ace74a6b4" id="bad24571-ff23-4ec3-83d9-8a2ace74a6b4"></a>
+## Configuration
 
 ### Configuring authorization & access roles
 
 To connect to the identity management platform, the following variables need to be set:
 
 * `SECURITY_OAUTH2_BASE_SERVER_URL` - the base URL for the OAuth 2.0 Authorization Server, which is responsible for authentication and authorization for clients and users, it is used to authorize clients, as well as to issue and validate access tokens
-
 * `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - a unique identifier for a client application that is registered with the OAuth 2.0 Authorization Server, this is used to authenticate the client application when it attempts to access resources on behalf of a user
-
 * `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - secret key that is used to authenticate requests made by an authorization client
-
 * `SECURITY_OAUTH2_REALM` - security configuration env var in the Spring Security OAuth2 framework, it is used to specify the realm name used when authenticating with OAuth2 provider
 
 ### Configuring MongoDB
@@ -82,15 +79,13 @@ The MongoDB database is used for storing taxonomies and contents. The following 
 ### Configuring Redis
 
 <Info>
-The service can use the [**Redis component**](../../platform-setup-guides/platform-setup-guides-docs.md#redis-configuration) already deployed for the engine.
+The service can use the [**Redis component**](./setup-guides-overview#redis-configuration) already deployed for the engine.
 </Info>
 
 The following values should be set with the corresponding Redis-related values:
 
 * `SPRING_REDIS_HOST` - environment variable used to configure the hostname or IP address of a Redis server when using Spring Data Redis
-
 * `SPRING_REDIS_PASSWORD` - environment variable is used to store the password used to authenticate with a Redis server, it is used to secure access to the Redis server and should be kept confidential
-
 * `REDIS_TTL` - environment variable is used to specify the maximum time-to-live (TTL) for a key in Redis, it is used to set a limit on how long a key can exist before it is automatically expired (Redis will delete the key after the specified TTL has expired)
 
 All the data produced by the service will be stored in Redis under a specific key. The name of the key can be configured using the environment variable:
@@ -100,40 +95,30 @@ All the data produced by the service will be stored in Redis under a specific ke
 To configure the Kafka server, you need to set the following environment variables:
 
 * `SPRING_KAFKA_BOOTSTRAP_SERVERS` - address of the Kafka server, it should be in the format "host:port"
-
 * `SPRING_KAFKA_CONSUMER_GROUP_ID` - a group of consumers
-
 * `KAFKA_CONSUMER_THREADS` - the number of Kafka consumer threads
-
 * `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` - the interval between retries after `AuthorizationException` is thrown by `KafkaConsumer`
-
 * `KAFKA_TOPIC_AUDIT_OUT` - the topic key for receiving audit logs
 
 Each action available in the service corresponds to a Kafka event. A separate Kafka topic must be configured for each use case.
 
-:::caution
+<Tip>
 It is important to note that all the actions that start with a configured pattern will be consumed by the engine.
-:::
+</Tip>
 
 ### Configuring logging
 
 To control the log levels, the following environment variables can be set:
 
 * `LOGGING_LEVEL_ROOT` - the log level for the root spring boot microservice logs
-
 * `LOGGING_LEVEL_APP` - the log level for app-level logs
-
 * `LOGGING_LEVEL_MONGO_DRIVER` - the log level for mongo driver
 
 ### Configuring file storage
 
 * `APPLICATION_FILE_STORAGE_S3_SERVER_URL` - environment variable used to store the URL of the S3 server that is used to store files for the application.
-
 * `APPLICATION_FILE_STORAGE_S3_BUCKET_NAME` - environment variable used to store the name of the S3 bucket that is used to store files for the application
-
 * `APPLICATION_FILE_STORAGE_S3_ROOT_DIRECTORY` - environment variable used to store the root directory within the S3 bucket where the files for the application are stored
-
 * `APPLICATION_FILE_STORAGE_S3_CREATE_BUCKET` - environment variable used to indicate whether the S3 bucket should be created if it does not already exist, it can be set to true or false
- 
 * `APPLICATION_FILE_STORAGE_S3_PUBLIC_URL` - the public URL of the S3 solution, it specifies the URL that can be used to access the files stored
 

@@ -65,12 +65,12 @@ After you added a new integration, you can configure scenarios by following the 
 
 ### Configuring scenarios
 
-You have multiple scenarios that you can configure on an integration. For example, for integration with the [notification plugin](../../../plugins/custom-plugins/notifications-plugin/notifications-plugin.md), you can configure the following scenarios: generate email notification, generate email OTP, generate push notifications, etc.
+You have multiple scenarios that you can configure on an integration. For example, for integration with the [notification plugin](../../plugins/custom-plugins/notifications-plugin/notifications-plugin-overview), you can configure the following scenarios: generate email notification, generate email OTP, generate push notifications, etc.
 
 After you created a scenario you can configure the **data model** for it by following the next steps:
 
 1. Select a **scenario** then click the **eye icon** to open the configuration.
-2. You have two tabs **Send** and **Receive**, corresponding to the type of the actions: [Kafka Send](../../../../building-blocks/node/message-send-received-task-node.md#message-send-task) and [Kafka Receive](../../../../building-blocks/node/message-send-received-task-node.md#message-receive-task).
+2. You have two tabs **Send** and **Receive**, corresponding to the type of the actions: [Send Message Task (Kafka)](../../../building-blocks/node/message-send-received-task-node#send-message-task) and [Receive Message Task](../../../building-blocks/node/message-send-received-task-node#receive-message-task).
 3. You have multiple **properties** that you need to configure:
 
 * **Send** scenario:
@@ -150,7 +150,7 @@ The following details need to be configured:
 All integrations have `processInstanceId` as a default header parameter.
 
 <Info>
-If you have actions that contain [callbacks](../../../../building-blocks/actions/actions.md#callbacks-actions), multiple headers can be added, like the action name or the name of the node.
+If you have actions that contain [callbacks](../../../building-blocks/actions/actions#callback-actions), multiple headers can be added, like the action name or the name of the node.
 </Info>
 
 Headers may also contain Kafka authorization (token in the header).

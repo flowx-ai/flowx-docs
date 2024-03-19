@@ -4,11 +4,11 @@ description: Token is the concept that describes the current position in the pro
 icon: "coins"
 ---
 
-The token is a [BPMN](../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/intro-to-bpmn.md) concept that represents a state within a process instance. It keeps track of the current position in the process flow and is used to store data related to the current process instance state.
+The token is a [BPMN](../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn) concept that represents a state within a process instance. It keeps track of the current position in the process flow and is used to store data related to the current process instance state.
 
-A token is created each time a new process instance is started. As the actions on the process instance are executed, the token advances from one node to the next. As a node can have several [actions](./actions/actions.md) that need to be executed, the token is also used for keeping track of the actions executed in each node.
+A token is created each time a new process instance is started. As the actions on the process instance are executed, the token advances from one node to the next. As a node can have several [actions](./actions/actions) that need to be executed, the token is also used for keeping track of the actions executed in each node.
 
-In case of [parallel gateways](./node/parallel-gateway.md), child tokens are created for each flow branch. The parent token moves to the gateway sync node and only advances after all the child tokens also reach that node.
+In case of [parallel gateways](./node/parallel-gateway), child tokens are created for each flow branch. The parent token moves to the gateway sync node and only advances after all the child tokens also reach that node.
 
 The image below shows how a token advances through a process flow:
 

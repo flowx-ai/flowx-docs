@@ -8,16 +8,14 @@ icon: shield-check
 
 * **DB instance** 
 * **Kafka** - version 2.8 or higher
-* [**FLOWX.AI Designer**](../../flowx-designer/designer-setup-guide/designer-setup-guide.md)
+* [**FlowX Designer**](./designer-setup-guide) deployment
 
 ## Dependencies
 
 It has the following dependencies:
 
 * **Postgres database** - the License Engine uses a Postgres database to store license-related data. The database should be set up with basic configuration properties specified in the helm values.yaml file, these properties include the name of the database, username and password, and resources such as CPU and memory limits
-
 * **Connection to the same Kafka instance as the engine** - the License Engine needs to be able to communicate with the FLOWX.AI Engine using Kafka; the Kafka instance used by the engine should be the same one used by the License Engine
-
 * **Routing of requests through NGINX** - requests made to the License Engine should be routed through the FLOWX.AI Designer using NGINX, the configuration for the Designer should be updated to also expose the REST API of the License Engine by adding a path in `flowx-admin-plugins-subpaths`
 
 ## Configuration
@@ -83,17 +81,13 @@ security:
 * `SECURITY_OAUTH2_CLIENT_CLIENT_ID`: Specifies the client ID associated with the application registered on the OpenID server for authentication and authorization.
 * `SECURITY_OAUTH2_REALM`: Defines the realm for the OAuth 2.0 authorization server. The realm is a protected space where the client's resources are stored. It provides additional context for the authentication process.
 
-[Configuring access roles (old)](configuring-access-roles-old.md)
-
 
 ### Configuring License datasource
 
 The License Engine uses a Postgres/Oracle database to store license-related data. The following environment variables need to be set in order to connect to the database:
 
 * `SPRING_DATASOURCE_JDBCURL`
-
 * `SPRING_DATASOURCE_USERNAME`
-
 * `SPRING_DATASOURCE_PASSWORD`
 
 ### Configuring Engine datasource
@@ -103,9 +97,7 @@ The License service needs to retrieve the data for a process instance from the e
 The following configuration details need to be added in configuration files or overwritten using environment variables:
 
 * `ENGINE_DATASOURCE_JDBCURL`
-
 * `ENGINE_DATASOURCE_USERNAME`
-
 * `ENGINE_DATASOURCE_PASSWORD`
 
 ### Configuring Kafka
@@ -114,11 +106,8 @@ Kafka handles all communication between the License Engine and the FLOWX Engine.
 
 
 * `SPRING_KAFKA_BOOTSTRAP_SERVERS` - address of the Kafka server
-
 * `SPRING_KAFKA_CONSUMER_GROUP_ID` - group of consumers
-
 * `KAFKA_CONSUMER_THREADS` - the number of Kafka consumer threads
-
 * `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` - the interval between retries after `AuthorizationException` is thrown by `KafkaConsumer`
 
 <Info>
@@ -129,13 +118,12 @@ The configured license topic `KAFKA_TOPIC`\_`LICENSE_IN` should be the same as t
 
 The following environment variables could be set in order to control log levels:
 
-`LOGGING_LEVEL_ROOT` - root spring boot microservice logs
-
-`LOGGING_LEVEL_APP` - app level logs
+* `LOGGING_LEVEL_ROOT` - root spring boot microservice logs
+* `LOGGING_LEVEL_APP` - app level logs
 
 ### Configuring NGINX
 
-The [configuration for the Flowx Designer](../../flowx-designer/designer-setup-guide/designer-setup-guide.md#nginx) should be updated to also expose the REST API of the license engine by adding a path in `flowx-admin-plugins-subpaths`
+The [configuration for the FlowX Designer](./designer-setup-guide#nginx) should be updated to also expose the REST API of the license engine by adding a path in `flowx-admin-plugins-subpaths`
 
 ```yaml
       - path: /license(/|$)(.*)

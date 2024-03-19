@@ -16,10 +16,10 @@ The Audit service requires the following components to be set up before it can b
 
 The Audit service is built as a Docker image and runs on top of Kafka and Elasticsearch. Therefore, these services must be set up and running before starting the Audit service.
 
-* [**Kafka configuration**](./platform-setup-guides-docs.md#kafka) 
-* [**Authorization & access roles**](./platform-setup-guides-docs.md#authorization--access-roles)
-* [**Elastic search**](#elastic-search)
-* [**Logging**](./platform-setup-guides-docs.md#logging)
+* [**Kafka configuration**](./setup-guides-overview#kafka) 
+* [**Authorization & access roles**](./setup-guides-overview#authorization--access-roles)
+* [**Elastic search**](#configuring-elasticsearch)
+* [**Logging**](./setup-guides-overview#logging)
 
 ## Configuration
 
@@ -28,11 +28,8 @@ The Audit service is built as a Docker image and runs on top of Kafka and Elasti
 To configure the Kafka server for the Audit service, set the following environment variables:
 
 * `SPRING_KAFKA_BOOTSTRAP_SERVERS` - address of the Kafka server, it should be in the format "host:port"
-
 * `SPRING_KAFKA_CONSUMER_GROUP_ID` - the consumer group ID to be used for the audit logs
-
 * `KAFKA_CONSUMER_THREADS` - the number of Kafka consumer threads to be used for processing audit logs
-
 * `KAFKA_TOPIC_AUDIT_IN` - the topic key for receiving audit logs
 
 ### Configuring Elasticsearch
@@ -40,23 +37,16 @@ To configure the Kafka server for the Audit service, set the following environme
 To configure Elasticsearch, set the following environment variables:
 
 * `SPRING_ELASTICSEARCH_REST_URIS` - the URL(s) of one or more Elasticsearch nodes to connect to
-
 * `SPRING_ELASTICSEARCH_REST_DISABLESSL` - a boolean value that determines whether SSL should be disabled for Elasticsearch connections
-   
 * `SPRING_ELASTICSEARCH_REST_USERNAME` - the username to use for basic authentication when connecting to Elasticsearch
-
 * `SPRING_ELASTICSEARCH_REST_PASSWORD` - the password to use for basic authentication when connecting to Elasticsearch
-
 * `SPRING_ELASTICSEARCH_INDEX_SETTINGS_DATASTREAM` (used if ES is used across all dev environments) - the index settings for the datastreams that will be created in Elasticsearch 
-
-
 
 ### Configuring logging
 
 To control the log levels, set the following environment variables:
 
 * `LOGGING_LEVEL_ROOT` - the log level for the root spring boot microservice logs
-
 * `LOGGING_LEVEL_APP` - the log level for app-level logs
 
 <Warning>

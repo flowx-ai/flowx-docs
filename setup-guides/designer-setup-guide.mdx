@@ -1,16 +1,16 @@
 ---
 title: FlowX Designer
-description: To set up FLOWX Designer in your environment, follow this guide.
+description: To set up FlowX Designer in your environment, follow this guide.
 icon: pencil
 ---
 
 ## Prerequisites Management
 
-The backend microservice uses most of the same resources as the FLOWX Engine.
+The backend microservice uses most of the same resources as the **FlowX Engine**.
 
 ### Database - Postgres / Oracle
 
-The backend microservice connects to the same Postgres / Oracle database as the Engine.
+The backend microservice connects to the same Postgres / Oracle database as FlowX Engine.
 
 ### Kafka cluster
 
@@ -18,7 +18,7 @@ If you intend to use the audit functionality, ensure that the backend microservi
 
 ### NGINX
 
-For optimal operation the FLOWX Designer should use a separate [NGINX](../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-nginx.md) load balancer from the [**Engine**](../../terms/flowxai-process-engine). This routing mechanism handles API calls from the [SPA](designer-setup-guide.md#for-configuring-the-spa) (single page application) to the backend service, to the engine and to various plugins.
+For optimal operation the FlowX Designer should use a separate [NGINX](../docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-nginx) load balancer from the **FlowX Engine**. This routing mechanism handles API calls from the [SPA](./designer-setup-guide#for-configuring-the-spa) (single page application) to the backend service, to the engine and to various plugins.
 
 Here's an example/suggestion of an NGINX setup:
 

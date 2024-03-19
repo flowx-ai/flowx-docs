@@ -93,14 +93,14 @@ In the breadcrumb menu (top-right corner), you can access the following:
 
 In the **Process Status** view, some nodes are highlighted with different colors to easily identify any failures:
 
-* **Green** - nodes highlighted with green mark the nodes passed by the [token](../../token.md)
+* **Green** - nodes highlighted with green mark the nodes passed by the [token](../token)
 * **Red** - the node highlighted with red marks the node where the token is stuck (process failure)
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/color_coding.gif)
 
 ## Starting a new process instance
 
-To start a new process instance, a request must be made to the [FLOWX Engine](../../../platform-deep-dive/core-components/flowx-engine). This is handled by the web/mobile application. The current user must have the appropriate role/permission to start a new process instance.
+To start a new process instance, a request must be made to the [FlowX Engine](../../platform-deep-dive/core-components/flowx-engine). This is handled by the web/mobile application. The current user must have the appropriate role/permission to start a new process instance.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_instance_diagram.png)
 
@@ -180,7 +180,7 @@ Based on the exception type, there are multiple causes that could make a process
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Business Rule Evaluation | when executing action rules fails for any reason                                                                                                                                                                          |
 | Condition Evaluation     | when executing action conditions                                                                                                                                                                                          |
-| Engine                   | <p></p><p>when the connection with the database fails</p><p>when the connection with [Redis](../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis.md) fails</p><p></p> |
+| Engine                   | <p></p><p>when the connection with the database fails</p><p>when the connection with [Redis](../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis) fails</p><p></p> |
 | Definition               | misconfigurations: process def name, subprocess parent process id value, start node condition missing                                                                                                                     |
 | Node                     | when an outgoing node can’t be found (missing sequence etc)                                                                                                                                                               |
 | Gateway Evaluation       | <p>when the token can’t pass a gateway for any reason, possible causes:</p><ul><li>missing sequence/node</li><li>failed node rule</li></ul>                                                                               |

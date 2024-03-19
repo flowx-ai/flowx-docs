@@ -22,7 +22,8 @@ Recommended keycloak version: **18.0.x**
 
 For more detailed information, refer to the official Keycloak documentation:
 
-[Keycloak documentation](https://www.keycloak.org/documentation)
+<Card title="Keycloak documentation" href="https://www.keycloak.org/documentation" icon="link">
+</Card>
 
 ## Creating a new realm
 
@@ -51,13 +52,14 @@ If you are logged in to the master realm this dropdown menu lists all the realms
 
 ## Creating/importing user groups and roles
 
-You can either create or import a user group into a realm. We prepared a [script](./#importing-user-roles) that helps you to import a **super admin group** provided with the necessary **default user roles**.
+You can either create or import a user group into a realm. We prepared a [script](../../docs/platform-deep-dive/assets/importUsers.zip) that helps you to import a **super admin group** provided with the necessary **default user roles**.
 
-You can create or import user groups into a realm. If you choose to import, follow the provided [<u>**script**</u>](./#importing-user-roles) to import a **super admin group**(`SUPER_ADMIN_USERS`) with **default user roles**. After importing, add an admin user to the group and assign the necessary roles.
+You can create or import user groups into a realm. If you choose to import, follow the provided script to import a **super admin group** (`SUPER_ADMIN_USERS`) with **default user roles**. After importing, add an admin user to the group and assign the necessary roles.
 
 Make sure to validate the imported roles by checking the following section:
 
-[Default roles](./default-roles)
+<Card title="Default roles" href="./default-roles" icon ="file">
+</Card>
 
 ## Creating new users
 
@@ -105,7 +107,7 @@ Protocol mappers in Keycloak allow for the transformation of tokens and document
 To enhance your clients, consider adding the following mappers:
 
 * [Group Membership mapper ](#group-membership-mapper) - `realm-groups`: This mapper can be utilized to map user groups to the authorization token.
-* [User Attribute mapper](#user-attribute-mapper) - `business filter mapper`: Use this mapper to map custom attributes, for example, mapping the [businessFilters ](../../platform-deep-dive/user-roles-management/business-filters.md) list, to the token claim.
+* [User Attribute mapper](#user-attribute-mapper) - `business filter mapper`: Use this mapper to map custom attributes, for example, mapping the [businessFilters ](../../docs/platform-deep-dive/user-roles-management/business-filters) list, to the token claim.
 * [User Realm role](#user-realm-role) - `realm-roles`: This mapper enables mapping a user's realm role to a token claim.
 
 By incorporating these mappers, you can further customize and enrich the information contained within your tokens.
@@ -144,7 +146,8 @@ By adding this user attribute mapper, the custom attribute "businessFilters" wil
 
 You can find more information about business filters in the following section:
 
-[Business filters](../../platform-deep-dive/user-roles-management/business-filters.md)
+<Card title="Business filters" href="../../docs/platform-deep-dive/user-roles-management/business-filters" icon ="file">
+</Card>
 
 ### User realm role
 
@@ -284,7 +287,8 @@ The admin service account does not require mappers as it doesn't utilize roles. 
 
 For detailed information, refer to the following section:
 
-[Configuring access rights for admin](../../flowx-designer/designer-setup-guide/configuring-access-rights-for-admin.md)
+<Card title="Configuring access rights for admin" href="../access-management/configuring-access-rights-for-admin" icon ="file">
+</Card>
 
 ### Task management service account
 
@@ -332,7 +336,8 @@ In the provided example, the **task management service account** can have the fo
 
 For more information, check the following section:
 
-[Configuring access rights for Task Management](../../platform-deep-dive/plugins/plugins-setup-guide/task-management-plugin-setup/configuring-access-rights-for-task-management.md)
+<Card title="Configuring access rights for Task Management" href="../plugins-access-rights/configuring-access-rights-for-task-management" icon="file">
+</Card>
 
 ### Process engine service account
 
