@@ -1,0 +1,61 @@
+---
+title: Overview
+description: Notifications plugin can be easily added to your custom FlowX.AI deployment. The plugin will **enhance the core platform capabilities with functionality specific to sending various notifications**.
+---
+
+You have the possibility to send various types of notifications:
+
+* Email notifications 
+* SMS templates to mobile devices
+
+<Info>
+To use the plugin to send notifications, via SMS channel, a third party provider for SMS communication is needed, for example, [Twilio](https://www.twilio.com/).
+</Info>
+
+* Forward custom notifications to external outgoing services
+* Generate and validate OTP passwords for user identity verification
+
+You can also use the plugin to track what notifications have been sent and to whom.
+
+Let's go through the steps needed to deploy and set up the plugin:
+
+
+## Using Notifications plugin
+
+After deploying the notifications plugin in your infrastructure, you can start sending notifications by configuring related actions in your **process definitions**.
+
+Before adding the corresponding **actions** in your process definition, you will need to follow a few steps:
+
+* make sure all prerequisites are prepared, for example, the [notification templates](./managing-notification-templates) you want to use
+* the database is configured properly
+* for each **Kafka** event type, you will need two Kafka topics: 
+    * one for the request sent from the FlowX Engine to the Notifications plugin
+    * one for the corresponding reply
+
+<Card title="Kafka configuration for Notifications plugin" href="../../../../../setup-guides/plugins-setup-guide/notifications-plugin-setup#kafka-configuration" icon ="gears">
+**DEVELOPER**
+</Card>
+
+<Info title="DEVELOPER"> 
+The topic names configured for the plugin should match the ones used when configuring the engine and when adding plugin-related process actions:
+
+* the Engine is listening for messages on topics with names of a certain pattern, make sure to use an outgoing topic name that matches the pattern configured in the Engine
+
+More details: [here](../../../../../setup-guides/flowx-engine-setup-guide/engine-setup#configuring-kafka)
+
+* to make a request to the plugin, the process definition needs to have an action of type `Kafka send` that has an action parameter with key `topicName` and the needed topic name as a value
+* to receive a reply from the plugin, the process definition needs to have a receiving node with a node value with key `topicName` and the topic name as the value
+
+</Info>
+    
+After all the setup is in place, you can start adding custom actions to the processes.
+
+Let's go through a few examples. These examples cover both the configuration part, and the integration with the engine for all the use cases.
+
+<CardGroup>
+  <Card title="Managing notification templates" href="managing-notification-templates" />
+  <Card title="Send a notification" href="sending-a-notification" />
+  <Card title="Send an email with attachements" href="sending-an-email-with-attachments" />
+  <Card title="Forward notifications to an external system" href="forwarding-notifications-to-an-external-system" />
+  <Card title="OTP flow" href="otp-flow" />
+</CardGroup>
