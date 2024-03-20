@@ -306,10 +306,24 @@
                   "docs/platform-deep-dive/core-extensions/content-management/languages",
                   "docs/platform-deep-dive/core-extensions/content-management/source-systems",
                   "docs/platform-deep-dive/core-extensions/content-management/media-library",
-                  "docs/platform-deep-dive/core-extensions/content-management/font-files"
-                  
+                  "docs/platform-deep-dive/core-extensions/content-management/font-files",
+                
+                
+                  {
+                    "group": "Themes",
+                    "pages": [
+                      "4.0/docs/platform-deep-dive/core-extensions/content-management/theming/themes",      
+                      "4.0/docs/platform-deep-dive/core-extensions/content-management/theming/migration-guide"     
+                    ],
+
+                  "version": "v4.x"
+                  }
+                
                 ]
-                },
+
+                
+              },
+
 
 
                 "docs/platform-deep-dive/core-extensions/generic-parameters",
