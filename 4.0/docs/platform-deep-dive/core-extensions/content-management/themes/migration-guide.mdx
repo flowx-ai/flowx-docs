@@ -65,8 +65,13 @@ Copy the UUID and deploy the theme to the container app.
 
 ## Overrides
 
+
 * **Before launching Theming feature**: you'd configure styles for each component in **UI Designer** or adjust JSON files for design/. 
 * **With Theming**: use Theme Overrides in UI Designer to adjust styles for specific UI elements based on the platform.
+
+<Info>
+All components can now be styled with token overrides, for color, typography and shadow settings defined in the theme.
+</Info>
 
 <Info>
 **Theme overrides** in **UI Designer** are applied to the UI template itself, rather than to specific themes. This means that when switching the view to another theme, the overrides persist and apply to the new theme as well.
@@ -79,6 +84,10 @@ Copy the UUID and deploy the theme to the container app.
 <Info>
 There are some changes that were brought together with the Themes feature to the UI components in **4.0** release that might impact your previous UI configuration.
 </Info>
+
+### Universal Styling
+
+Introduced the option for platform-agnostic customization for components Across Web, iOS, and Android.
 
 ### Layout
 
@@ -163,5 +172,12 @@ By following this migration guide, you can seamlessly transition to the Theming 
 
 ### Icons - No color property
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/no_color_svg.png)
+<Info>
+Now, all icon color settings have a "No Color" option, which allows the icon (SVG) to be rendered with its original color settings.
+</Info>
 
+If you are utilizing SVG icons for UI components (such as a left icon on an input element) and you desire to ensure that the color remains consistent regardless of the theme settings, it is imperative to override all states associated with the "Left icon," as demonstrated in the example below:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/no_color_svg.png)
+</Frame>
