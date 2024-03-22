@@ -94,7 +94,7 @@ security:
 * `SECURITY_OAUTH2_CLIENT_CLIENT_ID`: A unique identifier for a client application that is registered with the OAuth 2.0 Authorization Server, this is used to authenticate the client application when it attempts to access resources on behalf of a user.
 * `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`: Secret Key that is used to authenticate requests made by an authorization client.
 * `SECURITY_OAUTH2_REALM`: Security configuration env var in the Spring Security OAuth2 framework, it is used to specify the realm name used when authenticating with OAuth2 providers.
-* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`: The process engine requires a process engine service account to make direct calls to the Keycloak API. This setting specifies the service account that is essential so the of [**Start Catch Event**](../../docs/building-blocks/node/message-events/message-catch-start-event) node is possible. Ensure that you provide the correct client ID for this service account.
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`: The process engine requires a process engine service account to make direct calls to the Keycloak API. This setting specifies the service account that is essential so the of [**Start Catch Event**](/3.x/docs/building-blocks/node/message-events/message-catch-start-event) node is possible. Ensure that you provide the correct client ID for this service account.
 * `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET`: Along with the client ID, you must also specify the client secret associated with the service account for proper authentication.
 
 ```yaml

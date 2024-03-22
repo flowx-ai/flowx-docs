@@ -52,7 +52,7 @@ If you are logged in to the master realm this dropdown menu lists all the realms
 
 ## Creating/importing user groups and roles
 
-You can either create or import a user group into a realm. We prepared a [script](../../4.0/docs/platform-deep-dive/assets/importUsers.zip) that helps you to import a **super admin group** provided with the necessary **default user roles**.
+You can either create or import a user group into a realm. We prepared a [script](/4.0/docs/platform-deep-dive/assets/importUsers.zip) that helps you to import a **super admin group** provided with the necessary **default user roles**.
 
 You can create or import user groups into a realm. If you choose to import, follow the provided script to import a **super admin group** (`SUPER_ADMIN_USERS`) with **default user roles**. After importing, add an admin user to the group and assign the necessary roles.
 
@@ -107,7 +107,7 @@ Protocol mappers in Keycloak allow for the transformation of tokens and document
 To enhance your clients, consider adding the following mappers:
 
 * [Group Membership mapper ](#group-membership-mapper) - `realm-groups`: This mapper can be utilized to map user groups to the authorization token.
-* [User Attribute mapper](#user-attribute-mapper) - `business filter mapper`: Use this mapper to map custom attributes, for example, mapping the [businessFilters ](../../4.0/docs/platform-deep-dive/user-roles-management/business-filters) list, to the token claim.
+* [User Attribute mapper](#user-attribute-mapper) - `business filter mapper`: Use this mapper to map custom attributes, for example, mapping the [businessFilters ](/4.0/docs/platform-deep-dive/user-roles-management/business-filters) list, to the token claim.
 * [User Realm role](#user-realm-role) - `realm-roles`: This mapper enables mapping a user's realm role to a token claim.
 
 By incorporating these mappers, you can further customize and enrich the information contained within your tokens.
@@ -146,7 +146,7 @@ By adding this user attribute mapper, the custom attribute "businessFilters" wil
 
 You can find more information about business filters in the following section:
 
-<Card title="Business filters" href="../../4.0/docs/platform-deep-dive/user-roles-management/business-filters" icon ="file">
+<Card title="Business filters" href="/4.0/docs/platform-deep-dive/user-roles-management/business-filters" icon ="file">
 </Card>
 
 ### User realm role
