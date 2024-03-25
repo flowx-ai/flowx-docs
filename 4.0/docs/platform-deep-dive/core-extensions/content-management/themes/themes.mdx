@@ -1,8 +1,114 @@
 ---
 title: Themes overview
-description: Theming
+description: Theme management feature enables you to easily change the appearance and styling of your application. You can personalize the look and feel of your application to your branding, preferences, or specific requirements.
 ---
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/themes_management.png)
 </Frame>
+
+## Key Features of Themes Functionality
+
+1. **Theme Management:**
+   - Creation, editing, and management of themes.
+   - Selection of predefined themes or customization of themes from scratch.
+
+2. **Customization Options:**
+   - Modification of color schemes, typography, spacing, and visual effects.
+   - Upload of custom assets like logos, images, or icons.
+
+3. **Overrides and Variations:**
+   - Ability to override default theme settings on specific elements or sections.
+   - Creation of theme variations or presets to accommodate different user preferences.
+
+4. **Platform Consistency:**
+   - Consistency of theme styles across different platforms and devices.
+   - Adaptation of themes to various screen sizes and resolutions.
+
+5. **Preview and Testing:**
+   - Real-time visualization of theme changes.
+   - Testing for compatibility with different browsers and devices.
+
+6. **Export/Import Functionality:**
+   - Export of themes for backup, sharing, or reuse.
+   - Import of pre-made themes or configurations.
+
+
+## Creating a new theme
+
+To successfully create a new theme, follow these steps:
+
+<Steps>
+<Step title ="Initiating theme creation">
+Locate the "Create New" button positioned above the right of the **Themes** list table.
+</Step>
+<Step title ="Inputting theme details">
+
+Click the "Create New" button and enter  details for your theme:
+
+* **Theme Name** - pick a name for your theme
+* **Font Family** - select your desired font family, by default, the system provides "Open Sans" as a non-deletable option. 
+
+<Tip>
+If you wish to add a new font, click on the link provided under the **Font Family** field, which redirects you to the **Fonts management** Selection.
+</Tip>
+
+* **Choose your primary color** - the default color is `#006BD8`.
+
+<Check>
+Verify that the color format is in **HEX**. If not, an error message will indicate "Please insert a HEX color."
+</Check>
+</Step>
+</Steps>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/creating_a_theme.gif)
+</Frame>
+
+## Configuring a new theme
+
+To configure your theme effectively, follow these steps:
+
+<Steps>
+<Step title ="Access theme settings">
+- Navigate to the settings or customization section of your application (in the UI Designer).
+- Look for options related to styling and think of an overall design
+</Step>
+<Step title ="Choose a theme">
+- Select a pre-existing theme from the available options if provided.
+- Alternatively, start with a default theme and customize it according to your preferences.
+
+
+</Step>
+<Step title ="Customize theme settings">
+Modify color schemes (using the design tokens), typography, spacing, and other visual elements to match your desired look and feel.
+Use the provided tools or controls to adjust theme settings. This might include sliders, color pickers, or dropdown menus.
+
+<AccordionGroup>
+<Accordion title ="Design Tokens" icon ="pen-ruler">
+* **Design Tokens**: Represent the single source of truth for the theme, storing visual elements of the design system.
+* **Color Palette, Shadows, Typography Tokens**: Configure these tokens based on your company's brand guidelines. They ensure reusability and consistency.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/design_tokens_theme.gif)
+
+</Accordion>
+<Accordion title= "Global Settings" icon ="gears">
+* **Platform-specific Settings**: Configure settings for each platform (web, iOS, Android) based on the global settings you've defined.
+* **Styles and Utilities**: General settings applying to all components (styles) and labels, errors, and helper text settings (utilities).
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/global_settings_theme.gif)
+
+</Accordion>
+<Accordion title="Component-level configuration" icon="hammer">
+**Component-level Configuration**: Customize the style of each component type.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/platform-components.gif)
+
+</Accordion>
+</AccordionGroup>
+</Step>
+<Step title= "Reviewing the changes (multi-platform)">
+Before finalizing the theme configuration, it's crucial to review how the changes will appear across different platforms. This step ensures consistency and allows for platform-specific adjustments if needed.
+</Step>
+
+</Steps>
