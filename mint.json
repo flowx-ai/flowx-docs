@@ -676,7 +676,15 @@
               "4.0/docs/building-blocks/node/exclusive-gateway-node",
               "4.0/docs/building-blocks/node/parallel-gateway",
               "4.0/docs/building-blocks/node/milestone-node",
-              "4.0/docs/building-blocks/node/subprocess-run-node",
+             
+              {
+                "group": "Call subprocess tasks",
+                "pages": [
+                  "4.0/docs/building-blocks/node/call-subprocess-tasks/call-activity-node",
+                  "4.0/docs/building-blocks/node/call-subprocess-tasks/start-embedded-subprocess"
+                ]
+              },
+
               {
                 "group": "Message events",
                 "pages": [

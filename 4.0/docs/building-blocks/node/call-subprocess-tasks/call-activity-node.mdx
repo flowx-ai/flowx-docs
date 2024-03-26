@@ -1,17 +1,17 @@
 ---
-title: "Subprocess run node"
-description: Suprocess run node is a node that provides advanced options for starting **subprocesses**.
+title: "Call activity node"
+description: Call activity is a node that provides advanced options for starting **subprocesses**.
 ---
 
 There might be cases when extra functionality is needed on certain nodes.
 
 <Frame>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/subprocess_run_node.png#center)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/call_activity1.png)
 
 </Frame>
 
-<Card title ="Subprocess" href="../process/subprocess" icon = "link">
+<Card title ="Subprocess" href="../../process/subprocess" icon = "link">
 </Card>
 
 It contains a default action for starting a subprocess.
@@ -26,7 +26,7 @@ Select if this task should be invoked asynchronously. Make tasks asynchronous if
 
 * **sync mode** - the parent process must wait for the subprocess to finish before advancing
 
-The start mode can be chosen when configuring the subprocess run node.
+The start mode can be chosen when configuring the call activity.
 
 In case the parent process needs to wait for the subprocess to finish and retrieve some results from it, the parent process key that will hold the results must be defined using the _output key_ node config value_._
 

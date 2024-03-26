@@ -84,10 +84,18 @@ To configure your theme effectively, follow these steps:
 Modify color schemes (using the design tokens), typography, spacing, and other visual elements to match your desired look and feel.
 Use the provided tools or controls to adjust theme settings. This might include sliders, color pickers, or dropdown menus.
 
+<Info>
+From the shadows onwards, you have to configure the settings for each platform: web, iOS and Android. It’s important to pay attention to this, because if you configure the web theme, for example, it won’t be automatically inherited by iOS or Android. 
+</Info>
+
+
+- For example, you can configure a web theme, and then leverage the push and import options. You can push from the web the same configuration to iOS or Android.
+
 <AccordionGroup>
 <Accordion title ="Design Tokens" icon ="pen-ruler">
 * **Design Tokens**: Represent the single source of truth for the theme, storing visual elements of the design system.
 * **Color Palette, Shadows, Typography Tokens**: Configure these tokens based on your company's brand guidelines. They ensure reusability and consistency.
+
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/design_tokens_theme.gif)
 
@@ -108,7 +116,9 @@ Use the provided tools or controls to adjust theme settings. This might include 
 </AccordionGroup>
 </Step>
 <Step title= "Reviewing the changes (multi-platform)">
-Before finalizing the theme configuration, it's crucial to review how the changes will appear across different platforms. This step ensures consistency and allows for platform-specific adjustments if needed.
+- Before finalizing the theme configuration, it's crucial to review how the changes will appear across different platforms. This step ensures consistency and allows for platform-specific adjustments if needed.
+- You can do that by either using the preview feature from **Themes** or by using the preview mode in the **UI Designer** by switching to your preffered platform.
+
 </Step>
 
 </Steps>
