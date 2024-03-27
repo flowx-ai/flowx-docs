@@ -1,0 +1,51 @@
+---
+title: "Call activity node"
+description: Call activity is a node that provides advanced options for starting **subprocesses**.
+---
+
+There might be cases when extra functionality is needed on certain nodes.
+
+<Frame>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/call_activity1.png)
+
+</Frame>
+
+<Card title ="Subprocess" href="../../process/subprocess" icon = "link">
+</Card>
+
+It contains a default action for starting a subprocess.
+
+A subprocess can be started in two modes:
+
+* **async mode** - the parent **process** will continue without waiting for the sub-process to finish
+
+<Info>
+Select if this task should be invoked asynchronously. Make tasks asynchronous if they cannot be executed instantaneously, for example, a task performed by an outside service.
+</Info>
+
+* **sync mode** - the parent process must wait for the subprocess to finish before advancing
+
+The start mode can be chosen when configuring the call activity.
+
+In case the parent process needs to wait for the subprocess to finish and retrieve some results from it, the parent process key that will hold the results must be defined using the _output key_ node config value_._
+
+<Frame>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/subprocess_run_config.png)
+
+</Frame>
+
+This node type can also be used for starting a set of subprocesses that will be started and run at the same time. This will prove useful in case we have an array of values in the parent process parameters and we want to start a subprocess for each of the elements in that array.
+
+<Frame>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/subprocess_run_config1.png)
+
+</Frame>
+
+In order to do this, we need to select the parallel multi instance option. The _collection key_ name from the parent process also needs to be specified.
+
+<Info>
+When designing such a subprocess that will be started in a loop, you need to keep in mind that the input value for the subprocess (that is, one of the values from the array in the parent process) will be stored in the subprocess parameter values under they key named _item_. This will have to be used inside the subprocess. If this subprocess produces any results, they should be stored under a key named _result_ in order to be sent back to the parent process.
+</Info>

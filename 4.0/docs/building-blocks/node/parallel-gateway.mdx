@@ -1,0 +1,33 @@
+---
+title: "Parallel gateway"
+description: When you have multiple operations that can be executed concurrently, the Parallel Gateway becomes a valuable tool. This type of node creates a parallel section within the **process**, particularly useful for tasks that can run independently without waiting for each other. It's essential to close each parallel section with another Parallel Gateway node.
+---
+
+## Configuring parallel paths
+
+<Frame>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/gateway_parallel.png#center)
+
+</Frame>
+
+This node requires no special configuration and can initiate two or more parallel paths. It's important to note that the closing Parallel node, which is required to conclude the parallel section, will wait for all branches to complete before advancing to the next node.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/parallel_gateways.png)
+
+### Configuration example
+
+Let's consider a scenario involving a Paid Time Off (PTO) request. We have two distinct flows: one for the HR department and another for the manager. Initially, two tokens are generated—one for each parallel path. A third token is created when both parallel paths converge at the closing parallel gateway.
+
+In the HR flow, in our example, the request is automatically approved.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/hr_flow.gif)
+
+Now, we await the second flow, which requires user input.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/manager_flow.gif)
+
+After the tokens from the parallel paths have completed their execution, a third token initiates from the closing parallel gateway.
+
+
+

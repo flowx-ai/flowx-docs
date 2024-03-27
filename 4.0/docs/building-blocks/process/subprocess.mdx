@@ -1,0 +1,71 @@
+---
+title: Subprocess management
+description: Learn how to configure, start, and execute subprocesses efficiently within your process flow.
+---
+
+Subprocesses are smaller process flows triggered by actions in the main process. They can inherit some process parameter values from the parent process and communicate with front-end apps using the same connection details as their parent process.
+
+
+## Overview
+
+Subprocesses can be started in two modes:
+
+* **Asynchronous**: Execute alongside the parent process without delaying it.
+* **Synchronous**: The parent process waits until subprocesses are finished before advancing.
+
+## Configuring & starting subprocesses
+
+Design subprocesses within the FlowX Designer, mirroring the main process structure.
+
+<Steps>
+<Step title ="Start Subprocess Action">
+*  Within user tasks or task nodes.
+</Step>
+<Step title="Call Activity node">
+*  Custom node type in the main process.
+</Step>
+<Step title ="Start Embedded Subprocess node">
+* Using the corresponding node.
+</Step>
+</Steps>
+
+### Parameter inheritance
+
+<Info>
+Available for **Start Subprocess** action and **Call Activity** node.
+</Info>
+
+By default, subprocesses inherit all parent process parameter values. Configure inheritance by:
+
+* **Copy from Current State**: Select keys to copy.
+* **Exclude from Current State**: Specify keys to ignore.
+
+Sub-processes can also have an [**Append Params to Parent Process**](../actions/append-params-to-parent-process) action  configured inside their process definitions which will append their results to the parent process parameter values.
+
+<Card title ="Append Params to Parent Process" href ="../actions/append-params-to-parent-process" icon ="file">
+</Card>
+
+## Executing subprocesses
+
+Define subprocess execution mode:
+
+* **Asynchronous/Synchronous**: Set the `startedAsync` parameter accordingly.
+
+In synchronous mode, subprocesses notify completion to the parent process. The parent process then resumes its flow and handles subprocess data.
+
+## Additional resources
+
+For detailed guidance on configuring and running subprocesses:
+
+<CardGroup>
+
+<Card title="Call activity node" href="../node/call-subprocess-tasks/call-activity-node" icon ="link">
+</Card>
+
+<Card title="Start a subprocess action" href="../actions/start-subprocess-action" icon="link">
+</Card>
+
+<Card title="Start embedded subprocess" href="../node-call-subprocess-tasks/start-embedded-subprocess" icon="link">
+</Card>
+
+</CardGroup>

@@ -1,0 +1,63 @@
+---
+title: Adding a new node
+description: Once you create a new **process definition**, you can start configuring it by adding new **nodes**.
+---
+You can choose between a series of available node types below. For an overview of what each node represents, see [BPMN 2.0 basic concepts](../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn):
+
+<CardGroup>
+<Card title="Start Event" href="../../building-blocks/node/start-end-node">
+</Card>
+<Card title="End Event" href="../../building-blocks/node/start-end-node">
+</Card>
+<Card title="Service Task" href="../../building-blocks/node/task-node">
+</Card>
+<Card title="User Task" href="../../building-blocks/node/user-task-node">
+</Card>
+<Card title="Parallel Gateway" href="../../building-blocks/node/parallel-gateway">
+</Card>
+<Card title="Exclusive Gateway" href="../../building-blocks/node/exclusive-gateway-node">
+</Card>
+<Card title="Send Message Task" href="../../building-blocks/node/message-send-received-task-node">
+</Card>
+<Card title="Receive Message Task" href="../../building-blocks/node/message-send-received-task-node">
+</Card>
+<Card title="Start Milestone" href="../../building-blocks/node/milestone-node">
+</Card>
+<Card title="End Milestone" href="../../building-blocks/node/milestone-node">
+</Card>
+</CardGroup>
+
+
+### Steps for creating a new node
+
+To create a new node on an existing process:
+
+<Steps>
+
+<Step>
+Open **FlowX Designer** and from the **Processes** tab select **Definitions**.
+</Step>
+<Step>
+Open your **process**.
+</Step>
+<Step>
+Click the **Edit process** button from the process definition.
+</Step>
+<Step>
+Drag and drop one **node element**.
+</Step>
+<Step>
+To connect the node that you just created:
+* Click the node, select the **arrow** command
+* Click the node that you wish to link to the newly added node
+</Step>
+</Steps>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/process_flow_adding_a_node.gif)
+
+For each new **node**, you can set its name, and a set of values (timeout, topic name, key name) and you can also add various [actions](../../building-blocks/actions/actions) to it.
+
+<Card title="Node" href="../../building-blocks/node">
+</Card>
+
+Now, check the next section to learn how to add an action to a node.

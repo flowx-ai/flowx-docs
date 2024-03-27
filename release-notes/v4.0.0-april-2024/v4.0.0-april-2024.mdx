@@ -3,6 +3,14 @@ title: FlowX 4.0 release 🚀
 description: 🎉 Welcome to the much-anticipated **FlowX 4.0** release! 🚀 Get ready to experience a whole new level of innovation and efficiency with FlowX.AI **4.0**.
 ---
 
+<Frame>
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/release4.0.mp4"
+></video>
+</Frame>
+
 In this exhilarating update, we've added a bunch of cool stuff. From a **new theming feature** to a complete overhaul of **navigation**, killing the **milestones nodes** (we know you hated them), brace yourself for a transformative journey through the latest features and enhancements...and also a surprise for you, awaiting at the [**bottom of the page**](#coming-soon)!
 
 ## Bonus: meme of the day 
@@ -13,62 +21,199 @@ Start with a laugh, because it will be a lot to read!
 <a href="https://imgflip.com/i/8jnc06"><img src="https://i.imgflip.com/8jnc06.jpg" title="made at imgflip.com"/></a><div><a href="https://imgflip.com/memegenerator"></a></div>
 </Frame>
 
-<Tip>
-**FlowX 4.0** will make life much easier for you so you can enjoy your middle age crises. Buy that convertible now!
-</Tip>
-
 Let's dive in and explore the exhilarating additions:
 
 ## **What's New?** 🆕
 
-### Theming: Elevate Your Experience
+### Themes: Elevate Your Experience
 
-Unleash your creativity with our new theming feature, now more dynamic and customizable than ever before.
+The new **Theme Management** feature enhances our design process by establishing a unified visual language across various platforms. 
 
-### Removed Milestones: A Streamlined Experience
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/themes_management.png)
+</Frame>
 
-Bid farewell to navigation areas as we introduce a seamless navigation experience within zones and sections, along with various enhancements to optimize your workflow.
+This approach simplifies development by enabling the establishment of a foundational **theme**, which can then be customized to accommodate specific platform requirements.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/theming_overview.gif)
+</Frame>
+
+Ultimately, this streamlines the development process, saving significant time and effort.
+
+<AccordionGroup>
+<Accordion title ="Design Tokens" icon ="pen-ruler">
+* **Design Tokens**: Represent the single source of truth for the theme, storing visual elements of the design system.
+* **Color Palette, Shadows, Typography Tokens**: Configure these tokens based on your company's brand guidelines. They ensure reusability and consistency.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/design_tokens_theme.gif)
+
+</Accordion>
+<Accordion title= "Global Settings" icon ="gears">
+* **Platform-specific Settings**: Configure settings for each platform (web, iOS, Android) based on the global settings you've defined.
+* **Styles and Utilities**: General settings applying to all components (styles) and labels, errors, and helper text settings (utilities).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/global_settings_theme.gif)
+</Frame>
+
+</Accordion>
+<Accordion title="Component-level configuration" icon="hammer">
+**Component-level Configuration**: Customize the style of each component type.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/platform-components.gif)
+</Frame>
+
+</Accordion>
+</AccordionGroup>
+
+#### Universal Styling
+
+Introduced the option for platform-agnostic theming customization for components Across Web, iOS, and Android.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/theming_across_platforms.gif)
+</Frame>
+
+More information about Theming:
+
+<CardGroup>
+<Card title="Themes" href="/4.0/docs/platform-deep-dive/core-extensions/content-management/themes/themes" icon ="pen-line">
+</Card>
+<Card title ="Migration Guide" href="/4.0/docs/platform-deep-dive/core-extensions/content-management/themes/migration-guide" icon="file">
+</Card>
+</CardGroup>
+
+### Navigation areas (removed Milestones nodes) 
+
+<CardGroup>
+<Card>
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/start-milestone.png)                                                                                                                                                                              
+</Frame>
+</Card>
+<Card>
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/end-milestone.png) 
+</Frame>
+</Card>
+</CardGroup>
+In this release, we've bid farewell to **Milestone Nodes**, ushering in a fresh and improved approach to organizing the user interface. Say hello to a sleeker and more efficient system with the introduction of [**Navigation areas**](../../docs/building-blocks/process/navigation-areas).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/nav_ares.gif)
+</Frame>
+
+
+#### Navigation areas per platform 
+
+<Card title="Navigation Areas" href="/4.0/docs/building-blocks/process/navigation-areas" icon ="link">
+</Card>
+
+### UI Designer: Enhancements
+
+- Empower your design process with the new enhanced UI designer, offering flexibility and control over your application's look and feel across all platforms.
+- Added the possibility to customize the **navigation areas** through the **UI Designer** 
+
+#### UI Designer - Universal configuration and styling
+
+<CardGroup>
+<Card>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/uI_designer_panel1.png)
+</Card>
+<Card>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ui_designer_panel2.png)
+</Card>
+</CardGroup>
+
+Introduced the option for platform-agnostic configuration and styling for components across Web, iOS, and Android. The navigation panel in the UI Designer allows users to manage navigation configurations efficiently across different platforms, ensuring consistency and clarity in the user interface design.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ui_ui_designer.gif)
+
+
+### New node - Embedded subprocess
+
+Introducing Embedded Subprocesses! Enhance your process management with the new embedd subprocess functionality and the new **Start Embedded Subprocess** node. 
+
+<Frame>
+<img src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/start_embedded_subprocess.png" style={{ maxHeight: '60px' }}/>
+</Frame>
+
+Seamlessly integrate self-contained subprocesses within parent processes for enhanced functionality and encapsulated operations. The Start Embedded Subprocess node enables the initiation of subprocesses within a parent process, offering a range of features and options for enhanced functionality.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/embedded_example_copy.png)
+</Frame>
+
+<Card title="Embedded subprocess node" href="/4.0/docs/building-blocks/node/call-subprocess-tasks/start-embedded-subprocess" icon ="link">
+</Card>
+
+### New nodes - Error Events 
+
+We are excited to introduce support for a new type of node in BPMN 2.0, specifically Error Events: Error Intermediate boundary event, which expand the capabilities of process modeling and error handling within your BPMN diagrams. 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/error_event.png) 
+</Frame>
+
+These Error Event nodes enhance the BPMN standard and offer improved control over error management.
+
+<Card title ="Error events" href="/4.0/docs/building-blocks/node/error-events" icon="link">
+</Card>
+
 
 ### Nodes Redesign: Redefining Connectivity
 
-Experience a redesigned interface for smoother node interactions, accompanied by new nodes like Error Events and Call Activity, enhancing your workflow efficiency.
+Experience a redesigned interface for smoother interaction with **nodes** and **Process Designer**.
 
-### Favorites Tab (Versioning): Streamlined Collaboration
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/nodes_redesign.png)
+</Frame>
 
-Keep track of your favorite elements and streamline versioning with the all-new Favorites tab, ensuring effortless collaboration among teams.
+### Favorites Tab
 
-### UI Designer: Unleash Creativity
+Keep track of your favorite process definitions and streamline process development with the all-new **Favorites tab**, ensuring effortless collaboration among teams.
 
-Empower your design process with our intuitive UI designer, offering unprecedented flexibility and control over your application's look and feel.
+<Frame>
+<img src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/favorites_tab.png" style={{ maxHeight: '500px' }}/>
+</Frame>
 
-## **Changed**
 
-### Input in Business Rules: Enhanced Functionality
+## **Changed** 🔧
 
-Benefit from improved input functionality in business rules, facilitating more efficient data handling and processing.
+### Call activity node
 
-## **Bug Fixes**
+* The **Subprocess Run** node is now called **Call activity** node.
+
+### Business Rules
+
+-  `output.put` method is required to generate structured output data when using `input` to validate or filter incoming data based on certain conditions (commonly used to retrieve information needed for processing )
+
+## **Bug Fixes** 🛠️
 
 We've also squashed pesky bugs to ensure a smoother and more reliable experience across the board.
 
 ## Other
 
 <Card>
-Our docs also received something...a new fresh home! 🔥 
+Our docs also received an upgrade...a new home! 🔥 
 </Card>
 
 ## Coming soon
 
 <Card>
-"Hey there, tired of drowning in paperwork? Fear not! We've got you covered. Our platform is so modern, even AI is welcome to apply. Who said machines can't handle finances? 🤖💰 
+Hey there, tired of drowning in "virtual paperwork"? Fear not! We've got you covered. Who said machines can't handle finances? 🤖💰 
 </Card>
 
-<Card icon="fire" color= "#f3ad02">
+<Card icon="microchip-ai" color= "#f3ad02">
 Coming soon: **FlowX AI Agents**. Want to find out more? Contact us today about how we can make your journey smoother than ever before! 🚀 
 <Card href="https://www.flowx.ai/#contact" icon="envelope">Contact us</Card>
 </Card>
 
-## **Additional Information**
+## Gremlins to Watch Out For
+
+## Additional Information
 
 For deployment guidelines and a seamless transition to version 4.0.0: 
 

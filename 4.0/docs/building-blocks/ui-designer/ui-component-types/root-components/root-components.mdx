@@ -1,0 +1,34 @@
+---
+title: What are root components?
+description: Root components, also known as layout elements, are used to group different types of components, each serving a specific purpose
+---
+
+* [**Container**](./container) - Used to group and configure the layout for multiple components of any type.
+* [**Custom** ](./custom) - Angular components developed in the container application and passed to the SDK at runtime, identified here by the component name.
+* [**Card**](./card) - Acts like a [**Container**](./container) component; it also has the option to become an accordion.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/root_components.gif)
+
+The root component can hold a hierarchical component structure as follows:
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/root_components_structure.png)
+
+Available children for **Card** and **Container** are:
+
+1. [**Form**](./4.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/) - Used to group and align form field elements (inputs, radios, checkboxes, etc.).
+
+<Info>
+For more information about the form elements, please refer to the[<u>**Form elements**</u>](./4.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/) section.
+</Info>
+
+2. [**Image**](../image) - Allows you to configure an image in the document.
+3. **Text** - A simple text can be configured via this component; basic configuration is available.
+4. **Link** - Used to configure a hyperlink that opens in a new tab.
+5. [**Button**](../buttons) - Multiple options are available for configuration, with the most important part being the possibility to add actions.
+6. [**File Upload**](../buttons) - A specific type of button that allows you to select a file.
+7. [**Custom**](./custom) - Custom components.
+8. [**Indicators**](../indicators) - Message UI elements to display different types of messages.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/card_elements.png)
+
+

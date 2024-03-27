@@ -1,0 +1,49 @@
+---
+title: Adding an action to a node
+description: We use actions to add business decisions to the **flow** or link the process to custom integrations and **plugins**.
+---
+
+For more information about actions, check the following section:
+
+<Card title="Actions" href="../../building-blocks/actions" icon="file">
+</Card>
+
+### Steps for creating an action
+
+To create an action:
+
+<Steps>
+<Step>
+Open **FLOWX Designer** and from the **Processes** tab select **Definitions**.
+</Step>
+<Step>
+Select your **process**.
+</Step>
+<Step>
+Click the **Edit** **process** button.
+</Step>
+<Step>
+Add a new **node**/ edit an existing one.
+</Step>
+<Step>
+A few **action parameters** will need to be filled in depending on the selected action type.
+</Step>
+<Step>
+Add **an action** to the **task node**, for example **sending a Kafka event** to an integration:
+</Step>
+</Steps>
+
+
+* set **Address** (topic) name
+* set message content to be sent
+  * `{"test" : ${processInstanceId}, "title": "Test title"}`
+* a custom header is always set by default to
+  * `{"processInstanceId": ${processInstanceId}}`
+* if you want some values to be replaced before sending them to Kafka, they should be marked as such in the action params
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/process_flowx_adding_an_action.gif)
+
+<Info>
+The nodes that support actions are [task nodes](../../building-blocks/node/task-node), [user task nodes](../../building-blocks/node/user-task-node), and [send message/receive message tasks](../../building-blocks/node/message-send-received-task-node).
+</Info>
+
