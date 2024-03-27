@@ -7,7 +7,7 @@ description: Theme management feature enables you to easily change the appearanc
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/themes_management.png)
 </Frame>
 
-## Key Features of Themes Functionality
+## Key Features of Theme Management 
 
 1. **Theme Management:**
    - Creation, editing, and management of themes.
@@ -25,18 +25,23 @@ description: Theme management feature enables you to easily change the appearanc
    - Consistency of theme styles across different platforms and devices.
    - Adaptation of themes to various screen sizes and resolutions.
 
-5. **Preview and Testing:**
+5. **Preview:**
    - Real-time visualization of theme changes.
-   - Testing for compatibility with different browsers and devices.
+ 
 
 6. **Export/Import Functionality:**
-   - Export of themes for backup, sharing, or reuse.
-   - Import of pre-made themes or configurations.
+   - Export of themes for backup, sharing, or reuse across multipe environments (UAT, DEV, etc.).
+   - Import of exported from other environments.
 
 
 ## Creating a new theme
 
-To successfully create a new theme, follow these steps:
+<Info>
+You have two options for creating the theme. You can import a theme that was exported from other environment (for example, your UAT/DEV) or to manually create it.
+</Info>
+
+
+To successfully create a new theme in FlowX Designer, follow these steps:
 
 <Steps>
 <Step title ="Initiating theme creation">
@@ -67,7 +72,7 @@ Verify that the color format is in **HEX**. If not, an error message will indica
 
 ## Configuring a new theme
 
-To configure your theme effectively, follow these steps:
+After creating a theme, you must configure it. To configure your theme effectively, follow these steps:
 
 <Steps>
 <Step title ="Access theme settings">
@@ -81,26 +86,34 @@ To configure your theme effectively, follow these steps:
 
 </Step>
 <Step title ="Customize theme settings">
+
+<Info>
+The Themes styles mechanism is based on hierarchy. In this hierarchy we have the following elements: Design Tokens, Global Settings and Components.
+</Info>
+
 Modify color schemes (using the design tokens), typography, spacing, and other visual elements to match your desired look and feel.
 Use the provided tools or controls to adjust theme settings. This might include sliders, color pickers, or dropdown menus.
 
-<Info>
-From the shadows onwards, you have to configure the settings for each platform: web, iOS and Android. It’s important to pay attention to this, because if you configure the web theme, for example, it won’t be automatically inherited by iOS or Android. 
-</Info>
-
-
-- For example, you can configure a web theme, and then leverage the push and import options. You can push from the web the same configuration to iOS or Android.
 
 <AccordionGroup>
 <Accordion title ="Design Tokens" icon ="pen-ruler">
-* **Design Tokens**: Represent the single source of truth for the theme, storing visual elements of the design system.
-* **Color Palette, Shadows, Typography Tokens**: Configure these tokens based on your company's brand guidelines. They ensure reusability and consistency.
 
+<Info>
+**The Design Tokens** represent values based on which the theme is built.
+</Info>
+
+* **Color Palette, Shadows, Typography Tokens**: Configure these tokens based on your company's brand guidelines. They ensure reusability and consistency.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/design_tokens_theme.gif)
 
 </Accordion>
 <Accordion title= "Global Settings" icon ="gears">
+
+<Info>
+The **Global Settings** are properties that inherit values from the **Design Tokens** and sit on the top of the hierarchy. These properties are then inherited by the **Components**.
+</Info>
+
+
 * **Platform-specific Settings**: Configure settings for each platform (web, iOS, Android) based on the global settings you've defined.
 * **Styles and Utilities**: General settings applying to all components (styles) and labels, errors, and helper text settings (utilities).
 
@@ -108,7 +121,20 @@ From the shadows onwards, you have to configure the settings for each platform: 
 
 </Accordion>
 <Accordion title="Component-level configuration" icon="hammer">
+
+<Info>
+From the shadows onwards, you have to configure the settings for each platform: web, iOS and Android. It’s important to pay attention to this, because if you configure the web theme, for example, it won’t be automatically inherited by iOS or Android. 
+</Info>
+
+<Tip>
+For example, you can configure a web theme, and then leverage the push and import options. You can push from the web the same configuration to iOS or Android.
+</Tip>
+
 **Component-level Configuration**: Customize the style of each component type.
+
+<Info>
+Keep in mind, there are differences between platforms, for example, for button configuration there are different properties available. What you configure on a platform will not be inherited by the others.
+</Info>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/platform-components.gif)
 
@@ -121,4 +147,116 @@ From the shadows onwards, you have to configure the settings for each platform: 
 
 </Step>
 
+
 </Steps>
+
+Here is a quick walkthrough video on how to create and configure a theme:
+
+<Frame>
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Themes%20Video%201%20Create%20and%20Configure.mp4"
+></video>
+</Frame>
+
+
+## Managing themes - process level (theme overrides)
+
+With Themes feature in UI Designer you can add theme properties overrides available for each platform and element.
+
+### Styles tab
+
+Styles tab serves three platforms: Web, iOS and Android.
+
+Here you can configure the styles for each compoent for each platform which apply the theme styles configured in your theme.
+
+If you want to override the theme settings for an element, you will need to add a theme override.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/theme_overrides_styless.gif)
+
+<Info>
+Theme overrides can be imported from one platform to another.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/theme_overrides_styles.png)
+
+</Info>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ui_designer_panel2.png)
+</Frame>
+
+### Preview
+
+When you are editing a process in **UI Designer** you have the possibility of having the preview of multiple themes:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/preview_theme_ui_designer.gif)
+</Frame>
+
+<Info>
+Overrides are completely independent of the theme, regardless of which theme you choose in the preview mode.
+</Info>
+
+## Using a Theme in the Container Application
+
+To integrate the theme into your container application, follow these steps:
+
+- Copy the unique identifier (UUID) associated with the theme.
+- Set the copied UUID within your container application.
+- By doing so, ensure that the renderers within your application can recognize and apply the specified theme effectively.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/copy_uuid.gif)
+</Frame>
+
+## Exporting/importing a theme
+
+The Export/Import functionality in the theme management system allows users to export themes for various purposes such as backup, sharing, or reuse across multiple environments. 
+
+Additionally, it enables the seamless import of themes previously exported from other environments, facilitating swift integration and continuity across design workflows.
+
+<Warning>
+Import is restricted to internal FlowX mechanisms only; themes from external sources like Figma or Zeplin are not supported.
+</Warning>
+
+### Exporting a theme 
+
+<Steps>
+<Step>
+Navigate to the **Theme Management** panel within FlowX Designer.
+</Step>
+<Step>
+Select the theme(s) you wish to export.
+</Step>
+<Step>
+From the breadcrumbs menu on the right, select **Export Theme**.
+</Step>
+<Step>
+The exported themes are saved in a standard format (JSON) and can be downloaded to a local directory or storage location.
+</Step>
+</Steps>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/exporting_a_theme.gif)
+</Frame>
+
+### Importing a theme
+
+<Steps>
+<Step>
+Navigate to the **Theme Management** panel within FlowX Designer.
+</Step>
+<Step>
+From the breadcrumbs menu on the right, select **Import Theme**.
+</Step>
+<Step>
+Import it as a new theme or if the theme already exists in other environment, you can override it.
+</Step>
+</Steps>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importing_a_theme.gif)
+</Frame>
+
+### Setting a default theme

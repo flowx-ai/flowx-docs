@@ -659,7 +659,8 @@
               "4.0/docs/building-blocks/process/process-definition",
               "4.0/docs/building-blocks/process/process-instance",
               "4.0/docs/building-blocks/process/subprocess",
-              "4.0/docs/building-blocks/process/versioning"
+              "4.0/docs/building-blocks/process/versioning",
+              "4.0/docs/building-blocks/process/navigation-areas"
   
             ]
           },
@@ -675,7 +676,6 @@
               "4.0/docs/building-blocks/node/user-task-node",
               "4.0/docs/building-blocks/node/exclusive-gateway-node",
               "4.0/docs/building-blocks/node/parallel-gateway",
-              "4.0/docs/building-blocks/node/milestone-node",
              
               {
                 "group": "Call subprocess tasks",
@@ -1010,6 +1010,7 @@
         "group": "API reference",
         "version": "v4.x",
         "pages": [
+          "4.0/docs/api/clear-cache4.0",
           "4.0/docs/api/rest",
           "4.0/docs/api/rest2",
           "4.0/docs/api/rest3",

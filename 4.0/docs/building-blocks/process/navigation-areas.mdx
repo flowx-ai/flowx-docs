@@ -1,0 +1,125 @@
+---
+title: Navigation areas
+description: Navigation areas play a pivotal role in user interface design. They enhance the user experience by providing a structured, organized, and efficient way for users to interact with and explore various features and solutions.
+---
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/nav_ares.gif)
+</Frame>
+
+## Adding new areas
+
+To create a new navigation area, follow these steps:
+
+1. Open **FlowX Designer**.
+2. Either open an existing process definition or create a new one.
+3. Toggle the navigation areas menu by clicking on **Navigation View**.
+4. Select **Create New Area**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/creating_nav_areas.gif)
+</Frame>
+
+## Interacting with areas
+
+Once you've added a new navigation area, you can interact with it through the breadcrumbs menu, which provides the following options:
+
+<AccordionGroup>
+<Accordion title ="Area settings">
+
+Use **Area Settings** to configure the following properties:
+
+* **Name** - a name for the navigation area element that is visible in the **Navigation menu**
+
+<Info>
+This does not represent the label for your navigation area (for example, for a step element) that would be visible in the process at runtime. To set the label for your element, use the UI Designer to edit it.
+To do that, trigger the **Navigation View** menu, then navigate to your element and click on the breadcrumbs. Afterward, click "UI Designer."
+</Info>
+
+* **Alternative Flows** -
+
+
+<Frame>
+<img src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/area_settings.gif" style={{ maxHeight: '500px' }}/>
+</Frame>
+
+</Accordion>
+<Accordion title ="UI Designer">
+</Accordion>
+<Accordion title ="Copy/Paste">
+</Accordion>
+<Accordion title ="Delete an area">
+</Accordion>
+</AccordionGroup>
+
+## Types of UI areas
+
+You can create the following types of navigation areas:
+
+<Frame>
+<img src= "https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/UI_areas_types.png" style={{ maxHeight: '600px' }}/>
+</Frame>
+
+<CardGroup  cols={3}>
+<Card title = "Stepper" href="#stepper"> 
+A stepper guides users through a sequence of logical and numbered steps, aiding in navigation.
+</Card>
+<Card title ="Tab Bar" href="#tab-bar">
+A user interface element  presenting multiple tabs for navigation or organizing content. It allows users to switch between different sections or views within the application.
+</Card>
+<Card title = "Page" href ="#page"> 
+This type displays basic full-page content for an immersive user experience.
+</Card>
+<Card title="Modal" href ="#modal"> 
+A modal temporarily takes control of the user's interaction within a process as an overlay, requiring user interaction before returning to the main application or website functionality.
+</Card>
+<Card title="Zone" href ="#zone">
+A container-like element grouping specific elements, commonly used for organizing content such as headers and footers within a process definition.
+</Card>
+<Card title ="Parent Process Area" href ="#parent-process-area">
+Allows subprocess design under parent process hierarchy; ensures validation and design restrictions.
+</Card>
+</CardGroup>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/navigation_types.gif)
+
+### Stepper
+
+A stepper breaks down progress into logical and numbered steps, making navigation intuitive.
+
+<Frame>
+<img src= "https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/stepper.png" style={{ maxHeight: '600px' }}/>
+</Frame>
+
+You can also define a stepper in step structure with the possibility to track progress and also returning to a previously visited step (as you can see in the navigation areas in the example above).
+
+
+#### Stepper in step example
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/stepper_in_steps.gif)
+</Frame>
+
+
+#### Steps
+
+Steps are individual elements within a stepper, simplifying complex processes.
+
+### Tab bar
+
+#### Tabs
+
+### Page
+
+Use this UI configuration to display comprehensive full-page content.
+
+### Modal
+
+Modals provide temporary control over user interaction within a process, often as pop-ups or overlays, guiding users through a specific task before returning to the main application or website functionality.
+
+### Zone
+
+Acts as a container meant to control UI navigation, grouping certain elements. The best use case in which can be used is a process with a header and footer.
+
+### Parent Process  Area
+
+## Navigation per platform
