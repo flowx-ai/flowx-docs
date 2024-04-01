@@ -1,0 +1,125 @@
+---
+title: v3.2.0 April 2023
+description: Drumroll please... 🥁 We are excited to announce **FLOWX.AI 3.2** release 🔥.
+---
+
+So, what are you waiting for? Grab a snack, sit back, and get ready to explore the newest version of **FLOWX.AI**.
+
+## **New features** 🆕
+
+### UI Designer ✍️
+
+New features for the UI Designer:
+
+#### Segmented button
+
+Added a new type of button - **segmented button**. It allows users to pick only one option from a group of options, and you can choose to have between 2 and 5 options in the group. The segmented button is easy to use, and can help make your application easier for people to use.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/segmented_button.gif)
+
+#### Shadows
+
+The new shadow feature is a visual effect that creates a sense of depth and dimensionality in UI designer elements.
+
+The shadow option can be customized to suit the overall design aesthetic of the interface, with properties for shadow color, opacity, blur and distance from the element. It can be applied to a range of UI elements, including [root elements](../../docs/building-blocks/ui-designer/ui-component-types/root-components), forms, [collections](../../docs/building-blocks/ui-designer/ui-component-types/collection), [buttons](../../docs/building-blocks/ui-designer/ui-component-types/buttons), messages, [images](../../docs/building-blocks/ui-designer/ui-component-types/image) and [file preview](../../docs/building-blocks/ui-designer/ui-component-types/file-preview).
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/shadows_example.png)
+
+#### Disable button - add disabled condition
+
+A new feature has been added that allows a button to be disabled in cases where custom form validations are applied. The user can set a disabled condition for the button element, and the button will remain disabled until the validation criteria are met.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/disabled_button.gif)
+
+### Platform
+
+#### Set client and environment
+
+The Designer app now allows users to set the client and environment through the **Platform Status** tab. In cases where these are not configured, a modal will be displayed on the Flowx instance, and the user will be required to enter the necessary information before accessing any other section.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/set_client_and_env.gif)
+
+If the user lacks the required authorization, a separate modal will be prompted.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/set_client_and_env_no_roles.png)
+
+[Additional configuration for client and environment](./deployment-guidelines-v3.2.0#client-and-environment)
+
+### Process designer
+
+#### Floating menu
+
+Added a floating menu with multiple actions, including "Home", "View instance data", "Process definition", and "Info". The menu will be visible during error or loading states, with toast error displayed over it and the menu displayed above during loading states:
+
+* the "View instance data" action opens a process instance view that overlays the rendered interface
+* the "Process definition" action opens the process definition in the same tab, displaying the same version that was run 
+* the "Info" action displays a card with process definition info and instance start and end 
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/floating_menu.gif)
+
+### Content Management
+
+#### CMS audit log
+
+Added audit options for the CMS system. It keeps track of changes made to different parts of the CMS, like [Enumerations](../../docs/platform-deep-dive/core-components/core-extensions/content-management/enumerations), [Substitution Tags](../../docs/platform-deep-dive/core-components/core-extensions/content-management/substitution-tags), [Languages](../../docs/platform-deep-dive/core-components/core-extensions/content-management/languages), [Source Systems](../../docs/platform-deep-dive/core-components/core-extensions/content-management/source-systems), and [Media Library](../../docs/platform-deep-dive/core-components/core-extensions/content-management/media-library). 
+
+Whether you need to troubleshoot an error or are just interested in keeping a close eye on changes, the audit log is a useful tool for monitoring and debugging
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/cms_audit_log.png)
+
+There is also a dedicated audit section for each element mentioned above.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/enum_audit.png)
+
+[Additional configuration for CMS audit log](./deployment-guidelines-v3.2.0#cms-audit-log)
+
+## **Bug fixes** 🔧
+
+* **[WEB_SDK]** Fixed an issue where custom components were unable to access UI Actions when input keys were not defined
+
+## **Changed** 🛠️
+
+### UI Designer ✍️
+
+#### Improved rendering mechanism
+
+* The UI Designer now has an enhanced rendering mechanism that prevents the page from scrolling up upon reloading, improving the user experience
+* Element bounding box in UI Designer view now reflects Spacing and Sizing settings
+
+
+#### Added new "requiredTrue" validator - SWITCH element
+
+The "requiredTrue" validator for the SWITCH element enforces that the toggle must be switched on to be valid.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/switch_required.gif)
+
+### Notifications plugin
+
+* New environment variables added to configure the error handler on Notifications plugin - Kafka consumer
+
+[Additional configuration for Notifications plugin](./deployment-guidelines-v3.2.0#notifications-plugin)
+
+### OCR plugin
+
+* With the new release of ocr-plugin **1.0.x** version, RabbitMQ is no longer needed
+* New environment variables
+
+[Additional configuration here](./deployment-guidelines-v3.2.0#ocr-plugin)
+
+### Process designer
+
+* Improvement: process definitions names can only contain letters, numbers and the following special characters `[] () . _ -
+
+## **Known issues** 🙁
+
+### Reporting
+
+* Reporting plugin is not compatible with Oracle DBs.
+
+### UI Designer
+
+* When configuring an [Input UI element](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/input-form-field) with a 'Has clear' (content clear) property, we recommend setting a fixed width value for the element. If the width is set to 'fill', it may cause the UI to break
+
+[Deployment guidelines v3.2](./deployment-guidelines-v3.2.0)
+
+

@@ -451,7 +451,7 @@
           "release-notes/overview",
 
           {
-            "group": "V4.0.0",
+            "group": "v4.0.0",
             "icon": "burst",
             "pages": [
               "release-notes/v4.0.0-april-2024/v4.0.0-april-2024",
@@ -460,7 +460,7 @@
             
           },
           {
-            "group": "V3.4.7",
+            "group": "v3.4.7",
             "pages": [
               "release-notes/v3.4.7-january-2024/v3.4.7-january-2024",
               "release-notes/v3.4.7-january-2024/deployment-guidelines-v3.4.7"
@@ -469,10 +469,97 @@
           },
 
           {
-            "group": "V3.4.0",
+            "group": "v3.4.6",
+            "pages": [
+              "release-notes/v3.4.6-december-2023/v3.4.6-december-2023",
+              "release-notes/v3.4.6-december-2023/deployment-guidelines-v3.4.6"
+            ]
+            
+          },
+
+          {
+            "group": "v3.4.5",
+            "pages": [
+              "release-notes/v3.4.5-november-2023/v3.4.5-november-2023",
+              "release-notes/v3.4.5-november-2023/deployment-guidelines-v3.4.5"
+            ]
+            
+          },
+
+
+          {
+            "group": "v3.4.4",
+            "pages": [
+              "release-notes/v3.4.4-november-2023/v3.4.4-november-2023",
+              "release-notes/v3.4.4-november-2023/deployment-guidelines-v3.4.4"
+            ]
+            
+          },
+
+          {
+            "group": "v3.4.3",
+            "pages": [
+              "release-notes/v3.4.3-october-2023/v3.4.3-october-2023",
+              "release-notes/v3.4.3-october-2023/deployment-guidelines-v3.4.3"
+            ]
+            
+          },
+
+          {
+            "group": "v3.4.2",
+            "pages": [
+              "release-notes/v3.4.2-october-2023/v3.4.2-october-2023",
+              "release-notes/v3.4.2-october-2023/deployment-guidelines-v3.4.2"
+            ]
+            
+          },
+
+
+          {
+            "group": "v3.4.1",
+            "pages": [
+              "release-notes/v3.4.1-september-2023/v3.4.1-september-2023",
+              "release-notes/v3.4.1-september-2023/deployment-guidelines-v3.4.1"
+            ]
+          },
+
+          {
+            "group": "v3.4.0",
             "pages": [
               "release-notes/v3.4.0-september-2023/v3.4.0-september-2023",
               "release-notes/v3.4.0-september-2023/deployment-guidelines-v3.4.0"
+            ]
+          },
+
+          {
+            "group": "v3.3.0",
+            "pages": [
+              "release-notes/v3.3.0-july-2023/v3.3.0-july-2023",
+              "release-notes/v3.3.0-july-2023/deployment-guidelines-v3.3.0"
+            ]
+          },
+
+          {
+            "group": "v3.2.0",
+            "pages": [
+              "release-notes/v3.2.0-april-2023/v3.2.0-april-2023",
+              "release-notes/v3.2.0-april-2023/deployment-guidelines-v3.2.0"
+            ]
+          },
+
+          {
+            "group": "v3.1.0",
+            "pages": [
+              "release-notes/v3.1.0-march-2023/v3.1.0-march-2023",
+              "release-notes/v3.1.0-march-2023/deployment-guidelines-v3.1.0"
+            ]
+          },
+
+          {
+            "group": "v3.0.0",
+            "pages": [
+              "release-notes/v3.0.0-february-2023/v3.0.0-february-2023",
+              "release-notes/v3.0.0-february-2023/deployment-guidelines-v3.0.0"
             ]
           }
         ]

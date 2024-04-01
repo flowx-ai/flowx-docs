@@ -1,0 +1,41 @@
+---
+title: # v3.4.4 November 2023
+---
+
+
+In version 3.4.4 of FLOWX.AI, we have addressed some issues to improve the stability and reliability of the platform. Here are the key bug fixes in this release:
+
+## **Bug Fixes** 🔧
+
+### FLOWX.AI Engine 🚂
+
+* Fixed an issue where sending an extra key when using [**bulk operations**](../../docs/platform-setup-guides/flowx-engine-setup-guide#topics-related-to-the-task-management-plugin) was not working as expected. Now you can attach extra keys to the header and they will be copied to the response. See the example below:
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/bulk_requestid.png)
+
+### Web SDK
+
+* Fixed a small performance issue
+
+## **Other Bits**
+
+* We've bid farewell to the autoarrange function in the [**Process Designer**](../../docs/terms/flowx-process-designer).
+
+## **Gremlins to Watch Out For** 🙁
+
+Keep an eye out for these quirks:
+
+* **Document preview UI element**: Our document preview component has a unique sense of style. It prefers to take up only a portion of the screen, even when told to "fill" the entire width. It's a rebel with a cause.
+* **Business rules**: Our business rule have a language barrier, but they're working on it. Changing the language of a business rule doesn't always lead to using the new language for execution. It's like they have a favorite phrase they won't let go of.
+* **Process Designer**: Deleting a boundary node in the process designer and coming back from the UI Designer doesn't always clean up the associated sequence from the boundary event. It's like they left a party and forgot their hat.
+* **Datepicker Date Transformation**: Our Datepicker seems to possess a hidden talent. It mysteriously transforms random text into the current date when used with validators in UI Designer.
+
+
+## **Additional information**
+
+For deployment guidelines, refer to:
+ 
+[Deployment guidelines v3.4.4](./deployment-guidelines-v3.4.4)
+
+
+

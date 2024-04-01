@@ -1,0 +1,258 @@
+---
+title: Deployment guidelines v3.3.0 
+---
+
+<Info>
+Do not forget, when upgrading to a new platform version, always ensure that your installed component versions match the versions specified in the release notes. To verify this, navigate to **FLOWX.AI Designer > Platform Status**.
+</Info>
+
+<Warning>
+After updating to **3.3.0** FLOWX.AI release, it is not possible to import old process definitions into the new platform release (available for exports from releases **< 3.3.0**).
+</Warning>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/release_platform_version_check.png)
+
+## Component versions   
+
+| 🧩                             | 3.3.0       | 3.2.0  | 3.1.0  | 3.0.0  | 2.14.0   | 2.13.0  | 2.12.0  | 2.11.0  | 2.10.0  | 2.9.0   | 2.8.1   | 2.8.0   | 2.7.0   | 2.6.0   | 2.5.0   | 2.4.0   | 2.3.0   | 2.2.0   | 2.1.0     |
+| ------------------------------ | ----------- | ------ | ------ | ------ | -------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | --------- |
+| **Process engine**             | **3.6.0**   | 2.2.1  | 2.1.2  | 2.0.7  | 0.4.104  | 0.4.95  | 0.4.90  | 0.4.83  | 0.4.60  | 0.4.49  | 0.4.44  | 0.4.42  | 0.4.42  | 0.4.36  | 0.4.29  | 0.4.22  | 0.4.21  | 0.4.18  | 0.4.13    |
+| **Admin**                      | **2.5.2**   | 2.2.2  | 2.1.3  | 2.0.8  | 0.3.119  | 0.3.103 | 0.3.92  | 0.3.81  | 0.3.60  | 0.3.55  | 0.3.47  | 0.3.43  | 0.3.40  | 0.3.36  | 0.3.34  | 0.3.29  | 0.3.23  | 0.3.21  | 0.3.13    |
+| **Designer**                   | **3.28.13** | 3.21.1 | 3.15.1 | 3.2.1  | 2.78.4-1 | 2.63.6  | 2.60.7  | 2.48.9  | 2.39.2  | 2.33.0  | 2.28.1  | 2.24.2  | 2.23.0  | 2.19.2  | 2.18.2  | 2.17.4  | 2.15.2  | 2.14.4  | 2.11.2    |
+| **@flowx/ui-sdk**              | **3.28.13** | 3.21.1 | 3.15.1 | 3.2.1  | n/a      | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a       |
+| **@flowx/ui-toolkit**          | **3.28.13** | 3.21.1 | 3.15.1 | 3.2.1  | n/a      | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a       |
+| **@flowx/ui-theme**            | **3.28.13** | 3.21.1 | 3.15.1 | 3.2.1  | n/a      | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a       |
+| **paperflow-web-components**   | -           | -      | -      | -      | 2.78.4-1 | 2.63.6  | 2.60.7  | 0.2.10  | 0.2.10  | 0.2.10  | 0.2.6   | 0.2.6   | 0.2.6   | 0.2.6   | 0.2.6   | 0.2.6   | 0.2.6   | 0.2.5   | 0.2.4     |
+| **flowx-process-renderer**     | -           | -      | -      | -      | 2.78.4-1 | 2.63.6  | 2.60.7  | 2.48.9  | 2.39.2  | 2.33.0  | 2.28.1  | 2.24.2  | 2.23.0  | 2.19.2  | 2.18.2  | 2.17.4  | 2.15.2  | 2.14.4  | 2.11.2    |
+| **CMS Core**                   | **1.3.0**   | 1.2.0  | 1.0.3  | 1.0.2  | 0.2.38   | 0.2.36  | 0.2.33  | 0.2.30  | 0.2.25  | 0.2.23  | 0.2.23  | 0.2.23  | 0.2.23  | 0.2.23  | 0.2.20  | 0.2.20  | 0.2.18  | 0.2.17  | 0.2.17    |
+| **Scheduler Core**             | 1.0.4       | 1.0.4  | 1.0.4  | 1.0.1  | 0.0.34   | 0.0.34  | 0.0.34  | 0.0.33  | 0.0.28  | 0.0.27  | 0.0.27  | 0.0.27  | 0.0.27  | 0.0.27  | 0.0.24  | 0.0.24  | 0.0.23  | 0.0.23  | 0.0.23    |
+| **events-gateway**             | **1.0.2**   | -      | -      | -      | -        | -       | -       | -       | -       | -       | -       | -       | -       | -       | -       | -       | -       | -       | -         |
+| **Notification Plugin**        | 2.0.4       | 2.0.4  | 2.0.3  | 2.0.1  | 1.0.206  | 1.0.206 | 1.0.206 | 1.0.205 | 1.0.200 | 1.0.198 | 1.0.198 | 1.0.197 | 1.0.194 | 1.0.194 | 1.0.191 | 1.0.191 | 1.0.190 | 1.0.190 | 1.0.186-1 |
+| **Document Plugin**            | **2.0.4**   | 2.0.3  | 2.0.3  | 2.0.2  | 1.0.53   | 1.0.53  | 1.0.53  | 1.0.52  | 1.0.47  | 1.0.42  | 1.0.41  | 1.0.38  | 1.0.37  | 1.0.37  | 1.0.35  | 1.0.35  | 1.0.31  | 1.0.31  | 1.0.30    |
+| **OCR Plugin**                 | **1.0.8**   | 1.0.2  | 0.1.33 | 0.1.33 | 0.1.33   | 0.1.33  | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.1.5   | 0.0.109 | 0.0.109 | 0.0.109   |
+| **License Core**               | 1.0.2       | 1.0.2  | 1.0.2  | 1.0.1  | 0.1.28   | 0.1.28  | 0.1.28  | 0.1.27  | 0.1.23  | 0.1.19  | 0.1.18  | 0.1.18  | 0.1.18  | 0.1.18  | 0.1.15  | 0.1.15  | 0.1.13  | 0.1.13  | 0.1.12    |
+| **Customer Management Plugin** | **0.2.4**   | 0.2.3  | 0.2.3  | 0.2.1  | 0.1.28   | 0.1.28  | 0.1.28  | 0.1.27  | 0.1.23  | 0.1.22  | 0.1.22  | 0.1.22  | 0.1.22  | 0.1.22  | 0.1.20  | 0.1.20  | 0.1.18  | 0.1.18  | 0.1.18    |
+| **Task Management Plugin**     | **2.1.2**   | 1.0.4  | 1.0.4  | 1.0.1  | 0.0.42   | 0.0.42  | 0.0.40  | 0.0.37  | 0.0.29  | 0.0.28  | 0.0.28  | 0.0.27  | 0.0.27  | 0.0.27  | 0.0.22  | 0.0.22  | 0.0.21  | 0.0.21  | 0.0.16    |
+| **Data search**                | **0.2.0**   | 0.1.4  | 0.1.4  | 0.1.3  | 0.0.8    | 0.0.8   | 0.0.6   | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a       |
+| **Audit Core**                 | **1.0.6**   | 1.0.5  | 1.0.4  | 1.0.1  | 0.0.8    | 0.0.5   | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a       |
+| **Reporting**                  | 0.0.40      | 0.0.40 | 0.0.40 | 0.0.39 | 0.0.39   | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a       |
+| **advancing-controller**       | **0.3.0**   | 0.1.4  | 0.1.4  | 0.1.2  | 0.0.6    | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a       |
+| **iOS renderer**               | **2.1.4**   | 2.0.7  | 2.0.4  | 2.0.0  | n/a      | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a       |
+| **Android renderer**           | 2.0.1       | 2.0.1  | 2.0.1  | 2.0.1  | n/a      | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a       |
+
+
+<Info>
+With the release of **FLOWX.AI 3.0**, there have been some changes that you need to be aware when upgrading to the latest version:
+* The `flowx-process-renderer` has been migrated to `@flowx\ui-sdk`.
+* As of **FlowX 4.0**, the `paperflow-web-components` library will be deprecated. Instead, the new components can be found in `@flowx/ui-toolkit`.
+</Info>
+
+
+### Recommended Versions for FLOWX.AI 3.3.0 ☑️
+
+| FLOWX.AI Platform Version | Component name               | Recommended version (tested versions) |
+| ------------------------- | ---------------------------- | ------------------------------------- |
+| 3.3                       | Keycloak                     | 18.0.x                                |
+| 3.3                       | Kafka                        | 3.2.0                                 |
+| 3.3                       | PostgreSQL                   | 14.3.0                                |
+| 3.3                       | MongoDB                      | 5.0.8                                 |
+| 3.3                       | Redis                        | 6.2.6                                 |
+| 3.3                       | Elasticsearch                | 7.17                                  |
+| 3.3                       | S3 (Min.IO) / minio-operator | 2022-05-26T05-48-41Z / 4.5.4          |
+| 3.3                       | OracleDB                     | 19.8.0.0.0                            |
+| 3.3                       | Angular (Web SDK)            | 15.0.0                                |
+
+
+<Info>
+FlowX.AI supports any version of the third-party components listed as prerequisites.
+
+For optimal performance and reliability, our internal QA process validates new releases using specific versions as indicated in the provided table.
+While exploring alternative versions that suit your company's specific requirements, we recommend referring to the compatibility matrix for guidance.
+
+In the unlikely event that you encounter any compatibility issues with FlowX.AI, please open a support ticket [**here**](https://support.flowx.ai/), and our dedicated team will address and resolve any identified bugs following our standard support process.
+
+Compatibility Matrix:
+
+* FLOWX.AI Platform: Recommended and tested versions
+* Third-Party Components: Supported versions based on specific requirements and client preferences
+</Info>
+
+## Additional configuration
+
+This section describes the additional configuration that is required to use the new features in FlowX.AI.
+
+### Process engine
+
+#### Process Instance Indexing through Kafka transport
+
+Introducing a new Kafka transport strategy for sending details about process instances to be indexed in Elasticsearch. To enable indexing of process instances in Elasticsearch through Kafka, configure the following environment variables:
+
+* `FLOWX_INDEXING_ENABLED`
+
+| Variable Name          | Values | Description                                            |
+| ---------------------- | ------ | ------------------------------------------------------ |
+| FLOWX_INDEXING_ENABLED | true   | Enables indexing with Elasticsearch for the whole app  |
+| FLOWX_INDEXING_ENABLED | false  | Disables indexing with Elasticsearch for the whole app |   
+
+* `FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE`
+
+| Variable Name                                | Values      | Definition                                                                                                                          |
+| -------------------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE | no-indexing | No indexing is performed for process instances                                                                                      |
+| FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE | http        | Process instances are indexed via HTTP (direct connection from process-engine to Elastic Search thorugh HTTP calls)                 |
+| FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE | kafka       | Process instances are indexed via Kafka (send data to be indexed through a kafka topic - the new strategy for the applied solution) |
+
+<Warning>
+For Kafka indexing, the Kafka Connect with Elastic Search Sink Connector must be deployed in the infrastructure.
+</Warning>
+
+* `FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME`: specify the name of the index used for process instances
+
+| Variable Name                                      | Values           | Definition                                                                                      |
+| -------------------------------------------------- | ---------------- | ----------------------------------------------------------------------------------------------- |
+| FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_INDEX_NAME | process_instance | The name of the index used for storing process instances. It is also part of the search pattern |
+
+* `FLOWX_INDEXING_PROCESSINSTANCE_SHARDS`: set the number of shards for the index
+
+| Variable Name                         | Values | Definition                                                                 |
+| ------------------------------------- | ------ | -------------------------------------------------------------------------- |
+| FLOWX_INDEXING_PROCESSINSTANCE_SHARDS | 1      | The number of shards for the Elasticsearch index storing process instances |
+
+* `FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS`: set the number of replicas for the index
+
+| Variable Name                           | Values | Definition                                                                   |
+| --------------------------------------- | ------ | ---------------------------------------------------------------------------- |
+| FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS | 1      | The number of replicas for the Elasticsearch index storing process instances |
+
+
+#### Topics related to process event messages
+
+##### Process engine new kafka topics
+
+| Default parameter (env var)   | Default FLOWX.AI value (can be overwritten) |
+| ----------------------------- | ------------------------------------------- |
+| KAFKA_TOPIC_PROCESS_INDEX_OUT | ai.flowx.dev.core.index.process.v1          |
+
+For more details please check the following section:
+
+[Process Instance Indexing through Kafka transport](../../docs/platform-setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing)
+
+
+
+#### New service account
+
+Added a new service account `flowx-process-engine-sa`. This service account is needed so the use of Start Catch Event node is possible.
+
+[Service accounts](../../docs/platform-setup-guides/access-management/configuring-an-iam-solution#process-engine-service-account)
+
+
+### Events gateway
+
+Added a new **events-gateway** microservice, which requires the following configuration.
+
+The events-gateway is designed specifically for handling events. Previously, each [**process-engine**](../../docs/terms/flowxai-process-engine) pod had a WebSocket (WS) server, and the front-end (FE) would connect to the process-engine to receive messages.
+
+Now, instead of a server holding the messages, they are stored in Redis. However, the process-engine sends the messages to the events-gateway, which is responsible for sending them to Redis. Users connect to the events-gateway using an HTTP request and wait for Server-Sent Events (SSE) to flow in that request. They keep the request open for as long as they want SSE on a specific instance.
+
+### Events-gateway kafka topics
+
+New Kafka topics have been added for the events-gateway. These topics are used to send and receive messages between the events-gateway and the process-engine.
+
+| Topic Name                                | Description                                               | Value                                                |
+| ----------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------- |
+| KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE    | Outgoing messages from process-engine to events-gateway   | ai.flowx.eventsgateway.engine.commands.message.v1    |
+| KAFKA_TOPIC_EVENTS_GATEWAY_OUT_DISCONNECT | Disconnect commands from process-engine to events-gateway | ai.flowx.eventsgateway.engine.commands.disconnect.v1 |
+| KAFKA_TOPIC_EVENTS_GATEWAY_OUT_CONNECT    | Connect commands from process-engine to events-gateway    | ai.flowx.eventsgateway.engine.commands.connect.v1    |
+
+New kafka topics that should be added in the events-gateway configuration.
+
+| Topic Name                                                | Description                                                   | Value                                                |
+| --------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------- |
+| KAFKA_TOPIC_EVENTS_GATEWAY_PROCESS_INSTANCE_IN_MESSAGE    | Where events-gateway listens for messages from process-engine | ai.flowx.eventsgateway.engine.commands.message.v1    |
+| KAFKA_TOPIC_EVENTS_GATEWAY_PROCESS_INSTANCE_IN_DISCONNECT | Disconnect commands from events-gateway to process-engine     | ai.flowx.eventsgateway.engine.commands.disconnect.v1 |
+| KAFKA_TOPIC_EVENTS_GATEWAY_PROCESS_INSTANCE_IN_CONNECT    | Connect commands from events-gateway to process-engine        | ai.flowx.eventsgateway.engine.commands.connect.v1    |
+
+
+[Events gateway](../../docs/platform-deep-dive/core-components/events-gateway)
+
+[Events gateway setup guide](../../docs/platform-setup-guides/events-gateway-setup)
+
+[Process engine topics](../../docs/platform-setup-guides/flowx-engine-setup-guide#configuring-events-gateway)
+
+### SSE 
+
+<Warning>
+Starting with the 3.3 platform release, the WebSocket protocol has been removed. Therefore, if you are using `socket.io-client`, you will need to make some changes. Here's what you should do:
+</Warning>
+
+1. Uninstall `socket.io-client`:
+
+Before proceeding, ensure that you uninstall `socket.io-client` from your project. You can do this using the following command:
+
+```bash
+npm uninstall socket.io-client
+```
+
+2. Install `event-source-polyfill@1.0.31`:
+
+To replace the functionality provided by socket.io-client, you will need to use a new package called `event-source-polyfill@1.0.31` (as mentioned in the [**Installing the library**](../../docs/platform-deep-dive/core-components/renderer-sdks/angular-renderer#installing-the-library) section). This package serves as a polyfill for the EventSource API, which enables servers to send events to clients over HTTP. The EventSource API is commonly used for server-sent events (SSE) and real-time web applications.
+
+```bash
+npm install event-source-polyfill@1.0.31
+```
+
+
+### Message events
+
+#### Topics related to message events
+
+New kafka topics that should be added in the process-engine configuration.
+
+| Default parameter (env var)            | Default FLOWX.AI value (can be overwritten)          | Definition                                                   |
+| -------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------ |
+| KAFKA_TOPIC_PROCESS_EVENT_MESSAGE      | ai.flowx.dev.core.message.event.process.v1           | This topic is used for throwing intermediate event messages. |
+| KAFKA_TOPIC_PROCESS_START_FOR_EVENT_IN | ai.flowx.dev.core.trigger.start-for-event.process.v1 | This topic is used to start processes.                       |
+
+### Bulk updates
+
+New kafka topics that should be added in the process-engine configuration, related to task management plugin - bulk updates.
+
+| Default parameter (env var)            | Default FLOWX.AI value (can be overwritten) | Definition                                                                                                                                                                |
+| -------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| KAFKA_TOPIC_PROCESS_OPERATIONS_BULK_IN | ai.flowx.core.trigger.operations.bulk.v1    | On this topic, you can perform operations from the "KAFKA_TOPIC_PROCESS_OPERATIONS_IN" topic and send them as an array, allowing you to send multiple operations at once. |
+
+#### Example
+
+```json
+{
+    "operations": [
+    {
+       "operationType": "TERMINATE",
+        "processInstanceUuid": "6ae8274a-2778-4ff9-8fcb-6c84a5eb2bc6",
+        "taskId": "doesn't matter"
+    },
+    {
+       "operationType": "HOLD",
+        "processInstanceUuid": "6ae8274a-2778-4ff9-8fcb-6c84a5eb2bc6",
+        "taskId": "doesn't matter"
+    }
+    ]
+}
+```
+[Process engine topics](../../docs/platform-setup-guides/flowx-engine-setup-guide#topics-related-to-the-task-management-plugin)
+
+## Migration Steps
+
+To upgrade to FLOWX.AI 3.3.0, follow these steps:
+
+* Make sure you have taken a backup of your current platform and database configurations.
+* Verify that your current installed component versions match the versions specified in the release notes.
+* Update the FLOWX.AI platform and all related components to the recommended versions.
+* Update the necessary configuration files according to the additional configuration requirements.
+* Restart the FLOWX.AI platform and related services.
+* Verify that the platform is running correctly and all processes are functioning as expected.
+* If you encounter any issues or errors during the upgrade process, refer to the troubleshooting section in the release notes or contact FLOWX.AI support for assistance.
+
+## Troubleshooting
+
+If you encounter any issues during the upgrade process or while running the FLOWX.AI platform, refer to the troubleshooting section in the release notes or contact FLOWX.AI support for assistance.

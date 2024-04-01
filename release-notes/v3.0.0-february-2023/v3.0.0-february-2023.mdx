@@ -1,0 +1,155 @@
+---
+title: v3.0.0 February 2023
+description: We are excited to announce the release of FLOWX.AI 3.0 🔥, featuring new and improved features that will elevate your workflow experience. From the new theming options to enhanced functionality, this update will take your productivity to the next level. 🚀 
+---
+
+## **New features**
+
+* **Theming:** FLOWX.AI 3.0 introduces a new theming feature, allowing users to personalize all components on both web and mobile. The new theming feature provides a better user experience and offers more flexibility in using the platform.
+
+<Warning>
+**Notes for FDEs Post-Migration**:
+To ensure the proper functionality of the migrated styles, please follow check the post-migration steps, available [**here**](../../docs/building-blocks/ui-designer/render-ui-designer-changelog).
+</Warning>
+
+[Additional configuration](./deployment-guidelines-v3.0.0#theming)
+
+* **Generic JSONs for components**: JSONs for components have been added.
+* **UI Designer**: A refreshed new interface for UI Designer.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/new_designer.png)
+
+* **UI Components Redesign**: Redesigned UI components.
+
+[UI components](../../docs/building-blocks/ui-designer/ui-component-types)
+
+Below you will find a Storybook which will demonstrate how components behave under different states, props, and conditions:
+
+[Storybook](https://storybook.demo.flowxai.dev/)
+
+<Info>
+With the release of **FLOWX.AI 3.0**, there have been some changes that you need to be aware when upgrading to the latest version:
+* The `flowx-process-renderer` has been migrated to `@flowx\ui-sdk`.
+* As of **FlowX 4.0*, the `paperflow-web-components` library will be deprecated. Instead, the new components can be found in `@flowx/ui-toolkit`.
+</Info>
+
+For more information, check the section below:
+
+[Using the Angular Renderer](../../docs/3.0.0/platform-deep-dive/core-components/renderer-sdks/angular-renderer)
+
+## **Fixed**
+
+* Fixed a bug in the FLOWX.AI Designer where the datepicker component's default value overlapped with the field placeholder.
+* Fixed an issue in FLOWX.AI Designer where users could not copy/paste nodes that had UI actions without parameters.
+* Forwarding external notifications is now possible with the Notifications plugin.
+* Fixed an issue where the GET enumerations list (CMS) displayed an error message about memory exceeding.
+
+## **Changed**
+
+### UI Designer
+
+* Indicators → deleted **Info Tooltip** and **Hint** UI components
+* added Helpertext (to replace **Info tooltip** and **Hint**) - this new element can be found on [Form elements](../../docs/building-blocks/ui-designer/ui-component-types/form-elements) and provides additional information about each element, which can be hidden within an infopoint
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/helpergif.gif)
+
+### Documents plugin
+
+* Updated document plugin file download path to use file UUID (string) instead of a numeric file ID.
+
+### Task management plugin
+
+* Improved filtering feature, now is possible to filter users by partial names.
+
+[Additional configuration here](./deployment-guidelines-v3.0.0#task-management-plugin)
+
+### FLOWX.AI Designer 👩‍🏭
+
+#### Audit log 
+
+* The audit log now displays the name instead of identifiers for process definition, node, action, and swimlanes entities.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/audit_log_new.png)
+
+[Audit log](../../docs/platform-deep-dive/core-components/core-extensions/audit)
+
+#### Sensitive data
+
+* Sensitive data tab has been removed from the process definition settings and a new Sensitive data switch has been added in the Data model tab. 
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/sensitive_data_new.png)
+
+* Sensitive data migration is required when cloning old processes (sensitive data is deleted when cloning as it is not compatible with the new process version). Users must add the data model and keys for the new process.
+
+[Data model](../../docs/building-blocks/process/process-definition#data-model)
+
+#### Platform status report 
+
+* Added a new option to export the Platform Status, which will download a JSON file containing the state details of all components, enabling users to communicate the state of their instance to the support team.
+* Added more data to the platform status report.
+
+![Platform status export](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/platform_status_export.png)
+
+#### Kafka send/receive nodes 
+
+* New icons for Kafka send/receive nodes were added.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/new_kafka_nodes.png)
+
+### Process Designer
+
+#### Process Designer keyboard commands
+
+* Added new keyboard commands for deleting, copying, and renaming nodes in the Process Designer:
+    * `backspace` - delete one or several selected nodes
+    * `Ctrl/Cmd + C` - copy one or several selected nodes
+    * `R` - rename a node 
+
+### FLOWX.AI Engine 🚂
+
+#### Kafka
+
+* Standardized Kafka topics and naming pattern in FLOWX.AI Engine, reducing confusion and errors by allowing for configuration only for the package name, environment name, and version, without having to list all topic names.
+
+#### Performance
+
+* Databases performance improvements, including clear caching (clear cache must be performed per process for process definitions).
+
+<Info>
+For stages, integrations, and generic parameters, clear cache is performed globally, when it comes to process definitions, clear cache must be done per process.
+</Info>
+
+### License model
+
+* In the license model, another label/alias can be used instead of PII.
+
+### Data search
+
+* The ElasticSearch index for data search is now configurable. More info on:
+
+[Deployment guidelines](./deployment-guidelines-v3.0.0#data-search)
+
+## **UX/UI Improvements**
+
+* The process instance search button has been removed, and search is now done automatically.
+* Swimlanes interaction has been improved.
+* It is possible now to select and delete multiple nodes in Process Designer.
+
+Additional information regarding the deployment for v3.0 is available below:
+
+## **Security**
+
+* Improved security for Redis configuration.
+
+[Redis configuration](./deployment-guidelines-v3.0.0#redis-configuration)
+
+## **Known issues**
+
+### Reporting
+
+* Reporting plugin is not compatible with Oracle DBs.
+
+[Deployment guidelines v3.0](./deployment-guidelines-v3.0.0)
+
+
+

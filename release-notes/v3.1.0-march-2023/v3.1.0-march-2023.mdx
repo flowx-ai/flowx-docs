@@ -1,0 +1,99 @@
+---
+title: v3.1.0 March 2023
+description: Drumroll please... 🥁 We are excited to announce **FLOWX.AI 3.1** release 🔥.
+---
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/undraw_launch_day_4e04%20%281%29.png#center)
+</Frame>
+
+So, what are you waiting for? Grab a snack, sit back, and get ready to explore the newest version of **FLOWX.AI**.
+
+## **New features** 🆕
+
+### UI Designer ✍️
+
+#### Undo/redo actions in UI Designer
+
+The latest update now allows users to easily undo or redo any actions they perform within the UI Designer. This includes tasks such as dragging, dropping, or deleting elements from the preview section, as well as adjusting settings within the styling and settings panel.
+
+<Info>
+To undo or redo an action, users can simply click the corresponding icons in the UI Designer toolbar, or use the keyboard commands (undo: Cmd/Ctrl + Z, redo: Cmd/Ctrl + Shift + Z) for even quicker access. This new functionality provides users with greater control and flexibility, allowing them to easily make changes and adjustments without fear of losing progress or making mistakes.
+</Info>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/undo_redo.gif)
+
+[Deployment guidelines v3.1](./deployment-guidelines-v3.1.0#undoredo)
+
+#### New UI element: file preview
+
+We are excited to announce the addition of a new ready-made UI component. This new component allows users to easily display previews of documents within their designs, whether the documents are uploaded, generated during a process, or static.
+
+With this new feature, users can create more dynamic and interactive designs that incorporate real-time document previews.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/doc_preview.gif)
+
+[File preview](../../docs/building-blocks/ui-designer/ui-component-types/file-preview)
+
+### Process designer
+
+#### Generate data model 
+
+A data model can be generated using data values from a [process instance](../../docs/building-blocks/process/active-process/process-instance). This can be done by either merging the data model with an existing one or replacing it entirely.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/generate_data_model%20copy.gif)
+
+[Data model](../../docs/building-blocks/process/process-definition#data-model)
+
+## **Fixed** 🔧
+
+* Fixed an issue where [Engine](../../docs/platform-deep-dive/core-components/flowx-engine) and [Advancing controller](../../docs/platform-deep-dive/core-components/flowx-engine#advancing-controller) should be restarted if the advancing controller's database is down for a couple of minutes.
+* Fixed an issue where image preview is not displayed.
+* Fixed an issue where `GET child enumerations` request is not using the correct version.
+* Fixed an issue where the [scheduler](../../docs/platform-deep-dive/core-components/core-extensions/scheduler) was sending messages multiple times.
+
+## **Changed** 🛠️
+
+### FLOWX.AI Engine 🚂
+
+* [Advancing controller](../../docs/platform-deep-dive/core-components/flowx-engine#advancing-controller) now supports OracleDBs
+
+[Deployment guidelines v3.1](deployment-guidelines-v3.1.0#advancing-controller-with-oracle)
+
+### UI Designer ✍️
+
+UI Designer improvements:
+
+* You can now select enumeration data source for [Select](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/select-form-field), [Checkbox](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/checkbox-form-field), and [Radio](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/radio-form-field) UI elements.
+* Clear content button option is available in the UI Designer, as a setting at element level for [form elements](../../docs/building-blocks/ui-designer/ui-component-types/form-elements) populated with content.
+* Form elements under hidden containers can be disabled now.
+
+:::info
+Here is a brief example: form → disabled = `true` + child form element: disabled = `false` ⇒ entire form is disabled.
+:::
+
+* Improved UI element configuration error experience - when there is an error in the element’s settings, then the element is marked and on hover, an error message is displayed.
+* Added code editor in expression fields.
+
+[UI Designer](../../docs/building-blocks/ui-designer)
+
+### Process designer
+
+* Added a new flag in process settings to use a process in task management.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/tsk_mng_proc.gif)
+
+[Task management](../../docs/platform-deep-dive/plugins/custom-plugins/task-management)
+
+## **Known issues** 🙁
+
+### Reporting
+
+* Reporting plugin is not compatible with Oracle DBs.
+
+### UI Designer
+
+* When configuring an [Input UI element](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/input-form-field) with a 'Has clear' (content clear) property, we recommend setting a fixed width value for the element. If the width is set to 'fill', it may cause the UI to break
+* The 'auto' size property for Fit W is not available for [input](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/input-form-field), [select](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/select-form-field), [switch](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/switch-form-field), [textarea](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/text-area) and [datepicker](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/datepicker-form-field) UI elements
+
+[Deployment guidelines v3.1](./deployment-guidelines-v3.1.0)

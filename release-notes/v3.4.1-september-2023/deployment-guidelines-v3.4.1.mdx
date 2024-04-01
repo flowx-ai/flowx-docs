@@ -1,12 +1,14 @@
-# Deployment guidelines v3.4.1
+---
+title: Deployment guidelines v3.4.1
+---
 
-:::info
+<Info>
 Do not forget, when upgrading to a new platform version, always ensure that your installed component versions match the versions specified in the release notes. To verify this, navigate to **FLOWX.AI Designer > Platform Status**.
-:::
+</Info>
 
-:::caution Process compatibility
+<Warning>
 After updating to **3.4.1** FLOWX.AI release, it is not possible to import old process definitions into the new platform release (available for exports from releases **< 3.4.1**).
-:::
+</Warning>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/release_platform_version_check.png)
 
@@ -42,7 +44,7 @@ After updating to **3.4.1** FLOWX.AI release, it is not possible to import old p
 :::danger IMPORTANT
 With the release of **FLOWX.AI 3.0**, there have been some changes that you need to be aware when upgrading to the latest version:
 * The `flowx-process-renderer` has been migrated to `@flowx\ui-sdk`.
-* As of **FLOWX.AI 3.0**, the `paperflow-web-components` library will be deprecated (some components still can be found inside this lib). Instead, the new components can be found in `@flowx/ui-toolkit@3.0`.
+* As of **FLOWX.AI 3.0**, the `paperflow-web-components` library will be deprecated. Instead, the new components can be found in `@flowx/ui-toolkit`.
 :::
 
 ### Recommended Versions for FLOWX.AI 3.4.1 ☑️
@@ -134,9 +136,9 @@ Request body:
 }
 ```
 
-:::caution
+<Warning>
 Please take note that after upgrading to the new system version, you should refrain from including the flowx:core cache in the request body when invoking the clear cache endpoint to avoid unintended consequences.
-:::
+</Warning>
 
 
 

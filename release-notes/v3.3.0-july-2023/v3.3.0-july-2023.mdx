@@ -1,0 +1,227 @@
+---
+title: v3.3.0 July 2023
+description: We can't reinvent the wheel... but we can certainly give it a whole new spin! Drumroll, please! 🥁 **FLOWX.AI 3.3** has arrived, bringing a new wave of exciting new features and enhancements.
+---
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/fireworks-explosions.gif#center)
+</Frame>
+
+Buckle up, hold on tight, and prepare for an extraordinary experience! 🚀
+
+## **New features** 🆕
+
+### New nodes: message events
+
+Message events play a crucial role in integrating messaging capabilities within business process modeling. These [**events**](../../docs/terms/events) are specifically crafted to capture the interaction between different participants in a [**process**](../../docs/terms/flowx-process) by referencing messages. By leveraging message events, processes can temporarily halt their execution until the anticipated messages are received, facilitating efficient coordination and communication among [**process instances**](../../docs/terms/flowx-process-instance).
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/all_message_events.png)
+
+* **Message Throw Intermediate Event** - the events can be triggered at any time while the associated task is being performed
+    * **Interrupting event** - when the message is received, the user task is finished and the [**token**](../../docs/terms/token) advances in the process flow
+    * **Non-Interrupting event** - when messages are received, the user task, to which the catching boundary event is attached, is not finished immediately.
+* **Message Catch Intermediate Event** - waits for a message to catch before continuing with the process flow
+* **Message Catch Start Event** - starts an instance after receiving a message
+
+[Message events](../../docs/building-blocks/node/message-events)
+
+
+### 📢 Announcement: Transitioning from WebSockets to SSE (Server-Sent Events)
+
+We are replacing WebSockets with SSE (Server-Sent Events) as the preferred technology for real-time communication in our system. SSE offers a lightweight and efficient solution for delivering server-initiated updates to the clients, enhancing the responsiveness and user experience.
+
+With SSE, we can streamline the communication flow by eliminating the need for bidirectional channels. Instead, the server can send events directly to the clients, reducing network overhead and simplifying the implementation. SSE is built on top of the HTTP protocol, making it widely supported and easily integrable into existing systems.
+
+Check the deployment guildelines for more information about the impact on the configs:
+
+[SSE](deployment-guidelines-v3.3.0#sse)
+
+### Events gateway
+
+Added a new [**FLOWX.AI microservice**](../../docs/terms/microservices). The Events Gateway is a central communication service that processes and distributes SSE (Server-sent events) messages from Backend to Frontend. It acts as an intermediary between different system components, handling event processing, message distribution, and event publication. By reading messages from a Kafka topic and publishing events to the frontend renderer, it enables real-time updates in the user interface. Additionally, it integrates with Redis to publish events on a stream for other system components to consume. The Events Gateway ensures efficient event handling and facilitates seamless communication within the system.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/events_gateway_archi.png)
+
+[Events gateway](../../docs/platform-deep-dive/core-components/events-gateway)
+
+[Events gateway setup guide](../../docs/platform-setup-guides/events-gateway-setup)
+
+### Process engine
+
+#### NEW: process instance indexing through Kafka transport
+
+Sending data through **Kafka** : Rather than sending data directly from the process engine to ElasticSearch (ES), a new strategy is introduced where the [**process engine**](../../docs/terms/flowxai-process-engine) sends messages to a Kafka topic whenever there is something to be indexed from a [**process instance**](../../docs/terms/flowx-process-instance). [Kafka Connect](https://kafka.apache.org/documentation.html#connect) is configured to read these messages and send them to ElasticSearch for indexing. This approach allows for fire-and-forget communication, eliminating the need for the process engine to wait for indexing requests to complete.
+
+[Process instance indexing](../../docs/platform-setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing)
+
+#### KafkaConnect ElasticSearch sink plugin
+
+A new component, Kafka Connect with configuration, has been added. This component enables Kafka Connect to listen to a specific topic where process instances generate messages and sends them to ElasticSearch indexes. The configuration includes the utilization of a KafkaConnect ElasticSearch sink connector plugin, which is responsible for handling this task. The plugin is configured with a connector.
+
+[Example configuration for applying the solution with Kafka Connect](../../docs/platform-setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing#example-configuration-for-applying-the-solution-with-kafka-connect)
+
+Check the deployment guidelines for version 3.3:
+
+[Kafka transport](./deployment-guidelines-v3.3.0#process-engine)
+
+
+### UI Designer ✍️
+
+#### Dynamic values
+
+Added the possibility to add dynamic values in various element settings. You can now use process parameters or [**substitution tags**](../../docs/terms/flowx-substitutions-tags) for the following element properties: default value (excluding switch), label, placeholder, helpertext, error message, prefix, and suffix. Additionally, dynamic values are supported for specific elements such as [**Document Preview**](../../docs/building-blocks/ui-designer/ui-component-types/file-preview), [**Card**](../../docs/building-blocks/ui-designer/ui-component-types/root-components/card), [**Form**](../../docs/building-blocks/ui-designer/ui-component-types/form-elements), Message, [**Button**](../../docs/building-blocks/ui-designer/ui-component-types/buttons), [**Upload**](../../docs/building-blocks/ui-designer/ui-component-types/buttons), [**Select**](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/select-form-field), [**Checkbox**](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/checkbox-form-field), [**Radio**](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/radio-form-field), [**Segmented button**](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/segmented-button), Text, Link, Modal, and Step. This enhancement allows for greater flexibility and customization.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/dynamic_val.gif)
+
+#### Computed values
+
+Computed values are dynamically generated or calculated values based on JavaScript expressions instead of static predefined values.
+
+Computed values can be created using the [**UI Designer**](../../docs/terms/flowx-ai-ui-designer) by writing JavaScript expressions that operate on process parameters or other variables within the application. These expressions can perform calculations, transformations, or other operations to generate the desired value at runtime. By enabling computed values, the application provides flexibility and the ability to create dynamic and responsive user interfaces.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/computed.gif)
+
+[Dynamic & computed values](../../docs/building-blocks/ui-designer/dynamic-and-computed-values)
+
+#### New value slider UI element
+
+Introducing a new slider UI element that allows users to select and adjust numerical values within a specified range. The slider element can be added under a parent form element by dragging and dropping or pasting.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/slider_release.gif)
+
+#### Icons
+
+The new Icons feature enhances the visual appeal and customization options for the following UI components: [**Input**](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/input-form-field), [**Select**](../../docs/building-blocks/ui-designer/ui-component-types/form-elements/select-form-field) and [**Button**](../../docs/building-blocks/ui-designer/ui-component-types/buttons).
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/icons_release.png)
+
+* Added support for customizing icons in UI elements by uploading and managing SVG files through the [Media Library](../../docs/platform-deep-dive/core-components/core-extensions/content-management/media-library)
+* Improved UI Designer integration for easy icon customization.
+* Introduced options to set colors for icons in UI Designer
+* Enhanced icon management with the ability to mark SVG files as icons in the Media Library
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/iconss.png)
+
+For more information, check the following section:
+
+[Media Library](../../docs/platform-deep-dive/core-components/core-extensions/content-management/media-library#icons)
+
+
+## **Bug Fixes** 🔧
+
+#### Document Plugin
+
+- Fixed an issue that caused an error when splitting PDF documents without a barcode on the first page.
+
+#### Admin
+
+- Addressed an issue that resulted in the creation of duplicate processes with the same UUID when cloning and renaming a published process. Now, a new UUID is generated for the renamed process, ensuring uniqueness and preventing duplication.
+
+#### Integrations
+
+- Fixed an issue where the received message in the callback action, configured with parameters from integration, was incorrectly saved on the node ID instead of the configured key. The fix ensures that integrations correctly map the received message to the intended key, saving it in the intended location.
+
+#### Task Manager
+
+- Resolved an issue where processes started with the "inherit" option did not connect to the correct namespace when opened from the task manager. Subprocesses now establish the connection using the appropriate contextInstanceUuid from the Child Process, ensuring they connect to the correct namespace and receive the expected updates.
+
+:::caution
+Currently the two triggers lacks support for Service Level Agreement (SLA) functionality.
+:::
+
+## **Changed** 🛠️
+
+### Task Management - Bulk updates
+
+Now you have the ability to send bulk update requests on [**Kafka**](../../docs/terms/flowx-kafka). You can now perform multiple operations at once.
+
+[Bulk updates](./deployment-guidelines-v3.3.0#bulk-updates)
+
+### Data model
+
+#### Viewing data model references
+
+This update introduces the ability to view attribute usage within the process. You can now easily see where a specific attribute is being used by accessing the "View References" feature. This feature provides a list of process data keys associated with each attribute and displays possible references, such as UI Elements.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/data_model_reference.gif)
+
+<Info>
+Please note that the option to view references is not available for object and array attribute types.
+</Info>
+
+[Data model reference](../../docs/building-blocks/process/process-definition#data-model-reference)
+
+
+<Warning>
+To ensure smooth upgrading to the v3.3 platform release and to automatically link already existing data models, please execute the following command:
+
+```shell
+curl --location --request PATCH '{{baseUrl}}/api/internal/ui-templates/data-model/link' \
+--header 'Authorization: Bearer XXXXXXXXXXXXXXXXXXXXXXXX' \
+--data ''
+```
+<Check>
+Please replace `{{baseUrl}}` with the appropriate base URL for your platform.
+</Check>
+
+<Info>
+Make sure to execute this command with the necessary permissions and valid authorization token to ensure a successful upgrade process: `manage-processes` and `admin`. For more information about the needed roles and scopes, check the [<u>**Configuring access rights for Admin**</u>](../../docs/flowx-designer/designer-setup-guide/configuring-access-rights-for-admin) section.
+</Info>
+
+</Warning>
+
+#### Reporting
+
+* You can now set "Used in reporting" and “Sensitive data” flags for an object or array of objects (all the child attributes will inherit its value - "true" or "false"), without the need to edit each attribute 
+
+#### Copy-paste objects
+
+* Copy-paste objects structure under data model
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/data_model_reference.gif)
+
+
+### Platform
+
+#### Set client and environment
+
+To configure the client and environment settings in the platform, you can use the following environment variables:
+
+* `FLOWX_CLIENT_NAME`
+* `FLOWX_ENVIRONMENT_NAME`
+
+Both configurations must be set for the admin component to retrieve them. In case the environment variables are not overridden, the administrator can manually configure them in FLOWX Designer. Here's how you can do it:
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/set_client_and_env.gif)
+
+By setting the appropriate values for these environment variables, you ensure that the platform is correctly configured with the desired client and environment settings.
+
+### Process designer
+
+#### Swimlanes interaction
+
+* We have introduced a new and improved way to interact with process swimlanes by incorporating a contextual menu. 
+
+Check out the animation below to see the new swimlanes interaction.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/swimlanes_docs.gif)
+
+### Other
+
+* The autoarrange function has been removed from [**Process Designer**](../../docs/terms/flowx-process-designer).
+
+## **Known issues** 🙁
+
+* **Slider UI element**: Currently, there is an issue where the value thumb of a slider component does not display the correct value when sourced from process data.
+* **Business rules**: Presently, there is an issue where changing the language of a [**business rule**](../../docs/terms/business-rules) does not result in its execution using the new language. Despite updating the language value in the database, the business rule continues to be executed with the original language, leading to unexpected behavior.
+* **Process Designer**: 
+    * In certain cases, deleting a boundary node in the process designer and navigating back to the [**process designer**](../../docs/terms/flowx-process-designer) from the [**UI Designer**](../../docs/terms/flowx-ai-ui-designer) does not remove the associated sequence from the boundary event. This issue specifically occurs when the sequence is linked to the deleted boundary node.
+    * Select Sequence buttons in the nodes UI interface may overlap.
+    * There is a known issue where users are unable to select the node name with the mouse in the user interface.
+* **Plugins**: Reporting plugin is not compatible with Oracle DBs.
+
+[Deployment guidelines v3.3](./deployment-guidelines-v3.3.0)
+
+
+
+

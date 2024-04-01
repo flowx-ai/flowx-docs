@@ -98,9 +98,6 @@ As mentioned previously, you can create dropdowns including static data, enumera
 
 To create this kind of process, we need the following elements:
 
-* a [**start**](../../../node/start-end-node#start-node) node and an [**end**](../../../node/start-end-node#end-node) node
-* a [**start milestone**](../4.0/docs/building-blocks/node/milestone-node) and an [**end milestone**](../4.0/docs/building-blocks/node/milestone-node) node
-
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/dynamic_dropdown1.gif)
 
 * a [**task node**](../../../node/task-node) (this will be used to set which data will be displayed on the dropdowns)
@@ -121,14 +118,13 @@ Follow the next steps to create the process from scratch:
 
 ### Configuring the nodes
 
-1. On the **start milestone** node, add a **page** UI element.
-2. On the **task node**, add a new **Action** (this will set the data for the dropdowns) with the following properties:
+1. On the **task node**, add a new **Action** (this will set the data for the dropdowns) with the following properties:
    * Action type - **Business Rule**
    * **Automatic**
    * **Mandatory**
    * **Language** (we used an [**MVEL**](../../../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel) script to create a list of objects)
 
-3. On the **user task node**, add a new **Action** (submit action, this will validate the forms and save the date) with the following properties:
+2. On the **user task node**, add a new **Action** (submit action, this will validate the forms and save the date) with the following properties:
 
 * **Action type** - Save Data
 * **Manual**

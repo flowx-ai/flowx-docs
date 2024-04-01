@@ -1,0 +1,48 @@
+---
+title: v3.4.3 October 2023
+description: In FLOWX.AI version 3.4.3, we've addressed several bugs to improve the stability and reliability of the platform. Here are the key bug fixes in this release.
+---
+
+## **Bug Fixes** 🔧
+
+###  Notification and Document plugins
+- Fixed limited entries problem in Document plugin and Notification plugin, previously restricted to 20 entries.
+- Resolved the issue causing the Document plugin to restart when starting with lag in Kafka topics.
+
+### Web SDK
+- Addressed CSS class assignment for `<flx-text>` issue, ensuring correct class assignment.
+- Fixed a UI issue where adding a left margin to COLLECTION_PROTOTYPE caused it to extend beyond the parent card.
+- Corrected a bug in certain UI elements where selecting a 2nd level child value didn't clear when the parent value was updated.
+- Resolved rendering issues for '0' and '-' values in text elements.
+
+### Designer and Versioning
+
+- Fixed the Designer issue where options in certain UI elements weren't displayed in dropdowns after previous selections.
+- Resolved the Import Published Version Selection issue during process import, now displaying only available versions.
+
+### Admin
+
+- Fixed an issue that previously prevented the creation of new versions for processes with swimlane names containing empty spaces.
+
+## **Other Bits**
+
+* We've bid farewell to the autoarrange function in the [**Process Designer**](../../docs/terms/flowx-process-designer).
+
+## **Gremlins to Watch Out For** 🙁
+
+Keep an eye out for these quirks:
+
+* **Document preview UI element**: Our document preview component has a unique sense of style. It prefers to take up only a portion of the screen, even when told to "fill" the entire width. It's a rebel with a cause.
+* **Business rules**: Our business rule have a language barrier, but they're working on it. Changing the language of a business rule doesn't always lead to using the new language for execution. It's like they have a favorite phrase they won't let go of.
+* **Process Designer**: Deleting a boundary node in the process designer and coming back from the UI Designer doesn't always clean up the associated sequence from the boundary event. It's like they left a party and forgot their hat.
+* **Datepicker Date Transformation**: Our Datepicker seems to possess a hidden talent. It mysteriously transforms random text into the current date when used with validators in UI Designer.
+
+
+## **Additional information**
+
+For deployment guidelines, refer to:
+ 
+[Deployment guidelines v3.4.3](./deployment-guidelines-v3.4.3)
+
+
+
