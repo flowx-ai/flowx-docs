@@ -15,17 +15,3 @@ The only points that need used interaction are starting the process and executin
 
 <Card title="FlowX Engine setup guide" href="../../../setup-guides/flowx-engine-setup-guide/" icon ="files">
 </Card>
-
-## Triggering or skipping nodes 
-
-There might be cases when you want to include or exclude process nodes based on some information that is available at start. For example, in case of a bank onboarding process, you might want a few extra nodes in the process in case the person trying to onboard is a minor.
-
-For these cases, we have added the possibility of defining flow names. For each process node, we can choose to set if they are only available in certain cases. In the example above, we will need a flow name, let's call it _enroll\_minor_. And we'll have to add this to the extra nodes.
-
-When starting a process, in case a value is set on the _flowName_ key in the values map, it will be used in order to decide which nodes to be included in a certain process instance. This means that if an adult starts the bank onboarding process, no extra key will be added when starting the process, so the extra nodes that have the _enroll\_minor_ flow name set will not be included. Those nodes will only be included in case a minor person starts an onboarding process.
-
-<Info>
-If no _flowName_ value is set on a node, this means the node will be included in all possible flows.
-</Info>
-
-A node could also be a part of multiple flow names.

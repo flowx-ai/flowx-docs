@@ -27,6 +27,10 @@ Once you've added a new navigation area, you can interact with it through the br
 <AccordionGroup>
 <Accordion title ="Area settings">
 
+<Frame>
+<img src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/area_settings.gif" style={{ maxHeight: '500px' }}/>
+</Frame>
+
 Use **Area Settings** to configure the following properties:
 
 * **Name** - a name for the navigation area element that is visible in the **Navigation menu**
@@ -36,12 +40,8 @@ This does not represent the label for your navigation area (for example, for a s
 To do that, trigger the **Navigation View** menu, then navigate to your element and click on the breadcrumbs. Afterward, click "UI Designer."
 </Info>
 
-* **Alternative Flows** -
+* **Alternative Flows** - There might be cases when you want to include or exclude process nodes based on some information that is available as a start condition.
 
-
-<Frame>
-<img src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/area_settings.gif" style={{ maxHeight: '500px' }}/>
-</Frame>
 
 </Accordion>
 <Accordion title ="UI Designer">
@@ -52,7 +52,7 @@ To do that, trigger the **Navigation View** menu, then navigate to your element 
 </Accordion>
 </AccordionGroup>
 
-## Types of UI areas
+## Navigation areas types
 
 You can create the following types of navigation areas:
 
@@ -104,22 +104,149 @@ You can also define a stepper in step structure with the possibility to track pr
 
 Steps are individual elements within a stepper, simplifying complex processes.
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/steps_ui_t.png)
+</Frame>
+
 ### Tab bar
+
+The Tab Bar is a crucial component in user interfaces, facilitating seamless navigation and content organization.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tabs_view.gif)
+</Frame>
+
+Key Features and usage guidelines:
+
+<CardGroup>
+<Card title ="Parallel Zones">
+The navigation Tab Bar offers specialized support for **parallel zones** within the same **user task**. This feature allows users to navigate effortlessly between different sections or functionalities.
+</Card>
+<Card title ="Multiple Tabs">
+Users can access multiple tabs within the tab bar, enabling quick switching between various views or tasks.
+</Card>
+</CardGroup>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tab_bar_nav_area.png)
+</Frame>
+
+<Warning>
+**Mobile development considerations**: when developing for mobile devices, ensure the tab bar is **always** positioned as a **root component** in the navigation. It should remain consistently visible, prioritizing ease of navigation.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/root_navigation_tab.png)
+
+</Warning>
 
 #### Tabs
 
+Tabs are clickable navigation elements within the Tab Bar that allow users to switch between different sections or functionalities within an application. 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tabs_parallel.png)
+</Frame>
+
+Each tab could contain a user task or multiple user tasks that can be rendered in parallel.
+
+
 ### Page
+
+
+Page navigation involves user interaction, typically through clicking on links, buttons, or other interactive elements, to transition from one page to another.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/page_smth.gif)
+</Frame>
 
 Use this UI configuration to display comprehensive full-page content.
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/page_ui.png)
+</Frame>
+
 ### Modal
 
-Modals provide temporary control over user interaction within a process, often as pop-ups or overlays, guiding users through a specific task before returning to the main application or website functionality.
+Modals offer temporary control over user interaction within a process, typically appearing as pop-ups or overlays. They guide users through specific tasks before returning to the main functionality of the application or website.
+
+![Modal Example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/modal.gif)
+
+To enable user interaction with a modal, you can configure it to be dismissable in two ways:
+
+- Dismiss on backdrop click
+- Display dismiss confirmation alert
+
+Here's how to configure these options:
+
+1. Navigate to your configured modal and access the UI Designer.
+
+![Modal UI Designer](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/modal_ui_designer.gif)
+
+2. In the UI Designer navigation panel, select the **Settings** tab, then choose **Generic**.
+
+3. Check the box labeled "dismissable." If you also want to display a dismiss confirmation alert, configure the:
+   - Title
+   - Message
+   - Confirm button label
+   - Cancel button label
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/modal_configuration.png)
+</Frame>
+
+By configuring these options, you can customize the behavior of your modals to enhance user experience and guide them effectively through tasks.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/modal_example.gif)
+</Frame>
 
 ### Zone
 
 Acts as a container meant to control UI navigation, grouping certain elements. The best use case in which can be used is a process with a header and footer.
 
-### Parent Process  Area
+### Parent process area
+
+## Alternative flows
+
+
+There might be cases when you want to include or exclude process nodes based on some information that is available at start. 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/alternative_flows.png)
+</Frame>
+
+<Tip>
+For example, in case of a bank onboarding process, you might want a few extra BPMN nodes in the process in case the person trying to onboard is a minor.
+</Tip>
+
+For these cases, we have added the possibility of defining **alternative flows**. 
+
+For each navigation area or node, you can choose to set if they are only available in certain cases. In the example below, we will create two alternative flows in which we will include two different steppers and one modal without being part of an alternative flow.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/adding_alternative_flows.gif)
+</Frame>
+
+When starting a process, you must mention for the which flow the process will be initiated using the "navigationFlow" parameter and the name of the alternative flow:
+
+```json
+{"navigationFlow": "First Flow"}
+```
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/alternative_flows_ex.gif)
+</Frame>
+
+<Info>
+If a node is not assigned to an alternative flow, this means the node will be included in all possible flows.
+<Tip>
+A node could also be a part of multiple flow names.
+</Tip>
+
+</Info>
+
+
+
+## UI Designer
+
 
 ## Navigation per platform

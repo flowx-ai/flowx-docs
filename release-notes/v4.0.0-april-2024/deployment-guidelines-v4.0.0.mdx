@@ -127,3 +127,16 @@ This endpoint is designed to purge Redis caches selectively. It will exclusively
 
 <Card title="Clear Cache 4.0" href ="/4.0/docs/api/clear-cache4.0" icon ="link">
 </Card>
+
+### Logging
+
+In previous releases, the logs of various deployed FlowX microservices were cluttered with log lines stemming from health endpoint calls. 
+
+To streamline logging and enhance readability, you can now disable these health endpoint calls by adjusting the following environment variables to the 'INFO' level during each microservice deployment.
+
+<Info>
+If the provided logs lack sufficient detail, consider setting the value to 'DEBUG'.
+</Info>
+
+- `LOGGING_LEVEL_WEB: INFO`
+- `LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB: INFO`

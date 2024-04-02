@@ -437,9 +437,9 @@ To use advancing controller, the following env vars are needed for `process-engi
 <Card title="Advancing controller setup" href="../advancing-controller-setup-guide" icon ="gears">
 </Card>
 
-### Configuring Scheduler  
+### Configuring cleanup mechanism
 
-Below you can find a configuration .yaml to use [scheduler](/4.0/docs/platform-deep-dive/core-extensions/scheduler) service together with FLOWX.AI Engine:
+Below you can find a configuration for cleaning up expired processes.
 
 
 ```yaml
@@ -454,17 +454,20 @@ scheduler:
 
 ```
 * **processCleanup**: A configuration for cleaning up processes. 
-* **enabled** specifies whether this feature is turned on or off. 
-* **cronExpression** is a schedule expression that determines when the cleanup process runs. In this case, it runs every day during the night (between 12:00 AM and 5:59 AM) and every 5 minutes, at the start of the minute. 
-* **batchSize** specifies the number of processes to be cleaned up in one batch.
+* **enabled**: Specifies whether this feature is turned on or off. 
+* **cronExpression**: Is a schedule expression that determines when the cleanup process runs. In this case, it runs every day during the night (between 12:00 AM and 5:59 AM) and every 5 minutes, at the start of the minute. 
+* **batchSize*: Specifies the number of processes to be cleaned up in one batch.
 * **masterElection**: A configuration for electing a master.
 
 
-<Card title="Scheduler setup guide" href="../scheduler-setup-guide" icon="gears">
-</Card>
 
 ### Managing Subprocesses Expiration
 
 The `FLOWX_PROCESS_EXPIRE_SUBPROCESSES` environment variable governs subprocess expiration in a parent process. When set to true, the parent process's expiration prompts simultaneous termination of all associated subprocesses. Conversely, when set to false, each subprocess follows its individual expiration configuration or persists indefinitely if not configured.
+
+```yaml
+  process:
+    expire-subprocesses: true
+```
 
 * `FLOWX_PROCESS_EXPIRE_SUBPROCESS` - default: `true`
