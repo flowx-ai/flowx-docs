@@ -1,0 +1,27 @@
+version: "3.9"
+name: docs-new
+services:
+    app:
+        image: docs-new:latest
+        container_name: docs-new
+        user: root
+        working_dir: /home/$USER/app
+        tty: true # keep container running
+#        command: tail -f /dev/null # keep container running
+        build:
+            context: ..
+            dockerfile: ./docker/Dockerfile
+            args:
+                GROUP: $GROUP
+                GID: $GID
+                USER: $USER
+                UID: $UID
+        volumes:
+            - ..:/home/$USER/app
+            # exclude these files & folders from volume
+            - /dev/null:/home/$USER/app/.DS_Store
+            - /home/$USER/app/.git
+            - /home/$USER/app/docker
+        ports:
+            # By default, Mintlify uses port 3000
+            - "3000:3000"
