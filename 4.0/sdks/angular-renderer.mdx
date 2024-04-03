@@ -72,7 +72,7 @@ A few configurations are needed in the projects `angular.json`:
 },
 ```
 
-## Using the library
+## Initial setup
 
 Once installed, `FlxProcessModule` will be imported in the `AppModule` as `FlxProcessModule.forRoot({})`. 
 
@@ -120,7 +120,7 @@ For **Task Management** theming is done through the ppf-theme mixin that accepts
 ### Authorization
 
 <Info>
-Every request from the **FLOWX** renderer SDK will be made using the **HttpClientModule** of the client app, which means those requests will go through every interceptor you define here. This is most important to know when building the auth method as it will be the job of the client app to intercept and decorate the requests with the necessary auth info (eg. `Authorziation: Bearer ...`).
+Every request from the **FlowX** renderer SDK will be made using the **HttpClientModule** of the client app, which means those requests will go through every interceptor you define here. This is most important to know when building the auth method as it will be the job of the client app to intercept and decorate the requests with the necessary auth info (eg. `Authorziation: Bearer ...`).
 </Info>
 
 <Info>
@@ -215,7 +215,9 @@ The entry point of the library is the <flx-process-renderer></flx-process-render
 ```
 <flx-process-renderer
   [apiUrl]="baseApiUrl"
-  [processApiPath]="processApiPath"
+  [processApiPath]="processApiPath"a
+  [authToken]="authToken"
+  [themeId]="themeId"
   [processName]="processName"
   [processStartData]="processStartData"
   [debugLogs]="debugLogs"
@@ -229,15 +231,17 @@ The entry point of the library is the <flx-process-renderer></flx-process-render
 
 | Name              | Description                                                                                                                                                                            | Type    | Mandatory | Default value | Example                                          |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------- | ------------- | ------------------------------------------------ |
-| baseApiUrl        | Your base url                                                                                                                                                                          | string  | true      | -             | [https://yourDomain.dev](https://yourdomain.dev) |
-| processApiPath    | Engine API prefix                                                                                                                                                                      | string  | true      | -             | /onboarding                                      |
+| apiiUrl           | Your base url                                                                                                                                                                          | string  | true      | -             | [https://yourDomain.dev](https://yourdomain.dev) |
+| processApiPath    | Process subpath                                                                                                                                                                        | string  | true      | -             | onboarding                                       |
+| authToken         | Authorization token                                                                                                                                                                    | string  | true      | -             | 'eyJhbGciOiJSUzI1NiIsIn....'                     |
+| themeId           | Theme id used to style the process. Can be obtained from the themes section in the admin                                                                                               | string  | true      | -             | '123-456-789'                                    |
 | processName       | Identifies a process                                                                                                                                                                   | string  | true      | -             | client\_identification                           |
-| processStartData  | Data required to start the process                                                                                                                                                     | json    | true      | -             | `{ "firstName": "John", "lastName": "Smith"}`      |
+| processStartData  | Data required to start the process                                                                                                                                                     | json    | true      | -             | `{ "firstName": "John", "lastName": "Smith"}`    |
 | debugLogs         | When set to true this will print WS messages in the console                                                                                                                            | boolean | false     | false         | -                                                |
 | language          | Language used to localize the application.                                                                                                                                             | string  | false     | ro-RO         | -                                                |
 | keepState         | <p>By default all process data is reset when the process renderer component gets destroyed. Setting this to true will keep process data even if the viewport gets destroyed</p><p></p> | boolean | false     | false         | -                                                |
 | isDraft           | When true allows starting a process in draft state. \*Note that isDraft = true requires that processName be the **id** (number) of the process and NOT the name.                       | boolean | false     | false         | -                                                |
-| legacyHttpVersion | Set this to `true` only for HTTP versions < 2 in order for SSE to work properly. Can be omitted otherwise.                                                                             | boolean | false     | false         |  -                                               |
+| legacyHttpVersion | Set this to `true` only for HTTP versions < 2 in order for SSE to work properly. Can be omitted otherwise.                                                                             | boolean | false     | false         | -                                                |
 
 
 #### Data and actions
@@ -303,17 +307,21 @@ export class MyModule {}
 Then in the template:
 
 ```xml
-<flx-task-management [baseUrl]="baseUrl" [title]="'Tasks'">
+<flx-task-management 
+  [apiUrl]="baseApiUrl"
+  [authToken]="authToken" 
+  [title]="'Tasks'">
 </flx-task-management>
 ```
 
 #### Parameters:
 
-| Name            | Description                            | Type   | Default    | Mandatory  | Example                      |
-| --------------- | -------------------------------------- | ------ | ---------- | ---------- | ---------------------------- |
-| apiUrl          | Endpoint where the tasks are available | string | -          | true       | https://yourDomain.dev/tasks |
-| title           | Table header value                     | string | Activities | false      | Tasks                        |
-| pollingInterval | Interval for polling task updates      | number | 5000 ms    | false      | 10000                        |
+| Name            | Description                            | Type   | Default    | Mandatory | Example                      |
+| --------------- | -------------------------------------- | ------ | ---------- | --------- | ---------------------------- |
+| apiUrl          | Endpoint where the tasks are available | string | -          | true      | https://yourDomain.dev/tasks |
+| authToken       | Authorization token                    | string | -          | true      |                              |
+| title           | Table header value                     | string | Activities | false     | Tasks                        |
+| pollingInterval | Interval for polling task updates      | number | 5000 ms    | false     | 10000                        |
 
 
 ### Development

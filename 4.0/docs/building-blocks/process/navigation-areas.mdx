@@ -148,6 +148,9 @@ Tabs are clickable navigation elements within the Tab Bar that allow users to sw
 
 Each tab could contain a user task or multiple user tasks that can be rendered in parallel.
 
+<Info>
+You can also use [**Start embedded subprocess**](../node/call-subprocess-tasks/start-embedded-subprocess) nodes to render defined subprocesses as a tab. See the example [**here**](#parent-process-area).
+</Info>
 
 ### Page
 
@@ -201,12 +204,15 @@ By configuring these options, you can customize the behavior of your modals to e
 
 ### Zone
 
-Acts as a container meant to control UI navigation, grouping certain elements. The best use case in which can be used is a process with a header and footer.
+A Zone serves as a container designed to govern UI navigation by grouping specific elements together. Its optimal application is in scenarios involving processes featuring both a header and footer.
+
+<Warning>
+Zones with headers and footers are exclusively accessible in web configurations. They are not supported as navigation areas for mobile development.
+</Warning>
 
 ### Parent process area
 
 ## Alternative flows
-
 
 There might be cases when you want to include or exclude process nodes based on some information that is available at start. 
 
@@ -241,10 +247,11 @@ If a node is not assigned to an alternative flow, this means the node will be in
 <Tip>
 A node could also be a part of multiple flow names.
 </Tip>
-
 </Info>
 
-
+<Tip>
+When configuring alternative flows in the main process, remember that they will also be applied in any embedded subprocesses with identical names.
+</Tip>
 
 ## UI Designer
 

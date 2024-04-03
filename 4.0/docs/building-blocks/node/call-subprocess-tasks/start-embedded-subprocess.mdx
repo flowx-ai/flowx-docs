@@ -71,9 +71,9 @@ Within the selected process, design the subprocess by adding necessary tasks, ev
 </Frame>
 
 <Warning>
-When attempting to initiate a process containing an embedded subprocess, if the root Navigation Area of the subprocess isn't designated as an inheritance placeholder ("Parent Process" label in the Navigation Areas menu), the process cannot be initiated.
-
+To initiate a process with an embedded subprocess, designate the root Navigation Area of the subprocess as an inheritance placeholder ('Parent Process Area' label in the "Navigation Areas"). Otherwise, initiation will fail."
 <Frame>
+
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/2024-03-26%2010.32.02.gif)
 </Frame>
 
@@ -106,7 +106,11 @@ Configure the node to specify the embedded subprocess that it will initiate. Thi
 </Steps>
 
 
-### Step 3: Customize Subprocess Behavior (Optional)
+### Step 3: Customize Subprocess Behavior
+
+<Info>
+[**Alternative flows**](../../process/navigation-areas#alternative-flows) configured in the **main process** will also be applied to **embedded subprocesses** if they share the same name.
+</Info>
 
 <Steps>
 <Step title= "Customize Data Handling">
