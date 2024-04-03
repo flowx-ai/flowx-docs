@@ -193,11 +193,19 @@ Keep track of your favorite process definitions and streamline process developme
 
 ### Web SDK
 
+* **AuthToken Management**: The ui-sdk no longer relies on the authToken being stored in LOCAL_STORAGE. Instead, the 'access_token' is now passed as an input to the `<flx-process-renderer>` component through a private variable.
+
 <Warning>
-Breaking change
+**Breaking Change:** This update is mandatory for proper functionality of SSE (Server-Sent Events).
 </Warning>
 
-* `AuthToken` - 
+<Info>
+By adopting this approach, clients gain the flexibility to implement the most secure token management strategy tailored to their specific security needs. Moreover, shifting the responsibility to the container application for updating the 'access_token' input ensures that any changes or refreshes to the authToken are securely managed within the application's domain. This proactive approach effectively mitigates potential security vulnerabilities associated with token management, offering a robust and adaptable solution.
+</Info>
+
+<Card title ="More details here" href="/4.0/sdks/angular-renderer#authorization">
+</Card>
+
 
 ### Call activity node
 
@@ -226,6 +234,33 @@ Breaking change
 ## **Bug Fixes** 🛠️
 
 We've also squashed pesky bugs to ensure a smoother and more reliable experience across the board.
+
+### Scheduler
+
+* Tokens now leave the timer node promptly, no longer lingering like last-minute shoppers before closing time!
+* Subprocesses can now rest easy knowing they won't trigger "Timer expression is not valid" errors when setting process expiry time in months—our code's time management just got a promotion!
+
+### UI Designer
+
+* Switch element label now obeys orders to move to the end—no more rebellious labels sticking to the start!
+
+### Process Designer
+
+* Small laptops users rejoice! Now you can scroll to see all subprocesses and audit logs without losing the last line—no more screen envy for external monitors!
+* Start Subprocess Action now consistently saves selected version inputs and allows for multiple edits without page refreshes—no more need for extra clicks or browser gymnastics!
+* Nodes now stay within swimlane borders when moved, preventing them from wandering off like lost sheep—no more unexpected node relocations disrupting your process layouts!
+
+### FlowX Engine
+
+* MVEL parser now (with the latest MVEL version update: 2.5.2) happily accepts arrays/lists after objects, eliminating JSON file frustrations and improving developer workflow—no more cryptic error messages ruining your day!
+* Python Business Rules now reliably execute during runtime, ensuring consistent behavior between test and live modes—no more mysterious token standstills!
+
+### Web SDK
+
+* You can now seamlessly execute actions in processes with radio buttons and validators, even after page reloads—eliminating the frustration of encountering unresponsive buttons.
+* Also you can now successfully execute UI Actions on image components without encountering "undefined token uuid" errors—no more frustrations with unresponsive image interactions!
+* Custom validators now retain their specified async execution type upon saving, ensuring consistency and reliability in process validation—no more frustrating switches back to sync execution!
+* Forget playing favorites in the WEB_SDK! Now you can save data from both form elements and UI action custom body simultaneously. Say goodbye to tough decisions—saving data just got a whole lot easier and funnier!
 
 ## Other
 

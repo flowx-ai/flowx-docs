@@ -4,12 +4,16 @@ icon: computer
 description: FlowxProcessRenderer is a low code library designed to render UI configured via the Flowx Process Editor.
 ---
 
+<Warning>
+**Breaking changes**: Starting with version 4.0 the ui-sdk will no longer expect the authToken to be present in the LOCAL_STORAGE. Instead, the authToken will be passed as an input to the flx-process-renderer component. This is mandatory for the SSE to work properly.
+</Warning>
+
 ## Angular project requirements
 
-Your app MUST be created using the NG app from the @angular/cli~15 package. It also MUST use SCSS for styling.
+Your app MUST be created using the NG app from the @angular/cli~16 package. It also MUST use SCSS for styling.
 
 ```
-npm install -g @angular/cli@15.0
+npm install -g @angular/cli@16.0
 ng new my-flowx-app
 ```
 
@@ -18,13 +22,13 @@ To install the npm libraries provided by FLOWX you will need to obtain access to
 </Check>
 
 <Info>
-The library uses Angular version **@angular\~15**, **npm v8.1.2** and **node v16.13.2**.
+The library uses Angular version **@angular\~16**, **npm v8.1.2** and **node v16.13.2**.
 </Info>
 
 <Check>
-If you are using an older version of Angular (for example, v14), please consult the following link for update instructions: 
+If you are using an older version of Angular (for example, v15), please consult the following link for update instructions: 
 
-[**Update Angular from v14.0 to v15.0**](https://update.angular.io/?v=14.0-15.0)
+[**Update Angular from v15.0 to v16.0**](https://update.angular.io/?v=15.0-16.0)
 </Check>
 
 ## Installing the library
@@ -80,42 +84,8 @@ You **MUST** also import the dependencies of `FlxProcessModule`: `HttpClientModu
 
 ### Theming
 
-Component theming is done through two json files (`theme_tokens.json`, `theme_components.json`) that need to be added in the assets folder of your project The file paths need to be passed to the `FlxProcessModule.forRoot()` method through the `themePaths` object.
+Component theming is done through Theme Management.
 
-```typescript
-themePaths: {
-    components: 'assets/theme/theme_components.json',
-    tokens: 'assets/theme/theme_tokens.json',
-  },
-```
-The **assets/theme/theme_tokens.json** - should hold the design tokens (e.g. colors, fonts) used in the theme.
-
-The **assets/theme/theme_components.json** - holds metadata used to describe component styles. 
-
-
-For **Task Management** theming is done through the ppf-theme mixin that accepts as an argument a list of colors grouped under **primary**, **status** and **background**
-
-```typescript
-@use 'ppf-theme';
-
-@include ppf-theme.ppf-theme((
-  'primary': (
-    'color1': vars.$primary,
-    'color2': vars.$secondary,
-    'color3': vars.$text-color,
-  ),
-  'status': (
-    'success': vars.$success,
-    'warning': vars.$warning,
-    'error': vars.$error,
-  ),
-  'background': (
-    'background1': vars.$background1,
-    'background2': vars.$background2,
-    'background3': vars.$background3,
-  ),
-));
-```
 
 ### Authorization
 
@@ -124,7 +94,7 @@ Every request from the **FlowX** renderer SDK will be made using the **HttpClien
 </Info>
 
 <Info>
-It's the responsibility of the client app to implement the authorization flow (using the **OpenID Connect** standard). The renderer SDK will expect to find the **JWT** saved in the browser **localStorage** object at the key named access\_token.
+It's the responsibility of the client app to implement the authorization flow (using the **OpenID Connect** standard). The renderer SDK will expect the authToken to be passed to the `flx-process-renderer` as an input.
 </Info>
 
 ```typescript
@@ -231,7 +201,7 @@ The entry point of the library is the <flx-process-renderer></flx-process-render
 
 | Name              | Description                                                                                                                                                                            | Type    | Mandatory | Default value | Example                                          |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------- | ------------- | ------------------------------------------------ |
-| apiiUrl           | Your base url                                                                                                                                                                          | string  | true      | -             | [https://yourDomain.dev](https://yourdomain.dev) |
+| apiUrl            | Your base url                                                                                                                                                                          | string  | true      | -             | [https://yourDomain.dev](https://yourdomain.dev) |
 | processApiPath    | Process subpath                                                                                                                                                                        | string  | true      | -             | onboarding                                       |
 | authToken         | Authorization token                                                                                                                                                                    | string  | true      | -             | 'eyJhbGciOiJSUzI1NiIsIn....'                     |
 | themeId           | Theme id used to style the process. Can be obtained from the themes section in the admin                                                                                               | string  | true      | -             | '123-456-789'                                    |
@@ -323,6 +293,16 @@ Then in the template:
 | title           | Table header value                     | string | Activities | false     | Tasks                        |
 | pollingInterval | Interval for polling task updates      | number | 5000 ms    | false     | 10000                        |
 
+
+For basic styling to work the following configuration is needed in the angular.json file:
+
+```
+"stylePreprocessorOptions": {
+  "includePaths": [
+    "./node_modules/@flowx/ui-sdk/src/assets/scss"
+  ...
+},
+```
 
 ### Development
 

@@ -131,6 +131,8 @@ Users can access multiple tabs within the tab bar, enabling quick switching betw
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tab_bar_nav_area.png)
 </Frame>
 
+When setting up a tab bar zone in your BPMN diagram, ensure that you always initiate a parallel zone using **Parallel Gateway** nodes. This involves using one Parallel Gateway node to open the zone and another to close it, as demonstrated in the example above. This approach ensures clarity and consistency in your diagram structure, facilitating better understanding.
+
 <Warning>
 **Mobile development considerations**: when developing for mobile devices, ensure the tab bar is **always** positioned as a **root component** in the navigation. It should remain consistently visible, prioritizing ease of navigation.
 
@@ -152,8 +154,17 @@ Each tab could contain a user task or multiple user tasks that can be rendered i
 You can also use [**Start embedded subprocess**](../node/call-subprocess-tasks/start-embedded-subprocess) nodes to render defined subprocesses as a tab. See the example [**here**](#parent-process-area).
 </Info>
 
-### Page
+#### Tab bars inside tabs
 
+In addition to regular tab bars, you have the option to implement nested tab bars, allowing for the display of another set of tabs when accessing a specific tab.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/nested_tab_bars.png)
+
+To achieve this configuration, you'll need to create an additional parallel zone inside the previously created one for the main tab bar. This section should encompass the child tabs of the primary tab bar in your diagram. Once these child tabs are defined, close the parallel zone accordingly.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/sub_tabs.png)
+
+### Page
 
 Page navigation involves user interaction, typically through clicking on links, buttons, or other interactive elements, to transition from one page to another.
 
@@ -210,7 +221,66 @@ A Zone serves as a container designed to govern UI navigation by grouping specif
 Zones with headers and footers are exclusively accessible in web configurations. They are not supported as navigation areas for mobile development.
 </Warning>
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/header_footer.png)
+</Frame>
+
+#### How to Create a Header/Footer Zone
+
+To establish a header/footer zone, follow these steps:
+
+1. Begin by opening a new parallel zone and ensure to close it where you want the header/footer zone to end.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/header%3Afooter_parallel.gif)
+</Frame>
+
+2. Introduce two new user tasks nodes within your process, designated to function as the header, respectively as footer.
+3. Connect the first parallel gateway node to both of them.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/connect_header_footer.png)
+</Frame>
+
+4. Now connect the header and footer user tasks to the closing Parallel Gateway.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/connect_with_closing.gif)
+</Frame>
+
+3. In the navigation areas menu, incorporate a new zone labeled "Header Zone" and a new zone "Footer Zone".
+4. Position the header at the top of your navigation structure or at the top within your primary navigation element and the footer at the bottom.
+5. Assign the user tasks to the "Header Zone" and to the "Footer Zone".
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/header_footer_blaa.png)
+</Frame>
+
+6. Proceed to customize the user tasks UI according to your preferences.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/header_footer_custom.gif)
+</Frame>
+
+#### Styling options
+
+To configure the UI of the footers and headers you must use containers as root UI elements. You have two styles options:
+
+![]()
+
+* **Static** - it will not be displayed along with scroll
+* **Sticky** - after sticky property si set to true, the container keeps its position at scroll
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/sticky_demo.gif)
+
 ### Parent process area
+
+## Navigation areas demo
+
+For more information, you can also check the following demo on our Academy website:
+
+<Card title="FlowX.AI Navigation view" href="https://academy.flowx.ai/explore/flowxai-navigation-view" icon ="school">
+</Card>
 
 ## Alternative flows
 
@@ -253,7 +323,7 @@ A node could also be a part of multiple flow names.
 When configuring alternative flows in the main process, remember that they will also be applied in any embedded subprocesses with identical names.
 </Tip>
 
-## UI Designer
 
+## UI Designer
 
 ## Navigation per platform
