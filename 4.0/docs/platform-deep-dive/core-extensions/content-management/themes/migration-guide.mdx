@@ -1,6 +1,6 @@
 ---
 title: Theming migration guide
-description: Imagine your project involves an omnichannel application spanning multiple countries, each with its own branding and guidelines. Each platform also presents its unique challenges. How do you ensure a consistent user experience across branches and platforms?
+description: If the project involves an omnichannel application spanning multiple countries with diverse branding and guidelines, it's crucial to simplify and streamline the process to ensure a consistent user experience across branches and all platforms (Web and Mobile).
 ---
 
 **Solution**: Theming streamlines the design process by establishing a consistent visual language across platforms. It simplifies development by allowing you to set a base theme and then override specific elements based on platform requirements, saving time and effort.
@@ -9,8 +9,7 @@ description: Imagine your project involves an omnichannel application spanning m
 
 <Steps>
 <Step title="Creating the theme">
-Before creating the theme, upload your company's font files in the **Content Management** section in **Designer**. 
-
+Before creating the theme, upload the font files associated with your company's visual identity in the Content Management section of the FlowX Designer.
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/import_fonts.png)
 </Frame>
@@ -25,7 +24,7 @@ Then, navigate to Themes and click "Create New Theme." In the modal, add the the
 </Frame>
 
 </Step>
-<Step title ="Configuring th theme">
+<Step title ="Configuring the theme">
 <AccordionGroup>
 <Accordion title ="Design Tokens" icon ="pen-ruler">
 * **Design Tokens**: Represent the single source of truth for the theme, storing visual elements of the design system.
@@ -63,38 +62,39 @@ Copy the UUID of your theme and add it to the container app.
 
 ## Overrides
 
-* **Before releasing Theming feature**: you'd configure styles for each component in **UI Designer**. 
-* **With Theming**: Use Theme Overrides in UI Designer to adjust styles or props for specific UI elements based on the platform.
+With the Overrides feature you have now the possibility to override default theme settings on specific elements or sections.
+
+Use Theme Overrides in UI Designer to adjust styles or props for specific UI elements based on the desired platform (Web, iOS and Android).
 
 <Info>
 All components can now be styled with token overrides, for color, typography and shadow settings defined in the theme.
 </Info>
 
 <Info>
-**Theme overrides** in **UI Designer** are applied to the UI template itself, rather than to specific themes. This means that when switching the view to another theme, the overrides persist and apply to the new theme as well.
+**Theme overrides** in **UI Designer** are applied to the component itself, rather than to specific themes. This means that when switching the view to another theme, the overrides persist and apply to the new theme as well.
 </Info>
 
 
 
-## Important changes
+## Important details
 
 <Info>
-There are some changes that were brought together with the Themes feature to the UI components in **4.0** release that might impact your previous UI configuration.
+There are some changes that were brought together with the Theme Management feature to the UI components in **4.0** release that might impact your previous UI configuration.
 </Info>
 
 ### Universal Styling
 
-Introduced the option for platform-agnostic customization for components Across Web, iOS, and Android.
+Introduced the option for platform-specific customization for components across Web, iOS, and Android.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/theming_across_platforms.gif)
 
 ### Layout
 
-Within the context of the theming feature, you can now directly apply the paddings that were previously configured in theme JSONs within the theme settings. Check the paddings you had before and apply them now in the Themes section.
+In the context of the Theme Management feature, you can now apply the previously configured paddings directly from the previosuly used theme JSONs within the theme settings. Review the paddings you had set up previously and apply them in the Themes section.
+
+**Themes → Global Settings → Styles**
 
 #### Components spacing
- 
-**Themes → Global Settings → Styles**
 
 If you set it in **Theme → Global Settings**, it will cascade to all the following components:
 
@@ -105,6 +105,8 @@ If you set it in **Theme → Global Settings**, it will cascade to all the follo
 * Segmentted Button
 * Stepper
 * Tabs
+
+
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/theme_padding.gif)
@@ -122,7 +124,7 @@ After editing the padding for a component, you can also reset the values and the
 
 To set the padding for layout elements( **Cards** and **Forms**), access:
 
-**Themes → Componentss → Layout Elements**
+**Themes → Components → Layout Elements**
 
 #### Tabs
 
