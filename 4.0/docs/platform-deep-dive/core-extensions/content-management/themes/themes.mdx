@@ -15,15 +15,15 @@ description: Theme management feature enables you to easily change the appearanc
 
 2. **Customization Options:**
    - Modification of color schemes, typography, spacing, and visual effects.
-   - Upload of custom assets like logos, images, or icons.
+   - Upload of custom assets like fonts and icons.
 
 3. **Overrides and Variations:**
-   - Ability to override default theme settings on specific elements or sections.
-   - Creation of theme variations or presets to accommodate different user preferences.
+   - Ability to override default UI components styles properties on specific elements or sections.
+   - Creation of different themes to accommodate different users/clients preferences.
 
 4. **Platform Consistency:**
    - Consistency of theme styles across different platforms and devices.
-   - Adaptation of themes to various screen sizes and resolutions.
+
 
 5. **Preview:**
    - Real-time visualization of theme changes.
@@ -52,7 +52,7 @@ Locate the "Create New" button positioned above the right of the **Themes** list
 Click the "Create New" button and enter  details for your theme:
 
 * **Theme Name** - pick a name for your theme
-* **Font Family** - select your desired font family, by default, the system provides "Open Sans" as a non-deletable option. 
+* **Font Family** - select your desired font family, by default, the system provides "Open Sans" 
 
 <Tip>
 If you wish to add a new font, click on the link provided under the **Font Family** field, which redirects you to the **Fonts management** Selection.
@@ -79,12 +79,7 @@ After creating a theme, you must configure it. To configure your theme effective
 - Navigate to the settings or customization section of your application (in the UI Designer).
 - Look for options related to styling and think of an overall design
 </Step>
-<Step title ="Choose a theme">
-- Select a pre-existing theme from the available options if provided.
-- Alternatively, start with a default theme and customize it according to your preferences.
 
-
-</Step>
 <Step title ="Customize theme settings">
 
 <Info>
@@ -123,7 +118,7 @@ The **Global Settings** are properties that inherit values from the **Design Tok
 <Accordion title="Component-level configuration" icon="hammer">
 
 <Info>
-From the shadows onwards, you have to configure the settings for each platform: web, iOS and Android. It’s important to pay attention to this, because if you configure the web theme, for example, it won’t be automatically inherited by iOS or Android. 
+When setting up your theme, remember that different platforms like web, iOS, and Android have their own settings. You need to configure each platform separately. Only color settings are the same across all platforms.
 </Info>
 
 <Tip>
@@ -144,6 +139,10 @@ Keep in mind, there are differences between platforms, for example, for button c
 <Step title= "Reviewing the changes (multi-platform)">
 - Before finalizing the theme configuration, it's crucial to review how the changes will appear across different platforms. This step ensures consistency and allows for platform-specific adjustments if needed.
 - You can do that by either using the preview feature from **Themes** or by using the preview mode in the **UI Designer** by switching to your preffered platform.
+
+<Warning>
+Keep in mind that the preview generated in the UI Designer for iOS and Android platforms is an estimate meant to help you visualize how it might look on a mobile view.
+</Warning>
 
 </Step>
 
@@ -167,11 +166,9 @@ With Themes feature in UI Designer you can add theme properties overrides availa
 
 ### Styles tab
 
-Styles tab serves three platforms: Web, iOS and Android.
+The Styles tab functions independently for three platforms: Web, iOS, and Android. Here, you can customize styles for each UI component on each platform.
 
-Here you can configure the styles for each compoent for each platform which apply the theme styles configured in your theme.
-
-If you want to override the theme settings for an element, you will need to add a theme override.
+If you want to customize the appearance of a component to differ from the theme settings, you must apply a **Theme Override**.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/theme_overrides_styless.gif)
 
@@ -185,6 +182,10 @@ Theme overrides can be imported from one platform to another.
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ui_designer_panel2.png)
 </Frame>
+
+<Info>
+Preview mode: In the UI Designer, overrides are entirely independent of the theme. Regardless of the theme selected in preview mode, you will see the applied override reflected at the UI Designer level.
+</Info>
 
 ### Preview
 
@@ -204,7 +205,7 @@ To integrate the theme into your container application, follow these steps:
 
 - Copy the unique identifier (UUID) associated with the theme.
 - Set the copied UUID within your container application.
-- By doing so, ensure that the renderers within your application can recognize and apply the specified theme effectively.
+- By doing so, ensure that the renderers within your application can recognize and apply the specified theme.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/copy_uuid.gif)
@@ -233,7 +234,7 @@ Select the theme(s) you wish to export.
 From the breadcrumbs menu on the right, select **Export Theme**.
 </Step>
 <Step>
-The exported themes are saved in a standard format (JSON) and can be downloaded to a local directory or storage location.
+The exported theme is saved in a standard format (JSON) and can be downloaded to a local directory or storage location.
 </Step>
 </Steps>
 
@@ -248,7 +249,7 @@ The exported themes are saved in a standard format (JSON) and can be downloaded 
 Navigate to the **Theme Management** panel within FlowX Designer.
 </Step>
 <Step>
-From the breadcrumbs menu on the right, select **Import Theme**.
+From the contextual menu on the right, select **Import Theme**.
 </Step>
 <Step>
 Import it as a new theme or if the theme already exists in other environment, you can override it.
@@ -260,3 +261,37 @@ Import it as a new theme or if the theme already exists in other environment, yo
 </Frame>
 
 ### Setting a default theme
+
+
+You can easily establish a default theme by accessing the contextual menu on the right side of a theme and selecting "Set as Default."
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/default_th.png)
+</Frame>
+
+When a default theme is not set (or you haven't created a theme yet), the platform automatically assigns the FlowXTheme, which is the platform's default theme. This ensures that there's always a default theme in place to provide a consistent appearance across processes and interactions within the application.
+
+<Info>
+In case you select a specific default theme but later you delete it, the platform will revert to the FlowX theme as the default. This safeguard ensures that there's always a default theme available, even if you remove your custom selection.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/2024-04-04%2019.00.33.gif)
+</Frame>
+
+</Info>
+
+Upon opening any process within the UI Designer, the default theme is displayed as the initial preview. This gives users a clear starting point and ensures consistency in the appearance of the process until further customization is applied.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/default2.png)
+</Frame>
+
+When creating a new process, you will notice the Default Theme (*FlowXTheme*) as the default preview. 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/default1.png)
+</Frame>
+
+
+<Info>
+Furthermore, when you start a process definition, the theme switch defaults to the default theme in the run process popup from the process definitions list. This ensures that the default theme is consistently applied during the execution of processes, maintaining visual coherence in user interactions.
+</Info>
