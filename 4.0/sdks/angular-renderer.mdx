@@ -22,7 +22,7 @@ To install the npm libraries provided by FLOWX you will need to obtain access to
 </Check>
 
 <Info>
-The library uses Angular version **@angular\~16**, **npm v8.1.2** and **node v16.13.2**.
+The library uses Angular version **@angular\~16**, **npm v8.1.2** and **node v18.18.0**.
 </Info>
 
 <Check>
@@ -57,18 +57,6 @@ A few configurations are needed in the projects `angular.json`:
   "output": "/assets/pdfjs"
 }
 ```
-* the rendered components will use the `@flowx/ui-theme` and the `paperflow-web-components` libraries for styling. In order properly to set up styling, add the following declaration in the styles property:
-
-
-```
-"stylePreprocessorOptions": {
-  "includePaths": [
-    "./node_modules/paperflow-web-components/src/assets/scss",
-    "./node_modules/@flowx/ui-sdk/src/assets/scss"
-    "src/styles",
-  ]
-},
-```
 
 ## Initial setup
 
@@ -78,7 +66,7 @@ You **MUST** also import the dependencies of `FlxProcessModule`: `HttpClientModu
 
 ### Theming
 
-Component theming is done through Theme Management.
+Component theming is done through the FlowX CMS using the [**Theme Management**](../docs/platform-deep-dive/core-extensions/content-management/themes/) feature in FlowX Designer.
 
 
 ### Authorization
