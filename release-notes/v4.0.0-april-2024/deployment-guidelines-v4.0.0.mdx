@@ -132,11 +132,11 @@ This endpoint is designed to purge Redis caches selectively. It will exclusively
 
 In previous releases, the logs of various deployed FlowX microservices were cluttered with log lines stemming from health endpoint calls. 
 
-To streamline logging and enhance readability, you can now disable these health endpoint calls by adjusting the following environment variables to the 'INFO' level during each microservice deployment.
+To streamline logging and enhance readability, you can now disable these health endpoint calls by using the following environment variables:
+
+- `LOGGING_LEVEL_WEB: INFO` (default)
+- `LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB: INFO` (default)
 
 <Info>
 If the provided logs lack sufficient detail, consider setting the value to 'DEBUG'.
 </Info>
-
-- `LOGGING_LEVEL_WEB: INFO`
-- `LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB: INFO`
