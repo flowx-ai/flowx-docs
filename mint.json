@@ -1233,7 +1233,13 @@
 
   "search": {
     "prompt": "Search or ask..."
-  }
+  },
   
+
+  "analytics": {
+    "ga4": {
+        "measurementId": "G-CGW0FVK9YM"
+    }
+}
 
 }
