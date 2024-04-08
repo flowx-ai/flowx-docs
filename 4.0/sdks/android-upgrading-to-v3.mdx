@@ -1,0 +1,112 @@
+---
+title: Android SDK - Migration to v3.x.x
+icon: android
+---
+
+### Authentication changes
+
+The authentication mechanism has changed, so, instead of passing the `String` value for the access token, a `FlowxSdkApi.Companion.AccessTokenProvider` must be used instead.<br/>
+
+This provider is defined as a functional interface returning the actual value of the access token:
+```kotlin
+fun interface AccessTokenProvider {
+    fun get(): String
+}
+```
+
+Related changes:
+
+1. The provider can be passed, if the business logic allows it, when calling the `FlowxSdkApi.getInstance().init(...)`.
+
+As a consequence, the new signature for the `FlowxSdkApi.getInstance().init(...)` is:
+```kotlin
+fun init(
+    context: Context,
+    config: SdkConfig,
+    accessTokenProvider: AccessTokenProvider? = null,
+    customComponentsProvider: CustomComponentsProvider? = null,
+)
+```
+
+2. The `FlowxSdkApi.getInstance().startProcess(...)` `accessToken` parameter was dropped. It is not needed anymore, as from now on, the authentication will rely solely on the `AccessTokenProvider`.
+
+The new signature of this method is:
+```kotlin
+fun startProcess(
+    processName: String,
+    params: JSONObject = JSONObject(),
+    isModal: Boolean = false,
+    closeModalFunc: ((processName: String) -> Unit)? = null,
+): @Composable () -> Unit
+```
+
+3. The `FlowxSdkApi.getInstance().continueProcess(...)` `accessToken` parameter was dropped. It is not needed anymore, as from now on, the authentication will rely solely on the `AccessTokenProvider`.
+
+The new signature of this method is:
+```kotlin
+fun continueProcess(
+    processUuid: String,
+    isModal: Boolean = false,
+    closeModalFunc: ((processName: String) -> Unit)? = null,
+): @Composable () -> Unit
+```
+
+4. The calls of the `FlowxSdkApi.getInstance().updateAccessToken("some_access_token")` method must be replaced by calls of the `FlowxSdkApi.getInstance().setAccessTokenProvider(accessTokenProvider = { "some_access_token" })`.
+
+<Tip>Whenever the access token changes based on your own authentication logic, it must be updated in the renderer by calling the `setAccessTokenProvider` method again.</Tip>
+
+[Learn more](../sdks/android-renderer#authentication) about the authentication mechanism.
+
+### Theming changes
+
+The theming mechanism was replaced by a new approach, which enforces loading a theme before starting or resuming a process.
+
+Related changes:
+
+1. The `ai.flowx.android.sdk.process.model.SdkConfig` theming related parameters (i.e. `themeTokensJsonFileAssetsPath` and `themeComponentsJsonFileAssetsPath`) were dropped.
+
+Because of that, when configuring the library through the `FlowxSdkApi.getInstance().init(...)` method, the `config` parameter will look like this:
+```kotlin
+FlowxSdkApi.getInstance().init(
+    ...
+    config = SdkConfig(
+        baseUrl = "URL to FlowX backend",
+        imageBaseUrl = "URL to FlowX CMS Media Library",
+        language = "en",
+        validators = mapOf("exact_25_in_length" to { it.length == 25 }),
+    ),
+    ...
+)
+```
+
+2. For styling the UI components displayed when rendering a process, while authenticated, the `FlowxSdkApi.getInstance().setupTheme(...)` method must be called before starting or resuming any process:
+```kotlin
+suspend fun setupTheme(
+    themeUuid: String,
+    fallbackThemeJsonFileAssetsPath: String? = null,
+    @MainThread onCompletion: () -> Unit
+)
+```
+This will fetch a priorly defined theme in the FlowX Designer, cache it and then load its properties.<br/>
+A process should be started or resumed only after the `onCompletion` closure is called, signaling the completion of setting up the theme.
+
+[Learn more](../sdks/android-renderer#theming) about the theming mechanics.
+
+### Custom components changes
+
+1. All `import ai.flowx.android.sdk.component.*` directives must be changed to `import ai.flowx.android.sdk.ui.components.*`
+
+2. The type of the `data` parameter passed to a custom component through the `populateUi(data: JSONObject)` method, both for `@Composable` and for classical `View` system approaches, changed to `Any?`.<br/><br/>
+Therefore, the new signature of the method is `populateUi(data: Any?)`.<br/><br/>
+As a consequence, type checking, casting and extracting the needed data must be part of the implementation details of the custom component.
+
+<Tip>
+    The value for the `data` parameter received in the `populateUi(data: Any?)` could be:<br/>
+    - `Boolean`
+    - `String`
+    - `java.lang.Number`
+    - `org.json.JSONObject`
+    - `org.json.JSONArray`
+</Tip>
+
+[Learn more](../sdks/android-renderer#custom-components) about how to implement custom components.
