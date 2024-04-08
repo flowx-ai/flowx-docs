@@ -54,14 +54,14 @@ With the release of **FLOWX.AI 3.0**, there have been some changes that you need
 
 | FLOWX.AI Platform Version | Component name    | Recommended version (tested versions) |
 | ------------------------- | ----------------- | ------------------------------------- |
-| 4.0.0                     | Keycloak          | 18.0.x                                |
+| 4.0.0                     | Keycloak          | 22.0.x                                |
 | 4.0.0                     | Kafka             | 3.2.3                                 |
 | 4.0.0                     | PostgreSQL        | 14.3.0                                |
 | 4.0.0                     | MongoDB           | 5.0.8                                 |
 | 4.0.0                     | Redis             | 6.2.6                                 |
 | 4.0.0                     | Elasticsearch     | 7.17                                  |
 | 4.0.0                     | OracleDB          | 19.8.0.0.0                            |
-| 4.0.0                     | Angular (Web SDK) | 15.0.0                                |
+| 4.0.0                     | Angular (Web SDK) | 16.0.0                                |
 
 
 
@@ -98,6 +98,23 @@ In order to utilize the new theme management feature, it's mandatory to configur
 | manage-themes | edit   | ROLE_THEMES_EDIT   | Content Management |
 |               | edit   | ROLE_THEMES_ADMIN  | Content Management |
 | manage-themes | admin  | ROLE_THEMES_ADMIN  | Content Management |
+
+
+### Removal of theming v1 old configurations
+
+<Warning>
+Breaking change: any configs linked with old theming configuration (< 4.0 releases) must be removed from your SDK deployment:
+</Warning>
+
+```yaml
+...
+themePaths: {
+    components: 'assets/theme/theme_components.json',
+    tokens: 'assets/theme/theme_tokens.json',
+...
+},
+```
+
 
 ### Revised cache key organization
 
