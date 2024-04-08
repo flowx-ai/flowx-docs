@@ -66,8 +66,11 @@ You **MUST** also import the dependencies of `FlxProcessModule`: `HttpClientModu
 
 ### Theming
 
-Component theming is done through the FlowX CMS using the [**Theme Management**](../docs/platform-deep-dive/core-extensions/content-management/themes/) feature in FlowX Designer.
+Component theming is done through the `@flowx/ui-theme` library. The theme id is a required input for the renderer SDK component and is used to fetch the theme configuration. The id can be obtained from the admin panel in the themes section.
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/2024-04-08%2013.45.10.gif)
+</Frame>
 
 ### Authorization
 
@@ -100,10 +103,7 @@ import {AppComponent} from './app.component';
     FlxProcessModule.forRoot({
       components: {},
       services: {},
-      themePaths: {
-        components: 'assets/theme/theme_components.json',
-        tokens: 'assets/theme/theme_tokens.json',
-      },
+      themeId: '123-456-789',
     }),
   ],
   // this interceptor with decorate the requests with the Authorization header

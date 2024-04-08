@@ -216,7 +216,13 @@ By adopting this approach, clients gain the flexibility to implement the most se
 
 ### Business Rules
 
--  `output.put` method is required to generate structured output data when using `input` to validate or filter incoming data based on certain conditions (commonly used to retrieve information needed for processing )
+- `output.put` method is required to generate structured output data when using `input` to validate or filter incoming data based on certain conditions (commonly used to retrieve information needed for processing )
+- `processInstanceID` and `processInstanceUUID` - This release introduces enhancements aimed at isolating system process parameters from business/configured parameters. Key changes include the removal of `processInstanceId`, `parentProcessInstanceId`, and `parentProcessInstanceUuid` from paramValues zone on process instance, relocating them to a distinct location within process instance data. 
+
+<Warning>
+Please be aware that with the relocation of `processInstanceId`, `parentProcessInstanceId`, and `parentProcessInstanceUuid` from `paramValues` to a separate location within process instance data, direct access from **business rules** is no longer supported. Any existing business rules referencing these parameters will cease to function as expected. It's recommended to review and update any affected business rules accordingly.
+</Warning>
+
 
 ### Timer event scheduler
  
