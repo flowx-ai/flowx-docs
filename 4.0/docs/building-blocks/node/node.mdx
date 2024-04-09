@@ -3,7 +3,6 @@ title: "BPMN nodes"
 description: "A BPMN node is a visual representation of a point in your **process**. Nodes are added at specific process points to denote the entrance or transition of a record within the process."
 ---
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/node_diagram.png)
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/BPMN%20nodes.png)
 
@@ -13,8 +12,6 @@ FLOWX platforms support various node types, each requiring distinct configuratio
 
 Let's explore the key types of BPMN nodes available in FlowX:
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/nodes_v2.png)
-
 + **Start and End nodes** - Mark the initiation and conclusion of a [process flow](../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn). A [process definition](../process/process-definition) may have multiple start nodes (each linked with a start condition) and end nodes based on the flow outcomes.
 + **Send Message and Receive Message tasks** - Used for communication with external systems, integrations, and plugins.
 + **Message Events** - Capture interactions between different process participants by referencing messages.
@@ -22,16 +19,17 @@ Let's explore the key types of BPMN nodes available in FlowX:
 + **User Task** nodes - Configure the appearance and behavior of the UI and send data to custom components.
 + **Exclusive Gateways** - Mark decision points in the process flow, determining the branch to be followed.
 + **Parallel Gateways** - Split the process flow into two or more [branches](../../flowx-designer/managing-a-process-flow/adding-more-flow-branches) occurring simultaneously.
++ **Call Subprocess Tasks**:
+    + **Call Activity** - Call activity is a node that provides advanced options for starting **subprocesses**.
+    + **Start Embedded Subprocess** - The Start Embedded Subprocess node initiates subprocesses within a parent process, allowing for encapsulated functionality and enhanced process management.
 
-Advanced Node Type:
+For comprehensive insights into BPMN and its various node types, explore our course at FlowX Academy:
 
-<div class = "image-scaled">
+<Card title ="BPMN 101" href="https://academy.flowx.ai/explore/bpmn-101" icon ="school">
+- What's BPMN (Business Process Model Notation) and how does it work?
+- How is BPMN used in FlowX?
+</Card>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/subprocess_node.png)
-
-</div>
-
-* **Subprocess Run Node** - A node providing advanced options for starting subprocesses.
 
 After gaining a comprehensive overview of each node, you can experiment with them to create a process. More details are available in the following section:
 
