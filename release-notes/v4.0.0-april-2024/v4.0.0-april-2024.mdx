@@ -192,52 +192,26 @@ Keep track of your favorite process definitions and streamline process developme
 </Frame>
 
 
-## **Changed** 🔧
-
-### Web SDK
-
-* **AuthToken Management**: The ui-sdk no longer relies on the authToken being stored in LOCAL_STORAGE. Instead, the 'access_token' is now passed as an input to the `<flx-process-renderer>` component through a private variable.
-
-<Warning>
-**Breaking Change:** This update is mandatory for proper functionality of SSE (Server-Sent Events).
-</Warning>
+## **Changes after upgrade** 🔧
 
 <Info>
-By adopting this approach, clients gain the flexibility to implement the most secure token management strategy tailored to their specific security needs. Moreover, shifting the responsibility to the container application for updating the 'access_token' input ensures that any changes or refreshes to the authToken are securely managed within the application's domain. This proactive approach effectively mitigates potential security vulnerabilities associated with token management, offering a robust and adaptable solution.
+For clients upgrading from an older release (v3.x), we recommend consulting our [**Migrating from v3.x**](migrating-from-v3.x) guide for comprehensive migration instructions.
 </Info>
 
-<Card title ="More details here" href="/4.0/sdks/angular-renderer#authorization">
-</Card>
+Here's a summary of the changes introduced in version 4.0 after upgrading from v3.4.x:
 
+- **AuthToken Management**: The ui-sdk no longer relies on the authToken being stored in LOCAL_STORAGE. 
+- The **Subprocess Run** node is now called **Call activity** node.
+- Changes in the way that  process instance data is handled inside business rules.  
+- **Timer event scheduler**: Significant optimizations have been implemented in the timer event scheduler, resulting in improved efficiency and responsiveness.
+- **UI Designer** updates and improvements.
+- UI Designer components style and props changes - consult the [**UI Designer change log**](./migrating-from-v3.x/ui-designer-changelog) for more information.
+- Revised cache key organization.
+- New environment variables to prevent log flooding.
 
-### Call activity node
-
-* The **Subprocess Run** node is now called **Call activity** node.
-
-### Business Rules
-
-- `output.put` method is required to generate structured output data when using `input` to validate or filter incoming data based on certain conditions (commonly used to retrieve information needed for processing )
-- `processInstanceID` and `processInstanceUUID` - This release introduces enhancements aimed at isolating process instance related vlaues from business/configured parameters. Key changes include the removal of `processInstanceId`, `parentProcessInstanceId`, and `parentProcessInstanceUuid` from paramValues zone on process instance, relocating them to a distinct location within process instance data - to a new object called “instanceMetadata”. 
-
-<Warning>
-Please be aware that with the relocation of `processInstanceId`, `parentProcessInstanceId`, and `parentProcessInstanceUuid` from `paramValues` to a separate location within process instance data, additional configuration is required. It's recommended to review and update any affected business rules accordingly. Check the [**Deployment guidelines**](./deployment-guidelines-v4.0.0.mdx#business-rules---new-object-instancemetadata) for more information.
-</Warning>
-
-### Timer event scheduler
- 
-- **Enhanced Performance**: Significant optimizations have been implemented in the timer event scheduler, resulting in improved efficiency and responsiveness.
-
-### UI Designer
-
-- Added **Styles** options for Modals
-- All primary and secondary buttons, they transformed to fill buttons
-- Removed card style property from UI Designer: **border** or *raised*.
-- Icons color settings have a “No Color” override option, which allows the icon (SVG) to be rendered with its original color setting after theme options is applied to it.
-- Added "Has accordion" option (Collapsed/Expanded) to **File Preview** UI component.
-
-### Logging improvements
-
-- New environment variables to prevent log flooding, check the [**deployment guidelines**](./deployment-guidelines-v4.0.0#logging) for more information.
+<Check>
+Do not to forget to consult the [**migration guide**](migrating-from-v3.x.mdx#) for more information.
+</Check>
 
 ## **Bug Fixes** 🛠️
 

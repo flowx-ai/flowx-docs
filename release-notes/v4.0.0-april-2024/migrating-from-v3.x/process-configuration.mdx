@@ -1,0 +1,111 @@
+---
+title: Process configuration
+description: Changes in process/ui configuration
+---
+
+## Business Rules
+
+- `output.put` method is required to generate structured output data when using input to validate or filter incoming data based on certain conditions (commonly used to retrieve information needed for processing)
+- `processInstanceID` and `processInstanceUUID` - This release introduces enhancements aimed at isolating process instance related vlaues from business/configured parameters. Key changes include the removal of `processInstanceId`, `parentProcessInstanceId`, and `parentProcessInstanceUuid` from paramValues zone on process instance, relocating them to a distinct location within process instance data - to a new object called “instanceMetadata”.
+
+<Warning>
+Please be aware that with the relocation of `processInstanceId`, `parentProcessInstanceId`, and `parentProcessInstanceUuid` from paramValues to a separate location within process instance data, additional configuration is required. It’s recommended to review and update any affected business rules accordingly.
+</Warning>
+
+
+## UI configuration
+
+<Info>
+There are some changes that were brought together with the Theme Management feature to the UI components in **4.0** release that might impact your previous UI configuration.
+</Info>
+
+### Root components
+
+* **Card Element**: Previously (in **v3.x.x**) could have set a **Card style** property: **border** or be **raised**. 
+
+|                                              Card 4.0                                              |                                              Card 3.0                                              |
+| :------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: |
+| <Frame>![Card 4.0](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/card4.0.png)</Frame> | <Frame>![Card 3.0](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/card3.0.png)</Frame> |
+|                                                                                                    |                                                                                                    |
+
+
+Now, for processes migrated from **v3.x.x** to acheive the previous styling (with "raised prop" or "border") you can either set up from Themes or by using **Theme Overrides** for **Card** element in **UI Designer**:
+
+<Tip>
+Depending on the number of Card elements present in your migrated processes, it's essential to devise a strategic approach. If a significant portion of the cards feature "border" styling, you can configure this setting within Themes Management and will be cascading through all of them. For the remaining cards, manual intervention is required to apply the "raised" effect by **overriding** their styles using **Theme Overrides**.
+</Tip>
+
+<Frame caption="Theme Overrides - Card">
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/card_raised_border.gif)
+</Frame>
+
+
+### Buttons
+
+All **primary** and **secondary** buttons, in 4.x they transformed to **fill** buttons. If there were secondary buttons, once moved to "fill", they will appear similar to primary ones. You should perform an override in the UI Designer to make them look like secondary buttons as they did initially.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/buttons_theming.png)
+</Frame>
+
+
+| Version | Primary | Secondary | Ghost | Text | Fill | New States: Pressed, Hover, Disabled |
+| ------- | :-----: | :-------: | :---: | :--: | :--: | :----------------------------------: |
+| 3.x.x   |   ✓    |    ✓     |  ✓   |  ✓  |      |                                      |
+| 4.x.x   |         |           |  ✓   |  ✓  |  ✓  |                  ✓                  |
+
+
+By following this migration guide, you can seamlessly transition to the Theming 4.0 feature, enhancing your project's design process and ensuring consistency across platforms and branches.
+
+
+### Icons - no color property
+
+<Info>
+Now, all icon color settings have a "No Color" option, which allows the icon (SVG) to be rendered with its original color settings.
+</Info>
+
+If you are utilizing SVG icons for UI components (such as a left icon on an input element) and you desire to ensure that the color remains consistent regardless of the theme settings, it is imperative to override all states associated with the "Left icon," as demonstrated in the example below:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/no_color_svg.png)
+</Frame>
+
+
+## Layout
+
+In the context of the Theme Management feature, you can now apply the previously configured paddings directly from the previosuly used theme JSONs within the theme settings. Review the paddings you had set up previously and apply them in the Themes section.
+
+**Themes → Global Settings → Styles**
+
+### Components spacing
+
+If you set it in **Theme → Global Settings**, it will cascade to all the following components:
+
+* Input/ Selection 
+* Buttons
+* Radio/Checkbox
+* Message
+* Segmentted Button
+* Stepper
+* Tabs
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/theme_padding.gif)
+</Frame>
+
+<Tip>
+If you want to override the padding set in **Global Settings** for the above components, navigate to **Components → Your Component** and set your desired padding.
+</Tip>
+
+<Info>
+After editing the padding for a component, you can also reset the values and they will be set back to the values you added in **Global settings**.
+</Info>
+
+### Layout elements
+
+To set the padding for layout elements( **Cards** and **Forms**), access:
+
+**Themes → Components → Layout Elements**
+
+
