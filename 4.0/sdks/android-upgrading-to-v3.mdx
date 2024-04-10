@@ -3,6 +3,25 @@ title: Android SDK - Migration to v3.x.x
 icon: android
 ---
 
+### Initialization Config changes
+
+A new configuration parameter, named `enginePath` was added for identifying the FlowX Process Engine service.
+
+When the SDK initialization happens through the `FlowxSdkApi.getInstance().init(...)` method, the argument has to be set inside the `config: SdkConfig` parameter value:
+```kotlin
+FlowxSdkApi.getInstance().init(
+    ...
+    config = SdkConfig(
+        baseUrl = "URL to FlowX backend",
+        imageBaseUrl = "URL to FlowX CMS Media Library",
+        enginePath = "some_path",
+        language = "en",
+        validators = mapOf("exact_25_in_length" to { it.length == 25 }),
+    ),
+    ...
+)
+```
+
 ### Authentication changes
 
 The authentication mechanism has changed, so, instead of passing the `String` value for the access token, a `FlowxSdkApi.Companion.AccessTokenProvider` must be used instead.<br/>
@@ -72,6 +91,7 @@ FlowxSdkApi.getInstance().init(
     config = SdkConfig(
         baseUrl = "URL to FlowX backend",
         imageBaseUrl = "URL to FlowX CMS Media Library",
+        enginePath = "some_path",
         language = "en",
         validators = mapOf("exact_25_in_length" to { it.length == 25 }),
     ),

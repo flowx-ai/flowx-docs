@@ -112,6 +112,7 @@ class MyApplication : Application() {
             config = SdkConfig(
                 baseUrl = "URL to FlowX backend",
                 imageBaseUrl = "URL to FlowX CMS Media Library",
+                enginePath = "some_path",
                 language = "en",
                 validators = mapOf("exact_25_in_length" to { it.length == 25 }),
             ),
@@ -128,6 +129,7 @@ The configuration properties that should be passed as `SdkConfig` data for the `
 | ----------------------------------- | ------------------------------------------------------------------- | ----------------------------------- | -------------------------------------------------- |
 | `baseUrl`                           | URL to connect to the FlowX back-end environment                    | `String`                            | Mandatory                                          |
 | `imageBaseUrl`                      | URL to connect to the FlowX Media Library module of the CMS         | `String`                            | Mandatory                                          |
+| `enginePath`                        | URL path segment used to identify the process engine service        | `String`                            | Mandatory                                          |
 | `language`                          | The language used for retrieving enumerations and substitution tags | `String`                            | Optional. Defaults to `en`.                        |
 | `validators`                        | Custom validators for form elements                                 | `Map<String, (String) -> Boolean>?` | Optional.                                          |
 
