@@ -980,12 +980,12 @@
               "release-notes/v4.0.0-april-2024/deployment-guidelines-v4.0.0",
 
               {
-                "group": "Migrating from v3.x",
+                "group": "Migrating from v3.4.x",
                 "pages": [
-                  "release-notes/v4.0.0-april-2024/migrating-from-v3.x/migrating-from-v3.x",
-                  "release-notes/v4.0.0-april-2024/migrating-from-v3.x/renderers",
-                  "release-notes/v4.0.0-april-2024/migrating-from-v3.x/process-configuration",
-                  "release-notes/v4.0.0-april-2024/migrating-from-v3.x/ui-designer-changelog"
+                  "release-notes/v4.0.0-april-2024/migrating-from-v3.4.x/migrating-from-v3.4.x",
+                  "release-notes/v4.0.0-april-2024/migrating-from-v3.4.x/renderers",
+                  "release-notes/v4.0.0-april-2024/migrating-from-v3.4.x/process-configuration",
+                  "release-notes/v4.0.0-april-2024/migrating-from-v3.4.x/ui-designer-changelog"
 
                 ]
                 

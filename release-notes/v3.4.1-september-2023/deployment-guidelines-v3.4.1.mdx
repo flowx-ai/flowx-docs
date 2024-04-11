@@ -41,11 +41,11 @@ After updating to **3.4.1** FLOWX.AI release, it is not possible to import old p
 | **Android renderer**           | 2.1.4      | 2.1.4  | 2.0.1   | 2.0.1  | 2.0.1  | 2.0.1  | n/a      | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     | n/a     |
 
 
-:::danger IMPORTANT
+<Warning>
 With the release of **FLOWX.AI 3.0**, there have been some changes that you need to be aware when upgrading to the latest version:
 * The `flowx-process-renderer` has been migrated to `@flowx\ui-sdk`.
-* As of **FLOWX.AI 3.0**, the `paperflow-web-components` library will be deprecated. Instead, the new components can be found in `@flowx/ui-toolkit`.
-:::
+* As of **FLOWX.AI 4.0**, the `paperflow-web-components` library will be deprecated. Instead, the new components can be found in `@flowx/ui-toolkit`.
+</Warning>
 
 ### Recommended Versions for FLOWX.AI 3.4.1 ☑️
 
@@ -61,7 +61,7 @@ With the release of **FLOWX.AI 3.0**, there have been some changes that you need
 | 3.4.1                     | Angular (Web SDK) | 15.0.0                                |
 
 
-:::info compatibility
+<Info>
 FlowX.AI supports any version of the third-party components listed as prerequisites.
 
 For optimal performance and reliability, our internal QA process validates new releases using specific versions as indicated in the provided table.
@@ -73,7 +73,7 @@ Compatibility Matrix:
 
 * FLOWX.AI Platform: Recommended and tested versions
 * Third-Party Components: Supported versions based on specific requirements and client preferences
-:::
+</Info>
 
 
 # Additional configuration
@@ -118,9 +118,9 @@ To ensure a smooth transition for the **3.4.1** release, it is crucial to make u
 POST /api/internal/cache/clear
 ```
 
-:::info DESCRIPTION 
+<Info>
 This endpoint is designed to purge Redis caches selectively. It will exclusively delete caches that are specified in the admin microservice properties under the property key: "application.redis.clearable-caches".
-:::
+</Info>
 
 Request body:
 
