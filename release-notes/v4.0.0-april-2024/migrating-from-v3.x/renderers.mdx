@@ -1,18 +1,19 @@
 ---
 title: Renderers
-description: Migrating from v3.x.x
+description: This guide assists in migrating from v3.x.x to the 4.0 version.
 ---
 
 ## Web SDK
 
-### Removal of theming v1 old configurations
+### Removal of legacy Theming v1 configurations
 
 <Warning>
 Breaking change: All old configs linked with old theming configuration (< 4.0 releases) must be removed from your SDK deployment:
 </Warning>
 
+1. Review Usage: Identify where you have applied theming v1 configurations in your project.
 
-#### 3.4.x
+#### 3.4.x example:
 ```yaml
 ...
 themePaths: {
@@ -21,6 +22,10 @@ themePaths: {
 ...
 },
 ```
+
+2. Update to Theming 4.0: Update your theming configurations to use the latest theming v2 approach. Refer to our documentation or migration resources for guidance on transitioning to the new theming system.
+
+
 
 ### Authorization token
 

@@ -78,12 +78,10 @@ Introduced the option for platform-specific theming customization for components
 
 More information about Theming:
 
-<CardGroup>
-<Card title="Themes" href="/4.0/docs/platform-deep-dive/core-extensions/content-management/themes/themes" icon ="pen-line">
+<Card title="Themes" href="/4.0/docs/platform-deep-dive/core-extensions/content-management/themes" icon ="pen-line">
 </Card>
-<Card title ="Migration Guide" href="/4.0/docs/platform-deep-dive/core-extensions/content-management/themes/migration-guide" icon="file">
-</Card>
-</CardGroup>
+
+
 
 ### Navigation areas (removed Milestones nodes) 
 
@@ -192,7 +190,7 @@ Keep track of your favorite process definitions and streamline process developme
 </Frame>
 
 
-## **Changes after upgrade** 🔧
+## **Changes**  🔧
 
 <Info>
 For clients upgrading from an older release (v3.x), we recommend consulting our [**Migrating from v3.x**](migrating-from-v3.x) guide for comprehensive migration instructions.
@@ -200,17 +198,17 @@ For clients upgrading from an older release (v3.x), we recommend consulting our 
 
 Here's a summary of the changes introduced in version 4.0 after upgrading from v3.4.x:
 
-- **AuthToken Management**: The ui-sdk no longer relies on the authToken being stored in LOCAL_STORAGE. 
+- **AuthToken Management**: The ui-sdk no longer relies on the authToken being stored in LOCAL_STORAGE. Read more, [**here**](/4.0/sdks/angular-renderer#authorization).
 - The **Subprocess Run** node is now called **Call activity** node.
-- Changes in the way that  process instance data is handled inside business rules.  
+- Introducing a new object named "instanceMetadata". This object will serve as a container for process instance related values, allowing you to access relevant attributes in your scripts more effectively. Key specifications include making certain variables/parameters read-only, controlled by FlowX, and facilitating attribute access through the `instanceMetadata` object rather than directly calling attributes. Read more, [**here**](./migrating-from-v3.x/process-configuration#business-rules).
 - **Timer event scheduler**: Significant optimizations have been implemented in the timer event scheduler, resulting in improved efficiency and responsiveness.
 - **UI Designer** updates and improvements.
 - UI Designer components style and props changes - consult the [**UI Designer change log**](./migrating-from-v3.x/ui-designer-changelog) for more information.
-- Revised cache key organization.
-- New environment variables to prevent log flooding.
+- Revised cache key organization. Read more [**here**](./migrating-from-v3.x/migrating-from-v3.x#revised-cache-key-organization).
+- New environment variables to prevent log flooding. Read more, [**here**](./migrating-from-v3.x/migrating-from-v3.x#logging).
 
 <Check>
-Do not to forget to consult the [**migration guide**](migrating-from-v3.x.mdx#) for more information.
+Do not to forget to consult the [**migration guide**](migrating-from-v3.x) for more information.
 </Check>
 
 ## **Bug Fixes** 🛠️

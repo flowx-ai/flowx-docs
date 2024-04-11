@@ -1,11 +1,11 @@
 ---
 title: Deployment changes
-description: Additional configuration
+description: This document outlines the additional configuration changes required for deployment in version 4.0.0.
 ---
 
 ### Revised cache key organization
 
-To ensure a smooth transition for the 4.0.0 release, it is crucial to make use of the following clear cache endpoint and body:
+To ensure a smooth transition to the 4.0.0 release, it's essential to utilize the following clear cache endpoint and body:
 
 ##### Endpoint:
 
@@ -36,7 +36,7 @@ This endpoint is designed to purge Redis caches selectively. It will exclusively
 
 ### Access rights for Theme Management
 
-In order to utilize the new theme management feature, it's mandatory to configure the following access rights for CMS microservice:
+To utilize the new theme management feature, configure the following access rights for the CMS microservice:
 
 | Module        | Scope  | Role default value | Microservice       |
 | ------------- | ------ | ------------------ | ------------------ |
@@ -57,23 +57,21 @@ In order to utilize the new theme management feature, it's mandatory to configur
 Introducing a new object named "instanceMetadata". This object will serve as a container for process instance related values, allowing you to access relevant attributes in your scripts more effectively. Key specifications include making certain variables/parameters read-only, controlled by FlowX, and facilitating attribute access through the `instanceMetadata` object rather than directly calling attributes.
 
 <Info>
-Instead of directly calling attributes like `input.processInstanceId` (in version 3.x), configurators will utilize `instanceMetadata` to access attributes. For example, the `input.processInstanceId`, will be achieved through `instanceMetadata.processInstanceId`.
+Configurators will utilize `instanceMetadata` to access attributes instead of directly calling them as in version 3.x. For example, `input.processInstanceId` will be accessed through `instanceMetadata.processInstanceId`.
 </Info>
 
 <Warning>
-It’s recommended to review and update any affected business rules accordingly.
+Review and update any affected business rules accordingly.
 </Warning>
 
 
 ### Logging
 
-In previous releases, the logs of various deployed FlowX microservices were cluttered with log lines stemming from health endpoint calls.
-
-To streamline logging and enhance readability, you can now disable these health endpoint calls by using the following environment variables:
+To streamline logging and enhance readability, you can now disable health endpoint calls cluttering the logs of various deployed FlowX microservices using the following environment variables:
 
 - `LOGGING_LEVEL_WEB: INFO` (default)
 - `LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB: INFO` (default)
 
 <Info>
-If the provided logs lack sufficient detail, consider setting the value to ‘DEBUG’.
+If logs lack detail, consider setting the value to ‘DEBUG’.
 </Info>
