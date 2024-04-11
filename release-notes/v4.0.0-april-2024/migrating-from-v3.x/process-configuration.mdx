@@ -15,7 +15,7 @@ In the latest version, there have been updates and adjustments to process and UI
 Introducing a new object named "instanceMetadata". This object will serve as a container for process instance related values, allowing you to access relevant attributes in your scripts more effectively. Key specifications include making certain variables/parameters read-only, controlled by FlowX, and facilitating attribute access through the `instanceMetadata` object rather than directly calling attributes.
 
 <Info>
-Configurators will utilize `instanceMetadata` to access attributes instead of directly calling them as in version 3.x. For example, `input.processInstanceId` will be accessed through `instanceMetadata.processInstanceId`.
+Configurators will utilize `instanceMetadata` to access attributes instead of directly calling them as in version 3.4.x. For example, `input.processInstanceId` will be accessed through `instanceMetadata.processInstanceId`.
 </Info>
 
 <Warning>
@@ -30,7 +30,7 @@ There are some changes that were brought together with the Theme Management feat
 
 ### Root components
 
-* **Card Element**: Previously (in **v3.x.x**) could have set a **Card style** property: **border** or be **raised**. 
+* **Card Element**: Previously (in **v3.4.x**) could have set a **Card style** property: **border** or be **raised**. 
 
 |                                              Card 4.0                                              |                                              Card 3.0                                              |
 | :------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: |
@@ -38,7 +38,7 @@ There are some changes that were brought together with the Theme Management feat
 |                                                                                                    |                                                                                                    |
 
 
-Now, for processes migrated from **v3.x.x** to acheive the previous styling (with "raised prop" or "border") you can either set up from Themes or by using **Theme Overrides** for **Card** element in **UI Designer**:
+Now, for processes migrated from **v3.4.x** to acheive the previous styling (with "raised prop" or "border") you can either set up from Themes or by using **Theme Overrides** for **Card** element in **UI Designer**:
 
 <Tip>
 Depending on the number of Card elements present in your migrated processes, it's essential to devise a strategic approach. If a significant portion of the cards feature "border" styling, you can configure this setting within Themes Management and will be cascading through all of them. For the remaining cards, manual intervention is required to apply the "raised" effect by **overriding** their styles using **Theme Overrides**.
@@ -63,8 +63,8 @@ All **primary** and **secondary** buttons, in 4.x they transformed to **fill** b
 
 | Version | Primary | Secondary | Ghost | Text | Fill | New States: Pressed, Hover, Disabled |
 | ------- | :-----: | :-------: | :---: | :--: | :--: | :----------------------------------: |
-| 3.x.x   |   ✓    |    ✓     |  ✓   |  ✓  |      |                                      |
-| 4.x.x   |         |           |  ✓   |  ✓  |  ✓  |                  ✓                  |
+| 3.4.x   |   ✓    |    ✓     |  ✓   |  ✓  |      |                                      |
+| 4.0.x   |         |           |  ✓   |  ✓  |  ✓  |                  ✓                  |
 
 
 By following this migration guide, you can seamlessly transition to the Theming 4.0 feature, enhancing your project's design process and ensuring consistency across platforms and branches.
