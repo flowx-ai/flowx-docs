@@ -1,160 +1,158 @@
 ---
-title: UI Designer - change log
-description: UI Designer - Components style and props change log from 3.x to 4.0
+title: UI Designer - Change Log
+description: This log outlines the changes in component styles and props from version 3.x to version 4.0.
+
 ---
 
 ## **General - for all components**
 
-- all components can now be styled with token overrides, for color, typography and shadow settings defined in the theme.
-- all components can now be styled by platform, web, iOS and android.
-- todo bogdan props with generic
-- hide expressions can now be set platform specific.
-- all icon color settings now have a `No Color` option which renders the icon (svg) with its original color settings.
+- All components now support token overrides for color, typography, and shadow settings defined in the theme.
+- Styling options are now available for different platforms: web, iOS, and Android.
+- Hide expressions can be set platform-specific.
+- All icon color settings offer a 'No Color' option to retain the original SVG colors.
 
 ### **STEPPER**
 
-- added fixed height settings on Web (for sticky sections use case)
-
+- Added fixed height settings for web, useful for [**sticky**](/4.0/docs/building-blocks/process/navigation-areas#how-to-create-a-header-footer-zone) sections.
 
 ### **TAB BAR**
 
-- new navigation area component
-- added fixed height settings on Web (for sticky sections use case)
+- New navigation area component.
+- Added fixed height settings for web, facilitating sticky sections.
 
 
 ### **TAB**
 
-- new navigation area component
+- New navigation area component.
 
 ### **PAGE**
 
-- added fixed height settings on Web (for sticky sections use case)
+- Added fixed height settings for web, aiding sticky sections.
 
 ### **MODAL**
 
-- re-added styling options
-- added fixed height settings on Web (for sticky sections use case)
+- Styling options have been reinstated.
+- Added fixed height settings on Web (for sticky sections use case).
 
 ### **ZONE**
 
-- new navigation area component for web
-- added fixed height settings on Web (for sticky sections use case)
+- New navigation area component for web.
+- Added fixed height settings on Web (for sticky sections use case).
 
 ### **CONTAINER**
 
-- new `position` property for setting sticky containers.
-    - web supports sticky positioning for top, left, bottom and right
-    - iOS and android supports sticky positioning for top and bottom and only inside user tasks
-- new `scrollable` property for iOS and Android on root containers of user tasks, setting the desired behaviour for the screen, scrollable or not. Defaults to true.
-- new `screen title` property for iOS and Android on root containers of user tasks, setting the title of the navigation bar.
-- added fixed height settings on Web (for sticky sections use case)
+- Introduced `position` property for setting sticky containers.
+    - Web supports top, left, bottom, and right sticky positioning.
+    - iOS and Android support top and bottom sticky positioning within user tasks.
+- Added `scrollable` property for iOS and Android root containers, allowing control over scroll behavior (defaults to true).
+- Added `screen title` property for iOS and Android root containers, defining the navigation bar title.
+- Added fixed height settings for web.
 
 ### **CARD**
 
-- removed `card type` (raised or bordered) property.
-- new `scrollable` property for iOS and Android on root containers of user tasks, setting the desired behaviour for the screen, scrollable or not. Defaults to true.
-- new `screen title` property for iOS and Android on root containers of user tasks, setting the title of the navigation bar.
-- added fixed height settings on Web (for sticky sections use case)
-- added fixed height settings on iOS and Android
+- Removed `card type` (raised or bordered) property.
+- Added `scrollable` property for iOS and Android root containers, controlling scroll behavior (defaults to true).
+- Added `screen title` property for iOS and Android root containers.
+- Added `fixed height` settings for web, iOS, and Android.
 
 ### **FORM**
 
-- added fixed height settings on Web
+- Added fixed height settings for web.
 
 ### **BUTTON**
 
-- replaced `primary` and `secondary` types with `fill` .
-- state specific properties can now be set for **label**, **icon**, **background** and **border** colors
-    - web - default, hover, pressed and disabled states
-    - Android - default and disabled states
-    - iOS - default state
+- Replaced `primary` and `secondary` types with `fill`.
+- State-specific properties can now be set for **label**, **icon**, **background** and **border** colors:
+    - **Web**: Default, hover, pressed and disabled states.
+    - **Android**: Default and disabled states.
+    - **iOS**: Default state.
 
 ### **TEXT**
 
-- new `link color` property for markdown link color.
+- Added `link color` property for markdown link color.
 
 
 ### **FILE UPLOAD**
 
-- state specific properties can now be set for **label**, **icon**, **background** and **border** colors
-    - web - default, hover, pressed and disabled states
-    - Android - default and disabled states
-    - iOS - default state
+- State-specific properties can now be set for **label**, **icon**, **background** and **border** colors:
+    - **web**: Default, hover, pressed and disabled states.
+    - **Android**: Default and disabled states.
+    - **iOS**: Default state.
 
 ### **MESSAGE**
 
-- new `link color` property for markdown link color.
+- New `link color` property for markdown link color.
 
 ### **FILE PREVIEW**
 
-- new style properties for document icon and action icon colors
-- can now use `auto` height type on iOS and Android when scrollable is set to false on the root container/card when you want the file preview to fill the entire available space vertically.
-- new source type - Media Library
+- New style properties for document icon and action icon colors.
+- Introduced `auto` height type on iOS and Android when scrollable is set to false on the root container/card (when you want the file preview to fill the entire available space vertically).
+- New source type: Media Library.
 
 ### **COLLECTION**
 
-- added fixed height settings on Web
+- Added fixed height settings for web.
 
 ### **COLLECTION PROTOTYPE**
 
-- added fixed height settings on Web
+- Added fixed height settings for web.
 
 ### **ALL FORM ELEMENTS**
 
-- added style properties for info label, error label, helper label and helper tooltip.
+- Added style properties for info label, error label, helper label and helper tooltip.
 
 ### **INPUT**
 
-- state specific properties can now be set for **border**, **background**, **text**, **right icon**, **left icon**, **prefix/suffix** and **placeholder** colors
-    - web - empty, active, filled, disabled, error and hover states
-    - Android - empty, active, filled, disabled and error states
-    - iOS - empty, active, filled, disabled and error states
+- State-specific properties can now be set for **border**, **background**, **text**, **right icon**, **left icon**, **prefix/suffix** and **placeholder** colors:
+    - **web**: Empty, active, filled, disabled, error and hover states.
+    - **Android**: Empty, active, filled, disabled and error states.
+    - **iOS**: Empty, active, filled, disabled and error states.
 
 ### **TEXTAREA**
 
-- state specific properties can now be set for **border**, **background**, **text** and **placeholder** colors
-    - web - empty, active, filled, disabled, error and hover states
-    - Android - empty, active, filled, disabled and error states
-    - iOS - empty, active, filled, disabled and error states
+- State-specific properties can now be set for **border**, **background**, **text** and **placeholder** colors:
+    - **web**: Empty, active, filled, disabled, error and hover states.
+    - **Android**: Empty, active, filled, disabled and error states.
+    - **iOS**: Empty, active, filled, disabled and error states.
 
 ### **SELECT**
 
-- state specific properties can now be set for **border**, **background**, **text**, **right icon**, **left icon** and **placeholder** colors
-    - web - empty, active, filled, disabled, error and hover states
-    - Android - empty, active, filled, disabled and error states
-    - iOS - empty, active, filled, disabled and error states
+- State-specific properties can now be set for **border**, **background**, **text**, **right icon**, **left icon** and **placeholder** colors:
+    - **web**: Empty, active, filled, disabled, error and hover states.
+    - **Android**: Empty, active, filled, disabled and error states.
+    - **iOS**: Empty, active, filled, disabled and error states.
 
 ### **DATEPICKER**
 
-- state specific properties can now be set for **border**, **background**, **text**, **right icon**, **left icon** and **placeholder** colors
-    - web - empty, active, filled, disabled, error and hover states
-    - Android - empty, active, filled, disabled and error states
-    - iOS - empty, active, filled, disabled and error states
+- State-specific properties can now be set for **border**, **background**, **text**, **right icon**, **left icon** and **placeholder** colors:
+    - **web**: Empty, active, filled, disabled, error and hover states.
+    - **Android**: Empty, active, filled, disabled and error states.
+    - **iOS**: Empty, active, filled, disabled and error states.
 
 ### **RADIO, CHECKBOX**
 
-- state specific properties can now be set for **border**, **background**, **text** and **icon** colors
-    - web - unselected, selected, disabled unselected, disabled selected, hover unselected and hover selected states
-    - Android - unselected, selected, disabled unselected and disabled selected states
-    - iOS - unselected, selected, disabled unselected and disabled selected states
+- State-specific properties can now be set for **border**, **background**, **text** and **icon** colors:
+    - **web**: Unselected, selected, disabled unselected, disabled selected, hover unselected and hover selected states
+    - **Android**: Unselected, selected, disabled unselected and disabled selected states
+    - **iOS**: Unselected, selected, disabled unselected and disabled selected states
 
 ### **SWITCH**
 
-- state specific properties can now be set for **border**, **background** and **knob** colors
-    - web - unselected, selected, disabled unselected and disabled selected states
-    - Android - unselected, selected, disabled unselected and disabled selected states
-    - iOS - only **background** color on selected state
+- State-specific properties can now be set for **border**, **background** and **knob** colors:
+    - **web**: Unselected, selected, disabled unselected and disabled selected states.
+    - **Android**: Unselected, selected, disabled unselected and disabled selected states.
+    - **iOS**: Only **background** color on selected state.
 
 ### **SEGMENTED BUTTON**
 
-- state specific properties can now be set for **border**, **background** and **text** colors
-    - web - unselected, selected, disabled unselected, disabled selected, hover unselected and hover selected states
-    - Android - unselected, selected, disabled unselected and disabled selected states
-    - iOS - only **background** and **text** color on unselected and selected states
+- State-specific properties can now be set for **border**, **background** and **text** colors:
+    - **web**: Unselected, selected, disabled unselected, disabled selected, hover unselected and hover selected states.
+    - **Android**: Unselected, selected, disabled unselected and disabled selected states.
+    - **iOS**: Only **background** and **text** color on unselected and selected states.
 
 ### **SLIDER**
 
-- state specific properties can now be set for **limits**, **value**, **filled**, **empty** and **knob** colors
-    - web - default and disabled states
-    - Android - default and disabled states
-    - iOS - default and disabled states. Disabled only with **limits** and **value**
+- State-specific properties can now be set for **limits**, **value**, **filled**, **empty** and **knob** colors:
+    - **web**: Default and disabled states.
+    - **Android**: Default and disabled states.
+    - **iOS**: Default and disabled states. Disabled only with **limits** and **value**.
