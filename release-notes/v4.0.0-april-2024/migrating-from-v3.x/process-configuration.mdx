@@ -10,10 +10,17 @@ In the latest version, there have been updates and adjustments to process and UI
 - `output.put` method is required to generate structured output data when using input to validate or filter incoming data based on certain conditions (commonly used to retrieve information needed for processing)
 - `processInstanceID` and `processInstanceUUID` - This release introduces enhancements aimed at isolating process instance related vlaues from business/configured parameters. Key changes include the removal of `processInstanceId`, `parentProcessInstanceId`, and `parentProcessInstanceUuid` from paramValues zone on process instance, relocating them to a distinct location within process instance data - to a new object called “instanceMetadata”.
 
-<Warning>
-Please be aware that with the relocation of `processInstanceId`, `parentProcessInstanceId`, and `parentProcessInstanceUuid` from paramValues to a separate location within process instance data, additional configuration is required. It’s recommended to review and update any affected business rules accordingly.
-</Warning>
+### Business rules - new object "instanceMetadata"
 
+Introducing a new object named "instanceMetadata". This object will serve as a container for process instance related values, allowing you to access relevant attributes in your scripts more effectively. Key specifications include making certain variables/parameters read-only, controlled by FlowX, and facilitating attribute access through the `instanceMetadata` object rather than directly calling attributes.
+
+<Info>
+Configurators will utilize `instanceMetadata` to access attributes instead of directly calling them as in version 3.x. For example, `input.processInstanceId` will be accessed through `instanceMetadata.processInstanceId`.
+</Info>
+
+<Warning>
+Review and update any affected business rules accordingly.
+</Warning>
 
 ## UI configuration
 
@@ -41,6 +48,9 @@ Depending on the number of Card elements present in your migrated processes, it'
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/card_raised_border.gif)
 </Frame>
 
+Read more about **Theme management** feature:
+
+<Card title="Theme management" href="">
 
 ### Buttons
 

@@ -52,19 +52,6 @@ To utilize the new theme management feature, configure the following access righ
 | manage-themes | admin  | ROLE_THEMES_ADMIN  | Content Management |
 
 
-### Business rules - new object "instanceMetadata"
-
-Introducing a new object named "instanceMetadata". This object will serve as a container for process instance related values, allowing you to access relevant attributes in your scripts more effectively. Key specifications include making certain variables/parameters read-only, controlled by FlowX, and facilitating attribute access through the `instanceMetadata` object rather than directly calling attributes.
-
-<Info>
-Configurators will utilize `instanceMetadata` to access attributes instead of directly calling them as in version 3.x. For example, `input.processInstanceId` will be accessed through `instanceMetadata.processInstanceId`.
-</Info>
-
-<Warning>
-Review and update any affected business rules accordingly.
-</Warning>
-
-
 ### Logging
 
 To streamline logging and enhance readability, you can now disable health endpoint calls cluttering the logs of various deployed FlowX microservices using the following environment variables:
