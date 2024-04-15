@@ -1,5 +1,5 @@
 ---
-title: UI Designer - change log
+title: UI components - change log
 description: This log outlines the changes in component styles and props from version 3.4.x to version 4.0.
 ---
 
@@ -7,60 +7,83 @@ description: This log outlines the changes in component styles and props from ve
 
 - All components now support token overrides for color, typography, and shadow settings defined in the theme.
 - Styling options are now available for different platforms: web, iOS, and Android.
+
+<Card>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ui_ui_designer.gif)
+</Card>
+
 - Hide expressions can be set platform-specific.
 - All icon color settings offer a 'No Color' option to retain the original SVG colors.
 
-### **STEPPER**
-
-- Added fixed height settings for web, useful for [**sticky**](/4.0/docs/building-blocks/process/navigation-areas#how-to-create-a-header-footer-zone) sections.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/no_color_svg.png)
+</Frame>
 
 ### **TAB BAR**
 
-- New navigation area component.
-- Added fixed height settings for web, facilitating sticky sections.
+- New navigation area component. The Tab Bar is a component in user interfaces, facilitating navigation and content organization allowing configuration for parallel zones (using multiple user tasks within the same tab) and for multiple tabs (users can access multiple tabs within the tab bar)
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tabs_view.gif)
+</Frame>
+
+<Card title ="Tab Bar" href="/4.0/docs/building-blocks/process/navigation-areas#tab-bar" icon="link">
+Learn more
+</Card>
 
 ### **TAB**
 
-- New navigation area component.
+- New navigation area component. Tabs are clickable navigation elements within the Tab Bar that allow users to switch between different sections or functionalities within an application.
 
-### **PAGE**
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tabs_parallel.png)
+</Frame>
 
-- Added fixed height settings for web, aiding sticky sections.
-
-### **MODAL**
-
-- Styling options have been reinstated.
-- Added fixed height settings on Web (for sticky sections use case).
+<Card title ="Tab" href="/4.0/docs/building-blocks/process/navigation-areas#tab" icon="link">
+Learn more
+</Card>
 
 ### **ZONE**
 
-- New navigation area component for web.
-- Added fixed height settings on Web (for sticky sections use case).
+- New navigation area component for web. A container-like element grouping specific navigation areas or user tasks, used for oganizing content (ideally used for processes with headers and footers).
+
+<Card title ="Zones" href="/4.0/docs/building-blocks/process/navigation-areas#zone" icon="link">
+Learn more
+</Card>
 
 ### **CONTAINER**
 
-- Introduced `position` property for setting sticky containers.
+- Introduced `position` property for setting sticky containers:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Screenshot%202023-12-13%20at%2017.18.39.png)
+</Frame>
+
+    - Position ***Static***: The container remains fixed and does not scroll along with the page content.
+    - Position ***Sticky***: When the sticky property is enabled, the container maintains its position even during scrolling.
+
+<Card title ="Sticky container" href="/4.0/docs/building-blocks/process/navigation-areas#styling-options" icon="link">
+Learn more
+</Card>
+
     - Web supports top, left, bottom, and right sticky positioning.
     - iOS and Android support top and bottom sticky positioning within user tasks.
 - Added `scrollable` property for iOS and Android root containers, allowing control over scroll behavior (defaults to true).
 - Added `screen title` property for iOS and Android root containers, defining the navigation bar title.
-- Added fixed height settings for web.
 
 ### **CARD**
 
-- Removed `card type` (raised or bordered) property.
+- Removed `card type` (raised or bordered) property. See more, [**here**](./migrating-from-v3.4.x/process-configuration#root-components).
 - Added `scrollable` property for iOS and Android root containers, controlling scroll behavior (defaults to true).
 - Added `screen title` property for iOS and Android root containers.
-- Added `fixed height` settings for web, iOS, and Android.
 
-### **FORM**
-
-- Added fixed height settings for web.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/scrollabe_card.gif)
+</Frame>
 
 ### **BUTTON**
 
-- Replaced `primary` and `secondary` types with `fill`.
+- Replaced `primary` and `secondary` types with `fill`. See more, [**here**](./migrating-from-v3.4.x/process-configuration#buttons).
 - State-specific properties can now be set for **label**, **icon**, **background** and **border** colors:
     - **Web**: Default, hover, pressed and disabled states.
     - **Android**: Default and disabled states.
@@ -87,14 +110,6 @@ description: This log outlines the changes in component styles and props from ve
 - New style properties for document icon and action icon colors.
 - Introduced `auto` height type on iOS and Android when scrollable is set to false on the root container/card (when you want the file preview to fill the entire available space vertically).
 - New source type: Media Library.
-
-### **COLLECTION**
-
-- Added fixed height settings for web.
-
-### **COLLECTION PROTOTYPE**
-
-- Added fixed height settings for web.
 
 ### **ALL FORM ELEMENTS**
 

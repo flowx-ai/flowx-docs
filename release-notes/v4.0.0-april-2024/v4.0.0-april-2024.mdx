@@ -195,20 +195,32 @@ Keep track of your favorite process definitions and streamline process developme
 For clients upgrading from an older release (v3.x), we recommend consulting our [**Migrating from v3.x**](./migrating-from-v3.4.x/) guide for comprehensive migration instructions.
 </Info>
 
-Here's a summary of the changes introduced in version 4.0 after upgrading from v3.4.x:
+Here's a summary of the changes introduced in version 4.0 after upgrading from v3.4.x for all microservices:
 
 - **AuthToken Management**: The ui-sdk no longer relies on the authToken being stored in LOCAL_STORAGE. Read more, [**here**](/4.0/sdks/angular-renderer#authorization).
 - The **Subprocess Run** node is now called **Call activity** node.
 - Business Rules: Enhancements for structured data management and improved attribute access via `instanceMetadata` new object. Read more, [**here**](./migrating-from-v3.4.x/process-configuration#business-rules).
 - **Timer event scheduler**: Significant optimizations have been implemented in the timer event scheduler, resulting in improved efficiency and responsiveness.
 - **UI Designer** updates and improvements.
-- UI Designer components style and props changes - consult the [**UI Designer change log**](./migrating-from-v3.4.x/ui-designer-changelog) for more information.
+- UI components style and props changes - consult the [**UI components change log**](./ui-components-changelog) for more information.
 - Revised cache key organization. Read more [**here**](./migrating-from-v3.4.x/migrating-from-v3.4.x#revised-cache-key-organization).
 - New environment variables to prevent log flooding. Read more, [**here**](./migrating-from-v3.4.x/migrating-from-v3.4.x#logging).
 
 <Check>
 Do not to forget to consult the [**migration guide**](./migrating-from-v3.4.x/) for more information.
 </Check>
+
+
+### FlowX Admin change log
+
+- Java 17 integration: Integrated Java 17 (all backend services - base image: `eclipse-temurin - 17.0.10_7-jre-jammy`) as default buildpack.
+
+#### Health monitoring
+
+Updated Helm charts to improve health probes default settings:
+
+- Updated platform health annotations to use 'flowx.ai/health' as the annotation name with the value set to 'true', ensuring effective monitoring within the 'flowx' namespace
+- Enhanced health probes to default to the Actuator endpoint, ensuring accurate platform health monitoring. 
 
 ## **Bug Fixes** 🛠️
 
@@ -240,6 +252,11 @@ We've also squashed pesky bugs to ensure a smoother and more reliable experience
 * Also you can now successfully execute UI Actions on image components without encountering "undefined token uuid" errors—no more frustrations with unresponsive image interactions!
 * Custom validators now retain their specified async execution type upon saving, ensuring consistency and reliability in process validation—no more frustrating switches back to sync execution!
 * Forget playing favorites in the WEB_SDK! Now you can save data from both form elements and UI action custom body simultaneously. Say goodbye to tough decisions—saving data just got a whole lot easier and funnier!
+
+### FlowX Admin
+
+- Fixed issues with Persistent Database (PDB) API and service account auto-mount.
+- Disabled auto service links in containers (all SVC/PORT variables).
 
 ## Other
 
