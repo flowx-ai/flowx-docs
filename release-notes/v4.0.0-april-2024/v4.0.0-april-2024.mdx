@@ -205,22 +205,21 @@ Here's a summary of the changes introduced in version 4.0 after upgrading from v
 - UI components style and props changes - consult the [**UI components change log**](./ui-components-changelog) for more information.
 - Revised cache key organization. Read more [**here**](./migrating-from-v3.4.x/migrating-from-v3.4.x#revised-cache-key-organization).
 - New environment variables to prevent log flooding. Read more, [**here**](./migrating-from-v3.4.x/migrating-from-v3.4.x#logging).
+- Java 17 integration: Integrated Java 17 (all backend services - base image: `eclipse-temurin - 17.0.10_7-jre-jammy`) as default buildpack.
+
 
 <Check>
 Do not to forget to consult the [**migration guide**](./migrating-from-v3.4.x/) for more information.
 </Check>
 
+### Admin - health monitoring
 
-### FlowX Admin change log
+Improved health monitoring:
 
-- Java 17 integration: Integrated Java 17 (all backend services - base image: `eclipse-temurin - 17.0.10_7-jre-jammy`) as default buildpack.
-
-#### Health monitoring
-
-Updated Helm charts to improve health probes default settings:
-
-- Updated platform health annotations to use 'flowx.ai/health' as the annotation name with the value set to 'true', ensuring effective monitoring within the 'flowx' namespace
-- Enhanced health probes to default to the Actuator endpoint, ensuring accurate platform health monitoring. 
+- Enabled role-based acccess control and added annotations to enable platform health by default.
+- Established default annotations for platform health status. 
+- Adjusted liveness and readiness probes for improved reliability and responsiveness.
+- Updated Prometheus scraping configuration for metric collection.
 
 ## **Bug Fixes** 🛠️
 
@@ -275,7 +274,17 @@ Coming soon: **FlowX AI Agents**. Want to find out more? Contact us today about 
 <Card href="https://www.flowx.ai/#contact" icon="envelope">Contact us</Card>
 </Card>
 
+More will follow:
+
+<Card title ="FlowX AI Agents" href="/4.0/docs/platform-deep-dive/plugins/ai-agents" icon ="page">
+</Card>
+
 ## Gremlins to Watch Out For
+
+Keep an eye out for these quirks:
+
+- Versioning: Merging branches without importing the latest committed version may result in a surprise merge conflict party. We're on it! 
+- UI Designer: When relocating UI elements between parents, the elements' order doesn't always get the memo, causing a mix-up in the family tree. We're untangling this knot! 
 
 ## Resources
 
