@@ -37,13 +37,13 @@ Use the following command to install the **renderer** library and its required d
 
 ```bash
 npm install \
-  @flowx/ui-sdk@latest \
-  @flowx/ui-toolkit@latest \
-  @flowx/ui-theme@latest \
-  vanillajs-datepicker@1.3.1 \
+  @flowx/ui-sdk@4.0.1 \
+  @flowx/ui-toolkit@4.0.1 \
+  @flowx/ui-theme@4.0.1 \
+  vanillajs-datepicker@1.3.4 \
   @angular/flex-layout@15.0.0-beta.42 \
-  @angular/cdk@15.2.0 \
-  ng2-pdfjs-viewer@15.0.0
+  @angular/cdk@16.2.8 \
+  ng2-pdfjs-viewer@16.0.4
 ```
 
 A few configurations are needed in the projects `angular.json`:
@@ -159,12 +159,12 @@ FlxProcessModule.forRoot({
 The error that the validator returns **MUST** match the validator name.
 </Warning>
 
-The entry point of the library is the <flx-process-renderer></flx-process-renderer> component. A list of accepted inputs is found below:
+The entry point of the library is the `<flx-process-renderer></flx-process-renderer>` component. A list of accepted inputs is found below:
 
 ```
 <flx-process-renderer
   [apiUrl]="baseApiUrl"
-  [processApiPath]="processApiPath"a
+  [processApiPath]="processApiPath"
   [authToken]="authToken"
   [themeId]="themeId"
   [processName]="processName"
@@ -313,7 +313,7 @@ Trying to use this lib with npm link from another app will most probably fail. I
 
 NOTE: This method uses under the hood the build-and-sync.sh script from the first version and the chokidar-cli library to detect file changes.
 
-2. Use the build-and-sync:watch npm script, that builds the library and copies it to the client app's ** node_module** directory every time a file changes:
+2. Use the build-and-sync:watch npm script, that builds the library and copies it to the client app's **node_module** directory every time a file changes:
 
 ```bash
 npm run build-and-sync:watch --target-path=${path to the client app root}

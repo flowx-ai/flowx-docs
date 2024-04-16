@@ -12,9 +12,10 @@ For instance, you could have a label of "Female" with the value "F" and "Male" w
 
 ## Configuring the Select element
 
-### Select Settings
+### Generic settings
 
-These allow you to customize the settings for the Select Field:
+
+These allow you to customize the generic settings for the Select element:
 
 * [**General**](#general)
 * [**Properties**](#properties)
@@ -34,13 +35,22 @@ These allow you to customize the settings for the Select Field:
 * **Placeholder** - placeholder when the field has no value
 * **Empty message** - text displayed for custom type when no results are found
 * **Search for options** - displays a search to filter options
+* **Has clear** - to clear the content of the field
 * **Helpertext** - additional information about the select field (can be hidden inside an infopoint)
 
-#### Datasource
+#### Data source configuration
 
 * **Default value** - autofill the select with this value. Going back to the example with Woman label with F value and Man with M to have a default value of Woman we need to configure here F
 * **Source Type** - it can be Static, Enumeration, or Process Data
-* **Add option** - label - value pairs can be defined here
+    * **Static** -  static data
+        * **Add option** - label - value pairs can be defined here
+    * **Process Data** - data sourced directly from your process definition
+   
+<Tip>
+Consider this scenario: you need to create two dynamic select fields where the options in the second field depend on the selection made in the first. By utilizing the **Parent** property within the **Process Data** configuration of the second select field, you can achieve this dynamic functionality.
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/parent_select.png)
+</Tip>
+
 
 #### Validators
 
@@ -57,7 +67,9 @@ The select field's behavior can be defined using JavaScript expressions for hidi
 It's important to make sure that disabled fields have the same expression configured under the path expressions → hide.
 </Info>
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/select_form_field_settings.gif)
+</Frame>
 
 #### UI actions
 
@@ -79,18 +91,32 @@ Styling the Select field using CSS properties allows you to customize the appear
 
 For example, a FORM element with a [layout](../../ui-designer#layout) configuration including direction of Horizontal and some inputs, and a select element will look like this:
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/select_form_field1.png)
+</Frame>
 
 #### Icons
 
-When customizing the appearance of a Select UI element that includes an icon, you can utilize the following properties:
+When customizing the appearance of a Select UI element that includes a left icon, you can utilize the following properties:
 
 * **Icon Key** - the key associated in the Media library, select the icon from the **Media Library**
-* **Icon Color** - select the color of the icon using the color picker 
 
 <Info>
 When setting the color, the entire icon is filled with that color, the SVG's fill. Avoid changing colors for multicolor icons.
 </Info>
+
+#### Sizing
+
+When adjusting the Fit W, you can control the width of the select element:
+
+* **Fit W**: fill, fixed or auto
+
+#### Spacing
+
+Margin and padding are CSS properties used to create space between elements in a web page:
+
+- **margin** - the space outside a select element
+- **padding** - the space inside a select element
 
 ## Example - dynamic dropdowns
 
@@ -104,11 +130,15 @@ To create this kind of process, we need the following elements:
 
 * a [**task node**](../../../node/task-node) (this will be used to set which data will be displayed on the dropdowns - by adding a business rule on the node)
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/d_dropdowns1.gif)
+</Frame>
 
 * a [**user task node**](../../../node/user-task-node) (here we have the client forms and here we add the SELECT elements)
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/d_dropwdowns2.gif)
+</Frame>
 
 ### Creating the process
 
@@ -215,7 +245,7 @@ Follow the next steps to configure the UI needed:
    * **Name** - `application.client.identity`
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/select_customer_name.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/select_customer.png)
 </Frame>
 
 
@@ -227,14 +257,20 @@ Follow the next steps to configure the UI needed:
    * **Name** - `application.contracts`
    * **Parent** - `SELECT` (choose from the dropdown list)
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/select_contract_id.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/select_contract.png)
+</Frame>
 
 7. Add a button under the form that contains the select elements with the following properties:
    * **Label** - Submit
    * **Add UI action** - add the submit action attached earlier to the user task node
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/button_submit.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/submit_b.png)
+</Frame>
 
 8. Test and run the process by clicking **Start process**.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/dynamic_dropdowns5.gif)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/dynamic_ex.gif)
+</Frame>

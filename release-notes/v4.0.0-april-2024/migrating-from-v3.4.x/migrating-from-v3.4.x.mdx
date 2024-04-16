@@ -1,0 +1,64 @@
+---
+title: Deployment changes
+description: This document outlines the additional configuration changes required for deployment in version 4.0
+---
+
+### Revised cache key organization
+
+To ensure a smooth transition to the 4.0 release, it's essential to utilize the following clear cache endpoint and body:
+
+##### Endpoint:
+
+`POST {{baseUrlAdmin}}/api/internal/cache/clear`
+
+##### Body:
+
+```json
+{
+    "cacheNames": [
+        "flowx:core:cache"
+        ]
+}
+```
+
+<Warning>
+You should refrain from utilising the clear cache endpoint cause there are highly chances to affect the stability of the system.
+</Warning>
+
+<Info>
+This endpoint is designed to purge Redis caches selectively. It will exclusively delete caches that are specified in the admin microservice properties under the property key: "application.redis.clearable-caches".
+</Info>
+
+<Card title="Clear Cache 4.0" href ="/4.0/docs/api/clear-cache4.0" icon ="link">
+</Card>
+
+
+
+### Access rights for Theme Management
+
+To utilize the new theme management feature, make sure the following access rights are configured for the CMS microservice:
+
+| Module        | Scope  | Role default value | Microservice       |
+| ------------- | ------ | ------------------ | ------------------ |
+| manage-themes | import | ROLE_THEMES_IMPORT | Content Management |
+|               | import | ROLE_THEMES_EDIT   | Content Management |
+|               | import | ROLE_THEMES_ADMIN  | Content Management |
+| manage-themes | read   | ROLE_THEMES_READ   | Content Management |
+|               | read   | ROLE_THEMES_EDIT   | Content Management |
+|               | read   | ROLE_THEMES_ADMIN  | Content Management |
+|               | read   | ROLE_THEMES_IMPORT | Content Management |
+| manage-themes | edit   | ROLE_THEMES_EDIT   | Content Management |
+|               | edit   | ROLE_THEMES_ADMIN  | Content Management |
+| manage-themes | admin  | ROLE_THEMES_ADMIN  | Content Management |
+
+
+### Logging
+
+To streamline logging and enhance readability, you can now disable health endpoint calls cluttering the logs of various deployed FlowX microservices using the following environment variables:
+
+- `LOGGING_LEVEL_WEB: INFO` (default)
+- `LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB: INFO` (default)
+
+<Info>
+If logs lack detail, consider setting the value to ‘DEBUG’.
+</Info>

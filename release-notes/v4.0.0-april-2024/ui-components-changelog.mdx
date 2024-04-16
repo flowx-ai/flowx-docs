@@ -1,0 +1,172 @@
+---
+title: UI components - change log
+description: This log outlines the changes in component styles and props from version 3.4.x to version 4.0.
+---
+
+## **General - for all components**
+
+- All components now support token overrides for color, typography, and shadow settings defined in the theme.
+- Styling options are now available for different platforms: web, iOS, and Android.
+
+<Card>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ui_ui_designer.gif)
+</Card>
+
+- Hide expressions can be set platform-specific.
+- All icon color settings offer a 'No Color' option to retain the original SVG colors.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/no_color_svg.png)
+</Frame>
+
+### **TAB BAR**
+
+- New navigation area component. The Tab Bar is a component in user interfaces, facilitating navigation and content organization allowing configuration for parallel zones (using multiple user tasks within the same tab) and for multiple tabs (users can access multiple tabs within the tab bar)
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tabs_view.gif)
+</Frame>
+
+<Card title ="Tab Bar" href="/4.0/docs/building-blocks/process/navigation-areas#tab-bar" icon="link">
+Learn more
+</Card>
+
+### **TAB**
+
+- New navigation area component. Tabs are clickable navigation elements within the Tab Bar that allow users to switch between different sections or functionalities within an application.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tabs_parallel.png)
+</Frame>
+
+<Card title ="Tab" href="/4.0/docs/building-blocks/process/navigation-areas#tab" icon="link">
+Learn more
+</Card>
+
+### **ZONE**
+
+- New navigation area component for web. A container-like element grouping specific navigation areas or user tasks, used for oganizing content (ideally used for processes with headers and footers).
+
+<Card title ="Zones" href="/4.0/docs/building-blocks/process/navigation-areas#zone" icon="link">
+Learn more
+</Card>
+
+### **CONTAINER**
+
+- Introduced `position` property for setting sticky containers:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Screenshot%202023-12-13%20at%2017.18.39.png)
+</Frame>
+
+    - Position ***Static***: The container remains fixed and does not scroll along with the page content.
+    - Position ***Sticky***: When the sticky property is enabled, the container maintains its position even during scrolling.
+
+<Card title ="Sticky container" href="/4.0/docs/building-blocks/process/navigation-areas#styling-options" icon="link">
+Learn more
+</Card>
+
+    - Web supports top, left, bottom, and right sticky positioning.
+    - iOS and Android support top and bottom sticky positioning within user tasks.
+- Added `scrollable` property for iOS and Android root containers, allowing control over scroll behavior (defaults to true).
+- Added `screen title` property for iOS and Android root containers, defining the navigation bar title.
+
+### **CARD**
+
+- Removed `card type` (raised or bordered) property. See more, [**here**](./migrating-from-v3.4.x/process-configuration#root-components).
+- Added `scrollable` property for iOS and Android root containers, controlling scroll behavior (defaults to true).
+- Added `screen title` property for iOS and Android root containers.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/scrollabe_card.gif)
+</Frame>
+
+### **BUTTON**
+
+- Replaced `primary` and `secondary` types with `fill`. See more, [**here**](./migrating-from-v3.4.x/process-configuration#buttons).
+- State-specific properties can now be set for **label**, **icon**, **background** and **border** colors:
+    - **Web**: Default, hover, pressed and disabled states.
+    - **Android**: Default and disabled states.
+    - **iOS**: Default state.
+
+### **TEXT**
+
+- Added `link color` property for markdown link color.
+
+
+### **FILE UPLOAD**
+
+- State-specific properties can now be set for **label**, **icon**, **background** and **border** colors:
+    - **web**: Default, hover, pressed and disabled states.
+    - **Android**: Default and disabled states.
+    - **iOS**: Default state.
+
+### **MESSAGE**
+
+- New `link color` property for markdown link color.
+
+### **FILE PREVIEW**
+
+- New style properties for document icon and action icon colors.
+- Introduced `auto` height type on iOS and Android when scrollable is set to false on the root container/card (when you want the file preview to fill the entire available space vertically).
+- New source type: Media Library.
+
+### **ALL FORM ELEMENTS**
+
+- Added style properties for info label, error label, helper label and helper tooltip.
+
+### **INPUT**
+
+- State-specific properties can now be set for **border**, **background**, **text**, **right icon**, **left icon**, **prefix/suffix** and **placeholder** colors:
+    - **web**: Empty, active, filled, disabled, error and hover states.
+    - **Android**: Empty, active, filled, disabled and error states.
+    - **iOS**: Empty, active, filled, disabled and error states.
+
+### **TEXTAREA**
+
+- State-specific properties can now be set for **border**, **background**, **text** and **placeholder** colors:
+    - **web**: Empty, active, filled, disabled, error and hover states.
+    - **Android**: Empty, active, filled, disabled and error states.
+    - **iOS**: Empty, active, filled, disabled and error states.
+
+### **SELECT**
+
+- State-specific properties can now be set for **border**, **background**, **text**, **right icon**, **left icon** and **placeholder** colors:
+    - **web**: Empty, active, filled, disabled, error and hover states.
+    - **Android**: Empty, active, filled, disabled and error states.
+    - **iOS**: Empty, active, filled, disabled and error states.
+
+### **DATEPICKER**
+
+- State-specific properties can now be set for **border**, **background**, **text**, **right icon**, **left icon** and **placeholder** colors:
+    - **web**: Empty, active, filled, disabled, error and hover states.
+    - **Android**: Empty, active, filled, disabled and error states.
+    - **iOS**: Empty, active, filled, disabled and error states.
+
+### **RADIO, CHECKBOX**
+
+- State-specific properties can now be set for **border**, **background**, **text** and **icon** colors:
+    - **web**: Unselected, selected, disabled unselected, disabled selected, hover unselected and hover selected states
+    - **Android**: Unselected, selected, disabled unselected and disabled selected states
+    - **iOS**: Unselected, selected, disabled unselected and disabled selected states
+
+### **SWITCH**
+
+- State-specific properties can now be set for **border**, **background** and **knob** colors:
+    - **web**: Unselected, selected, disabled unselected and disabled selected states.
+    - **Android**: Unselected, selected, disabled unselected and disabled selected states.
+    - **iOS**: Only **background** color on selected state.
+
+### **SEGMENTED BUTTON**
+
+- State-specific properties can now be set for **border**, **background** and **text** colors:
+    - **web**: Unselected, selected, disabled unselected, disabled selected, hover unselected and hover selected states.
+    - **Android**: Unselected, selected, disabled unselected and disabled selected states.
+    - **iOS**: Only **background** and **text** color on unselected and selected states.
+
+### **SLIDER**
+
+- State-specific properties can now be set for **limits**, **value**, **filled**, **empty** and **knob** colors:
+    - **web**: Default and disabled states.
+    - **Android**: Default and disabled states.
+    - **iOS**: Default and disabled states. Disabled only with **limits** and **value**.

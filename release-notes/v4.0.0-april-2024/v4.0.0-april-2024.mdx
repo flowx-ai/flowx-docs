@@ -1,6 +1,6 @@
 ---
 title: FlowX 4.0 release 🚀
-description: 🎉 Welcome to the much-anticipated **FlowX 4.0** release! 🚀 Get ready to experience a whole new level of innovation and efficiency with FlowX.AI **4.0**.
+description: 🎉 Welcome to the much-anticipated FlowX 4.0 release! 🚀 Get ready to experience a whole new level of innovation and efficiency with FlowX.AI 4.0.
 ---
 
 <Frame>
@@ -25,7 +25,7 @@ Let's dive in and explore the exhilarating additions:
 
 ## **What's New?** 🆕
 
-### Themes: Elevate Your Experience
+### Theme Management
 
 The new **Theme Management** feature enhances our design process by establishing a unified visual language across various platforms. 
 
@@ -78,12 +78,9 @@ Introduced the option for platform-specific theming customization for components
 
 More information about Theming:
 
-<CardGroup>
-<Card title="Themes" href="/4.0/docs/platform-deep-dive/core-extensions/content-management/themes/themes" icon ="pen-line">
+<Card title="Themes" href="/4.0/docs/platform-deep-dive/core-extensions/content-management/themes" icon ="pen-line">
 </Card>
-<Card title ="Migration Guide" href="/4.0/docs/platform-deep-dive/core-extensions/content-management/themes/migration-guide" icon="file">
-</Card>
-</CardGroup>
+
 
 ### Navigation areas (removed Milestones nodes) 
 
@@ -99,6 +96,7 @@ More information about Theming:
 </Frame>
 </Card>
 </CardGroup>
+
 In this release, we've bid farewell to **Milestone Nodes**, ushering in a fresh and improved approach to organizing the user interface. Say hello to a sleeker and more efficient system with the introduction of [**Navigation areas**](../../docs/building-blocks/process/navigation-areas).
 
 <Info>
@@ -124,12 +122,14 @@ For process definitions originating from releases earlier than **4.0**, Mileston
 <Card title="Navigation Areas" href="/4.0/docs/building-blocks/process/navigation-areas" icon ="link">
 </Card>
 
-### UI Designer: Enhancements
+### UI Designer (enhancements)
 
-- Empower your design process with the new enhanced UI designer, offering flexibility and control over your application's look and feel across all platforms.
+- New enhanced UI designer, offering flexibility and control over your application's look and feel across all platforms.
 - Added the possibility to customize the **navigation areas** through the **UI Designer** 
 
-#### UI Designer - Universal configuration and styling
+#### UI Designer - universal configuration and styling
+
+Introduced the option for platform-specific configuration and styling for components across Web, iOS, and Android.
 
 <CardGroup>
 <Card>
@@ -140,7 +140,7 @@ For process definitions originating from releases earlier than **4.0**, Mileston
 </Card>
 </CardGroup>
 
-Introduced the option for platform-specific configuration and styling for components across Web, iOS, and Android. The navigation panel in the UI Designer allows users to manage navigation configurations efficiently across different platforms, ensuring consistency and clarity in the user interface design.
+The new navigation panel in the UI Designer allows you to manage navigation configurations efficiently across different platforms, ensuring consistency and clarity in your interface design.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ui_ui_designer.gif)
 
@@ -192,52 +192,37 @@ Keep track of your favorite process definitions and streamline process developme
 </Frame>
 
 
-## **Changed** 🔧
-
-### Web SDK
-
-* **AuthToken Management**: The ui-sdk no longer relies on the authToken being stored in LOCAL_STORAGE. Instead, the 'access_token' is now passed as an input to the `<flx-process-renderer>` component through a private variable.
-
-<Warning>
-**Breaking Change:** This update is mandatory for proper functionality of SSE (Server-Sent Events).
-</Warning>
+## **Changes**  🔧
 
 <Info>
-By adopting this approach, clients gain the flexibility to implement the most secure token management strategy tailored to their specific security needs. Moreover, shifting the responsibility to the container application for updating the 'access_token' input ensures that any changes or refreshes to the authToken are securely managed within the application's domain. This proactive approach effectively mitigates potential security vulnerabilities associated with token management, offering a robust and adaptable solution.
+For clients upgrading from an older release (v3.x), we recommend consulting our [**Migrating from v3.x**](./migrating-from-v3.4.x/) guide for comprehensive migration instructions.
 </Info>
 
-<Card title ="More details here" href="/4.0/sdks/angular-renderer#authorization">
-</Card>
+Here's a summary of the changes introduced in version 4.0 after upgrading from v3.4.x for all microservices:
+
+- **AuthToken Management**: The ui-sdk no longer relies on the authToken being stored in LOCAL_STORAGE. Read more, [**here**](/4.0/sdks/angular-renderer#authorization).
+- The **Subprocess Run** node is now called **Call activity** node.
+- Business Rules: Enhancements for structured data management and improved attribute access via `instanceMetadata` new object. Read more, [**here**](./migrating-from-v3.4.x/process-configuration#business-rules).
+- **Timer event scheduler**: Significant optimizations have been implemented in the timer event scheduler, resulting in improved efficiency and responsiveness.
+- **UI Designer** updates and improvements.
+- UI components style and props changes - consult the [**UI components change log**](./ui-components-changelog) for more information.
+- Revised cache key organization. Read more [**here**](./migrating-from-v3.4.x/migrating-from-v3.4.x#revised-cache-key-organization).
+- New environment variables to prevent log flooding. Read more, [**here**](./migrating-from-v3.4.x/migrating-from-v3.4.x#logging).
+- Java 17 integration: Integrated Java 17 (all backend services - base image: `eclipse-temurin - 17.0.10_7-jre-jammy`) as default buildpack.
 
 
-### Call activity node
+<Check>
+Do not to forget to consult the [**migration guide**](./migrating-from-v3.4.x/) for more information.
+</Check>
 
-* The **Subprocess Run** node is now called **Call activity** node.
+### Admin - health monitoring
 
-### Business Rules
+Improved health monitoring:
 
-- `output.put` method is required to generate structured output data when using `input` to validate or filter incoming data based on certain conditions (commonly used to retrieve information needed for processing )
-- `processInstanceID` and `processInstanceUUID` - This release introduces enhancements aimed at isolating process instance related vlaues from business/configured parameters. Key changes include the removal of `processInstanceId`, `parentProcessInstanceId`, and `parentProcessInstanceUuid` from paramValues zone on process instance, relocating them to a distinct location within process instance data - to a new object called “instanceMetadata”. 
-
-<Warning>
-Please be aware that with the relocation of `processInstanceId`, `parentProcessInstanceId`, and `parentProcessInstanceUuid` from `paramValues` to a separate location within process instance data, additional configuration is required. It's recommended to review and update any affected business rules accordingly. Check the [**Deployment guidelines**](./deployment-guidelines-v4.0.0.mdx#business-rules---new-object-instancemetadata) for more information.
-</Warning>
-
-### Timer event scheduler
- 
-- **Enhanced Performance**: Significant optimizations have been implemented in the timer event scheduler, resulting in improved efficiency and responsiveness.
-
-### UI Designer
-
-- Added **Styles** options for Modals
-- All primary and secondary buttons, they transformed to fill buttons
-- Removed card style property from UI Designer: **border** or *raised*.
-- Icons color settings have a “No Color” override option, which allows the icon (SVG) to be rendered with its original color setting after theme options is applied to it.
-- Added "Has accordion" option (Collapsed/Expanded) to **File Preview** UI component.
-
-### Logging improvements
-
-- New environment variables to prevent log flooding, check the [**deployment guidelines**](./deployment-guidelines-v4.0.0#logging) for more information.
+- Enabled role-based acccess control and added annotations to enable platform health by default.
+- Established default annotations for platform health status. 
+- Adjusted liveness and readiness probes for improved reliability and responsiveness.
+- Updated Prometheus scraping configuration for metric collection.
 
 ## **Bug Fixes** 🛠️
 
@@ -270,6 +255,11 @@ We've also squashed pesky bugs to ensure a smoother and more reliable experience
 * Custom validators now retain their specified async execution type upon saving, ensuring consistency and reliability in process validation—no more frustrating switches back to sync execution!
 * Forget playing favorites in the WEB_SDK! Now you can save data from both form elements and UI action custom body simultaneously. Say goodbye to tough decisions—saving data just got a whole lot easier and funnier!
 
+### FlowX Admin
+
+- Fixed issues with Persistent Database (PDB) API and service account auto-mount.
+- Disabled auto service links in containers (all SVC/PORT variables).
+
 ## Other
 
 <Card>
@@ -278,20 +268,46 @@ Our docs also received an upgrade...a new home...and a new AI search function! B
 
 ## Coming soon
 
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="w-full aspect-video"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/FlowX%20AI%20Agents.mp4"
+></video>
+
 <Card>
 Hey there, tired of drowning in "virtual paperwork"? Fear not! We've got you covered. Who said machines can't handle finances? 🤖💰 
 </Card>
 
 <Card icon="microchip-ai" color= "#f3ad02">
-Coming soon: **FlowX AI Agents**. Want to find out more? Contact us today about how we can make your journey smoother than ever before! 🚀 
-<Card href="https://www.flowx.ai/#contact" icon="envelope">Contact us</Card>
+Coming soon: **FlowX AI Agents**. Want to find out more? Contact us about how we can make your journey smoother than ever before! 🚀 
+<Card href="https://www.flowx.ai/#contact" icon="envelope">Get in contact</Card>
 </Card>
+
 
 ## Gremlins to Watch Out For
 
-## Additional Information
+Keep an eye out for these quirks:
 
-For deployment guidelines and a seamless transition to version 4.0.0: 
+- Versioning: Merging branches without importing the latest committed version may result in a surprise merge conflict party. We're on it! 
+- UI Designer: When relocating UI elements between parents, the elements' order doesn't always get the memo, causing a mix-up in the family tree. We're untangling this knot! 
 
+## Resources
+
+For deployment guidelines and a seamless transition to version 4.0: 
+
+<CardGroup>
 <Card title="Deployment guidelines v4.0.0" href="./deployment-guidelines-v4.0.0" icon ="file">
 </Card>
+
+<Card title="Migrating from 3.4.x" href="./migrating-from-v3.4.x" icon ="file">
+</Card>
+
+<Card title = "Renderer SDKs migration" href="./migrating-from-v3.4.x/renderers" icon ="file">
+</Card>
+
+<Card title="Process configuration v3.4.x to 4.0" href="./migrating-from-v3.4.x/process-configuration" icon ="file">
+</Card>
+</CardGroup>
