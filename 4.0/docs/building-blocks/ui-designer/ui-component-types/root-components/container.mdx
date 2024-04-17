@@ -9,22 +9,17 @@ The following properties can be configured in the container:
 
 ## Properties and settings
 
-### Settings
+### Settings (Generic)
 
 #### When used as root
 
 When employed as the root component, the container offers the following settings:
 
-* **Message**: A valid JSON describing the data sent to the frontend when the process reaches a specific user task. 
-* **Expressions (Hide)**: JavaScript expressions utilized to dynamically hide components based on conditions.
+* **Custom UI Payload**: A valid JSON describing the data sent to the frontend when the process reaches a specific user task. 
+* **Expressions (Hide condition)**: JavaScript expressions utilized to dynamically hide components based on conditions.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/container_root.png)
 
-<Warning>
-Starting with platform version **3.4.7**, the term "Message" has evolved into "Custom UI Payload." In the context of a User Task containing UI Elements, a significant enhancement has been introduced: when the page is rendered, the Backend (BE) now automatically transmits to the Frontend (FE) all pertinent data as process variables, seamlessly matching keys. This eliminates the need for explicit mentions of data that require pushing, streamlining the configuration process and enhancing overall efficiency.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/container_custom_ui.png)
-</Warning>
 
 #### When not used as root
 
@@ -36,8 +31,25 @@ By leveraging containers, you gain the ability to structure your UI elements eff
 
 ## Styling
 
-* **Layout** - this property is available for components that group children and includes the following options:
+<Tabs>
+  <Tab title="Web">
+    ☝️ Welcome to the content that you can only see inside the first Tab.
+  </Tab>
+  <Tab title="iOS">
+    ✌️ Here's content that's only inside the second Tab.
+  </Tab>
+  <Tab title="Android">
+    💪 Here's content that's only inside the third Tab.
+  </Tab>
+</Tabs>
 
+
+
+* **Layout** - this property is available for components that group children and includes the following options:
+    * **Position**:
+        * **Static**: This style remains fixed and does not scroll along with the page content.
+        * **Sticky**: When the sticky property is enabled, the container maintains its position even during scrolling.
+            * **Layout**: You have the option to specify minimum distances between the container and its parent element while scrolling. At runtime, sticky containers will keep their position on scroll relative to top/ bottom/ right/ left margin of the parent element
     * Direction - Horizontal / Vertical (for example, select *Horizontal*)
     * Justify (H) - (for example, select *end*)
     * Align (V) - this option allows you to align components vertically
@@ -55,4 +67,9 @@ When you apply the above properties, you can generate the following output, with
 For more information about styling and layout configuration, check the following section:
 
 <Card title="UI Designer" href="../../ui-designer#styling">
+</Card>
+
+
+<Card title ="Provide feedback on our docs" icon="lightbulb">
+Use our feedback form if you would like to provide feedback on our templates. You could also [**open an issue**](https://flowxai.canny.io/documentation-feedback).
 </Card>
