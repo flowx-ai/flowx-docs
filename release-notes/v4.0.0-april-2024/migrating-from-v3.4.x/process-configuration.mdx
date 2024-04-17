@@ -22,6 +22,31 @@ Configurators will utilize `instanceMetadata` to access attributes instead of di
 Review and update any affected business rules accordingly.
 </Warning>
 
+
+#### Example of business rule (with Python)
+
+<Info>
+This example is made just to demonstrate the use of the new `instanceMetadata.get` object.
+</Info>
+
+```python
+test_string = "There are 2 apples for 4 persons"
+ 
+# using List comprehension + isdigit() +split()
+# getting numbers from string 
+res = [int(i) for i in test_string.split() if i.isdigit()]
+
+output.put("app", {"phyton": str(res), "key3": "Value updated"});
+
+key = input.get("app").get("key1")
+
+id3 = instanceMetadata.get("processInstanceId")
+uuid3 = instanceMetadata.get("processInstanceUuid")
+
+output.put("id3", id3);
+output.put("uuid3", uuid3);
+```
+
 ## UI configuration
 
 <Info>
