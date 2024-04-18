@@ -3,7 +3,7 @@ title: Container
 description: A container in Flowx is a versatile building block that empowers you to group components and arrange them as needed, providing flexibility in UI design. It can also serve as the root component for your design.
 ---
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_designer_container.gif)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/container_ex.gif)
 
 The following properties can be configured in the container:
 
@@ -18,51 +18,100 @@ When employed as the root component, the container offers the following settings
 * **Custom UI Payload**: A valid JSON describing the data sent to the frontend when the process reaches a specific user task. 
 * **Expressions (Hide condition)**: JavaScript expressions utilized to dynamically hide components based on conditions.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/container_root.png)
+
+<Info>
+You can hide containers on different platforms by using Overrides in the Settings tab. For instance, you can set a container to appear on all platforms, or create an override to hide it on mobile but show it on web.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/override_hide.gif)
+
+</Info>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/container_root_new.png)
 
 
 #### When not used as root
 
 When the container is not used as the root, you can configure only the **Hide Condition** property.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_designer_container_settings.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/container_not_root.png)
 
 By leveraging containers, you gain the ability to structure your UI elements efficiently, enhancing the overall design and usability of your application.
 
 ## Styling
 
 <Tabs>
-  <Tab title="Web">
-    ☝️ Welcome to the content that you can only see inside the first Tab.
-  </Tab>
-  <Tab title="iOS">
-    ✌️ Here's content that's only inside the second Tab.
-  </Tab>
-  <Tab title="Android">
-    💪 Here's content that's only inside the third Tab.
-  </Tab>
+<Tab title="Web">
+<Tabs>
+<Tab title ="Layout">
+
+When designing for the web, consider the layout options available for the container. These options include:
+
+* **Position**
+    * **Static**: This style remains fixed and does not scroll along with the page content.
+    * **Sticky**: When the sticky property is enabled, the container maintains its position even during scrolling.
+        * **Sticky layout**: You have the option to specify minimum distances between the container and its parent element while scrolling. At runtime, sticky containers will keep their position on scroll relative to top/ bottom/ right/ left margin of the parent element.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Screenshot%202023-12-13%20at%2017.18.39.png)
+</Frame>
+
+* **Direction**: Choose between **Horizontal** or **Vertical** alignment to define the flow of components. For example, select Horizontal for a left-to-right layout.
+* **Justify (H)**: Specify how content is aligned along the main axis. For instance, select end to align items to the end of the container.
+* **Align (V)**: Align components vertically within their container using options such as top, center, or bottom alignment.
+* **Wrap**: Enable wrapping to automatically move items to the next line when they reach the end of the container. Useful for creating multi-line layouts.
+* **Gap**: Define the space between components to control the distance between each item. Adjusting the gap enhances visual clarity and organization.
+</Tab>
+<Tab title="Sizing">
+
+Adjusting the size of components is crucial for a responsive design. Fit W (width) offers three options:
+
+    * **fill**: Fills the available space.
+    * **fixed**: Maintains a fixed width.
+    * **auto**: Adjusts the width automatically based on content.
+</Tab>
+<Tab title="Theme Overrides">
+Customize the appearance by overriding style options coming from your default theme. Available overrides:
+
+* Border width
+* Border radius
+* Border color
+* Background color
+* Shadow
+</Tab>
+</Tabs>
+</Tab>
+<Tab title ="iOS">
+
+Similar styling considerations apply to iOS as for web.
+
+However, there are exceptions, particularly with **Sticky layout**:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/sticky_mobile.png)
+</Frame>
+
+In mobile configurations, the right and left properties for **Sticky layout** are ignored by the iOS renderer.
+
+
+</Tab>
+<Tab title ="Android">
+
+Similar styling considerations apply to Android as for web.
+
+However, there are exceptions, particularly with **Sticky layout**:
+
+![Sticky layout on Android](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/sticky_mobile.png)
+
+In mobile configurations, the right and left properties for **Sticky layout** are ignored by the Android renderer.
+</Tab>
 </Tabs>
 
 
-
-* **Layout** - this property is available for components that group children and includes the following options:
-    * **Position**:
-        * **Static**: This style remains fixed and does not scroll along with the page content.
-        * **Sticky**: When the sticky property is enabled, the container maintains its position even during scrolling.
-            * **Layout**: You have the option to specify minimum distances between the container and its parent element while scrolling. At runtime, sticky containers will keep their position on scroll relative to top/ bottom/ right/ left margin of the parent element
-    * Direction - Horizontal / Vertical (for example, select *Horizontal*)
-    * Justify (H) - (for example, select *end*)
-    * Align (V) - this option allows you to align components vertically
-    * Gap - you can set the gap between components
 
 More layout demos available below:
 
 <Card title="Layout Demos" href="https://tburleson-layouts-demos.firebaseapp.com/#/docs" icon ="link">
 </Card>
-
-When you apply the above properties, you can generate the following output, with the button appearing on the right side of the container, underneath the form with three form elements:
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/container_styling.png)
 
 For more information about styling and layout configuration, check the following section:
 
@@ -70,6 +119,6 @@ For more information about styling and layout configuration, check the following
 </Card>
 
 
-<Card title ="Provide feedback on our docs" icon="lightbulb">
-Use our feedback form if you would like to provide feedback on our templates. You could also [**open an issue**](https://flowxai.canny.io/documentation-feedback).
-</Card>
+<Accordion title ="Provide feedback on this page">
+Use our [**feedback form**](https://www.cognitoforms.com/FlowXAi1/FeedbackForm) if you would like to provide feedback on this page. You could also [**raise issues/requests**](https://flowxai.canny.io/documentation-feedback).
+</Accordion>

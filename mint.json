@@ -60,6 +60,11 @@
       "name": "Setup guides",
       "version": "v4.x",
       "url": "4.0/setup-guides"
+    },
+
+    {
+      "name":"Requests",
+      "url": "https://flowxai.canny.io/documentation-feedback"
     }
   ],
   "anchors": [
@@ -1238,9 +1243,7 @@
   },
 
   "feedback": {
-    "thumbsRating": true,
-    "suggestEdit": true,
-    "raiseIssue": true
+    "thumbsRating": true
   },
 
 
