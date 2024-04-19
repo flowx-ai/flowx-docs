@@ -49,6 +49,33 @@ Learn more
 
 ## iOS SDK migration guide
 
+### Integration changes
+
+The module name has changed from `FlowX` to `FlowXRenderer`.
+Any files importing the SDK should be updated with the new module name.
+
+```
+//replace this
+import FlowX
+
+//with this
+import FlowXRenderer
+```
+
+### Initialization config changes
+
+A new configuration parameter, named `enginePath` was added to `FXConfig`. It represents the URL path component to the process engine.
+
+```swift
+FXConfig.sharedInstance.configure { (config) in
+    config.baseURL = myBaseURL
+    config.enginePath = "engine"
+    config.imageBaseURL = myImageBaseURL
+    config.language = "en" 
+    config.logLevel = .verbose
+}
+```
+
 ### Theming changes 
 
 The theming setup mechanism was updated.
