@@ -3,8 +3,6 @@ title: Container
 description: A container in Flowx is a versatile building block that empowers you to group components and arrange them as needed, providing flexibility in UI design. It can also serve as the root component for your design.
 ---
 
----
-
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/container_ex.gif)
 
 The following properties can be configured in the container:
@@ -23,13 +21,6 @@ When employed as the root component, the container offers the following settings
 * **Expressions (Hide condition)**: JavaScript expressions utilized to dynamically hide components based on conditions.
 
 
-<Info>
-You can hide containers on different platforms by using Overrides in the Settings tab. For instance, you can set a container to appear on all platforms, or create an override to hide it on mobile but show it on web.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/override_hide.gif)
-
-</Info>
-
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/container_root_new.png)
 
 
@@ -40,6 +31,25 @@ When the container is not used as the root, you can configure only the **Hide Co
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/container_not_root.png)
 
 By leveraging containers, you gain the ability to structure your UI elements efficiently, enhancing the overall design and usability of your application.
+
+
+### Container settings overrides
+
+You may want to override settings configured in the **Generic** tab to be displayed differently on mobile devices. 
+
+* **Hide expressions**: Use Overrides in the Settings tab to hide a container on a specific platform.
+
+<Info>
+For instance, you can set a container to appear on all platforms, or create an override to hide it on mobile but show it on web.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/override_hide.gif)
+</Info>
+
+To achieve this:
+
+1. Select a Container element in the UI Designer, then navigate to Settings -> your desired platform -> Overrides (+) -> Expressions -> Hide.
+2. Add your JavaScript Hide condition.
+
 
 ## Styling
 
