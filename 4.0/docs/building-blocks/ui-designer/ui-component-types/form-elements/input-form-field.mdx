@@ -45,11 +45,12 @@ These settings added in the Generic tab are available and they apply to all plat
 
 The default value for the element can be configured here, this will autofill the input field when you will run the process.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/input_datasource1.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_datasource1_new.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_datasource2.png)
+</Frame>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/input_datasource.png)
-
-##### Computed datasource value
+#### Computed datasource value
 
 To add a computed value, you have to explicitly check “Computed value” option (represented by the `f(x)` icon), which will transform the desired field into a JavaScript editor.
 
@@ -60,15 +61,55 @@ Check the following example:
 
 #### Validators
 
-There are multiple validators can be added to an input (more details [here](../../validators)).
+Incorporating validators into your inputs adds an extra layer of assurance to your data. (For further insights, refer to [this link](../../validators)).
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/input_validators.png)
+<Check>
+Witness the essential role of validators in action with this required validator example:
 
-#### Expressions  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_validators.png)
 
-The input field's behavior can be defined using JavaScript expressions for hiding or disabling the element. The following properties can be configured for expressions:
-   
-* **Hide condition** - JavaScript expression used to hide the Input Field when it returns a truthy value
+</Check>
+
+Required validator example:
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Input_validat.gif)
+</Frame>
+
+
+#### Expressions - hide/disabled
+
+Define the input field's behavior using JavaScript expressions to control its visibility or disablement. Configure the following properties for expressions:   
+
+* **Hide Condition**: A JavaScript expression used to hide the input field when it is evaluated to your desired result. 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_hide.png)
+</Frame>
+
+<Info>
+In the example above, we used a rule to hide an input field until another one is filled. The "Mortgage" input field, which remains hidden until users fill in the "Income" field.
+</Info>
+
+#### Hide example
+
+We will use the key defined on the "Income" input field to create the JavaScript hide condition to hide the "Mortgage" input field:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input.income.png)
+</Frame>
+
+##### Rule used:
+
+```javascript
+${application.input.income} === null || ${application.input.income} === ""
+```
+##### Result:
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_hide_result.gif)
+</Frame>
+
 * **Disabled condition** - JavaScript expression used to disable the Input Field when it returns a truthy value
 
 <Info>
