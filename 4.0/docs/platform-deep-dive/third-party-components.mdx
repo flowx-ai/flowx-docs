@@ -7,9 +7,8 @@ icon: cube
 ### Open-source
 
 * [Keycloak](#keycloak)
-* [Kafka](#kafka) / [ZooKeeper](#zookeeper)
+* [Kafka](#kafka)
 * [Jaeger](#jaeger)
-* [AKHQ](#akhq)
 * [PostgreSQL](#postrgresql)
 * [MongoDB](#mongodb)
 * [Redis](#redis)
@@ -58,12 +57,9 @@ Compatibility Matrix:
 
 | FLOWX.AI Platform version | Component name | Supported/tested versions |
 | ------------------------- | -------------- | ------------------------- |
-| 4.0.0                     | OracleDB       | 21C/ 21-XE               |
+| 4.0.0                     | OracleDB       | 21C/ 21-XE                |
 
 
-<Info>
-Since Kafka version 2.8, the self-managed (Kraft) mode is available alongside ZooKeeper. It was released as a preview feature in version 3.0. Finally, with several improvements, it has been declared production ready in version 3.3.1. Kafka may deprecate ZooKeeper in version 3.4. 
-</Info>
 
 ### Summary
 
@@ -85,11 +81,6 @@ Kafka is very fast and performs 2 million writes/sec. Kafka persists all data to
 
 [Kafka documentation](https://kafka.apache.org/documentation/)
 
-#### ZooKeeper
-
-ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services. All of these kinds of services are used in some form or another by distributed applications.
-
-[Zookeeper documentation](https://zookeeper.apache.org/documentation.html)
 
 #### Jaeger
 
@@ -97,11 +88,6 @@ Jaeger is a popular open-source distributed tracing tool that is used to monitor
 
 [Jaeger documentation](https://www.jaegertracing.io/docs/1.36/)
 
-#### AKHQ
-
-AKHQ is a tool used by FLOWX.AI to manage and display the data inside the Apache Kafka cluster.
-
-[AKHQ documentation](https://akhq.io/docs/#installation)
 
 #### PostrgreSQL
 
