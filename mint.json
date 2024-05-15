@@ -978,6 +978,20 @@
           "release-notes/overview",
 
           {
+            "group": "v4.1.0",
+            "icon": "burst",
+            "pages": [
+              "release-notes/v4.1.0-may-2024/v4.1.0-may-2024",
+              "release-notes/v4.1.0-may-2024/deployment-guidelines-v4.1.0",
+              "release-notes/v4.1.0-may-2024/ui-components-changelog",
+              "release-notes/v4.1.0-may-2024/migrating-from-v4.0-to-v4.1",
+              "release-notes/v4.1.0-may-2024/migrating-from-v3.4.x-to-v4.1"
+            ]
+            
+          },
+
+
+          {
             "group": "v4.0.0",
             "icon": "burst",
             "pages": [

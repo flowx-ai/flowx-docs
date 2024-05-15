@@ -1,0 +1,94 @@
+---
+title: FlowX.AI 4.1 release 🚀
+description: 🎉 Welcome to the FlowX.AI 4.1 release!
+---
+
+
+In this release, we've added a some cool new stuff and also some enhancements to previously mind-blowing v4.0!
+
+Let's dive in and explore:
+
+## **What's New?** 🆕
+
+### Misconfigurations
+
+The Misconfigurations Warnings feature introduces a proactive alert system that ensures alignment between process configurations and selected platforms.
+
+With dynamic platform-specific settings, users receive alerts that guide them toward optimal configurations for navigation and UI design. These alerts, integrated into the frontend interface, empower users to make informed decisions, thereby enhancing the process configuration.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/misconfigurations.gif)
+</Frame>
+
+
+### Navigation areas - navigation inside zones and pages
+
+We're enhancing navigation within zones and pages to enable a step-by-step or wizard-style experience. 
+
+In the Navigation Panel, a new option will be available exclusively for the web platform. Users can choose between "Single Page Form," which displays all tasks in the same zone, and "Wizard," presenting tasks one at a time with custom navigation buttons.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/%20navigation_type.png)
+</Frame>
+
+
+### Static document management via CMS
+
+In this initiative, we aim to liberate static document management from the constraints of the Document Plugin, providing autonomy while working with documents. 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/static_document_1.png)
+</Frame>
+
+The changes involve enhancing the platform's capabilities for managing static documents, particularly PDFs, within the media library. This includes enabling the upload of PDF files, updating information text to reflect PDF format specifications.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/static_document_2.png)
+</Frame>
+
+### Theme Management
+
+We've introduced preview options for multiple UI components. Now, you can review changes in the theming configurations before finalizing them.
+
+
+### Tracing - open telemetry
+
+In our 4.1 release, we're thrilled to introduce tracing with Open Telemetry, offering enhanced visibility and insights into application behavior. With its capabilities, users can pinpoint issues and optimize performance. 
+
+Consequently, we'll be phasing out Jaeger tracing to focus on the advanced features and broader support of Open Telemetry, ensuring a smooth transition.
+
+### UI Designer (enhancements)
+
+
+## **Changes**  🔧
+
+- The option to add a "Start Subprocess" on Service Task nodes is removed.
+- 
+
+
+## **Bug Fixes** 🛠️
+
+We've also squashed pesky bugs to ensure a smoother and more reliable experience across the board.
+
+## Gremlins to Watch Out For
+
+Keep an eye out for these quirks:
+
+- Versioning: Merging branches without importing the latest committed version may result in a surprise merge conflict party. We're on it! 
+- UI Designer: When relocating UI elements between parents, the elements' order doesn't always get the memo, causing a mix-up in the family tree. We're untangling this knot! 
+
+## Resources
+
+For deployment guidelines and a seamless transition to version 4.0: 
+
+<CardGroup>
+<Card title="Deployment guidelines v4.1" href="./deployment-guidelines-v4.1.0" icon ="file">
+</Card>
+
+<Card title="Migrating from v3.4.x" href="./migrating-from-v3.4.x-to-v4.1" icon ="file">
+</Card>
+
+<Card title= "Migrating from v4.0" href="./migrating-from-v4.0-to-v4.1" icon = "file">
+</Card>
+
+</CardGroup>
