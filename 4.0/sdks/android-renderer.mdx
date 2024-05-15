@@ -38,7 +38,7 @@ dependencyResolutionManagement {
 ```kotlin
 dependencies {
     ...
-    implementation("ai.flowx.android:android-sdk:3.0.0")
+    implementation("ai.flowx.android:android-sdk:3.0.3")
     ...
 }
 ```
@@ -82,20 +82,23 @@ fun init(
     config: SdkConfig,
     accessTokenProvider: AccessTokenProvider? = null,
     customComponentsProvider: CustomComponentsProvider? = null,
+    customStepperHeaderProvider: CustomStepperHeaderProvider? = null,
 )
 ```
 
 #### Parameters
 
-| Name                        | Description                                                | Type                                                              | Requirement                   |
-| --------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------- |
-| `context`                   | Android application `Context`                              | `Context`                                                         | Mandatory                     |
-| `config`                    | SDK configuration parameters                               | `ai.flowx.android.sdk.process.model.SdkConfig`                    | Mandatory                     |
-| `accessTokenProvider`       | Functional interface provider for passing the access token | `ai.flowx.android.sdk.FlowxSdkApi.Companion.AccessTokenProvder?`  | Optional. Defaults to `null`. |
-| `customComponentsProvider`  | Provider for the `@Composable`/`View` custom components    | `ai.flowx.android.sdk.component.custom.customComponentsProvider?` | Optional. Defaults to `null`. |
+| Name                          | Description                                                | Type                                                                 | Requirement                   |
+| ----------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------- | ----------------------------- |
+| `context`                     | Android application `Context`                              | `Context`                                                            | Mandatory                     |
+| `config`                      | SDK configuration parameters                               | `ai.flowx.android.sdk.process.model.SdkConfig`                       | Mandatory                     |
+| `accessTokenProvider`         | Functional interface provider for passing the access token | `ai.flowx.android.sdk.FlowxSdkApi.Companion.AccessTokenProvder?`     | Optional. Defaults to `null`. |
+| `customComponentsProvider`    | Provider for the `@Composable`/`View` custom components    | `ai.flowx.android.sdk.component.custom.CustomComponentsProvider?`    | Optional. Defaults to `null`. |
+| `customStepperHeaderProvider` | Provider for the `@Composable` custom stepper header view  | `ai.flowx.android.sdk.component.custom.CustomStepperHeaderProvider?` | Optional. Defaults to `null`. |
 
-Providing the `access token` is explained in the [authentication](#authentication) section.<br/>
-The `custom components` implementation is explained in [its own section](#custom-components).
+&bull; Providing the `access token` is explained in the [authentication](#authentication) section.<br/>
+&bull; The `custom components` implementation is explained in [its own section](#custom-components).<br/>
+&bull; The implementation for providing a `custom view for the header` of the [Stepper](../docs/building-blocks/process/navigation-areas#stepper) component is detailed in [its own section](#custom-header-view-for-the-stepper-component).
 
 #### Sample
 
@@ -118,6 +121,7 @@ class MyApplication : Application() {
             ),
             accessTokenProvider = null, // null by default; can be set later, depending on the existing authentication logic
             customComponentsProvider = object : CustomComponentsProvider {...},
+            customStepperHeaderProvider = object : CustomStepperHeaderProvider {...},
         )
     }
 }
@@ -434,7 +438,7 @@ override fun provideCustomComposableComponent(): CustomComposableComponent? {
 
             override val composable: @Composable () -> Unit = {
                 when (componentIdentifier) {
-                    "some custom component identifier" -> { /* add some @Composable implementation  */ }
+                    "some custom component identifier" -> { /* add some @Composable implementation */ }
                     "other custom component identifier" -> { /* add other @Composable implementation */ }
                 }
             }
@@ -579,6 +583,87 @@ All media items will be retrieved by the SDK before starting the process and wil
 Whenever the container app needs a media item url for populating the UI of the custom components, it can request the url using the method above, by providing the `key`.
 
 It returns the `URL` string of the media resource, or `null`, if not found.
+
+## Custom header view for the [STEPPER](../docs/building-blocks/process/navigation-areas#stepper) component
+
+The container application can opt for providing a custom view in order to be used, for all the [Stepper](../docs/building-blocks/process/navigation-areas#stepper) components, as a replacement for the built-in header.<br/>
+The custom view receives `data` to populate its UI, as described below.
+
+To provide a custom header for the [Stepper](../docs/building-blocks/process/navigation-areas#stepper), an *implementation* of the `CustomStepperHeaderProvider` interface should be passed as a parameter when initializing the SDK:
+
+```kotlin
+interface CustomStepperHeaderProvider {
+    fun provideCustomComposableStepperHeader(): CustomComposableStepperHeader?
+}
+```
+
+As opposed to the [Custom components](#custom-compoments), the only supported way is by providing the view as a [@Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable) function.
+
+#### Sample
+
+```kotlin
+class CustomStepperHeaderProviderImpl : CustomStepperHeaderProvider {
+    override fun provideCustomComposableStepperHeader(): CustomComposableStepperHeader? {
+        return object : CustomComposableStepperHeader {...}
+    }
+}
+```
+
+### CustomComposableStepperHeader
+
+To provide the custom header view as a [@Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable) function, you have to implement the `CustomComposableStepperHeader` interface:
+
+```kotlin
+interface CustomComposableStepperHeader {
+    fun provideComposableStepperHeader(): ComposableStepperHeader
+}
+```
+
+The returned `ComposableStepperHeader` object is an interface defined like this:
+
+```kotlin
+interface ComposableStepperHeader {
+    /**
+     * `@Composable` definition for the custom header view
+     * The received argument contains the stepper header necessary data to render the view.
+     */
+    val composable: @Composable (data: CustomStepperHeaderData) -> Unit
+}
+```
+
+The value for the `data` parameter received as function argument is an interface defined like this:<br/>
+
+```kotlin
+interface CustomStepperHeaderData {
+    // percentage of total progress (e.g. 0.25f) for the current main step
+    val mainStepsProgress: Float
+    // title for the current main step; it contains the empty value ("") if not defined
+    val stepTitle: String
+    // percentage of total progress (e.g. 0.18f) for the current substep;
+    // it has the same value as `mainStepsProgress` when there are no substeps defined
+    val subStepsProgress: Float
+    // title for the current selected substep; optional;
+    // can be empty ("") if not defined or `null` if currently there is no selected substep
+    val substepTitle: String?
+    // index of the current main step
+    val stepNumber: Int
+    // total number of (main) steps
+    val totalSteps: Int
+}
+```
+
+#### Sample
+
+```kotlin
+override fun provideComposableStepperHeader(): ComposableStepperHeader? {
+    return object : ComposableStepperHeader {
+        override val composable: @Composable (data: CustomStepperHeaderData) -> Unit
+            get() = @Composable { data ->
+                /* add some @Composable implementation which displays `data` */
+            }
+    }
+}
+```
 
 ## Known issues
 
