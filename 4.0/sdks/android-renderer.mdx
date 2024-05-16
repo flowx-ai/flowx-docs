@@ -38,7 +38,7 @@ dependencyResolutionManagement {
 ```kotlin
 dependencies {
     ...
-    implementation("ai.flowx.android:android-sdk:3.0.3")
+    implementation("ai.flowx.android:android-sdk:3.0.4")
     ...
 }
 ```
@@ -635,20 +635,19 @@ The value for the `data` parameter received as function argument is an interface
 
 ```kotlin
 interface CustomStepperHeaderData {
-    // percentage of total progress (e.g. 0.25f) for the current main step
-    val mainStepsProgress: Float
-    // title for the current main step; it contains the empty value ("") if not defined
-    val stepTitle: String
-    // percentage of total progress (e.g. 0.18f) for the current substep;
-    // it has the same value as `mainStepsProgress` when there are no substeps defined
-    val subStepsProgress: Float
+    // title for the current step; can be empty or null
+    val stepTitle: String?
     // title for the current selected substep; optional;
     // can be empty ("") if not defined or `null` if currently there is no selected substep
     val substepTitle: String?
-    // index of the current main step
-    val stepNumber: Int
-    // total number of (main) steps
+    // 1-based index of the current step
+    val step: Int
+    // total number of steps
     val totalSteps: Int
+    // 1-based index of the current substep; can be `null` when there are no defined substeps
+    val substep: Int?
+    // total number of substeps in the current step; can be `null` or `0`
+    val totalSubsteps: Int?
 }
 ```
 
