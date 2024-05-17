@@ -51,11 +51,57 @@ Add the source of the private repository in the Podfile
 source 'git@github.com:flowx-ai-external/flowx-ios-specs.git'
 ```
 
+Add a post install hook in the Podfile setting `BUILD_LIBRARY_FOR_DISTRIBUTION` to `YES`.
+
+```ruby
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
+    end
+  end
+end
+```
+
 Add the pod and then run `pod install`
 
 ```ruby
 pod 'FlowX'
 ```
+
+Example
+
+```ruby
+source 'https://github.com/flowx-ai-external/flowx-ios-specs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
+    end
+  end
+end
+
+target 'AppTemplate' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+  
+  # Pods for AppTemplate
+  pod 'FlowXRenderer'
+  
+  target 'AppTemplateTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+  
+  target 'AppTemplateUITests' do
+    # Pods for testing
+  end
+  
+end
+```
+
 
 ### Library dependencies
 
@@ -498,6 +544,8 @@ public protocol FXDataSource: AnyObject {
     
     func dismissRequested(forProcess process: String, navigationController: UINavigationController)
     
+    func viewForStepperHeader(stepViewModel: StepViewModel) -> AnyView?
+
 }
 ```
 
@@ -531,6 +579,10 @@ This method is used for custom validators. It provides the name of the validator
 This method is called, on a modally displayed process navigation, when the user attempts to dismiss the modal navigation. Typically it is used when you want to present a confirmation pop-up.
 
 The container app is responsible with dismissing the UI and calling the stop process APIs.
+
+* `func viewForStepperHeader(stepViewModel: StepViewModel) -> AnyView?`
+
+This method is used for providing a custom SwiftUI view for the stepper navigation header.
 
 #### Sample 
 
@@ -585,6 +637,10 @@ class MyFXDataSource: FXDataSource {
     func dismissRequested(forProcess process: String, navigationController: UINavigationController) {
         navigationController.dismiss(animated: true, completion: nil)
         FlowX.sharedInstance.stopProcess(name: process)
+    }
+
+    func viewForStepperHeader(stepViewModel: StepViewModel) -> AnyView? {
+        return AnyView(CustomStepperHeaderView(stepViewModel: stepViewModel))
     }
 
 }
@@ -699,6 +755,52 @@ struct SampleView: View {
             
     var body: some View {
         Text("Lorem")
+    }
+}
+```
+
+### Custom header view for Stepper navigation
+
+The container application can provide a custom view that will be used as the stepper navigation header, using the `FXDataSource` protocol method `viewForStepperHeader`.
+The method has a parameter, which provides the data needed for populating the view's UI.
+
+```swift
+public struct StepViewModel {
+    // title for the current step; optional
+    public var stepTitle: String?
+    // title for the current substep, if there is a stepper in stepper configured; optional
+    public var substepTitle: String?
+    // 1-based index of the current step
+    public var step: Int
+    // total number of steps
+    public var totalSteps: Int
+    // 1-based index of the current substep, if there is a stepper in stepper configured; optional
+    public var substep: Int?
+    // total number of substeps in the current step, if there is a stepper in stepper configured; optional
+    public var totalSubsteps: Int?
+}
+```
+
+#### Sample
+
+```swift
+struct CustomStepperHeaderView: View {
+    
+    let viewModel: StepViewModel
+            
+    var body: some View {
+        VStack(spacing: 16) {
+            ProgressView(value: Float(stepViewModel.step) / Float(stepViewModel.totalSteps))
+                .foregroundStyle(Color.blue)
+            if let stepTitle = stepViewModel.stepTitle {
+                Text(stepTitle)
+            }
+            if let substepTitle = stepViewModel.substepTitle {
+                Text(substepTitle)
+            }
+        }
+        .background(Color.white)
+        .shadow(radius: 10)
     }
 }
 ```
