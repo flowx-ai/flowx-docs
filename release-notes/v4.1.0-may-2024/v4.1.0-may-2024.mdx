@@ -48,8 +48,18 @@ The changes involve enhancing the platform's capabilities for managing static do
 
 ### Theme Management
 
-We've introduced preview options for multiple UI components. Now, you can review changes in the theming configurations before finalizing them.
+We've introduced preview options for more UI components. Now, you can review changes in the theming configurations before finalizing them.
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/comp_previews.gif)
+</Frame>
+
+### UI Designer
+
+We've added new properties settings and styles for across different UI components for an enhanced experience. Check the UI components - change log for the full list of improvements:
+
+<Card title="UI components - change log" href="./ui-components-changelog" icon ="link">
+</Card>
 
 ### Tracing - open telemetry
 
@@ -57,14 +67,17 @@ In our 4.1 release, we're thrilled to introduce tracing with Open Telemetry, off
 
 Consequently, we'll be phasing out Jaeger tracing to focus on the advanced features and broader support of Open Telemetry, ensuring a smooth transition.
 
-### UI Designer (enhancements)
+<Card title="OpenTelemetry Docs" href="https://opentelemetry.io/docs/" icon="link">
+</Card>
 
+### Springboot upgrade
+
+In 4.1 release we upgraded to Springboot v3.2.x, the latest version of our microservices framework. This release brings significant improvements in performance, new features, and important bug fixes, enhancing the stability and functionality of your applications.
 
 ## **Changes**  🔧
 
-- The option to add a "Start Subprocess" on Service Task nodes is removed.
-- 
-
+- **Process Designer**: The "Start Subprocess" functionality on Service Task nodes has been discontinued.
+- **UI Components**: Introduced the inclusion of a `data test id` within the `Settings > Generic` tab across all UI components, facilitating seamless identification and interaction with UI elements during automated testing.
 
 ## **Bug Fixes** 🛠️
 

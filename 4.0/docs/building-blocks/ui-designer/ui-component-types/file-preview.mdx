@@ -15,22 +15,26 @@ A File Preview element can be configured for both mobile and web applications.
 
 ### File preview properties (web)
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/doc_preview_upload.gif)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/file_preview_info.png)
+</Frame>
 
-The File Preview element settings consist of the following properties:
+The settings for the File Preview element include the following properties:
 
-* **Title** - the title of the element (if it is downloaded or shared - the file name should be the title used in preview component)
-* **Has subtitle** - the subtitle of the element
-* **Display mode** - depending on the selected display method the following properties are available:
+* **Title**: Specifies the title of the element. If the file is downloaded or shared, the file name should serve as the title used in the preview component.
+* **Subtitle**: Allows for the inclusion of a subtitle for the element.
+* **Display mode**: Depending on the selected display method, the following properties are available:
     * **Inline** → **Has accordion**:  
-        * `false` - display preview inline, without expand/collapse option
-        * `true` - Default View: Collapsed - display preview inline, with expand/collapse option, by default collapsed
-        * `true` - Default View: Expanded - display preview inline, with expand/collapse option, by default expanded
+        * `false`: Displays the preview inline without an expand/collapse option.
+        * `true` (Default View: Collapsed): Displays the preview inline with an expand/collapse option, initially collapsed.
+        * `true` (Default View: Expanded): Displays the preview inline with an expand/collapse option, initially expanded.
 
     * **Modal** → view icon is enabled 
-* **Source Type** - 
-    * **Process Data** - process key where the document is found (creates the binding between the element and process data)
-    * **Static** - URL of the document
+* **Has accordion**:  Introduces a Bootstrap accordion, facilitating the organization of content within collapsible items. It ensures that only one collapsed item is displayed at a time.
+* **Source Type**: 
+    * **Media Library**: Refers to PDF documents uploaded in the Media Library.
+    * **Process Data**: Identifies the key location within the process where the document is sourced, establishing the linkage between the document and process data.
+    * **Static**: Denotes the document's URL, serving as a fixed reference point.
 
 <Warning>
 It's worth noting that the inline modal view can raise accessibility issues if the file preview's height exceeds the screen height.

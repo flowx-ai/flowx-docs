@@ -1,50 +1,97 @@
 ---
-title: UI components - change log
+title: Components change log v4.1
 description: This log outlines the changes in component styles and props from v4.0 to v4.1.
 ---
 
-## Stepper
+## Navigation areas
 
-- added fixed height settings on Web (for sticky sections use case)
+### Stepper
 
-## Tab bar
+- Implemented fixed height settings on the Web (for sticky sections use case).
 
-- added fixed height settings on Web (for sticky sections use case)
+### Tab bar
 
-## Page
+- Added Sizing options: Tabs Gap & Component Gap properties.
 
-- added fixed height settings on Web (for sticky sections use case)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/tab_bar_sizing.png)
+</Frame>
 
-## Modal
+### Page
 
-- re-added styling options
-- added fixed height settings on Web (for sticky sections use case)
+- Added fixed height settings on the Web  (for sticky sections use case)
 
-## Zone
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/page_fixed_h.png)
+</Frame>
 
-- added fixed height settings on Web (for sticky sections use case)
+### Modal
 
-## Container
+- Added fixed height settings on the Web (for sticky sections use case).
 
-- added fixed height settings on Web (for sticky sections use case)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/modal_fixed_h.png)
+</Frame>
 
-## Card 
+### Zone
 
-- added fixed height settings on Web (for sticky sections use case)
-- added fixed height settings on iOS and Android
+- Incorporated fixed height settings on the Web (for sticky sections use case).
 
-## Form
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/zone_fixed_heighy.png)
+</Frame>
 
-- added fixed height settings on Web
+## UI components
 
-## File preview
+### Container
 
-- new source type - Media Library
+- Integrated fixed height settings on the Web for better management of sticky sections.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/container_fixed_h1.png)
+</Frame>
+
+### Card 
+
+- Enabled fixed height settings on the Web for sticky sections.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/container_fixed_h.png)
+</Frame>
+
+### Form
+
+- Implemented fixed height settings on the Web for improved usability.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/form_fixed_h.png)
+</Frame>
+
+### File preview
+
+- Introducing a new source type: Media Library. Check the following section for more details:
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/static_document_2.png)
 </Frame>
 
-## Collection
+<Card title="File preview" href="../../4.0/docs/building-blocks/ui-designer/ui-component-types/file-preview" icon="link">
+</Card>
 
-- added fixed height settings on Web
+
+### Collection
+
+- Added fixed height settings on the Web for smoother handling.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/collections_h.png)
+</Frame>
+
+<Info>
+Note that for all components, the overflow property is set to scroll when the height is fixed.
+
+The "overflow" property in CSS controls how content that exceeds the dimensions of a container is handled. It's particularly useful when the content inside a container is larger than the container itself.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/overflow.gif)
+
+</Info>

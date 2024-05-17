@@ -272,6 +272,30 @@ By configuring these options, you can customize the behavior of your modals to e
 
 A Zone serves as a container designed to govern UI navigation by grouping specific elements together. Its optimal application is in scenarios involving processes featuring both a header and footer.
 
+#### Navigation type (only for Web)
+
+You have the possibility to add step-by-step or wizard-style navigation within a specific zone (applicable when a zone contains more than one User Task). This means users can navigate through the application in a guided manner, accessing each step within the designated area and page. 
+
+* **Single page form** (default): The Web Renderer will display all User Tasks within the same zone.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/single_page_form.png)
+
+<Tip>
+For optimal navigation, we suggest utilizing cards to guide users through the content.
+</Tip>
+
+<Info>
+Child areas will be rendered on the same page.
+</Info>
+
+* **Wizard**: For the Wizard option, the Web Renderer will display one user task at a time, allowing navigation using custom Next and Back buttons.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/wizard.gif)
+
+<Tip>
+Child areas will be presented sequentially. It's crucial to configure actions properly to ensure smooth user navigation.
+</Tip>
+
 <Warning>
 Zones with headers and footers are exclusively accessible in web configurations. They are not supported as navigation areas for mobile development.
 </Warning>
@@ -279,6 +303,9 @@ Zones with headers and footers are exclusively accessible in web configurations.
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/header_footer.png)
 </Frame>
+
+
+##### Use case
 
 #### How to Create a Header/Footer Zone
 
