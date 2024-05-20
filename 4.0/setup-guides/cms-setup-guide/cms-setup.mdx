@@ -13,9 +13,9 @@ The CMS service requires the following components to be set up before it can be 
 * **Kafka** - version 2.8 or higher
 * **Elastisearch** - version 7.11.0 or higher
 
-:::info
+<Info>
 The service comes with most of the needed configuration properties filled in, but there are a few that need to be set up using some custom environment variables.
-:::
+</Info>
 
 ## Dependencies
 
@@ -80,17 +80,17 @@ The MongoDB database is used for storing taxonomies and contents. The following 
 
 ### Configuring Redis
 
-:::info
+<Info>
 The service can use the [**Redis component**](../../platform-setup-guides/platform-setup-guides-docs.md#redis-configuration) already deployed for the engine.
-:::
+</Info>
 
 The following values should be set with the corresponding Redis-related values:
 
-* `SPRING_REDIS_HOST` - environment variable used to configure the hostname or IP address of a Redis server when using Spring Data Redis
+* `SPRING_DATA_REDIS_HOST` - environment variable used to configure the hostname or IP address of a Redis server when using Spring Data Redis
 
-* `SPRING_REDIS_PASSWORD` - environment variable is used to store the password used to authenticate with a Redis server, it is used to secure access to the Redis server and should be kept confidential
+* `SPRING_DATA_REDIS_PORT` - environment variable used to specify the port number for connecting to a Redis server in a Spring Boot application
 
-* `REDIS_TTL` - environment variable is used to specify the maximum time-to-live (TTL) for a key in Redis, it is used to set a limit on how long a key can exist before it is automatically expired (Redis will delete the key after the specified TTL has expired)
+* `SPRING_DATA_REDIS_PASSWORD` - environment variable used to store the password used to authenticate with a Redis server, it is used to secure access to the Redis server and should be kept confidential
 
 All the data produced by the service will be stored in Redis under a specific key. The name of the key can be configured using the environment variable:
 
@@ -110,9 +110,9 @@ To configure the Kafka server, you need to set the following environment variabl
 
 Each action available in the service corresponds to a Kafka event. A separate Kafka topic must be configured for each use case.
 
-:::caution
+<Info>
 It is important to note that all the actions that start with a configured pattern will be consumed by the engine.
-:::
+</Info>
 
 ### Configuring logging
 

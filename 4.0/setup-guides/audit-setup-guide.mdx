@@ -36,11 +36,11 @@ To configure the Kafka server for the Audit service, set the following environme
 
 To configure Elasticsearch, set the following environment variables:
 
-* `SPRING_ELASTICSEARCH_REST_URIS` - the URL(s) of one or more Elasticsearch nodes to connect to
+* `SPRING_ELASTICSEARCH_REST_URIS` - the URL(s) of one or more Elasticsearch nodes to connect to (no protocol needed)
 * `SPRING_ELASTICSEARCH_REST_DISABLESSL` - a boolean value that determines whether SSL should be disabled for Elasticsearch connections
 * `SPRING_ELASTICSEARCH_REST_USERNAME` - the username to use for basic authentication when connecting to Elasticsearch
 * `SPRING_ELASTICSEARCH_REST_PASSWORD` - the password to use for basic authentication when connecting to Elasticsearch
-* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_DATASTREAM` (used if ES is used across all dev environments) - the index settings for the datastreams that will be created in Elasticsearch 
+* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_DATASTREAM` - (used if ES is used across all dev environments) - the index settings for the datastreams that will be created in Elasticsearch 
 
 ### Configuring logging
 

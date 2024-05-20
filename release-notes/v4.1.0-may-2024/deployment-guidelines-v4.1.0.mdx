@@ -119,9 +119,13 @@ The provided configuration changes pertain to upgrading your Spring Boot applica
 Note that this setup is backwards compatible, it does not affect the configuration from v3.4.x. The configuration files use the old environment variables as placeholders for these values.
 </Info>
 
+<Warning>
+The old properties will be removed in the next FlowX release.
+</Warning>
+
 #### Redis configuration
 
-In version 4.1, you need to configure Redis using  the following environment variables. 
+In version 4.1, you need to configure Redis using  the following default properties: 
 
 ```yaml
 spring:
