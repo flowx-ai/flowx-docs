@@ -112,4 +112,141 @@ This is the specific operation  performed to compute misconfigurations for older
 
 ### Springboot upgrade
 
+The provided configuration changes pertain to upgrading your Spring Boot application to version 3.2.x. Below is a detailed explanation of each section in the context of this upgrade:
 
+
+<Info>
+Note that this setup is backwards compatible, it does not affect the configuration from v3.4.x. The configuration files use the old environment variables as placeholders for these values.
+</Info>
+
+#### Redis configuration
+
+In version 4.1, you need to configure Redis using  the following environment variables. 
+
+```yaml
+spring:
+[...]
+  data:
+    redis:
+      host: ${spring.redis.host}
+      port: ${spring.redis.port}
+      password: ${spring.redis.password}
+```
+
+The corresponding environment variables are:
+
+* `SPRING_DATA_REDIS_HOST`
+* `SPRING_DATA_REDIS_PORT`
+* `SPRING_DATA_REDIS_PASSWORD`
+
+#### Management configuration
+
+For managing microservices metrics, especially exporting metrics to Prometheus, the following configuration is used:
+
+```yaml
+management:
+[...]
+  prometheus:
+    metrics:
+      export:
+        enabled: ${management.metrics.export.prometheus.enabled}
+```
+The related environment variable is:
+
+* `MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED`
+
+#### Authentication
+
+For OAuth2 resource server configuration, especially when using an opaque token, the following setup is provided:
+
+```yaml
+spring:
+  security:
+    oauth2:
+      resource-server:
+        opaque-token:
+          introspection-uri: ${security.oauth2.base-server-url}/realms/${security.oauth2.realm}/protocol/openid-connect/token/introspect
+          client-id: ${security.oauth2.client.client-id}
+          client-secret: ${security.oauth2.client.client-secret}
+```
+The environment variables involved are:
+
+* `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_INTROSPECTION_URI`
+* `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_ID`
+* `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_SECRET`
+
+```yaml
+security:
+[...]
+  oauth2:
+    base-server-url: #left empty on purpose
+    realm: #left empty on purpose
+    client:
+      access-token-uri: ${security.oauth2.base-server-url}/realms/${security.oauth2.realm}/protocol/openid-connect/token
+      client-id: #left empty on purpose
+      client-secret: #left empty on purpose
+```
+
+
+#### Elasticsearch configuration
+
+
+```yaml
+spring:
+  elasticsearch:
+    rest:
+      uris: localhost:9200 #no protocol/schema anymore
+```
+The relevant environment variable is:
+
+* `SPRING_ELASTICSEARCH_REST_URIS`: The uris field is used to define the addresses of your Elasticsearch instances.
+
+<Info>
+- The protocol (http:// or https://) is now no longer needed like in 3.x version:
+```yaml
+spring:
+  elasticsearch:
+    rest:
+      uris: http://localhost:9200
+```
+</Info>
+
+This change reflects the new way of specifying Elasticsearch URIs in 4.1, which no longer requires a protocol/schema like in v3.x.
+### License core configuration
+
+The License core microservice needs to configure two different data sources: one for the engine database and one for the license database.
+
+#### Engine database source
+
+```yaml
+spring:
+  datasource:
+    engine:
+      type: com.zaxxer.hikari.HikariDataSource
+      driver-class-name: org.postgresql.Driver
+
+      url: ${engine.datasource.jdbc-url}
+      jdbc-url: ${engine.datasource.jdbc-url}
+      username: ${engine.datasource.username:postgres}
+      password: ${engine.datasource.password:wrongpwd}
+
+      maximum-pool-size: 10
+      minimum-idle: 1
+      connection-timeout: 30000
+      leak-detection-threshold: 10000
+```
+
+#### License database source
+
+```yaml
+spring:
+  datasource:
+    license:
+      url: ${spring.datasource.jdbc-url}
+      jdbc-url: ${spring.datasource.jdbc-url}
+      driver-class-name: org.postgresql.Driver
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+```
+
+In these configurations, the placeholders like `${engine.datasource.jdbc-url}` and `${spring.datasource.jdbc-url}` are used to inject environment-specific values, allowing for greater flexibility and ease of configuration management.
