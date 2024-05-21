@@ -2,11 +2,25 @@
 title: Observability with OpenTelemetry
 ---
 
+
+## What is Observability?
+
+Observability is the capacity to infer the internal state of a system by analyzing its external outputs. In software development, this entails understanding the internal workings of a system through its telemetry data, which comprises traces, metrics, and logs.
+
+## What is Open Telemetry?
+
+OpenTelemetry is an observability framework and toolkit for generating and managing telemetry data, including traces, metrics, and logs. It is vendor-agnostic and compatible with various observability backends like Jaeger and Prometheus. Unlike observability backends, OpenTelemetry focuses on the creation, collection, and export of telemetry data, leaving storage and visualization to other tools.
+
+
 ## How it works?
 
 Our monitoring and performance analysis system leverages OpenTelemetry for comprehensive tracing and logging across our microservices architecture. By integrating with Grafana and other observability tools, we achieve detailed visibility into the lifecycle of requests, the performance of individual operations, and the interactions between different components of the system.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/otel_hla.drawio.png)
+
+<Info>
+OTEL Collectors are designed in a vendor-agnostic way to receive, process and export telemetry data. More information about OTEL Collectors, you can find [**here**](https://opentelemetry.io/docs/collector/).
+</Info>
 
 <Tip>
 Recommended OpenTelemetry Collector Processors: Follow the [**recommended processors**](https://github.com/open-telemetry/opentelemetry-collector/tree/main/processor#recommended-processors).
