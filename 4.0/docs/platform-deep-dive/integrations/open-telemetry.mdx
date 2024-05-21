@@ -4,9 +4,13 @@ title: Observability with OpenTelemetry
 
 ## How it works?
 
-Recommended OpenTelemetry Collector Processors: Follow the [**recommended processors**](https://github.com/open-telemetry/opentelemetry-collector/tree/main/processor#recommended-processors).
+Our monitoring and performance analysis system leverages OpenTelemetry for comprehensive tracing and logging across our microservices architecture. By integrating with Grafana and other observability tools, we achieve detailed visibility into the lifecycle of requests, the performance of individual operations, and the interactions between different components of the system.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/otel_hla.drawio.png)
+
+<Tip>
+Recommended OpenTelemetry Collector Processors: Follow the [**recommended processors**](https://github.com/open-telemetry/opentelemetry-collector/tree/main/processor#recommended-processors).
+</Tip>
 
 ## Prerequisites
 
@@ -91,6 +95,26 @@ Trace specific operations and measure request time across different layers/servi
 - **Long Running Operations**: Use Uptrace for identifying slow operations.
 - **Failed Requests**: Filter traces by error status.
 
+
+### Visualization of Traces
+
+<Tip>
+We recommend to use Grafana, but any observability platform compatible with open telemetry standards can be used.
+</Tip>
+
+Grafana integrates with tracing backends such as Tempo (for tracing) and Loki (for logging), allowing us to visualize the entire lifecycle of a request. This includes detailed views of spans, which are the basic units of work in a trace. By using Grafana, we can:
+
+* **View Trace Trees**: Grafana provides an intuitive UI for viewing the hierarchy and relationships between spans, making it easier to understand the flow of a request through the system.
+* **Filter and Search**: Use Grafana to filter and search spans based on custom attributes like `fx.processInstanceUuid`, `fx.nodeName`, `fx.actionName`, and others. This helps in pinpointing specific operations or issues within a trace.
+* **Error Analysis**: Identify spans with errors and visualize the stack trace or error message, aiding in quick troubleshooting.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/custom_spans.png)
+</Frame>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/custom_spans1.png)
+</Frame>
 
 Resources:
 

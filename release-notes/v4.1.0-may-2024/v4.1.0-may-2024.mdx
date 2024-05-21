@@ -78,9 +78,15 @@ We've added new properties settings and styles for across different UI component
 
 ### Tracing - open telemetry
 
-In our 4.1 release, we're thrilled to introduce tracing with Open Telemetry, offering enhanced visibility and insights into application behavior. With its capabilities, users can pinpoint issues and optimize performance. 
+In our 4.1 release, we're thrilled to introduce tracing with Open Telemetry with additional FlowX custom span attributes, offering enhanced visibility and insights into application behavior. With its capabilities, users can pinpoint issues and optimize performance. 
 
 Consequently, we'll be phasing out Jaeger tracing to focus on the advanced features and broader support of Open Telemetry, ensuring a smooth transition.
+
+For traces visualization, use tools like Grafana to filter and search spans based on custom attributes like `fx.processInstanceUuid`, `fx.nodeName`, `fx.actionName`, and others. This helps in pinpointing specific operations or issues within a trace.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/custom_spans.png)
+</Frame>
 
 Check the following section for more information:
 
