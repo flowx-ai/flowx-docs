@@ -107,12 +107,17 @@ In 4.1 release we upgraded to Springboot v3.2.x, the latest version of our micro
 
 We've also squashed pesky bugs to ensure a smoother and more reliable experience across the board.
 
+- **[PROCESS-DESIGNER]**: The error hiccups with embedded subprocesses and their error events have been smoothed out! No more getting stuck in a loop; now, you'll gracefully proceed to the embedded subprocess as expected.
+- **[PROCESS-DESIGNER]**: The versioning hiccup causing merge conflicts when trying to merge a branch with a main branch that wasn't imported into the environment has been fixed!
+- **[UI-DESIGNER]**: The slider UI element's identity crisis has been resolved. No longer will it confuse its maximum value with its minimum counterpart.
+- **[UI-DESIGNER]**: Concatenation glitch in text elements, where values from the collection prototype play hide and seek, has been patched up! No more disappearing acts - they'll be displayed side by side as intended.
+- **[UI-DESIGNER]**: The glitch preventing the assignment of actions in button UI Actions with blank spaces in their names has been smoothed out!
+
 ## Gremlins to Watch Out For
 
 Keep an eye out for these quirks:
 
-- Versioning: Merging branches without importing the latest committed version may result in a surprise merge conflict party. We're on it! 
-- UI Designer: When relocating UI elements between parents, the elements' order doesn't always get the memo, causing a mix-up in the family tree. We're untangling this knot! 
+- **[UI-DESIGNER]**: When relocating UI elements between parents, the elements' order doesn't always get the memo, causing a mix-up in the family tree. We're untangling this knot! 
 
 ## Resources
 
