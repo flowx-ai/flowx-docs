@@ -1,0 +1,92 @@
+---
+title: Observability with OpenTelemetry
+---
+
+## How it works?
+
+Recommended OpenTelemetry Collector Processors: Follow the [**recommended processors**](https://github.com/open-telemetry/opentelemetry-collector/tree/main/processor#recommended-processors).
+
+## Prerequisites
+
+### Microservices
+
+- Custom code addition for manual instrumentation.
+- Configuration and deployment of Java agent.
+- Performance impact assessment.
+
+### Kubernetes
+
+- Use of a Kubernetes Operator for managing instrumentation and tracing configuration.
+
+## Instrumentation
+
+### Auto-instrumentation with Java agent
+
+* **Works**: Automatically wraps methods at the application edges (HTTP calls, Kafka messages, DB calls), creating spans and adding default span attributes.
+* **Configuration**: Configure the Java agent for auto-instrumentation.
+
+### Manual instrumentation 
+
+* **Custom Span Attributes**: Define business and technical attributes like fx.type, fx.methodName, fx.processInstanceUuid, etc.
+* **Custom BUSINESS Spans**: Create spans for business events such as processAdvancingEvent.
+
+## Business logic metadata in logs and spans
+
+Spans now include custom FlowX attributes (e.g., node names, action names, process names, instance UUIDs), which ccan be used for filtering and searching in traces.
+
+Here is the full list of custom FlowX span attributes:
+
+### Custom span attributes
+
+- fx.type - BUSINESS/TECHNICAL
+- fx.methodName
+- fx.parentProcessInstanceId
+- fx.parentProcessInstanceUuid
+- fx.processInstanceUuid
+- fx.processName
+- fx.processVersionId
+- fx.tokenInstanceUuid
+- fx.nodeName
+- fx.nodeId
+- fx.nodeUuid
+- fx.boundaryEventId
+- fx.nextNodeId
+- fx.triggeredByBoundaryEventId
+- fx.actionUuid
+- fx.actionName
+- fx.context
+- fx.platform
+
+### Custom business spans
+
+- processAdvancingEvent
+
+### Detailed trace operations
+
+Trace specific operations and measure request time across different layers/services.
+
+* **Process Start**: Auto-instrumentation enabled for Spring Data to show time spent in repository methods. JDBC query instrumentation can be added.
+* **Token Creation and Advancing**: Custom tracing added.
+* **Action Execution and Subprocess Start**: Custom tracing added.
+
+## Troubleshooting scenarios and common usages
+
+### Scenario examples
+
+- **Process Trace**: Analyze DB vs cache times, token advancement, node actions.
+- **Parallel Gateway**: Trace split tokens.
+- **DB Query Time**: Enable JDBC query tracing.
+- **Endpoint Data Issues**: Check traces for Redis or DB source.
+- **Token Stuck**: Filter by node name and process UUID.
+- **Action Execution**: Trace action names for stuck tokens.
+- **Subprocess Failures**: Analyze subprocess start and failures.
+- **Latency Analysis**: Identify latencies in automatic actions.
+- **Boundary Events**: Ensure Kafka schedule messages are sent and received correctly.
+- **External Service Tracking**: Trace between process engine and external plugins.
+
+### Business operation analysis
+
+- **Long Running Operations**: Use Uptrace for identifying slow operations.
+- **Failed Requests**: Filter traces by error status.
+
+

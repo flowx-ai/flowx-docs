@@ -164,3 +164,29 @@ The License core microservice needs to configure two different data sources: one
 * `SPRING_DATASOURCE_LICENSE_JDBC_URL`: URL of the license database.
 * `SPRING_DATASOURCE_LICENSE_USERNAME`: Username for the license database.
 * `SPRING_DATASOURCE_LICENSE_PASSWORD`: Password for the license database.
+
+### Open telemetry
+
+Added custom `fx` attributes for manual instrumentation for an enhanced experience:
+
+Custom span attributes:
+
+- fx.type - BUSINESS/TECHNICAL
+- fx.methodName
+- fx.parentProcessInstanceId
+- fx.parentProcessInstanceUuid
+- fx.processInstanceUuid
+- fx.processName
+- fx.processVersionId
+- fx.tokenInstanceUuid
+- fx.nodeName
+- fx.nodeId
+- fx.nodeUuid
+- fx.boundaryEventId
+- fx.nextNodeId
+- fx.triggeredByBoundaryEventId
+- fx.actionUuid
+- fx.actionName
+- fx.context
+- fx.platform
+
