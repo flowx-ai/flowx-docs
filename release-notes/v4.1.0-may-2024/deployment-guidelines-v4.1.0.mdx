@@ -12,6 +12,11 @@ After updating to the 4.1 FLOWX.AI release, you can import old process definitio
 It is not possible to import old process definitions into from < v4.0.
 </Warning>
 
+<Warning>
+When running the Process engine with an upgraded Spring Boot version, note that all MD5 hashes for Liquibase scripts in the `databasechangelog` table will be automatically modified. As a result, attempting to roll back to the previous engine version may lead to startup issues.
+</Warning>
+
+
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/release_platform_version_check.png)
 
 ## Component versions   
