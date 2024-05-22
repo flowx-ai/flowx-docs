@@ -124,7 +124,15 @@ Configuration properties updates:
 
 #### Redis configuration
 
-In version 4.1, you need to configure Redis using the following default properties with the following default corresponding environment variables:
+Where Redis is used (FlowX CMS, FlowX Admin, Documents plugin, events, Notifications plugin, FlowX Engine, Task Management plugin):
+
+##### Old configs:
+
+* `SPRING_DATA_HOST`
+* `SPRING_DATA_PORT`
+* `SPRING_DATA_PASSWORD`
+
+##### New configs:
 
 * `SPRING_DATA_REDIS_HOST`
 * `SPRING_DATA_REDIS_PORT`
@@ -132,70 +140,105 @@ In version 4.1, you need to configure Redis using the following default properti
 
 #### Management configuration
 
-For managing microservices metrics, especially exporting metrics to Prometheus, the following environment variable is used:
+For all services, managing metrics, especially exporting metrics to Prometheus:
 
+##### Old config:
+
+* `MANAGEMENT_METRICS_EXPORT_ENABLED`
+
+##### New config:
 
 * `MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED`: This variable enables or disables Prometheus metrics export dynamically based on the environment.
 
 #### Authentication
 
-For OAuth2 resource server configuration, especially when using an opaque token, the following setup is provided, the environment variables involved are:
+For all services except advancing-controller.
+
+##### New configs:
+
+<Info>
+Currenty not required to be set as they take values from old configs.
+</Info>
 
 * `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_INTROSPECTION_URI`
 * `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_ID`
 * `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_SECRET`
 
+##### Existing configs:
+
+* `SECURITY_OAUTH2_BASE_SERVER_URL`
+* `SECURITY_OAUTH2_REALM`
+* `SECURITY_OAUTH2_CLIENT_CLIENT_ID`
+* `SECURITY_OUATH2_CLIENT_CLIENT_SECRET`
+
 #### Elasticsearch configuration
 
-For microservices that use elastic search:
+#### Existing config:
 
-* `SPRING_ELASTICSEARCH_REST_URIS`: The uris field is used to define the addresses of your Elasticsearch instances.
+* `SPRING_ELASTICSEARCH_REST_URIS`: Only the value changes for microservices that use elastic search (FlowX Admin, FlowX Process Engine, Data search, Audit core).
 
 <Info>
 The protocol (http:// or https://) is now no longer needed to be added.
 </Info>
 
+#### New config:
+
+* `SPRING_ELASTICSEARCH_REST_PROTOCOL` - default value is `https`,  should be overriden if connection to elastic needs to be done on `http`.
+
 ### License core configuration
 
 The License core microservice needs to configure two different data sources: one for the engine database and one for the license database.
 
-#### Engine database source
+#### Old Engine database source
 
-* `SPRING_DATASOURCE_ENGINE_JDBC_URL`: URL of the engine database.
-* `SPRING_DATASOURCE_ENGINE_USERNAME`: Username for the engine database.
-* `SPRING_DATASOURCE_ENGINE_PASSWORD`: Password for the engine database.
+* `ENGINE_DATASOURCE_URL`
+* `ENGINE_DATASOURCE_JDBC_URL`
+* `ENGINE_DATASOURCE_USERNAME`
+* `ENGINE_DATASOURCE_PASSWORD`
+
+### New Engine database source
+
+* `SPRING_DATASOURCE_ENGINE_URL: ${spring.datasource.jdbc-url}`: Pointing to old config for backwards compatibility.
+* `SPRING_DATASOURCE_ENGINE_JDBC_URL: ${spring.datasource.jdbc-url}`: Pointing to old config for backwards compatibility
+* `SPRING_DATASOURCE_ENGINE_USERNAME: ${spring.datasource.username}`: Pointing to old config for backwards compatibility
+* `SPRING_DATASOURCE_ENGINE_PASSWORD: ${spring.datasource.password}`: Pointing to old config for backwards compatibility 
+
+#### Old License database source
+
+* `SPRING_DATASOURCE_URL`
+* `SPRING_DATASOURCE_JDBC_URL` 
+* `SPRING_DATASOURCE_USERNAME`
+* `SPRING_DATASOURCE_PASSWORD`
+
+#### New License database source
+
+* `SPRING_DATASOURCE_LICENSE_URL: ${spring.datasource.jdbc-url}`: Pointing to old config for backwards compatibility.
+* `SPRING_DATASOURCE_LICENSE_JDBC_URL: ${spring.datasource.jdbc-url}`: Pointing to old config for backwards compatibility.
+* `SPRING_DATASOURCE_LICENSE_USERNAME: ${engine.datasource.username:postgres}`: Pointing to old config for backwards compatibility.
+* `SPRING_DATASOURCE_LICENSE_PASSWORD: ${engine.datasource.password:wrongpwd}`: Pointing to old config for backwards compatibility.
 
 
-#### License database source
+### Customer management plugin
 
-* `SPRING_DATASOURCE_LICENSE_JDBC_URL`: URL of the license database.
-* `SPRING_DATASOURCE_LICENSE_USERNAME`: Username for the license database.
-* `SPRING_DATASOURCE_LICENSE_PASSWORD`: Password for the license database.
+#### New config:
+
+* `ELASTICSEARCH_PROTOCOL`: possibile values, `https` / `http`, default value is `https` - should be overriden if connection to elastic needs to be done on `http`.
+
 
 ### Open telemetry
 
 FlowX.AI platform is using a mix of both auto instrumentation with Java agent and manual instrumentation using the Open Telemetry API.
 
-Spans now include custom FlowX attributes (e.g., node names, action names, process names, instance UUIDs), which ccan be used for filtering and searching in traces.
+For more information about how to leverage Open Telemetry with FlowX, check the following section:
 
-Custom span attributes:
+<Card title= "Open Telemetry scenarios" href="../../4.0/docs/platform-deep-dive/integrations/open-telemetry" icon ="page">
+</Card>
 
-- fx.type - BUSINESS/TECHNICAL
-- fx.methodName
-- fx.parentProcessInstanceId
-- fx.parentProcessInstanceUuid
-- fx.processInstanceUuid
-- fx.processName
-- fx.processVersionId
-- fx.tokenInstanceUuid
-- fx.nodeName
-- fx.nodeId
-- fx.nodeUuid
-- fx.boundaryEventId
-- fx.nextNodeId
-- fx.triggeredByBoundaryEventId
-- fx.actionUuid
-- fx.actionName
-- fx.context
-- fx.platform
+**Additional configuration needed**! For more information about open telemetry deployment/configuration, check the following section:
 
+<Card title="Open Telemetry configuration" href="../../4.0/setup-guides/open-telemetry-config" icon ="page">
+</Card>
+
+For more information about microservices Open Telemetry default properties, check the following section:
+<Card title ="Open Telemetry default properties" href="../../4.0/setup-guides/ot-default-properties" icon="page">
+</Card>

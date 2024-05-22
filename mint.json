@@ -562,6 +562,15 @@
       },
 
       {
+        "group": "Observability",
+        "version": "v4.0",
+        "pages":[
+          "4.0/setup-guides/open-telemetry-config",
+          "4.0/setup-guides/ot-default-properties"
+        ]
+      },
+
+      {
         "group": "Microservices access rights",
         "version": "v4.0",
         "pages": [

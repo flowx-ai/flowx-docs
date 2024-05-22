@@ -43,7 +43,6 @@ Incorporate all received Kafka headers in responses to ensure seamless communica
 Here's a basic setup example for a connector:
 
 - Configurations and examples for Kafka listeners and message senders.
-- **OPTIONAL**: Jaeger tracing configurations and examples.
 - **OPTIONAL**: Activation examples for custom health checks.
 
 [Sample available here](https://github.com/flowx-ai/quickstart-connector/tree/feature/easy-start)
@@ -128,15 +127,6 @@ public class KafkaResponseMessageDTO implements BaseApiResponseDTO { // TODO 6. 
 
 Optional Configuration Steps:
 
-- **Jaeger Tracing:** Decide on Jaeger tracing use and configure a prefix name in the settings.
-
-```yaml
-application:
-  jaeger: # TODO optional: Decide whether you want to use jaeger tracing in your setup and choose a prefix name.
-    enabled: false
-    prefix: connector
-```
-
 - **Health Checks:** Enable health checks for all utilized services in your setup.
 
 ```yaml
@@ -164,10 +154,6 @@ spring:
     serialization:
       write_dates_as_timestamps: false
       fail-on-empty-beans: false
-application:
-  jaeger:
-    enabled: false
-    prefix: connector
 management: 
   health:
     kafka.enabled: false
