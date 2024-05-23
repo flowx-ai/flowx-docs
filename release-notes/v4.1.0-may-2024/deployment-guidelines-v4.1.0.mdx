@@ -7,13 +7,49 @@ Do not forget, when upgrading to a new platform version, always ensure that your
 </Info>
 
 <Warning>
-After updating to the 4.1 FLOWX.AI release, you can import old process definitions into the new platform, but only if they are from version 4.0.
+After updating to the 4.1 FLOWX.AI release, you can import old process definitions into the new platform only if they are from version 4.0.
 
-It is not possible to import old process definitions into from < v4.0.
+It is not possible to import old process definitions from versions earlier than v4.0.
 </Warning>
 
 <Warning>
 When running the Process engine with an upgraded Spring Boot version, note that all MD5 hashes for Liquibase scripts in the `databasechangelog` table will be automatically modified. As a result, attempting to roll back to the previous engine version may lead to startup issues.
+
+<Info>
+Take in consideration the following backup solution in case of roll back.
+- Steps for Creating and Utilizing a Backup for `databasechangelog`
+
+1. **Create a backup of the table:**
+   - Duplicate the `databasechangelog` table.
+   - Rename the duplicate table to `databasechangelog_backup`.
+
+```sql
+CREATE TABLE databasechangelog_backup AS SELECT * FROM databasechangelog;
+```
+2. During an upgrade:
+
+* Proceed with the upgrade process.
+
+3. If a rollback is needed:
+
+* Drop the `databasechangelog` table.
+* Rename the `databasechangelog_backup` table back to `databasechangelog`.
+
+```sql
+Copy code
+DROP TABLE databasechangelog;
+ALTER TABLE databasechangelog_backup RENAME TO databasechangelog;
+```
+
+4. If the upgrade is successful:
+
+* Drop the `databasechangelog_backup` table.
+
+```sql
+Copy code
+DROP TABLE databasechangelog_backup;
+```
+</Info>
 </Warning>
 
 
@@ -91,7 +127,7 @@ Compatibility Matrix:
 
 ### Misconfigurations
 
-To enable and to compute warnings for already existing processes from previous versions, you must use the following endpoint to get all compute all the warnings:
+To enable and to compute warnings for already existing processes from previous versions, use the following endpoint retrieve and compute all warnings:
 
 <Info>
 Please note that it may take some time for all misconfigurations in older processes to become available on the platform after calling this endpoint.
@@ -101,23 +137,22 @@ Please note that it may take some time for all misconfigurations in older proces
 {{baseUrlAdmin}}/api/process-versions/compute
 ```
 
-See more here:
+For more details:
 
 <Card title ="Enable misconfigurations" href="../../4.0/docs/api/add-misconfigurations" icon ="link">
 </Card>
 
 
-### Springboot upgrade
+### Spring Boot upgrade
 
-The provided configuration changes pertain to upgrading your Spring Boot application to version 3.2.x. Below is a detailed explanation of each section in the context of this upgrade:
-
+The following configuration changes are required after upgrading your Spring Boot application to version 3.2.x. Below is a detailed explanation of each section in the context of this upgrade:
 
 <Info>
-Note that this setup is backwards compatible, it does not affect the configuration from v3.4.x. The configuration files will still work until v4.2 release.
+Note that this setup is backwards compatible, it does not affect the configuration from v3.4.x. The configuration files will still work until v4.5 release.
 </Info>
 
 <Warning>
-The old environment variables (v3.4.x) will be removed in the next FlowX release.
+The old environment variables (v3.4.x) will be removed in the v.4.5 FlowX.AI release.
 </Warning>
 
 Configuration properties updates:
@@ -140,7 +175,7 @@ Where Redis is used (FlowX CMS, FlowX Admin, Documents plugin, events, Notificat
 
 #### Management configuration
 
-For all services, managing metrics, especially exporting metrics to Prometheus:
+For all services managing metrics, especially exporting metrics to Prometheus:
 
 ##### Old config:
 
@@ -152,12 +187,12 @@ For all services, managing metrics, especially exporting metrics to Prometheus:
 
 #### Authentication
 
-For all services except advancing-controller.
+For all services except the advancing-controller.
 
 ##### New configs:
 
 <Info>
-Currenty not required to be set as they take values from old configs.
+Currently not required to be set as they take values from old configs.
 </Info>
 
 * `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_INTROSPECTION_URI`
@@ -175,7 +210,7 @@ Currenty not required to be set as they take values from old configs.
 
 #### Existing config:
 
-* `SPRING_ELASTICSEARCH_REST_URIS`: Only the value changes for microservices that use elastic search (FlowX Admin, FlowX Process Engine, Data search, Audit core).
+* `SPRING_ELASTICSEARCH_REST_URIS`: Only the value changes for this environment variable for microservices that use Elasticsearch (FlowX Admin, FlowX Process Engine, Data Search, Audit Core).
 
 <Info>
 The protocol (http:// or https://) is now no longer needed to be added.
@@ -183,11 +218,12 @@ The protocol (http:// or https://) is now no longer needed to be added.
 
 #### New config:
 
-* `SPRING_ELASTICSEARCH_REST_PROTOCOL` - default value is `https`,  should be overriden if connection to elastic needs to be done on `http`.
+* `SPRING_ELASTICSEARCH_REST_PROTOCOL`: Default value is `https`; should be overridden if connection to Elasticsearch needs to be done over `http`.
+
 
 ### License core configuration
 
-The License core microservice needs to configure two different data sources: one for the engine database and one for the license database.
+For the License core microservice you need to configure two different data sources: one for the engine database and one for the license database.
 
 #### Old Engine database source
 
@@ -217,17 +253,15 @@ The License core microservice needs to configure two different data sources: one
 * `SPRING_DATASOURCE_LICENSE_USERNAME: ${engine.datasource.username:postgres}`: Pointing to old config for backwards compatibility.
 * `SPRING_DATASOURCE_LICENSE_PASSWORD: ${engine.datasource.password:wrongpwd}`: Pointing to old config for backwards compatibility.
 
-
 ### Customer management plugin
 
 #### New config:
 
-* `ELASTICSEARCH_PROTOCOL`: possibile values, `https` / `http`, default value is `https` - should be overriden if connection to elastic needs to be done on `http`.
+* `ELASTICSEARCH_PROTOCOL`: Possible values are `https` / `http`; default value is `https` - should be overridden if connection to Elasticsearch needs to be done over `http`.
 
+### Open Telemetry
 
-### Open telemetry
-
-FlowX.AI platform is using a mix of both auto instrumentation with Java agent and manual instrumentation using the Open Telemetry API.
+The FlowX.AI platform uses a mix of both auto instrumentation with Java agent and manual instrumentation using the Open Telemetry API.
 
 For more information about how to leverage Open Telemetry with FlowX, check the following section:
 
