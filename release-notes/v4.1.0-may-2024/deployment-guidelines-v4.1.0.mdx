@@ -13,7 +13,7 @@ It is not possible to import old process definitions from versions earlier than 
 </Warning>
 
 <Warning>
-When running the Process engine with an upgraded Spring Boot version, note that all MD5 hashes for Liquibase scripts in the `databasechangelog` table will be automatically modified. As a result, attempting to roll back to the previous engine version may lead to startup issues.
+When upgrading from 4.0 version or an earlier version, note that all MD5 hashes for Liquibase scripts in the `databasechangelog` table will be automatically modified. As a result, attempting to roll back to the previous engine version may lead to startup issues.
 
 <Info>
 Take in consideration the following backup solution in case of roll back.
@@ -36,7 +36,6 @@ CREATE TABLE databasechangelog_backup AS SELECT * FROM databasechangelog;
 * Rename the `databasechangelog_backup` table back to `databasechangelog`.
 
 ```sql
-Copy code
 DROP TABLE databasechangelog;
 ALTER TABLE databasechangelog_backup RENAME TO databasechangelog;
 ```
@@ -46,7 +45,6 @@ ALTER TABLE databasechangelog_backup RENAME TO databasechangelog;
 * Drop the `databasechangelog_backup` table.
 
 ```sql
-Copy code
 DROP TABLE databasechangelog_backup;
 ```
 </Info>
