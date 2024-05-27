@@ -49,13 +49,18 @@ Decoupled static document management from the Document Plugin, enabling independ
 
 The changes involve enhancing the platform's capabilities for managing static documents, particularly **PDFs**, within the **Media Library**. This includes enabling the upload of PDF files, updating information text to reflect PDF format specifications.
 
-<Info>
-PDF documents uploaded to the Media Library must adhere to a maximum file size limit of 10 MB.
-</Info>
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/static_document_2.png)
 </Frame>
+
+<Info>
+PDF documents uploaded to the Media Library must adhere to a maximum file size limit of 10 MB. If you need to increase this limit for larger files, please refer to the following [**configuration options**](../../4.0/setup-guides/cms-setup#configuring-the-maximum-size-of-the-files).
+</Info>
+
+<Warning>
+However, please note that raising the file size limit may increase vulnerability to potential attacks. Consider carefully before making this change.
+</Warning>
 
 <Info>
 With the introduction of the Media Library's static document management feature, the previous method of utilizing paths within the **Process Data** for **File Preview** component to display static documents will be phased out.

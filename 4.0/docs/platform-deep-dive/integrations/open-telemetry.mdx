@@ -47,14 +47,14 @@ Recommended OpenTelemetry Collector Processors: Follow the [**recommended proces
 
 ### Manual instrumentation 
 
-* **Custom Span Attributes**: Define business and technical attributes like fx.type, fx.methodName, fx.processInstanceUuid, etc.
-* **Custom BUSINESS Spans**: Create spans for business events such as processAdvancingEvent.
+* **Custom Spans**: These were created for methods important to the business flow and enriched with business attributes such as `fx.type`, `fx.methodName`, `fx.processInstanceUuid`, and others.
+* **Custom BUSINESS Spans**: Create spans for business events.
 
 ## Business logic metadata in logs and spans
 
 Spans now include custom FlowX attributes (e.g., node names, action names, process names, instance UUIDs), which ccan be used for filtering and searching in traces.
 
-Here is the full list of custom FlowX span attributes:
+Here is the full list of included custom FlowX span attributes:
 
 ### Custom span attributes
 
