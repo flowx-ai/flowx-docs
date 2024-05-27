@@ -988,7 +988,7 @@
           "release-notes/overview",
 
           {
-            "group": "v4.1.0",
+            "group": "v4.1.0 - May",
             "icon": "burst",
             "pages": [
               "release-notes/v4.1.0-may-2024/v4.1.0-may-2024",
@@ -1001,7 +1001,7 @@
 
 
           {
-            "group": "v4.0.0",
+            "group": "v4.0.0 - April",
             "icon": "burst",
             "pages": [
               "release-notes/v4.0.0-april-2024/v4.0.0-april-2024",

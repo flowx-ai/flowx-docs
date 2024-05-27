@@ -1,11 +1,12 @@
 ---
 title: Deployment configuration for OpenTelemetry
 description: Guide to deploying OpenTelemetry components and configuring associated services.
+icon: chart-line
 ---
 
 ### Step 1: Install OpenTelemetry Operator
 
-Ensure you have the OpenTelemetry Operator version 0.56.1 or higher:
+Ensure you have the OpenTelemetry Operator version **0.56.1** or higher:
 
 ```yaml
     - repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
@@ -13,7 +14,7 @@ Ensure you have the OpenTelemetry Operator version 0.56.1 or higher:
       targetRevision: 0.56.1
 ```
 
-Configuration:
+#### Configuration:
 
 ```yaml
 # Source: https://github.com/open-telemetry/opentelemetry-helm-charts/blob/opentelemetry-operator-0.56.1/charts/opentelemetry-operator/values.yaml
@@ -78,7 +79,9 @@ admissionWebhooks:
   failurePolicy: Fail
 ```
 
-- Make sure you use the appropriate distribution and version:
+<Info>
+Ensure you use the appropriate distribution and version:
+</Info>
 
 ```yaml
     repository: "otel/opentelemetry-collector-contrib"
@@ -89,7 +92,7 @@ admissionWebhooks:
 
 Apply the OpenTelemetry resources: 
 
-- OTEL collector
+#### OpenTelemetry Collector
 
 ```yaml
 apiVersion: opentelemetry.io/v1alpha1
@@ -202,7 +205,7 @@ spec:
           receivers: [otlp]
 ```
 
-- OTEL instrumentation
+#### OpenTelemetry Instrumentation
 
 ```yaml
 apiVersion: opentelemetry.io/v1alpha1
@@ -243,7 +246,7 @@ podAnnotations:
 
 ### Step 4: Configure Grafana, Prometheus and Tempo
 
-- Configure Grafana:
+#### Configure Grafana
 
 ```yaml
 rbac:
@@ -384,7 +387,7 @@ adminPassword: admin
 assertNoLeakedSecrets: false
 ```
 
-- Configure Prometheus
+#### Configure Prometheus
 
 ```yaml
 # https://github.com/prometheus-community/helm-charts/blob/prometheus-22.6.7/charts/prometheus/values.yaml
@@ -500,7 +503,7 @@ serverFiles:
             regex: true
 ```
 
-- Configure Loki with a Minio backend:
+####  Configure Loki with a Minio backend
 
 ```yaml
 # https://raw.githubusercontent.com/grafana/loki/helm-loki-6.2.0/production/helm/loki/single-binary-values.yaml
@@ -525,14 +528,6 @@ loki:
     # Default is 4, if you have enough memory and CPU you can increase, reduce if OOMing
     max_concurrent: 2
 
-#gateway:
-#  ingress:
-#    enabled: true
-#    hosts:
-#      - host: FIXME
-#        paths:
-#          - path: /
-#            pathType: Prefix
 
 deploymentMode: SingleBinary
 singleBinary:
@@ -602,7 +597,7 @@ bloomGateway:
   replicas: 0
 ```
 
-- Configure Tempo :
+#### Configure Tempo
 
 ```yaml
 # https://github.com/grafana/helm-charts/blob/tempo-1.7.2/charts/tempo/values.yaml
@@ -640,8 +635,4 @@ podAnnotations:
   prometheus.io/port: prom-metrics
   prometheus.io/scrape: "true"
 ```
-
-### Step 5: Deploy and Helm charts
-
-- Deploy Helm charts for OpenTelemetry components, Grafana, Loki, Prometheus, and Tempo.
 
