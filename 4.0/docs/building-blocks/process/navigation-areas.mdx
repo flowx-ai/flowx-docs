@@ -198,7 +198,7 @@ Tabs are clickable navigation elements within the Tab Bar that allow users to sw
 Each tab could contain a user task or multiple user tasks that can be rendered in parallel.
 
 <Info>
-You can also use [**Start embedded subprocess**](../node/call-subprocess-tasks/start-embedded-subprocess) nodes to render defined subprocesses as a tab. See the example [**here**](#parent-process-area).
+You can also use [**Start embedded subprocess**](../node/call-subprocess-tasks/start-embedded-subprocess) nodes to render defined subprocesses as a tab. Check the [**Start embedded subprocess**](../node/call-subprocess-tasks/start-embedded-subprocess) for more details.
 </Info>
 
 #### Tab bars inside tabs
@@ -223,11 +223,45 @@ Page navigation involves user interaction, typically through clicking on links, 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/page_smth.gif)
 </Frame>
 
-Use this UI configuration to display comprehensive full-page content.
+A page could contain multiple user tasks displayed either in parallel (single page application) or one by one (wizard style).
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/page_ui.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/page_overview.png)
 </Frame>
+
+#### Navigation type (only for Web)
+
+You have the possibility to add step-by-step or wizard-style navigation within a page (applicable when a page contains more than one User Task). This means users can navigate through the application in a guided manner, accessing each step within the designated area and page.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/page_navigation_type.png)
+
+* **Single page form** (default): The Web Renderer will display all User Tasks within the same page (in parallel).
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/page_single_page.png)
+
+<Tip>
+For optimal navigation, we suggest utilizing cards to guide users through the content.
+
+<Info>
+To maintain a clean UI while displaying user tasks on a single page, use cards as the root UI elements and apply accordions to them. This allows you to collapse each card after it is validated by an action.
+</Info>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/cards_single_page_coll.gif)
+
+</Tip>
+
+
+<Info>
+Child areas will be rendered on the same page.
+</Info>
+
+* **Wizard**: For the Wizard option, the Web Renderer will display one user task at a time, allowing navigation using custom Next and Back buttons.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/page_wizard.gif)
+
+<Tip>
+Child areas will be presented sequentially. It's crucial to configure actions properly to ensure smooth user navigation.
+</Tip>
 
 ### Modal
 
@@ -272,6 +306,30 @@ By configuring these options, you can customize the behavior of your modals to e
 
 A Zone serves as a container designed to govern UI navigation by grouping specific elements together. Its optimal application is in scenarios involving processes featuring both a header and footer.
 
+#### Navigation type (only for Web)
+
+You have the possibility to add step-by-step or wizard-style navigation within a specific zone (applicable when a zone contains more than one User Task). This means users can navigate through the application in a guided manner, accessing each step within the designated area and page. 
+
+* **Single page form** (default): The Web Renderer will display all User Tasks within the same zone.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/single_page_form.png)
+
+<Tip>
+For optimal navigation, we suggest utilizing cards to guide users through the content.
+</Tip>
+
+<Info>
+Child areas will be rendered on the same page.
+</Info>
+
+* **Wizard**: For the Wizard option, the Web Renderer will display one user task at a time, allowing navigation using custom Next and Back buttons.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/wizard.gif)
+
+<Tip>
+Child areas will be presented sequentially. It's crucial to configure actions properly to ensure smooth user navigation.
+</Tip>
+
 <Warning>
 Zones with headers and footers are exclusively accessible in web configurations. They are not supported as navigation areas for mobile development.
 </Warning>
@@ -279,6 +337,8 @@ Zones with headers and footers are exclusively accessible in web configurations.
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/header_footer.png)
 </Frame>
+
+
 
 #### How to Create a Header/Footer Zone
 
@@ -358,7 +418,6 @@ In mobile configurations, the right and left properties for sticky layout are ig
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/sticky_demo.gif)
 </Frame>
 
-### Parent process area
 
 ## Navigation areas demo
 

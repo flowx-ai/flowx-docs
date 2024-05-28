@@ -1,0 +1,167 @@
+---
+title: FlowX.AI 4.1 release 🚀
+description: 🎉 Welcome to the FlowX.AI 4.1 release!
+---
+
+
+In this release, we've added some cool new features and enhancements to our already mind-blowing v4.0! Let's dive in and explore:
+
+## **What's New?** 🆕
+
+### Misconfigurations
+
+The Misconfigurations Warnings feature introduces a proactive alert system that ensures alignment between process configurations and selected platforms.
+
+With dynamic platform-specific settings, users receive alerts that guide them toward optimal configurations for navigation and UI design. These alerts, integrated into the frontend interface, empower users to make informed decisions, thereby enhancing the process configuration.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/misconfigurations.gif)
+</Frame>
+
+An additional step is required to compute and enable misconfigurations in existing processes from older releases:
+
+<Card title ="How to enable misconfigurations for existing processes?" href="./deployment-guidelines-v4.1.0#misconfigurations" icon ="file">
+</Card>
+
+#### Generate for available platforms only
+
+You can control which platforms you want to make available configurations for navigation areas, UI Designer or to enable/disable misconfigurations. Options include: web only, mobile, and omnichannel.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/proc_general_settings.png)
+</Frame>
+
+### Navigation areas - navigation inside zones and pages
+
+We're enhancing navigation within zones and pages to enable a step-by-step or wizard-style experience. 
+
+In the Navigation Panel, a new option will be available exclusively for the web platform. Users can choose between "Single Page Form," which displays all tasks in the same zone (in parallel), and "Wizard," presenting tasks one at a time with custom navigation buttons.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/%20navigation_type.png)
+</Frame>
+
+Check the following section for more information:
+
+<Card title="Navigation areas" href="../../4.0/docs/building-blocks/process/navigation-areas#zone" icon ="link">
+</Card>
+
+
+### Static document management via CMS
+
+Decoupled static document management from the Document Plugin, enabling independent management of documents such as terms and conditions, rules and regulations, and brochures.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/static_document_1.png)
+</Frame>
+
+The changes involve enhancing the platform's capabilities for managing static documents, particularly **PDFs**, within the **Media Library**. This includes enabling the upload of PDF files, updating information text to reflect PDF format specifications.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/static_document_2.png)
+</Frame>
+
+<Info>
+PDF documents uploaded to the Media Library must adhere to a maximum file size limit of 10 MB. If you need to increase this limit for larger files, please refer to the following [**configuration options**](../../4.0/setup-guides/cms-setup#configuring-the-maximum-size-of-the-files).
+</Info>
+
+<Warning>
+Please note that raising the file size limit may increase vulnerability to potential attacks. Consider carefully before making this change.
+</Warning>
+
+<Info>
+With the introduction of the Media Library's static document management feature, the previous method of utilizing paths within the **Process Data** for **File Preview** component to display static documents will be phased out.
+
+You can still use it if you have scenarios in which you need to [**generate templates from HTML**](../../4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/generating-from-html-templates) and then display them in a file preview.
+</Info>
+
+### Dismiss navigation on secondary token end
+
+When a navigation sequence is initiated by a secondary token triggered by a boundary event, it will automatically be dismissed when the token reaches the stop process event. This feature ensures that informative modals are closed without requiring extra configurations.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/dismiss_token2nd.png)
+</Frame>
+
+### Theme Management
+
+We've introduced preview options for more UI components. Now, you can review changes in the theming configurations before finalizing them.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/comp_previews.gif)
+</Frame>
+
+### UI Designer
+
+We've added new properties, settings and styles across different UI components for an enhanced experience. Check the UI components - change log for the full list of improvements:
+
+
+<Card title="UI components change log" href="./ui-components-changelog" icon ="link">
+</Card>
+
+### Tracing - open telemetry
+
+In our 4.1 release, we're thrilled to introduce tracing with Open Telemetry with additional FlowX custom span attributes, offering enhanced visibility and insights into application behavior. With its capabilities, users can pinpoint issues and optimize performance. 
+
+Consequently, we'll be phasing out Jaeger tracing to focus on the advanced features and broader support of Open Telemetry, ensuring a smooth transition.
+
+For traces visualization, use tools like Grafana to filter and search spans based on custom attributes like `fx.processInstanceUuid`, `fx.nodeName`, `fx.actionName`, and others. This helps in pinpointing specific operations or issues within a trace.
+
+Check the following section for more information and for more scenarios:
+
+<Card title="Open Telemetry" href="../../4.0/docs/platform-deep-dive/integrations/open-telemetry" icon ="file">
+</Card>
+
+
+**Additional configuration needed**! If you want to enable/configure Open Telemetry, check the following section:
+
+<Card title="Open Telemetry configuration" href="../../4.0/setup-guides/open-telemetry-config" icon ="page">
+</Card>
+
+For more information about the default Open Telemetry properties of FlowX.AI microservices, please refer to the following section:
+
+<Card title ="Open Telemetry default properties" href="../../4.0/setup-guides/ot-default-properties" icon="page">
+</Card>
+
+### Spring Boot upgrade (for BE Java services)
+
+In the 4.1 release, we upgraded Spring Boot from version 2.5.4 to 3.2.x for all Java libraries and services. This update delivers significant performance enhancements and includes important bug fixes, thereby offering enhanced stability and functionality.
+
+<Card title ="Additional information" href="./deployment-guidelines-v4.1.0#spring-boot-upgrade" icon ="link">
+</Card>
+
+
+## **Changes**  🔧
+
+- **Process Designer**: The "Start Subprocess" functionality on Service Task nodes has been discontinued.
+- **UI Designer**: Introduced the inclusion of a `data test id` within the `Settings > Generic` tab across all UI components, facilitating seamless identification and interaction with UI elements during automated testing.
+
+## **Bug Fixes** 🛠️
+
+We've also squashed pesky bugs to ensure a smoother and more reliable experience across the board.
+
+- **Process Designer**: The error hiccups with embedded subprocesses and their error events have been smoothed out! No more getting stuck in a loop; now, you'll gracefully proceed to the embedded subprocess as expected.
+- **Process Designer**: The versioning hiccup causing merge conflicts when trying to merge a branch with a main branch that wasn't imported into the environment has been fixed!
+- **UI Designer**: The slider UI element's identity crisis has been resolved. No longer will it confuse its maximum value with its minimum counterpart.
+- **UI Designer**: Concatenation glitch in text elements, where values from the collection prototype play hide and seek, has been patched up! No more disappearing acts - they'll be displayed side by side as intended.
+- **UI Designer**: The glitch preventing the assignment of actions in button UI Actions with blank spaces in their names has been smoothed out!
+
+## Gremlins to Watch Out For
+
+Keep an eye out for these quirks:
+
+- **UI Designer**: When relocating UI elements between parents, the elements' order doesn't always get the memo, causing a mix-up in the family tree. We're untangling this knot! 
+
+## Resources
+
+For deployment guidelines and a seamless transition to version 4.1: 
+
+<CardGroup>
+<Card title="Deployment guidelines v4.1" href="./deployment-guidelines-v4.1.0" icon ="file">
+</Card>
+
+<Card title="Migrating from v3.4.x" href="./migrating-from-v3.4.x-to-v4.1" icon ="file">
+</Card>
+
+</CardGroup>

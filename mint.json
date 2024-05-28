@@ -453,7 +453,7 @@
                   "4.0/docs/platform-deep-dive/integrations/creating-a-kafka-consumer",
                   "4.0/docs/platform-deep-dive/integrations/creating-a-kafka-producer",
                   "4.0/docs/platform-deep-dive/integrations/mock-integrations",
-                  "4.0/docs/platform-deep-dive/integrations/jaeger-setup-for-microservices"     
+                  "4.0/docs/platform-deep-dive/integrations/open-telemetry"
                 ]
               },
 
@@ -478,6 +478,7 @@
       "group": "API reference",
       "version": "v4.0",
       "pages": [
+        "4.0/docs/api/add-misconfigurations",
         "4.0/docs/api/clear-cache4.0",
         "4.0/docs/api/rest",
         "4.0/docs/api/rest2",
@@ -557,6 +558,15 @@
           "4.0/setup-guides/plugins-setup-guide/reporting-setup",
           "4.0/setup-guides/plugins-setup-guide/customer-management-plugin-configuration"
 
+        ]
+      },
+
+      {
+        "group": "Observability",
+        "version": "v4.0",
+        "pages":[
+          "4.0/setup-guides/open-telemetry-config",
+          "4.0/setup-guides/ot-default-properties"
         ]
       },
 
@@ -978,7 +988,20 @@
           "release-notes/overview",
 
           {
-            "group": "v4.0.0",
+            "group": "v4.1.0 - May",
+            "icon": "burst",
+            "pages": [
+              "release-notes/v4.1.0-may-2024/v4.1.0-may-2024",
+              "release-notes/v4.1.0-may-2024/deployment-guidelines-v4.1.0",
+              "release-notes/v4.1.0-may-2024/ui-components-changelog",
+              "release-notes/v4.1.0-may-2024/migrating-from-v3.4.x-to-v4.1"
+            ]
+            
+          },
+
+
+          {
+            "group": "v4.0.0 - April",
             "icon": "burst",
             "pages": [
               "release-notes/v4.0.0-april-2024/v4.0.0-april-2024",

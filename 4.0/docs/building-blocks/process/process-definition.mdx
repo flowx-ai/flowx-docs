@@ -3,8 +3,9 @@ title: "Process definition"
 description: "The core of the platform is the process definition, which is the blueprint of the business process made up of nodes that are linked by sequences."
 ---
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/versioning.png)
-
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/process_definitions.png)
+</Frame>
 
 Once a process is defined and set as published on the platform, it can be executed, monitored, and optimized. When a business process is started, a new instance of the definition is created.
 
@@ -179,11 +180,32 @@ For more details about access management, check the following sections:
 
 ## Settings
 
+### Process Name
+
+* **Process definition name**: Edit the process definition name.
+
+<Info>
+Name can only contain letters, numbers and the following special characters: [] () . _ -
+</Info>
+
 ### General
 
 In the General settings, you can edit the process definition name, include the process in reporting, set general data, and configure expiry time using Cron Expressions and ISO 8601 formatting.
 
-* **Process definition name** - edit process definition name
+* **Available Platforms** (Single Choice): This enable configuration (Navigation Areas, UI Designer, Misconfigurations) only for the specific platform selected:
+
+<Info>
+Navigation Areas, UI Designer and misconfigurations will be affected by this setting.
+</Info>
+
+    * **Web Only**:  If the navigation areas are defined exclusively for the Web, the process should remain set to Web. This is because it is optimized solely for web usage and would not provide the same level of functionality or user experience on mobile devices
+    * **Mobile Only**: If the navigation areas are defined only for Mobile, the process should be set to Mobile. This ensures that the process leverages mobile-specific features and design considerations, providing an optimal experience on mobile devices.
+    * **Omnichannel**: If the existing process has navigation areas defined for both Web and Mobile platforms, it should be set to Omnichannel. This ensures that users have a consistent experience regardless of the platform they are using.
+
+<Info>
+By default, new processes are set to **Web Only**. This ensures that they are initially optimized for web-based usage, providing a starting point for most users and scenarios.
+</Info>
+
 * **Use process in reporting** - if switched on, the process will be included in reporting
 * **Use process in task management** - if switched on, tasks will be created and displayed in the Task manager plugin, more information [here](../../platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview)
 * **General data** - data that you can set and receive on a response
@@ -193,8 +215,9 @@ For more information about **Cron Expressions** and **ISO 8601** formatting, che
 
 [Timer Expressions](../node/timer-events/timer-expressions)
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process_settings.png)
-
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/proc_general_settings.png)
+</Frame>
 
 ### Permissions
 

@@ -81,17 +81,21 @@ Set the following environment variables to connect to the identity management pl
 
 The process engine sends the messages to the events-gateway, which is responsible for sending them to Redis.
 
-| Configuration Parameter | Description                                                        |
-| ----------------------- | ------------------------------------------------------------------ |
-| `SPRING_REDIS_HOST`     | Hostname of the Redis server                                       |
-| `SPRING_REDIS_PASSWORD` | Password for Redis server                                          |
-| `SPRING_REDIS_TTL`      | Time-to-live for Redis keys (default value:5000000 # milliseconds) |
+| Configuration Parameter      | Description                                                        |
+| ---------------------------- | ------------------------------------------------------------------ |
+| `SPRING_DATA_REDIS_HOST`     | Hostname of the Redis server                                       |
+| `SPRING_DATA_REDIS_PASSWORD` | Password for Redis server                                          |
+| `SPRING_DATA_REDIS_PORT`     | Connect to the Redis server                                                                   |
 
 #### Master replica
 
 The events-gateway can be configured to communicate with Redis using the MASTER_REPLICA replication mode by configuring the following property:
 
-spring.redis.sentinel.nodes: replica1, replica2, replica3, etc...
+`spring.data.redis.sentinel.nodes: replica1, replica2, replica3`, etc...
+
+Correspondent environment variable:
+
+- `SPRING_DATA_REDIS_SENTINEL_NODES`
 
 ##### Example
 
