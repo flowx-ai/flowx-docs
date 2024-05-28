@@ -12,8 +12,29 @@ After updating to the 4.1 FLOWX.AI release, you can import old process definitio
 It is not possible to import old process definitions from versions earlier than v4.0.
 </Warning>
 
-
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/release_platform_version_check.png)
+
+
+### Revised cache key organization
+
+To ensure a smooth transition to the 4.1 release, it's essential to utilize the following clear cache endpoint and body:
+
+##### Endpoint:
+
+`POST {{baseUrlAdmin}}/api/internal/cache/clear`
+
+##### Body:
+
+```json
+{
+    "cacheNames": [
+        "flowx:core:cache"
+        ]
+}
+```
+
+<Card title="Clear cache endpoint" href="../../4.0/docs/api/clear-cache4.0" icon ="link">
+</Card>
 
 ## Component versions   
 
