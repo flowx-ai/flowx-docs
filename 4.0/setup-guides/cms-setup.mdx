@@ -123,9 +123,13 @@ To control the log levels, the following environment variables can be set:
 * `APPLICATION_FILE_STORAGE_S3_PUBLIC_URL` - the public URL of the S3 solution, it specifies the URL that can be used to access the files stored
 
 
-### Configuring the maximum size of the files
+### Configuring the maximum file size for uploads
 
-To configure the limit of the maximum size of the files uploaded through the CMS services (like for example, in the Media Library) you can change the values of the following environment variables:
+To set the maximum file size for uploads through the CMS service (e.g., the Media Library), you can adjust the following environment variables:
 
-* `SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: ${MULTIPART_MAX_FILE_SIZE:50MB}` (default : 50 MB): Maximum file size allowed for uploads.
-* `SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: ${MULTIPART_MAX_REQUEST_SIZE:50MB}` (default: 50 MB): Maximum request size allowed for uploads.
+* `SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: ${MULTIPART_MAX_FILE_SIZE:50MB}`: Defines the maximum file size allowed for uploads. Default is 50 MB.
+* `SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: ${MULTIPART_MAX_REQUEST_SIZE:50MB}`: Defines the maximum request size allowed for uploads. Default is 50 MB.
+
+<Warning>
+Please note that raising the file size to a high limit may increase vulnerability to potential attacks. Consider carefully before making this change.
+</Warning>
