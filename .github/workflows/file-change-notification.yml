@@ -3,7 +3,7 @@ name: Notify on File Change
 on:
   push:
     paths:
-      - path/to/your/file.txt
+      - flowx-docs/release-notes/overview.mdx
 
 jobs:
   notify:
