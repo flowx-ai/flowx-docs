@@ -1,0 +1,34 @@
+name: Notify on File Change
+
+on:
+  push:
+    paths:
+      - path/to/your/file.txt
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Check if file was changed
+      id: check-file
+      run: |
+        if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q 'flowx-docs/release-notes/overview.mdx'; then
+          echo "file_changed=true" >> $GITHUB_ENV
+        else
+          echo "file_changed=false" >> $GITHUB_ENV
+        fi
+
+    - name: Send notification
+      if: env.file_changed == 'true'
+      run: |
+        echo "The file has been changed, sending notification."
+        echo "File Overview Release Notes' has been modified." | mail -s "File Change Alert" dragos@flowx.ai
