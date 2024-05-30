@@ -89,7 +89,7 @@ Define the input field's behavior using JavaScript expressions to control its vi
 </Frame>
 
 <Info>
-In the example above, we used a rule to hide an input field until another one is filled. The "Mortgage" input field, which remains hidden until users fill in the "Income" field.
+In the example above, we used a rule to hide an input field if another one has a null value (it is not filled). The "Mortgage" input field, which remains hidden until users fill in the "Income" field.
 </Info>
 
 #### Hide example
@@ -100,23 +100,43 @@ We will use the key defined on the "Income" input field to create the JavaScript
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input.income.png)
 </Frame>
 
-##### Rule used:
+Rule used:
 
 ```javascript
 ${application.input.income} === null || ${application.input.income} === ""
 ```
-##### Result:
+Result:
+
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_hide_result.gif)
 </Frame>
 
 * **Disabled condition** - JavaScript expression used to disable the Input Field when it returns a truthy value
 
+#### Disable example
+
+For example, you can use a disabled condition to disable an input element based on what values you have on a second input.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_disabled_condition.png)
+</Frame>
+
+When you type 'TEST' in the first input (Name) the second input (Test) will be disabled:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/disabled_input.gif)
+</Frame>
+
+Rule used:
+
+```javascript
+${application.input.name} == 'TEST'
+```
+
 <Info>
 It's important to make sure that disabled fields have the same expression configured under the path expressions → hide.
 </Info>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/input_expressions.png)
 
 ### Input settings overrides
 
@@ -148,7 +168,9 @@ UI actions can be added to the Input Field to define its behavior and interactio
 * **Event** - possible value: `CHANGE`
 * **Action Type** - select the action type
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/input_ui_actions.gif)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_ui_actions_new.gif)
+</Frame>
 
 <Info>
 For more details on how to configure a UI action, click [**here**](../../ui-actions).
