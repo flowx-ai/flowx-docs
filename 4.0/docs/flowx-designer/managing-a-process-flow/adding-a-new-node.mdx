@@ -4,22 +4,28 @@ description: Once you create a new process definition, you can start configuring
 ---
 You can choose between a series of available node types below. For an overview of what each node represents, see [BPMN 2.0 basic concepts](../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn):
 
+
+<Card title="What's a BPMN node?" icon ="circle-question" href="/4.0/docs/building-blocks/node/node">
+<br></br>
+A BPMN (Business Process Model and Notation) node is a visual representation of a point in your process. Nodes are added at specific process points to denote the entrance or transition of a record within the process. FlowX supports various node types, each requiring distinct configurations to fulfill its role in the business flow.
+</Card>
+
 <CardGroup>
-<Card title="Start Event" href="../../building-blocks/node/start-end-node">
+<Card title="Start Event" href="../../building-blocks/node/start-end-node" icon= "circle" iconType="light">
 </Card>
-<Card title="End Event" href="../../building-blocks/node/start-end-node">
+<Card title="End Event" href="../../building-blocks/node/start-end-node" icon= "circle" iconType="regular">
 </Card>
-<Card title="Service Task" href="../../building-blocks/node/task-node">
+<Card title="Service Task" href="../../building-blocks/node/task-node" icon ="gear">
 </Card>
-<Card title="User Task" href="../../building-blocks/node/user-task-node">
+<Card title="User Task" href="../../building-blocks/node/user-task-node" icon ="user">
 </Card>
-<Card title="Parallel Gateway" href="../../building-blocks/node/parallel-gateway">
+<Card title="Parallel Gateway" href="../../building-blocks/node/parallel-gateway" icon="rhombus">
 </Card>
-<Card title="Exclusive Gateway" href="../../building-blocks/node/exclusive-gateway-node">
+<Card title="Exclusive Gateway" href="../../building-blocks/node/exclusive-gateway-node" icon="rhombus">
 </Card>
-<Card title="Send Message Task" href="../../building-blocks/node/message-send-received-task-node">
+<Card title="Send Message Task" href="../../building-blocks/node/message-send-received-task-node" icon = "rectangle">
 </Card>
-<Card title="Receive Message Task" href="../../building-blocks/node/message-send-received-task-node">
+<Card title="Receive Message Task" href="../../building-blocks/node/message-send-received-task-node" icon = "rectangle">
 </Card>
 </CardGroup>
 
@@ -31,16 +37,16 @@ To create a new node on an existing process:
 <Steps>
 
 <Step>
-Open **FlowX Designer** and from the **Processes** tab select **Definitions**.
+Open **FlowX.AI Designer** and from the **Processes** tab select **Definitions**.
 </Step>
 <Step>
-Open your **process**.
+Select your **process definition** or create a new one.
 </Step>
 <Step>
-Click the **Edit process** button from the process definition.
+Make sure you are in edit mode.
 </Step>
 <Step>
-Drag and drop one **node element**.
+Drag and drop one or more **node** elements.
 </Step>
 <Step>
 To connect the node that you just created:
@@ -49,11 +55,15 @@ To connect the node that you just created:
 </Step>
 </Steps>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/process_flow_adding_a_node.gif)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/mapf_add_new_node.gif)
+</Frame>
 
-For each new **node**, you can set its name, and a set of values (timeout, topic name, key name) and you can also add various [actions](../../building-blocks/actions/actions) to it.
+Depending on the type of the **node**, you can define some node details, and a set of values (stages, data stream topics, key name) and you can also add various [actions](../../building-blocks/actions/actions) to it.
 
-<Card title="Node" href="../../building-blocks/node">
+<Card title="BPMN nodes" href="../../building-blocks/node" icon ="file">
 </Card>
 
+<Check>
 Now, check the next section to learn how to add an action to a node.
+</Check>

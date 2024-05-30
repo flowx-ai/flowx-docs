@@ -122,7 +122,7 @@ Each action in the service corresponds to a Kafka event. Configure a separate Ka
 
 #### Generate
 
-* `KAFKA_TOPIC_DOCUMENT_GENERATE_HTML_IN`:This Kafka topic is used for messages related to generating HTML documents (the topic that listens for the request from the engine)
+* `KAFKA_TOPIC_DOCUMENT_GENERATE_HTML_IN`: This Kafka topic is used for messages related to generating HTML documents (the topic that listens for the request from the engine)
 * `KAFKA_TOPIC_DOCUMENT_GENERATE_HTML_OUT`: This Kafka topic is used for messages related to generating HTML documents (the topic on which the engine will expect the reply)
 * `KAFKA_TOPIC_DOCUMENT_GENERATE_PDF_IN`: This Kafka topic is used for the input messages related to generating PDF documents (the topic that listens for the request from the engine)
 * `KAFKA_TOPIC_DOCUMENT_GENERATE_PDF_OUT`: This Kafka topic is used for the output messages related to generating PDF documents, it produces messages with the result of generating a PDF document (the topic on which the engine will expect the reply)
@@ -172,7 +172,7 @@ Each of these Kafka topics corresponds to a specific action or functionality wit
 Depending on your use case, you can choose either a file system or an S3-compatible cloud storage solution for document storage. Configure the file storage solution using the following environment variables:
 
 * `APPLICATION_FILE_STORAGE_PARTITION_STRATEGY`: Set the partition strategy for file storage. Use `NONE` to save documents in `minio/amazon-s3` as before, with a bucket for each process instance. Use `PROCESS_DATE` to save documents in a single bucket with a subfolder structure, for example: `bucket/2022/2022-07-04/process-id-xxxx/customer-id/file.pdf`.      
-* `APPLICATION_FILE_STORAGE_DELETION_STRATEGY`(default value: **delete**): This will keep the current behaviour of deleting the temporary files.
+* `APPLICATION_FILE_STORAGE_DELETION_STRATEGY` (default value: **delete**): This will keep the current behaviour of deleting the temporary files.
 Other possible values:
   * **disabled**: This will disable entirely the deletion of temporary files from the temporary bucket, and the responsibility to delete and clean up the bucket will move in the ownership of the admins of the implementing project.
   * **deleteBypassingGovernanceRetention**: This will still delete the temporary files and further more will add in the delete request the header: `x-amz-bypass-governance-retention:true` , to enable deletion of governed files, in case the s3 configured user for document-plugin, will have the `s3:BypassGovernanceRetention` permission.
@@ -218,8 +218,8 @@ After making these configurations, the fonts will be available for use within PD
 
 The following environment variables could be set in order to control log levels:
 
-* `LOGGING_LEVEL_ROOT` - root spring boot microservice logs
-* `LOGGING_LEVEL_APP` - app-level logs
-* `LOGGING_LEVEL_MONGO_DRIVER` - MongoDB driver logs
+* `LOGGING_LEVEL_ROOT`: Controls the log level for root Spring Boot microservice logs.
+* `LOGGING_LEVEL_APP`: Controls the log level for application-specific logs.
+* `LOGGING_LEVEL_MONGO_DRIVER`: Controls the log level for MongoDB driver logs.
 
 Adjust these variables according to your logging requirements.

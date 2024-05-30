@@ -3,10 +3,10 @@ title: Overview
 description: The activity that a node has to handle is defined using an action. These can have various types, they can be used to specify the communication details for plugins or integrations.
 ---
 
-**Why it is important?** Actions can be used to include <Tooltip tip ="Business rules are actions that can be configured on task/user task nodes in a business process. Business rules can be written in various script languages such as MVEL, JavaScript, Python, Groovy, or DMN (Decision Model and Notation)."> **business rules** </Tooltip> in a <Tooltip tip= "A process is a representation of a business use case, such as requesting a new credit card. These steps can involve a combination of automated actions and human interactions."> **process**</Tooltip>, and also to send various data to be displayed in the front-end applications.
+**Why it is important?** Node actions can be used to include <Tooltip tip ="Business rules are actions that can be configured on task/user task nodes in a business process. Business rules can be written in various script languages such as MVEL, JavaScript, Python, Groovy, or DMN (Decision Model and Notation)."> **business rules** </Tooltip> in a <Tooltip tip= "A process is a representation of a business use case, such as requesting a new credit card. These steps can involve a combination of automated actions and human interactions."> **process**</Tooltip>, and also to send various data to be displayed in the front-end applications.
 
 
-The FLOWX.AI platform handles the following **types of actions**:
+The Flowx.AI platform handles the following **types of node actions**:
 
 * [Business rule](./business-rule-action/business-rule-action)
 * Save Data
@@ -82,11 +82,15 @@ Child actions can be marked as callbacks to be run after a reply from an externa
 
 For example, a callback function might be used to handle a user's interaction with a web page, such as upload a file. When the user performs the action, the callback function is executed, allowing the web application to respond appropriately.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/callback1.png)
+</Frame>
 
 Child actions can be marked as callbacks to be run after a reply from an external system is received. They will need to be set when defining the interaction with the external system (the Kafka send action).
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/callback2.png)
+</Frame>
 
 #### Example
 
