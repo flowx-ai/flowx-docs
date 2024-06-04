@@ -7,7 +7,7 @@ description: An input field is a form element that enables users to input data w
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_element.png)
 </Frame>
 
-## Configuring input elements
+## Configuring the Input element
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_props.png)
@@ -19,7 +19,7 @@ These settings added in the Generic tab are available and they apply to all plat
 
 - [**Process data key**](#process-data-key)
 - [**Properties**](#properties)
-- [**Datasource**](#datasource)
+- [**Datasource**](#datasource-configuration)
 - [**Validators**](#validators)
 - [**Expressions**](#expressions)
 - [**UI actions**](#ui-actions)
@@ -27,7 +27,7 @@ These settings added in the Generic tab are available and they apply to all plat
 
 #### Process data key
    
-Process data key establishes the binding between the form element and process data, enabling its later use in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration).
+Process data key establishes the binding between the input element and process data, enabling its later use in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration).
 
 #### Properties
 
@@ -41,7 +41,7 @@ Process data key establishes the binding between the form element and process da
 * **Update on Blur**: Update behavior triggered when the input field loses focus.
 
 
-#### Datasource
+#### Datasource configuration
 
 The default value for the element can be configured here, this will autofill the input field when you will run the process.
 
@@ -80,9 +80,8 @@ Required validator example:
 
 Define the input field's behavior using JavaScript expressions to control its visibility or disablement. Configure the following properties for expressions:   
 
-* **Hide Condition**: A JavaScript expression used to hide the input field when it is evaluated to your desired result. 
-* **Disabled condition** - JavaScript expression used to disable the Input Field when it returns a truthy value
-
+* **Hide condition**: A JavaScript expression that hides the input field when it evaluates to the specified result.
+* **Disabled condition**: A JavaScript expression that disables the input field when it returns a truthy value.
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_hide.png)
 </Frame>
@@ -140,7 +139,7 @@ It's important to make sure that disabled fields have the same expression config
 UI actions can be added to the Input Field to define its behavior and interactions.
 
 * **Event**: Possible value -`CHANGE`.
-* **Action Type**: Select the action type.
+* **Action Type**: Select the type of the action to be performed.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_ui_actions_new.gif)
@@ -188,15 +187,7 @@ For more details on how to configure a UI action, click [**here**](../../ui-acti
 #### Icons properties
  
 * **Icon Key**: The key associated in the Media library, select the icon from the **Media Library**.
-* **Icon Color**: Select the color of the icon using the color picker.
 
-<Info>
-When setting the color, the entire icon is filled with that color, the SVG's fill. Avoid changing colors for multicolor icons.
-</Info>
-
-You have the option to enhance the Input element by incorporating two types of icons:
-
-By utilizing these two types of icons, you can provide users with a more intuitive and visually appealing experience when interacting with the Input element.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/input_icons.png)
 
@@ -217,7 +208,7 @@ Similar styling considerations apply to iOS as for web.
 
 However, for mobile applications, there's an additional sizing style property specific to input elements:
 
-* **Height**: Determines the vertical size of the input box on the screen.
+* **Height** (pt - points): Determines the vertical size of the input box on the screen.
 
 </Tab>
 <Tab title ="Android">
@@ -226,7 +217,7 @@ Similar styling considerations apply to Android as for web.
 
 However, for mobile applications, there's an additional sizing style property specific to input elements:
 
-* **Height**: Determines the vertical size of the input box on the screen.
+* **Height** (dp - density-independent pixel): Determines the vertical size of the input box on the screen.
 
 </Tab>
 </Tabs>

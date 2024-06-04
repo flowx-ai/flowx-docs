@@ -1,122 +1,144 @@
 ---
 title: Select
-description: The Select form field is an element that enables users to make a choice from a list of predefined options. It consists of multiple values, each of which is defined by a label that is displayed in the dropdown menu, and a code that is saved.
+description: The Select form field is an element that allows users to choose from a list of predefined options. Each option consists of a label, which is displayed in the dropdown menu, and a corresponding value, which is stored upon selection.
 ---
 
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/select_form_field.png)
 
 <Info>
-For instance, you could have a label of "Female" with the value "F" and "Male" with the value "M". This means that when a user selects "Female" in the process instance, the value "F" will be stored for the "Select" key.
+For example, consider a scenario where you have a label "Sports" with the value "S" and "Music" with the value "M". When a user selects "Sports" in the process instance, the value "S" will be stored for the "Select" key.
 </Info>
 
 ## Configuring the Select element
 
-### Generic settings
-
+### Select generic settings
 
 These allow you to customize the generic settings for the Select element:
 
-* [**General**](#general)
+* [**Process data key**](#process-data-key)
 * [**Properties**](#properties)
-* [**Datasource**](#datasource)
+* [**Datasource**](#datasource-configuration)
 * [**Validators**](#validators)
 * [**Expressions**](#expressions)
 * [**UI actions**](#ui-actions)
 * [**Select styling**](#select-styling)
 
-#### General
+#### Process data key 
    
-* **Process data key** - creates the binding between form element and process data so it can be later used in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration)
+Process data key establishes the binding between the select element and process data, enabling its later use in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration).
 
 #### Properties
    
-* **Label** - the label of the select
-* **Placeholder** - placeholder when the field has no value
-* **Empty message** - text displayed for custom type when no results are found
-* **Search for options** - displays a search to filter options
-* **Has clear** - to clear the content of the field
-* **Helpertext** - additional information about the select field (can be hidden inside an infopoint)
+* **Label**: The visible label for the select element.
+* **Placeholder**: Text that appears within the select element when it is empty.
+* **Empty message**: Text displayed for custom type when no results are found.
+* **Search for options**: Displays a search to filter options.
+* **Has Clear**: Option to include a content clear mechanism.
+* **Helper Text**: Additional information about the select element, which can be optionally hidden within an infopoint.
 
-#### Data source configuration
+#### Datasource configuration
 
-* **Default value** - autofill the select with this value. Going back to the example with Woman label with F value and Man with M to have a default value of Woman we need to configure here F
-* **Source Type** - it can be Static, Enumeration, or Process Data
-    * **Static** -  static data
-        * **Add option** - label - value pairs can be defined here
-    * **Process Data** - data sourced directly from your process definition
-   
-<Tip>
-Consider this scenario: you need to create two dynamic select fields where the options in the second field depend on the selection made in the first. By utilizing the **Parent** property within the **Process Data** configuration of the second select field, you can achieve this dynamic functionality.
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/parent_select.png)
-</Tip>
+* **Default value**: Autofill the select field with this value. You need to specify the value from the value/label pairs defined in the Datasource tab.
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/default_value_select.gif)
+</Frame>
+
+* **Source Type**: The source can be Static, Enumeration, or Process Data.
+* **Add option** : Define label and value pairs here.
 
 #### Validators
 
-There are multiple validators can be added to a select (more details [here](../../validators)).
+You can add multiple validators to a select field. For more details, refer to [**Validators**](../../validators).
 
-#### Expressions
+#### Hide/disable expressions
    
 The select field's behavior can be defined using JavaScript expressions for hiding or disabling the element. The following properties can be configured for expressions:
    
-* **Hide** - JavaScript expression used to hide the Select Field when it returns a truthy value
-* **Disabled** - JavaScript expression used to disable the Select Field when it returns a truthy value
+* **Hide condition**:  A JavaScript expression that hides the Select field when it returns a truthy value.
+* **Disabled condition**: A JavaScript expression that disables the Select field when it returns a truthy value.
 
 <Info>
 It's important to make sure that disabled fields have the same expression configured under the path expressions → hide.
 </Info>
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/select_form_field_settings.gif)
-</Frame>
-
 #### UI actions
 
 UI actions can be added to the select element to define its behavior and interactions. 
 
-* **Event** - possible value: `CHANGE`
-* **Action Type** - select the action type
+* **Event**: Possible value - `CHANGE`.
+* **Action Type**: Select the type of the action to be performed.
 
 <Info>
 For more details on how to configure a UI action, click [**here**](../../ui-actions).
 </Info>
 
+### Select settings overrides
+
+There are instances where you may need to tailor settings configured in the **Generic** settings tab. This proves especially beneficial when you wish to adjust these settings to appear differently across various platforms such as Web, Android, or iOS.
+
+Available override settings:
+
+* Properties:
+    * **Label**: Override the input label.
+    * **Helper**: Override helper text/info point.
+    * **Placeholder**: Override the placeholder.
+* Expressions:
+    * **Hide**: Override the hide expression.
+
+<Tip>
+Overrides can always be imported/pushed from one platform to another:
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importing_pushing_overrides.gif)
+
+</Tip>
+
 ### Select styling
+<Tabs>
+<Tab title="Web">
+<Tabs>
+<Tab title ="Icons">
 
-Styling the Select field using CSS properties allows you to customize the appearance of the dropdown list and make it more visually appealing and consistent with the overall design of the website or application. 
+* **Left Icon**: You can include an icon on the left side of the Select element. This icon can serve as a visual cue or symbol associated with the input field's purpose or content.
 
-<Card title="UI Designer styling" href="../../ui-designer#styling">
-</Card>
+#### Icons properties
+ 
+* **Icon Key**: The key associated in the Media library, select the icon from the **Media Library**.
 
-For example, a FORM element with a [layout](../../ui-designer#layout) configuration including direction of Horizontal and some inputs, and a select element will look like this:
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/input_icons.png)
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/select_form_field1.png)
-</Frame>
+</Tab>
+<Tab title="Sizing">
 
-#### Icons
+Adjusting the size of components is crucial for a responsive design. Fit W (width) offers three options:
 
-When customizing the appearance of a Select UI element that includes a left icon, you can utilize the following properties:
+    * **fill**: Fills the available space.
+    * **fixed**: Maintains a fixed width.
+    * **auto**: Adjusts the width automatically based on content.
 
-* **Icon Key** - the key associated in the Media library, select the icon from the **Media Library**
+</Tab>
+</Tabs>
+</Tab>
+<Tab title ="iOS">
 
-<Info>
-When setting the color, the entire icon is filled with that color, the SVG's fill. Avoid changing colors for multicolor icons.
-</Info>
+Similar styling considerations apply to iOS as for web.
 
-#### Sizing
+However, for mobile applications, there's an additional sizing style property specific to select elements:
 
-When adjusting the Fit W, you can control the width of the select element:
+* **Height** (pt - points): Determines the vertical size of the select element on the screen.
 
-* **Fit W**: fill, fixed or auto
+</Tab>
+<Tab title ="Android">
 
-#### Spacing
+Similar styling considerations apply to Android as for web.
 
-Margin and padding are CSS properties used to create space between elements in a web page:
+However, for mobile applications, there's an additional sizing style property specific to select elements:
 
-- **margin** - the space outside a select element
-- **padding** - the space inside a select element
+* **Height** (dp - density-independent pixels): Determines the vertical size of the select element on the screen.
+
+</Tab>
+</Tabs>
 
 ## Example - dynamic dropdowns
 

@@ -17,7 +17,7 @@ These settings added in the Generic tab are available and they apply to all plat
 
 - [**Process data key**](#prcoess-data-key)
 - [**Properties**](#properties)
-- [**Datasource**](#datasource)
+- [**Datasource**](#datasource-configuration)
 - [**Validators**](#validators)
 - [**Expressions**](#expressions)
 - [**UI actions**](#ui-actions)
@@ -35,13 +35,13 @@ Process data key creates the binding between form element and process data, so i
 * **Helpertext**: Additional information about the text area field (can be hidden inside an infopoint).
 * **Update on Blur**: Update behavior triggered when the text area loses focus.
 
-#### Datasource
+#### Datasource configuration
 
 The default value for the element can be configured here, this will autofill the text field when you will run the process.
 
 #### Validators
 
-There are multiple validators can be added to a text area element (more details [here](../../validators)).
+You can add multiple validators to a text area field. For more details, refer to [**Validators**](../../validators).
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/text_area_props.png)
 
@@ -49,8 +49,8 @@ There are multiple validators can be added to a text area element (more details 
 
 The text area's behavior can be defined using JavaScript expressions for hiding or disabling the element. The following properties can be configured for expressions:
    
-* **Hide Condition**: A JavaScript expression used to hide the text area when it is evaluated to your desired result. 
-* **Disabled** - JavaScript expression used to disable the text area when it returns a truthy value
+* **Hide condition**: A JavaScript expression used to hide the text area when it is evaluated to your desired result. 
+* **Disabled condition**: A JavaScript expression used to disable the text area when it returns a truthy value
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/hide_text_area.png)
@@ -107,7 +107,7 @@ It's important to make sure that disabled fields have the same expression config
 UI actions can be added to the text area field to define its behavior and interactions.
 
 * **Event**: Possible value - `CHANGE`.
-* **Action Type**: Select the action type
+* **Action Type**: Select the type of the action to be performed.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/text_area_props1.png)
 
@@ -154,7 +154,7 @@ Adjusting the size of components is crucial for a responsive design. Fit W (widt
 
 #### H Type (height type)
 
-* **fixed**: Maintains a fixed height.
+* **fixed**: Maintains a fixed height (pixels)
 * **auto**: Adjusts the height automatically based on the content.
 
 #### Rows 
@@ -167,12 +167,16 @@ Adjusting the size of components is crucial for a responsive design. Fit W (widt
 </Tab>
 <Tab title ="iOS">
 
-Similar styling considerations apply to iOS as for web.
+Similar styling considerations apply to iOS as for web. 
+
+* **fixed height**: Measured in dp - density-independent pixels.
 
 </Tab>
 <Tab title ="Android">
 
 Similar styling considerations apply to Android as for web.
+
+* **fixed height**: Measured in pt - points.
 
 
 </Tab>

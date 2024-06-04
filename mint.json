@@ -1276,15 +1276,7 @@
     }
 
 
-  },
-
-  
-  "redirects": [
-    {
-      "source": "/3.x/docs/:slug*",
-      "destination": "/4.0/docs/:slug*"
-    }
-  ]
+  }
 
 
 }
