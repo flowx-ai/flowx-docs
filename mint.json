@@ -1246,11 +1246,6 @@
       }
 
 
-
-
-
-
-
       
   
   
@@ -1279,6 +1274,18 @@
     "ga4": {
         "measurementId": "G-CGW0FVK9YM"
     }
-}
+
+
+  },
+
+  
+  "redirects": [
+    {
+      "source": "/3.x/docs/:slug*",
+      "destination": "/4.0/docs/:slug*"
+    }
+  ]
+
 
 }
+
