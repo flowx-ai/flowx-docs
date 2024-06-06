@@ -12,6 +12,23 @@ Let's dive in and explore:
 
 ### Process Instance Data Partitioning & Archiving
 
+
+We are introducing a new partitioning system using a field called `partition_id`, which will be automatically generated when creating entities related to `process_instance`. 
+
+This will make possible to group related entities into partitions with the same ID. Existing data will be moved to the first partition and will stay there until a new partition_id is generated.
+
+A scheduled task in FlowX will manage old data by moving it into separate tables based on configured retention periods. These tables can be compressed, copied, moved, archived, or deleted without affecting other processes in FlowX. 
+
+#### FlowX.AI configuration
+
+- New settings (new environment variables) for enabling partitioning, setting partition intervals, retention intervals, and compression.
+- Scheduler settings for cron job execution are also configured.
+
+For additional configuration, check the deployment guidelines:
+
+<Card title="Additional configuration" href="./deployment-guidelines-v4.1.1#additional-configuration">
+</Card>
+
 ## **Bug Fixes** 🛠️
 
 We've also squashed pesky bugs to ensure a smoother and more reliable experience across the board.

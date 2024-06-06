@@ -1,0 +1,81 @@
+---
+title: Process instance data partitioning & archiving
+description: Data partitioning and compression, improving data management and archival processes.
+---
+
+## Partitioning
+
+Partitioning involves splitting instance-related tables into multiple tables based on the `creation_time` of each entity. This process is managed by the database, which abstracts access to the partitioned data, so no changes are needed in the application code to locate data in specific partitions.
+
+<Info>
+Database Compatibility: Oracle and Postgres.
+</Info>
+
+### Explicit partitioning
+
+Rules for partitioning the data are explicitly defined. Allows partitioning based on specific business conditions, such as time intervals.
+
+### Implicit partitioning
+
+Performed automatically by the database, with partitions created as needed. Partitions are of equal size, and the partitioning process is entirely managed by the database.
+
+## Detaching
+
+Detaching refers to removing a partition from the working set. For example, if a table is partitioned based on the `creation_date` column, detaching involves removing the oldest partition so it is no longer part of the active dataset. Operations on the table will exclude this detached data.
+
+## Archiving
+
+Archiving is the process of copying detached tables to an external storage solution (such as another database or a data lake) and then removing them from the initial database.
+
+- A cron job in FlowX will manage partitioning based on configured retention intervals.
+- Old data and completed instances will be moved to detached and (optionally) compressed tables.
+
+## Daily operations
+
+Once set up, the partitioning and archiving process involves the following operations:
+
+<Steps>
+<Step title= "Partition ID Calculation">
+The `partition_id` is automatically calculated based on the configured interval (DAY, WEEK, MONTH).
+Example for daily partitioning: `2024-03-01 13:00:00` results in `partition_id = 124061`.
+</Step>
+<Step title="Retention Management">
+Data older than the configured retention interval becomes eligible for detachment and compression.
+</Step>
+<Step title ="Archiving process">
+- A cron job checks for eligible partitions.
+- Eligible partitions are detached and optionally compressed.
+- The process includes deactivating foreign keys, creating new archive tables, moving data references, reactivating foreign keys, and dropping the original partition.
+</Step>
+<Step title ="Space management">
+- Detached tables remain in the database but occupy less space if compression is enabled.
+- To free up space, move detached tables to another database or tablespace.
+</Step>
+</Steps>
+
+
+## Logging information
+
+Partitioning and archiving actions are logged in two tables:
+
+- `DATA_PARTITIONING_LOG`: For tracking detached partitions.
+- `DATA_PARTITIONING_LOG_ENTRY`: For logging SQL commands executed for detachment.
+
+## Technical details
+
+### Partition ID Calculation
+    
+- The `partition_id` format: `LEVEL || YEAR || BIN_ID_OF_YEAR`. Calculated based on start date of `process_instance`, partition interval, and partition level.
+- Example: For a timestamp `2024-03-01 13:00:00` and daily partitioning interval, the `partition_id` is `124061`.
+
+### Detached and Compressed Tables
+    
+- Naming format: `archived__${table_name}__${interval_name}_${reference}`.
+- Example: `archived__process_instance__monthly_2024_03`.
+
+### Configuration example
+
+Check the following section for the environment variables needed to cofigure the data partitioning:
+
+<Card title ="Partioning & archiving configuration "href="./engine-setup#configuring-data-partitioning-and-archiving">
+</Card>

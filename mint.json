@@ -527,8 +527,9 @@
                   "4.0/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/elasticsearch-indexing",
                   "4.0/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/process-instance-indexing-config-guidelines"
                 ]
-        
-              }
+              },
+
+              "4.0/setup-guides/flowx-engine-setup-guide/process-instance-data"
             ]
     
           },
