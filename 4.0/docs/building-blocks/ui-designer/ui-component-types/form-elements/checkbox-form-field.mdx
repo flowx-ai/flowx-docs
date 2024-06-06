@@ -7,13 +7,13 @@ description: A checkbox form field is an interactive element in a web form that 
 
 This type of form field can be used to gather information such as interests, preferences, or approvals, and it provides a simple and intuitive way for users to interact with a form.
 
-## Configuring the checkbox element
+## Configuring the Checkbox element
 
-### Checkbox settings
+### Checkbox generic settings
 
 The available configuration options for this form element are:
 
-- [**General**](#general)
+- [**Process data key**](#process-data-key)
 - [**Properties**](#properties)
 - [**Datasource**](#datasource)
 - [**Validators**](#validators)
@@ -21,22 +21,22 @@ The available configuration options for this form element are:
 - [**UI actions**](#ui-actions)
 - [**Checkbox styling**](#checkbox-styling)
 
-#### General
+#### Process data key
 
-* **Process data key** - creates the binding between form element and process data, so it can be later used in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration)
+Process data key establishes the binding between the checkbox element and process data, enabling its later use in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration).
 
 #### Properties
 
-* **Label** - the label that appears on the checkbox
-* **Helpertext** - additional information about the checkbox (can be hidden inside an infopoint)
+* **Label**: The visible label for the checkbox.
+* **Helper Text**: Additional information about the checkbox element, which can be optionally hidden within an infopoint.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/checkbox_properties.png)
 
-#### Datasource
+#### Datasource configuration
 
-* **Default Value** - the default value of the checkbox
-* **Source Type** - it can be Static, Enumeration, or Process Data
-* **Add option** - label - value pairs can be defined here
+* **Default value**: The default value of the checkbox.
+* **Source Type**: The source can be Static, Enumeration, or Process Data.
+* **Add option** : Define label and value pairs here.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/checkbox_datasource.png)
 
@@ -46,12 +46,12 @@ The following validators can be added to a checkbox: `required` and `custom` (mo
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/checkbox_validators.png)
 
-#### Expressions
+#### Hide/disable expressions
 
 The checkbox behavior can be defined using JavaScript expressions for hiding or disabling the element. The following properties can be configured for expressions:
    
-* **Hide** - JavaScript expression used to hide the checkbox when it returns a truthy value
-* **Disabled** - JavaScript expression used to disable the checkbox when it returns a truthy value
+* **Hide condition**: A JavaScript expression that hides the checkbox when it returns a truthy value.
+* **Disabled condition**: A JavaScript expression that disables the checkbox when it returns a truthy value.
 
 <Info>
 It's important to make sure that disabled fields have the same expression configured under the path expressions → hide.
@@ -61,42 +61,76 @@ It's important to make sure that disabled fields have the same expression config
 
 UI actions can be added to the checkbox element to define its behavior and interactions.
 
-* **Event** - possible value: `CHANGE`
-* **Action Type** - select the action type
+* **Event**: Possible value - `CHANGE`.
+* **Action Type**: Select the type of the action to be performed.
 
 <Info>
 For more details on how to configure a UI action, click [**here**](../../ui-actions).
 </Info>
 
+### Checkbox settings overrides
+
+There are instances where you may need to tailor settings configured in the **Generic** settings tab. This proves especially beneficial when you wish to adjust these settings to appear differently across various platforms such as Web, Android, or iOS.
+
+Available override settings:
+
+* Properties:
+    * **Label**: Override the input label.
+    * **Helper**: Override helper text/info point.
+* Expressions:
+    * **Hide**: Override the hide expression.
+
+<Tip>
+Overrides can always be imported/pushed from one platform to another:
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importing_pushing_overrides.gif)
+
+</Tip>
 
 ### Checkbox styling
 
-#### Properties
+<Tabs>
+<Tab title="Web">
+<Tabs>
+<Tab title ="Properties">
 
-The type of the checkbox can be selected by using the **styling** tab in **UI Designer**, possible values:
+* **Type**: Set the type of the checkbox. Possible values:
 
-* clear
-* bordered
+    * bordered
+    * clear
 
-#### Typography
 
-You can customize the typography for the following properties:
+</Tab>
+<Tab title="Sizing">
 
-* Label
-* Options
-* Helper & errors
+Adjusting the size of components is crucial for a responsive design. Fit W (width) offers three options:
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/checkbox_typography.png)
+    * **fill**: Fills the available space.
+    * **fixed**: Maintains a fixed width.
+    * **auto**: Adjusts the width automatically based on content.
 
-For more details on how to upload and manage fonts, check the following section:
+</Tab>
+<Tab title ="Layout">
 
-<Card title="Font management" href="../../../../platform-deep-dive/core-extensions/content-management/font-files" icon="link">
-</Card>
+</Tab>
+</Tabs>
+</Tab>
+<Tab title ="iOS">
 
-<Tip>
-For more valid CSS properties, click [here](../../#styling).
-</Tip>
+Similar styling considerations apply to iOS as for web.
 
-A clear checkbox element with three options added, and a column layout will look like as it follows:
+However, for mobile applications, there's an additional sizing style property specific to select elements:
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/checkbox_styling.png)
+* **Height** (pt - points): Determines the vertical size of the select element on the screen.
+
+</Tab>
+<Tab title ="Android">
+
+Similar styling considerations apply to Android as for web.
+
+However, for mobile applications, there's an additional sizing style property specific to select elements:
+
+* **Height** (dp - density-independent pixels): Determines the vertical size of the select element on the screen.
+
+</Tab>
+</Tabs>

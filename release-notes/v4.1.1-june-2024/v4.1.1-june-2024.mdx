@@ -1,0 +1,42 @@
+---
+title: FlowX.AI 4.1.1 Release
+---
+
+<Info>
+This release is a **Long-Term Support (LTS)** version, ensuring extended support and stability.
+</Info>
+
+Let's dive in and explore:
+
+## **What's New?** 🆕
+
+### Process Instance Data Partitioning & Archiving
+
+## **Bug Fixes** 🛠️
+
+We've also squashed pesky bugs to ensure a smoother and more reliable experience across the board.
+
+- **Process Designer**: The error hiccups with embedded subprocesses and their error events have been smoothed out! No more getting stuck in a loop; now, you'll gracefully proceed to the embedded subprocess as expected.
+- **Process Designer**: The versioning hiccup causing merge conflicts when trying to merge a branch with a main branch that wasn't imported into the environment has been fixed!
+- **UI Designer**: The slider UI element's identity crisis has been resolved. No longer will it confuse its maximum value with its minimum counterpart.
+- **UI Designer**: Concatenation glitch in text elements, where values from the collection prototype play hide and seek, has been patched up! No more disappearing acts - they'll be displayed side by side as intended.
+- **UI Designer**: The glitch preventing the assignment of actions in button UI Actions with blank spaces in their names has been smoothed out!
+
+## Gremlins to Watch Out For
+
+Keep an eye out for these quirks:
+
+- **UI Designer**: When relocating UI elements between parents, the elements' order doesn't always get the memo, causing a mix-up in the family tree. We're untangling this knot! 
+
+## Resources
+
+For deployment guidelines and a seamless transition to version 4.1.1: 
+
+<CardGroup>
+<Card title="Deployment guidelines v4.1.1" href="./deployment-guidelines-v4.1.1" icon ="file">
+</Card>
+
+<Card title="Migrating from previous versions" href="./migrating-from-previous-to-v4.1.1" icon ="file">
+</Card>
+
+</CardGroup>
