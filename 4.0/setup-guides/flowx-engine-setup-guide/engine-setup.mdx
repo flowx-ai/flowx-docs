@@ -444,11 +444,12 @@ This section details the environment variable that controls the expiration of su
 This section contains environment variables that control the settings for data partitioning and archiving. These settings determine how data is segmented, retained, and managed, including compression and batch processing.
 
 
-| Environment Variable                                    | Description                                                                                       | Default Value | Possible Values                |
-|---------------------------------------------------------|---------------------------------------------------------------------------------------------------|---------------|--------------------------------|
-| `FLOWX_DATA_PARTITIONING_ENABLED`                       | Activates data partitioning.                                                                      | `true`        | `true`, `false`                |
-| `FLOWX_DATA_PARTITIONING_INTERVAL`                      | Interval for partitioning (the time interval contained in a partition).                           | `day`         | `DAY`, `WEEK`, `MONTH`         |
-| `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`           | Number of intervals retained in the FlowX database (for partitioned tables).                      | `1`           | Integer values (e.g., `1`, `2`, `3`) |
-| `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION`| Enables compression for detached partitions (Oracle only).                                        | `OFF`         | `OFF`, `BASIC`, `ADVANCED`     |
-| `FLOWX_DATA_PARTITIONING_MOVED_DATA_BATCH_SIZE`         | Batch size for moving data (Postgres only).                                                       | `5000`        | Integer values (e.g., `1000`, `5000`)|
+| Environment Variable                                     | Description                                                                  | Default Value | Possible Values                       |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------- | ------------------------------------- |
+| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `true`        | `true`, `false`                       |
+| `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`       | `DAY`, `WEEK`, `MONTH`                |
+| `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`           | Integer values (e.g., `1`, `2`, `3`)  |
+| `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for detached partitions (Oracle only).                   | `OFF`         | `OFF`, `BASIC`, `ADVANCED`            |
+| `FLOWX_DATA_PARTITIONING_MOVED_DATA_BATCH_SIZE`          | Batch size for moving data (Postgres only).                                  | `5000`        | Integer values (e.g., `1000`, `5000`) |
+
 

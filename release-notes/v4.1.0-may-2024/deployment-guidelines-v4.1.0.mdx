@@ -191,18 +191,36 @@ Currently not required to be set as they take values from old configs.
 
 #### Elasticsearch configuration
 
-#### Existing config:
+This outlines the Elasticsearch configuration for the following microservices: FlowX Admin, FlowX Engine, Data Search, and Audit Core.
 
-* `SPRING_ELASTICSEARCH_REST_URIS`: Only the value changes for this environment variable for microservices that use Elasticsearch (FlowX Admin, FlowX Process Engine, Data Search, Audit Core).
+#### Existing configuration:
 
-<Info>
-The protocol (http:// or https://) is now no longer needed to be added.
-</Info>
+* `SPRING_ELASTICSEARCH_REST_URIS`: This environment variable is used by the microservices listed above. This variable needs to be set to the appropriate value for each environment.
 
-#### New config:
+Example:
+
+```yaml
+# only the value changes for the next config:
+spring:
+  elasticsearch:
+    rest:
+      uris: localhost:9200 #no more protocol/schema anymore
+```
+
+#### New configuration:
 
 * `SPRING_ELASTICSEARCH_REST_PROTOCOL`: Default value is `https`; should be overridden if connection to Elasticsearch needs to be done over `http`.
 
+Example:
+
+```yaml
+# New configuration with default value:
+spring:
+  elasticsearch:
+	  rest:
+        protocol: https / http # default value is https - should be overriden if connection to elastic needs to be done on http.
+
+```
 
 ### License core configuration
 
