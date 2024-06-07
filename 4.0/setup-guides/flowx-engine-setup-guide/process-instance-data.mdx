@@ -11,14 +11,6 @@ Partitioning involves splitting instance-related tables into multiple tables bas
 Database Compatibility: Oracle and Postgres.
 </Info>
 
-### Explicit partitioning
-
-Rules for partitioning the data are explicitly defined. Allows partitioning based on specific business conditions, such as time intervals.
-
-### Implicit partitioning
-
-Performed automatically by the database, with partitions created as needed. Partitions are of equal size, and the partitioning process is entirely managed by the database.
-
 ## Detaching
 
 Detaching refers to removing a partition from the working set. For example, if a table is partitioned based on the `creation_date` column, detaching involves removing the oldest partition so it is no longer part of the active dataset. Operations on the table will exclude this detached data.
@@ -79,3 +71,41 @@ Check the following section for the environment variables needed to cofigure the
 
 <Card title ="Partioning & archiving configuration "href="./engine-setup#configuring-data-partitioning-and-archiving">
 </Card>
+
+
+## Enabling Partitioning and ES Kafka Indexing Strategy
+
+When partitioning is enabled, the Elasticsearch (ES) Kafka indexing strategy must also be enabled and configured on FlowX Engine setup.
+
+Configuration Example:
+
+```yaml
+flowx:
+  indexing:
+    enabled: true  # true | false - Specifies if the ElasticSearch indexing for the entire app is enabled or disabled.
+    processInstance:  # Configuration set for indexing process instances. Can be duplicated for other objects.
+      indexing-type: kafka  # Options: no-indexing | http | kafka - The chosen indexing strategy.
+      index-name: process_instance  # The index name that is part of the search pattern.
+      shards: 1
+      replicas: 1
+```
+
+
+<Card icon="info">
+Why?
+
+* When detaching process instances, data from Elasticsearch must also be deleted, not just the cache but also indexed keys (e.g., those indexed for data search on process instances).
+</Card>
+
+Check the Elastic search indexing setup here:
+
+[Elasticsearch indexing setup](./configuring-elasticsearch-indexing/)
+
+The partitioning configuration should be aligned with the configuration in the Kafka Elasticsearch connector, especially the following environment variables, so the intervals are similar:
+
+### Index Partitioning:
+
+* `transforms.routeTS.topic.format: "process_instance-${timestamp}"`: This value must start with the index name defined in the process-engine config: flowx.indexing.processInstance.index-name. In this example, the index name is prefixed with "process_instance-" and appended with a timestamp for dynamic index creation. For backward compatibility, the prefix must be "process_instance-". However, backward compatibility is not strictly required here.
+yaml
+
+* `transforms.routeTS.timestamp.format: "yyyyMMdd"`:This format ensures that timestamps are consistently represented and easily parsed when creating or searching for indices based on the process instance start date. You can adjust this value as needed (e.g., for monthly indexes, use "yyyyMM"). However, note that changing this format will cause existing indexed objects to remain unchanged, and update messages will be treated as new objects, indexed again in new indices. It is crucial to determine your index size and maintain consistency.
