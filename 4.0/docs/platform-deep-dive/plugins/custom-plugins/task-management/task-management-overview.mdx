@@ -142,7 +142,11 @@ When handling on-hold projects, document the reasons, inform the team, and plan 
 
 ## Viewing the Application
 
-In the task management tab, paste the application URL where the process is loaded, following this format:
+Property used to point to the application url where the flowx process is loaded.
+
+### Process settings level
+
+In the Process Definitions settings, navigate to the **Task Management** tab and locate the **Application URL** field. Here, paste the application URL where the process is loaded, following this format:
 
 ```
 {baseURL}/processes/instance
@@ -154,13 +158,29 @@ Example:
 
 
 <Tip>
-You can also use a defined generic parameter as a URL: `${genericParameter}`.
+You can also use a predefined generic parameter as the URL: `${genericParameter}`.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/tsk_generic_param.png)
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/tsk_generic_param1.png)
 
 </Tip>
+
+### Process data level
+
+If task.baseUrl is specified in the process parameters, it will be sent to the Task Manager to update the tasks accordingly.
+```java
+output.put("task", {"baseUrl": "https://your_base_url"});
+```
+
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/tsk_manager_base_url.png)
+</Frame>
+
+<Warning>
+The `baseURL` set in the process data (business rules) will override the `baseURL` set in the process definition settings.</Warning>
 
 ## Bulk updates
 

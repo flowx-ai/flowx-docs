@@ -12,7 +12,6 @@ Let's dive in and explore:
 
 ### Process Instance Data Archiving
 
-
 We are introducing a new archiving system using a field called `partition_id`, which will be automatically generated when creating entities related to `process_instance`. 
 
 This will make possible to group related entities into partitions with the same ID. Existing data will be moved to the first partition and will stay there until a new `partition_id` is generated.
@@ -52,12 +51,8 @@ output.put("task", {"baseUrl": "https://your_base_url"});
 ```
 This update streamlines the configuration process, ensuring that task URLs are dynamically updated and properly managed within the Task Manager.
 
-
-
-
-
-
-
+<Card title ="View the application" href="../../4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview#viewing-the-application">
+</Card>
 
 
 ## Gremlins to Watch Out For
