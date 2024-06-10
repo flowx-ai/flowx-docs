@@ -439,17 +439,65 @@ This section details the environment variable that controls the expiration of su
 | `FLOWX_PROCESS_EXPIRE_SUBPROCESSES`         | Governs subprocess expiration in a parent process. When true, terminates all associated subprocesses upon parent process expiration. When false, subprocesses follow their individual expiration settings or persist indefinitely if not configured. | `true`        | `true`, `false`   |
 
 
-## Configuring data partitioning and archiving
+## Partitioning and archiving
+
+<Info>
+When enabling partitioning, please consider the following:
+
+* **Ensure Process Termination**: Make sure your process instances are terminated. This means that no process should remain unfinished for any reason.
+* **Set Process Expiry**n: Set an expiry on your processes. This ensures that your processes will reach a FINISHED status, either naturally or through expiration.
+</Info>
+
+
+<Steps>
+<Step title="Setup">
+    - Execute SQL setup commands manually.
+
+<Check>
+On the Production environment, before starting the new version of the process-engine, we recommend manually executing the setup SQL commands from Liquibase, as they may take more time. After setup, all existing information will go into the initial partition. The initial partition will continue to be used until a new partition_id is generated according to the partitioning interval (DAY, WEEK, MONTH). Future partitions will be created automatically.
+</Check>
+    
+ - Install the latest build version of `process-engine`.
+
+</Step>
+<Step title ="Configuration">
+
+- Enable partitioning and set intervals in process engine configuration with latest environment variables:
+
+[See below](#configuring-partitioning-and-archiving)
+
+- Define the appropriate cron expression for the scheduler.
+
+</Step>
+
+<Step title="Operation">
+
+- Monitor and manage partitioning and archiving processes.
+- Review logs for partitioning actions and SQL executions.
+</Step>
+</Steps>
+
+<Info>
+Future schema updates or migrations will not affect detached tables. They retain the schema from the moment of detachment.
+</Info>
+
+### Configuring partitioning and archiving
 
 This section contains environment variables that control the settings for data partitioning and archiving. These settings determine how data is segmented, retained, and managed, including compression and batch processing.
 
 
 | Environment Variable                                     | Description                                                                  | Default Value | Possible Values                       |
 | -------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------- | ------------------------------------- |
-| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `true`        | `true`, `false`                       |
+| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `false`       | `true`, `false`                       |
 | `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`       | `DAY`, `WEEK`, `MONTH`                |
 | `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`           | Integer values (e.g., `1`, `2`, `3`)  |
 | `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for detached partitions (Oracle only).                   | `OFF`         | `OFF`, `BASIC`, `ADVANCED`            |
 | `FLOWX_DATA_PARTITIONING_MOVED_DATA_BATCH_SIZE`          | Batch size for moving data (Postgres only).                                  | `5000`        | Integer values (e.g., `1000`, `5000`) |
 
+<Info>
+Compression for detached partitions is available only for Oracle DBs.
+</Info>
 
+<Info>
+Batch size for moving data is available only for Postgres DBs.
+</Info>

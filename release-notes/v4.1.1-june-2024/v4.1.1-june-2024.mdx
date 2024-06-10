@@ -10,39 +10,55 @@ Let's dive in and explore:
 
 ## **What's New?** 🆕
 
-### Process Instance Data Partitioning & Archiving
+### Process Instance Data Archiving
 
 
-We are introducing a new partitioning system using a field called `partition_id`, which will be automatically generated when creating entities related to `process_instance`. 
+We are introducing a new archiving system using a field called `partition_id`, which will be automatically generated when creating entities related to `process_instance`. 
 
-This will make possible to group related entities into partitions with the same ID. Existing data will be moved to the first partition and will stay there until a new partition_id is generated.
+This will make possible to group related entities into partitions with the same ID. Existing data will be moved to the first partition and will stay there until a new `partition_id` is generated.
 
 A scheduled task in FlowX will manage old data by moving it into separate tables based on configured retention periods. These tables can be compressed, copied, moved, archived, or deleted without affecting other processes in FlowX. 
 
 #### FlowX.AI configuration
 
 - New settings (new environment variables) for enabling partitioning, archiving, setting partition intervals, retention intervals, and compression.
+
+[Configuration](../../4.0/setup-guides/flowx-engine-setup-guide/engine-setup#configuring-partitioning-and-archiving)
+
 - Scheduler settings for cron job execution are also configured.
 
-For additional configuration, check the deployment guidelines:
-
-<Card title="Additional configuration" href="./deployment-guidelines-v4.1.1#additional-configuration">
-</Card>
+[Configuration](../../4.0/setup-guides/flowx-engine-setup-guide/engine-setup#configuring-cleanup-mechanism)
 
 For more details about process instance partitioning and archiving:
 
 <Card title ="Process instance archiving and partitioning" href= "../../4.0/setup-guides/flowx-engine-setup-guide/process-instance-data">
 </Card>
 
-## **Bug Fixes** 🛠️
+For more details about how to setup partitioning and archiving, check the following section:
 
-We've also squashed pesky bugs to ensure a smoother and more reliable experience across the board.
+<Card title="FlowX Engine setup guide" href="../../4.0/setup-guides/flowx-engine-setup-guide/engine-setup#partitioning-and-archiving">
+</Card>
 
-- **Process Designer**: The error hiccups with embedded subprocesses and their error events have been smoothed out! No more getting stuck in a loop; now, you'll gracefully proceed to the embedded subprocess as expected.
-- **Process Designer**: The versioning hiccup causing merge conflicts when trying to merge a branch with a main branch that wasn't imported into the environment has been fixed!
-- **UI Designer**: The slider UI element's identity crisis has been resolved. No longer will it confuse its maximum value with its minimum counterpart.
-- **UI Designer**: Concatenation glitch in text elements, where values from the collection prototype play hide and seek, has been patched up! No more disappearing acts - they'll be displayed side by side as intended.
-- **UI Designer**: The glitch preventing the assignment of actions in button UI Actions with blank spaces in their names has been smoothed out!
+## **Changes**  🔧
+
+### Base URL configuration for Task Manager
+
+We have enhanced the Task Manager by adding the ability to update the baseUrl for tasks. If the `task.baseUrl` is specified in the process parameters, it will now be sent to the Task Manager to update the tasks accordingly.
+
+Example of a Business Rule:
+
+```java
+output.put("task", {"baseUrl": "https://your_base_url"});
+```
+This update streamlines the configuration process, ensuring that task URLs are dynamically updated and properly managed within the Task Manager.
+
+
+
+
+
+
+
+
 
 ## Gremlins to Watch Out For
 

@@ -5,7 +5,7 @@ description: Data partitioning and compression, improving data management and ar
 
 ## Partitioning
 
-Partitioning involves splitting instance-related tables into multiple tables based on the `creation_time` of each entity. This process is managed by the database, which abstracts access to the partitioned data, so no changes are needed in the application code to locate data in specific partitions.
+Partitioning involves splitting instance-related tables into multiple tables based on the `partition_id` of each entity. This process is managed by the database, which abstracts access to the partitioned data, so no changes are needed in the application code to locate data in specific partitions.
 
 <Info>
 Database Compatibility: Oracle and Postgres.
@@ -13,7 +13,7 @@ Database Compatibility: Oracle and Postgres.
 
 ## Detaching
 
-Detaching refers to removing a partition from the working set. For example, if a table is partitioned based on the `creation_date` column, detaching involves removing the oldest partition so it is no longer part of the active dataset. Operations on the table will exclude this detached data.
+Detaching refers to removing a partition from the working set. For example, if a table is partitioned based on the `partition_id` column, detaching involves removing the oldest partition so it is no longer part of the active dataset. Operations on the table will exclude this detached data.
 
 ## Archiving
 
