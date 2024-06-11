@@ -9,10 +9,6 @@ description: An input field is a form element that enables users to input data w
 
 ## Configuring the Input element
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_props.png)
-</Frame>
-
 ### Input generic settings 
 
 These settings added in the Generic tab are available and they apply to all platforms including Web, iOS, and Android:
@@ -24,6 +20,10 @@ These settings added in the Generic tab are available and they apply to all plat
 - [**Expressions**](#expressions)
 - [**UI actions**](#ui-actions)
 - [**Input styling**](#input-styling)
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_props.png)
+</Frame>
 
 #### Process data key
    
@@ -188,8 +188,9 @@ For more details on how to configure a UI action, click [**here**](../../ui-acti
  
 * **Icon Key**: The key associated in the Media library, select the icon from the **Media Library**.
 
-
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/input_icons.png)
+</Frame>
 
 </Tab>
 <Tab title="Sizing">
@@ -222,5 +223,160 @@ However, for mobile applications, there's an additional sizing style property sp
 </Tab>
 </Tabs>
 
+#### Input style overrides options
+
+Theme overrides refer to the ability to modify or customize the appearance and behavior of UI components by overriding default theme settings. This can be applied at various levels, such as specific elements or entire sections, and can be platform-specific (Web, iOS, Android).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_all.png)
+</Frame>
+
+Style options:
+
+<AccordionGroup>
+  <Accordion title="Common Properties">
+- Border radius **[TEXT]**
+- Border width  **[TEXT]**
+- Text style **[FONT]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_common_props.png)
+</Frame>
+
+</Accordion>
+
+  <Accordion title="Label">
+- Default state
+    - Text color **[COLOR]**
+- Disabled state
+    - Text color  **[COLOR]**
+- Text style **[FONT]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_label.png)
+</Frame>
+
+</Accordion>
+
+  <Accordion title="Helper">
+- Text color **[COLOR]**
+- Text style **[FONT]**
+- Helper Tooltip
+    - Text style **[FONT]**
+    - Text color **[COLOR]**
+    - Background color **[COLOR]**
+    - Icon Color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_helper.png)
+</Frame>
+
+</Accordion>
+
+<Accordion title="Error">
+
+- Text color **[COLOR]**
+- Text style **[FONT]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_error.png)
+</Frame>
+
+</Accordion>
+
+  <Accordion title="Empty State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Right icon color **[COLOR]**
+    - Left icon color **[COLOR]**
+    - Prefix/Suffix color **[COLOR]**
+    - Placeholder color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_empty_state.png)
+</Frame>
+
+  </Accordion>
+
+  <Accordion title="Active State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Right icon color **[COLOR]**
+    - Left icon color **[COLOR]**
+    - Prefix/Suffix color **[COLOR]**
+    - Placeholder color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_active_state.png)
+</Frame>
+
+  </Accordion>
+
+  <Accordion title="Filled State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Right icon color **[COLOR]**
+    - Left icon color **[COLOR]**
+    - Prefix/Suffix color **[COLOR]**
+    - Placeholder color **[COLOR]**
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_filled_state.png)
+</Frame>
+
+</Accordion>
+
+ <Accordion title="Disabled State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Right icon color **[COLOR]**
+    - Left icon color **[COLOR]**
+    - Prefix/Suffix color **[COLOR]**
+    - Placeholder color **[COLOR]**
+
+<Frame> 
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_disabled_state.png)
+</Frame>
+  </Accordion>
+
+  <Accordion title="Error State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Right icon color **[COLOR]**
+    - Left icon color **[COLOR]**
+    - Prefix/Suffix color **[COLOR]**
+    - Placeholder color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_error_state.png)
+</Frame>
+
+  </Accordion>
+
+  <Accordion title="Hover State (only for Web configuration)">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Right icon color **[COLOR]**
+    - Left icon color **[COLOR]**
+    - Prefix/Suffix color **[COLOR]**
+    - Placeholder color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_hover_state.png)
+</Frame>
+
+  </Accordion>
+</AccordionGroup>
 
 
+<Info>
+You can import or push the overrides from one platform to another without having to configure them multiple times.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_push_import.gif)
+
+</Info>

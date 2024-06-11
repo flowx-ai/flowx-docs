@@ -3,7 +3,9 @@ title: Checkbox
 description: A checkbox form field is an interactive element in a web form that provides users with multiple selectable options. It allows users to choose one or more options from a pre-determined set by simply checking the corresponding checkboxes.
 ---
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/checkbox_form_field.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_new.png)
+</Frame>
 
 This type of form field can be used to gather information such as interests, preferences, or approvals, and it provides a simple and intuitive way for users to interact with a form.
 
@@ -30,7 +32,9 @@ Process data key establishes the binding between the checkbox element and proces
 * **Label**: The visible label for the checkbox.
 * **Helper Text**: Additional information about the checkbox element, which can be optionally hidden within an infopoint.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/checkbox_properties.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_props.png)
+</Frame>
 
 #### Datasource configuration
 
@@ -38,20 +42,29 @@ Process data key establishes the binding between the checkbox element and proces
 * **Source Type**: The source can be Static, Enumeration, or Process Data.
 * **Add option** : Define label and value pairs here.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/checkbox_datasource.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_datasource.png)
+</Frame>
 
 #### Validators 
 
 The following validators can be added to a checkbox: `required` and `custom` (more details [here](../../validators)).
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/checkbox_validators.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_validators.png)
+</Frame>
 
 #### Hide/disable expressions
 
 The checkbox behavior can be defined using JavaScript expressions for hiding or disabling the element. The following properties can be configured for expressions:
    
-* **Hide condition**: A JavaScript expression that hides the checkbox when it returns a truthy value.
+* **Hide condition**: A JavaScript expression that hides the checkbox element when it evaluates to the specified result.
 * **Disabled condition**: A JavaScript expression that disables the checkbox when it returns a truthy value.
+
+These expressions can be used with any form element. See the following example for details:
+
+<Card title="Input hide/disabled example" href="./input-form-field#hidedisable-expressions">
+</Card>
 
 <Info>
 It's important to make sure that disabled fields have the same expression configured under the path expressions → hide.
