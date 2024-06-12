@@ -39,22 +39,19 @@ Ensure that you have the following dependencies in your project:
 Ensure that you have the following configuration in your `application.yml` or `application.properties` file:
 
 ```yaml
-spring.kafka:
-      bootstrap-servers: URL_OF_THE_KAFKA_SERVER
-      producer:
-        key-deserializer: org.apache.kafka.common.serialization.StringSerializer
-        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-        properties:
-          interceptor:
-            classes: io.opentracing.contrib.kafka.TracingProducerInterceptor
-          security.protocol: "SASL_PLAINTEXT"
-          sasl.mechanism: "OAUTHBEARER"
-          sasl.jaas.config: "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required ;"
-          sasl.login.callback.handler.class: io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler
-
-kafka:
-  authorizationExceptionRetryInterval: 10
-  ADD_NEEDED_TOPIC_NAMES_HERE # make sure to use the correct naming pattern for topics used to send data to the FLOWX Engine
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    security.protocol: "PLAINTEXT"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        message:
+          max:
+            bytes: ${KAFKA_MESSAGE_MAX_BYTES:52428800} #50MB
+        max:
+          request:
+            size: ${KAFKA_MESSAGE_MAX_BYTES:52428800} #50MB
 ```
 
 ## Code sample for a Kafka producer

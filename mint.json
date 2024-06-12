@@ -527,8 +527,9 @@
                   "4.0/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/elasticsearch-indexing",
                   "4.0/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/process-instance-indexing-config-guidelines"
                 ]
-        
-              }
+              },
+
+              "4.0/setup-guides/flowx-engine-setup-guide/process-instance-data"
             ]
     
           },
@@ -988,6 +989,16 @@
           "release-notes/overview",
 
           {
+            "group": "v4.1.1 - June",
+            "pages": [
+              "release-notes/v4.1.1-june-2024/v4.1.1-june-2024",
+              "release-notes/v4.1.1-june-2024/deployment-guidelines-v4.1.1",
+              "release-notes/v4.1.1-june-2024/migrating-from-previous-to-v4.1.1"
+            ]
+            
+          },
+
+          {
             "group": "v4.1.0 - May",
             "icon": "burst",
             "pages": [
@@ -1246,11 +1257,6 @@
       }
 
 
-
-
-
-
-
       
   
   
@@ -1279,6 +1285,10 @@
     "ga4": {
         "measurementId": "G-CGW0FVK9YM"
     }
-}
+
+
+  }
+
 
 }
+

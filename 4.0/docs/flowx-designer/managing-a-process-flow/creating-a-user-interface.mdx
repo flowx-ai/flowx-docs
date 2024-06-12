@@ -2,116 +2,151 @@
 title: Creating a user interface
 ---
 
-You can configure interfaces for the processes for both generated and custom screens.
+You can configure interfaces for both generated and custom screens in FlowX Designer.
 
-## Creating a stepper structure
-
-To create a stepper structure:
+Create a simple process:
 
 <Steps>
 <Step>
- Go to **FlowX Designer** and go to the **Definitions** tab.
+Go to **FlowX Designer** and navigate to the **Definitions** tab.
 </Step>
 <Step>
-Click on the **New process** button, using the **breadcrumbs** from the top-right corner.
+Click on the **New Process** button, using the **breadcrumbs** in the top-right corner.
 </Step>
 <Step>
-Add a **start node**.
+Add a **Start Node**.
 </Step>
 <Step>
-Add a new **milestone** to describe all the user tasks.
+Add two **User Tasks** that will represent the screens of the application.
 </Step>
 <Step>
-Add a **user task** that will represent the first card of our step.
+Finish your BPMN process with an **End Node**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui.png)
+</Frame>
+
 </Step>
 <Step>
-Add an **end milestone** for both the step and the stepper.
-</Step>
-<Step>
-End your process with an **end node**.
+Now create a **Navigation Area** (Page) where we will include our user tasks.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui1.gif)
+</Frame>
+
+<Tip>
+
+In the FlowX Designer, you can create the following navigation areas:
+
+* **Stepper**: Breaks progress into logical, numbered steps for intuitive navigation.
+* **Tab Bar**: Allows users to switch between different sections or views within the application.
+* **Page**: Displays full-page content for an immersive experience.
+* **Modal**: Overlays that require user interaction before returning to the main interface.
+* **Zone**: Groups specific navigation areas or tasks, like headers and footers.
+* **Parent Process Area**: Supports subprocess design under a parent hierarchy, ensuring validation and design consistency.
+</Tip>
+
 </Step>
 </Steps>
-
-![Stepper Structure](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/process_flowx_create_UI.gif)
 
 ## Configuring the UI
 
-* All the UI elements are configured via the **UI designer**
-* Starting from our basic process, we need to set the start of the stepper template config
-* It is enough to open the drag and drop menu and add a Stepper template config for now
-* For the first step, it will be useful to add also a label
-* Clear the cache to test what we have until now
+All visual properties of the UI elements and navigation areas are configured using the using the **FlowX UI Designer**.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/process_flowx_configuring_UI.gif)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/where_ui1.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/where_ui2.png)
+</Frame>
 
-### Testing the flow that we have
+### Navigation type
 
-<Steps>
-<Step>
-From the **process definition**, click the **Start process** button.
-</Step>
-<Step>
-We will not pass any data to this process so an empty object `{}`.
-</Step>
-<Step>
-Click **Start Process** and you will see the first step.
-</Step>
-</Steps>
+To begin, we need to define the type of navigation for our page application. The options are:
 
-![First step](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/process_flow_first_step.gif)
+* Single page form
+* Wizard 
 
-## Adding a card with one input
-<Steps>
-<Step>
-Go to your **user task** (this will represent the **first card** of your step).
-</Step>
-<Step>
-Add a **`CARD`** (this is the UI card element).
-</Step>
-<Step>
-Add a **Form** to it (Form elements group inputs together).
-</Step>
-<Step>
-Add an **input** into the form:
-* Configure the **key** - you can use the key to retrieve the data form saved on that element
-* Configure a **label**
-</Step>
-</Steps>
+<Check>
+We will use the **Wizard** type for our example.
+</Check>
 
-![Adding input](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/pf_adding_input.gif)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui3.png)
+</Frame>
 
-### Testing our first input
+
+### Configuring the first screen (card)
 
 <Steps>
 <Step>
-**Start** one more time **the process** that you just configured.
+Open the **UI Designer** for your first **user task**. This will represent the **first card**.
 </Step>
 <Step>
-The **input** is displayed.
+Add a **CARD** element to the UI.
 </Step>
 <Step>
-Test the **input**.
+Add a **Form** to the card to group the inputs.
+</Step>
+<Step>
+Add an **input** field to the form.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ui_card1.png)
+</Frame>
+
+</Step>
+<Step>
+Add a button with a save data action to advance to the next screen and save the input data.
+
+<Info>
+First, configure the action at the node level. The action, called when the button is clicked, should be **Manual** (not automatic because it is triggered by a user).
+</Info>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui_save_data.png)
+</Frame>
+
 </Step>
 </Steps>
 
-![Test the input](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/pf_tresting_input.gif)
 
-## Adding second input and a submit action
+### Testing the first screen
 
 <Steps>
 <Step>
-Go to your **user task** node and add a new input via **Node UI designer**.
+Start the process definition that you just configured.
 </Step>
 <Step>
-Now go back to the process and add a new [**action rule**](../../building-blocks/actions/actions):
-   * first we need to configure the action - the action is called when the button is pressed - the action should be **Manual** (not automatic because it is triggered by a user)
-   * we need to keep in mind the name of the action - `saveDataFirstStep`
+The card with the **Form** and the **Input** is displayed.
 </Step>
 <Step>
-Go back to the Node UI designer and add a button (we need to link the **button** to the **action** based on the name).
+Test the **Input**.
 </Step>
 </Steps>
 
-![Second input](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/pf_second_input.gif)
+<Frame>
+![Test the input](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/test_card_ui.gif)
+</Frame>
 
-![Second input + action](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/pf_second_input_action.gif)
+## Configuring the second screen (card)
+
+<Steps>
+<Step>
+Go to your second **user task** and add a new **CARD**.
+</Step>
+<Step>
+Add other UI elements of your choice.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui4.png)
+</Frame>
+
+</Step>
+</Steps>
+
+### Testing the final result
+
+Start the process definition again to review the final result:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/final_rez.gif)
+</Frame>

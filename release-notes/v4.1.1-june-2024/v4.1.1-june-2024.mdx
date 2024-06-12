@@ -1,0 +1,75 @@
+---
+title: FlowX.AI 4.1.1 Release
+---
+
+<Info>
+This release is a **Long-Term Support (LTS)** version, ensuring extended support and stability.
+</Info>
+
+Let's dive in and explore:
+
+## **What's New?** 🆕
+
+### Process Instance Data Archiving
+
+We are introducing a new archiving system using a field called `partition_id`, which will be automatically generated when creating entities related to `process_instance`. 
+
+This will make possible to group related entities into partitions with the same ID. Existing data will be moved to the first partition and will stay there until a new `partition_id` is generated.
+
+A scheduled task in FlowX will manage old data by moving it into separate tables based on configured retention periods. These tables can be compressed, copied, moved, archived, or deleted without affecting other processes in FlowX. 
+
+#### FlowX.AI configuration
+
+- New settings (new environment variables) for enabling partitioning, archiving, setting partition intervals, retention intervals, and compression.
+
+[Configuration](../../4.0/setup-guides/flowx-engine-setup-guide/engine-setup#configuring-partitioning-and-archiving)
+
+- Scheduler settings for cron job execution are also configured.
+
+[Configuration](../../4.0/setup-guides/flowx-engine-setup-guide/engine-setup#configuring-cleanup-mechanism)
+
+For more details about process instance partitioning and archiving:
+
+<Card title ="Process instance archiving and partitioning" href= "../../4.0/setup-guides/flowx-engine-setup-guide/process-instance-data">
+</Card>
+
+For more details about how to setup partitioning and archiving, check the following section:
+
+<Card title="FlowX Engine setup guide" href="../../4.0/setup-guides/flowx-engine-setup-guide/engine-setup#partitioning-and-archiving">
+</Card>
+
+## **Changes**  🔧
+
+### Base URL configuration for Task Manager
+
+We have enhanced the Task Manager by adding the ability to update the baseUrl for tasks. If the `task.baseUrl` is specified in the process parameters, it will now be sent to the Task Manager to update the tasks accordingly.
+
+Example of a Business Rule:
+
+```java
+output.put("task", {"baseUrl": "https://your_base_url"});
+```
+This update streamlines the configuration process, ensuring that task URLs are dynamically updated and properly managed within the Task Manager.
+
+<Card title ="View the application" href="../../4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview#viewing-the-application">
+</Card>
+
+
+## Gremlins to Watch Out For
+
+Keep an eye out for these quirks:
+
+- **UI Designer**: When relocating UI elements between parents, the elements' order doesn't always get the memo, causing a mix-up in the family tree. We're untangling this knot! 
+
+## Resources
+
+For deployment guidelines and a seamless transition to version 4.1.1: 
+
+<CardGroup>
+<Card title="Deployment guidelines v4.1.1" href="./deployment-guidelines-v4.1.1" icon ="file">
+</Card>
+
+<Card title="Migrating from previous versions" href="./migrating-from-previous-to-v4.1.1" icon ="file">
+</Card>
+
+</CardGroup>

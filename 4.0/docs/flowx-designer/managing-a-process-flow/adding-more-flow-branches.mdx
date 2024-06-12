@@ -25,18 +25,40 @@ Click on the **New process** button, using the **breadcrumbs** from the top-righ
 Add a **start node** and a **parallel gateway node**.
 </Step>
 <Step>
-Add two different **task nodes** and link them after the **parallel gateway node**.
+Create two parallel zones by adding different nodes and link the zones after the **parallel gateway node**.
 </Step>
 <Step>
-Add a **parallel gateway** to merge the two flow branches back into one branch.
+Add another **parallel gateway** to merge the two flow branches back into one branch.
 </Step>
 <Step>
  Add an **end node**.
 </Step>
 </Steps>
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/parallel_zn.png)
+</Frame>
 
-![Visual Guide Parallel Gateway](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/process_flow_adding_branches.gif)
+
+<Info>
+When  working with parallel gateways, tokens play a critical role in ensuring that the process flow is managed correctly. Here's an overview of token behavior in parallel gateways:
+<Steps>
+<Step>
+When a process reaches a parallel gateway, the gateway creates child tokens for each branch in the parallel paths. Each path operates independently.
+</Step>
+<Step>
+Each child token advances through its respective path independently, proceeding from one node to the next based on the sequence and actions defined in the process.
+</Step>
+<Step>
+A closing parallel gateway node is used to merge parallel paths back into a single flow. The parent token waits at this closing gateway until all child tokens have completed their respective paths.
+</Step>
+</Steps>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/token_parallel.png)
+</Frame>
+
+</Info>
 
 <Card title="Parallel Gateway" href="../../building-blocks/node/parallel-gateway" icon="file">
 </Card>
