@@ -1,0 +1,38 @@
+---
+title: v3.4.8 June 2024
+---
+
+Welcome to the FLOWX.AI v3.4.8 patch release! This update brings several enhancements and fixes to improve your FLOWX.AI experience. While it may not be a major version update, it's packed with valuable improvements.
+
+## What's new?
+
+### Process Instance Data Archiving
+
+<Info>
+Available only for Oracle DBs.
+</Info>
+
+We are introducing a new system for archiving data related to old process instances. This enables the implementation of data retention policies, with more predictable storage usage and costs. Some operations involving process instance data can be snappier, given the lower amount of data and new structure. Archiving relies on partitioning data based on the process instance start time. Each partition is associated with a time period (day, week, month), and retention is defined by the number of periods maintained in the system.
+
+Archived data remains in new tables the database, optionally compressed, and is no longer accessible in FlowX. These tables can be compressed, copied, moved, archived, or deleted without affecting other processes in FlowX.
+
+For more details about process instance partitioning and archiving:
+
+<Card title ="Process instance data archiving and partitioning" href= "../../4.0/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving">
+</Card>
+
+For more details about how to enable and setup partitioning and archiving, check the deployment guidelines:
+
+<Card title="Additional configuration" href="./deployment-guidelines-v4.1.1#process-instance-data-archiving">
+</Card>
+
+.
+
+## Additional information
+
+For deployment guidelines, refer to:
+ 
+<Card title="Deployment guidelines v3.4.8" href="./deployment-guidelines-v3.4.8"></Card>
+
+
+

@@ -529,7 +529,7 @@
                 ]
               },
 
-              "4.0/setup-guides/flowx-engine-setup-guide/process-instance-data"
+              "4.0/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving"
             ]
     
           },
@@ -1033,6 +1033,16 @@
             ]
             
           },
+
+          {
+            "group": "v3.4.8",
+            "pages": [
+              "release-notes/v3.4.8-june-2024/v3.4.8-june-2024",
+              "release-notes/v3.4.8-june-2024/deployment-guidelines-v3.4.8"
+            ]
+            
+          },
+
           {
             "group": "v3.4.7",
             "pages": [
