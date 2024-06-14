@@ -2,37 +2,72 @@
 title: v3.4.8 June 2024
 ---
 
-Welcome to the FLOWX.AI v3.4.8 patch release! This update brings several enhancements and fixes to improve your FLOWX.AI experience. While it may not be a major version update, it's packed with valuable improvements.
+Welcome to the FlowX.AI v3.4.8 patch release! This update brings several enhancements and fixes to improve your FlowX.AI experience. While it may not be a major version update, it's packed with valuable improvements.
 
-## What's new?
+## What's new? 🆕
 
-### Process Instance Data Archiving
+### FlowX.AI Engine: Process Instance Data Archiving
 
 <Info>
-Available only for Oracle DBs.
+Database compatibility: Oracle DBs.
 </Info>
 
-We are introducing a new system for archiving data related to old process instances. This enables the implementation of data retention policies, with more predictable storage usage and costs. Some operations involving process instance data can be snappier, given the lower amount of data and new structure. Archiving relies on partitioning data based on the process instance start time. Each partition is associated with a time period (day, week, month), and retention is defined by the number of periods maintained in the system.
+We are introducing a new system for archiving data related to old process instances. This enables the implementation of data retention policies, with more predictable storage usage and costs.
+
+<Tip>
+Some operations involving process instance data can be snappier, given the lower amount of data and new structure. Archiving relies on partitioning data based on the process instance start time. Each partition is associated with a time period (day, week, month), and retention is defined by the number of periods maintained in the system.
+</Tip>
 
 Archived data remains in new tables the database, optionally compressed, and is no longer accessible in FlowX. These tables can be compressed, copied, moved, archived, or deleted without affecting other processes in FlowX.
 
 For more details about process instance partitioning and archiving:
 
-<Card title ="Process instance data archiving and partitioning" href= "../../4.0/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving">
+<Card title ="Process instance data archiving and partitioning" href= "../../3.x/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving">
 </Card>
 
 For more details about how to enable and setup partitioning and archiving, check the deployment guidelines:
 
-<Card title="Additional configuration" href="./deployment-guidelines-v4.1.1#process-instance-data-archiving">
+<Card title="Additional configuration" href="./deployment-guidelines-v3.4.8#process-instance-data-archiving">
 </Card>
 
-.
+
+### Documents Plugin
+
+Introducing configurable temporary file deletion strategy. Explore configuration details in the section below:
+
+<Card title ="Documents plugin setup guide" href ="../../3.x/setup-guides/plugins-setup-guide/documents-plugin-setup#file-storage-configuration">
+</Card>
+
+
+### FlowX.AI CMS
+
+We've updated the FlowX CMS with a new request parameter, `fetchChildren`, designed for retrieving comprehensive content details. This boolean parameter is now available on `GET` requests for contents. It enables the CMS to automatically fetch all child content values associated with each content item. 
+
+
+## Bug Fixes 🛠️
+
+We've also squashed pesky bugs to ensure a smoother and more reliable experience across the board:
+
+### FlowX.AI Engine
+
+- **Token stuck in END Parallel Gateway node 🚧**: We've cleared the traffic jam where tokens were stuck at the END parallel gateway node. Now, your processes will flow like a river, smooth and unstoppable!
+- **Process Continuation Issue**: Fixed an issue where processes started in version 2.14 couldn't time travel to version 3.4.x. Trying to advance these processes caused errors or made them vanish into the void. We've patched the timeline by updating the start swimlane ID in the database, so your processes can now journey safely to the future!
+
+### FlowX.AI Admin
+
+- **Process Version Memory Loss**: Fixed a bug where some process version params (like application ID, reporting usage, task manager usage, indexing keys, and application URL) mysteriously disappeared from old process definitions when importing a new version. We've given these params a memory boost, so they stick around like they should!
+
+### FlowX.AI CMS
+
+- **Lost in Translation**: Fixed an issue where languages were feeling a bit `null` and `void` in newly created environments. Instead of partying with an empty list like they should, they were sitting around with null values, causing chaos when trying to add new languages. Now, languages get the memo right away and initialize themselves properly.
+- **Chill Media Library Search**: Updated the Media Library search so it no longer cares about upper or lower case. Now, whether you type in CAPS or whisper softly in lowercase, it'll find what you're looking for. No more sensitive searches, just chill browsing in the library!
 
 ## Additional information
 
 For deployment guidelines, refer to:
  
-<Card title="Deployment guidelines v3.4.8" href="./deployment-guidelines-v3.4.8"></Card>
+<Card title="Deployment guidelines v3.4.8" href="./deployment-guidelines-v3.4.8">
+</Card>
 
 
 

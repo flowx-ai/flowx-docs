@@ -468,3 +468,50 @@ scheduler:
 The `FLOWX_PROCESS_EXPIRE_SUBPROCESSES` environment variable governs subprocess expiration in a parent process. When set to true, the parent process's expiration prompts simultaneous termination of all associated subprocesses. Conversely, when set to false, each subprocess follows its individual expiration configuration or persists indefinitely if not configured.
 
 * `FLOWX_PROCESS_EXPIRE_SUBPROCESS` - default: `true`
+
+
+## Partitioning and archiving
+
+<Steps>
+<Step title="Setup">
+    
+Install the latest build version of **process-engine** corresponding to your platfom release version.
+
+</Step>
+<Step title ="Configuration">
+
+Enable partitioning and set intervals in process engine configuration with latest environment variables:
+
+[See below](#configuring-partitioning-and-archiving)
+
+Define the appropriate cron expression for the archiving scheduler.
+
+</Step>
+
+<Step title="Operation">
+
+Monitor and manage partitioning and archiving processes.
+
+Review logs for partitioning actions and SQL executions.
+</Step>
+</Steps>
+
+<Info>
+Future schema updates or migrations will not affect detached tables. They retain the schema from the moment of detachment.
+</Info>
+
+### Configuring partitioning and archiving
+
+This section contains environment variables that control the settings for data partitioning and archiving and also fo the archiving scheduler. These settings determine how data is segmented, retained, and managed, including compression.
+
+
+| Environment Variable                                     | Description                                                                  | Default Value                                                            | Possible Values                       |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------- |
+| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `false`                                                                  | `true`, `false`                       |
+| `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`                                                                  | `DAY`, `WEEK`, `MONTH`                |
+| `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`                                                                      | Integer values (e.g., `1`, `2`, `3`)  |
+| `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for archived (detached) partitions.                      | `OFF`                                                                    | `OFF`, `BASIC`, `ADVANCED`            |
+| `SCHEDULER_DATA_PARTITIONING_ENABLED`                    | Activates the cron job for detaching and archiving partitions.               | `true`                                                                   | `true`, `false`                       |
+| `SCHEDULER_DATA_PARTITIONING_CRON_EXPRESSION`            | Cron expression for the data partitioning scheduler.                         | `0 * * * * ?` -> every day during the night, at the start of every hour. | Cron expression (e.g., `0 0 1 * * ?`) |
+
+

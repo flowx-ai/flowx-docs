@@ -1199,7 +1199,9 @@
                   "3.x/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/process-instance-indexing-config-guidelines"
                 ]
         
-              }
+              },
+              "3.x/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving"
+
             ]
     
           },
