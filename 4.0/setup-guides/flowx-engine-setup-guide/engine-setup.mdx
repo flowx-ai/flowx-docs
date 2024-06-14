@@ -422,8 +422,6 @@ This section contains environment variables that configure the scheduler's behav
 | Environment Variable                          | Description                                                    | Default Value                                                                                 | Possible Values                         |
 | --------------------------------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------- |
 | `SCHEDULER_THREADS`                           | Number of threads for the scheduler.                           | `10`                                                                                          | Integer values (e.g., `10`, `20`)       |
-| `SCHEDULER_DATA_PARTITIONING_ENABLED`         | Activates the cron job for detaching and archiving partitions. | `true`                                                                                        | `true`, `false`                         |
-| `SCHEDULER_DATA_PARTITIONING_CRON_EXPRESSION` | Cron expression for the data partitioning scheduler.           | `0 * * * * ?` -> every day during the night, at the start of every hour.                      | Cron expression (e.g., `0 0 1 * * ?`)   |
 | `SCHEDULER_PROCESS_CLEANUP_ENABLED`           | Activates the cron job for process cleanup.                    | `false`                                                                                       | `true`, `false`                         |
 | `SCHEDULER_PROCESS_CLEANUP_CRON_EXPRESSION`   | Cron expression for the process cleanup scheduler.             | `0 */5 0-5 * * ?` -> every day during the night, every 5 minutes, at the start of the minute. | Cron expression (e.g., `0 0 1 * * ?`)   |
 | `SCHEDULER_PROCESS_CLEANUP_BATCH_SIZE`        | Number of processes to be cleaned up in one batch.             | `1000`                                                                                        | Integer values (e.g., `100`, `1000`)    |
@@ -444,36 +442,33 @@ This section details the environment variable that controls the expiration of su
 <Info>
 When enabling partitioning, please consider the following:
 
-* **Ensure Process Termination**: Make sure your process instances are terminated. This means that no process should remain unfinished for any reason.
-* **Set Process Expiry**n: Set an expiry on your processes. This ensures that your processes will reach a FINISHED status, either naturally or through expiration.
+**Ensure Process Termination**: Make sure that process instances get terminated. chiving removes process instance data from the working data, making it not available in FlowX. Started instances should be finished before archiving takes place.
+
+**Set Process Expiry**: In order to ensure that process instances are terminated before archiving, we recommend configuring process expiration.
 </Info>
 
 
 <Steps>
 <Step title="Setup">
-    - Execute SQL setup commands manually.
-
-<Check>
-On the Production environment, before starting the new version of the process-engine, we recommend manually executing the setup SQL commands from Liquibase, as they may take more time. After setup, all existing information will go into the initial partition. The initial partition will continue to be used until a new partition_id is generated according to the partitioning interval (DAY, WEEK, MONTH). Future partitions will be created automatically.
-</Check>
     
- - Install the latest build version of `process-engine`.
+Install the latest build version of **process-engine** corresponding to your platfom release version.
 
 </Step>
 <Step title ="Configuration">
 
-- Enable partitioning and set intervals in process engine configuration with latest environment variables:
+Enable partitioning and set intervals in process engine configuration with latest environment variables:
 
 [See below](#configuring-partitioning-and-archiving)
 
-- Define the appropriate cron expression for the scheduler.
+Define the appropriate cron expression for the archiving scheduler.
 
 </Step>
 
 <Step title="Operation">
 
-- Monitor and manage partitioning and archiving processes.
-- Review logs for partitioning actions and SQL executions.
+Monitor and manage partitioning and archiving processes.
+
+Review logs for partitioning actions and SQL executions.
 </Step>
 </Steps>
 
@@ -483,19 +478,21 @@ Future schema updates or migrations will not affect detached tables. They retain
 
 ### Configuring partitioning and archiving
 
-This section contains environment variables that control the settings for data partitioning and archiving. These settings determine how data is segmented, retained, and managed, including compression and batch processing.
+This section contains environment variables that control the settings for data partitioning and archiving and also fo the archiving scheduler. These settings determine how data is segmented, retained, and managed, including compression and batch processing.
 
 
-| Environment Variable                                     | Description                                                                  | Default Value | Possible Values                       |
-| -------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------- | ------------------------------------- |
-| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `false`       | `true`, `false`                       |
-| `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`       | `DAY`, `WEEK`, `MONTH`                |
-| `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`           | Integer values (e.g., `1`, `2`, `3`)  |
-| `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for detached partitions (Oracle only).                   | `OFF`         | `OFF`, `BASIC`, `ADVANCED`            |
-| `FLOWX_DATA_PARTITIONING_MOVED_DATA_BATCH_SIZE`          | Batch size for moving data (Postgres only).                                  | `5000`        | Integer values (e.g., `1000`, `5000`) |
+| Environment Variable                                     | Description                                                                  | Default Value                                                            | Possible Values                       |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------- |
+| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `false`                                                                  | `true`, `false`                       |
+| `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`                                                                  | `DAY`, `WEEK`, `MONTH`                |
+| `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`                                                                      | Integer values (e.g., `1`, `2`, `3`)  |
+| `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for archived (detached) partitions (Oracle only).        | `OFF`                                                                    | `OFF`, `BASIC`, `ADVANCED`            |
+| `FLOWX_DATA_PARTITIONING_MOVED_DATA_BATCH_SIZE`          | Batch size for moving data (Postgres only).                                  | `5000`                                                                   | Integer values (e.g., `1000`, `5000`) |
+| `SCHEDULER_DATA_PARTITIONING_ENABLED`                    | Activates the cron job for detaching and archiving partitions.               | `true`                                                                   | `true`, `false`                       |
+| `SCHEDULER_DATA_PARTITIONING_CRON_EXPRESSION`            | Cron expression for the data partitioning scheduler.                         | `0 * * * * ?` -> every day during the night, at the start of every hour. | Cron expression (e.g., `0 0 1 * * ?`) |
 
 <Info>
-Compression for detached partitions is available only for Oracle DBs.
+Compression for archived (detached) partitions is available only for Oracle DBs.
 </Info>
 
 <Info>

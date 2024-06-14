@@ -1,6 +1,6 @@
 ---
-title: Process instance data partitioning & archiving
-description: Data partitioning and compression, improving data management and archival processes.
+title: Process instance data & archiving
+description: Improving data management using data partitioning and the archival processes.
 ---
 
 ## Partitioning
@@ -8,7 +8,7 @@ description: Data partitioning and compression, improving data management and ar
 Partitioning involves splitting instance-related tables into multiple tables based on the `partition_id` of each entity. This process is managed by the database, which abstracts access to the partitioned data, so no changes are needed in the application code to locate data in specific partitions.
 
 <Info>
-Database Compatibility: Oracle and Postgres.
+Database Compatibility: Oracle.
 </Info>
 
 ## Detaching
@@ -67,7 +67,7 @@ Partitioning and archiving actions are logged in two tables:
 
 ### Configuration example
 
-Check the following section for the environment variables needed to cofigure the data partitioning:
+Check the following section for the environment variables needed to configure the data partitioning:
 
 <Card title ="Partioning & archiving configuration "href="./engine-setup#configuring-data-partitioning-and-archiving">
 </Card>

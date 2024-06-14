@@ -12,30 +12,27 @@ Let's dive in and explore:
 
 ### Process Instance Data Archiving
 
-We are introducing a new archiving system using a field called `partition_id`, which will be automatically generated when creating entities related to `process_instance`. 
+<Info>
+Database Compatibility: Oracle and Postgres.
+</Info>
 
-This will make possible to group related entities into partitions with the same ID. Existing data will be moved to the first partition and will stay there until a new `partition_id` is generated.
 
-A scheduled task in FlowX will manage old data by moving it into separate tables based on configured retention periods. These tables can be compressed, copied, moved, archived, or deleted without affecting other processes in FlowX. 
+We are introducing a new system for archiving data related to old process instances. This enables the implementation of data retention policies, with more predictable storage usage and costs. 
 
-#### FlowX.AI configuration
+<Tip>
+Some operations involving process instance data can be snappier, given the lower amount of data and new structure. Archiving relies on partitioning data based on the process instance start time. Each partition is associated with a time period (day, week, month), and retention is defined by the number of periods maintained in the system.
+</Tip>
 
-- New settings (new environment variables) for enabling partitioning, archiving, setting partition intervals, retention intervals, and compression.
-
-[Configuration](../../4.0/setup-guides/flowx-engine-setup-guide/engine-setup#configuring-partitioning-and-archiving)
-
-- Scheduler settings for cron job execution are also configured.
-
-[Configuration](../../4.0/setup-guides/flowx-engine-setup-guide/engine-setup#configuring-cleanup-mechanism)
+Archived data remains in new tables the database, optionally compressed, and is no longer accessible in FlowX. These tables can be compressed, copied, moved, archived, or deleted without affecting other processes in FlowX.
 
 For more details about process instance partitioning and archiving:
 
-<Card title ="Process instance archiving and partitioning" href= "../../4.0/setup-guides/flowx-engine-setup-guide/process-instance-data">
+<Card title ="Process instance data archiving and partitioning" href= "../../4.0/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving">
 </Card>
 
-For more details about how to setup partitioning and archiving, check the following section:
+For more details about how to enable and setup partitioning and archiving, check the deployment guidelines:
 
-<Card title="FlowX Engine setup guide" href="../../4.0/setup-guides/flowx-engine-setup-guide/engine-setup#partitioning-and-archiving">
+<Card title="Additional configuration" href="./deployment-guidelines-v4.1.1#process-instance-data-archiving">
 </Card>
 
 ## **Changes**  🔧
