@@ -78,18 +78,10 @@ Compatibility Matrix:
 
 ## Additional Configuration
 
-### Process instance data archiving
-
-#### FlowX.AI configuration
-
-- New settings (new environment variables) for enabling partitioning, archiving, setting partition intervals, retention intervals, and compression. Archiving scheduler settings for cron job execution are also configured.
-
-#### Setup
-  
 <Check>
-Execute initial data partitioning setup manually. This is needed no matter if you enable partitioning or not.
+Before upgrading to v3.4.8 version we recommend to execute the initial data partitioning setup manually. This is needed no matter if you enable partitioning or not.
 
-Therefore, before starting the new version of the process-engine, we recommend manually executing the setup SQL commands from Liquibase, as they may take more time. After setup, all existing information will go into the initial partition.
+Therefore, when starting the new version of the process-engine, we recommend manually executing the setup SQL commands from Liquibase, as they may take more time. After setup, all existing information will go into the initial partition.
 </Check>
 
 <Info>
@@ -97,12 +89,20 @@ If partitioning is enabled, the initial partition will continue to be used until
 
 If partitioning is not enabled, all data will continue to be stored in this initial partition.
 </Info>
+
+### Process instance data archiving
+
+#### FlowX.AI configuration
+
+New settings (new environment variables) for enabling partitioning, archiving, setting partition intervals, retention intervals, and compression. Archiving scheduler settings for cron job execution are also configured.
     
 #### Additional resources
 
-[Process instance data archiving & partitionig details](../../3.x/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving)
+If you want to configure partitioning & archiving, check the following documentation sections:
 
-[Process instance data archiving & partitioning configuration](../../3.x/setup-guides/flowx-engine-setup-guide/engine-setup#partitioning-and-archiving)
+<Card title="Process instance archiving & partitioning " href="../../3.x/setup-guides/flowx-engine-setup-guide/engine-setup#partitioning-and-archiving" icon ="file">
+</Card>
+
 
 
 

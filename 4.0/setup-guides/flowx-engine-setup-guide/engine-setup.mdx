@@ -440,67 +440,10 @@ This section details the environment variable that controls the expiration of su
 ## Partitioning and archiving
 
 <Info>
-When enabling partitioning, please consider the following:
-
-**Ensure Process Termination**: Make sure that process instances get terminated. chiving removes process instance data from the working data, making it not available in FlowX. Started instances should be finished before archiving takes place.
-
-**Set Process Expiry**: In order to ensure that process instances are terminated before archiving, we recommend configuring process expiration.
-</Info>
-
-
-<Steps>
-<Step title="Setup">
-    
-Install the latest build version of **process-engine** corresponding to your platfom release version.
-
-</Step>
-<Step title ="Configuration">
-
-Enable partitioning and set intervals in process engine configuration with latest environment variables:
-
-[See below](#configuring-partitioning-and-archiving)
-
-Define the appropriate cron expression for the archiving scheduler.
-
-</Step>
-
-<Step title="Operation">
-
-Monitor and manage partitioning and archiving processes.
-
-Review logs for partitioning actions and SQL executions.
-</Step>
-</Steps>
-
-<Info>
-Future schema updates or migrations will not affect detached tables. They retain the schema from the moment of detachment.
-</Info>
-
-### Configuring partitioning and archiving
-
-<Info>
 The Partitioning and Archiving feature is optional and can be configured as needed.
 </Info>
 
-This section contains environment variables that control the settings for data partitioning and archiving and also fo the archiving scheduler. These settings determine how data is segmented, retained, and managed, including compression and batch processing.
+For more details about process instance partitioning and archiving, including configuration of the feature, see:
 
-This section contains environment variables that control the settings for data partitioning and archiving, including the archiving scheduler. These settings determine how data is segmented, retained, and managed, including compression and batch processing. 
-
-
-| Environment Variable                                     | Description                                                                  | Default Value                                                            | Possible Values                       |
-| -------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------- |
-| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `false`                                                                  | `true`, `false`                       |
-| `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`                                                                  | `DAY`, `WEEK`, `MONTH`                |
-| `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`                                                                      | Integer values (e.g., `1`, `2`, `3`)  |
-| `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for archived (detached) partitions (Oracle only).        | `OFF`                                                                    | `OFF`, `BASIC`, `ADVANCED`            |
-| `FLOWX_DATA_PARTITIONING_MOVED_DATA_BATCH_SIZE`          | Batch size for moving data (Postgres only).                                  | `5000`                                                                   | Integer values (e.g., `1000`, `5000`) |
-| `SCHEDULER_DATA_PARTITIONING_ENABLED`                    | Activates the cron job for detaching and archiving partitions.               | `true`                                                                   | `true`, `false`                       |
-| `SCHEDULER_DATA_PARTITIONING_CRON_EXPRESSION`            | Cron expression for the data partitioning scheduler.                         | `0 * * * * ?` -> every day during the night, at the start of every hour. | Cron expression (e.g., `0 0 1 * * ?`) |
-
-<Info>
-Compression for archived (detached) partitions is available only for Oracle DBs.
-</Info>
-
-<Info>
-Batch size for moving data is available only for Postgres DBs.
-</Info>
+<Card title ="Process instance partitioning and archiving" href ="./process-instance-data-archiving" icon ="link">
+</Card>

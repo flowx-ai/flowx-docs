@@ -1,5 +1,5 @@
 ---
-title: Process instance data & archiving
+title: Partitioning & archiving
 description: Improving data management using data partitioning and the archival processes.
 ---
 
@@ -10,10 +10,6 @@ Partitioning involves splitting instance-related tables into multiple tables bas
 <Info>
 Database Compatibility: Oracle and Postgres.
 </Info>
-
-## Detaching
-
-Detaching refers to removing a partition from the working set. For example, if a table is partitioned based on the `partition_id` column, detaching involves removing the oldest partition so it is no longer part of the active dataset. Operations on the table will exclude this detached data.
 
 ## Archiving
 
@@ -46,6 +42,47 @@ Data older than the configured retention interval becomes eligible for detachmen
 </Steps>
 
 
+<Info>
+When enabling partitioning, please consider the following:
+
+**Ensure Process Termination**: Make sure that process instances get terminated. chiving removes process instance data from the working data, making it not available in FlowX. Started instances should be finished before archiving takes place.
+
+**Set Process Expiry**: In order to ensure that process instances are terminated before archiving, we recommend configuring process expiration.
+</Info>
+
+
+<Info>
+Future schema updates or migrations will not affect detached tables. They retain the schema from the moment of detachment.
+</Info>
+
+## Configuring partitioning and archiving
+
+<Info>
+The Partitioning and Archiving feature is optional and can be configured as needed.
+</Info>
+
+This section contains environment variables that control the settings for data partitioning and archiving and also fo the archiving scheduler. These settings determine how data is segmented, retained, and managed, including compression and batch processing.
+
+
+| Environment Variable                                     | Description                                                                  | Default Value                                                            | Possible Values                       |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------- |
+| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `false`                                                                  | `true`, `false`                       |
+| `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`                                                                  | `DAY`, `WEEK`, `MONTH`                |
+| `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`                                                                      | Integer values (e.g., `1`, `2`, `3`)  |
+| `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for archived (detached) partitions (Oracle only).        | `OFF`                                                                    | `OFF`, `BASIC`, `ADVANCED`            |
+| `FLOWX_DATA_PARTITIONING_MOVED_DATA_BATCH_SIZE`          | Batch size for moving data (Postgres only).                                  | `5000`                                                                   | Integer values (e.g., `1000`, `5000`) |
+| `SCHEDULER_DATA_PARTITIONING_ENABLED`                    | Activates the cron job for detaching and archiving partitions.               | `true`                                                                   | `true`, `false`                       |
+| `SCHEDULER_DATA_PARTITIONING_CRON_EXPRESSION`            | Cron expression for the data partitioning scheduler.                         | `0 * * * * ?` -> every day during the night, at the start of every hour. | Cron expression (e.g., `0 0 1 * * ?`) |
+
+<Info>
+Compression for archived (detached) partitions is available only for Oracle DBs.
+</Info>
+
+<Info>
+Batch size for moving data is available only for Postgres DBs.
+</Info>
+
+
 ## Logging information
 
 Partitioning and archiving actions are logged in two tables:
@@ -53,59 +90,46 @@ Partitioning and archiving actions are logged in two tables:
 - `DATA_PARTITIONING_LOG`: For tracking detached partitions.
 - `DATA_PARTITIONING_LOG_ENTRY`: For logging SQL commands executed for detachment.
 
-## Technical details
+## Enabling Partitioning and Elasticsearch indexing strategy
 
-### Partition ID Calculation
-    
-- The `partition_id` format: `LEVEL || YEAR || BIN_ID_OF_YEAR`. Calculated based on start date of `process_instance`, partition interval, and partition level.
-- Example: For a timestamp `2024-03-01 13:00:00` and daily partitioning interval, the `partition_id` is `124061`.
-
-### Detached and Compressed Tables
-    
-- Naming format: `archived__${table_name}__${interval_name}_${reference}`.
-- Example: `archived__process_instance__monthly_2024_03`.
-
-### Configuration example
-
-Check the following section for the environment variables needed to configure the data partitioning:
-
-<Card title ="Partioning & archiving configuration "href="./engine-setup#configuring-data-partitioning-and-archiving">
-</Card>
-
-
-## Enabling Partitioning and ES Kafka Indexing Strategy
-
-When partitioning is enabled, the Elasticsearch (ES) Kafka indexing strategy must also be enabled and configured on FlowX Engine setup.
-
-Configuration Example:
-
-```yaml
-flowx:
-  indexing:
-    enabled: true  # true | false - Specifies if the ElasticSearch indexing for the entire app is enabled or disabled.
-    processInstance:  # Configuration set for indexing process instances. Can be duplicated for other objects.
-      indexing-type: kafka  # Options: no-indexing | http | kafka - The chosen indexing strategy.
-      index-name: process_instance  # The index name that is part of the search pattern.
-      shards: 1
-      replicas: 1
-```
-
+When partitioning is enabled, the Elasticsearch Kafka indexing strategy must also be enabled and configured on FlowX Engine setup.
 
 <Card icon="info">
-Why?
+**Why?**
 
 * When detaching process instances, data from Elasticsearch must also be deleted, not just the cache but also indexed keys (e.g., those indexed for data search on process instances).
 </Card>
 
-Check the Elastic search indexing setup here:
+### Elasticsearch indexing configuration
 
-[Elasticsearch indexing setup](./configuring-elasticsearch-indexing/)
+Check the Elasticsearch indexing setup here:
 
-The partitioning configuration should be aligned with the configuration in the Kafka Elasticsearch connector, especially the following environment variables, so the intervals are similar:
+<Card title ="Elasticsearch indexing setup" href="./configuring-elasticsearch-indexing/" icon ="link">
+</Card>
 
-### Index Partitioning:
+The partitioning configuration must be aligned with the configuration extractred from the Kafka Elasticsearch Connector, especially with the following environment variables, so the intervals are similar:
+
+### Index partitioning
 
 * `transforms.routeTS.topic.format: "process_instance-${timestamp}"`: This value must start with the index name defined in the process-engine config: flowx.indexing.processInstance.index-name. In this example, the index name is prefixed with "process_instance-" and appended with a timestamp for dynamic index creation. For backward compatibility, the prefix must be "process_instance-". However, backward compatibility is not strictly required here.
 yaml
 
-* `transforms.routeTS.timestamp.format: "yyyyMMdd"`:This format ensures that timestamps are consistently represented and easily parsed when creating or searching for indices based on the process instance start date. You can adjust this value as needed (e.g., for monthly indexes, use "yyyyMM"). However, note that changing this format will cause existing indexed objects to remain unchanged, and update messages will be treated as new objects, indexed again in new indices. It is crucial to determine your index size and maintain consistency.
+* `transforms.routeTS.timestamp.format: "yyyyMMdd"`: This format ensures that timestamps are consistently represented and easily parsed when creating or searching for indices based on the process instance start date. You can adjust this value as needed (e.g., for monthly indexes, use "yyyyMM"). However, note that changing this format will cause existing indexed objects to remain unchanged, and update messages will be treated as new objects, indexed again in new indices. It is crucial to determine your index size and maintain consistency.
+
+Check the following Kafka Elasticsearch Connector configuration example for more details:
+
+<Card title ="Kafka Elasticsearch Connector" href="./configuring-elasticsearch-indexing/elasticsearch-indexing#kafka-elasticsearch-connector" icon="link">
+</Card>
+
+
+## Technical details
+
+### Partition ID calculation
+    
+- The `partition_id` format: `LEVEL || YEAR || BIN_ID_OF_YEAR`. Calculated based on start date of `process_instance`, partition interval, and partition level.
+- Example: For a timestamp `2024-03-01 13:00:00` and daily partitioning interval, the `partition_id` is `124061`.
+
+### Detached and compressed tables
+    
+- Naming format: `archived__${table_name}__${interval_name}_${reference}`.
+- Example: `archived__process_instance__monthly_2024_03`.

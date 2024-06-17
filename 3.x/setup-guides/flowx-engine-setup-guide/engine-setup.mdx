@@ -7,17 +7,20 @@ description: This guide will provide instructions on how to set up and configure
 
 The FlowX Engine requires the following components to be set up before it can be started:
 
-* **Docker engine** - version 17.06 or higher
-* **Kafka** - version 2.8 or higher
-* **Elasticsearch** - version 7.11.0 or higher
-* **DB instance** 
+* Docker Engine (version 17.06 or higher)
+* Kafka (version 2.8 or higher)
+* Elasticsearch (version 7.11.0 or higher)
+* Database instance
+
 
 # Dependencies
+
+The FlowX Engine has dependencies on the following components:
 
 * [**Database**](#database---postgres--oracle)
 * [**Redis server**](../setup-guides-overview#redis-configuration)
 * [**Kafka**](#configuring-kafka)
-* [**Logging**](../setup-guides-overview#logging)
+
 
 For Microservices architecture, some Microservices holds their data individually using separate Databases.
 
@@ -58,75 +61,115 @@ A basic Postgres configuration can be set up using a helm values.yaml file as it
             memory: 512Mi
     ```
 
-## Dependencies
+ 
+### Redis server
 
-* **Redis server** - a Redis cluster is required for the engine to cache process definitions, compiled scripts, and Kafka responses
-* **Kafka cluster** - Kafka is the backbone of the engine and all plugins and integrations are accessed via the Kafka broker
-* **Additional dependencies** - details about how to set up logging via Elasticsearch, monitoring, and tracing via Jaeger, can be found [**here**](../setup-guides-overview)
+A Redis cluster is required for caching process definitions, compiled scripts, and Kafka responses.
 
-## Configuration
+### Kafka cluster
 
-* [**Datasource configuration**](../setup-guides-overview#datasource-configuration)
-* [**Redis configuration**](../setup-guides-overview#redis-configuration)
-* [**Logging**](../setup-guides-overview#logging)
+Kafka serves as the backbone of the engine, facilitating communication with external plugins and integrations.
+
+<Info>
+Details about setting up logging via Elasticsearch, monitoring, and tracing via Open Telemetry can be found [**here**](../setup-guides-overview).
+</Info>
+
+# Configuration
+
+FlowX.AI Engine utilizes environment variables for configuration. Below are the key environment variables you need to configure:
+
+* [**Configuring authorization and access roles**](#authorization--access-roles)
+* [**Configuring the data source**](../setup-guides-overview#datasource-configuration)
+* [**Configuring Redis**](../setup-guides-overview#redis-configuration)
+* [**Configuring logging**](../setup-guides-overview#logging)
+* [**Configuring Kafka**](#configuring-kafka)
 * [**Configuring access roles for processes**](./configuring-access-roles-for-processes)
-* [**Kafka configuration**](#configuring-kafka)
 
-### Authorization & access roles
+## Authorization & access roles
 
-* `SECURITY_TYPE`: Indicates that OAuth 2.0 is the chosen security type, default value: `oauth2`.
+This section outlines the OAuth2 configuration settings for securing the Spring application, including resource server settings, security type, and access authorizations.
 
-```yaml
-security:
-  type: oauth2
-```
 
-* `SECURITY_PATHAUTHORIZATIONS_0_PATH`: Defines a security path or endpoint pattern. It specifies that the security settings apply to all paths under the "/api/" path. The `**` is a wildcard that means it includes all subpaths under "/api/**".
-* `SECURITY_PATHAUTHORIZATIONS_0_ROLESALLOWED`: Specifies the roles allowed for accessing the specified path. In this case, the roles allowed are empty (""). This might imply that access to the "/api/**" paths is open to all users or that no specific roles are required for authorization.
+### Resource Server Settings (OAuth2 Configuration)
 
-```yaml
-   pathAuthorizations:
-    - path: "/api/**" 
-      rolesAllowed: "ANY_AUTHENTICATED_USER"
-```
+<Warning>
+Old configuration from < v4.1 releases (will be deprecated in v4.5):
 
 * `SECURITY_OAUTH2_BASE_SERVER_URL`: The base URL for the OAuth 2.0 Authorization Server, which is responsible for authentication and authorization for clients and users, it is used to authorize clients, as well as to issue and validate access tokens.
 * `SECURITY_OAUTH2_CLIENT_CLIENT_ID`: A unique identifier for a client application that is registered with the OAuth 2.0 Authorization Server, this is used to authenticate the client application when it attempts to access resources on behalf of a user.
 * `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`: Secret Key that is used to authenticate requests made by an authorization client.
 * `SECURITY_OAUTH2_REALM`: Security configuration env var in the Spring Security OAuth2 framework, it is used to specify the realm name used when authenticating with OAuth2 providers.
-* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`: The process engine requires a process engine service account to make direct calls to the Keycloak API. This setting specifies the service account that is essential so the of [**Start Catch Event**](/3.x/docs/building-blocks/node/message-events/message-catch-start-event) node is possible. Ensure that you provide the correct client ID for this service account.
-* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET`: Along with the client ID, you must also specify the client secret associated with the service account for proper authentication.
+</Warning>
 
-```yaml
- oauth2:
-    base-server-url: http://localhost:8080/auth
-    realm: flowx
-    client:
-      client-id: flowx-platform-authorize
-      client-secret: somesecret
-    service-account:
-      admin:
-        client-id: flowx-process-engine-sa
-        client-secret: somesecret
-```
+<Info>
+New configuration, starting from v4.1 release, available below.
+</Info>
+
+| Environment variable                                                    | Description                                           | Default Value                                                                                                 |
+| ----------------------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_INTROSPECTION_URI` | URI for token introspection to validate opaque tokens | `${security.oauth2.base-server-url}/realms/${security.oauth2.realm}/protocol/openid-connect/token/introspect` |
+| `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_ID`         | Client ID for token introspection                     | `${security.oauth2.client.client-id}`                                                                         |
+| `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_SECRET`     | Client secret for token introspection                 | `${security.oauth2.client.client-secret}`                                                                     |
+
+### Service account settings  
+
+This section contains the environment variables for configuring process engine service account.
+
+| Environment Variable                                  | Description                           | Default Value                         |
+| ----------------------------------------------------- | ------------------------------------- | ------------------------------------- |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`     | Client ID for the service account     | `flowx-${SPRING_APPLICATION_NAME}-sa` |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` | Client secret for the service account |                                       |
 
 More details about the necessary service account, here:
 
 [Process engine service account](../access-management/configuring-an-iam-solution#process-engine-service-account)
 
-### Configuring Kafka
+### Security configuration
 
-Kafka handles all communication between the FLOWX.AI Engine and external plugins and integrations. It is also used for notifying running process instances when certain events occur. 
+| Environment variable                           | Description                                                                                                                                                                                                                                        | Default Value                       |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `SECURITY_TYPE`                                | Type of security mechanism used                                                                                                                                                                                                                    | `oauth2`                            |
+| `SECURITY_BASIC_ENABLED`                       | Enable basic authentication                                                                                                                                                                                                                        | `false`                             |
+| `SECURITY_PUBLIC_PATHS_0`                      | List of public paths that do not require authentication                                                                                                                                                                                            | `/api/platform/components-versions` |
+| `SECURITY_PUBLIC_PATHS_1`                      | List of public paths that do not require authentication                                                                                                                                                                                            | `/manage/actuator/health`           |
+| `SECURITY_PATH_AUTHORIZATIONS_0_PATH`          | Defines a security path or endpoint pattern. It specifies that the security settings apply to all paths under the `"/api/"` path. The `**` is a wildcard that means it includes all subpaths under` "/api/**"`.                                    | `"/api/**"`                         |
+| `SECURITY_PATH_AUTHORIZATIONS_0_ROLES_ALLOWED` | Specifies the roles allowed for accessing the specified path. In this case, the roles allowed are empty (""). This might imply that access to the `"/api/**"` paths is open to all users or that no specific roles are required for authorization. | `"ANY_AUTHENTICATED_USER"`          |
 
-Both a producer and a consumer must be configured. The following Kafka-related configurations can be set by using environment variables:
+## Configuring Kafka
 
-* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - the address of the Kafka server, it should be in the format "host:port"
+Kafka handles all communication between the FlowX.AI Engine and external plugins and integrations. It is also used for notifying running process instances when certain events occur. 
 
-* `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` - the interval between retries after AuthorizationException is thrown by Kafka consumer
+### Kafka connection settings
 
-* `KAFKA_MESSAGE_MAX_BYTES` - this is the largest size of the message that can be received by the broker from a producer.
+| Environment Variable             | Description                 | Default Value    |
+| -------------------------------- | --------------------------- | ---------------- |
+| `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Kafka bootstrap servers     | `localhost:9092` |
+| `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol for Kafka | `"PLAINTEXT"`    |
 
-#### Consumer groups & consumer threads
+
+### Kafka consumer retry settings
+
+| Environment Variable                  | Description                                                        | Default Value |
+| ------------------------------------- | ------------------------------------------------------------------ | ------------- |
+| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` | Interval between retries after `AuthorizationException` is thrown. | `10`          |
+
+
+### Consumer groups & consumer threads configuration
+
+Both a producer and a consumer must be configured:
+
+<CardGroup>
+<Card title="Configuring a Kafka Producer" href="/4.0/docs/platform-deep-dive/integrations/creating-a-kafka-producer">
+</Card>
+<Card title="Configuring a Kafka Consumer" href="/4.0/docs/platform-deep-dive/integrations/creating-a-kafka-consumer">
+</Card>
+</CardGroup>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/engine_kafka_pattern.svg) 
+
+
+
+### Consumer groups & consumer threads
 
 In Kafka a consumer group is a group of consumers that jointly consume and process messages from one or more Kafka topics. Each consumer group has a unique identifier called a group ID, which is used by Kafka to manage message consumption and distribution among the members of the group.
 
@@ -136,74 +179,42 @@ Both group IDs and thread numbers can be configured in Kafka to optimize the pro
 
 The configuration related to consumers (group ids and thread numbers) can be configured separately for each message type as it follows:
 
-* `KAFKA_CONSUMER_GROUP_ID_NOTIFY_ADVANCE` - related to a Kafka consumer group that receives messages related to notifying advance actions, it is used to configure the group ID for this consumer group
+#### Consumer Group Configuration
 
-* `KAFKA_CONSUMER_GROUP_ID_NOTIFY_PARENT` - related to a Kafka consumer group that receives messages related to notifying when a subprocess is blocked and it sends a notification to the parent process, it is used to configure the group ID for this consumer group
-
-* `KAFKA_CONSUMER_GROUP_ID_ADAPTERS` - related to a Kafka consumer group that receives messages related to adapters, it is used to configure the group ID for this consumer group
-
-* `KAFKA_CONSUMER_GROUP_ID_SCHEDULER_RUN_ACTION` - related to a Kafka consumer group that receives messages related to requests to run scheduled actions, it is used to configure the group ID for this consumer group
-
-* `KAFKA_CONSUMER_GROUP_ID_SCHEDULER_ADVANCING`- related to a Kafka consumer group that receives messages related to messages sent by the scheduler when a timeout expires, indicating that the advancing should continue (parallel advancing), it is used to configure the group ID for this consumer group
-
-* `KAFKA_CONSUMER_GROUP_ID_MESSAGE_EVENTS` - 
-
-* `KAFKA_CONSUMER_GROUP_ID_PROCESS_START` - related to a Kafka consumer group that receives messages related to starting processes, it is used to configure the group ID for this consumer group
-
-* `KAFKA_CONSUMER_GROUP_ID_PROCESS_START_FOR_EVENT` - 
-
-* `KAFKA_CONSUMER_GROUP_ID_PROCESS_EXPIRE` - related to expiring processes, it is used to configure the group ID for this consumer group
-
-* `KAFKA_CONSUMER_GROUP_ID_PROCESS_OPERATIONS` - related to a Kafka consumer group that receives messages related to processing operations from task management, it is used to configure the group ID for this consumer group
-
-* `KAFKA_CONSUMER_GROUP_ID_PROCESS_BATCH_PROCESSING`- related to a Kafka consumer group that receives messages related to processing bulk operations from task management, it is used to configure the group ID for this consumer group
-
-* `KAFKA_CONSUMER_THREADS_NOTIFY_ADVANCE` - the number of threads used by a Kafka consumer application to notify the Kafka broker about the progress of
-
-* `KAFKA_CONSUMER_THREADS_NOTIFY_PARENT` - the number of threads used by a Kafka consumer application, related to a process when it is blocked 
-
-* `KAFKA_CONSUMER_THREADS_ADAPTERS`- the number of threads used by a Kafka consumer application, related to adapters
-
-* `KAFKA_CONSUMER_THREADS_SCHEDULER_RUN_ACTION` - the number of threads used by a Kafka consumer application, related to requests to run scheduled actions
-
-* `KAFKA_CONSUMER_THREADS_SCHEDULER_ADVANCING` - the number of threads used by a Kafka consumer application, related to messages sent by the scheduler when a timeout expires, indicating that the advancing should continue (parallel advancing), it is used to configure the group ID for this consumer group
-
-* `KAFKA_CONSUMER_THREADS_PROCESS_START` - the number of threads used by a Kafka consumer application, related to starting processes
-
-* `KAFKA_CONSUMER_THREADS_PROCESS_START_FOR_EVENT` -
-
-* `KAFKA_CONSUMER_THREADS_PROCESS_EXPIRE` - the number of threads used by a Kafka consumer application, related to expiring processes
-
-* `KAFKA_CONSUMER_THREADS_PROCESS_OPERATIONS` - the number of threads used by a Kafka consumer application, related to processing operations from task management
-
-* `KAFKA_CONSUMER_THREADS_PROCESS_BATCH_PROCESSING` - the number of threads used by a Kafka consumer application, related to processing bulk operations from task management
+| Environment Variable                               | Description                                                   | Default Value      |
+| -------------------------------------------------- | ------------------------------------------------------------- | ------------------ |
+| `KAFKA_CONSUMER_GROUP_ID_NOTIFY_ADVANCE`           | Group ID for notifying advance actions.                       | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_NOTIFY_PARENT`            | Group ID for notifying when a subprocess is blocked.          | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_ADAPTERS`                 | Group ID for messages related to adapters.                    | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_SCHEDULER_RUN_ACTION`     | Group ID for running scheduled actions.                       | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_SCHEDULER_ADVANCING`      | Group ID for messages indicating continuing advancement.      | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_PROCESS_START`            | Group ID for starting processes.                              | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_PROCESS_START_FOR_EVENT`  | Group ID for starting processes for an event.                 | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_PROCESS_EXPIRE`           | Group ID for expiring processes.                              | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_PROCESS_OPERATIONS`       | Group ID for processing operations from task management.      | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_PROCESS_BATCH_PROCESSING` | Group ID for processing bulk operations from task management. | `notif123-preview` |
 
 
-| Default parameter (env var)                      | Default FLOWX.AI value (can be overwritten) |
-| ------------------------------------------------ | ------------------------------------------- |
-| KAFKA_CONSUMER_GROUP_ID_NOTIFY_ADVANCE           | notif123-preview                            |
-| KAFKA_CONSUMER_GROUP_ID_NOTIFY_PARENT            | notif123-preview                            |
-| KAFKA_CONSUMER_GROUP_ID_ADAPTERS                 | notif123-preview                            |
-| KAFKA_CONSUMER_GROUP_ID_SCHEDULER_RUN_ACTION     | notif123-preview                            |
-| KAFKA_CONSUMER_GROUP_ID_SCHEDULER_ADVANCING      | notif123-preview                            |
-| KAFKA_CONSUMER_GROUP_ID_PROCESS_START            | notif123-preview                            |
-| KAFKA_CONSUMER_GROUP_ID_PROCESS_START_FOR_EVENT  | notif123-preview                            |
-| KAFKA_CONSUMER_GROUP_ID_PROCESS_EXPIRE           | notif123-preview                            |
-| KAFKA_CONSUMER_GROUP_ID_PROCESS_OPERATIONS       | notif123-preview                            |
-| KAFKA_CONSUMER_GROUP_ID_PROCESS_BATCH_PROCESSING | notif123-preview                            |
-| KAFKA_CONSUMER_THREADS_NOTIFY_ADVANCE            | 6                                           |
-| KAFKA_CONSUMER_THREADS_NOTIFY_PARENT             | 6                                           |
-| KAFKA_CONSUMER_THREADS_ADAPTERS                  | 6                                           |
-| KAFKA_CONSUMER_THREADS_SCHEDULER_ADVANCING       | 6                                           |
-| KAFKA_CONSUMER_THREADS_SCHEDULER_RUN_ACTION      | 6                                           |
-| KAFKA_CONSUMER_THREADS_PROCESS_START             | 6                                           |
-| KAFKA_CONSUMER_THREADS_PROCESS_START_FOR_EVENT   | 2                                           |
-| KAFKA_CONSUMER_THREADS_PROCESS_EXPIRE            | 6                                           |
-| KAFKA_CONSUMER_THREADS_PROCESS_OPERATIONS        | 6                                           |
-| KAFKA_CONSUMER_THREADS_PROCESS_BATCH_PROCESSING  | 6                                           |
+#### Consumer Thread Configuration
 
+
+| Environment Variable                              | Description                                                            | Default Value |
+| ------------------------------------------------- | ---------------------------------------------------------------------- | ------------- |
+| `KAFKA_CONSUMER_THREADS_NOTIFY_ADVANCE`           | Number of threads for notifying advance actions.                       | `6`           |
+| `KAFKA_CONSUMER_THREADS_NOTIFY_PARENT`            | Number of threads for notifying when a subprocess is blocked.          | `6`           |
+| `KAFKA_CONSUMER_THREADS_ADAPTERS`                 | Number of threads for processing messages related to adapters.         | `6`           |
+| `KAFKA_CONSUMER_THREADS_SCHEDULER_ADVANCING`      | Number of threads for continuing advancement.                          | `6`           |
+| `KAFKA_CONSUMER_THREADS_SCHEDULER_RUN_ACTION`     | Number of threads for running scheduled actions.                       | `6`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_START`            | Number of threads for starting processes.                              | `6`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_START_FOR_EVENT`  | Number of threads for starting processes for an event.                 | `2`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_EXPIRE`           | Number of threads for expiring processes.                              | `6`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_OPERATIONS`       | Number of threads for processing operations from task management.      | `6`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_BATCH_PROCESSING` | Number of threads for processing bulk operations from task management. | `6`           |
 
 It is important to know that all the events that start with a configured pattern will be consumed by the engine. This makes it possible to create a new integration and connect it to the engine without changing the configuration of the engine.
+
+
+### Configuring kafka topics
 
 <Tip>
 The suggested topic pattern naming convention is the following:
@@ -222,30 +233,28 @@ The suggested topic pattern naming convention is the following:
 ```
 </Tip>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/engine_kafka_pattern.svg) 
 
-* `KAFKA_TOPIC_PROCESS_NOTIFY_ADVANCE` - Kafka topic used internally by the engine
 
-* `KAFKA_TOPIC_PROCESS_NOTIFY_PARENT` - topic used for sub-processes to notify parent process when finished
+| Environment Variable                 | Description                                                              | Default FlowX value (can be overwritten)   |
+| ------------------------------------ | ------------------------------------------------------------------------ | --------------------------------------------- |
+| `KAFKA_TOPIC_PROCESS_NOTIFY_ADVANCE` | Kafka topic used internally by the engine for advancing processes.       | `ai.flowx.dev.core.notify.advance.process.v1` |
+| `KAFKA_TOPIC_PROCESS_NOTIFY_PARENT`  | Kafka topic used for sub-processes to notify the parent process.         | `ai.flowx.dev.core.notify.parent.process.v1`  |
+| `KAFKA_TOPIC_PATTERN`                | The topic name pattern that the Engine listens on for incoming events.   | `ai.flowx.dev.engine.receive.*`               |
+| `KAFKA_TOPIC_LICENSE_OUT`            | The topic name used by the Engine to generate licensing-related details. | `ai.flowx.dev.core.trigger.save.license.v1`   |
 
-* `KAFKA_TOPIC_PATTERN` - the topic name pattern that the Engine listens on for incoming Kafka events
 
-* `KAFKA_TOPIC_LICENSE_OUT` - the topic name used by the Engine to generate licensing-related details
+### Topics related to the Task Management plugin
 
-| Default parameter (env var)        | Default FLOWX.AI value (can be overwritten) |
-| ---------------------------------- | ------------------------------------------- |
-| KAFKA_TOPIC_PROCESS_NOTIFY_ADVANCE | ai.flowx.dev.core.notify.advance.process.v1 |
-| KAFKA_TOPIC_PROCESS_NOTIFY_PARENT  | ai.flowx.dev.core.notify.parent.process.v1  |
-| KAFKA_TOPIC_PATTERN                | ai.flowx.dev.engine.receive.*               |
-| KAFKA_TOPIC_LICENSE_OUT            | ai.flowx.dev.core.trigger.save.license.v1   |
+| Default parameter (env var)              | Description                                                               | Default FLOWX.AI value (can be overwritten)      |
+| ---------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------ |
+| `KAFKA_TOPIC_TASK_OUT`                   | Kafka topic used for sending notifications to the plugin.                 | `ai.flowx.dev.plugin.tasks.trigger.save.task.v1` |
+| `KAFKA_TOPIC_PROCESS_OPERATIONS_IN`      | Kafka topic used for receiving calls from the task management plugin with | `ai.flowx.dev.core.trigger.operations.v1`        |
+|                                          | information regarding operations performed.                               |                                                  |
+| `KAFKA_TOPIC_PROCESS_OPERATIONS_BULK_IN` | Kafka topic where operations can be performed in bulk, allowing multiple  | `ai.flowx.core.trigger.operations.bulk.v1`       |
+|                                          | operations to be sent at once.                                            |                                                  |
 
-#### Topics related to the Task Management plugin
 
-* `KAFKA_TOPIC_TASK_OUT` - used for sending notifications to the plugin
-
-* `KAFKA_TOPIC_PROCESS_OPERATIONS_IN` - used for receiving calls from the task management plugin with information regarding operations performed
-
-##### Request example
+#### OPERATIONS_IN request example
 
 ```json
 {
@@ -263,10 +272,7 @@ The suggested topic pattern naming convention is the following:
   "author": "admin@flowx.ai"
 }
 ```
-
-* `KAFKA_TOPIC_PROCESS_OPERATIONS_BULK_IN` - on this topic, you can perform operations from the "KAFKA_TOPIC_PROCESS_OPERATIONS_IN" topic and send them as an array, allowing you to send multiple operations at once
-
-##### Request example 
+#### BULK_IN request example 
 
 ```json
 {
@@ -308,210 +314,136 @@ A response should be sent on a `callbackTopic` if it is mentioned in the headers
 </Check>
 
 
-| Default parameter (env var)            | Default FLOWX.AI value (can be overwritten)    |
-| -------------------------------------- | ---------------------------------------------- |
-| KAFKA_TOPIC_TASK_OUT                   | ai.flowx.dev.plugin.tasks.trigger.save.task.v1 |
-| KAFKA_TOPIC_PROCESS_OPERATIONS_IN      | ai.flowx.dev.core.trigger.operations.v1        |
-| KAFKA_TOPIC_PROCESS_OPERATIONS_BULK_IN | ai.flowx.core.trigger.operations.bulk.v1       |
-
-
 <Info>
 Task manager operations could be the following: assignment, unassignment, hold, unhold, terminate and it is matched with the `...operations.out` topic on the engine side. For more information check the Task Management plugin documentation:
 
-📄 [**Task management plugin**](../../docs/platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview)
+📄 [**Task management plugin**](/4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview)
 </Info>
 
 
-#### Topics related to the scheduler extension
+### Topics related to the scheduler extension
 
-[Scheduler](../../docs/platform-deep-dive/core-extensions/scheduler)
+[Scheduler](/4.0/docs/platform-deep-dive/core-extensions/scheduler)
 
-* `KAFKA_TOPIC_PROCESS_EXPIRE_IN` - the topic name that the Engine listens on for requests to expire processes
+| Environment variable                         | Description                                                                          | Default FLOWX.AI value (can be overwritten)    |
+| -------------------------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------- |
+| `KAFKA_TOPIC_PROCESS_EXPIRE_IN`              | Topic name for requests to expire processes.                                         | `ai.flowx.dev.core.trigger.expire.process.v1`  |
+| `KAFKA_TOPIC_PROCESS_SCHEDULE_OUT_SET`       | Topic name used for scheduling process expiration.                                   | `ai.flowx.dev.core.trigger.set.schedule.v1`    |
+| `KAFKA_TOPIC_PROCESS_SCHEDULE_OUT_STOP`      | Topic name used for stopping process expiration.                                     | `ai.flowx.dev.core.trigger.stop.schedule.v1`   |
+| `KAFKA_TOPIC_PROCESS_SCHEDULE_IN_RUN_ACTION` | Topic name for requests to run scheduled actions.                                    | `ai.flowx.dev.core.trigger.run.action.v1`      |
+| `KAFKA_TOPIC_PROCESS_SCHEDULE_IN_ADVANCE`    | Topic name for events related to advancing through a database sent by the scheduler. | `ai.flowx.dev.core.trigger.advance.process.v1` |
 
-* `KAFKA_TOPIC_PROCESS_SCHEDULE_OUT_SET` - the topic name used by the Engine to schedule a process expiration
 
-* `KAFKA_TOPIC_PROCESS_SCHEDULE_OUT_STOP` - the topic name used by the Engine to stop a process expiration
 
-* `KAFKA_TOPIC_PROCESS_SCHEDULE_IN_RUN_ACTION` - the topic name that the Engine listens on for requests to run scheduled actions
-
-* `KAFKA_TOPIC_PROCESS_SCHEDULE_IN_ADVANCE` - the topic name where Engine listens for events, where scheduler sends messages related to advancing through a database
-
-| Default parameter (env var)                | Default FLOWX.AI value (can be overwritten)  |
-| ------------------------------------------ | -------------------------------------------- |
-| KAFKA_TOPIC_PROCESS_EXPIRE_IN              | ai.flowx.dev.core.trigger.expire.process.v1  |
-| KAFKA_TOPIC_PROCESS_SCHEDULE_OUT_SET       | ai.flowx.dev.core.trigger.set.schedule.v1    |
-| KAFKA_TOPIC_PROCESS_SCHEDULE_OUT_STOP      | ai.flowx.dev.core.trigger.stop.schedule.v1   |
-| KAFKA_TOPIC_PROCESS_SCHEDULE_IN_RUN_ACTION | ai.flowx.dev.core.trigger.run.action.v1      |
-| KAFKA_TOPIC_PROCESS_SCHEDULE_IN_ADVANCE    | ai.flowx.dev.core.trigger.advance.process.v1 |
-
-<Card title="Using the scheduler" href="../../docs/platform-deep-dive/core-extensions/scheduler#using-the-scheduler" icon="file">
+<Card title="Using the scheduler" href="/4.0/docs/platform-deep-dive/core-extensions/scheduler#using-the-scheduler" icon="file">
 </Card>
 
-#### Topics related to Timer Events
+### Topics related to Timer Events
 
-| Default parameter (env var)                         | Default FLOWX.AI value (can be overwritten)            |
-| --------------------------------------------------- | ------------------------------------------------------ |
-| KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_SET  | ai.flowx.dev.core.trigger.set.timer-event-schedule.v1  |
-| KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_STOP | ai.flowx.dev.core.trigger.stop.timer-event-schedule.v1 |
+| Environment variable                                  | Description                                     | Default FLOWX.AI value (can be overwritten)              |
+| ----------------------------------------------------- | ----------------------------------------------- | -------------------------------------------------------- |
+| `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_SET`  | Used to communicate with Scheduler microservice | `ai.flowx.dev.core.trigger.set.timer-event-schedule.v1`  |
+| `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_STOP` | Used to communicate with Scheduler microservice | `ai.flowx.dev.core.trigger.stop.timer-event-schedule.v1` |
 
 
-* `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_SET` - used to communicate with Scheduler microservice
+### Topics related to the Search Data service
 
-* `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_STOP` - used to communicate with Scheduler microservice
+| Environment variable          | Description                                                                    | Default FLOWX.AI value (can be overwritten)               |
+| ----------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------- |
+| `KAFKA_TOPIC_DATA_SEARCH_IN`  | The topic name that the Engine listens on for requests to search for processes | `ai.flowx.dev.core.trigger.search.data.v1`                |
+| `KAFKA_TOPIC_DATA_SEARCH_OUT` | The topic name used by the Engine to reply after finding a process             | `ai.flowx.dev.engine.receive.core.search.data.results.v1` |
 
-#### Topics related to the Search Data service
+### Topics related to the Audit service
 
-* `KAFKA_TOPIC_DATA_SEARCH_IN` - the topic name that the Engine listens on for requests to search for processes
+| Environment variable    | Description                      | Default FLOWX.AI value (can be overwritten) |
+| ----------------------- | -------------------------------- | ------------------------------------------- |
+| `KAFKA_TOPIC_AUDIT_OUT` | Topic key for sending audit logs | `ai.flowx.dev.core.save.audit.v1`           |
 
-* `KAFKA_TOPIC_DATA_SEARCH_OUT` - the topic name used by the Engine to reply after finding a process
 
-| Default parameter (env var) | Default FLOWX.AI value (can be overwritten)             |
-| --------------------------- | ------------------------------------------------------- |
-| KAFKA_TOPIC_DATA_SEARCH_IN  | ai.flowx.dev.core.trigger.search.data.v1                |
-| KAFKA_TOPIC_DATA_SEARCH_OUT | ai.flowx.dev.engine.receive.core.search.data.results.v1 |
+### Topics related to ES indexing
 
-#### Topics related to the Audit service
-
-* `KAFKA_TOPIC_AUDIT_OUT` - topic key for sending audit logs
-
-| Default parameter (env var) | Default FLOWX.AI value (can be overwritten) |
-| --------------------------- | ------------------------------------------- |
-| KAFKA_TOPIC_AUDIT_OUT       | ai.flowx.dev.core.save.audit.v1             |
-
-#### Topics related to ES indexing
-
-| Default parameter (env var)   | Default FLOWX.AI value (can be overwritten) |
+| Environment variable          | Default FLOWX.AI value (can be overwritten) |
 | ----------------------------- | ------------------------------------------- |
 | KAFKA_TOPIC_PROCESS_INDEX_OUT | ai.flowx.dev.core.index.process.v1          |
 
-#### Processes that can be started by sending messages to a Kafka topic
+### Processes that can be started by sending messages to a Kafka topic
 
-* `KAFKA_TOPIC_PROCESS_START_IN` - the Engine listens on this topic for requests to start a new process instance
 
-* `KAFKA_TOPIC_PROCESS_START_OUT` - used for sending out the reply after starting a new process instance
+| Environment variable            | Description                                                                   | Default FLOWX.AI value (can be overwritten)  |
+| ------------------------------- | ----------------------------------------------------------------------------- | -------------------------------------------- |
+| `KAFKA_TOPIC_PROCESS_START_IN`  | The Engine listens on this topic for requests to start a new process instance | `ai.flowx.dev.core.trigger.start.process.v1` |
+| `KAFKA_TOPIC_PROCESS_START_OUT` | Used for sending out the reply after starting a new process instance          | `ai.flowx.dev.core.confirm.start.process.v1` |
 
-| Default parameter (env var)   | Default FLOWX.AI value (can be overwritten) |
-| ----------------------------- | ------------------------------------------- |
-| KAFKA_TOPIC_PROCESS_START_IN  | ai.flowx.dev.core.trigger.start.process.v1  |
-| KAFKA_TOPIC_PROCESS_START_OUT | ai.flowx.dev.core.confirm.start.process.v1  |
 
-#### Topics related to Message Events
+### Topics related to Message Events
 
-| Default parameter (env var)         | Default FLOWX.AI value (can be overwritten)          |
+| Environment variable                | Default FLOWX.AI value (can be overwritten)          |
 | ----------------------------------- | ---------------------------------------------------- |
 | KAFKA_TOPIC_PROCESS_EVENT_MESSAGE   | ai.flowx.dev.core.message.event.process.v1           |
 | KAFKA_TOPIC_PROCESS_START_FOR_EVENT | ai.flowx.dev.core.trigger.start-for-event.process.v1 |
 
-### Configuring events-gateway
+### Topics related to events-gateway microservice
 
-* `KAFKA_TOPIC_EVENTSGATEWAY_OUT_MESSAGE` - outgoing messages from process-engine to events-gateway
+| Environment variable                     | Description                                               | Default FLOWX.AI value (can be overwritten)          |
+| ---------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------- |
+| KAFKA_TOPIC_EVENTSGATEWAY_OUT_MESSAGE    | Outgoing messages from process-engine to events-gateway   | ai.flowx.eventsgateway.engine.commands.message.v1    |
+| KAFKA_TOPIC_EVENTSGATEWAY_OUT_DISCONNECT | Disconnect commands from process-engine to events-gateway | ai.flowx.eventsgateway.engine.commands.disconnect.v1 |
+| KAFKA_TOPIC_EVENTSGATEWAY_OUT_CONNECT    | Connect commands from process-engine to events-gateway    | ai.flowx.eventsgateway.engine.commands.connect.v1    |
 
-* `KAFKA_TOPIC_EVENTSGATEWAY_OUT_DISCONNECT`- disconnect commands from process-engine to events-gateway
 
-* `KAFKA_TOPIC_EVENTSGATEWAY_OUT_CONNECT` - connect commands from process-engine to events-gateway
-
-| Topic Name                               | Default FLOWX.AI value (can be overwritten)          |
-| ---------------------------------------- | ---------------------------------------------------- |
-| KAFKA_TOPIC_EVENTSGATEWAY_OUT_MESSAGE    | ai.flowx.eventsgateway.engine.commands.message.v1    |
-| KAFKA_TOPIC_EVENTSGATEWAY_OUT_DISCONNECT | ai.flowx.eventsgateway.engine.commands.disconnect.v1 |
-| KAFKA_TOPIC_EVENTSGATEWAY_OUT_CONNECT    | ai.flowx.eventsgateway.engine.commands.connect.v1    |
-
-### Configuring file upload size
+## Configuring file upload size
 
 The maximum file size allowed for uploads can be set by using the following environment variables:
 
-* `SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE` - maximum file size allowed for uploads
+| Environment variable                      | Description                              | Default FLOWX.AI value (can be overwritten) |
+| ----------------------------------------- | ---------------------------------------- | ------------------------------------------- |
+| SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE    | Maximum file size allowed for uploads    |  `50MB`                                           |
+| SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE | Maximum request size allowed for uploads |  `50MB`                                           |
 
-* `SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE` - maximum request size allowed for uploads
 
-### Configuring Advancing controller
+## Configuring Advancing controller
 
 To use advancing controller, the following env vars are needed for `process-engine` to connect to Advancing Postgres DB:
 
-* `ADVANCING_DATASOURCE_JDBC_URL` - environment variable used to configure a JDBC (Java database connectivity) data source, it specifies the connection URL for a particular database, including the server, port, database name, and any other connection parameters necessary
+| Environment variable          | Description                                                                                                          | 
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------- | 
+| ADVANCING_DATASOURCE_JDBC_URL | Specifies the connection URL for a JDBC data source, including the server, port, database name, and other parameters |          
+| ADVANCING_DATASOURCE_USERNAME | Used to authenticate the user's access to the data source                                                            |                      
+| ADVANCING_DATASOURCE_PASSWORD | Sets the password for a data source connection                                                                       |   
 
-* `ADVANCING_DATASOURCE_USERNAME` - environment variable used to authenticate the user access to the data source
-
-* `ADVANCING_DATASOURCE_PASSWORD` - environment variable used to set the password for a data source connection
 
 <Card title="Advancing controller setup" href="../advancing-controller-setup-guide" icon ="gears">
 </Card>
 
-### Configuring Scheduler  
+## Configuring cleanup mechanism
 
-Below you can find a configuration .yaml to use [scheduler](../../docs/platform-deep-dive/core-extensions/scheduler) service together with FLOWX.AI Engine:
+This section contains environment variables that configure the scheduler's behavior, including thread count, cron jobs for data partitioning, process cleanup, and master election.
 
-
-```yaml
-scheduler:
-  threads: 10
-  processCleanup:
-    enabled: false
-    cronExpression: 0 */5 0-5 * * ? #every day during the night, every 5 minutes, at the start of the minute.
-    batchSize: 1000
-  masterElection:
-    cronExpression: 30 */3 * * * ? #master election every 3 minutes
-
-```
-* **processCleanup**: A configuration for cleaning up processes. 
-* **enabled** specifies whether this feature is turned on or off. 
-* **cronExpression** is a schedule expression that determines when the cleanup process runs. In this case, it runs every day during the night (between 12:00 AM and 5:59 AM) and every 5 minutes, at the start of the minute. 
-* **batchSize** specifies the number of processes to be cleaned up in one batch.
-* **masterElection**: A configuration for electing a master.
+| Environment Variable                          | Description                                                    | Default Value                                                                                 | Possible Values                         |
+| --------------------------------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------- |
+| `SCHEDULER_THREADS`                           | Number of threads for the scheduler.                           | `10`                                                                                          | Integer values (e.g., `10`, `20`)       |
+| `SCHEDULER_PROCESS_CLEANUP_ENABLED`           | Activates the cron job for process cleanup.                    | `false`                                                                                       | `true`, `false`                         |
+| `SCHEDULER_PROCESS_CLEANUP_CRON_EXPRESSION`   | Cron expression for the process cleanup scheduler.             | `0 */5 0-5 * * ?` -> every day during the night, every 5 minutes, at the start of the minute. | Cron expression (e.g., `0 0 1 * * ?`)   |
+| `SCHEDULER_PROCESS_CLEANUP_BATCH_SIZE`        | Number of processes to be cleaned up in one batch.             | `1000`                                                                                        | Integer values (e.g., `100`, `1000`)    |
+| `SCHEDULER_MASTER_ELECTION_CRON_EXPRESSION`   | Cron expression for the master election process.               | `30 */3 * * * ?` -> master election every 3 minutes                                           | Cron expression (e.g., `0 0/3 * * * ?`) |
 
 
-<Card title="Scheduler setup guide" href="../scheduler-setup-guide" icon="gears">
-</Card>
+## Managing Subprocesses Expiration
 
-### Managing Subprocesses Expiration
+This section details the environment variable that controls the expiration of subprocesses within a parent process. It determines whether subprocesses should terminate when the parent process expires or follow their own expiration settings.
 
-The `FLOWX_PROCESS_EXPIRE_SUBPROCESSES` environment variable governs subprocess expiration in a parent process. When set to true, the parent process's expiration prompts simultaneous termination of all associated subprocesses. Conversely, when set to false, each subprocess follows its individual expiration configuration or persists indefinitely if not configured.
-
-* `FLOWX_PROCESS_EXPIRE_SUBPROCESS` - default: `true`
+| Environment Variable                        | Description                                                                                  | Default Value | Possible Values   |
+|---------------------------------------------|----------------------------------------------------------------------------------------------|---------------|-------------------|
+| `FLOWX_PROCESS_EXPIRE_SUBPROCESSES`         | Governs subprocess expiration in a parent process. When true, terminates all associated subprocesses upon parent process expiration. When false, subprocesses follow their individual expiration settings or persist indefinitely if not configured. | `true`        | `true`, `false`   |
 
 
 ## Partitioning and archiving
 
-<Steps>
-<Step title="Setup">
-    
-Install the latest build version of **process-engine** corresponding to your platfom release version.
-
-</Step>
-<Step title ="Configuration">
-
-Enable partitioning and set intervals in process engine configuration with latest environment variables:
-
-[See below](#configuring-partitioning-and-archiving)
-
-Define the appropriate cron expression for the archiving scheduler.
-
-</Step>
-
-<Step title="Operation">
-
-Monitor and manage partitioning and archiving processes.
-
-Review logs for partitioning actions and SQL executions.
-</Step>
-</Steps>
-
 <Info>
-Future schema updates or migrations will not affect detached tables. They retain the schema from the moment of detachment.
+The Partitioning and Archiving feature is optional and can be configured as needed.
 </Info>
 
-### Configuring partitioning and archiving
+For more details about process instance partitioning and archiving, including configuration of the feature, see:
 
-This section contains environment variables that control the settings for data partitioning and archiving and also fo the archiving scheduler. These settings determine how data is segmented, retained, and managed, including compression.
-
-
-| Environment Variable                                     | Description                                                                  | Default Value                                                            | Possible Values                       |
-| -------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------- |
-| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `false`                                                                  | `true`, `false`                       |
-| `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`                                                                  | `DAY`, `WEEK`, `MONTH`                |
-| `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`                                                                      | Integer values (e.g., `1`, `2`, `3`)  |
-| `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for archived (detached) partitions.                      | `OFF`                                                                    | `OFF`, `BASIC`, `ADVANCED`            |
-| `SCHEDULER_DATA_PARTITIONING_ENABLED`                    | Activates the cron job for detaching and archiving partitions.               | `true`                                                                   | `true`, `false`                       |
-| `SCHEDULER_DATA_PARTITIONING_CRON_EXPRESSION`            | Cron expression for the data partitioning scheduler.                         | `0 * * * * ?` -> every day during the night, at the start of every hour. | Cron expression (e.g., `0 0 1 * * ?`) |
-
-
+<Card title ="Process instance partitioning and archiving" href ="./process-instance-data-archiving" icon ="link">
+</Card>
