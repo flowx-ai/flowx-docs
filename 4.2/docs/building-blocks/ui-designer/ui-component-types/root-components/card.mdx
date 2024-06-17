@@ -1,0 +1,163 @@
+---
+title: Card 
+description: A card in FlowX.AI is a graphical component designed for the purpose of grouping and aligning various elements. It offers added functionality by incorporating an accordion feature, allowing users to expand and collapse content as needed.
+---
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/card_ex.gif)
+</Frame>
+
+
+The following properties that can be configured:
+
+
+## Properties and settings
+
+### Settings (applicable across all platforms)
+
+These settings added in the **Generic** tab are available and they apply to all platforms including Web, iOS, and Android.
+
+#### When used as root
+
+When the Card is utilized as the root component, it offers the following settings:
+
+- **Custom UI Payload**: A valid JSON describing the custom data transmitted to the frontend when the process reaches a specific user task.
+- **Title**: The title displayed on the card.
+- **Subtitle**: Additional descriptive text accompanying the card.
+- **Has accordion**: Introduces a Bootstrap accordion, facilitating the organization of content within collapsible items. It ensures that only one collapsed item is displayed at a time.
+
+<Info> 
+The accordion feature is not available for mobile configuration.
+</Info>
+
+#### Mobile configuration (iOS & Android)
+
+For mobile configuration (iOS and Android), you can also configure the following property (not available on Web configuration):
+
+* **Screen title**: Set the screen title used in the navigation bar on mobile devices (available only when the card element is set as the root).
+
+<Frame caption ="Android Card Screen Title">
+![Android Screen Title](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/screen_title_android%20%282%29.png)
+</Frame>
+
+### Card settings overrides
+
+You may want to override the card title or subtitle set as **Generic** to be displayed differently on mobile devices. For example, on the web, titles might be shorter.
+
+<Tabs>
+<Tab title ="Web">
+
+Available properties overrides for web (overriding properties set in **Generic** settings tab):
+
+* Title
+* Subtitle
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/overrides_web.png)
+</Frame>
+
+</Tab>
+<Tab title="Android">
+
+Available properties overrides for Android (overriding properties set in **Generic** settings tab):
+
+* Title
+* Subtitle
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/overrides_android.png)
+</Frame>
+
+</Tab>
+<Tab title="iOS">
+
+Available properties overrides for iOS (overriding properties set in **Generic** settings tab):
+
+* Title
+* Subtitle
+</Tab>
+</Tabs>
+
+#### When not used as root
+
+When the card is not the root, you can configure: **Title**, **Subtitle**, **Card Style** and **Has Accordion**.
+
+Leverage cards in your designs to organize and present content, enhancing the overall user experience.
+
+## Styling
+
+<Tabs>
+<Tab title="Web">
+<Tabs>
+<Tab title ="Layout">
+
+When designing for the web, consider the layout options available for the card. These options include:
+
+* **Direction**: Choose between **Horizontal** or **Vertical** alignment to define the flow of components. For example, select Horizontal for a left-to-right layout.
+* **Justify (H)**: Specify how content is aligned along the main axis. For instance, select end to align items to the end of the card.
+* **Align (V)**: Align components vertically within their card using options such as top, center, or bottom alignment.
+* **Wrap**: Enable wrapping to automatically move items to the next line when they reach the end of the card. Useful for creating multi-line layouts.
+* **Gap**: Define the space between components to control the distance between each item. Adjusting the gap enhances visual clarity and organization.
+</Tab>
+<Tab title="Sizing">
+
+Adjusting the size of components is crucial for a responsive design. Fit W (width) offers three options:
+
+    * **fill**: Fills the available space.
+    * **fixed**: Maintains a fixed width.
+    * **auto**: Adjusts the width automatically based on content.
+</Tab>
+</Tabs>
+</Tab>
+<Tab title ="iOS">
+
+Similar styling considerations apply to iOS as for web.
+
+However, for mobile applications, there's an additional layout style property specific to cards when used as the root component:
+
+* **Scrollable**:  This property allows you to define the desired behavior of the screen, specifying whether it should be scrollable or not. By default, this property is set to true, enabling scrolling functionality.
+
+</Tab>
+<Tab title ="Android">
+
+Similar styling considerations apply to Android as for web.
+
+However, for mobile applications, there's an additional layout style property specific to cards when used as the root component:
+
+* **Scrollable**:  This property allows you to define the desired behavior of the screen, specifying whether it should be scrollable or not. By default, this property is set to true, enabling scrolling functionality.
+
+</Tab>
+</Tabs>
+
+### Theme overrides 
+
+Customize the appearance by overriding style options coming from your default theme. Available overrides:
+
+* Border width
+* Border radius
+* Border color
+* Background color
+* Shadow
+* Title
+* Title Color
+* Subtitle
+* Subtitle Color
+
+<Card title="Layout Demos" href="https://tburleson-layouts-demos.firebaseapp.com/#/docs" icon="link">
+</Card>
+
+## Validating elements
+
+To ensure the validation of all form elements within a card upon executing a Save Data action such as "Submit" or "Continue," follow these steps:
+
+1. When adding a UI action to a button inside a card, locate the dropdown menu labeled **Add form to validate**.
+2. From the dropdown menu, select the specific form or individual form elements that you wish to validate.
+3. By choosing the appropriate form or elements from this dropdown, you can ensure comprehensive validation of your form data, enhancing the integrity and reliability of your user interactions.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/forms_to_validate.png)
+
+***
+
+<Accordion title ="Provide feedback on this page">
+Use our [**feedback form**](https://www.cognitoforms.com/FlowXAi1/FeedbackForm) if you would like to provide feedback on this page. You could also [**raise issues/requests**](https://flowxai.canny.io/documentation-feedback).
+</Accordion>

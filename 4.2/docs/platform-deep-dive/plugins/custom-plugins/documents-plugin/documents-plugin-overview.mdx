@@ -1,0 +1,78 @@
+---
+title: Overview
+description: The Documents Plugin can be easily added to your custom FlowX.AI deployment to enhance the core platform capabilities with functionality specific to document handling.
+---
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/doc_plugin_general.png)
+
+The plugin offers the following features:
+
+* **Document Storage and Editing**: Easily store and make changes to documents.
+* **Document Generation**: Generate documents using predefined templates and custom process-related data.
+* **WYSIWYG Editor**: Create various templates using a user-friendly ["What You See Is What You Get" (WYSIWYG) editor](../../wysiwyg).
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/doc_plugin_wysiwyg.png)
+    
+* **Template Import**: Import templates created in other environments.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/doc_plugin_create_import.png)
+
+<Warning>
+When exporting a document template, it is transformed into a JSON file that can be imported later.
+</Warning>
+
+* **Document Conversion**: Convert documents from PDF to JPEG format.
+* **Document Splitting**: Split bulk documents into smaller separate documents.
+* **Document Editing**: Add generated barcodes, signatures, and assets to documents.
+* **OCR integration**: When a document requires OCR (Optical Character Recognitionq) processing, the Documents Plugin initiates the interaction by passing the document data or reference to the [**OCR plugin**](../ocr-plugin).
+
+The Documents Plugin can be easily deployed on your chosen infrastructure, preloaded with industry-specific document templates using an intuitive WYSIWYG editor, and connected to the FLOWX Engine through Kafka events.
+
+* [**Send Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node#message-send-task)
+* [**Receive Message Task(Kafka)**](../../../../building-blocks/node/message-send-received-task-node#message-receive-task)
+
+
+<Info>
+Performance considerations:
+
+To ensure optimal performance while using Documents Plugin, consider the following recommendations:
+
+* For large or complex documents, it is recommended to allocate sufficient system resources, such as CPU and memory, to handle the conversion/editing process efficiently.
+* Avoid processing extremely large files or a large number of files simultaneously, as it may impact performance and responsiveness.
+* Monitor system resources during the generating/editing/converting etc. process and scale resources as needed to maintain smooth operations.
+* Following these performance considerations will help optimize the document processing and improve overall system performance.
+</Info>
+
+## Using Documents plugin
+
+Once you have deployed the Documents Plugin in your infrastructure, you can start creating various document templates. After selecting a document template, proceed to create a process definition by including [**Send Message/Receive Message**](../../../../building-blocks/node/message-send-received-task-node) (Kafka nodes) and custom document-related actions in your process flow.
+
+Before adding these actions to your **process definition**, follow these steps:
+
+1. Ensure that all custom information is properly configured in the plugin database, such as the document templates to be used.
+2. For each event type, you will need a corresponding Kafka topic.
+
+<Check>
+The `..in` topic names configured for the plugin should match [**the `..out` topic  names used when configuring the engine**](../../../../../setup-guides/flowx-engine-setup-guide/engine-setup#configuring-kafka). Make sure to use an outgoing topic name that matches the pattern configured in the Engine. The value can be found and overwritten in the `KAFKA_TOPIC_PATTERN` variable. 
+
+For more details about Process Engine Kafka topic configuration, click [**here**](../../../../../setup-guides/flowx-engine-setup-guide/engine-setup#configuring-kafka).
+
+To make a request to the plugin, the process definition needs to include an action of type **Kafka send** defined on a [**Send Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-send-task) node. The action parameter should have the key `topicName` and the corresponding topic name as its value.
+
+To receive a reply from the plugin, the process definition needs to include a [**Receive Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-receive-task) node with a node value having the key `topicName` and the topic name as its value.
+</Check>
+
+Once the setup is complete, you can begin adding custom actions to your processes.
+
+Let's explore a few examples that cover both the configuration and integration with the engine for all the use cases supported by the plugin:
+
+
+<CardGroup>
+  <Card title="Generating documents based on templates" href="generating-from-html-templates" />
+  <Card title="Uploading a new document" href="uploading-a-new-document" />
+  <Card title="Converting documents to different formats" href="converting-documents-to-different-formats" />
+  <Card title="Splitting a document" href="splitting-a-document" />
+  <Card title="Deleting a file" href="deleting-a-file" />
+  <Card title="Getting URLs to documents" href="getting-urls-to-documents" />
+  <Card title="Listing stored documents" href="listing-stored-files" />
+</CardGroup>

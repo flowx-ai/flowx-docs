@@ -74,6 +74,10 @@ input.application.company.vat == true // you can use the same method to access a
 Essentially, you are accessing a specific value or property within a structured data object. The format is usually `input.{{key from where you want to access a value}}`. In simpler terms, it's a way to verify if a particular property within your input data structure (input.application.company.vat key attached to Switch UI element) is set to the value true. If it is, the condition is met and returns true; otherwise, it returns false.
 </Info>
 
+<Check>
+To ensure that the stored data can be accessed by the `.input method`, add a "Data to send" action on the node where you define your keys and your UI.
+</Check>
+
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/config_example_xor.png)
 
 <Info>

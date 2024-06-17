@@ -1,0 +1,113 @@
+---
+title: Token
+description: Token is the concept that describes the current position in the process flow. When you start the process you have a graph of nodes and based on the configuration you will go from one to another based on the defined sequence (connection between nodes).
+icon: "coins"
+---
+
+The token is a [BPMN](../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn) concept that represents a state within a process instance. It keeps track of the current position in the process flow and is used to store data related to the current process instance state.
+
+A token is created each time a new process instance is started. As the actions on the process instance are executed, the token advances from one node to the next. As a node can have several [actions](./actions/actions) that need to be executed, the token is also used for keeping track of the actions executed in each node.
+
+In case of [parallel gateways](./node/parallel-gateway), child tokens are created for each flow branch. The parent token moves to the gateway sync node and only advances after all the child tokens also reach that node.
+
+The image below shows how a token advances through a process flow:
+
+<Frame>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/image%20%28140%29%20%281%29%20%281%29%20%281%29%20%281%29%20%281%29.png)
+
+</Frame>
+
+The token will only move to the next node when there are no more mandatory actions from the current node that need to be executed. The token will also wait on a node in case the node is set to receive an event from an external system through Kafka.
+
+There will be cases when the token needs to be stopped in a node until some input is received from the user. If the input from the user is needed for further advancing in the process, the token should only advance after all data was received. A mandatory manual action can be used in this case and linked to the user action. This way we make sure that the process flow advances only after the user input is received.
+
+## Checking the token status
+
+The current process instance status can be retrieved using the FlowX Designer. It will display some info on the tokens related to that process instance and the current nodes they are in.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/check_token_status.png)
+
+In case more details are needed about the token, you can click the **Process status** view button, choose a token then click the **view button** again:
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/token_view_button.gif)
+
+## Token details
+
+* **Token status**: Describes the state of the token in the process. 
+* **Status Current Node**: Describes the token status in the current node.
+* **Retry**: After correcting the errors, you can hit Retry and see if the token moves on.
+* **See Token status**: Opens a modal displaying a detailed view of the token status. 
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/token_status_current_node.png)
+</Frame>
+
+<Info>
+If there are parallel gateways configured in a proces, you will have more tokens, created for earch parallel path.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/multiple_tokens_copy.png)
+
+</Info>
+
+### Token status
+
+| Token Status | Description                                                                                                                                                                                                                                         |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ACTIVE       | the token state is set to active when tokens are created; a parent token is reactivated when all child tokens reach the parallel gateway closing node.                                                                                              |
+| INACTIVE     | child tokens are set to inactive when they arrive in a parallel gateway closing node; the current token is set to inactive when it reaches a final node.                                                                                            |
+| ABORTED      | the current token is set to Aborted when it moves backward in order to redo a series of previous actions in the process - it is reset, and a new token is activated.                                                                                |
+| ON HOLD      | when a parallel split gateway node is reached, the parent token is set to On hold until all the child tokens reach the parallel gateway closing node; the parent token does not have a "Retry" action icon until all the child tokens are finished. |
+| DISMISSED    | when the process/subprocess reaches a certain node and it is canceled/exited.                                                                                                                                                                       |
+| EXPIRED      | when a defined "expiryTime" in the process definition passes the token will change to this status.                                                                                                                                                  |
+| TERMINATED   | when the process is terminated by a termination request.                                                                                                                                                                                            |
+
+
+### Status current node
+
+| Status Current Node        | Definition                                                                                            |
+| -------------------------- | ----------------------------------------------------------------------------------------------------- |
+| ARRIVED                    | when the token reaches the new node                                                                   |
+| EXECUTING                  | when the token execution starts                                                                       |
+| EXECUTED_COMPLETE          | after executing node actions, if all the mandatory actions from the node are completed                |
+| EXECUTED_PARTIAL           | after executing node actions, if there are still mandatory uncompleted actions on it                  |
+| WAITING_MESSAGE_EVENT      | when the token reaches an intermediate message catch event node, the token will be set to this status |
+| WAITING_TIMER_EVENT        | when the token reaches an intermediate timer event node, the token will be set to this status         |
+| WAITING_MESSAGE            | when the token waits for a message from another system                                                |
+| MESSAGE_RECEIVED           | after the message was received                                                                        |
+| MESSAGE_RESPONSE_TIMED_OUT | if the message was not received in the set timeframe                                                  |
+
+### See token status
+
+You can access a detailed view of the token status by going to your Process instance -> Tokens -> View (eye icon):
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/token_status.png)
+
+Here you will find details like:
+
+- **id**: The unique identifier of the token.
+- **version**: The version of the token.
+- **parentTokenId**: The identifier of the parent token, if any.
+- **startNodeId**: The identifier of the node where the token started.
+- **embedNodeId**: The identifier of the embedded node, if any.
+- **mainSwimlaneId**: The identifier of the main swimlane associated with the token.
+- **currentProcessVersionId**: The identifier of the current process version.
+- **currentContext**: The current context of the token.
+- **initiatorType**: The type of the initiator, if any.
+- **initiatorId**: The identifier of the initiator, if any.
+- **currentNodeId**: The identifier of the current node associated with the token.
+- **currentNodeName**: The name of the current node.
+- **state**: The state of the token (for example, INACTIVE, ACTIVE, etc.)
+- **statusCurrentNode**: The status of the current node.
+- **syncNodeTokensCount**: The count of synchronized node tokens.
+- **syncNodeTokensFinished**:The count of finished synchronized node tokens.
+- **dateUpdated**: The date and time when the token was last updated.
+- **paramValues**: Parameter values associated with the token.
+- **processInstanceId**: The identifier of the process instance.
+- **currentNode**: Details of the current node.
+- **nodesActionStates**: An array containing information about action states of nodes associated with the token. 
+- **uuid**: The unique identifer id of the token.
+
+
+
