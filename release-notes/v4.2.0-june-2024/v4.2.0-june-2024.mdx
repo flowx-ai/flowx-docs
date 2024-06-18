@@ -54,23 +54,49 @@ However, you still have the option to customize which keys are included or exclu
 </Frame>
 
 
-### Process Designer
+### Scripting UX improvements
 
 We're excited to announce significant improvements to our scripting UX. These enhancements focus on upgrading the code editors and introducing an advanced autocomplete feature. Configurators, both experienced and novice, will benefit from better visual feedback, support for interpolation syntax, and integrated help and examples. 
 
 The updates aim to streamline the configuration process, reduce errors, and make testing and troubleshooting more efficient.
 
+#### Autocomplete based on data model
+
+Introducing autocomplete for attributes, tailored to the data model attributes for enhanced configuration efficiency:
+
+| Section                                                            | Autocomplete field(s)/editors                      | Type                         | 
+| ------------------------------------------------------------------ | -------------------------------------------------- | ---------------------------- | 
+| Node config > Action -> Start subprocess                           | Copy from current state Exclude from current state | Field w/out interpolation    | 
+| Node config > Data stream topics                                   | Key name                                           | Field w/out interpolation    | 
+| Node config > Action > Kafka send action                           | Message Header                                     | JSON editor w/ interpolation | 
+| Action > Business Rule                                             | Business rule                                      | Code editor                  | 
+| Node config > Action > Kafka send action > From integration        | All integration fields                             | Input w/ interpolation       | 
+| Throw message node > Node config                                   | Correlation Key                                    | Field                        |
+| Throw message node > Node config                                   | Send data                                          | Editor - JSON                |
+| Start message node > Node config                                   | Process key                                        | Field w/out interpolation    | 
+| Exclusive gateway > Gateway decision                               | Expression                                         | Code editor                  | 
+| UI designer > Form & form elements                                 | Disable expression                                 | JS editor                    | 
+| UI designer > Input, text area (?), slider (min & max), text, link | Computed values                                    | JS editor                    | 
+| UI designer > UI components                                        | Hide expression                                    | JS editor                    | 
+| Catch message node (boundary) > Node config                        | Process Key Correlation key                        | Field w/out interpolation    | 
+
+
+
+#### New test business rule editor
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/business_r_editor.gif)
+</Frame>
+
+#### New hide/disabled expressions editor
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/hide%3Adisable%20editor.png)
+</Frame>
 
 ## **Changes**  🔧
 
-
-
-## Gremlins to Watch Out For
-
-Keep an eye out for these quirks:
-
-- **UI Designer**: When relocating UI elements between parents, the elements' order doesn't always get the memo, causing a mix-up in the family tree. We're untangling this knot! 
-
+- **WEB SDK**: Angular update (v17).
 
 ## Additional information
 
