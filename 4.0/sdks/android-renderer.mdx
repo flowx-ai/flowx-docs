@@ -63,7 +63,6 @@ The SDK library is managed through the `FlowxSdkApi` singleton instance, which e
 | Name                         | Description                                                                                                        | Definition                                                                                                                                                                                                 |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `init`                       | Initializes the FlowX SDK. Must be called in your application's `onCreate()`                                       | `fun init(context: Context, config: SdkConfig, accessTokenProvider: FlowxSdkApi.Companion.AccessTokenProvider? = null, customComponentsProvider: CustomComponentsProvider? = null)`   |
-| `checkRendererCompatibility` | Checks the renderer version compatibility with the deployed services                                               | `suspend fun checkRendererCompatibility(action: ((Boolean) -> Unit)?)`                                                                                                                |
 | `setAccessTokenProvider`     | Updates the access token provider (i.e. a functional interface) inside the renderer                                | `fun setAccessTokenProvider(accessTokenProvider: FlowxSdkApi.Companion.AccessTokenProvider)`                                                                                          |
 | `setupTheme`                 | Sets up the theme to be used when rendering a process                                                              | `fun setupTheme(themeUuid: String, fallbackThemeJsonFileAssetsPath: String? = null, @MainThread onCompletion: () -> Unit)`                                                            |
 | `startProcess`               | Starts a FlowX process instance, by returning a `@Composable` function where the process is rendered.              | `fun startProcess(processName: String, params: JSONObject = JSONObject(), isModal: Boolean = false, closeModalFunc: ((processName: String) -> Unit)? = null): @Composable () -> Unit` |
@@ -169,29 +168,6 @@ fun interface AccessTokenProvider {
 ```
 
 <Tip>Whenever the access token changes based on your own authentication logic, it must be updated in the renderer by calling the `setAccessTokenProvider` method again.</Tip>
-
-### Check renderer compatibility
-
-Before actually using the SDK, it is recommended to check the compatibility between the renderer and the currently deployed FlowX services.<br/><br/>
-This can be achieved by calling the `suspend`-ing `checkRendererCompatibility` method:
-
-```kotlin
-suspend fun checkRendererCompatibility(action: ((Boolean) -> Unit)?)
-```
-where the action lambda parameter is where one should add their own logic to be executed when compatible or not.
-
-#### Sample
-
-```kotlin
-CoroutineScope(Dispatchers.IO).launch {
-    FlowxSdkApi.getInstance().checkRendererCompatibility {
-        when (it) {
-            true -> { /* compatible */ }
-            false -> { /* NOT compatible */ }
-        }
-    }
-}
-```
 
 ### Theming
 
