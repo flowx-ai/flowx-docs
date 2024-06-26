@@ -3,6 +3,10 @@ title: Jaeger setup for microservices
 description: The scope of this document is to present some basic information on how to include Jaeger tracing into a Java based project.
 ---
 
+<Warning>
+Jaeger tracing has been removed starting with the FlowX.AI v4.1 release.
+</Warning>
+
 ## Required dependencies
 
 ```xml
@@ -46,7 +50,6 @@ public void listen(ConsumerRecord<String, String> record) {
     // some other code
 }
 ```
-
 <Tip>
 Use this context to create child spans of it and log events from adapter:
 ```java
