@@ -38,7 +38,7 @@ dependencyResolutionManagement {
 ```kotlin
 dependencies {
     ...
-    implementation("ai.flowx.android:android-sdk:3.0.4")
+    implementation("ai.flowx.android:android-sdk:3.0.8")
     ...
 }
 ```
@@ -65,6 +65,7 @@ The SDK library is managed through the `FlowxSdkApi` singleton instance, which e
 | `init`                       | Initializes the FlowX SDK. Must be called in your application's `onCreate()`                                       | `fun init(context: Context, config: SdkConfig, accessTokenProvider: FlowxSdkApi.Companion.AccessTokenProvider? = null, customComponentsProvider: CustomComponentsProvider? = null)`   |
 | `setAccessTokenProvider`     | Updates the access token provider (i.e. a functional interface) inside the renderer                                | `fun setAccessTokenProvider(accessTokenProvider: FlowxSdkApi.Companion.AccessTokenProvider)`                                                                                          |
 | `setupTheme`                 | Sets up the theme to be used when rendering a process                                                              | `fun setupTheme(themeUuid: String, fallbackThemeJsonFileAssetsPath: String? = null, @MainThread onCompletion: () -> Unit)`                                                            |
+| `changeLanguage`             | Changes the current language                                                                                       | `fun changeLanguage(language: String)`                                                                                                                                                |
 | `startProcess`               | Starts a FlowX process instance, by returning a `@Composable` function where the process is rendered.              | `fun startProcess(processName: String, params: JSONObject = JSONObject(), isModal: Boolean = false, closeModalFunc: ((processName: String) -> Unit)? = null): @Composable () -> Unit` |
 | `continueProcess`            | Continues an existing FlowX process instance, by returning a `@Composable` function where the process is rendered. | `fun continueProcess(processUuid: String, isModal: Boolean = false, closeModalFunc: ((processName: String) -> Unit)? = null): @Composable () -> Unit`                                 |
 | `executeAction`              | Runs an action from a custom component                                                                             | `fun executeAction(action: CustomComponentAction, params: JSONObject? = null)`                                                                                                        |
@@ -148,7 +149,7 @@ For a custom validator to be evaluated for a form field, its *name* must be spec
     mapOf("exact_25_in_length" to { it.length == 25 })
     ```
     if a form element should be validated using this lambda function, a custom validator named `"exact_25_in_length"` should be specified in the process definition.
-    </Tip>
+</Tip>
 
 ## Using the library
 
@@ -160,7 +161,7 @@ To be able to use the SDK, **authentication is required**. Therefore, before cal
 FlowxSdkApi.getInstance().setAccessTokenProvider(accessTokenProvider = { "your access token" })
 ```
 
-The lamba passed in as parameter has the `ai.flowx.android.sdk.FlowxSdkApi.Companion.AccessTokenProvider` type, which is actually a functional interface defined like this:
+The lambda passed in as parameter has the `ai.flowx.android.sdk.FlowxSdkApi.Companion.AccessTokenProvider` type, which is actually a functional interface defined like this:
 ```kotlin
 fun interface AccessTokenProvider {
     fun get(): String
@@ -219,6 +220,31 @@ viewModelScope.launch {
 </Tip>
 
 <Warning>Do not [start](#start-a-flowx-process) or [resume](#resume-a-flowx-process) a process before the completion of the theme setup mechanism.</Warning>
+
+### Changing current language
+
+The current language can be also changed after the [initial setup](#configuring-the-library), by calling the `changeLanguage` function:
+
+```kotlin
+fun changeLanguage(language: String)
+```
+
+#### Parameters
+
+| Name        | Description                    | Type      | Requirement   |
+| ----------- | ------------------------------ | --------- | ------------- |
+| `language`  | The code for the new language  | `String`  | Mandatory     |
+
+<Warning>
+    **Do not change the language while a process is rendered.**<br/>
+    The change is successful only if made before [starting](#start-a-flowx-process) or [resuming](#resume-a-flowx-process) a process.
+</Warning>
+
+#### Sample
+
+```kotlin
+FlowxSdkApi.getInstance().changeLanguage(language = "en")
+```
 
 ### Start a FlowX process
 
