@@ -1,0 +1,469 @@
+---
+title: Navigation areas
+description: Navigation areas play a pivotal role in user interface design. They enhance the user experience by providing a structured, organized, and efficient way for users to interact with and explore various features and solutions.
+---
+
+<Info>
+In the navigation panel, the navigation hierarchy should be displayed beneath platform tabs, which include options for both web and mobile platforms. The default tab selected upon opening should be the web platform.
+</Info>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/nav_ares.gif)
+</Frame>
+
+## Adding new areas
+
+To create a new navigation area, follow these steps:
+
+1. Open **FlowX Designer**.
+2. Either open an existing process definition or create a new one.
+3. Toggle the navigation areas menu by clicking on **Navigation view**.
+4. Select **Create New Area**.
+
+<Info>
+Navigation configurations made on one platform (for example, Web) are not automatically duplicated to the other platform by default. You must copy or recreate them.
+</Info>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/creating_nav_areas.gif)
+</Frame>
+
+## Interacting with areas
+
+Once you've added a new navigation area, you can interact with it through the breadcrumbs menu, which provides the following options:
+
+<AccordionGroup>
+<Accordion title ="Area settings">
+
+<Frame>
+<img src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/area_settings.gif" style={{ maxHeight: '500px' }}/>
+</Frame>
+
+Use **Area Settings** to configure the following properties:
+
+* **Name** - a name for the navigation area element that is visible in the **Navigation menu**
+
+<Info>
+This does not represent the label for your navigation area (for example, for a step element) that would be visible in the process at runtime. To set the label for your element, use the UI Designer to edit it.
+To do that, trigger the **Navigation View** menu, then navigate to your element and click on the breadcrumbs. Afterward, click "UI Designer."
+</Info>
+
+* **Alternative Flows** - There might be cases when you want to include or exclude process nodes based on some information that is available as a start condition.
+
+
+</Accordion>
+<Accordion title ="UI Designer">
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ui_designer_navigation_areas.gif)
+</Frame>
+Use UI Designer to configure the following:
+
+* **Settings**:
+    * **Generic**: Properties available cross-platform (Web, Android and iOS), available for all platforms
+    * **Platform-specific configuration and styling**: For components across Web, iOS, and Android. 
+
+</Accordion>
+<Accordion title ="Copy/Paste">
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/copy_paste_areas.gif)
+</Frame>
+
+The "Copy Navigation Areas" feature allows you to replicate navigation hierarchies and elements between different platforms. 
+
+<Warning>
+The Copy/Paste Navigation Areas feature facilitates the duplication of navigation configurations within the same process definition and environment. It does not support copying across different process definitions or environments.
+</Warning>
+
+</Accordion>
+<Accordion title ="Delete an area">
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/delete_area.gif)
+</Frame>
+
+To delete a navigation area:
+
+1. Access the **Navigation view** menu within the FlowX Designer.
+2. Choose the intended navigation area, then click on the breadcrumbs menu located on the right.
+3. Select **Delete Area**.
+
+<Info>
+Note: Deleting the navigation area will also remove any associated child areas. Additionally, any user tasks contained within will be unassigned and relocated to the User Tasks section within the **Navigation view**.
+</Info>
+
+</Accordion>
+</AccordionGroup>
+
+## Navigation areas types
+
+You can create the following types of navigation areas:
+
+<Frame>
+<img src= "https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/UI_areas_types.png" style={{ maxHeight: '600px' }}/>
+</Frame>
+
+<CardGroup  cols={3}>
+<Card title = "Stepper" href="#stepper"> 
+A stepper guides users through a sequence of logical and numbered steps, aiding in navigation.
+</Card>
+<Card title ="Tab Bar" href="#tab-bar">
+A user interface element  presenting multiple tabs for navigation or organizing content. It allows users to switch between different sections or views within the application.
+</Card>
+<Card title = "Page" href ="#page"> 
+This type displays basic full-page content for an immersive user experience.
+</Card>
+<Card title="Modal" href ="#modal"> 
+A modal temporarily takes control of the user's interaction within a process as an overlay, requiring user interaction before returning to the main application or website functionality.
+</Card>
+<Card title="Zone" href ="#zone">
+A container-like element grouping specific navigation areas or user tasks, commonly used for organizing content such as headers and footers within a process definition.
+</Card>
+<Card title ="Parent Process Area" href ="#parent-process-area">
+Allows subprocess design under parent process hierarchy; ensures validation and design restrictions.
+</Card>
+</CardGroup>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/navigation_types.gif)
+</Frame>
+
+### Stepper
+
+A stepper breaks down progress into logical and numbered steps, making navigation intuitive.
+
+<Frame>
+<img src= "https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/stepper.png" style={{ maxHeight: '600px' }}/>
+</Frame>
+
+You can also define a stepper in step structure with the possibility to track progress and also returning to a previously visited step (as you can see in the navigation areas in the example above).
+
+
+#### Stepper in step example
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/stepper_in_steps.gif)
+</Frame>
+
+
+#### Steps
+
+Steps are individual elements within a stepper, simplifying complex processes.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/steps_ui_t.png)
+</Frame>
+
+### Tab bar
+
+The Tab Bar is a crucial component in user interfaces, facilitating seamless navigation and content organization.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tabs_view.gif)
+</Frame>
+
+Key Features and usage guidelines:
+
+<CardGroup>
+<Card title ="Parallel Zones">
+The navigation Tab Bar offers specialized support for **parallel zones** within the same **user task**. This feature allows users to navigate effortlessly between different sections or functionalities.
+</Card>
+<Card title ="Multiple Tabs">
+Users can access multiple tabs within the tab bar, enabling quick switching between various views or tasks.
+</Card>
+</CardGroup>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tab_bar_nav_area.png)
+</Frame>
+
+When setting up a tab bar zone in your BPMN diagram, ensure that you always initiate a parallel zone using **Parallel Gateway** nodes. This involves using one Parallel Gateway node to open the zone and another to close it, as demonstrated in the example above. This approach ensures clarity and consistency in your diagram structure, facilitating better understanding.
+
+<Warning>
+**Mobile development considerations**: when developing for mobile devices, ensure the tab bar is **always** positioned as a **root component** in the navigation. It should remain consistently visible, prioritizing ease of navigation.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/root_navigation_tab.png)
+
+</Warning>
+
+#### Tabs
+
+Tabs are clickable navigation elements within the Tab Bar that allow users to switch between different sections or functionalities within an application. 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tabs_parallel.png)
+</Frame>
+
+Each tab could contain a user task or multiple user tasks that can be rendered in parallel.
+
+<Info>
+You can also use [**Start embedded subprocess**](../node/call-subprocess-tasks/start-embedded-subprocess) nodes to render defined subprocesses as a tab. Check the [**Start embedded subprocess**](../node/call-subprocess-tasks/start-embedded-subprocess) for more details.
+</Info>
+
+#### Tab bars inside tabs
+
+In addition to regular tab bars, you have the option to implement nested tab bars, allowing for the display of another set of tabs when accessing a specific tab.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/nested_tab_bars.png)
+</Frame>
+
+To achieve this configuration, you'll need to create an additional parallel zone inside the previously created one for the main tab bar. This section should encompass the child tabs of the primary tab bar in your diagram. Once these child tabs are defined, close the parallel zone accordingly.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/sub_tabs.png)
+</Frame>
+
+### Page
+
+Page navigation involves user interaction, typically through clicking on links, buttons, or other interactive elements, to transition from one page to another.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/page_smth.gif)
+</Frame>
+
+A page could contain multiple user tasks displayed either in parallel (single page application) or one by one (wizard style).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/page_overview.png)
+</Frame>
+
+#### Navigation type (only for Web)
+
+You have the possibility to add step-by-step or wizard-style navigation within a page (applicable when a page contains more than one User Task). This means users can navigate through the application in a guided manner, accessing each step within the designated area and page.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/page_navigation_type.png)
+
+* **Single page form** (default): The Web Renderer will display all User Tasks within the same page (in parallel).
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/page_single_page.png)
+
+<Tip>
+For optimal navigation, we suggest utilizing cards to guide users through the content.
+
+<Info>
+To maintain a clean UI while displaying user tasks on a single page, use cards as the root UI elements and apply accordions to them. This allows you to collapse each card after it is validated by an action.
+</Info>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/cards_single_page_coll.gif)
+
+</Tip>
+
+
+<Info>
+Child areas will be rendered on the same page.
+</Info>
+
+* **Wizard**: For the Wizard option, the Web Renderer will display one user task at a time, allowing navigation using custom Next and Back buttons.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/page_wizard.gif)
+
+<Tip>
+Child areas will be presented sequentially. It's crucial to configure actions properly to ensure smooth user navigation.
+</Tip>
+
+### Modal
+
+Modals offer temporary control over user interaction within a process, typically appearing as pop-ups or overlays. They guide users through specific tasks before returning to the main functionality of the application or website.
+
+<Frame>    
+![Modal Example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/modal.gif)
+</Frame>
+
+To enable user interaction with a modal, you can configure it to be dismissable in two ways:
+
+- Dismiss on backdrop click
+- Display dismiss confirmation alert
+
+Here's how to configure these options:
+
+1. Navigate to your configured modal and access the UI Designer.
+
+<Frame>
+![Modal UI Designer](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/modal_ui_designer.gif)
+</Frame>
+
+2. In the UI Designer navigation panel, select the **Settings** tab, then choose **Generic**.
+
+3. Check the box labeled "dismissable." If you also want to display a dismiss confirmation alert, configure the:
+   - Title
+   - Message
+   - Confirm button label
+   - Cancel button label
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/modal_configuration.png)
+</Frame>
+
+By configuring these options, you can customize the behavior of your modals to enhance user experience and guide them effectively through tasks.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/modal_example.gif)
+</Frame>
+
+### Zone
+
+A Zone serves as a container designed to govern UI navigation by grouping specific elements together. Its optimal application is in scenarios involving processes featuring both a header and footer.
+
+#### Navigation type (only for Web)
+
+You have the possibility to add step-by-step or wizard-style navigation within a specific zone (applicable when a zone contains more than one User Task). This means users can navigate through the application in a guided manner, accessing each step within the designated area and page. 
+
+* **Single page form** (default): The Web Renderer will display all User Tasks within the same zone.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/single_page_form.png)
+
+<Tip>
+For optimal navigation, we suggest utilizing cards to guide users through the content.
+</Tip>
+
+<Info>
+Child areas will be rendered on the same page.
+</Info>
+
+* **Wizard**: For the Wizard option, the Web Renderer will display one user task at a time, allowing navigation using custom Next and Back buttons.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/wizard.gif)
+
+<Tip>
+Child areas will be presented sequentially. It's crucial to configure actions properly to ensure smooth user navigation.
+</Tip>
+
+<Warning>
+Zones with headers and footers are exclusively accessible in web configurations. They are not supported as navigation areas for mobile development.
+</Warning>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/header_footer.png)
+</Frame>
+
+
+
+#### How to Create a Header/Footer Zone
+
+To establish a header/footer zone, follow these steps:
+
+1. Begin by opening a new parallel zone and ensure to close it where you want the header/footer zone to end.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/header%3Afooter_parallel.gif)
+</Frame>
+
+2. Introduce two new user tasks nodes within your process, designated to function as the header, respectively as footer.
+3. Connect the first parallel gateway node to both of them.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/connect_header_footer.png)
+</Frame>
+
+4. Now connect the header and footer user tasks to the closing Parallel Gateway.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/connect_with_closing.gif)
+</Frame>
+
+3. In the navigation areas menu, incorporate a new zone labeled "Header Zone" and a new zone "Footer Zone".
+4. Position the header at the top of your navigation structure or at the top within your primary navigation element and the footer at the bottom.
+5. Assign the user tasks to the "Header Zone" and to the "Footer Zone".
+
+
+<Info>
+When working with containers directly within navigation zones, you have the flexibility to set the sticky/static property directly on your specific navigation zone using the UI Designer, without having to add specific user tasks. However, determining the best practice depends on the specific use case you're aiming to implement. 
+For instance, if you're looking to incorporate footers containing actions or buttons such as "Cancel application" or "Continue," it's advisable to include user tasks, allowing you to configure node actions effectively.
+
+<Tip>
+On the other hand, if your goal is to integrate static headers and footers featuring branding assets and external URLs, it's simpler to directly add them to the navigation areas. In this scenario, you can effortlessly incorporate images or text with external URLs on your containers styling.
+</Tip>
+</Info>
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/header_footer_blaa.png)
+</Frame>
+
+6. Proceed to customize the user tasks UI according to your preferences.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/header_footer_custom.gif)
+</Frame>
+
+#### Styling options
+
+To customize the appearance of headers and footers, you need to utilize containers as the root UI elements for **user tasks** or navigation areas. 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/container_ui.png)
+</Frame>
+
+You have two styling options available for these containers:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/sticky_configuration.gif)
+</Frame>
+
+* **Static**: This style remains fixed and does not scroll along with the page content.
+* **Sticky**: When the sticky property is enabled, the container maintains its position even during scrolling.
+    * **Layout**: You have the option to specify minimum distances between the container and its parent element while scrolling. At runtime, sticky containers will keep their position on scroll relative to top/ bottom/ right/ left margin of the parent element
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Screenshot%202023-12-13%20at%2017.18.39.png)
+</Frame>
+
+<Info>
+In mobile configurations, the right and left properties for sticky layout are ignored by the mobile renderer.
+</Info>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/sticky_demo.gif)
+</Frame>
+
+
+## Navigation areas demo
+
+For more information, you can also check the following demo on our Academy website:
+
+<Card title="FlowX.AI Navigation view" href="https://academy.flowx.ai/explore/flowxai-navigation-view" icon ="school">
+</Card>
+
+## Alternative flows
+
+There might be cases when you want to include or exclude process nodes based on some information that is available at start. 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/alternative_flows.png)
+</Frame>
+
+<Tip>
+For example, in case of a bank onboarding process, you might want a few extra BPMN nodes in the process in case the person trying to onboard is a minor.
+</Tip>
+
+For these cases, we have added the possibility of defining **alternative flows**. 
+
+For each navigation area or node, you can choose to set if they are only available in certain cases. In the example below, we will create two alternative flows in which we will include two different steppers and one modal without being part of an alternative flow.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/adding_alternative_flows.gif)
+</Frame>
+
+When starting a process, you must mention for the which flow the process will be initiated using the "navigationFlow" parameter and the name of the alternative flow:
+
+```json
+{"navigationFlow": "First Flow"}
+```
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/alternative_flows_ex.gif)
+</Frame>
+
+<Info>
+If a node is not assigned to an alternative flow, this means the node will be included in all possible flows.
+<Tip>
+A node could also be a part of multiple flow names.
+</Tip>
+</Info>
+
+<Tip>
+When configuring alternative flows in the main process, remember that they will also be applied in any embedded subprocesses with identical names.
+</Tip>
+

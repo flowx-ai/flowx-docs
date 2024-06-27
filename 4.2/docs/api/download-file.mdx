@@ -1,0 +1,20 @@
+---
+title: Download a file
+api: GET documentURL/internal/storage/download
+---
+
+This endpoint allows you to download a file by specifying its path or key.
+
+
+<ParamField path="documentURL" type="string">
+  The base URL of the document.
+</ParamField>
+<ParamField path="internal" type="string">
+  A segment of the path that specifies it is an internal call.
+</ParamField>
+<ParamField path="storage" type="string">
+  A segment of the path referring to storage resources.
+</ParamField>
+<ParamField path="download" type="string">
+  The unique identifier for the download.
+</ParamField>

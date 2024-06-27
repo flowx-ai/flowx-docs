@@ -1,0 +1,42 @@
+---
+title: Clear cache strategy
+api: POST {{baseUrlAdmin}}/api/internal/cache/clear
+---
+
+The request is sent to the specified API endpoint, and upon successful execution, it clears the cache with the specified name.
+
+
+<ParamField path="baseUrlAdmin" type="string">
+  The URL of admin.
+</ParamField>
+
+
+<ParamField body="cacheNames" type="object" >
+
+This JSON payload specifies the cache name(s) that need to be cleared. In this case, it targets a cache with the name "flowx:core:cache".
+
+```json
+{
+    "cacheNames": [
+        "flowx:core:cache"
+        ]
+}
+```
+</ParamField>
+
+<RequestExample>
+
+```bash Request
+curl --request POST \
+--url {{baseUrlAdmin}}/api/internal/cache/clear \
+--header 'Content-Type: application/json' \
+--data '{"cacheNames": ["flowx:core:cache"]}'
+
+```
+</RequestExample>
+
+<ResponseExample>
+```
+{ "status": "success" }
+```
+</ResponseExample> 
