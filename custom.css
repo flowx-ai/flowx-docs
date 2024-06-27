@@ -1,9 +1,0 @@
-#navbar:before {
-    background-color: #f3ad02;
-    content: "Check out the new FlowX.AI 4.1 release! Explore the latest features now!";
-    color: rgb(255, 255, 255);
-    display: block;
-    text-align: center;
-    padding: 4px;
-    font-size: 88%;
-}
