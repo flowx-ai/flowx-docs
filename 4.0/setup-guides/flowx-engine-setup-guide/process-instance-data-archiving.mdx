@@ -3,20 +3,30 @@ title: Partitioning & archiving
 description: Improving data management using data partitioning and the archival processes.
 ---
 
-## Partitioning
+## Overview
 
-Partitioning involves splitting instance-related tables into multiple tables based on the `partition_id` of each entity. This process is managed by the database, which abstracts access to the partitioned data, so no changes are needed in the application code to locate data in specific partitions.
+<Tip>
+Starting with 4.1.1 you can enable data partitioning on FlowX.AI Engine.
+</Tip>
+
+Partitions can be created per day, week or month. This means that a partition ID is computed at injection time for each row of `process_instance` and related tables.
+
+Afterwards, a retention period can be setup (eg: 3 partitions). A flowx engine-driven cron job (with configurable start interval) will check if there is any partition which needs to be archived and will perform the necessary actions.
 
 <Info>
-Database Compatibility: Oracle and Postgres.
+Database Compatibility: Oracle and PostgreSQL.
 </Info>
 
-## Archiving
+### Oracle partitioning
 
-Archiving is the process of copying detached tables to an external storage solution (such as another database or a data lake) and then removing them from the initial database.
+- [**Partitioned tables**](https://docs.oracle.com/en/database/oracle/oracle-database/18/vldbg/partition-concepts.html#GUID-6D369646-16AF-487B-BF32-5F6569D27C8A) are utilized,llowing for efficient data management and query performance. 
+- Archiving means detaching the specific partition from the main table and converting it into a new table, named `process_instance_<partition_id>`.
 
-- A cron job in FlowX will manage partitioning based on configured retention intervals.
-- Old data and completed instances will be moved to detached and (optionally) compressed tables.
+### PostgreSQL partitioning 
+
+- Adding a new column does not significantly impact the overall database schema.
+
+- The new table is created (same name format as for oracle: `process_instance_<partition_id>`) and data is moved from the primary table here. Since here the DB has more work to do than just changing some labels (actual data insert and delete vs relabel a partition into a table, for oracle) the data move is batched and the batch size is configurable.
 
 ## Daily operations
 
@@ -28,16 +38,16 @@ The `partition_id` is automatically calculated based on the configured interval 
 Example for daily partitioning: `2024-03-01 13:00:00` results in `partition_id = 124061`.
 </Step>
 <Step title="Retention Management">
-Data older than the configured retention interval becomes eligible for detachment and compression.
+Data older than the configured retention interval becomes eligible for archiving and compressing.
 </Step>
 <Step title ="Archiving process">
 - A cron job checks for eligible partitions.
-- Eligible partitions are detached and optionally compressed.
+- Eligible partitions are archived and optionally compressed.
 - The process includes deactivating foreign keys, creating new archive tables, moving data references, reactivating foreign keys, and dropping the original partition.
 </Step>
 <Step title ="Space management">
-- Detached tables remain in the database but occupy less space if compression is enabled.
-- To free up space, move detached tables to another database or tablespace.
+- Archived tables remain in the database but occupy less space if compression is enabled.
+- To free up space, move archived tables to another database or tablespace.
 </Step>
 </Steps>
 
@@ -52,7 +62,7 @@ When enabling partitioning, please consider the following:
 
 
 <Info>
-Future schema updates or migrations will not affect detached tables. They retain the schema from the moment of detachment.
+Future schema updates or migrations will not affect archived tables. They retain the schema from the moment of archiving.
 </Info>
 
 ## Configuring partitioning and archiving
@@ -71,7 +81,7 @@ This section contains environment variables that control the settings for data p
 | `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`                                                                      | Integer values (e.g., `1`, `2`, `3`)  |
 | `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for archived (detached) partitions (Oracle only).        | `OFF`                                                                    | `OFF`, `BASIC`, `ADVANCED`            |
 | `FLOWX_DATA_PARTITIONING_MOVED_DATA_BATCH_SIZE`          | Batch size for moving data (Postgres only).                                  | `5000`                                                                   | Integer values (e.g., `1000`, `5000`) |
-| `SCHEDULER_DATA_PARTITIONING_ENABLED`                    | Activates the cron job for detaching and archiving partitions.               | `true`                                                                   | `true`, `false`                       |
+| `SCHEDULER_DATA_PARTITIONING_ENABLED`                    | Activates the cron job for archiving partitions.                             | `true`                                                                   | `true`, `false`                       |
 | `SCHEDULER_DATA_PARTITIONING_CRON_EXPRESSION`            | Cron expression for the data partitioning scheduler.                         | `0 * * * * ?` -> every day during the night, at the start of every hour. | Cron expression (e.g., `0 0 1 * * ?`) |
 
 <Info>
@@ -87,8 +97,18 @@ Batch size for moving data is available only for Postgres DBs.
 
 Partitioning and archiving actions are logged in two tables:
 
-- `DATA_PARTITIONING_LOG`: For tracking detached partitions.
-- `DATA_PARTITIONING_LOG_ENTRY`: For logging SQL commands executed for detachment.
+- `DATA_PARTITIONING_LOG`: For tracking archived partitions.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/partitioning_log.png)
+</Frame>
+
+- `DATA_PARTITIONING_LOG_ENTRY`: For logging SQL commands executed for archiving.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/partitioning_log_entry.png)
+</Frame>
 
 ## Enabling Partitioning and Elasticsearch indexing strategy
 
@@ -97,7 +117,7 @@ When partitioning is enabled, the Elasticsearch Kafka indexing strategy must als
 <Card icon="info">
 **Why?**
 
-* When detaching process instances, data from Elasticsearch must also be deleted, not just the cache but also indexed keys (e.g., those indexed for data search on process instances).
+* When archiving process instances, data from Elasticsearch must be deleted, not just the cache but also indexed keys (e.g., those indexed for data search on process instances).
 </Card>
 
 ### Elasticsearch indexing configuration
@@ -129,7 +149,9 @@ Check the following Kafka Elasticsearch Connector configuration example for more
 - The `partition_id` format: `LEVEL || YEAR || BIN_ID_OF_YEAR`. Calculated based on start date of `process_instance`, partition interval, and partition level.
 - Example: For a timestamp `2024-03-01 13:00:00` and daily partitioning interval, the `partition_id` is `124061`.
 
-### Detached and compressed tables
+### Archived tables
     
-- Naming format: `archived__${table_name}__${interval_name}_${reference}`.
-- Example: `archived__process_instance__monthly_2024_03`.
+- Naming format: `archived__${table_name}__${interval_name}_${reference}`. Examples: 
+  - archived__process_instance__monthly_2024_03
+  - archived__process_instance__weekly_2024_09
+  - archived__process_instance__daily_2024_03_06

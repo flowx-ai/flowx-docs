@@ -7,11 +7,11 @@ description: Radio buttons are normally presented in radio groups (a collection 
 
 ## Configuring the radio field element
 
-### Radio settings
+### Radio generic settings
 
-The available configuration options for this form element are:
+These allow you to customize the generic settings for the Radio element:
 
-- [**General**](#general)
+- [**Process data key**](#process-data-key)
 - [**Properties**](#properties)
 - [**Datasource**](#datasource)
 - [**Validators**](#validators)
@@ -19,34 +19,47 @@ The available configuration options for this form element are:
 - [**UI actions**](#ui-actions)
 - [**Radio styling**](#radio-styling)
 
-#### General
+#### Process data key
 
-* **Process data key** - creates the binding between form element and process data so it can be later used in 
+Process data key establishes the binding between the radio element and process data, enabling its later use in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/radio_process_key.png)
+</Frame>
 
 #### Properties
 
-* **Label** - the label that appears on the radio
-* **Helpertext** - additional information about the radio (can be hidden inside an infopoint)
+* **Label**: The visible label for the radio element.
+* **Helper Text**: Additional information about the radio element, which can be optionally hidden within an infopoint.
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/radio_label_info.png)
+</Frame>
 
-#### Datasource
+#### Datasource configuration
 
-* **Default Value** - the default values of the radio element
-* **Source Type** - it can be Static, Enumeration, or Process Data
-* **Add option** - label - value pairs can be defined here
+* **Default value**: Autoselect an option from the radio element based on this value. You need to specify the value from the value/label pairs defined in the Datasource tab.
+* **Source Type**: The source can be Static, Enumeration, or Process Data.
+* **Add option**: Define label and value pairs here.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/radio_properties.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/radio_datasource.png)
+</Frame>
 
 #### Validators
 
 The following validators can be added to a radio: `required` and `custom` (more details [here](../../validators)).
 
-#### Expressions
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/radio_validators.png)
+</Frame>
+
+#### Hide/disable expressions
   
 The radio's element behavior can be defined using JavaScript expressions for hiding or disabling the element. The following properties can be configured for expressions:
    
-* **Hide** - JavaScript expression used to hide the Radio element when it returns a truthy value
-* **Disabled** - JavaScript expression used to disable the Radio element when it returns a truthy value
+* **Hide condition**: A JavaScript expression that hides the Radio element when it returns a truthy value.
+* **Disabled condition**: A JavaScript expression that disables the Radio element when it returns a truthy value.
 
 <Info>
 It's important to make sure that disabled fields have the same expression configured under the path expressions → hide.
@@ -58,47 +71,84 @@ It's important to make sure that disabled fields have the same expression config
 
 UI actions can be added to the radio element to define its behavior and interactions.
 
-* **Event** - possible value: `CHANGE`
-* **Action Type** - select the action type
+* **Event**: Possible value - `CHANGE`.
+* **Action Type**: Select the type of the action to be performed.
 
 <Tip>
 For more details on how to configure a UI action, click [**here**](../../ui-actions).
 </Tip>
 
-### Radio styling
 
-#### Properties
+### Radio settings overrides
 
-The type of the radio can be selected by using the **styling** tab in **UI Designer**, possible values:
+There are instances where you may need to tailor settings configured in the **Generic** settings tab. This proves especially beneficial when you wish to adjust these settings to appear differently across various platforms such as Web, Android, or iOS.
 
-* clear
-* bordered
+Available override settings:
 
-#### Typography
-
-You can customize the typography for the following properties:
-
-* Label
-* Options
-* Helper & errors
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/radio_typography.png)
-
-For more details on how to upload and manage fonts, check the following section:
-
-<Card title="Font management" href="../../../../platform-deep-dive/core-extensions/content-management/font-files" icon="link">
-</Card>
+* Properties:
+    * **Label**: Override the input label.
+    * **Helper**: Override helper text/info point.
+* Expressions:
+    * **Hide**: Override the hide expression.
 
 <Tip>
-For more valid CSS properties, click [here](../../#styling).
+Overrides can always be imported/pushed from one platform to another:
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importing_pushing_overrides.gif)
+
 </Tip>
 
-A Radio element with two options added, and with a layout configuration set to horizontal will look like as it follows:
+### Radio styling
+
+<Tabs>
+<Tab title="Web">
+<Tabs>
+<Tab title ="Properties">
+
+* **Type**: Set the type of the checkbox. Possible values:
+
+    * bordered
+    * clear
 
 
-<Frame>
-![Radio Form element example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/radio_form_styling.png)
-</Frame>
+</Tab>
+<Tab title="Sizing">
+
+Adjusting the size of components is crucial for a responsive design. Fit W (width) offers three options:
+
+    * **fill**: Fills the available space.
+    * **fixed**: Maintains a fixed width.
+    * **auto**: Adjusts the width automatically based on content.
+
+</Tab>
+<Tab title ="Layout">
+
+* **Direction**: Determines the orientation of the layout, which can be either horizontal or vertical.
+* **Gap**: Specifies the size of the space between rows and columns.
+* **Columns**: Indicates the number of columns in the layout.
+
+</Tab>
+</Tabs>
+</Tab>
+<Tab title ="iOS">
+
+Similar styling considerations apply to iOS as for web.
+
+However, for mobile applications, there's an additional sizing style property specific to select elements:
+
+* **Height** (pt - points): Determines the vertical size of the select element on the screen.
+
+</Tab>
+<Tab title ="Android">
+
+Similar styling considerations apply to Android as for web.
+
+However, for mobile applications, there's an additional sizing style property specific to select elements:
+
+* **Height** (dp - density-independent pixels): Determines the vertical size of the select element on the screen.
+
+</Tab>
+</Tabs>
 
 
 
