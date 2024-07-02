@@ -9,6 +9,18 @@ description: Improving data management using data partitioning and the archival 
 Starting with 4.1.1 you can enable data partitioning on FlowX.AI Engine.
 </Tip>
 
+Partitioning and archiving are data management strategies used to handle large volumes of data efficiently. They improve database performance, manageability, and storage optimization. By dividing data into partitions and archiving older or less frequently accessed data, organizations can ensure better data management, quicker query responses, and optimized storage use.
+
+## Partitioning 
+
+Partitioning is the process of dividing a large database table into smaller, more manageable pieces, called partitions. Each partition can be managed and queried independently. The primary goal is to improve performance, enhance manageability, and simplify maintenance tasks such as backups and archiving.
+
+### Benefits of partitioning
+
+* **Improved Query Performance**: By scanning only relevant partitions instead of the entire table.
+* **Simplified Maintenance**: Easier to perform maintenance tasks like backups and index maintenance.
+* **Data Management**: Better data organization and management by dividing data based on specific criteria such as date, range, or list.
+
 Partitions can be created per day, week or month. This means that a partition ID is computed at injection time for each row of `process_instance` and related tables.
 
 Afterwards, a retention period can be setup (eg: 3 partitions). A flowx engine-driven cron job (with configurable start interval) will check if there is any partition which needs to be archived and will perform the necessary actions.
@@ -17,16 +29,137 @@ Afterwards, a retention period can be setup (eg: 3 partitions). A flowx engine-d
 Database Compatibility: Oracle and PostgreSQL.
 </Info>
 
+## Archiving 
+
+Archiving involves moving older or less frequently accessed data from the primary tables to separate archive tables. This helps in reducing the load on the primary tables, thus improving performance and manageability.
+
+### Benefits of archiving
+
+* **Storage Optimization**: Archived data can be compressed, saving storage space.
+* **Performance Improvement**: Reduces the volume of data in primary tables, leading to faster query responses.
+* **Historical Data Management**: Maintains historical data in a separate, manageable form.
+
+## Partitioning and archiving in Oracle
+
 ### Oracle partitioning
 
-- [**Partitioned tables**](https://docs.oracle.com/en/database/oracle/oracle-database/18/vldbg/partition-concepts.html#GUID-6D369646-16AF-487B-BF32-5F6569D27C8A) are utilized,llowing for efficient data management and query performance. 
-- Archiving means detaching the specific partition from the main table and converting it into a new table, named `process_instance_<partition_id>`.
+<Steps>
+<Step title ="Concept">
+Oracle [**partitioned tables**](https://docs.oracle.com/en/database/oracle/oracle-database/18/vldbg/partition-concepts.html#GUID-6D369646-16AF-487B-BF32-5F6569D27C8A) are utilized, allowing for efficient data management and query performance. 
+</Step>
+<Step title ="Impelementation">
 
-### PostgreSQL partitioning 
+Each partition can be managed and queried independently.
 
-- Adding a new column does not significantly impact the overall database schema.
+Example: A `process_instance` table can be partitioned by day, week, or month.
+</Step>
+<Step title ="Benefits">
+Improved query performance by scanning only relevant partitions.
 
-- The new table is created (same name format as for oracle: `process_instance_<partition_id>`) and data is moved from the primary table here. Since here the DB has more work to do than just changing some labels (actual data insert and delete vs relabel a partition into a table, for oracle) the data move is batched and the batch size is configurable.
+Simplified maintenance tasks like backups and archiving.
+</Step>
+</Steps>
+
+### Oracle archiving
+
+<Steps>
+<Step title="Process">
+Detaching the partition from the main table.
+
+Converting the detached partition into a new table named `process_instance_<partition_id>`.
+</Step>
+<Step title ="Steps">
+Identify partitions eligible for archiving based on retention settings.
+
+Detach the partition from the main table.
+
+Create a new table with the data from the detached partition.
+
+Optionally compress the new table to save space.
+</Step>
+<Step title ="Benefits">
+
+Manages historical data by moving it to separate tables, reducing the load on the main table.
+
+Compression options (OFF, BASIC, ADVANCED) further optimize storage.
+</Step>
+</Steps>
+
+## Partitioning and archiving in PostgreSQL
+
+
+### PostgreSQL partitioning
+
+<Steps>
+<Step title ="Concept">
+
+PostgreSQL supports table partitioning, allowing large tables to be divided into smaller, more manageable pieces.
+
+Besides adding a new column, there is no other significant impact on the DB schema. The partitioning process introduces a new column, but there are no other significant changes to the schema.
+
+
+</Step>
+
+<Step title= "Implementation">
+
+Partitioning in PostgreSQL is similar to Oracle, where tables can be divided based on specific criteria like date. For instance, a `process_instance` table can be partitioned by day, week, or month. 
+
+<Info>
+This process introduces a new column, but there are no other significant changes to the schema.
+</Info>
+
+Example: A `process_instance` table can be partitioned by day, week, or month.
+
+</Step>
+<Step title ="Benefits">
+Improved performance for queries and maintenance operations.
+
+Simplified management of large datasets.
+</Step>
+</Steps>
+
+### PostrgreSQL archiving
+
+<Steps>
+<Step title ="Process">
+Creating a new table for the partition being archived.
+
+Moving data from the main table to the new archive table (in batches).
+
+<Info>
+Since here the DB has more work to do than just changing some labels (actual data insert and delete vs relabel a partition into a table, for oracle) the data move is batched and the batch size is configurable.
+</Info>
+
+</Step>
+<Step title ="Steps">
+Identify partitions eligible for archiving based on retention settings.
+
+Create a new table named `process_instance_<partition_id>`.
+
+<Tip>
+The new table is created (same name format as for oracle: `process_instance_<partition_id>`) and data is moved from the primary table here. 
+</Tip>
+
+Configure the batch size for data movement to control the load on the database.
+
+</Step>
+
+<Step title ="Differences from Oracle">
+
+Archiving involves actual data movement (insert and delete operations), unlike Oracle where it is mainly a relabeling of partitions.
+
+The batch size for data movement is configurable, allowing fine-tuning of the archiving process.
+</Step>
+
+<Step title ="Benefits">
+
+Efficiently manages historical data.
+
+Batch processing allows for better control over the archiving process and system performance.
+
+</Step>
+
+</Steps>
 
 ## Daily operations
 
@@ -41,13 +174,17 @@ Example for daily partitioning: `2024-03-01 13:00:00` results in `partition_id =
 Data older than the configured retention interval becomes eligible for archiving and compressing.
 </Step>
 <Step title ="Archiving process">
-- A cron job checks for eligible partitions.
-- Eligible partitions are archived and optionally compressed.
-- The process includes deactivating foreign keys, creating new archive tables, moving data references, reactivating foreign keys, and dropping the original partition.
+
+A cron job checks for eligible partitions.
+
+Eligible partitions are archived and optionally compressed.
+
+The process includes deactivating foreign keys, creating new archive tables, moving data references, reactivating foreign keys, and dropping the original partition.
 </Step>
 <Step title ="Space management">
-- Archived tables remain in the database but occupy less space if compression is enabled.
-- To free up space, move archived tables to another database or tablespace.
+Archived tables remain in the database but occupy less space if compression is enabled.
+
+To free up space, move archived tables to another database or tablespace.
 </Step>
 </Steps>
 
