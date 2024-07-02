@@ -15,15 +15,16 @@ Partitioning and archiving are data management strategies used to handle large v
 
 Partitioning is the process of dividing a large database table into smaller, more manageable pieces, called partitions. Each partition can be managed and queried independently. The primary goal is to improve performance, enhance manageability, and simplify maintenance tasks such as backups and archiving.
 
+Partitions can be created per day, week or month. This means that a partition ID is computed at insert time for each row of process_instance and related tables.
+
+Afterwards, a retention period can be setup (eg: 3 partitions). A flowx engine-driven cron job (with configurable start interval) will check if there is any partition which needs to be archived and will perform the necessary actions.
+
+
 ### Benefits of partitioning
 
 * **Improved Query Performance**: By scanning only relevant partitions instead of the entire table.
 * **Simplified Maintenance**: Easier to perform maintenance tasks like backups and index maintenance.
 * **Data Management**: Better data organization and management by dividing data based on specific criteria such as date, range, or list.
-
-Partitions can be created per day, week or month. This means that a partition ID is computed at insert time for each row of `process_instance` and related tables.
-
-Afterwards, a retention period can be setup (eg: 3 partitions). A flowx engine-driven cron job (with configurable start interval) will check if there is any partition which needs to be archived and will perform the necessary actions.
 
 <Info>
 Database Compatibility: Oracle and PostgreSQL.
