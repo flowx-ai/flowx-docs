@@ -3,11 +3,11 @@ title: Deployment guidelines v4.1
 ---
 
 <Info>
-Do not forget, when upgrading to a new platform version, always ensure that your installed component versions match the versions specified in the release notes. To verify this, navigate to **FlowX.AI Designer > Platform Status**.
+Do not forget, after upgrading to a new platform version, always ensure that your installed component versions match the versions specified in the release notes. To verify this, navigate to **FlowX.AI Designer > Platform Status**.
 </Info>
 
 <Warning>
-After updating to the 4.1 FLOWX.AI release, you can import old process definitions into the new platform only if they are from version 4.0.
+After upgrading to the 4.1 FlowX.AI release, you can import old process definitions into the new platform only if they are from version 4.0.
 
 It is not possible to import old process definitions from versions earlier than v4.0.
 </Warning>
@@ -74,24 +74,24 @@ With the release of **FLOWX.AI 3.0**, there have been some changes that you need
 
 
 
-### Recommended Versions for FlowX.AI 4.1
+### Third-party recommended component versions 
 
-| FLOWX.AI Platform Version | Component name    | Recommended version (tested versions) |
-| ------------------------- | ----------------- | ------------------------------------- |
-| 4.1                       | Keycloak          | 22.0.x                                |
-| 4.1                       | Kafka             | 3.2.3                                 |
-| 4.1                       | PostgreSQL        | 16.2.0                                |
-| 4.1                       | MongoDB           | 7.0.6                                 |
-| 4.1                       | Redis             | 7.2.4                                 |
-| 4.1                       | Elasticsearch     | 7.17                                  |
-| 4.1                       | OracleDB          | 19.8.0.0.0                            |
-| 4.1                       | Angular (Web SDK) | 16.0.0                                |
+| FLOWX.AI Platform Version | Component name    | Recommended versions (tested versions) |
+| ------------------------- | ----------------- | -------------------------------------- |
+| 4.1                       | Keycloak          | 22.0.x                                 |
+| 4.1                       | Kafka             | 3.2.3                                  |
+| 4.1                       | PostgreSQL        | 16.2.0                                 |
+| 4.1                       | MongoDB           | 7.0.6                                  |
+| 4.1                       | Redis             | 7.2.4                                  |
+| 4.1                       | Elasticsearch     | 7.17                                   |
+| 4.1                       | OracleDB          | 19.8.0.0.0                             |
+| 4.1                       | Angular (Web SDK) | 16.0.0                                 |
 
 
 
 
 <Info>
-FlowX.AI supports any version of the listed third-party components as prerequisites.
+FlowX.AI supports any listed version of the prerequisite third-party components in the table above.
 
 For optimal performance and reliability, our internal QA process validates new releases using specific versions as indicated in the provided table.
 While exploring alternative versions that suit your company's specific requirements, we recommend referring to the compatibility matrix for guidance.
