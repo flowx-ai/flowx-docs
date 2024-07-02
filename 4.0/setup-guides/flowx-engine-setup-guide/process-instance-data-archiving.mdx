@@ -31,7 +31,7 @@ Database Compatibility: Oracle and PostgreSQL.
 
 ## Archiving 
 
-Archiving involves moving older or less frequently accessed data from the primary tables to separate archive tables. This helps in reducing the load on the primary tables, thus improving performance and manageability.
+Archiving involves moving old data from the primary tables to separate archive tables. This helps in reducing the load on the primary tables, thus improving performance and manageability.
 
 ### Benefits of archiving
 
@@ -66,7 +66,12 @@ Simplified maintenance tasks like backups and archiving.
 <Step title="Process">
 Detaching the partition from the main table.
 
-Converting the detached partition into a new table named `process_instance_<partition_id>`.
+Converting the detached partition into a new table named `archived_${table_name}_${interval_name}_${reference}` for example: `archived_process_instance_monthly_2024_03` .
+
+<Info>
+The DATE is in the format `yyyy-MM-dd` if the interval is `DAY`, or in the format `yyyy-MM` if the interval is `MONTH`, or in the format `yyyy-weekOfYear` if the interval is `WEEK`.
+</Info>
+
 </Step>
 <Step title ="Steps">
 Identify partitions eligible for archiving based on retention settings.
@@ -85,35 +90,8 @@ Compression options (OFF, BASIC, ADVANCED) further optimize storage.
 </Step>
 </Steps>
 
-## Partitioning and archiving in PostgreSQL
 
-
-### PostgreSQL partitioning
-
-<Steps>
-<Step title ="Concept">
-
-PostgreSQL supports table partitioning, allowing large tables to be divided into smaller, more manageable pieces.
-
-</Step>
-
-<Step title= "Implementation">
-
-Partitioning in PostgreSQL is similar to Oracle, where tables can be divided based on specific criteria like date. For instance, a `process_instance` table can be partitioned by day, week, or month. 
-
-<Info>
-This process introduces a new column, but there are no other significant changes to the schema.
-</Info>
-
-</Step>
-<Step title ="Benefits">
-Improved performance for queries and maintenance operations.
-
-Simplified management of large datasets.
-</Step>
-</Steps>
-
-### PostrgreSQL archiving
+## PostrgreSQL archiving
 
 <Steps>
 <Step title ="Process">
@@ -129,10 +107,10 @@ Since here the DB has more work to do than just changing some labels (actual dat
 <Step title ="Steps">
 Identify partitions eligible for archiving based on retention settings.
 
-Create a new table named `process_instance_<partition_id>`.
+Create a new table following this naming convetion: `archived__${table_name}__${interval_name}_${reference}`, example: *archived__process_instance__weekly_2024_09* .
 
 <Tip>
-The new table is created (same name format as for oracle: `process_instance_<partition_id>`) and data is moved from the primary table here. 
+The new table is created (same name format as for oracle: `archived__${table_name}__${interval_name}_${reference}`) and data is moved from the primary table here. 
 </Tip>
 
 Configure the batch size for data movement to control the load on the database.
@@ -187,7 +165,7 @@ To free up space, move archived tables to another database or tablespace.
 <Info>
 When enabling partitioning, please consider the following:
 
-**Ensure Process Termination**: Make sure that process instances get terminated. chiving removes process instance data from the working data, making it not available in FlowX. Started instances should be finished before archiving takes place.
+**Ensure Process Termination**: Make sure that process instances get terminated. Archiving removes process instance data from the working data, making it not available in FlowX. Started instances should be finished before archiving takes place.
 
 **Set Process Expiry**: In order to ensure that process instances are terminated before archiving, we recommend configuring process expiration.
 </Info>
@@ -204,21 +182,21 @@ The Partitioning and Archiving feature is optional and can be configured as need
 </Info>
 
 <Tip>
-When starting the aversion of the process-engine, we recommend manually executing the setup SQL commands from Liquibase, as they may take more time. After setup, all existing information will go into the initial partition.
+When starting a new version of the process-engine, we recommend manually executing the setup SQL commands from Liquibase, as they may take more time. After setup, all existing information will go into the initial partition.
 </Tip>
 
 This section contains environment variables that control the settings for data partitioning and archiving and also fo the archiving scheduler. These settings determine how data is segmented, retained, and managed, including compression and batch processing.
 
 
-| Environment Variable                                     | Description                                                                  | Default Value                                                            | Possible Values                       |
-| -------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------- |
-| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `false`                                                                  | `true`, `false`                       |
-| `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`                                                                  | `DAY`, `WEEK`, `MONTH`                |
-| `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`                                                                      | Integer values (e.g., `1`, `2`, `3`)  |
-| `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for archived (detached) partitions (Oracle only).        | `OFF`                                                                    | `OFF`, `BASIC`, `ADVANCED`            |
-| `FLOWX_DATA_PARTITIONING_MOVED_DATA_BATCH_SIZE`          | Batch size for moving data (PostgreSQL only).                                | `5000`                                                                   | Integer values (e.g., `1000`, `5000`) |
-| `SCHEDULER_DATA_PARTITIONING_ENABLED`                    | Activates the cron job for archiving partitions.                             | `true`                                                                   | `true`, `false`                       |
-| `SCHEDULER_DATA_PARTITIONING_CRON_EXPRESSION`            | Cron expression for the data partitioning scheduler.                         | `0 * * * * ?` -> every day during the night, at the start of every hour. | Cron expression (e.g., `0 0 1 * * ?`) |
+| Environment Variable                                     | Description                                                                  | Default Value                                | Possible Values                       |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------- | ------------------------------------- |
+| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `false`                                      | `true`, `false`                       |
+| `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`                                      | `DAY`, `WEEK`, `MONTH`                |
+| `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`                                          | Integer values (e.g., `1`, `2`, `3`)  |
+| `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for archived (detached) partitions (Oracle only).        | `OFF`                                        | `OFF`, `BASIC`, `ADVANCED`            |
+| `FLOWX_DATA_PARTITIONING_MOVED_DATA_BATCH_SIZE`          | Batch size for moving data (PostgreSQL only).                                | `5000`                                       | Integer values (e.g., `1000`, `5000`) |
+| `SCHEDULER_DATA_PARTITIONING_ENABLED`                    | Activates the cron job for archiving partitions.                             | `true`                                       | `true`, `false`                       |
+| `SCHEDULER_DATA_PARTITIONING_CRON_EXPRESSION`            | Cron expression for the data partitioning scheduler.                         | `0 0 1 * * ?` -> every day during the night. | Cron expression (e.g., `0 0 1 * * ?`) |
 
 <Info>
 Compression for archived (detached) partitions is available only for Oracle DBs.
@@ -288,8 +266,6 @@ Check the following Kafka Elasticsearch Connector configuration example for more
   - `BIN_ID_OF_YEAR`: The ID of a bucket associated with the YEAR, created for all instances within the selected partitioning interval - we will have a maximum of 366 buckets for daily partitioning in a year, 53 buckets maximum for weekly, and 12 for monthly partitioning.
 
 
-
-
 - Example: For a timestamp `2024-03-01 13:00:00` and daily partitioning interval, the `partition_id` is `124061`.
 
 ### Archived tables
@@ -298,3 +274,4 @@ Check the following Kafka Elasticsearch Connector configuration example for more
   - archived__process_instance__monthly_2024_03
   - archived__process_instance__weekly_2024_09
   - archived__process_instance__daily_2024_03_06
+
