@@ -30,7 +30,7 @@ Process data key establishes the binding between the radio element and process d
 #### Properties
 
 * **Label**: The visible label for the radio element.
-* **Helper Text**: Additional information about the radio element, which can be optionally hidden within an infopoint.
+* **Helpertext**: Additional information about the radio element, which can be optionally hidden within an infopoint.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/radio_label_info.png)
@@ -86,7 +86,7 @@ There are instances where you may need to tailor settings configured in the **Ge
 Available override settings:
 
 * Properties:
-    * **Label**: Override the input label.
+    * **Label**: Override the radio label.
     * **Helper**: Override helper text/info point.
 * Expressions:
     * **Hide**: Override the hide expression.
@@ -105,7 +105,7 @@ Overrides can always be imported/pushed from one platform to another:
 <Tabs>
 <Tab title ="Properties">
 
-* **Type**: Set the type of the checkbox. Possible values:
+* **Type**: Set the type of the radio. Possible values:
 
     * bordered
     * clear
@@ -134,21 +134,162 @@ Adjusting the size of components is crucial for a responsive design. Fit W (widt
 
 Similar styling considerations apply to iOS as for web.
 
-However, for mobile applications, there's an additional sizing style property specific to select elements:
+However, for mobile applications, there's a difference on Gap value:
 
-* **Height** (pt - points): Determines the vertical size of the select element on the screen.
+* **Gap**: pt - points instead of pixels
 
 </Tab>
 <Tab title ="Android">
 
 Similar styling considerations apply to Android as for web.
 
-However, for mobile applications, there's an additional sizing style property specific to select elements:
+However, for mobile applications, there's a difference on Gap value:
 
-* **Height** (dp - density-independent pixels): Determines the vertical size of the select element on the screen.
+* **Gap**: dp - density-independent pixels
 
 </Tab>
 </Tabs>
+
+#### Radio style overrides options
+
+Theme overrides refer to the ability to modify or customize the appearance and behavior of UI components by overriding default theme settings. This can be applied at various levels, such as specific elements or entire sections, and can be platform-specific (Web, iOS, Android).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov.png)
+</Frame>
+
+Style options:
+
+<AccordionGroup>
+  <Accordion title="Common Properties">
+- Border radius **[TEXT]**
+- Border width  **[TEXT]**
+- Text style **[FONT]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_common.png)
+</Frame>
+
+</Accordion>
+
+  <Accordion title="Label">
+- Default state
+    - Text color **[COLOR]**
+- Disabled state
+    - Text color  **[COLOR]**
+- Text style **[FONT]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_label.png)
+</Frame>
+
+</Accordion>
+
+  <Accordion title="Helper">
+- Text color **[COLOR]**
+- Text style **[FONT]**
+- Helper Tooltip
+    - Text style **[FONT]**
+    - Text color **[COLOR]**
+    - Background color **[COLOR]**
+    - Icon Color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_helper.png)
+</Frame>
+
+</Accordion>
+
+<Accordion title="Error">
+
+- Text color **[COLOR]**
+- Text style **[FONT]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_error.png)
+</Frame>
+
+</Accordion>
+
+  <Accordion title="Unselected State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Icon color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_unselected.png)
+</Frame>
+
+  </Accordion>
+
+  <Accordion title="Selected State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Icon color **[COLOR]**
+
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_selected.png)
+</Frame>
+
+  </Accordion>
+
+  <Accordion title="Disabled Unselected State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Icon color **[COLOR]**
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_disabled_unselected_state.png)
+</Frame>
+
+</Accordion>
+
+ <Accordion title="Disabled Selected State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Icon color **[COLOR]**
+
+<Frame> 
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_disabled_selected_state.png)
+</Frame>
+  </Accordion>
+
+  <Accordion title="Hover Unselected State (only for Web configuration)">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Icon color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_hover_unselected_state.png)
+</Frame>
+
+  </Accordion>
+
+  <Accordion title="Hover Selected State (only for Web configuration)">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Icon color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_hover_selected_state.png)
+</Frame>
+
+  </Accordion>
+</AccordionGroup>
+
+
+<Info>
+You can import or push the overrides from one platform to another without having to configure them multiple times.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_push_import.gif)
+
+</Info>
 
 
 
