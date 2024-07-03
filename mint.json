@@ -1285,7 +1285,9 @@
   },
 
   "feedback": {
-    "thumbsRating": true
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
   },
 
 
@@ -1303,6 +1305,5 @@
   },
 
 "theme": "prism"
-
 }
 
