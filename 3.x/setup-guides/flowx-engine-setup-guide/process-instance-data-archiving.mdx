@@ -44,7 +44,7 @@ Archiving involves moving old data from the primary tables to separate archive t
 <Step title ="Concept">
 Oracle [**partitioned tables**](https://docs.oracle.com/en/database/oracle/oracle-database/18/vldbg/partition-concepts.html#GUID-6D369646-16AF-487B-BF32-5F6569D27C8A) are utilized, allowing for efficient data management and query performance. 
 </Step>
-<Step title ="Impelementation">
+<Step title ="Implementation">
 
 Each partition can be managed and queried independently.
 
@@ -102,12 +102,12 @@ Data older than the configured retention interval becomes eligible for detachmen
 </Step>
 <Step title ="Archiving process">
 - A cron job checks for eligible partitions.
-- Eligible partitions are detached and optionally compressed.
+- Eligible partitions are archived and optionally compressed.
 - The process includes deactivating foreign keys, creating new archive tables, moving data references, reactivating foreign keys, and dropping the original partition.
 </Step>
 <Step title ="Space management">
-- Detached tables remain in the database but occupy less space if compression is enabled.
-- To free up space, move detached tables to another database or tablespace.
+- Archived tables remain in the database but occupy less space if compression is enabled.
+- To free up space, move archived tables to another database or tablespace.
 </Step>
 </Steps>
 
@@ -115,14 +115,14 @@ Data older than the configured retention interval becomes eligible for detachmen
 <Info>
 When enabling partitioning, please consider the following:
 
-**Ensure Process Termination**: Make sure that process instances get terminated. chiving removes process instance data from the working data, making it not available in FlowX. Started instances should be finished before archiving takes place.
+**Ensure Process Termination**: Make sure that process instances get terminated. Archiving removes process instance data from the working data, making it not available in FlowX. Started instances should be finished before archiving takes place.
 
 **Set Process Expiry**: In order to ensure that process instances are terminated before archiving, we recommend configuring process expiration.
 </Info>
 
 
 <Info>
-Future schema updates or migrations will not affect detached tables. They retain the schema from the moment of detachment.
+Future schema updates or migrations will not affect archived tables. They retain the schema from the moment of detachment.
 </Info>
 
 ## Configuring partitioning and archiving
@@ -131,7 +131,7 @@ Future schema updates or migrations will not affect detached tables. They retain
 The Partitioning and Archiving feature is optional and can be configured as needed.
 </Info>
 
-This section contains environment variables that control the settings for data partitioning and archiving and also fo the archiving scheduler. These settings determine how data is segmented, retained, and managed, including compression and batch processing.
+This section contains environment variables that control the settings for data partitioning and archiving and also for the archiving scheduler. These settings determine how data is partitioned, retained, and managed, including compression and batch processing.
 
 
 | Environment Variable                                     | Description                                                                  | Default Value                         | Possible Values                       |
