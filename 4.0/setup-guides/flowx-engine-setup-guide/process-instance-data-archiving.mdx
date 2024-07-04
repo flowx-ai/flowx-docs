@@ -118,13 +118,6 @@ Configure the batch size for data movement to control the load on the database.
 
 </Step>
 
-<Step title ="Differences from Oracle">
-
-Archiving involves actual data movement (insert and delete operations), unlike Oracle where it is mainly a relabeling of partitions.
-
-The batch size for data movement is configurable, allowing fine-tuning of the archiving process.
-</Step>
-
 <Step title ="Benefits">
 
 Efficiently manages historical data.
@@ -134,6 +127,15 @@ Batch processing allows for better control over the archiving process and system
 </Step>
 
 </Steps>
+
+<Info>
+Differences from Oracle DBs:
+
+Archiving involves actual data movement (insert and delete operations), unlike Oracle where it is mainly a relabeling of partitions.
+
+The batch size for data movement is configurable, allowing fine-tuning of the archiving process.
+</Info>
+
 
 ## Daily operations
 
@@ -169,6 +171,15 @@ When enabling partitioning, please consider the following:
 **Ensure Process Termination**: Make sure that process instances get terminated. Archiving removes process instance data from the working data, making it not available in FlowX. Started instances should be finished before archiving takes place.
 
 **Set Process Expiry**: In order to ensure that process instances are terminated before archiving, we recommend configuring process expiration.
+
+- To do so, go to **Process Definitions -> Your process definition -> Process Settings -> General -> Expiry time**:
+
+<Frame>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/timer_process_settings.png)
+
+</Frame>
+
 </Info>
 
 
@@ -204,7 +215,7 @@ Compression for archived (detached) partitions is available only for Oracle DBs.
 </Info>
 
 <Info>
-Batch size for moving data is available only for PostgreSQL DBs.
+The batch size setting for archiving data is available only for PostgreSQL DBs.
 </Info>
 
 
