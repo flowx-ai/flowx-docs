@@ -48,7 +48,7 @@ Archiving involves moving old data from the primary tables to separate archive t
 <Step title ="Concept">
 Oracle [**partitioned tables**](https://docs.oracle.com/en/database/oracle/oracle-database/18/vldbg/partition-concepts.html#GUID-6D369646-16AF-487B-BF32-5F6569D27C8A) are utilized, allowing for efficient data management and query performance. 
 </Step>
-<Step title ="Impelementation">
+<Step title ="Implementation">
 
 Each partition can be managed and queried independently.
 
@@ -92,7 +92,7 @@ Compression options (OFF, BASIC, ADVANCED) further optimize storage.
 </Steps>
 
 
-## PostrgreSQL archiving
+## PostgreSQL archiving
 
 <Steps>
 <Step title ="Process">
@@ -108,7 +108,7 @@ Since here the DB has more work to do than just changing some labels (actual dat
 <Step title ="Steps">
 Identify partitions eligible for archiving based on retention settings.
 
-Create a new table following this naming convetion: `archived__${table_name}__${interval_name}_${reference}`, example: *archived__process_instance__weekly_2024_09* .
+Create a new table following this naming convention: `archived__${table_name}__${interval_name}_${reference}`, example: *archived__process_instance__weekly_2024_09* .
 
 <Tip>
 The new table is created (same name format as for oracle: `archived__${table_name}__${interval_name}_${reference}`) and data is moved from the primary table here. 
@@ -186,7 +186,7 @@ The Partitioning and Archiving feature is optional and can be configured as need
 When starting a new version of the process-engine, we recommend manually executing the setup SQL commands from Liquibase, as they may take more time. After setup, all existing information will go into the initial partition.
 </Tip>
 
-This section contains environment variables that control the settings for data partitioning and archiving and also fo the archiving scheduler. These settings determine how data is segmented, retained, and managed, including compression and batch processing.
+This section contains environment variables that control the settings for data partitioning and archiving r the archiving scheduler. These settings determine how data is partitioned, retained, and managed, including compression and batch processing.
 
 
 | Environment Variable                                     | Description                                                                  | Default Value                         | Possible Values                       |
@@ -225,9 +225,9 @@ Partitioning and archiving actions are logged in two tables:
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/partitioning_log_entry.png)
 </Frame>
 
-## Enabling Partitioning and Elasticsearch indexing strategy
+## Enabling partitioning and Elasticsearch indexing strategy
 
-When partitioning is enabled, the Elasticsearch Kafka indexing strategy must also be enabled and configured on FlowX Engine setup.
+When partitioning is enabled, the Elasticsear indexing strategy must also be enabled and configured on FlowX Engine setup.
 
 <Card icon="info">
 **Why?**
@@ -242,7 +242,7 @@ Check the Elasticsearch indexing setup here:
 <Card title ="Elasticsearch indexing setup" href="./configuring-elasticsearch-indexing/" icon ="link">
 </Card>
 
-The partitioning configuration must be aligned with the configuration extractred from the Kafka Elasticsearch Connector, especially with the following environment variables, so the intervals are similar:
+The partitioning configuration must be aligned with the configuration extracted from the Kafka Elasticsearch Connector, especially with the following environment variables, so the intervals are similar:
 
 ### Index partitioning
 

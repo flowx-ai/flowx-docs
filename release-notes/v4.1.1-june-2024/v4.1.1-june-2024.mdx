@@ -20,10 +20,10 @@ Database Compatibility: Oracle and Postgres.
 We are introducing a new system for archiving data related to old process instances. This enables the implementation of data retention policies, with more predictable storage usage and costs. 
 
 <Tip>
-Some operations involving process instance data can be snappier, given the lower amount of data and new structure. Archiving relies on partitioning data based on the process instance start time. Each partition is associated with a time period (day, week, month), and retention is defined by the number of periods maintained in the system.
+Some operations involving process instance data can be snappier, given the lower amount of data in the system and new structure. Archiving relies on partitioning data based on the process instance start time. Each partition is associated with a time period (day, week, month), and retention is defined by the number of periods maintained in the system.
 </Tip>
 
-Archived data remains in new tables the database, optionally compressed, and is no longer accessible in FlowX. These tables can be compressed, copied, moved, archived, or deleted without affecting other processes in FlowX.
+Archived data remains in new tables in the database, optionally compressed, and is no longer accessible in FlowX. These tables can be compressed, copied, moved, archived, or deleted without affecting other processes in FlowX.
 
 For more details about process instance partitioning and archiving, including configuration of the feature, see:
 
