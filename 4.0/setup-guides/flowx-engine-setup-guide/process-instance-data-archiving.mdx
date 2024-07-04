@@ -48,7 +48,7 @@ Archiving involves moving old data from the primary tables to separate archive t
 <Step title ="Concept">
 Oracle [**partitioned tables**](https://docs.oracle.com/en/database/oracle/oracle-database/18/vldbg/partition-concepts.html#GUID-6D369646-16AF-487B-BF32-5F6569D27C8A) are utilized, allowing for efficient data management and query performance. 
 </Step>
-<Step title ="Impelementation">
+<Step title ="Implementation">
 
 Each partition can be managed and queried independently.
 
@@ -92,7 +92,7 @@ Compression options (OFF, BASIC, ADVANCED) further optimize storage.
 </Steps>
 
 
-## PostrgreSQL archiving
+## PostgreSQL archiving
 
 <Steps>
 <Step title ="Process">
@@ -108,7 +108,7 @@ Since here the DB has more work to do than just changing some labels (actual dat
 <Step title ="Steps">
 Identify partitions eligible for archiving based on retention settings.
 
-Create a new table following this naming convetion: `archived__${table_name}__${interval_name}_${reference}`, example: *archived__process_instance__weekly_2024_09* .
+Create a new table following this naming convention: `archived__${table_name}__${interval_name}_${reference}`, example: *archived__process_instance__weekly_2024_09* .
 
 <Tip>
 The new table is created (same name format as for oracle: `archived__${table_name}__${interval_name}_${reference}`) and data is moved from the primary table here. 
@@ -116,13 +116,6 @@ The new table is created (same name format as for oracle: `archived__${table_nam
 
 Configure the batch size for data movement to control the load on the database.
 
-</Step>
-
-<Step title ="Differences from Oracle">
-
-Archiving involves actual data movement (insert and delete operations), unlike Oracle where it is mainly a relabeling of partitions.
-
-The batch size for data movement is configurable, allowing fine-tuning of the archiving process.
 </Step>
 
 <Step title ="Benefits">
@@ -134,6 +127,15 @@ Batch processing allows for better control over the archiving process and system
 </Step>
 
 </Steps>
+
+<Info>
+Differences from Oracle DBs:
+
+Archiving involves actual data movement (insert and delete operations), unlike Oracle where it is mainly a relabeling of partitions.
+
+The batch size for data movement is configurable, allowing fine-tuning of the archiving process.
+</Info>
+
 
 ## Daily operations
 
@@ -169,6 +171,15 @@ When enabling partitioning, please consider the following:
 **Ensure Process Termination**: Make sure that process instances get terminated. Archiving removes process instance data from the working data, making it not available in FlowX. Started instances should be finished before archiving takes place.
 
 **Set Process Expiry**: In order to ensure that process instances are terminated before archiving, we recommend configuring process expiration.
+
+- To do so, go to **Process Definitions -> Your process definition -> Process Settings -> General -> Expiry time**:
+
+<Frame>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/timer_process_settings.png)
+
+</Frame>
+
 </Info>
 
 
@@ -186,7 +197,7 @@ The Partitioning and Archiving feature is optional and can be configured as need
 When starting a new version of the process-engine, we recommend manually executing the setup SQL commands from Liquibase, as they may take more time. After setup, all existing information will go into the initial partition.
 </Tip>
 
-This section contains environment variables that control the settings for data partitioning and archiving and also fo the archiving scheduler. These settings determine how data is segmented, retained, and managed, including compression and batch processing.
+This section contains environment variables that control the settings for data partitioning and archiving r the archiving scheduler. These settings determine how data is partitioned, retained, and managed, including compression and batch processing.
 
 
 | Environment Variable                                     | Description                                                                  | Default Value                         | Possible Values                       |
@@ -204,7 +215,7 @@ Compression for archived (detached) partitions is available only for Oracle DBs.
 </Info>
 
 <Info>
-Batch size for moving data is available only for PostgreSQL DBs.
+The batch size setting for archiving data is available only for PostgreSQL DBs.
 </Info>
 
 
@@ -225,9 +236,9 @@ Partitioning and archiving actions are logged in two tables:
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/partitioning_log_entry.png)
 </Frame>
 
-## Enabling Partitioning and Elasticsearch indexing strategy
+## Enabling partitioning and Elasticsearch indexing strategy
 
-When partitioning is enabled, the Elasticsearch Kafka indexing strategy must also be enabled and configured on FlowX Engine setup.
+When partitioning is enabled, the Elasticsear indexing strategy must also be enabled and configured on FlowX Engine setup.
 
 <Card icon="info">
 **Why?**
@@ -242,7 +253,7 @@ Check the Elasticsearch indexing setup here:
 <Card title ="Elasticsearch indexing setup" href="./configuring-elasticsearch-indexing/" icon ="link">
 </Card>
 
-The partitioning configuration must be aligned with the configuration extractred from the Kafka Elasticsearch Connector, especially with the following environment variables, so the intervals are similar:
+The partitioning configuration must be aligned with the configuration extracted from the Kafka Elasticsearch Connector, especially with the following environment variables, so the intervals are similar:
 
 ### Index partitioning
 
