@@ -107,18 +107,21 @@ Data older than the configured retention interval becomes eligible for detachmen
 </Step>
 <Step title ="Space management">
 - Archived tables remain in the database but occupy less space if compression is enabled.
-- To free up space, move archived tables to another database or tablespace.
+- Recommendation: to free up space, consider moving archived tables to a different database or tablespace. Additionally, you have the option to move only process instances or copy definitions.
 </Step>
 </Steps>
 
 
-<Info>
+<Warning>
 When enabling partitioning, please consider the following:
 
 **Ensure Process Termination**: Make sure that process instances get terminated. Archiving removes process instance data from the working data, making it not available in FlowX. Started instances should be finished before archiving takes place.
 
 **Set Process Expiry**: In order to ensure that process instances are terminated before archiving, we recommend configuring process expiration.
-</Info>
+
+- To do so, go to **Process Definitions -> Your process definition -> Process Settings -> General -> Expiry time**:
+
+</Warning>
 
 
 <Info>
