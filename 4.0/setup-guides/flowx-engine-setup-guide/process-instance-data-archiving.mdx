@@ -171,17 +171,12 @@ When enabling partitioning, please consider the following:
 
 **Ensure Process Termination**: Make sure that process instances get terminated. Archiving removes process instance data from the working data, making it not available in FlowX. Started instances should be finished before archiving takes place.
 
-**Set Process Expiry**: In order to ensure that process instances are terminated before archiving, we recommend configuring process expiration.
+**Set Process Expiry**: To ensure termination of process instances prior to archiving, it is recommended to configure process expiration. Refer to the following section for guidance on setting up process expiry using FlowX Designer:
 
-- To do so, go to **Process Definitions -> Your process definition -> Process Settings -> General -> Expiry time**:
-
-<Frame>
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/timer_process_settings.png)
-
-</Frame>
+[Timer Expressions](../../docs/building-blocks/node/timer-events/timer-expressions)
 
 </Warning>
+
 
 
 <Info>
