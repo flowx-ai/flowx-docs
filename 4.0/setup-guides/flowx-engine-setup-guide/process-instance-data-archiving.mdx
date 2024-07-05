@@ -160,12 +160,13 @@ The process includes deactivating foreign keys, creating new archive tables, mov
 <Step title ="Space management">
 Archived tables remain in the database but occupy less space if compression is enabled.
 
-To free up space, move archived tables to another database or tablespace.
+**Recommendation**: to free up space, consider moving archived tables to a different database or tablespace. Additionally, you have the option to move only process instances or copy definitions depending on your needs.
+
 </Step>
 </Steps>
 
 
-<Info>
+<Warning>
 When enabling partitioning, please consider the following:
 
 **Ensure Process Termination**: Make sure that process instances get terminated. Archiving removes process instance data from the working data, making it not available in FlowX. Started instances should be finished before archiving takes place.
@@ -180,7 +181,7 @@ When enabling partitioning, please consider the following:
 
 </Frame>
 
-</Info>
+</Warning>
 
 
 <Info>
