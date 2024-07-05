@@ -24,7 +24,7 @@ mintlify dev
 
 ### Publishing Changes
 
-Install our Github App to autopropagate changes from youre repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard. 
+Install our GitHub App to auto-propagate changes from your repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard. 
 
 #### Troubleshooting
 
@@ -35,7 +35,7 @@ Install our Github App to autopropagate changes from youre repo to your deployme
 
 The website can be run inside a Docker container, having the source code on the host machine mounted as volume.
 
-This solution is meant to be used under **MacOS**.<br/>
+This solution is meant to be used under **macOS**.<br/>
 For running under **Linux**, it needs a few more tweaks (**TODO**).
 
 All the management is made through the [docker/run.sh](docker/run.sh) shell script, which delegates to the corresponding Docker commands.
@@ -44,7 +44,7 @@ The script can be run from the project root folder (as in the examples below) of
 ##### Prerequisites
 
 Make sure [Docker](https://www.docker.com/) installed on the host machine.<br/>
-For MacOS, [Docker Desktop](https://www.docker.com/products/docker-desktop/) is recommended.
+For macOS, [Docker Desktop](https://www.docker.com/products/docker-desktop/) is recommended.
 
 ##### Building the Docker image
 
@@ -72,7 +72,7 @@ From the project root folder, run: ```source docker/run.sh --start```.
 This command will start the already existing `docs-new` container.
 
 Starting the container can have some extra parameters:
-- `--run-mintlify`: starts and exposes the Mintlify instace to external traffic (a.k.a. it also executes the `mintlify dev` command)
+- `--run-mintlify`: starts and exposes the Mintlify instance to external traffic (a.k.a. it also executes the `mintlify dev` command)
 
 ##### Stopping the existing container
 
