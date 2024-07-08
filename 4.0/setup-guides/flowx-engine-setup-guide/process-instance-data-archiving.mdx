@@ -27,7 +27,7 @@ Afterwards, a retention period can be setup (eg: 3 partitions). A flowx engine-d
 * **Data Management**: Better data organization and management by dividing data based on specific criteria such as date, range, or list.
 
 <Info>
-Database Compatibility: Oracle and PostgreSQL.
+Database Compatibility: OracleDB and PostgreSQL.
 </Info>
 
 ## Archiving 
@@ -40,13 +40,13 @@ Archiving involves moving old data from the primary tables to separate archive t
 * **Performance Improvement**: Reduces the volume of data in primary tables, leading to faster query responses.
 * **Historical Data Management**: Maintains historical data in a separate, manageable form.
 
-## Partitioning and archiving in Oracle
+## Partitioning and archiving in OracleDB
 
-### Oracle partitioning
+### OracleDB partitioning
 
 <Steps>
 <Step title ="Concept">
-Oracle [**partitioned tables**](https://docs.oracle.com/en/database/oracle/oracle-database/18/vldbg/partition-concepts.html#GUID-6D369646-16AF-487B-BF32-5F6569D27C8A) are utilized, allowing for efficient data management and query performance. 
+OracleDB [**partitioned tables**](https://docs.oracle.com/en/database/oracle/oracle-database/18/vldbg/partition-concepts.html#GUID-6D369646-16AF-487B-BF32-5F6569D27C8A) are utilized, allowing for efficient data management and query performance. 
 </Step>
 <Step title ="Implementation">
 
@@ -61,7 +61,7 @@ Simplified maintenance tasks like backups and archiving.
 </Step>
 </Steps>
 
-### Oracle archiving
+### OracleDB archiving
 
 <Steps>
 <Step title="Process">
@@ -88,6 +88,18 @@ Optionally compress the new table to save space.
 Manages historical data by moving it to separate tables, reducing the load on the main table.
 
 Compression options (OFF, BASIC, ADVANCED) further optimize storage.
+
+<Info>
+Oracle offers several compression options—OFF, BASIC, and ADVANCED—that optimize storage. Each option provides varying levels of data compression, impacting storage savings and performance differently.
+
+* **OFF**: No compression is applied.
+* **BASIC**: Suitable for read-only or read-mostly environments, it compresses data without requiring additional licenses.
+* **ADVANCED**: Offers the highest level of compression, supporting a wide range of data types and operations. It requires an Advanced Compression license and provides significant storage savings and performance improvements by keeping data compressed in memory.
+
+For more details, you can refer to Oracle's [**Advanced Compression documentation**](https://www.oracle.com/database/advanced-compression/#rc30related).
+
+</Info>
+
 </Step>
 </Steps>
 
@@ -101,7 +113,7 @@ Creating a new table for the partition being archived.
 Moving data from the main table to the new archive table (in batches).
 
 <Info>
-Since here the DB has more work to do than just changing some labels (actual data insert and delete vs relabel a partition into a table, for oracle) the data move is batched and the batch size is configurable.
+Since here the DB has more work to do than just changing some labels (actual data insert and delete vs relabel a partition into a table, for OracleDB) the data move is batched and the batch size is configurable.
 </Info>
 
 </Step>
@@ -111,7 +123,7 @@ Identify partitions eligible for archiving based on retention settings.
 Create a new table following this naming convention: `archived__${table_name}__${interval_name}_${reference}`, example: *archived__process_instance__weekly_2024_09* .
 
 <Tip>
-The new table is created (same name format as for oracle: `archived__${table_name}__${interval_name}_${reference}`) and data is moved from the primary table here. 
+The new table is created (same name format as for OracleDB: `archived__${table_name}__${interval_name}_${reference}`) and data is moved from the primary table here. 
 </Tip>
 
 Configure the batch size for data movement to control the load on the database.
@@ -131,7 +143,7 @@ Batch processing allows for better control over the archiving process and system
 <Info>
 Differences from Oracle DBs:
 
-Archiving involves actual data movement (insert and delete operations), unlike Oracle where it is mainly a relabeling of partitions.
+Archiving involves actual data movement (insert and delete operations), unlike OracleDBs  where it is mainly a relabeling of partitions.
 
 The batch size for data movement is configurable, allowing fine-tuning of the archiving process.
 </Info>
@@ -144,7 +156,7 @@ Once set up, the partitioning and archiving process involves the following opera
 <Steps>
 <Step title= "Partition ID Calculation">
 The `partition_id` is automatically calculated based on the configured interval (DAY, WEEK, MONTH).
-Example for daily partitioning: `2024-03-01 13:00:00` results in `partition_id = 124061`.
+Example for daily partitioning: `2024-03-01 13:00:00` results in `partition_id = 124061`. See the [**Partition ID calcuation**](#partition-id-calculation) section.
 </Step>
 <Step title="Retention Management">
 Data older than the configured retention interval becomes eligible for archiving and compressing.
@@ -193,7 +205,7 @@ The Partitioning and Archiving feature is optional and can be configured as need
 When starting a new version of the process-engine, we recommend manually executing the setup SQL commands from Liquibase, as they may take more time. After setup, all existing information will go into the initial partition.
 </Tip>
 
-This section contains environment variables that control the settings for data partitioning and archiving r the archiving scheduler. These settings determine how data is partitioned, retained, and managed, including compression and batch processing.
+This section contains environment variables that control the settings for data partitioning and archiving and also for the archiving scheduler. These settings determine how data is partitioned, retained, and managed, including compression and batch processing.
 
 
 | Environment Variable                                     | Description                                                                  | Default Value                         | Possible Values                       |
@@ -234,7 +246,7 @@ Partitioning and archiving actions are logged in two tables:
 
 ## Enabling partitioning and Elasticsearch indexing strategy
 
-When partitioning is enabled, the Elasticsear indexing strategy must also be enabled and configured on FlowX Engine setup.
+When partitioning is enabled, the Elasticsearch indexing strategy must also be enabled and configured on FlowX Engine setup.
 
 <Card icon="info">
 **Why?**
@@ -268,13 +280,20 @@ Check the following Kafka Elasticsearch Connector configuration example for more
 
 ### Partition ID calculation
     
-- The `partition_id` format: `LEVEL || YEAR || BIN_ID_OF_YEAR`. Calculated based on start date of `process_instance`, partition interval, and partition level.
-  - `LEVEL`: "Partitioning level", a number that increments with each change in the partitioning interval.
-  - `YEAR`: The year (extracted from the process_instance date).
-  - `BIN_ID_OF_YEAR`: The ID of a bucket associated with the YEAR, created for all instances within the selected partitioning interval - we will have a maximum of 366 buckets for daily partitioning in a year, 53 buckets maximum for weekly, and 12 for monthly partitioning.
+- The `partition_id` format follows this structure: `<LEVEL || YEAR || BIN_ID_OF_YEAR>`. This ID is calculated based on the start date of the `process_instance`, the partition interval, and the partition level.
+  - `LEVEL`: This represents the "Partitioning level," which increments with each change in the partitioning interval (for example, if it changes from `DAY` to `MONTH` or vice versa).
+  - `YEAR`: The year extracted from the `process_instance` date.
+  - `BIN_ID_OF_YEAR`: This is the ID of a bucket associated with the `YEAR`. It is created for all instances within the selected partitioning interval. The maximum number of buckets is determined by the partitioning frequency:
+    - **Daily**: Up to 366 buckets per year
+    - **Weekly**: Up to 53 buckets per year
+    - **Monthly**: Up to 12 buckets per year
 
+#### Calculation example
 
-- Example: For a timestamp `2024-03-01 13:00:00` and daily partitioning interval, the `partition_id` is `124061`.
+For a timestamp of `2024-03-01 13:00:00` with a daily partitioning interval, the `partition_id`would be `124061`:
+  - `1`: Partitioning Level (`LEVEL`)
+  - `24`:  Year - 2024 (`YEAR`)
+  - `061`: Bucket per configuration (61st day of the year)
 
 ### Archived tables
     
