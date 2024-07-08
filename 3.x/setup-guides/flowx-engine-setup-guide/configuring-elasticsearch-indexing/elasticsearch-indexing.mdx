@@ -362,7 +362,7 @@ Since mappings between messages and Elasticsearch data types are unknown, a mapp
 	    }
 	  },
         "settings":{
-        "number_of_shards":5,
+        "number_of_shards":5, //This value will be overwritten by the value that you set at `FLOWX_INDEXING_PROCESSINSTANCE_SHARDS` environment variable.
         "number_of_replicas":1
         }
     }

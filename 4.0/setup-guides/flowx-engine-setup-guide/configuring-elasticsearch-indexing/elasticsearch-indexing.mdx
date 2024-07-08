@@ -42,7 +42,7 @@ The `flowx.indexing.enabled` property determines whether indexing with Elasticse
 
 
 <Info>
-If the `FLOWX_INDEXING_ENABLED` configuration is set to false, the following configuration information and guidelines are not applicable to your use case.
+If the FlowX indexing configuration is set to false, the following configuration information and guidelines are not applicable to your use case.
 </Info>
 
 The `flowx.indexing.processInstance.indexing-type` property defines the indexing strategy for process instances. It can have one of the following values:
@@ -55,7 +55,7 @@ The `flowx.indexing.processInstance.indexing-type` property defines the indexing
 
 To enable indexing with Elasticsearch for the entire application, update the process-engine configuration with the following parameters:
 
-* `FLOWX_INDEXING_ENABLED`: set this parameter to `true` to enable indexing with Elastisearch for the entire application
+* `FLOWX_INDEXING_ENABLED`: Set this parameter to `true` to enable indexing with Elastisearch for the entire application.
 
 | Variable Name          | Enabled | Description                                               |
 | ---------------------- | ------- | --------------------------------------------------------- |
@@ -362,7 +362,7 @@ Since mappings between messages and Elasticsearch data types are unknown, a mapp
 	    }
 	  },
         "settings":{
-        "number_of_shards":5,
+        "number_of_shards":5, //This value will be overwritten by the value that you set at `FLOWX_INDEXING_PROCESSINSTANCE_SHARDS` environment variable.
         "number_of_replicas":1
         }
     }
