@@ -84,8 +84,21 @@ Optionally compress the new table to save space.
 Manages historical data by moving it to separate tables, reducing the load on the main table.
 
 Compression options (OFF, BASIC, ADVANCED) further optimize storage.
+
+<Info>
+Oracle offers several compression options—OFF, BASIC, and ADVANCED—that optimize storage. Each option provides varying levels of data compression, impacting storage savings and performance differently.
+
+* **OFF**: No compression is applied.
+* **BASIC**: Suitable for read-only or read-mostly environments, it compresses data without requiring additional licenses.
+* **ADVANCED**: Offers the highest level of compression, supporting a wide range of data types and operations. It requires an Advanced Compression license and provides significant storage savings and performance improvements by keeping data compressed in memory.
+
+For more details, you can refer to Oracle's [**Advanced Compression documentation**](https://www.oracle.com/database/advanced-compression/#rc30related).
+
+</Info>
+
 </Step>
 </Steps>
+
 
 
 ## Daily operations
@@ -95,7 +108,7 @@ Once set up, the partitioning and archiving process involves the following opera
 <Steps>
 <Step title= "Partition ID Calculation">
 The `partition_id` is automatically calculated based on the configured interval (DAY, WEEK, MONTH).
-Example for daily partitioning: `2024-03-01 13:00:00` results in `partition_id = 124061`.
+Example for daily partitioning: `2024-03-01 13:00:00` results in `partition_id = 124061`. See the [**Partition ID calcuation**](#partition-id-calculation) section.
 </Step>
 <Step title="Retention Management">
 Data older than the configured retention interval becomes eligible for detachment and compression.
@@ -190,12 +203,21 @@ Check the following Kafka Elasticsearch Connector configuration example for more
 
 ### Partition ID calculation
     
-- The `partition_id` format: `LEVEL || YEAR || BIN_ID_OF_YEAR`. Calculated based on start date of `process_instance`, partition interval, and partition level.
-  - `LEVEL`: "Partitioning level", a number that increments with each change in the partitioning interval.
-  - `YEAR`: The year (extracted from the process_instance date).
-  - `BIN_ID_OF_YEAR`: The ID of a bucket associated with the YEAR, created for all instances within the selected partitioning interval - we will have a maximum of 366 buckets for daily partitioning in a year, 53 buckets maximum for weekly, and 12 for monthly partitioning.
+- The `partition_id` format follows this structure: `<LEVEL || YEAR || BIN_ID_OF_YEAR>`. This ID is calculated based on the start date of the `process_instance`, the partition interval, and the partition level.
 
-- Example: For a timestamp `2024-03-01 13:00:00` and daily partitioning interval, the `partition_id` is `124061`.
+  - `LEVEL`: This represents the "Partitioning level," which increments with each change in the partitioning interval (for example, if it changes from `DAY` to `MONTH` or vice versa).
+  - `YEAR`: The year extracted from the `process_instance` date.
+  - `BIN_ID_OF_YEAR`: This is the ID of a bucket associated with the `YEAR`. It is created for all instances within the selected partitioning interval. The maximum number of buckets is determined by the partitioning frequency:
+    - **Daily**: Up to 366 buckets per year
+    - **Weekly**: Up to 53 buckets per year
+    - **Monthly**: Up to 12 buckets per year
+
+#### Calculation example
+
+For a timestamp of `2024-03-01 13:00:00` with a daily partitioning interval, the `partition_id`would be `124061`:
+  - `1`: Partitioning Level (`LEVEL`)
+  - `24`:  Year - 2024 (`YEAR`)
+  - `061`: Bucket per configuration (61st day of the year)
 
 ### Archived tables
     
