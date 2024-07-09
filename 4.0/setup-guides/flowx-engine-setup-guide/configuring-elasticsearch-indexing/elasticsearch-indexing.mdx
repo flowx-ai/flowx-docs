@@ -194,7 +194,7 @@ spec:
     transforms: "routeTS" # Don't change this value! This represents router that helps create indices dynamically based on the timestamp (process instance start date).
     transforms.routeTS.type: "org.apache.kafka.connect.transforms.TimestampRouter" # Don't change this value! It helps with routing the message to the correct index.
     transforms.routeTS.topic.format: "process_instance-${timestamp}" # You should configure this. It is important that this value must start with the value defined in process-engine config: flowx.indexing.processInstance.index-name. The name of the index will start with a prefix ("process_instance-" in this example) and must have the timestamp appended after for dynamically creating indices. For backward compatibility (utilizing the data in the existing index), the prefix must be "process_instance-". However, backward compatibility isn't specifically required here.
-    transforms.routeTS.timestamp.format: "yyyyMMdd" # This format ensures that the timestamp is represented consistently and can be easily parsed when creating or searching for indices based on the process instance start date. You can change this with the value you want. If you want monthly indexes set it to "yyyyMM". But be aware that once you set it, when you change it, the existing object indexed will not be updated anymore. The update messages will be threated as new objects and indexed again because they are going to be sent to new indexes. This is important! Try to find your index size and stick with it.
+    transforms.routeTS.timestamp.format: "yyyyMMdd" # This format ensures that the timestamp is represented consistently and can be easily parsed when creating or searching for indices based on the process instance start date. You can change this with the value you want. If you want monthly indexes set it to "yyyyMM". But be aware that once you set it, when you change it, the existing object indexed will not be updated anymore. The update messages will be treated as new objects and indexed again because they are going to be sent to new indexes. This is important! Try to find your index size and stick with it.
 ```
 
 ### HTTP indexing
@@ -253,13 +253,13 @@ This topic is used for sending the data to be indexed from Process engine. The d
 
 The topic name, defined in the value, will be used by Kafka Connect as source for the messages to be sent to Elasticsearch for indexing.
 
-The attribute `indexLastUpdatedTime` is new and will be populated for the kafka-connect strategy. This will tell have the timestamp when last operation was done on the object in the index.
+The attribute `indexLastUpdatedTime` is new and will be populated for the kafka-connect strategy. This will tell the timestamp when the last operation was done on the object in the index.ß
 
 </Info>
 
 ## Elasticsearch update (index template)
 
-Since mappings between messages and Elasticsearch data types are unknown, a mapping needs to be specified. This is achieved through an index template created by the process engine during startup. The template applies to indices starting with the value defined in `flowx.indexing.processInstance.index-name` config. Here's an example of the index template:
+The mappings between messages and Elasticsearch data types need to be specified. This is achieved through an index template created by the process engine during startup. The template applies to indices starting with the value defined in `flowx.indexing.processInstance.index-name` config. Here's an example of the index template:
 
 ```json 
 //process_instance_template

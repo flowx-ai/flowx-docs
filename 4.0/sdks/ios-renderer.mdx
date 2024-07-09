@@ -143,6 +143,14 @@ FXConfig.sharedInstance.configure { (config) in
 }
 ```
 
+#### Changing the current language
+
+The current language can be changed after the initial configuration, by calling the `changeLanguage` method:
+
+```swift
+FXConfig.sharedInstance.changeLanguage(language: "en")
+```
+
 ### FXSessionConfig
 
 This config is used for providing networking or auth session-specific properties.
