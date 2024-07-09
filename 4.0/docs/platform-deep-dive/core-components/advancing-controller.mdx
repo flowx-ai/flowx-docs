@@ -1,22 +1,36 @@
 ---
-title: Advancing controller
-description: The Advancing Controller is a support service for the Process Engine that enhances the efficiency of advancing operations. It facilitates equal distribution and redistribution of the workload during scale-up and scale-down scenarios.
+title: FlowX Advancing Controller
+description: The Advancing Controller is a support service for the FlowX Engine that enhances the efficiency of advancing operations. It facilitates equal distribution and redistribution of the workload during scale-up and scale-down scenarios.
 ---
 
-To achieve its functionality, the Advancing Controller microservice utilizes Postgres triggers in the database configuration.
+To achieve its functionality, the Advancing Controller microservice utilizes database triggers in both PostgreSQL and OracleDB configurations.
 
 <Info>
-A Postgres trigger is a function that is automatically executed whenever specific events, such as inserts, updates, or deletions, occur in the database.
+A database trigger is a function that is automatically executed whenever specific events, such as inserts, updates, or deletions, occur in the database.
 </Info>
 
 
 ## Usage
 
-The Advancing Controller Service is responsible for managing and optimizing the advancement process in the PostgreSQL/OracleDB databases. It ensures efficient workload distribution, performs cleanup tasks, and monitors the status of worker pods. If a worker pod fails, the service reassigns its work to other pods to prevent process instances from getting stuck. It is essential to have the Advancing Controller Service running alongside the Process Engine for uninterrupted instance advancement.
+The Advancing Controller service is responsible for managing and optimizing the advancement process in the PostgreSQL or OracleDB databases. It ensures efficient workload distribution, performs cleanup tasks, and monitors the status of worker pods. 
 
-<Info>
-It is important to ensure that both the Process Engine and the Advancing Controller microservices are up and running concurrently for optimal performance.
-</Info>
+If a worker pod fails, the service reassigns its work to other pods to prevent [**process instances**](../../building-blocks/process/process-instance) from getting stuck. 
+
+<Check>
+It is essential to have the Advancing Controller service running alongside the FlowX Engine for uninterrupted instance advancement.
+</Check>
+
+<Tip>
+It is important to ensure that both the FlowX Engine and the Advancing Controller microservices are up and running concurrently for optimal performance.
+</Tip>
+
+## Database compatibility
+
+The Advancing Controller supports both PostgreSQL and OracleDB databases. However, the Process Engine and the Advancing Controller must be configured to use the same type of database at any given time. The Process Engine employs two databases: one shared with the FlowX Admin microservice for process metadata and instances, and the other dedicated to advancement. 
+
+<Warning>
+Mixing PostgreSQL and OracleDB is not supported; both databases must be of the same type.
+</Warning>
 
 ## Configuration
 

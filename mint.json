@@ -514,7 +514,7 @@
           "4.0/setup-guides/setup-guides-overview",
 
           {
-            "group": "FlowX Engine",
+            "group": "FlowX Engine setup",
             "version": "v4.0",
             "icon": "engine",
             "pages": [
