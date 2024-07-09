@@ -5,14 +5,15 @@ description: The configuration of Elasticsearch for process instances indexing d
 
 ## Indexing strategy
 
-When deleting data in Elasticsearch, it's recommended to delete entire indices instead of individual documents. Creating multiple smaller indices provides the flexibility to delete entire indices of old data that are no longer needed.
-
 * Advantages of Multiple Small Indices:
     - Fast indexing process.
     - Flexibility in cleaning up old data.
 * Potential Drawbacks:
     - Hitting the maximum number of shards per node, resulting in exceptions when creating new indices.
     - Increased search response time and memory footprint.
+* Deletion
+    - When deleting data in Elasticsearch, it's recommended to delete entire indices instead of individual documents. Creating multiple smaller indices provides the flexibility to delete entire indices of old data that are no longer needed.
+
 
 Alternatively, you can create fewer indices that span longer periods of time, such as one index per year. This approach offers small search response times but may result in longer indexing times and difficulty in cleaning up and recovering data in case of failure.
 
