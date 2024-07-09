@@ -17,14 +17,15 @@ description: The configuration of Elasticsearch for process instances indexing d
 
 Alternatively, you can create fewer indices that span longer periods of time, such as one index per year. This approach offers small search response times but may result in longer indexing times and difficulty in cleaning up and recovering data in case of failure.
 
-<Card title= "What is indexing?" href="../../../4.0/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch#indexing" icon ="question">
+<Card title= "What is indexing?" href="../../../docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch#indexing" icon ="question">
 </Card>
+
 
 ## Shard and replica configuration
 
 The solution includes an index template that gets created with the settings from the process-engine app (name, shards, replicas) when running the app for the first time. This template controls the settings and mapping of all newly created indices.
 
-<Card title="What is sharding?" href="../../../4.0/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch#sharding" icon="question">
+<Card title="What is sharding?" href="../../../docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch#sharding" icon="question">
 </Card>
 
 <Card title="Index template" href="./elasticsearch-indexing#elasticsearch-update-index-template" icon ="file">
