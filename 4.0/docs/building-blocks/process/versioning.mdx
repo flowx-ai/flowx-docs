@@ -5,15 +5,19 @@ description: "With versioning, you can easily track your process definition's ev
 
 Here is a quick walkthrough video:
 
+<Frame>
 <video
   controls
   className="w-full aspect-video"
   src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/Release%203.4%20%282%29.mp4"
 ></video>
+</Frame>
 
-## Process Definition list
+## Process Definitions list
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/versioning.png)
+</Frame>
 
 1. **Overview:**
    - The tab provides a summary of all accessible process definitions in the current environment.
@@ -24,10 +28,10 @@ Here is a quick walkthrough video:
 3. **Key Information Included:**
    - View details like process definition name, published version branch name, and published version state with the following convention: 
 
-        - work in progress - dotted
-        - submitted - full
-        - main branch - blue 
-        - secondary branch - yellow
+        - Work in progress - dotted
+        - Submitted - full
+        - Main branch - blue 
+        - Secondary branch - yellow
 
 4. **Actions:**
    - Interact with each process definition through actions such as opening the BPMN tab in edit mode, starting instances, and displaying branching options.
@@ -37,11 +41,15 @@ Here is a quick walkthrough video:
 
 "Branching Modal" feature provides more visibility and control over the process definitions. The process definition header includes details about the current version, such as its state (work in progress or submitted changes) and branch name.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/process_definition_header.png)
+</Frame>
 
 A "publish icon" will be displayed if the current version is set as published. You can access the branching modal using a button, and it can also be closed from the right corner close button.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/branching_modal.gif)
+</Frame>
 
 ### Starting a new version (work-in-progress)
 
@@ -51,16 +59,21 @@ You can initiate a new work-in-progress version while keeping the submitted vers
 
 * **New Process Definition**: When you create a new process definition, a corresponding work-in-progress version is initiated. This ensures that ongoing changes are tracked separately from the submitted version.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/wip_process_definition.png)
+</Frame>
 
 * **New Branch Creation**: The creation of a new branch in the system also triggers the creation of a work-in-progress version. This streamlines the process of branching and development, allowing for parallel progress without impacting the main submitted version.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/wip_new_branch.png)
+</Frame>
 
 * **Manual WIP Version Creation**: Users also have the flexibility to initiate a new work-in-progress version manually. This is particularly useful when building upon the latest version available on a branch.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/manual_wip.gif)
-
+</Frame>
 
 ### Submitting changes
 
@@ -91,21 +104,23 @@ You can incorporate updates made on a secondary branch into the main branch or a
 
 * You can merge the latest version from a secondary branch into either its direct or indirect parent branch.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/merge_child.gif)
+</Frame>
 
 * Versions from the Side Menu can be merged, streamlining the process.
 * Upon triggering the merge action, a modal window appears, giving the possibility to make the following selection:
-   * Branch - displays the branches to which the current branch is a child (direct or indirect), if branches contain WIP, they are graded out and they cannot be merged
+   * **Branch**: Displays the branches to which the current branch is a child (direct or indirect), if branches contain WIP, they are graded out and they cannot be merged.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/merge_not_possible.png)
+</Frame>
 
-   * Message - a string of maximum 50 characters: limited to letters, numbers and the following characters: [] () . _ - /
+   * **Message**: A string of maximum 50 characters (limited to letters), numbers and the following characters: [] () . _ - /.
 
-<div class = "image-scaled">
-
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/merge_changes.png)
-
-</div>
+</Frame>
 
 The graph representation is updated to display the new version on the selected parent branch and the merged version is automatically selected, facilitating further development and tracking.
 
@@ -113,11 +128,15 @@ The graph representation is updated to display the new version on the selected p
 
 The Conflict Resolution and Version Comparison feature provides a mechanism to identify and address conflicts between two process versions that, if merged, could potentially disrupt the integrity of the process definition. 
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/conflict.png)
+</Frame>
 
 The system displays both the version to be merged and the current version on a single screen, providing a clear visual representation of the differences. Conflicts and variations between the two versions are highlighted, enabling users to readily identify areas requiring attention.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/merge_conflict.gif)
+</Frame>
 
 <Info>
 Not all changes are considered conflicts, changes in node positions are not treated as conflicts. Primary causes lie in identifying differences within business rules, expressions, and other scripts.
@@ -189,17 +208,21 @@ The "Open Audit View" provides you with a detailed audit log of actions related 
 
 You can quickly access and review the history of WIP versions, facilitating efficient decision-making and collaboration.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/versioning_audit_log.gif)
+</Frame>
 
 More details on how to use the audit log, you can find in the following section:
 
-[Audit log](/4.0/docs/platform-deep-dive/core-extensions/audit)
+[FlowX.AI Audit](/4.0/docs/platform-deep-dive/core-extensions/audit)
 
 ### Favorites
 
 My Favorites feature allows you to mark processes as favorites. This is a convenient way to identify and prioritize processes that are important to, streamlining your workflow. With the addition of the favorite process feature, we have included a dedicated tab within the process definition list.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/my_favorites.gif)
+</Frame>
 
 The "Open Audit View" provides you with a detailed audit log of actions related to work-in-progress (WIP) versions of a process. The primary goal is to ensure transparency and accountability for actions taken before the commit or save process. 
 
@@ -212,13 +235,15 @@ In **Favorites** tab, the **Branch** tag will always display the most recently m
 In **My Favorites** tab, the **Branch** tag will always display the most recently modified branch.
 </Info>
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/my_favorites_tab.png)
+</Frame>
 
 #### Adding a process to favorites
 
 To add a process to the "Favorites" tab, simply follow these steps:
 
-1. Launch **FlowX Designer**.
+1. Launch **FlowX.AI Designer**.
 2. Either open an existing process definition or create a new one.
 3. In the top-right corner, click on the breadcrumbs menu and select **Add to favorites**.
 

@@ -278,7 +278,7 @@
 
 
     {
-      "group": "FlowX Designer",
+      "group": "FlowX.AI Designer",
       "version": "v4.0",
       "pages": [
         "4.0/docs/flowx-designer/overview",
@@ -803,7 +803,7 @@
 
 
     {
-      "group": "FlowX Designer",
+      "group": "FlowX.AI Designer",
       "version": "v3.x",
       "pages": [
         "3.x/docs/flowx-designer/overview",
