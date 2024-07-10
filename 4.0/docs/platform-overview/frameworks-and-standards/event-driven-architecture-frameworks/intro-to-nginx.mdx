@@ -7,7 +7,7 @@ description: "NGINX is a free, open-source, high-performance web server with a r
 
 NGINX allows you to hide a server application's complexity from a front-end application. It uses an event-driven, asynchronous approach to create a new process for each web request, with requests handled in a single thread.
 
-### Using NGINX with FLOWX Designer
+### Using NGINX with FlowX Designer
 
 [**The NGINX Ingress Controller for Kubernetes**](https://kubernetes.github.io/ingress-nginx/) - `ingress-nginx` is an ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer.
 
@@ -19,20 +19,20 @@ For more information, check the following section:
 
 <Card title ="Using NGINX as a K8s ingress controller" icon ="link" href ="https://www.nginx.com/resources/videos/using-nginx-as-a-kubernetes-ingress-controller"></Card>
 
-#### Integrating with FLOWX Designer
+#### Integrating with FlowX Designer
 
-FLOWX Designer is using NGINX ingress controller for the following actions:
+FlowX Designer is using NGINX ingress controller for the following actions:
 
 1. For routing calls to plugins
 2. For routing calls to the [FlowX Engine](../../../platform-deep-dive/core-components/flowx-engine):
 
-* Viewing current instances of processes running in the FLOWX engine
-* Testing process definitions from the FLOWX Designer - route the API calls and SSE communications to the FLOWX engine backend
+* Viewing current instances of processes running in the FlowX Engine
+* Testing process definitions from the FlowX Designer - route the API calls and SSE communications to the FLOWX engine backend
 * Accessing REST API of the backend microservice
 
-3. For configuring the Single Page Application (SPA) - FLOWX Designer SPA will use the backend service to manage the platform via REST calls
+3. For configuring the Single Page Application (SPA) - FlowX Designer SPA will use the backend service to manage the platform via REST calls
 
-In the following section, you can find a suggested NGINX setup, the one used by FLOWX.AI:
+In the following section, you can find a suggested NGINX setup, the one used by FlowX.AI:
 
 <Card title="Designer setup guide" href="../../../../setup-guides/designer-setup-guide" icon ="gears">
 </Card>
