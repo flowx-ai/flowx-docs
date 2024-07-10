@@ -1,0 +1,110 @@
+---
+title: Configuring access roles for processes
+---
+
+## Access to a process definition
+
+Setting up user role-based access on process definitions is done by configuring swimlanes on the process definition.
+
+<Card title="Swimlanes" href="/4.0/docs/platform-deep-dive/user-roles-management/swimlanes" icon="file">
+</Card>
+
+By default, all process nodes belong to the same swimlane. If more swimlanes are needed, they can be edited in the process definition settings panel.
+
+Swimlane role settings apply to the whole process, the process nodes or the actions to be performed on the nodes.
+
+First, the desired user roles need to be configured in the identity provider solution and users must be assigned the correct roles.
+
+<Tip>
+You can use the **Access management** tab under **General Settings** to administrate all the roles.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/access_management_roles.png)
+
+</Tip>
+
+<Info>
+To be able to access the roles defined in the identity provider solution, a [**service account**](../access-management/configuring-an-iam-solution#process-engine-service-account) with appropriate permissions needs to be added in the identity provider. And the details of that service account [**need to be set up in the platform configuration**](../../setup-guides//designer-setup-guide#authorization--access-roles).
+</Info>
+
+
+The defined roles will then be available to be used in the process definition settings (**Permissions** tab) panel for configuring swimlane access.
+
+A **Default** swimlane comes with two default permissions assigned based on a specific role.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/swimlane_default_roles.png)
+
+* **execute** - the user will be able to start process instances and run actions on them
+* **self-assign** - the user can assign a process instance to them and start working on it
+
+<Info>
+This is valid for **> 2.11.0** FLOWX.AI platform release.
+</Info>
+
+Other **Permissions** can be added manually, depending on the needs of the user. Some permissions are needed to be configured so you can use features inside [Task Management](/4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview) plugin. Specific roles need to be assigned separately on a few available process operations. These are:
+
+* **view** - the user will be able to view process instance data
+* **assign** - user can assign tasks to other users (this operation is only accessible through the **Task management** plugin)
+* **unassign** - user can unassign tasks from other users (this operation is only accessible through the **Task management** plugin)
+* **hold** - user can mark the process instance as on hold (this operation is only accessible through the **Task management** plugin)
+* **unhold** - user can mark the process instance as not on hold (this operation is only accessible through the **Task management** plugin)
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/process_permissions.png)
+
+<Warning>
+**< 2.11.0 platform release** - if no role is configured on an operation, no restrictions will be applied.
+</Warning>
+
+## Configuration examples 
+
+<Info>
+Valid for < 2.11.0 release version.
+</Info>
+
+### Regular user
+
+Below you can find an example of configuration of roles for a regular user:
+
+![example configuration of roles for a regular user](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/regular_user_roles.png)
+
+### Admin
+
+Below you can find an example of configuration of roles for an admin user:
+
+![example configuration of roles for an admin user](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/admin_user_roles.png)
+
+<Warning>
+Starting with [**2.11.0**](/release-notes/v2.11.0-august-2022/) release, specific roles are needed, otherwise, restrictions will be applied.
+</Warning>
+
+After setting up your preferred identity provider solution, you will need to add the desired access roles in the application configuration for the FLOWX Engine (using environment variables):
+
+[Authorization & access roles](./engine-setup#authorization-and-access-roles)
+
+## Restricting process instance access based on business filters
+
+
+[Business filters](/4.0/docs/platform-deep-dive/user-roles-management/business-filters)
+
+Before they can be used in the process definition the business filter attributes need to be set in the identity management platform. They have to be configured as a list of filters and should be made available on the authorization token. Application users will also have to be assigned this value.
+
+## Viewing processes instances
+
+Active process instances and their related data can be viewed from the FLOWX Designer. A user needs to be assigned to a specific role in the identity provider solution to be able to view this information.
+
+By default, this role is named `FLOWX_ROLE`, but its name can be changed from the application configuration of the Engine by setting the following environment variable:
+
+`FLOWX_PROCESS_DEFAULTROLES`
+
+When viewing process instance-related data, it can be configured whether to hide specific sensitive user data. This can be configured using the `FLOWX_DATA_ANONYMIZATION` environment variable.
+
+## Access to REST API
+
+To restrict API calls by user role, you will need to add the user roles in the application config:
+
+```yaml
+security:
+  pathAuthorizations:
+    -
+      path: "/api/**"
+      rolesAllowed: "ANY_AUTHENTICATED_USER" or "USER_ROLE_FROM_IDENTITY_PROVIDER"
+```
