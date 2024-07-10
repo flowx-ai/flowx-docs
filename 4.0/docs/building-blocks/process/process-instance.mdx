@@ -10,9 +10,9 @@ description: A process instance is a specific execution of a business process th
 
 ## Overview
 
-Once the desired processes are defined in the platform, they are ready to be used. Each time a process needs to be used, for example each time a customer wants to request, for example, a new credit card, a new instance of the specified process definition is started in the platform. Think of the process definition as a blueprint for a house, and of the process instance as each house of that type being built.
+Once the desired processes are defined in the platform, they are ready to be used. Each time a process needs to be used, for example each time a customer wants to request a new credit card, a new instance of the specified process definition is started in the platform. Think of the process definition as a blueprint for a house, and of the process instance as each house of that type being built.
 
-The **FlowX Engine** is responsible for executing the steps in the process definition and handling all the business logic. The token represents the current position in the process and moves from one node to the next based on the sequences and rules defined in the exclusive gateways. In the case of parallel gateways, child tokens are created and eventually merged back into the parent token.
+The **FlowX.AI Engine** is responsible for executing the steps in the process definition and handling all the business logic. The token represents the current position in the process and moves from one node to the next based on the sequences and rules defined in the exclusive gateways. In the case of parallel gateways, child tokens are created and eventually merged back into the parent token.
 
 Kafka events are used for communication between FLOWX.AI components such as the engine and integrations/plugins. Each event type is associated with a Kafka topic to track and orchestrate the messages sent on Kafka. The engine updates the UI by sending messages through sockets.
 
@@ -23,17 +23,21 @@ Kafka events are used for communication between FLOWX.AI components such as the 
 
 To check the status of a process or troubleshoot a failed process, follow these steps:
 
-1. Open **FLOWX Designer**.
+1. Open **FlowX.AI Designer**.
 2. Go to **Processes → Active Process → Process instances**.
 3. Click **Process status** button.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_status.png)
+</Frame>
 
 ## Understanding the Process Status Data
 
 Understanding the various elements within process status data is crucial. Here's what each component entails:
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_status_data.png)
+</Frame>
 
 * The **Status** field indicates the state of the process instance, offering distinct values:
 
@@ -48,32 +52,39 @@ Understanding the various elements within process status data is crucial. Here's
 | **ON HOLD**    | Marks a state where the process is no longer editable.                                     |
 | **FAILED**     | Occurs if a CronJob triggers at a specific hour, and the instance isn't finished by then.  |
 
-* **Active process instance** - the UUID of the process instance, with a copy action available
-* **Variables** - displayed as an expanded JSON
+* **Active process instance**: The UUID of the process instance, with a copy action available.
+* **Variables**: Displayed as an expanded JSON.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_variables.png)
+</Frame>
 
-* **Tokens** - a token represents the state within the process instance and describe the current position in the process flow
+* **Tokens**: A token represents the state within the process instance and describe the current position in the process flow.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_tokens.png)
+</Frame>
 
 <Info>
 For more information about token status details, [here](../token).
 </Info>
 
-* **Subprocesses** - displayed only if the current process instance generated a [subprocess](./subprocess) instance
-* **Exceptions** - errors that let you know where the process is blocked, with a direct link to the node where the process is breaking for easy editing
+* **Subprocesses**: Displayed only if the current process instance generated a [subprocess](./subprocess) instance.
+* **Exceptions**: Errors that let you know where the process is blocked, with a direct link to the node where the process is breaking for easy editing.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_exceptions.png)
+</Frame>
 
 <Info>
 For more information on token status details and exceptions, check the following section:
 </Info>
 
+* **Audit Log**: The audit log displays events registered for process instances, tokens, tasks, and exceptions in reverse chronological order by timestamp.
 
-* **Audit Log** - the audit log displays events registered for process instances, tokens, tasks, and exceptions in reverse chronological order by timestamp
-
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_status_audit.png)
+</Frame>
 
 <Card title="Audit" href="../../platform-deep-dive/core-extensions/audit">
 </Card>
@@ -82,27 +93,33 @@ For more information on token status details and exceptions, check the following
 
 In the breadcrumb menu (top-right corner), you can access the following:
 
-* **Go to process definition** - opens the process for editing
-* **Version** - version of the process definition
-* **Started** - timestamp for when the process instance started
-* **Ended** - timestamp for when the process instance ended
+* **Go to process definition**: Opens the process for editing.
+* **Version**: Represents the version of the process definition.
+* **Started**: The timestamp for when the process instance started.
+* **Ended**: Timestamp for when the process instance ended.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_export_smth.png)
+</Frame>
 
 ### Color coding
 
 In the **Process Status** view, some nodes are highlighted with different colors to easily identify any failures:
 
-* **Green** - nodes highlighted with green mark the nodes passed by the [token](../token)
-* **Red** - the node highlighted with red marks the node where the token is stuck (process failure)
+* **Green**: Nodes highlighted with green mark the nodes passed by the [token](../token).
+* **Red**: The node highlighted with red marks the node where the token is stuck (process failure).
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/color_coding.gif)
+</Frame>
 
 ## Starting a new process instance
 
-To start a new process instance, a request must be made to the [FlowX Engine](../../platform-deep-dive/core-components/flowx-engine). This is handled by the web/mobile application. The current user must have the appropriate role/permission to start a new process instance.
+To start a new process instance, a request must be made to the [FlowX.AI Engine](../../platform-deep-dive/core-components/flowx-engine). This is handled by the web/mobile application. The current user must have the appropriate role/permission to start a new process instance.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_instance_diagram.png)
+</Frame>
 
 To be able to start a new process instance, the current user needs to have the appropriate role/permissions:
 
@@ -128,14 +145,19 @@ Possible errors include:
 ## Exceptions
 
 Exceptions are types of errors meant to help you debug a failure in the execution of a process.
+
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/exceptions1.png)
+</Frame>
 
 Exceptions can be accessed from multiple places:
 
-* **Failed process start** tab from **Active process** menu in FLOWX Designer
-* **Process Status** view, accessible from **Process instances** list in FLOWX Designer
+* **Failed process start** tab from **Active process** menu in FlowX.AI Designer.
+* **Process Status** view, accessible from **Process instances** list in FlowX.AI Designer.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/exceptions2.png)
+</Frame>
 
 <Hint>
 If you open a process instance and it does not contain exceptions, the **Exceptions** tab will not be displayed.
@@ -145,17 +167,19 @@ If you open a process instance and it does not contain exceptions, the **Excepti
 
 When you click **view** button, a detailed exception will be displayed.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/exceptions_data.png)
+</Frame>
 
-* **Process Definition** - the process where the exception was thrown
-* **Source** - the source of the exception (see the possible type of [sources](#possible-sources) below)
-* **Message** - a hint type of message to help you understand what's wrong with your process
-* **Type** - exception type
-* **Cause Type** - cause type (or the name of the node)
-* **Process Instance UUID** - process instance unique identifier
-* **Token UUID** - token unique identifier
-* **Timestamp** - default format: `yyyy-MM-dd'T'HH:mm:ss.SSSZ`
-* **Details** - stack trace (a **stack trace** is a list of the method calls that the process was in the middle of when an **Exception** was thrown)
+* **Process Definition**: The process where the exception was thrown.
+* **Source**: The source of the exception (see the possible type of [sources](#possible-sources) below).
+* **Message**: A hint type of message to help you understand what's wrong with your process.
+* **Type**: Exception type.
+* **Cause Type**: Cause type (or the name of the node if it is the case).
+* **Process Instance UUID**: Process instance unique identifier (UUID).
+* **Token UUID**: The token unique identifier.
+* **Timestamp**: The default format is - `yyyy-MM-dd'T'HH:mm:ss.SSSZ`.
+* **Details**: Stack trace (a **stack trace** is a list of the method calls that the process was in the middle of when an **Exception** was thrown).
 
 #### Possible sources:
 
@@ -177,11 +201,11 @@ When you click **view** button, a detailed exception will be displayed.
 Based on the exception type, there are multiple causes that could make a process fail. Here are some examples:
 
 | Type                     | Cause                                                                                                                                                                                                               |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Business Rule Evaluation | when executing action rules fails for any reason                                                                                                                                                                    |
-| Condition Evaluation     | when executing action conditions                                                                                                                                                                                    |
-| Engine                   | <p></p><p>when the connection with the database fails</p><p>when the connection with [Redis](../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis) fails</p><p></p> |
-| Definition               | misconfigurations: process def name, subprocess parent process id value, start node condition missing                                                                                                               |
-| Node                     | when an outgoing node can’t be found (missing sequence etc)                                                                                                                                                         |
-| Gateway Evaluation       | <p>when the token can’t pass a gateway for any reason, possible causes:</p><ul><li>missing sequence/node</li><li>failed node rule</li></ul>                                                                         |
-| Subprocess               | exceptions will be saved for them just like for any other process, parent process ID will also be saved (we can use this to link them when displaying exceptions)                                                   |
+| :----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Business Rule Evaluation | When executing action rules fails for any reason.                                                                                                                                                                   |
+| Condition Evaluation     | When executing action conditions.                                                                                                                                                                                   |
+| Engine                   | <p></p><p>When the connection with the database fails</p><p>when the connection with [Redis](../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis) fails</p><p></p> |
+| Definition               | Misconfigurations: process def name, subprocess parent process id value, start node condition missing.                                                                                                              |
+| Node                     | When an outgoing node can’t be found (missing sequence etc).                                                                                                                                                        |
+| Gateway Evaluation       | <p>When the token can’t pass a gateway for any reason, possible causes:</p><ul><li>Missing sequence/node</li><li>Failed node rule</li></ul>                                                                         |
+| Subprocess               | Exceptions will be saved for them just like for any other process, parent process ID will also be saved (we can use this to link them when displaying exceptions).                                                  |

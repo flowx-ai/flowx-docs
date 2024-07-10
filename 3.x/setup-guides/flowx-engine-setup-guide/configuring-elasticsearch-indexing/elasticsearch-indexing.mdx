@@ -1,7 +1,11 @@
 ---
 title: Configuring elasticsearch indexing
-description: This section provides configuration steps for enabling process instance indexing using the Kafka transport strategy. Before proceeding, it is recommended to familiarize yourself with Elasticsearch and its indexing process by referring to the Intro to Elasticsearch section
+description: This section provides configuration steps for enabling process instance indexing using the Kafka transport strategy.
 ---
+
+<Tip>
+Before proceeding, it is recommended to familiarize yourself with Elasticsearch and its indexing process by referring to the Intro to Elasticsearch section.
+</Tip>
 
 <Card title="Intro to Elasticsearch" href="../../../docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch" icon="file">
 </Card>
@@ -11,7 +15,7 @@ description: This section provides configuration steps for enabling process inst
 
 To enable Kafka indexing strategy, the previous configuration parameter `flowx.use-elasticsearch` is being replaced. However, to ensure backward compatibility, it will still be preserved in the configuration. Below is an example of how to configure it:
 
-```json
+```yaml
 spring:
   elasticsearch:
     index-settings:
@@ -23,10 +27,10 @@ spring:
 
 Instead of the removed configuration, a new configuration area has been added:
 
-```json
+```yaml
 flowx:
   indexing:
-    enabled: true  // true | false - specifies if the indexing with Elastic Search for the whole app is enabled or disabled.
+    enabled: true  // true | false - specifies if the indexing with Elasticsearch for the whole app is enabled or disabled.
     processInstance:  // set of configurations for indexing process instances. Can be duplicated for other objects.
       indexing-type: kafka  // no-indexing | http | kafka - the chosen indexing strategy.
       index-name: process_instance  // the index name that is part of the search pattern.
@@ -47,56 +51,56 @@ The `flowx.indexing.processInstance.indexing-type` property defines the indexing
 * **http**: Direct connection from the process engine to Elasticsearch through HTTP calls.
 * **kafka**: Data will be sent to be indexed via a Kafka topic using the new strategy. To implement this strategy, the Kafka Connect with Elasticsearch Sink Connector must be deployed in the infrastructure.
 
-## Configuration Steps
+## Configuration steps
 
 To enable indexing with Elasticsearch for the entire application, update the process-engine configuration with the following parameters:
 
 * `FLOWX_INDEXING_ENABLED`: set this parameter to `true` to enable indexing with Elastisearch for the entire application
 
-| Variable Name          | Enabled | Description                                                |
-| ---------------------- | ------- | ---------------------------------------------------------- |
-| FLOWX_INDEXING_ENABLED | true    | Indexing with Elastic Search for the whole app is enabled  |
-| FLOWX_INDEXING_ENABLED | false   | Indexing with Elastic Search for the whole app is disabled |
+| Variable Name          | Enabled | Description                                               |
+| ---------------------- | ------- | --------------------------------------------------------- |
+| FLOWX_INDEXING_ENABLED | true    | Indexing with Elasticsearch for the whole app is enabled  |
+| FLOWX_INDEXING_ENABLED | false   | Indexing with Elasticsearch for the whole app is disabled |
 
-* `FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE`: set this parameter to `kafka` to use the Kafka transport strategy for indexing process instances
+* `FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE`: Set this parameter to `kafka` to use the Kafka transport strategy for indexing process instances.
 
 | Variable Name                                | Indexing Type - Values | Definition                                                                                                                          |
 | -------------------------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE | no-indexing            | No indexing is performed for process instances                                                                                      |
-| FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE | http                   | Process instances are indexed via HTTP (direct connection from process-engine to Elastic Search thorugh HTTP calls)                 |
+| FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE | http                   | Process instances are indexed via HTTP (direct connection from process-engine to Elasticsearch thorugh HTTP calls)                  |
 | FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE | kafka                  | Process instances are indexed via Kafka (send data to be indexed through a kafka topic - the new strategy for the applied solution) |
 
-* `FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME`: specify the name of the index used for process instances
+* `FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME`: Specify the name of the index used for process instances.
 
 | Variable Name                                      | Values           | Definition                                                                                      |
 | -------------------------------------------------- | ---------------- | ----------------------------------------------------------------------------------------------- |
 | FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_INDEX_NAME | process_instance | The name of the index used for storing process instances. It is also part of the search pattern |
 
-* `FLOWX_INDEXING_PROCESSINSTANCE_SHARDS`: set the number of shards for the index
+* `FLOWX_INDEXING_PROCESSINSTANCE_SHARDS`: Set the number of shards for the index.
 
 | Variable Name                         | Values | Definition                                                                 |
 | ------------------------------------- | ------ | -------------------------------------------------------------------------- |
 | FLOWX_INDEXING_PROCESSINSTANCE_SHARDS | 1      | The number of shards for the Elasticsearch index storing process instances |
 
-* `FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS`: set the number of replicas for the index
+* `FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS`: Set the number of replicas for the index.
 
 | Variable Name                           | Values | Definition                                                                   |
 | --------------------------------------- | ------ | ---------------------------------------------------------------------------- |
 | FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS | 1      | The number of replicas for the Elasticsearch index storing process instances |
 
 <Info>
-For Kafka indexing, the Kafka Connect with Elastic Search Sink Connector must be deployed in the infrastructure.
+For Kafka indexing, the Kafka Connect with Elasticsearch Sink Connector must be deployed in the infrastructure.
 </Info>
 
 [Elasticsearch Service Sink Connector](https://docs.confluent.io/kafka-connectors/elasticsearch/current/overview.html)
 
-### Configuration examples
+## Configuration examples
 
-#### Example configuration for applying the solution with Kafka Connect:
+### Kafka Connect
 
-* Kafka Connect
-  * assumes kafka cluster installed with strimzi operator and elasticsearch with eck-operator
-  * can save the image built by kafka connect to a local registry and comment build section
+  * Assumes kafka cluster installed with strimzi operator and elasticsearch with eck-operator
+  * Can save the image built by kafka connect to a local registry and comment build section
+
 ```yaml
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaConnect
@@ -151,7 +155,8 @@ spec:
             key: elastic
 ```
 
-* Kafka Elasticsearch Connector
+### Kafka Elasticsearch Connector
+
 ```yaml
 spec:
   class: io.confluent.connect.elasticsearch.ElasticsearchSinkConnector
@@ -165,11 +170,11 @@ spec:
     connection.username: "elastic" # The username to authenticate with Elasticsearch. You should configure this.
     connection.password: "Yyh03ZI66310Hyw59MXcR8xt" # The password to authenticate with Elasticsearch. You should configure this.
     elastic.security.protocol: "SSL" # The security protocol to use for connecting to Elasticsearch. You should use SSL if possible.
-    elastic.https.ssl.keystore.location: "/opt/kafka/external-configuration/elasticsearch-keystore-volume/keystore.jks" # You should configure the path to the keystore where the Elastic search key is added.
+    elastic.https.ssl.keystore.location: "/opt/kafka/external-configuration/elasticsearch-keystore-volume/keystore.jks" # You should configure the path to the keystore where the Elasticsearch key is added.
     elastic.https.ssl.keystore.password: "MPx57vkACsRWKVap" # The password for the keystore file. You should configure this.
     elastic.https.ssl.key.password: "MPx57vkACsRWKVap" # The password for the key within the keystore file.
     elastic.https.ssl.keystore.type: "JKS" # The type of the keystore file. It is set to "JKS" (Java KeyStore).
-    elastic.https.ssl.truststore.location: "/opt/kafka/external-configuration/elasticsearch-keystore-volume/keystore.jks" # you should configure the path to the keystore where the Elastic search key is added.
+    elastic.https.ssl.truststore.location: "/opt/kafka/external-configuration/elasticsearch-keystore-volume/keystore.jks" # you should configure the path to the keystore where the Elasticsearch key is added.
     elastic.https.ssl.truststore.password: "MPx57vkACsRWKVap" # The password for the truststore file. You should configure this
     elastic.https.ssl.truststore.type: "JKS" # The type of the truststore file. It is set to "JKS".
     elastic.https.ssl.protocol: "TLS" # The SSL/TLS protocol to use for communication. It is set to "TLS".
@@ -192,7 +197,7 @@ spec:
     transforms.routeTS.timestamp.format: "yyyyMMdd" # This format ensures that the timestamp is represented consistently and can be easily parsed when creating or searching for indices based on the process instance start date. You can change this with the value you want. If you want monthly indexes set it to "yyyyMM". But be aware that once you set it, when you change it, the existing object indexed will not be updated anymore. The update messages will be threated as new objects and indexed again because they are going to be sent to new indexes. This is important! Try to find your index size and stick with it.
 ```
 
-#### Example configuration for using HTTP indexing
+### HTTP indexing
 
 ```yaml
 flowx:
@@ -226,15 +231,13 @@ flowx:
 
 ```
 
-### Querying Elasticsearch
+## Querying Elasticsearch
 
 To read from multiple indices, queries in Elasticsearch have been updated. The queries now run against an index pattern that identifies multiple indices instead of a single index. The index pattern is derived from the value defined in the configuration property:
 
 `flowx.indexing.processInstance.index-name`
 
-### Kafka topics
-
-#### Process event message topic
+## Kafka topics - process events messages
 
 This topic is used for sending the data to be indexed from Process engine. The data from this topic will be read by Kafka Connect.
 
@@ -248,12 +251,13 @@ This topic is used for sending the data to be indexed from Process engine. The d
 
 <Info>
 
-- the topic name, defined in the value, will be used by Kafka Connect as source for the messages to be sent to Elastic Search for indexing.
-- the attribute: **indexLastUpdatedTime** is new and will be populated for the kafka-connect strategy. This will tell have the timestamp when last operation was done on the object in the index.
+The topic name, defined in the value, will be used by Kafka Connect as source for the messages to be sent to Elasticsearch for indexing.
+
+The attribute `indexLastUpdatedTime` is new and will be populated for the kafka-connect strategy. This will tell have the timestamp when last operation was done on the object in the index.
 
 </Info>
 
-### Elasticsearch Update (Index Template)
+## Elasticsearch update (index template)
 
 Since mappings between messages and Elasticsearch data types are unknown, a mapping needs to be specified. This is achieved through an index template created by the process engine during startup. The template applies to indices starting with the value defined in `flowx.indexing.processInstance.index-name` config. Here's an example of the index template:
 
@@ -358,7 +362,7 @@ Since mappings between messages and Elasticsearch data types are unknown, a mapp
 	    }
 	  },
         "settings":{
-        "number_of_shards":5,
+        "number_of_shards":5, //This value will be overwritten by the value that you set at `FLOWX_INDEXING_PROCESSINSTANCE_SHARDS` environment variable.
         "number_of_replicas":1
         }
     }

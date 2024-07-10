@@ -14,11 +14,11 @@ The default datepicker value is `DD.MM.YYYY`.
 
 ## Configuring the datepicker element
 
-### Datepicker settings
+### Datepicker generic settings
 
 The available configuration options for this form element are:
 
-- [**General**](#general)
+- [**Process data key**](#process-data-key)
 - [**Properties**](#properties)
 - [**Datasource**](#datasource)
 - [**Validators**](#validators)
@@ -26,24 +26,24 @@ The available configuration options for this form element are:
 - [**UI actions**](#ui-actions)
 - [**Datepicker styling**](#datepicker-styling)
 
-#### General
+#### Process data key
    
-* **Process data key** - creates the binding between form element and process data so it can be later used in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration)
+Process data key establishes the binding between the datepicker element and process data, enabling its later use in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration).
 
 #### Properties
 
-* **Label** - the label of the datepicker 
-* **Placeholder** - placeholder when the field has no value
-* **Min Date** - set the minimum valid date selectable in the datepicker
-* **Max Date** - set the maximum valid date selectable in the datepicker
-* **Min Date, Max Date error** - when a date is introduced by typing, define the error message to be displayed
-* **Helpertext** - additional information about the input field (can be hidden inside an infopoint)
+* **Label**: The visible label for the datepicker element.
+* **Placeholder**: Text that appears within the datepicker element when it is empty.
+* **Min Date**: Set the minimum valid date selectable in the datepicker.
+* **Max Date**: Set the maximum valid date selectable in the datepicker.
+* **Min Date, Max Date error**: When a date is introduced by typing, define the error message to be displayed.
+* **Helpertext**: Additional information about the datepicker element, which can be optionally hidden within an infopoint.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/datepicker1.png)
 
-#### Datasource
+#### Datasource configuration
    
-* **Default Value** - the default values of the datepicker element, this will autofill the datepicker when you will run the process
+**Default Value**: The default values of the datepicker element, this will autofill the datepicker when you will run the process.
 
 #### Validators
 
@@ -51,12 +51,12 @@ The following validators can be added to a datepicker: `required`, `custom`, `is
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/datepicker2.png)
 
-#### Expressions
+#### Hide/disable expressions
 
 The datepicker behavior can be defined using JavaScript expressions for hiding or disabling the element. The following properties can be configured for expressions:
    
-* **Hide** - JavaScript expression used to hide the datepicker when it returns a truthy value
-* **Disabled** - JavaScript expression used to disable the datepicker when it returns a truthy value
+* **Hide condition**: A JavaScript expression that hides the datepicker element when it returns a truthy value.
+* **Disabled condition**: A JavaScript expression that disables the datepicker element when it returns a truthy value.
 
 <Info>
 It's important to make sure that disabled fields have the same expression configured under the path expressions → hide.
@@ -66,8 +66,8 @@ It's important to make sure that disabled fields have the same expression config
 
 UI actions can be added to the datepicker element to define its behavior and interactions.
 
-* **Event** - possible value: `CHANGE`
-* **Action Type** - select the action type
+* **Event**: Possible value - `CHANGE`.
+* **Action Type**: Select the action type.
 
 <Tip>
 For more details on how to configure a UI action, click [**here**](../../ui-actions).
@@ -76,11 +76,214 @@ For more details on how to configure a UI action, click [**here**](../../ui-acti
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/datepicker3.png)
 
-### Datepicker styling
 
-The styling of a datepicker element can be customized in various ways using CSS properties like typography color, border-radius/width, or advanced CSS params. This allows you to create a datepicker that fits seamlessly with the overall design of the application you are developing.
+### Datepicker settings overrides
+
+There are instances where you may need to tailor settings configured in the **Generic** settings tab. This proves especially beneficial when you wish to adjust these settings to appear differently across various platforms such as Web, Android, or iOS.
+
+Available override settings:
+
+* Properties:
+    * **Label**: Override the datepicker label.
+    * **Helper**: Override helper text/info point.
+* Expressions:
+    * **Hide**: Override the hide expression.
 
 <Tip>
-For more valid CSS properties, click [here](../../#styling).
+Overrides can always be imported/pushed from one platform to another:
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importing_pushing_overrides.gif)
+
 </Tip>
 
+### Datepicker styling
+
+<Tabs>
+<Tab title="Web">
+
+#### Sizing
+
+Adjusting the size of components is crucial for a responsive design. Fit W (width) offers three options:
+
+    * **fill**: Fills the available space.
+    * **fixed**: Maintains a fixed width.
+    * **auto**: Adjusts the width automatically based on content.
+
+</Tab>
+<Tab title ="iOS">
+
+Similar styling considerations apply to iOS as for web.
+
+However, for mobile applications, there’s an additional sizing style property:
+
+- **Height** (pt - points): Determines the vertical size of the datepicker element on the screen.
+
+</Tab>
+<Tab title ="Android">
+
+Similar styling considerations apply to Android as for web.
+
+However, for mobile applications, there’s an additional sizing style property:
+
+* **Height** (dp - density-independent pixels): Determines the vertical size of the datepicker element on the screen.
+
+</Tab>
+</Tabs>
+
+
+#### Datepicker style overrides options
+
+Theme overrides refer to the ability to modify or customize the appearance and behavior of UI components by overriding default theme settings. This can be applied at various levels, such as specific elements or entire sections, and can be platform-specific (Web, iOS, Android).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_all.png)
+</Frame>
+
+Style options:
+
+<AccordionGroup>
+  <Accordion title="Common Properties">
+- Border radius **[TEXT]**
+- Border width  **[TEXT]**
+- Text style **[FONT]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/select_ov_com_props.png)
+</Frame>
+
+</Accordion>
+
+  <Accordion title="Label">
+- Default state
+    - Text color **[COLOR]**
+- Disabled state
+    - Text color  **[COLOR]**
+- Text style **[FONT]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/select_ov_label.png)
+</Frame>
+
+</Accordion>
+
+  <Accordion title="Helper">
+- Text color **[COLOR]**
+- Text style **[FONT]**
+- Helper Tooltip
+    - Text style **[FONT]**
+    - Text color **[COLOR]**
+    - Background color **[COLOR]**
+    - Icon Color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/select_ov_helper.png)
+</Frame>
+
+</Accordion>
+
+<Accordion title="Error">
+
+- Text color **[COLOR]**
+- Text style **[FONT]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/select_ov_error.png)
+</Frame>
+
+</Accordion>
+
+  <Accordion title="Empty State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Right icon color **[COLOR]**
+    - Left icon color **[COLOR]**
+    - Prefix/Suffix color **[COLOR]**
+    - Placeholder color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/select_ov_empty_state.png)
+</Frame>
+
+  </Accordion>
+
+  <Accordion title="Active State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Right icon color **[COLOR]**
+    - Left icon color **[COLOR]**
+    - Prefix/Suffix color **[COLOR]**
+    - Placeholder color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_select_active_state.png)
+</Frame>
+
+  </Accordion>
+
+  <Accordion title="Filled State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Right icon color **[COLOR]**
+    - Left icon color **[COLOR]**
+    - Prefix/Suffix color **[COLOR]**
+    - Placeholder color **[COLOR]**
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_select_filled_state.png)
+</Frame>
+
+</Accordion>
+
+ <Accordion title="Disabled State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Right icon color **[COLOR]**
+    - Left icon color **[COLOR]**
+    - Prefix/Suffix color **[COLOR]**
+    - Placeholder color **[COLOR]**
+
+<Frame> 
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_select_disabled_state.png)
+</Frame>
+  </Accordion>
+
+  <Accordion title="Error State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Right icon color **[COLOR]**
+    - Left icon color **[COLOR]**
+    - Prefix/Suffix color **[COLOR]**
+    - Placeholder color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ovselect_error_state.png)
+</Frame>
+
+  </Accordion>
+
+  <Accordion title="Hover State (only for Web configuration)">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Right icon color **[COLOR]**
+    - Left icon color **[COLOR]**
+    - Prefix/Suffix color **[COLOR]**
+    - Placeholder color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_select_hover-state.png)
+</Frame>
+
+  </Accordion>
+</AccordionGroup>
+
+
+<Info>
+You can import or push the overrides from one platform to another without having to configure them multiple times.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_push_import.gif)
+
+</Info>

@@ -140,12 +140,11 @@ In many cases, you want to split up the flow within your business process. For e
 
 **Closing gateway**
 
-* closes gateways by connecting branches with no logic involved
-* symbol used depends on the initial gateway
-* parallel gateways - waits for all input tokens and merges all into one single token
-* inclusive gateways
-  * waits for all active inputs
-  * is informed about all preceding token flows - knows the path selected and are expecting the token from these
+* Closes gateways by connecting branches with no logic involved
+* The symbol used is determined by the initial gateway type.
+* Parallel gateways: 
+  * These gateways wait for all input tokens and merge them into a single token.
+  * Are aware of all preceding token flows, know the paths selected, and expect tokens from these paths.
 
 
 ## In depth docs

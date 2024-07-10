@@ -7,7 +7,7 @@ Do not forget, when upgrading to a new platform version, always ensure that your
 </Check>
 
 <Warning>
-After updating to **3.4.7** FLOWX.AI release, it is not possible to import old process definitions into the new platform release (available for exports from releases **< 3.4.7**).
+After upgrading to **3.4.7** FlowX.AI release, it is not possible to import old process definitions into the new platform release (exported from releases **< 3.4.7**).
 </Warning>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/release_platform_version_check.png)
@@ -48,9 +48,9 @@ With the release of **FLOWX.AI 3.0**, there have been some changes that you need
 
 
 
-### Recommended Versions for FLOWX.AI 3.4.7
+### Third-party recommended component versions 
 
-| FLOWX.AI Platform Version | Component name    | Recommended version (tested versions) |
+| FLOWX.AI Platform Version | Component name    | Recommended versions (tested versions) |
 | ------------------------- | ----------------- | ------------------------------------- |
 | 3.4.7                     | Keycloak          | 18.0.x                                |
 | 3.4.7                     | Kafka             | 3.2.3                                 |
@@ -63,7 +63,7 @@ With the release of **FLOWX.AI 3.0**, there have been some changes that you need
 
 
 <Info>
-FlowX.AI supports any version of the listed third-party components as prerequisites.
+FlowX.AI supports any listed version of the prerequisite third-party components in the table above.
 
 For optimal performance and reliability, our internal QA process validates new releases using specific versions as indicated in the provided table.
 While exploring alternative versions that suit your company's specific requirements, we recommend referring to the compatibility matrix for guidance.
@@ -86,7 +86,7 @@ Introducing a new environment variable designed to facilitate the coordinated or
 | ----------------------------------- | ------------- | --------------------------------------------------------------------------- |
 | `FLOWX_PROCESS_EXPIRE_SUBPROCESSES` | true          | When set to true, expiration of a parent process triggers simultaneous expiration of all associated subprocesses |
 
-For further details, refer to the documentation [**here**](../../docs/platform-setup-guides/flowx-engine-setup-guide#managing-subprocesses-expiration).
+For further details, refer to the documentation [**here**](../../3.x/setup-guides/flowx-engine-setup-guide/engine-setup#managing-subprocesses-expiration).
 
 ### Documents Plugin 
 
@@ -96,7 +96,7 @@ The DPI value for the PDF to JPEG conversion can now be configured via the `FLOW
 | -------------------- | ------------- | ---------------------------------------------------------------------------------------------------------- |
 | `FLOWX_CONVERT_DPI`  | 150           | Sets the DPI (dots per inch) for PDF to JPEG conversion. Higher values result in higher resolution images. |
 
-For further details, refer to the documentation [**here**](../../docs/platform-deep-dive/plugins/plugins-setup-guide/documents-plugin-setup#conversion).
+For further details, refer to the documentation [**here**](../../3.x/setup-guides/plugins-setup-guide/documents-plugin-setup#conversion).
 
 
 ### OCR Plugin
@@ -114,7 +114,7 @@ The following environment variables were introduced to control the acceptable as
 The plugin has been tested with aspect ratio values between 1.38 and 1.43. However, caution is advised when using untested values outside this range, as they may potentially disrupt the functionality. Adjust these parameters at your own risk and consider potential consequences, as untested values might lead to plugin instability or undesired behavior.
 </Info>
 
-For further details, refer to the documentation [**here**](../../docs/platform-deep-dive/plugins/plugins-setup-guide/ocr-plugin-setup#control-aspect-ratio).
+For further details, refer to the documentation [**here**](../../3.x/setup-guides/plugins-setup-guide/ocr-plugin-setup#control-aspect-ratio).
 
 
 

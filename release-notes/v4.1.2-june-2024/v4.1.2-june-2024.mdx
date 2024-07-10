@@ -1,0 +1,43 @@
+---
+title: FlowX.AI 4.1.2 LTS Release
+---
+
+<Info>
+This is a patch version part of the the long-term support for version 4.1.
+</Info>
+
+Welcome to FLowX.AI 4.1.2 release. Let’s dive in and explore:
+
+## Enhancements ✨
+
+### Web Renderer
+
+- Improved PDF viewer locale setting based on renderer language configuration. Now, the PDF viewer menu will display localized content according to the chosen language setting, enhancing user experience.
+
+
+## Bug fixes 🛠️
+
+### FlowX.AI Engine
+
+- **Fixed the Server-Sent Events (SSE) message issue** where they were playing hide-and-seek in the console. The problem stemmed from swimlanes lacking proper permissions and an overly strict event filter. After granting correct permissions and adjusting the filter, SSE messages are now reliably displayed.
+- **Export Process/Copy & Paste**: Addressed an issue where soft-deleted UI actions were erroneously included in `GET /data` responses. Now, during export or copy-paste operations, only active UI actions are included, ensuring deleted actions remain hidden as intended.
+
+
+## Gremlins to watch out for
+
+Keep an eye out for these quirks:
+
+- **UI Designer**: When relocating UI elements between parents, the elements' order doesn't always get the memo, causing a mix-up in the family tree. We're untangling this knot! 
+
+## Resources
+
+For deployment guidelines and a seamless transition to version 4.1.2: 
+
+<CardGroup>
+<Card title="Deployment guidelines v4.1.2" href="./deployment-guidelines-v4.1.2" icon ="file">
+</Card>
+
+<Card title="Migrating from previous versions" href="./migrating-from-previous-to-v4.1.2" icon ="file">
+</Card>
+
+</CardGroup>

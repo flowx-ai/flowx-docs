@@ -5,25 +5,27 @@ description: The configuration of Elasticsearch for process instances indexing d
 
 ## Indexing strategy
 
-When deleting data in Elasticsearch, it's recommended to delete entire indices instead of individual documents. Creating multiple smaller indices provides the flexibility to delete entire indices of old data that are no longer needed.
-
 * Advantages of Multiple Small Indices:
     - Fast indexing process.
     - Flexibility in cleaning up old data.
 * Potential Drawbacks:
     - Hitting the maximum number of shards per node, resulting in exceptions when creating new indices.
     - Increased search response time and memory footprint.
+* Deletion
+    - When deleting data in Elasticsearch, it's recommended to delete entire indices instead of individual documents. Creating multiple smaller indices provides the flexibility to delete entire indices of old data that are no longer needed.
+
 
 Alternatively, you can create fewer indices that span longer periods of time, such as one index per year. This approach offers small search response times but may result in longer indexing times and difficulty in cleaning up and recovering data in case of failure.
 
-<Card title= "What is indexing?" href="../../../4.0/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch#indexing" icon ="question">
+<Card title= "What is indexing?" href="../../../docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch#indexing" icon ="question">
 </Card>
+
 
 ## Shard and replica configuration
 
 The solution includes an index template that gets created with the settings from the process-engine app (name, shards, replicas) when running the app for the first time. This template controls the settings and mapping of all newly created indices.
 
-<Card title="What is sharding?" href="../../../4.0/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch#sharding" icon="question">
+<Card title="What is sharding?" href="../../../docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch#sharding" icon="question">
 </Card>
 
 <Card title="Index template" href="./elasticsearch-indexing#elasticsearch-update-index-template" icon ="file">
@@ -48,7 +50,7 @@ To manage functional indexing operations and resources efficiently, consider the
 
 Recommendations:
 
-* Start with monthly indexes that have 2 shards and 1 replica. This setup is typically sufficient for handling up to 200k process instances per day; ensures a parallel indexing in two main shards and has also 1 replica per each main shard (4 shards in total). This would create 48 shards per year in the elastic search nodes; A lot less than the default 1000 shards, so you will have enough space for other indexes as well.
+* Start with monthly indexes that have 2 shards and 1 replica. This setup is typically sufficient for handling up to 200k process instances per day; ensures a parallel indexing in two main shards and has also 1 replica per each main shard (4 shards in total). This would create 48 shards per year in the Elasticsearch nodes; A lot less than the default 1000 shards, so you will have enough space for other indexes as well.
     * If you observe that the indexing gets really, really slow, then you should look at the physical resources / shard size and start adapting the config.
     * If you observe that indexing one monthly index gets massive and affects the performance, then think about switching to weekly indices.
     * If you have huge spikes of parallel indexing load (even though that depends on the Kafka connect cluster configuration), then think about adding more main shards.

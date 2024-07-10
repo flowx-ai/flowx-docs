@@ -34,7 +34,7 @@ Shards can be configured as primary or replica shards. Primary shards contain th
 
 Sharding offers several advantages. It allows data to be distributed across multiple nodes, enabling parallel processing and faster search operations. It also provides fault tolerance, as data is replicated across multiple shards. Additionally, sharding allows Elasticsearch to scale horizontally by adding more nodes and distributing the data across them.
 
-The number of shards and their allocation can be determined during index creation sor modified later. It is important to consider factors such as the size of the dataset, hardware resources, and search performance requirements when deciding on the number of shards.
+The number of shards and their allocation can be determined during index creation or modified later. It is important to consider factors such as the size of the dataset, hardware resources, and search performance requirements when deciding on the number of shards.
 
 For more details, check Elasticsearch documentation:
 
@@ -42,7 +42,12 @@ For more details, check Elasticsearch documentation:
 
 ## Leveraging Elasticsearch for advanced indexing with FlowX.AI
 
-The integration between FlowX.AI and Elasticsearch involves the indexing of specific keys or data from the [**UI Designer**](../../../building-blocks/ui-designer/) to [process definitions](../../../building-blocks/process/process-definition) using Elasticsearch. This indexing process is initiated by the [FlowX Engine](../../../platform-deep-dive/core-components/flowx-engine) in a synchronous manner, sending the data to Elasticsearch. The data is then indexed or updated in the "process_instance" index.
+The integration between FlowX.AI and Elasticsearch involves the indexing of specific keys or data from the [**UI Designer**](../../../building-blocks/ui-designer/) to [process definitions](../../../building-blocks/process/process-definition) using Elasticsearch. This indexing process is initiated by the [FlowX Engine](../../../platform-deep-dive/core-components/flowx-engine) in a synchronous manner (valid for `HTTP` indexing type ), sending the data to Elasticsearch. The data is then indexed or updated in the "process_instance" index.
+
+There are two methods available for indexing data: Kafka and HTTP.
+
+* **Kafka**: Data is sent to be indexed through a Kafka topic using the new strategy. Deploy the [**Kafka Connect with Elasticsearch Sink Connector**](../../../../setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/elasticsearch-indexing.mdx#kafka-connect) in the infrastructure to utilize this method.
+* **HTTP**: Data is indexed by establishing a direct connection from the FlowX Engine to Elasticsearch. Use HTTP calls to connect directly from the FlowX Engine to Elasticsearch.
 
 To ensure effective indexing of process instances' details, a crucial step involves defining a mapping that specifies how Elasticsearch should index the received messages. This mapping is essential as the process instances' details often have specific formats. The process-engine takes care of this by automatically creating an index template during startup if it doesn't already exist. The index template acts as a blueprint, providing Elasticsearch with the necessary instructions on how to index and organize the incoming data accurately. By establishing and maintaining an appropriate index template, the integration between FLOWX.AI and Elasticsearch can seamlessly index and retrieve process instance information in a structured manner.
 
