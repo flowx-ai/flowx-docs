@@ -41,16 +41,16 @@ Understanding the various elements within process status data is crucial. Here's
 
 * The **Status** field indicates the state of the process instance, offering distinct values:
 
-| Status         | Indicates the state of the process instance. Offers distinct values:                       |
-| -------------- | ------------------------------------------------------------------------------------------ |
-| **CREATED**    | Visible if there's an error during process creation. Displays as "Started" without errors. |
-| **STARTED**    | Indicates the current running status of the process.                                       |
-| **DISMISSED**  | Available for processes with subprocesses, seen when a user halts a subprocess.            |
-| **EXPIRED**    | Shows up when a defined "expiryTime" in the process definition passes.                     |
-| **FINISHED**   | Signifies successful completion of the process execution.                                  |
-| **TERMINATED** | Implies a termination request has been sent to the instance.                               |
-| **ON HOLD**    | Marks a state where the process is no longer editable.                                     |
-| **FAILED**     | Occurs if a CronJob triggers at a specific hour, and the instance isn't finished by then.  |
+| Status         | Indicates the state of the process instance. Offers distinct values:                                                                        |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **CREATED**    | Visible if there's an error during process creation. Displays as "Started" without errors.                                                  |
+| **STARTED**    | Indicates the current running status of the process.                                                                                        |
+| **DISMISSED**  | Available for processes with subprocesses, seen when a user halts a subprocess.                                                             |
+| **EXPIRED**    | This status appears when the defined "expiryTime" expression in the process definition elapses since the process was initiated (`STARTED`). |
+| **FINISHED**   | Signifies successful completion of the process execution.                                                                                   |
+| **TERMINATED** | Implies a termination request has been sent to the instance.                                                                                |
+| **ON HOLD**    | Marks a state where the process is no longer editable.                                                                                      |
+| **FAILED**     | Occurs if a CronJob triggers at a specific hour, and the instance isn't finished by then.                                                   |
 
 * **Active process instance**: The UUID of the process instance, with a copy action available.
 * **Variables**: Displayed as an expanded JSON.
