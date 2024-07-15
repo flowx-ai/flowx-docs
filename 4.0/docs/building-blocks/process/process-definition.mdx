@@ -198,7 +198,7 @@ Name can only contain letters, numbers and the following special characters: [] 
 
 ### General
 
-In the General settings, you can edit the process definition name, include the process in reporting, set general data, and configure expiry time using Cron Expressions and ISO 8601 formatting.
+In the General settings, you can edit the process definition name, include the process in reporting, set general data, and configure expiry time expression using Cron Expressions and ISO 8601 formatting.
 
 * **Available Platforms** (Single Choice): This enable configuration (Navigation Areas, UI Designer, Misconfigurations) only for the specific platform selected:
 
@@ -214,12 +214,23 @@ Navigation Areas, UI Designer and misconfigurations will be affected by this set
 By default, new processes are set to **Web Only**. This ensures that they are initially optimized for web-based usage, providing a starting point for most users and scenarios.
 </Info>
 
-* **Use process in reporting** - if switched on, the process will be included in reporting
-* **Use process in task management** - if switched on, tasks will be created and displayed in the Task manager plugin, more information [here](../../platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview)
-* **General data** - data that you can set and receive on a response
-* **Expiry time** - a user can set up a `expiryTime` function on a process, for example, a delay of 30s will be set up like: `30 16 11 4 7 1`
+* **Use process in reporting**: When enabled, this setting includes the process in reporting.
+* **Use process in task management**: Enabling this option creates tasks that are displayed in the Task Manager plugin. For more details, refer to the [**Task Management**](../../platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview) section.
+* **General data**: Refers to customizable data that can be both set and received in a response context.
+* **Expiry time**: A user can set up an expiryTime expression on a process definition to specify an expiry date. 
 
-For more information about **Cron Expressions** and **ISO 8601** formatting, check the following section;
+| **Example**               | **Expression**         | **Explanation**                                                                                                    |
+| ------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Daily Expiry at Midnight  | `0 0 * * *`            | Sets the process to expire at 00:00 (midnight) every day.                                                          |
+| Hourly Expiry on Weekdays | `0 0 9-17 * * MON-FRI` | Sets the process to expire at the start of each hour between 9 AM and 5 PM on weekdays (Monday to Friday).         |
+| Expiry After a Duration   | `PT3M22S`              | Sets the process to expire after a duration of 3 minutes and 22 seconds from the start, using **ISO 8601 format**. |
+
+<Info>
+You can use both ISO 8601 duration format (`PT3M22S`) and cron expressions (`0 0 * * *`, `0 0 9-17 * * MON-FRI`) to define `expiryTime` expressions for process definitions.
+</Info>
+
+
+For more information about **Cron Expressions** and **ISO 8601** formatting, check the following section:
 
 [Timer Expressions](../node/timer-events/timer-expressions)
 

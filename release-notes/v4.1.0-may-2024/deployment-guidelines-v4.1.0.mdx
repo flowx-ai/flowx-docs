@@ -15,27 +15,6 @@ It is not possible to import old process definitions from versions earlier than 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/release_platform_version_check.png)
 
 
-### Revised cache key organization
-
-To ensure a smooth transition to the 4.1 release, it's essential to utilize the following clear cache endpoint and body:
-
-##### Endpoint:
-
-`POST {{baseUrlAdmin}}/api/internal/cache/clear`
-
-##### Body:
-
-```json
-{
-    "cacheNames": [
-        "flowx:core:cache"
-        ]
-}
-```
-
-<Card title="Clear cache endpoint" href="../../4.0/docs/api/clear-cache4.0" icon ="link">
-</Card>
-
 ## Component versions   
 
 <Warning>
@@ -76,207 +55,27 @@ With the release of **FLOWX.AI 3.0**, there have been some changes that you need
 
 ### Third-party recommended component versions 
 
-| FLOWX.AI Platform Version | Component name    | Recommended versions (tested versions) |
-| ------------------------- | ----------------- | -------------------------------------- |
-| 4.1                       | Keycloak          | 22.0.x                                 |
-| 4.1                       | Kafka             | 3.2.3                                  |
-| 4.1                       | PostgreSQL        | 16.2.0                                 |
-| 4.1                       | MongoDB           | 7.0.6                                  |
-| 4.1                       | Redis             | 7.2.4                                  |
-| 4.1                       | Elasticsearch     | 7.17                                   |
-| 4.1                       | OracleDB          | 19.8.0.0.0                             |
-| 4.1                       | Angular (Web SDK) | 16.0.0                                 |
-
-
+| FlowX.AI Platform Version | Component Name    | Recommended Versions |
+| ------------------------- | ----------------- | -------------------- |
+| 4.1                       | Keycloak          | 22.0.x               |
+| 4.1                       | Kafka             | 3.2.3                |
+| 4.1                       | PostgreSQL        | 16.2.0               |
+| 4.1                       | MongoDB           | 7.0.6                |
+| 4.1                       | Redis             | 7.2.4                |
+| 4.1                       | Elasticsearch     | 7.17                 |
+| 4.1                       | OracleDB          | 19.8.0.0.0           |
+| 4.1                       | Angular (Web SDK) | 16.0.0               |
 
 
 <Info>
-FlowX.AI supports any listed version of the prerequisite third-party components in the table above.
+FlowX.AI supports the Recommended Versions of the prerequisite third-party components in the above table.
 
-For optimal performance and reliability, our internal QA process validates new releases using specific versions as indicated in the provided table.
-While exploring alternative versions that suit your company's specific requirements, we recommend referring to the compatibility matrix for guidance.
+For optimal performance and reliability, our internal QA process validates new FlowX.AI releases using the latest Recommended Versions. While exploring alternative versions that suit your company's specific requirements, we recommend referring to the table above for guidance.
 
 In the unlikely event that you encounter any compatibility issues with FlowX.AI, please open a support ticket [**here**](https://flowxai.zendesk.com/), and our dedicated team will address and resolve any identified bugs following our standard support process.
 
-Compatibility Matrix:
-
-* FlowX.AI Platform: Recommended and tested versions
-* Third-Party Components: Supported versions based on specific requirements and client preferences
+A FlowX release and its patch versions (such as 4.1.x) will *all* have the same the *Recommended Versions* for the third-party components.
 </Info>
 
-## Additional configuration
-
-### Misconfigurations
-
-To enable and to compute warnings for already existing processes from previous versions, use the following endpoint retrieve and compute all warnings:
-
-<Info>
-Please note that it may take some time for all misconfigurations in older processes to become available on the platform after calling this endpoint.
-</Info>
-
-#### FlowX.AI Admin
-
-```json
-{{baseUrlAdmin}}/api/process-versions/compute
-```
-
-For more details:
-
-<Card title ="Enable misconfigurations" href="../../4.0/docs/api/add-misconfigurations" icon ="link">
-</Card>
 
 
-### Spring Boot upgrade
-
-The following configuration changes are required after upgrading your Spring Boot application to version 3.2.x. Below is a detailed explanation of each section in the context of this upgrade:
-
-<Info>
-Note that this setup is backwards compatible, it does not affect the configuration from v3.4.x. The configuration files will still work until v4.5 release.
-</Info>
-
-<Warning>
-The old environment variables (v3.4.x) will be removed in the v.4.5 FlowX.AI release.
-</Warning>
-
-Configuration properties updates:
-
-#### Redis configuration
-
-Where Redis is used (FlowX CMS, FlowX Admin, Documents plugin, events, Notifications plugin, FlowX Engine, Task Management plugin):
-
-##### Old configs:
-
-* `SPRING_DATA_HOST`
-* `SPRING_DATA_PORT`
-* `SPRING_DATA_PASSWORD`
-
-##### New configs:
-
-* `SPRING_DATA_REDIS_HOST`
-* `SPRING_DATA_REDIS_PORT`
-* `SPRING_DATA_REDIS_PASSWORD`
-
-#### Management configuration
-
-For all services managing metrics, especially exporting metrics to Prometheus:
-
-##### Old config:
-
-* `MANAGEMENT_METRICS_EXPORT_ENABLED`
-
-##### New config:
-
-* `MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED`: This variable enables or disables Prometheus metrics export dynamically based on the environment.
-
-#### Authentication
-
-For all services except the advancing-controller.
-
-##### New configs:
-
-<Info>
-Currently not required to be set as they take values from old configs.
-</Info>
-
-* `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_INTROSPECTION_URI`
-* `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_ID`
-* `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_SECRET`
-
-##### Existing configs:
-
-* `SECURITY_OAUTH2_BASE_SERVER_URL`
-* `SECURITY_OAUTH2_REALM`
-* `SECURITY_OAUTH2_CLIENT_CLIENT_ID`
-* `SECURITY_OUATH2_CLIENT_CLIENT_SECRET`
-
-#### Elasticsearch configuration
-
-This outlines the Elasticsearch configuration for the following microservices: FlowX Admin, FlowX Engine, Data Search, and Audit Core.
-
-#### Existing configuration:
-
-* `SPRING_ELASTICSEARCH_REST_URIS`: This environment variable is used by the microservices listed above. This variable needs to be set to the appropriate value for each environment.
-
-Example:
-
-```yaml
-# only the value changes for the next config:
-spring:
-  elasticsearch:
-    rest:
-      uris: localhost:9200 #no more protocol/schema anymore
-```
-<Info>
-If you do not upgrade to the new configuration, make sure that in the actual configuration you will remove the protocol/schema, it is no longer needed: for example, instead of `http://localhost:9200` you will have `localhost:9200` as value.
-</Info>
-
-#### New configuration:
-
-* `SPRING_ELASTICSEARCH_REST_PROTOCOL`: Default value is `https`; should be overridden if connection to Elasticsearch needs to be done over `http`.
-
-Example:
-
-```yaml
-# New configuration with default value:
-spring:
-  elasticsearch:
-	  rest:
-        protocol: https / http # default value is https - should be overriden if connection to elastic needs to be done on http.
-
-```
-
-### License core configuration
-
-For the License core microservice you need to configure two different data sources: one for the engine database and one for the license database.
-
-#### Old Engine database source
-
-* `ENGINE_DATASOURCE_URL`
-* `ENGINE_DATASOURCE_JDBC_URL`
-* `ENGINE_DATASOURCE_USERNAME`
-* `ENGINE_DATASOURCE_PASSWORD`
-
-### New Engine database source
-
-* `SPRING_DATASOURCE_ENGINE_URL: ${spring.datasource.jdbc-url}`: Pointing to old config for backwards compatibility.
-* `SPRING_DATASOURCE_ENGINE_JDBC_URL: ${spring.datasource.jdbc-url}`: Pointing to old config for backwards compatibility
-* `SPRING_DATASOURCE_ENGINE_USERNAME: ${spring.datasource.username}`: Pointing to old config for backwards compatibility
-* `SPRING_DATASOURCE_ENGINE_PASSWORD: ${spring.datasource.password}`: Pointing to old config for backwards compatibility 
-
-#### Old License database source
-
-* `SPRING_DATASOURCE_URL`
-* `SPRING_DATASOURCE_JDBC_URL` 
-* `SPRING_DATASOURCE_USERNAME`
-* `SPRING_DATASOURCE_PASSWORD`
-
-#### New License database source
-
-* `SPRING_DATASOURCE_LICENSE_URL: ${spring.datasource.jdbc-url}`: Pointing to old config for backwards compatibility.
-* `SPRING_DATASOURCE_LICENSE_JDBC_URL: ${spring.datasource.jdbc-url}`: Pointing to old config for backwards compatibility.
-* `SPRING_DATASOURCE_LICENSE_USERNAME: ${engine.datasource.username:postgres}`: Pointing to old config for backwards compatibility.
-* `SPRING_DATASOURCE_LICENSE_PASSWORD: ${engine.datasource.password:wrongpwd}`: Pointing to old config for backwards compatibility.
-
-### Customer management plugin
-
-#### New config:
-
-* `ELASTICSEARCH_PROTOCOL`: Possible values are `https` / `http`; default value is `https` - should be overridden if connection to Elasticsearch needs to be done over `http`.
-
-### Open Telemetry
-
-The FlowX.AI platform uses a mix of both auto instrumentation with Java agent and manual instrumentation using the Open Telemetry API.
-
-For more information about how to leverage Open Telemetry with FlowX, check the following section:
-
-<Card title= "Open Telemetry scenarios" href="../../4.0/docs/platform-deep-dive/integrations/open-telemetry" icon ="page">
-</Card>
-
-**Additional configuration needed**! For more information about open telemetry deployment/configuration, check the following section:
-
-<Card title="Open Telemetry configuration" href="../../4.0/setup-guides/open-telemetry-config" icon ="page">
-</Card>
-
-For more information about microservices Open Telemetry default properties, check the following section:
-<Card title ="Open Telemetry default properties" href="../../4.0/setup-guides/ot-default-properties" icon="page">
-</Card>
