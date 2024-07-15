@@ -1012,7 +1012,7 @@
 
           {
             "group": "v4.1.0 - May",
-            "icon": "burst",
+            "icon": "fire",
             "pages": [
               "release-notes/v4.1.0-may-2024/v4.1.0-may-2024",
               "release-notes/v4.1.0-may-2024/deployment-guidelines-v4.1.0",
@@ -1025,7 +1025,7 @@
 
           {
             "group": "v4.0.0 - April",
-            "icon": "burst",
+            "icon": "fire",
             "pages": [
               "release-notes/v4.0.0-april-2024/v4.0.0-april-2024",
               "release-notes/v4.0.0-april-2024/deployment-guidelines-v4.0.0",
