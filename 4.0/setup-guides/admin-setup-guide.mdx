@@ -4,6 +4,16 @@ description: The admin part manages process-related entities and provides the RE
 icon: terminal
 ---
 
+The FlowX.AI Admin microservice uses most of the same resources as the **FlowX.AI Engine**.
+
+### Database - Postgres / Oracle
+
+The backend microservice connects to the same Postgres / Oracle database as FlowX.AI Engine.
+
+### Kafka cluster
+
+If you intend to use the audit functionality, ensure that the backend microservice can connect to the Kafka cluster. When connected to Kafka, it sends details about all database transactions to a configured Kafka topic.
+
 ## Datasource configuration
 
 To store process definitions the Admin microservice connects to the same Postgres / Oracle database as the Engine. Make sure to set the needed database connection details.
