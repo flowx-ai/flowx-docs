@@ -1,5 +1,5 @@
 ---
-title: Reporting overview
+title: Reporting
 description: Reporting plugin will help you to build and bootstrap custom reports built on generic information about usage and processes using reporting plugin. Multiple reports to meet various needs can be generated.
 ---
 
@@ -36,7 +36,8 @@ Apache Superset is an open-source software application for data exploration and 
 
 Superset is also an SQL IDE, so users can write SQL, join data create datasets and so on.
 
-[Superset documentation](https://superset.apache.org/docs/intro/)
+<Card title="Superset documentation" href="https://superset.apache.org/docs/intro/" icon="book">
+</Card>
 
 ## Superset elements
 
@@ -240,3 +241,19 @@ For details on how to configure the FlowX.AI reporting plugin, check the followi
 <Card title="Reporting setup guide" href="../../../../../setup-guides/plugins-setup-guide/reporting-setup" icon="gear">
 </Card>
 
+
+## Setting up reporting for a process
+
+<Steps>
+<Step title="Establish reporting data model to be extracted from process">
+
+This step is optional, performed only if you need to also extract custom business data from process execution.
+
+Creating or modifying an existing reporting data model can only be done on branches that are NOT read-only. This means that if you need to modify the data model for an existing process, you might need to first create a new process version for that and set it to Published.
+
+The “master” reporting data model that is applied to all historical reported versions is the one that is set as Published.
+
+</Step>
+<Step title="Enable reporting on the process versions to be reported">
+</Step>
+</Steps>
