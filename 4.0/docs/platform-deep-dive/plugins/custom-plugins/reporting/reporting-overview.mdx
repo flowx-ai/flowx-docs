@@ -28,7 +28,9 @@ The plugin uses **Superset** as a data exploration and visualization tool.
 
 Below you can find the architecture of the reporting plugin.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/Reporting_diagram_small2.png)
+</Frame>
 
 ## What is Superset?
 
@@ -82,17 +84,23 @@ Read-only users should be used in production in the reporting-plugin cronjob.
 To connect Superset to a database, follow the next steps:
 
 1. From the Toolbar, hover your cursor over the **"+"** icon, then select **Data**, and then select **Connect Database**.
-   
+
+<Frame>   
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/connecting_to_db.png)
+</Frame>
 
 2. The **Connect a database** window appears. Select the appropriate **database card** (in this case - PostgreSQL).
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/connect_db_superset.png)
+</Frame>
 
 3. After you selected the DB, click **Connect this database with a SQLAlchemy URI string instead?**.
 4. Fill in the **SQLALCHEMY URI** and then click **Connect**.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/superset_db_URI.png)
+</Frame>
 
 <Info>
 **SQLAlchemy URI** represents the URI of **reporting-db**. The format would look like this: `postgresql://postgres:XXXXXXXXXX@reporting-plugin-postgresql:{{port}}/reporting`.
@@ -109,11 +117,15 @@ This flag can be used in the following places:
 
 * [**Data model**](../../../../building-blocks/process/process-definition#data-model) - for the keys that must be used in the reporting
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/flag_data_model.gif)
+</Frame>
 
 * [**Process settings**](../../../../building-blocks/process/process-definition#settings) tab - to include a process definition in reporting.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/reporting_flag.gif)
+</Frame>
 
 Now you can use Superset to manipulate the data and create any kind of visuals and dashboards.
 
@@ -134,7 +146,9 @@ You need to have a dataset added to Superset first. From that particular dataset
 2. Select the **dataset** you want to work with.
 3. After selection, the **explore** page appears.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/superset_add_chart.gif)
+</Frame>
 
 4. When you select a dataset, by default **table** visualization type is selected.
 
@@ -142,7 +156,9 @@ You need to have a dataset added to Superset first. From that particular dataset
 To view all the existent visualization types, click **View all charts**, the charts' gallery will open.
 </Info>
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/superset_visualization_type.png)
+</Frame>
 
 5. Select the **visualization type** and click **Create chart**.
 
@@ -164,7 +180,9 @@ If you wish to explore all the chart types available, filter by **All charts**. 
 5. When you select a chart, at the bottom of the screen you will notice a description of the chart and also example graphics.
 6. When you are done with your selection, click **Create new chart**.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/superset_add_chart_second.gif)
+</Frame>
 
 ### Configuring a Chart
 
@@ -186,7 +204,9 @@ You can export and import charts to help you analyze your data and manipulate da
   * Export to .JSON
   * Download as image
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/reporting_export_imp.png)
+</Frame>
 
 #### Table example
 
@@ -199,7 +219,9 @@ You can export and import charts to help you analyze your data and manipulate da
   * **Sort by** - metric used to define how the top series are sorted if a series or row limit is present
   * **Row limit** - limits the number of rows that get displayed
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/superset_query.png)
+</Frame>
 
 ### Creating a slice and a dashboard
 
@@ -211,7 +233,12 @@ To create a dashboard follow the next steps:
 2. Now save the newly created **chart** to a new dashboard called **Cities**.
 3. To publish, click **Save and go to Dashboard**.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/save_dashboard.gif)
+</Frame>
 
-[Reporting setup guide](../../../../../setup-guides/plugins-setup-guide/reporting-setup)
+For details on how to configure the FlowX.AI reporting plugin, check the following section:
+
+<Card title="Reporting setup guide" href="../../../../../setup-guides/plugins-setup-guide/reporting-setup" icon="gear">
+</Card>
 
