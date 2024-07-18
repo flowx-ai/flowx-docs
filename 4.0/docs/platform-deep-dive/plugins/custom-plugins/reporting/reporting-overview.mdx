@@ -207,7 +207,7 @@ Common fields for joins:
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep20.png)
 </Frame>
 
-#### Useful fields from instances table
+**Useful fields from instances table**:
 
 - `date_started/finished` timestamps
 - `process_alias` (process name with "_" instead of spaces)
@@ -219,14 +219,14 @@ The published version alias will be used for all the reported versions.
 - State of the process (started, finished, etc.)
 - `context_name`: Useful if the process is started by another process
 
-#### Useful fields from current_nodes table
+**Useful fields from current_nodes table**:
 
 - `node_started/finished` timestamps for the nodes
 - `node_name`, `node_type`
 - `swimlane` of the current node
 - `prev_node_end`: For calculating when a token is waiting for another process branch
 
-#### Useful fields from token_history table
+**Useful fields from token_history table**:
 
 Similar to `current_nodes` but includes all nodes in the instance history.
 
@@ -253,8 +253,6 @@ The **Data** tab represents the sources of all information:
 * CSV files
 * Tables
 * Excel files
-  
-#### Databases (PostgreSQL)
 
 Reporting plugin can be used with Superset by connecting it with a PostgreSQL DB.
 
@@ -270,7 +268,7 @@ With the use of dashboards, you can share persuading flows, show how metrics cha
 
 Contains all the information for extracting and processing data from the DB, including SQL queries, calculated metrics information, cache settings, etc. Datasets can also be exported / imported. 
 
-## Connecting to a database
+### Connecting to a database
 
 Before using Superset, ensure you have a PostgreSQL database installed and configured. Follow these guides for setup:
 
@@ -281,8 +279,6 @@ Before using Superset, ensure you have a PostgreSQL database installed and confi
 <Info>
 Read-only users should be used in production in the reporting-plugin cronjob.
 </Info>
-
-### Connecting Superset to a DB
 
 To connect Superset to a database, follow the next steps:
 
@@ -376,7 +372,7 @@ You can export and import charts to help you analyze your data and manipulate da
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/reporting_export_imp.png)
 </Frame>
 
-#### Table example
+**Table example**:
 
 * **Time** - time related form attributes
 * **Query** - query attributes
