@@ -98,7 +98,7 @@ When using the webhook, employ environmental variables with secrets for a balanc
 ```yaml
 sparkApplication:
   enabled: "true"
-  schedule: "@every 5m"
+  schedule: "*/5 * * * *" #Every 5 minutes
   driver:
     env: #Environment variables for driver setup with secrets.
       ENGINE_DATABASE_USER: flowx
