@@ -71,7 +71,8 @@ These updates aim to streamline the scripting user experience and enhance overal
 
 ### FlowX.AI Engine
 
-Fixed duplicate key error. This issue was caused by conflicting keys in processes with start embedded subprocesses nodes and throw/catch message events. The key management logic was updated to ensure unique keys, resolving the error.
+- Fixed duplicate key error. This issue was caused by conflicting keys in processes with start embedded subprocesses nodes and throw/catch message events. The key management logic was updated to ensure unique keys, resolving the error.
+- Fixed an issue where executing a business rule with the same input sometimes caused the process engine to return an error. Implemented null checks in the business rule script, regular cache clearing, and enhanced error logging for improved debugging.
 
 ## Additional information
 
