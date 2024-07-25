@@ -478,13 +478,21 @@
     {
       "group": "API reference",
       "version": "v4.0",
-      "pages": [
+        "pages": [
+          {
+            "group": "FlowX.AI Engine",
+            "pages": [
+
+              "4.0/docs/api/flowx-engine-api/rest",
+              "4.0/docs/api/flowx-engine-api/rest2",
+              "4.0/docs/api/flowx-engine-api/rest3",
+              "4.0/docs/api/flowx-engine-api/rest4"
+            ]
+
+            
+          },
         "4.0/docs/api/add-misconfigurations",
         "4.0/docs/api/clear-cache4.0",
-        "4.0/docs/api/rest",
-        "4.0/docs/api/rest2",
-        "4.0/docs/api/rest3",
-        "4.0/docs/api/rest4",
         "4.0/docs/api/list-buckets",
         "4.0/docs/api/list-objects-in-buckets",
         "4.0/docs/api/download-file",
