@@ -17,8 +17,13 @@ Watch this quick walkthrough video to get started:
 
 ### Data exploration and visualization
 
-The plugin uses **Superset** as a data exploration and visualization tool.
+The plugin uses **Superset** as a free data exploration and visualization tool.
 
+<Tip>
+You can however use your own BI tool like Tableau, PowerBI etc. as an alternative to Superset. 
+</Tip>
+
+Use the suggested query structure and logic to ensure accurate reporting and avoid duplicates, even during database updates. Do not just use select on single reporting tables.
 
 <Frame>
 
@@ -40,7 +45,7 @@ Superset is also an SQL IDE, so users can write SQL, join data create datasets a
 Here’s an overview of the reporting plugin architecture:
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/Reporting_diagram_small2.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Reporting_diagram_small2.png)
 </Frame>
 
 ### Setting up reporting for a process definition
@@ -49,13 +54,9 @@ Here’s an overview of the reporting plugin architecture:
 <Step title="Establish reporting data model to be extracted from process">
 
 
-(Optional) If you need to extract custom business data from process execution, modify the data model on non-read-only branches. Publish the new process version with the data model changes.
+If you want to extract custom business parameters for a process, first you should set up the master reporting data model in the published version of that process. This is done in Designer, as explained below in the [**Reporting Data Model**](#reporting-data-model). 
 
-Creating or modifying an existing reporting data model can only be done on branches that are NOT read-only. This means that if you need to modify the data model for an existing process, you might need to first create a new process version for that and set it to Published.
-
-<Info>
-The “master” reporting data model that is applied to all historical reported versions is the one that is set as Published.
-</Info>
+The master reporting data model that is applied to all historical versions is the one belonging to the version that is set as Published. If the currently published version is read-only, you might need to create a new version, create the data model in it, mark it for reporting and set it as published (as explained in the section below).
 
 See [**Reporting Data Model**](#reporting-data-model) section for more details.
 
@@ -63,7 +64,8 @@ See [**Reporting Data Model**](#reporting-data-model) section for more details.
 <Step title="Enable reporting on the process versions to be reported">
 
 
-This is accomplished by checking the “Use process in reporting” button in the settings / general page of each process version you want to report.
+This is accomplished by checking the “Use process in reporting” button in the settings / general page of each process version you want to report. Please note that you will not be able to change that setting on read-only versions.
+
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/use_proc_reporting.gif)
@@ -72,6 +74,12 @@ This is accomplished by checking the “Use process in reporting” button in th
 It is essential that the currently Published version has this setting enabled, as it is the master version for reporting all historical data.
 
 Only the process instances belonging to reporting-enabled versions will be extracted to the database, using the master data model from the currently Published version.
+
+<Info>
+The reason why you should first set up the data model on the published (or to-be-published) version is that all changes in the data model of the published version that is also marked “use_in_reporting” are instantly sent to the reporting plugin, potentially causing all historical process instances to be re-computed multiple times before you are done setting up the data model. 
+</Info>
+
+To optimize operations, you should always aim to finish the modifications on the master data model on a version that is either not published, or not marked as "use_in_reporting", before marking it as "use_in_reporting and ensuring it is published.
 
 See [**Enabling Process Reporting**](#enabling-process-reporting) section for more details.
 
@@ -82,7 +90,7 @@ See [**Enabling Process Reporting**](#enabling-process-reporting) section for mo
 ## Reporting data model
 
 <Info>
-You can only create or modify the reporting data model in non-committed versions.
+You can only create or modify the reporting data model in non-committed versions, as commited versions are read-only.
 </Info>
 
 1. Open the branch view.
@@ -155,15 +163,15 @@ Extracting arrays of objects is even more is computationally intensive, do not u
 
 ## Enabling process reporting
 
-Enable reporting by checking the “Use process in reporting” button in the settings/general page of each process version.
+Enable reporting by checking the “Use process in reporting” button on the settings/general page of each process version.
 
 <Info>
-You can also make data model changes on an already published version, but the effects of the changes are immediate and every periodic refresh will try to re-compute all historical instances to adapt to the changing data model, potentially taking a lot of computing.
+You can also make data model changes on an already published version (if it is not set as read-only), but the effects of the changes are immediate and every periodic refresh will try to re-compute all historical instances to adapt to the changing data model, potentially taking a lot of computing.
 </Info>
 
 - Only the versions marked for reporting will be extracted to the database, using the master data model from the published version.
-- Modifying the data model of a process version has no impact until the moment the version becomes published.
-- You can add / remove older process versions to be reported by opening the process branch modal, selecting the version, closing the branch modal, and then selecting Settings in the left bar, then in the General tab switching “Use process in reporting” on or off.
+- Modifying the data model of a process version has no impact until the moment the version becomes published and is also set to "use_in_reporting".
+- You can add / remove older process versions to be reported by opening the process branch modal, selecting the version, closing the branch modal, and then selecting Settings in the left bar, then in the General tab switching “Use process in reporting” on or off. You might not be able to do this on committed (read-only) versions.
 
 The reporting refresh schedule is set for a fixed interval (currently 5 minutes):
 
@@ -189,7 +197,7 @@ The same thing happens whenever the Published version changes, or if the process
 
 **Removing Non-Published Process Versions** from reporting (by unchecking their “Use in reporting” switch in Settings) simply deletes their corresponding rows from the table.
 
-**Removing the Currently Published Version from Reporting**: Not advisable as it applies a random older data model and deletes all instances processed with this version.
+**Removing the Currently Published Version from Reporting**: **Not advisable** as it applies a random older data model and deletes all instances processed with this version.
 
 **Reporting Data Structure Obsolescence and Backwards Compatibility**: The master data model is applied to all historical data from all reported versions. If only the name of a parameter changes, the plugin uses its UUID to map the old name to the new one. However, if the full path changes or the parameter does not exist in an older version, it returns a `Null` value to the database.
 
