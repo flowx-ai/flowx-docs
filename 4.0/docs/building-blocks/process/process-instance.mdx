@@ -4,13 +4,17 @@ description: A process instance is a specific execution of a business process th
 ---
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/proc_instance_progress.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/proc_inst.png)
 </Frame>
-
 
 ## Overview
 
 Once the desired processes are defined in the platform, they are ready to be used. Each time a process needs to be used, for example each time a customer wants to request a new credit card, a new instance of the specified process definition is started in the platform. Think of the process definition as a blueprint for a house, and of the process instance as each house of that type being built.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/process_instance_fin.png)
+</Frame>
+
 
 The **FlowX.AI Engine** is responsible for executing the steps in the process definition and handling all the business logic. The token represents the current position in the process and moves from one node to the next based on the sequences and rules defined in the exclusive gateways. In the case of parallel gateways, child tokens are created and eventually merged back into the parent token.
 
@@ -35,10 +39,6 @@ To check the status of a process or troubleshoot a failed process, follow these 
 
 Understanding the various elements within process status data is crucial. Here's what each component entails:
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_status_data.png)
-</Frame>
-
 * The **Status** field indicates the state of the process instance, offering distinct values:
 
 | Status         | Indicates the state of the process instance. Offers distinct values:                                                                        |
@@ -56,7 +56,7 @@ Understanding the various elements within process status data is crucial. Here's
 * **Variables**: Displayed as an expanded JSON.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_variables.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/process_variables_new.png)
 </Frame>
 
 * **Tokens**: A token represents the state within the process instance and describe the current position in the process flow.
@@ -88,19 +88,6 @@ For more information on token status details and exceptions, check the following
 
 <Card title="Audit" href="../../platform-deep-dive/core-extensions/audit">
 </Card>
-
-### Process menu
-
-In the breadcrumb menu (top-right corner), you can access the following:
-
-* **Go to process definition**: Opens the process for editing.
-* **Version**: Represents the version of the process definition.
-* **Started**: The timestamp for when the process instance started.
-* **Ended**: Timestamp for when the process instance ended.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_export_smth.png)
-</Frame>
 
 ### Color coding
 
