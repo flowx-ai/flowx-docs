@@ -3,9 +3,24 @@ title: Configuring an IAM solution
 description: This guide provides step-by-step instructions for configuring a minimal Keycloak setup to manage users, roles, and applications efficiently.
 ---
 
+We will walk you through configuring a minimal Keycloak setup to efficiently manage users, roles, and applications. Keycloak is an open-source Identity and Access Management (IAM) solution that makes it easy to secure applications and services with little to no coding.
+
+
+## Prerequisites
+
+Before you begin, ensure you have the following:
+
+* Keycloak installed
+* Administrative access to the Keycloak server
+* Basic understanding of IAM concepts
+
+<Info>
+Recommended keycloak version: **22.x**
+</Info>
+
 ## Recommended Keycloak setup
 
-To configure a minimal required Keycloak setup, follow these steps:
+To configure a minimal required Keycloak setup, in this guide we will covere the following steps:
 
 <Steps>
 <Step title="Create a new realm" href="#creating-a-new-realm">
@@ -24,23 +39,20 @@ Configure the client authentication, valid redirect URIs, and enable the necessa
 Set up **admin**, **task management**, **process engine** and **scheduler** service accounts.
 </Step>
 </Steps>
-<Info>
-Recommended keycloak version: **22.x**
-</Info>
 
-Each of these steps is covered in this guide. If you need further information or a broader understanding of Keycloak, refer to the official Keycloak documentation:
+Before starting, if you need further information or a broader understanding of Keycloak, refer to the official Keycloak documentation:
 
 <Card title="Keycloak documentation" href="https://www.keycloak.org/documentation" icon="link">
 </Card>
 
 ## Creating a new realm
 
-A realm is a space where you manage objects, including users, applications, roles, and groups. To create a new realm:
+A realm is a space where you manage objects, including users, applications, roles, and groups. Creating a new realm is the first step in setting up Keycloak. Follow the steps below to create a new realm in Keycloak:
 
 <Steps>
 <Step title="Log in to the Keycloak Admin Console">
 
-Use the appropriate URL for your environment (e.g., QA, development, production).
+Log in to the Keycloak Admin Console using the appropriate URL for your environment (e.g., QA, development, production).
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/iam1.png)
@@ -50,7 +62,7 @@ Use the appropriate URL for your environment (e.g., QA, development, production)
  
 <Step title="Create Realm">
 
-In the top left corner dropdown menu, click **Create Realm**.
+In the top left corner dropdown menu, click **Create Realm**. If you are logged in to the master realm, this dropdown menu lists all the realms created.
 
 <Info>
 If you are logged in to the master realm, this dropdown menu lists all the realms created. 
@@ -85,50 +97,95 @@ Configure the **Realm Settings**, such as SSO Session Idle and Access Token Life
 
 </Steps>
 
+**Common Pitfalls**:
+
+* Ensure that the realm name is unique within your Keycloak instance.
+* Double-check session idle and token lifespan settings to align with your security requirements.
+
+
 ## Creating/importing user groups and roles
 
-You can either create or import user groups into a realm. For importing, use the provided script to import a super admin group with the necessary default user roles.
+User groups and roles are essential for managing user permissions and access levels within a realm. You can either create or import user groups into a realm. 
+
 
 <Steps>
 <Step title="Download and Run the Import Script">
+
+To import a super admin group with the necessary default user roles, download and run the provided script.
+
 <Card title="Download script" href="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importUsers.zip" icon="download">
 </Card>
+
+Instructions:
+
+- Unzip the downloaded file.
+- Open a terminal and navigate to the unzipped folder.
+- Run the script using the appropriate command for your operating system.
+
 </Step>
 <Step title="Add Admin User to Group">
 After importing, add an admin user to the group and assign the necessary roles.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/key1.png)
+</Frame>
+
 </Step>
 <Step title="Validate imported roles">
 Check the default roles to ensure correct import:
 <Card title="Default Roles" href="./default-roles" icon="file">
 </Card>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/key2.png)
+</Frame>
+
 </Step>
 </Steps>
 
+**Common Pitfalls**:
+
+- Ensure the script has the necessary permissions to run on your system.
+- Verify that the roles and groups align with your organizational structure.
+
 ## Creating new users
 
-To create a new user in a realm and generate a temporary password:
-
+Creating new users is a fundamental part of managing access within Keycloak. Follow these steps to create a new user in a realm and generate a temporary password:
 <Steps>
 <Step title="Navigate to Users">
 In the left menu bar, click **Users** to open the user list page.
 </Step>
 <Step title="Add a New User">
 On the right side of the empty user list, click **Add User**.
-Set **Email Verified** to **Yes**.
+
+Fill in the user details and set **Email Verified** to **Yes**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/key3.png)
+</Frame>
+
 </Step>
 <Step title="Assign User to Group">
-In the **Groups** section, search for a group, in our case: `FLOWX_SUPER_USERS`.
+In the **Groups** section, search for a group, in our case: `FLOWX_SUPER_USERS` and click **Join**.
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_6.png)
 </Frame>
 </Step>
 <Step title="Set Temporary Password">
-Save the user, go to the **Credentials** tab, and set a temporary password.
+Save the user, go to the **Credentials** tab, and set a temporary password. Ensure the **Temporary** checkbox is checked.
+
+
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_7.png)
 </Frame>
 </Step>
 </Steps>
+
+**Common Pitfalls**:
+
+- Ensure that the email address is valid and correctly formatted.
+- Set the temporary password policy according to your organization’s security requirements.
+
 
 ## Adding clients
 
@@ -245,7 +302,7 @@ Disable **Direct Access Grants**.
 </Step>
 
 <Step title="Set Valid Redirect URIs">
-**Valid Redirect URIs**: Populate this field with the appropriate URIs. This step is mandatory.
+**Valid Redirect URIs**: Populate this field with the appropriate URIs.
 Save the configuration.
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak15.png)
@@ -337,7 +394,7 @@ From the Keycloak admin console, go to **Clients** and select your desired clien
 <Step title ="Select Client Scopes">
 In the client settings, click on **Client Scopes**.
 
-Select the dedicated client scope: `{your-client-name}-authenticate-dedicated` to open its settings.
+Select the **dedicated client scope**: `{your-client-name}-authenticate-dedicated` to open its settings.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_gm1.png)
@@ -345,7 +402,7 @@ Select the dedicated client scope: `{your-client-name}-authenticate-dedicated` t
 </Step>
 
 <Step title="Client Scope">
-Make sure the Mappers tab is selected within the dedicated client scope.
+Make sure the **Mappers** tab is selected within the dedicated client scope.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_gm2.png)
@@ -506,9 +563,7 @@ curl --location --request GET 'localhost:8080/realms/flowx/protocol/openid-conne
 <Info>
 **What is a service account?**
 
-A service account grants direct access to the Keycloak API for a specific component. 
-
-Each client can have a built-in service account that allows it to obtain an access token.
+A service account grants direct access to the Keycloak API for a specific component. Each client can have a built-in service account that allows it to obtain an access token.
 
 <Check>
 To use this feature you must enable the **Client authentncation** (access type) for your client. When you do this, the **Service Accounts Enabled** switch will appear.
@@ -524,6 +579,7 @@ Steps to add an Admin service account:
 <Steps>
 <Step title="Create the Client">
 Navigate to **Clients** and select **Create client**.
+
 Enter a **Client ID** for your new client.
 
 <Frame>
@@ -574,14 +630,16 @@ Assign the necessary roles to the admin service account based on the required ac
 * **manage-realm**
 * **manage-users**
 * **query-users**
+
+In the end, you should have something similiar to this:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/md1.png)
+</Frame>
+
 </Step>
 </Steps>
 
-In the end you should have something similiar to this:
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/gm7.png)
-</Frame>
 
 
 <Info>
@@ -629,7 +687,16 @@ Assign the necessary service accounts client roles to the Task Management plugin
 <Info>
 The task management plugin service account requires a realm roles mapper to function correctly. Make sure to configure this to ensure proper operation.
 </Info>
+
+In the end, you should have something similiar to this:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tsk_sa.png)
+</Frame>
+
 </Step>
+
+
 
 <Step title="Add a Realm Roles Mapper">
 
@@ -679,9 +746,6 @@ The `FLOWX_ROLE` is used to grant permissions for starting processes in the Flow
 `FLOWX_PROCESS_DEFAULTROLES`
 </Info>
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tsk_sa.png)
-</Frame>
 </Step>
 </Steps>
 
@@ -715,11 +779,20 @@ This service account does not require service account client roles. It needs a r
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/flowx_role.gif)
 </Frame>
 
+
+In the end, you should have something similiar to this:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/md3.png)
+</Frame>
+
+
 4. Add a **realm-roles** mapper:
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/realm_roles_engine.gif)
 </Frame>
+
 
 ### Scheduler service account
 
@@ -730,5 +803,15 @@ This service account is used for [**Start Timer Event**](../../docs/building-blo
 The configuration is similiar to the **process engine service account**:
 
 - Assign the `FLOWX_ROLE` as service account role (this is needed to run process instances).
-- Add a realm-roles mapper (as shown in the example for process-engine service account).
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/md4.png)
+</Frame>
+
+- Add a **realm-roles** mapper (as shown in the example for process-engine service account).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/md5.png)
+</Frame>
+
+By following these steps, you will have a minimal Keycloak setup to manage users, roles, and applications efficiently. For more detailed configurations and advanced features, refer to the official Keycloak documentation.
