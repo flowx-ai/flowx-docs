@@ -42,7 +42,7 @@ For more details, check Elasticsearch documentation:
 
 ## Leveraging Elasticsearch for advanced indexing with FlowX.AI
 
-The integration between FlowX.AI and Elasticsearch involves the indexing of specific keys or data from the [**UI Designer**](../../../building-blocks/ui-designer/) to [process definitions](../../../building-blocks/process/process-definition) using Elasticsearch. This indexing process is initiated by the [FlowX Engine](../../../platform-deep-dive/core-components/flowx-engine) in a synchronous manner (valid for `HTTP` indexing type ), sending the data to Elasticsearch. The data is then indexed or updated in the "process_instance" index.
+The integration between FlowX.AI and Elasticsearch involves the indexing of specific keys or data from the [**UI Designer**](../../../building-blocks/ui-designer/) to [process definitions](../../../building-blocks/process/process-definition). The indexing process is initiated by the [FlowX Engine](../../../platform-deep-dive/core-components/flowx-engine) which sends the data to Elasticsearch, where data is then indexed in the "process_instance" index.
 
 There are two methods available for indexing data: Kafka and HTTP.
 
