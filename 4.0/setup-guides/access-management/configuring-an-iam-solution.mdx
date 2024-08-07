@@ -1,178 +1,534 @@
 ---
 title: Configuring an IAM solution
+description: This guide provides step-by-step instructions for configuring a minimal Keycloak setup to manage users, roles, and applications efficiently.
 ---
+
+We will walk you through configuring a minimal Keycloak setup to efficiently manage users, roles, and applications. Keycloak is an open-source Identity and Access Management (IAM) solution that makes it easy to secure applications and services with little to no coding.
+
+
+## Prerequisites
+
+Before you begin, ensure you have the following:
+
+* Keycloak installed
+* Administrative access to the Keycloak server
+* Basic understanding of IAM concepts
+
+<Info>
+Recommended keycloak version: **22.x**
+</Info>
 
 ## Recommended Keycloak setup
 
-To configure a minimal required Keycloak setup, follow these steps:
+To configure a minimal required Keycloak setup, in this guide we will covere the following steps:
 
-* [Create a new realm](#creating-a-new-realm)
-  * Define available roles and realm-level roles assigned to new users.
-* [Create/import user roles and groups](#creatingimporting-user-groups-and-roles)
-* [Create new users](#creating-new-users)
-* [Add clients](#adding-clients)
-  * Configure access type, valid redirect URIs, and enable necessary flows.
-* [Add role mappers](#adding-protocol-mappers)
-* [Add service accounts](#adding-service-accounts)
-  * Set up **admin**, **task management**, and **process engine** service accounts.
+<Steps>
+<Step title="Create a new realm" href="#creating-a-new-realm">
+Define available roles and realm-level roles assigned to new users.
+</Step>
+<Step title="Create/import user roles and groups" href="#creatingimporting-user-groups-and-roles">
+</Step>
+<Step title="Create new users" href="#creating-new-users">
+</Step>
+<Step title="Add clients" href="#adding-clients">
+Configure the client authentication, valid redirect URIs, and enable the necessary flows.
+</Step>
+<Step title="Add mappers" href="#adding-protocol-mappers">
+</Step>
+<Step title="Add service accounts" href="#adding-service-accounts">
+Set up **admin**, **task management**, **process engine** and **scheduler** service accounts.
+</Step>
+</Steps>
 
-<Info>
-Recommended keycloak version: **18.0.x**
-</Info>
-
-For more detailed information, refer to the official Keycloak documentation:
+Before starting, if you need further information or a broader understanding of Keycloak, refer to the official Keycloak documentation:
 
 <Card title="Keycloak documentation" href="https://www.keycloak.org/documentation" icon="link">
 </Card>
 
 ## Creating a new realm
 
-A realm is a space where you manage objects, including users, applications, roles, and groups. To create a new realm:
+A realm is a space where you manage objects, including users, applications, roles, and groups. Creating a new realm is the first step in setting up Keycloak. Follow the steps below to create a new realm in Keycloak:
 
-1. Log in to the **Keycloak Admin Console** using the appropriate URL for your environment (e.g., QA, development, production).
+<Steps>
+<Step title="Log in to the Keycloak Admin Console">
 
+Log in to the Keycloak Admin Console using the appropriate URL for your environment (e.g., QA, development, production).
+
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/iam1.png)
+</Frame>
 
-2. In the top left corner dropdown menu, click **Add Realm**.
+</Step>
+ 
+<Step title="Create Realm">
+
+In the top left corner dropdown menu, click **Create Realm**. If you are logged in to the master realm, this dropdown menu lists all the realms created.
 
 <Info>
-If you are logged in to the master realm this dropdown menu lists all the realms created. The **Add Realm** page opens.
+If you are logged in to the master realm, this dropdown menu lists all the realms created. 
 </Info>
+</Step>
+<Step title="Enter Realm Details">
 
-3. Enter a realm name and click Create.
+Enter a realm name and click **Create**.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/iam2.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_3.png)
+</Frame>
 
-4. Configure the realm settings (**Realm Settings → Tokens**), such as SSO session idle and access token lifespan, according to your organization's needs:
+</Step>
 
-* **SSO Session idle** - suggested: **30 Minutes**
-* **Access Token Lifespan** - suggested: **30 Minutes**
+<Step title="Configure Realm Settings">
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/iam3.png)
+Configure the **Realm Settings**, such as SSO Session Idle and Access Token Lifespan, according to your organization's needs:
+
+**Sessions** -> **SSO Session idle**: Set to **30 Minutes** (recommended).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_4.png)
+</Frame>
+
+**Tokens** -> **Access Token Lifespan**: Set to **30 Minutes** (recommended).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_5.png)
+</Frame>
+</Step>
+
+</Steps>
+
+**Common Pitfalls**:
+
+* Ensure that the realm name is unique within your Keycloak instance.
+* Double-check session idle and token lifespan settings to align with your security requirements.
+
 
 ## Creating/importing user groups and roles
 
-You can either create or import a user group into a realm. We prepared a [script](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importUsers.zip) that helps you to import a **super admin group** provided with the necessary **default user roles**.
+User groups and roles are essential for managing user permissions and access levels within a realm. You can either create or import user groups into a realm. 
 
-You can create or import user groups into a realm. If you choose to import, follow the provided script to import a **super admin group** (`SUPER_ADMIN_USERS`) with **default user roles**. After importing, add an admin user to the group and assign the necessary roles.
 
-Make sure to validate the imported roles by checking the following section:
+<Steps>
+<Step title="Download and Run the Import Script">
 
-<Card title="Default roles" href="./default-roles" icon ="file">
+To import a super admin group with the necessary default user roles, download and run the provided script.
+
+<Card title="Download script" href="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importUsers.zip" icon="download">
 </Card>
+
+Instructions:
+
+- Unzip the downloaded file.
+- Open a terminal and navigate to the unzipped folder.
+- Run the script using the appropriate command for your operating system.
+
+</Step>
+<Step title="Add Admin User to Group">
+After importing, add an admin user to the group and assign the necessary roles.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/key1.png)
+</Frame>
+
+</Step>
+<Step title="Validate imported roles">
+Check the default roles to ensure correct import:
+<Card title="Default Roles" href="./default-roles" icon="file">
+</Card>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/key2.png)
+</Frame>
+
+</Step>
+</Steps>
+
+**Common Pitfalls**:
+
+- Ensure the script has the necessary permissions to run on your system.
+- Verify that the roles and groups align with your organizational structure.
 
 ## Creating new users
 
-To create a new user in a realm and generate a temporary password:
+Creating new users is a fundamental part of managing access within Keycloak. Follow these steps to create a new user in a realm and generate a temporary password:
+<Steps>
+<Step title="Navigate to Users">
+In the left menu bar, click **Users** to open the user list page.
+</Step>
+<Step title="Add a New User">
+On the right side of the empty user list, click **Add User**.
 
-1. In the left menu bar, click **Users** to open the user list page.
-2. On the right side of the empty user list, click **Add User**.
-3. Fill in the required fields, including the **username**, and ensure **Email Verified** is set to **ON**.
-4. In the **Groups** field, choose a group from the dropdown menu, in our case: `FLOWX_SUPER_USERS`.
+Fill in the user details and set **Email Verified** to **Yes**.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/keycloakd_add_user.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/key3.png)
+</Frame>
 
-5. Save the user, go to the **Credentials** tab, and set a temporary password.
+</Step>
+<Step title="Assign User to Group">
+In the **Groups** section, search for a group, in our case: `FLOWX_SUPER_USERS` and click **Join**.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_6.png)
+</Frame>
+</Step>
+<Step title="Set Temporary Password">
+Save the user, go to the **Credentials** tab, and set a temporary password. Ensure the **Temporary** checkbox is checked.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/keycloak_user_password.png)
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_7.png)
+</Frame>
+</Step>
+</Steps>
+
+**Common Pitfalls**:
+
+- Ensure that the email address is valid and correctly formatted.
+- Set the temporary password policy according to your organization’s security requirements.
+
 
 ## Adding clients
 
-A Client represents an instance of an application. A client is attached to a specific realm. First, add `platform-authenticate` client - will be used for login/logout/refresh token by web and mobile apps.
+A client represents an instance of an application and is associated with a specific realm.
 
-1. Click **Clients** in the top left menu, then click **Create**.
-2. Set a client ID as `{example}-authenticate`, which will be used for login, logout, and refresh token operations.
-3. Set the **Client Protocol** type as `openid-connect`.
+### Adding an OAuth 2.0 client 
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/keycloak_add_client.png)
+We'll add a client named `flowx-platform-authenticate`, which will be used for login, logout, and refresh token operations by web and mobile apps.
 
-3. Open the newly created **client** and edit the following properties:
+<Steps>
+<Step title="Navigate to Clients">
 
-* Set **Access type** to **public** (this will not require a secret).
-* Set **Valid redirect URIs**, specifying a valid URI pattern that a browser can redirect to after a successful login or logout, simple wildcards are allowed.
-* Enable **Direct Access Grants** and **Implicit Flow Enabled** by setting them to **ON**.
+Click **Clients** in the top left menu, then click **Create client**.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/keycloak_authenticate_settings.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak11.png)
+</Frame>
+</Step>
 
-4. Add **mappers** to `{example}-authenticate` client.
+<Step title="Configure General Settings">
+
+In the **General Settings** tab configure the following properties:
+
+- Set a client ID to `{your-client-name}-authenticate`.
+- Set the **Client type** to `OpenID Connect`.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_8.png)
+</Frame>
+</Step>
+
+<Step title="Configure Capability Config">
+
+Now click **Next** and configure the **Capability config** details:
+
+- Enable **Direct Access Grants**.
+- Enable **Implicit Flow Enabled**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_9.png)
+</Frame>
+</Step>
+
+<Step title="Set Valid Redirect URIs">
+
+Click **Next** and configure **Login settings**:
+
+- Set **Valid redirect URIs**, specifying a valid URI pattern that a browser can redirect to after a successful login or logout, simple wildcards are allowed.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_10.png)
+</Frame>
+</Step>
+
+
+<Step title="Configure Additional Settings">
+
+After creating the client, scroll down in the **Settings** tab and configure additional settings - **Logout Settings**:
+
+- **Backchannel Logout Session Required**: Toggle OFF.
+
+- **Front Channel Logout**: Toggle OFF.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak14.png)
+</Frame>
+
+</Step>
+
+
+
+<Step title="Add Mappers">
+
+Add **mappers** to `{your-client-name}-authenticate` client.
 
 <Check>
-Refer to the next section on how to add mappers and which mappers to clients.
+For instructions on adding mappers and understanding which mappers to add to your clients, refer to the section on [**Adding Protocol Mappers**](#adding-protocol-mappers).
 </Check>
+
+</Step>
+</Steps>
+
+### Adding an Authorizing client
+
+To authorize REST requests to microservices and Kafka, create and configure the `{your-client-name}-platform-authorize` client.
+
+<Steps>
+<Step title="Create the Client">
+
+Enter the client ID (`{your-client-name}-platform-authorize`).
+
+Set **Client type** to **OpenID Connect**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak12.png)
+</Frame>
+</Step>
+
+<Step title="Configure Capability Config">
+
+
+**Client Authentication**: Toggle ON 
+
+<Info>
+This setting defines the type of the OIDC client. When enabled, the client type is set to "confidential access." When disabled, it is set to "public access".
+</Info>
+
+Disable **Direct Access Grants**.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak13.png)
+</Frame>
+</Step>
+
+<Step title="Set Valid Redirect URIs">
+**Valid Redirect URIs**: Populate this field with the appropriate URIs.
+Save the configuration.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak15.png)
+</Frame>
+</Step>
+
+<Step title="Configure Additional Settings">
+
+After creating the client, scroll down in the **Settings** tab and configure additional settings - **Logout Settings**:
+
+- **Backchannel Logout Session Required**: Toggle OFF.
+
+- **Front Channel Logout**: Toggle OFF.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak14.png)
+</Frame>
+</Step>
+</Steps>
+
+
+Once you have configured these settings, the `{your-client-name}-platform-authorize` client will be created and can be used to authorize REST requests to microservices and Kafka within your application.
+
+#### Example configuration for microservices
+
+Below is an example of a minimal configuration for microservices using OAuth2 with the `{your-client-name}-platform-authorize` client:
+
+```yaml
+security:
+  type: oauth2 #Specifies the security type as OAuth2.
+  basic:
+    enabled: false #Disables basic authentication.
+  oauth2:
+    base-server-url: http://localhost:8080 #Sets the base server URL for the Keycloak server
+    realm: flowx #Specifies the Keycloak realm
+    client:
+      access-token-uri: ${security.oauth2.base-server-url}/realms/${security.oauth2.realm}/protocol/openid-connect/token
+      client-id: your-client-name-platform-authorize
+      client-secret: CLIENT_SECRET
+    resource:
+      user-info-uri: ${security.oauth2.base-server-url}/realms/${security.oauth2.realm}/protocol/openid-connect/userinfo
+```
+
+| Configuration Key                         | Value/Example                                                                                         | Description                                        |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `security.type`                           | `oauth2`                                                                                              | Specifies the security type as OAuth2.             |
+| `security.basic.enabled`                  | `false`                                                                                               | Disables basic authentication.                     |
+| `security.oauth2.base-server-url`         | `http://localhost:8080`                                                                               | Sets the base server URL for the Keycloak server.  |
+| `security.oauth2.realm`                   | `flowx`                                                                                               | Specifies the Keycloak realm.                      |
+| `security.oauth2.client.access-token-uri` | `${security.oauth2.base-server-url}/realms/${security.oauth2.realm}/protocol/openid-connect/token`    | Defines the URL for obtaining access tokens.       |
+| `security.oauth2.client.client-id`        | `your-client-name-platform-authorize`                                                                 | Sets the client ID for authorization.              |
+| `security.oauth2.client.client-secret`    | `CLIENT_SECRET`                                                                                       | Provides the client secret for authentication.     |
+| `security.oauth2.resource.user-info-uri`  | `${security.oauth2.base-server-url}/realms/${security.oauth2.realm}/protocol/openid-connect/userinfo` | Specifies the URL for retrieving user information. |
+
+
 
 ## Adding protocol mappers
 
-Protocol mappers in Keycloak allow for the transformation of tokens and documents, enabling actions such as mapping user data into protocol claims or modifying requests between clients and the authentication server.
+Protocol mappers in Keycloak allow you to transform tokens and documents, enabling actions such as mapping user data into protocol claims and modifying requests between clients and the authentication server. This provides greater customization and control over the information contained in tokens and exchanged during authentication processes.
 
-To enhance your clients, consider adding the following mappers:
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_11.png)
+</Frame>
 
-* [Group Membership mapper ](#group-membership-mapper) - `realm-groups`: This mapper can be utilized to map user groups to the authorization token.
-* [User Attribute mapper](#user-attribute-mapper) - `business filter mapper`: Use this mapper to map custom attributes, for example, mapping the [businessFilters ](/4.0/docs/platform-deep-dive/user-roles-management/business-filters) list, to the token claim.
-* [User Realm role](#user-realm-role) - `realm-roles`: This mapper enables mapping a user's realm role to a token claim.
+To enhance your clients' functionality, add the following common mappers:
 
-By incorporating these mappers, you can further customize and enrich the information contained within your tokens.
+- [Group Membership mapper ](#group-membership-mapper) (`realm-groups`)
+  - Maps user groups to the authorization token.
+- [User Attribute mapper](#user-attribute-mapper) (`business filter mapper`) 
+  - Maps custom attributes, for example, mapping the [businessFilters ](/4.0/docs/platform-deep-dive/user-roles-management/business-filters) list, to the token claim.
+- [User Realm role](#user-realm-role) (`realm-roles`)
+  - Maps a user's realm role to a token claim.
+
+<Info>
+The mappers we use can also be configured to control the data returned by the `/userinfo` endpoint, in addition to being included in tokens. This capability is a feature that not all Identity Providers (IDPs) support.
+</Info>
+
+By incorporating these mappers, you can further customize and enrich the information contained within your tokens, ensuring they carry the necessary data for your applications.
 
 ### Group Membership mapper
 
-To add a group membership mapper:
+Steps to add a Group Membership mapper:
 
-1. Navigate to **Clients** and select your desired client, in our case, `{example}-authenticate`
-2. Go to the **Mappers** tab and click **Create** to create a new mapper.
-2. Provide a descriptive **Name** for the mapper to easily identify its purpose.
-3. Select **Group Membership** as the mapper type.
-4. Set the token claim name for including groups in the token. In this case, set it as `groups`.
+<Steps>
+<Step title = "Navigate to Clients">
+From the Keycloak admin console, go to **Clients** and select your desired client.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_gm.png)
+</Frame>
+</Step>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/keycloak_groups_maper.png)
+<Step title ="Select Client Scopes">
+In the client settings, click on **Client Scopes**.
+
+Select the **dedicated client scope**: `{your-client-name}-authenticate-dedicated` to open its settings.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_gm1.png)
+</Frame>
+</Step>
+
+<Step title="Client Scope">
+Make sure the **Mappers** tab is selected within the dedicated client scope.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_gm2.png)
+</Frame>
+</Step>
+
+<Step title="Add a New Mapper">
+Click **Add Mapper**. From the list of available mappers, choose **Group Membership**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_gm3.png)
+</Frame>
+</Step>
+
+<Step title="Provide Mapper Details">
+
+**Name**: Enter a descriptive name for the mapper to easily identify its purpose, for example `realm-groups`.
+
+**Token Claim Name**: Set the token claim name, typically as `groups`, for including group information in the token.
+
+**Add to ID Token**: Toggle OFF.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/gm5.png)
+</Frame>
+</Step>
+</Steps>
 
 By configuring the group membership mapper, you will be able to include the user's group information in the token for authorization purposes.
 
 ### User Attribute mapper
 
-To include custom attributes such as **business filters** in the token claim, you can add a user attribute mapper with the following settings:
+To include custom attributes such as business filters in the token claim, follow these steps to add a user attribute mapper:
 
-1. Go to the desired client, `{example}-authenticate`, and navigate to the Mappers section.
-2. Click on **Create** to create a new mapper.
-3. Configure the following settings for the user attribute mapper:
+<Steps>
+<Step title="Navigate to Client Scopes">
 
-* **Mapper Type**: User Attribute
-* **User Attribute**: businessFilters
-* **Token Claim Name**: attirubtes.businessFilters
-* **Add to ID token**: OFF
-* **Multivalued**: ON
+From the Keycloak admin console, go to **Clients** and select your desired client.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/keycloak_business_filters.png)
+Click on **Client Scopes** and choose `{your-client-name}-authenticate-dedicated` to open its settings.
 
-By adding this user attribute mapper, the custom attribute "businessFilters" will be included in the token claim under the name "attributes.businessFilters". This will allow you to access and utilize the business filters information within your application. 
+Ensure the **Mappers** tab is selected.
+</Step>
 
-You can find more information about business filters in the following section:
+<Step title="Add a New Mapper">
+
+Click **Add mapper**. From the list of available mappers, select **User Attribute**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_ua1.png)
+</Frame>
+</Step>
+
+<Step title="Provide Mapper Details">
+
+- **Mapper Type**: Select **User Attribute**.
+- **Name**: Enter a descriptive name for the mapper, such as "Business Filters Mapper".
+- **User Attribute**: Enter `businessFilters`.
+- **Token Claim Name**: Enter `attributes.businessFilters`.
+- **Add to ID Token**: Toggle OFF.
+- **Multivalued**: Toggle ON.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_ua2.png)
+</Frame>
+</Step>
+</Steps>
+
+By adding this user attribute mapper, the custom attribute "businessFilters" will be included in the token claim under the name "attributes.businessFilters". This enables you toto access and utilize business filters information within your application. 
+
+For more information about business filters, refer to the following section:
 
 <Card title="Business filters" href="/4.0/docs/platform-deep-dive/user-roles-management/business-filters" icon ="file">
 </Card>
 
-### User realm role
+### User realm role mapper
 
-Add **roles** **mapper** to `{example}-authenticate` client - so roles will be available on the OAuth user info response.
+To add a roles mapper to the `{your-client-name}-authenticate` client, so roles will be available in the OAuth user info response, follow these steps:
 
-To add a roles mapper, follow these steps:
+<Steps>
+<Step title="Navigate to Client Scopes">
 
-1. Go to the desired client, `{example}-authenticate`, and navigate to the Mappers section.
-2. Click on **Create** to create a new mapper.
-3. Configure the following settings for the user attribute mapper:
+From the Keycloak admin console, go to **Clients** and select your desired client.
 
-* **Mapper Type**: User Realm Role
-* **Token Claim Name**: role
-* **Add to userinfo**: ON
+Click on **Client Scopes** and choose `{your-client-name}-authenticate-dedicated` to open its settings.
 
+Ensure the **Mappers** tab is selected.
+</Step>
+
+<Step title="Add a New Mapper">
+
+Click **Add Mapper**. From the list of available mappers, select **User Realm Role**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keycloak_ua3.png)
+</Frame>
+</Step>
+
+<Step title="Provide Mapper Details">
+- **Name**: Enter a descriptive name for the mapper, such as "Roles Mapper".
+- **Mapper Type**: Select **User Realm Role**.
+- **Token Claim Name**: Enter `roles`.
+- **Add to ID Token**: Toggle OFF.
+- **Add to access token**: Toggle OFF.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/keucloak_ua4.png)
+</Frame>
+</Step>
+</Steps>
 
 By adding this roles mapper, the assigned realm roles of the user will be available in the OAuth user info response under the claim name "roles". This allows you to access and utilize the user's realm roles within your application.
 
+<Info>
 Please note that you can repeat these steps to add multiple roles mappers if you need to include multiple realm roles in the token claim.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/iam10.png)
+</Info>
 
 ### Examples
 
 #### Login
+
+To request a login token:
 
 ```curl
 curl --location --request POST 'http://localhost:8080/realms/flowx/protocol/openid-connect/token' \
@@ -180,161 +536,223 @@ curl --location --request POST 'http://localhost:8080/realms/flowx/protocol/open
 --data-urlencode 'grant_type=password' \
 --data-urlencode 'username=admin@flowx.ai' \
 --data-urlencode 'password=password' \
---data-urlencode 'client_id= example-authenticate'
+--data-urlencode 'client_id= your-client-name-authenticate'
 ```
 
 #### Refresh token
+
+To refresh an existing token:
 
 ```curl
 curl --location --request POST 'http://localhost:8080/realms/flowx/protocol/openid-connect/token' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'grant_type=refresh_token' \
---data-urlencode 'client_id= example-authenticate' \
+--data-urlencode 'client_id= your-client-name-authenticate' \
 --data-urlencode 'refresh_token=ACCESS_TOKEN'
 ```
 
 #### User info
+
+To retrieve user information:
 
 ```
 curl --location --request GET 'localhost:8080/realms/flowx/protocol/openid-connect/userinfo' \
 --header 'Authorization: Bearer ACCESS_TOKEN' \
 ```
 
-### Authorizing client
-
-Add `{example}-platform-authorize` client - it will be used to authorize rest requests to microservices and Kafka
-
-* set **Client Protocol** to **openid-connect**
-* set **Access type** as **confidential**
-* disable **Direct Access Grants Enabled** - OFF
-* **Valid Redirect URIs** - mandatory
-* disable **Backchannel Logout Session Required** - OFF
-
-Once you have configured these settings, the `{example}-platform-authorize` client will be created and can be used to authorize REST requests to microservices and Kafka within your application.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/flowx_authorize.png)
-
-### Minimal auth config for microservices
-
-```yaml
-security:
-  type: oauth2
-  basic:
-    enabled: false
-  oauth2:
-    base-server-url: http://localhost:8080
-    realm: flowx
-    client:
-      access-token-uri: ${security.oauth2.base-server-url}/realms/${security.oauth2.realm}/protocol/openid-connect/token
-      client-id: example-authorize
-      client-secret: CLIENT_SECRET
-    resource:
-      user-info-uri: ${security.oauth2.base-server-url}/realms/${security.oauth2.realm}/protocol/openid-connect/userinfo
-```
 
 ## Adding service accounts
 
 <Info>
 **What is a service account?**
 
-A service account is an account that grants direct access to the Keycloak API for a specific component. 
+A service account grants direct access to the Keycloak API for a specific component. Each client can have a built-in service account that allows it to obtain an access token.
 
-Each client has a built-in service account which allows it to obtain an access token. To use this feature you must set the **Access Type** of your client to **confidential**. When you do this, the **Service Accounts Enabled** switch will appear.
+<Check>
+To use this feature you must enable the **Client authentncation** (access type) for your client. When you do this, the **Service Accounts Enabled** switch will appear.
+</Check>
 </Info>
 
 ### Admin service account
 
-<Info>
-The admin service account is employed by the admin microservice to establish a connection with Keycloak for the purpose of utilizing user and group management features within the designer.
-</Info>
+The admin service account is used by the admin microservice to connect with Keycloak, enabling user and group management features within the FlowX.AI Designer.
 
-Follow these steps to add an **admin service account**:
+Steps to add an Admin service account:
 
-1. Add a new client by selecting **Clients** then click **Create**.
+<Steps>
+<Step title="Create the Client">
+Navigate to **Clients** and select **Create client**.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/add_new_client.png)
+Enter a **Client ID** for your new client.
 
-2. Next, set **Access type** as **confidential** and enable **Service Accounts**.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/admin-sa1.png)
+</Frame>
+</Step>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/iam11.png)
+<Step title="Configure Capability Config">
+- Enable **Client authentication** (access type).
+- Disable **Standard flow**.
+- Disable **Direct access grants**.
+- Enable **Service accounts roles**.
 
-3. Go to **Clients → realm-management → Roles** and add the following **service account client roles** under **realm-management**: 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/admin-sa2.png)
+</Frame>
+</Step>
+
+<Step title="Configure Additional Settings">
+After creating the client, scroll down in the **Settings** tab and configure additional settings - **Logout Settings**:
+
+- **Backchannel Logout Session Required**: Toggle OFF.
+
+- **Front Channel Logout**: Toggle OFF.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/admin-sa3.png)
+</Frame>
+</Step>
+
+<Step title="Assign Roles to Service Account">
+
+In the newly created client, navigate to the **Service accounts roles** tab.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/admin-sa5.png)
+</Frame>
+
+Click **Assign role** and in the Filter field, select **Filter by clients**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/admin-sa6.png)
+</Frame>
+
+Assign the necessary roles to the admin service account based on the required access scopes, such as:
 
 * **manage-realm**
 * **manage-users**
 * **query-users**
 
-<Check>
-Make sure first that you created a realm-management client with the following client roles:
+In the end, you should have something similiar to this:
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/realm_management.png)
-</Check>
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/md1.png)
+</Frame>
 
-4. Assign the necessary **service account roles**:
+</Step>
+</Steps>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/admin_sa_realm_roles.png)
-
-In the provided example, the **admin service account** can have the following assigned roles, depending on the required access scopes:
-
-* **manage-users**
-* **query-users**
-* **manage-realm**
 
 
 <Info>
-The admin service account does not require mappers as it doesn't utilize roles. Service account roles include client roles from the `realm-management`.
+Ensure you have created a realm-management client to include the necessary client roles.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/admin-sa7.png)
+</Frame>
 </Info>
 
-For detailed information, refer to the following section:
+<Info>
+The admin service account does not require mappers as it doesn't utilize roles. Service account roles include client roles from `realm-management`.
+</Info>
+
+For more detailed information on admin access rights, refer to the following section:
 
 <Card title="Configuring access rights for admin" href="../access-management/configuring-access-rights-for-admin" icon ="file">
 </Card>
 
-### Task management service account
+### Task Management service account
+
+The task management service account facilitates process initiation and enables the use of the task management plugin (requiring the `FLOWX_ROLE` and role mapper), and access data from Keycloak..
+
+
+Steps to Add a Task Management service account:
+
+<Steps>
+<Step title="Create the Service Account">
+
+Follow steps **1**-**3** as in the Admin Service account configuration: [Admin service account](#admin-service-account).
+
+</Step>
+
+<Step title="Assign Necessary Roles">
+
+Assign the necessary service accounts client roles to the Task Management plugin service account based on the required access scopes, such as:
+
+* **view realm**
+* **view-users**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/admin-sa8.png)
+</Frame>
 
 <Info>
-The task management service account is utilized to facilitate process initiation, enable the use of the task management plugin (requiring the `FLOWX_ROLE` and role mapper), and access data from Keycloak."
+The task management plugin service account requires a realm roles mapper to function correctly. Make sure to configure this to ensure proper operation.
 </Info>
 
-The task management microservice requires a service account to make direct calls to the Keycloak API. Follow these steps to add a task management service account:
+In the end, you should have something similiar to this:
 
-1. Add a new client by selecting **Clients** then click **Create**.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tsk_sa.png)
+</Frame>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/add_new_client.png)
-
-2. Next, set the following properties:
-
-* **Access type** - confidential 
-* **Service Accounts Enabled** - ON
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/iam15.png)
-
-3. Go to **Clients → realm-management → Roles** and add the following **service account client roles**:
-
-* **view-users**
-* **query-groups**
-* **query-users**
-
-Example for **view-users**:
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/tsk-view-users.png)
-
-4. Configure a **realm roles mapper**:
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/iam18.png)
-
-5. Assign the necessary service account roles, including `FLOWX_ROLE`.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/tsk_mng_sar.png)
+</Step>
 
 
-In the provided example, the **task management service account** can have the following assigned roles, depending on the required access scopes:
 
-* **view-users**
-* **query-groups**
-* **query-users**
+<Step title="Add a Realm Roles Mapper">
 
-For more information, check the following section:
+In the newly created task management plugin service account, select **Client Scopes**:
+
+Click on `{your-client-name}-service-account` to open its settings.
+
+<Info>
+Ensure the Mappers tab is selected within the dedicated client scope.
+</Info>
+
+Click **Add mapper**. From the list of available mappers, select **User Realm Role**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/tsk-mapper.png)
+</Frame>
+
+</Step>
+
+<Step title="Configure the Mapper">
+
+**Name**: Enter a descriptive name for the mapper to easily identify its purpose, for example `realm-roles`.
+
+**Token Claim Name**: Set it to `roles`.
+
+Disable **Add to ID token**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/gm7.png)
+</Frame>
+
+Click **Save**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/md2.png)
+</Frame>
+
+</Step>
+
+<Step title ="Add the Service Account Realm Role">
+
+Assign the `FLOWX_ROLE` service account realm role (used to grant permissions for starting processes).
+
+<Info>
+The `FLOWX_ROLE` is used to grant permissions for starting processes in the FlowX.AI Designer platform. By default, this role is named `FLOWX_ROLE`, but its name can be changed from the application configuration of the Engine by setting the following environment variable:
+
+`FLOWX_PROCESS_DEFAULTROLES`
+</Info>
+
+</Step>
+</Steps>
+
+For more information about task management plugin access rights, check the following section:
 
 <Card title="Configuring access rights for Task Management" href="../plugins-access-rights/configuring-access-rights-for-task-management" icon="file">
 </Card>
@@ -344,46 +762,59 @@ For more information, check the following section:
 The process engine requires a process engine service account to make direct calls to the Keycloak API. 
 
 <Info>
-This service account is needed so the use of Start Catch Event node is possible.
+This service account is also needed to be able to use [**Start Catch Event**](../../docs/building-blocks/node/message-events/message-catch-start-event) node.
 </Info>
 
-Follow these steps to add a **process engine service account**:
+**To create the process engine service account**:
 
-1. Add a new client by selecting **Clients** then click **Create**.
+* **1-3**: Follow the same steps as in the Admin Service Account Configuration: [Admin service account](#admin-service-account):
 
-2. Next, set **Access type** as **confidential** and enable **Service Accounts**.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/process_engine_sa.png)
+To assign the necessary service account roles:
 
 <Info>
-This service account does not require client roles.
+This service account does not require service account client roles. It needs a realm role (to be able to start process instances) and realm-roles mapper.
 </Info>
 
-3. Assign the `FLOWX_ROLE` (this is needed to run process instances).
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/process_engine_sar.png)
+3. Add the `FLOWX_ROLE` service account realm role (used to grant permissions for starting processes):
 
-4. Add a realm-roles mapper:
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/flowx_role.gif)
+</Frame>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/realm_roles_mapper.gif)
+
+In the end, you should have something similiar to this:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/md3.png)
+</Frame>
+
+
+4. Add a **realm-roles** mapper:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/realm_roles_engine.gif)
+</Frame>
+
 
 ### Scheduler service account
 
 <Info>
-This service account is used for Start Timer Event node. The registered timers in the scheduler require sending a process start message to Kafka. Authentication is also necessary for this operation.
+This service account is used for [**Start Timer Event**](../../docs/building-blocks/node/timer-events/timer-start-event) node. The registered timers in the scheduler require sending a process start message to Kafka. Authentication is also necessary for this operation.
 </Info>
 
-Follow these steps to add a **scheduler service account**:
+The configuration is similiar to the **process engine service account**:
 
-1. Add a new client by selecting **Clients** then click **Create**.
+- Assign the `FLOWX_ROLE` as service account role (this is needed to run process instances).
 
-2. Next, set **Access type** as **confidential** and enable **Service Accounts**.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/md4.png)
+</Frame>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/scheduler_sa.png)
+- Add a **realm-roles** mapper (as shown in the example for process-engine service account).
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/md5.png)
+</Frame>
 
-3. Assign the `FLOWX_ROLE` as service account role (this is needed to run process instances).
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/scheduler_sar.png)
-
-4. Add a realm-roles mapper (as shown in the example for **process-engine service account**).
+By following these steps, you will have a minimal Keycloak setup to manage users, roles, and applications efficiently. For more detailed configurations and advanced features, refer to the official Keycloak documentation.

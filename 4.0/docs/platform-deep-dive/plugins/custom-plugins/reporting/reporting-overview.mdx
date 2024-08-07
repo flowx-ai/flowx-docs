@@ -1,9 +1,11 @@
 ---
-title: Reporting
-description: Reporting plugin will help you to build and bootstrap custom reports built on generic information about usage and processes using reporting plugin. Multiple reports to meet various needs can be generated.
+title: Reporting plugin
+description: The FlowX.AI Reporting plugin helps you build and bootstrap custom reports using data from your BPMN processes. Moreover, it supports technical reports based on process instance data. Integrated with the FlowX.AI Engine, this plugin transforms raw data into actionable insights, enhancing decision-making and optimizing business processes.
 ---
 
-Here is a quick walkthrough video:
+### Quick walkthrough video
+
+Watch this quick walkthrough video to get started:
 
 <Frame>
 <video
@@ -13,24 +15,21 @@ Here is a quick walkthrough video:
 ></video>
 </Frame>
 
+### Data exploration and visualization
 
-The plugin uses **Superset** as a data exploration and visualization tool.
+The plugin uses **Superset** as a free data exploration and visualization tool.
+
+<Tip>
+You can however use your own BI tool like Tableau, PowerBI etc. as an alternative to Superset. 
+</Tip>
+
+Use the suggested query structure and logic to ensure accurate reporting and avoid duplicates, even during database updates. Do not just use select on single reporting tables.
 
 <Frame>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/reporting.png)
 
 </Frame>
-
-## Architecture
-
-Below you can find the architecture of the reporting plugin.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/Reporting_diagram_small2.png)
-</Frame>
-
-## What is Superset?
 
 Apache Superset is an open-source software application for data exploration and data visualization able to handle data at a large scale. It enables users to connect their company's databases and perform data analysis, and easily build charts and assemble dashboards.
 
@@ -39,7 +38,220 @@ Superset is also an SQL IDE, so users can write SQL, join data create datasets a
 <Card title="Superset documentation" href="https://superset.apache.org/docs/intro/" icon="book">
 </Card>
 
-## Superset elements
+
+
+### Plugin architecture
+
+Here’s an overview of the reporting plugin architecture:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Reporting_diagram_small2.png)
+</Frame>
+
+### Setting up reporting for a process definition
+
+<Steps>
+<Step title="Establish reporting data model to be extracted from process">
+
+
+If you want to extract custom business parameters for a process, first you should set up the master reporting data model in the published version of that process. This is done in Designer, as explained below in the [**Reporting Data Model**](#reporting-data-model). 
+
+The master reporting data model that is applied to all historical versions is the one belonging to the version that is set as Published. If the currently published version is read-only, you might need to create a new version, create the data model in it, mark it for reporting and set it as published (as explained in the section below).
+
+See [**Reporting Data Model**](#reporting-data-model) section for more details.
+
+</Step>
+<Step title="Enable reporting on the process versions to be reported">
+
+
+This is accomplished by checking the “Use process in reporting” button in the settings / general page of each process version you want to report. Please note that you will not be able to change that setting on read-only versions.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/use_proc_reporting.gif)
+</Frame>
+
+It is essential that the currently Published version has this setting enabled, as it is the master version for reporting all historical data.
+
+Only the process instances belonging to reporting-enabled versions will be extracted to the database, using the master data model from the currently Published version.
+
+<Info>
+The reason why you should first set up the data model on the published (or to-be-published) version is that all changes in the data model of the published version that is also marked “use_in_reporting” are instantly sent to the reporting plugin, potentially causing all historical process instances to be re-computed multiple times before you are done setting up the data model. 
+</Info>
+
+To optimize operations, you should always aim to finish the modifications on the master data model on a version that is either not published, or not marked as "use_in_reporting", before marking it as "use_in_reporting and ensuring it is published.
+
+See [**Enabling Process Reporting**](#enabling-process-reporting) section for more details.
+
+</Step>
+</Steps>
+
+
+## Reporting data model
+
+<Info>
+You can only create or modify the reporting data model in non-committed versions, as commited versions are read-only.
+</Info>
+
+1. Open the branch view.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep1.png)
+</Frame>
+
+2. If the currently published version is read-only, start a new version.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep5.png)
+</Frame>
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep6.png)
+</Frame>
+
+3. Make sure the new work-in-progress branch is selected, then go back to the process definition page.
+4. Click on the Data Model icon and navigate in the object model to the target parameters.
+5. Set up the business data structure to be reported by using the Edit button for each parameter.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep8.png)
+</Frame>
+
+- Check "Use in reporting" flag.
+- Select the parameter type (number, string, Boolean or array).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep9.png)
+</Frame>
+
+
+<Info>
+There are three parameter structures that you can report:
+
+**Singleton** or primitive, for which a single value is saved for each process instance. They can be of the types number, string or Boolean and will all be found in the reporting table named `params_{process_alias}`.
+
+**Array of primitives**, in which several rows are saved for each process instance, in a dedicated table (one value per row).
+
+**Array of objects**, in which the system extracts one or more “leaves” from each object of an array of objects. Also saved as a dedicated table.
+</Info>
+
+### Primitive parameters reporting
+
+In the following example, there are 3 simple parameters that will be extracted: `loan_approvalFee`, `loan_currency` and `loan_downPayment`. 
+They will be reported in the table `params_{process_alias}`, one row per instance.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep10.png)
+
+### Arrays of primitives reporting
+
+In the following example, the applicant can submit more than one email address, so each email will be extracted to a separate row in a dedicated table in the reporting database.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep11.png)
+
+<Warning>
+Extracting arrays is computationally intensive, do not use them if the only purpose is just to aggregate them afterward. Aggregation should be performed in the process, not in the reporting stage.
+</Warning>
+
+### Array of objects reporting
+
+In this example, the applicant can have several real estate assets, so a subset of data items (`currentValue`, `mortgageBalance`, `propertyType`) will be extracted for each one of them.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep12.png)
+
+<Warning>
+Extracting arrays of objects is even more is computationally intensive, do not use them if the only purpose is just to aggregate them afterward. Aggregation should be performed in the process, not in the reporting stage.
+</Warning>
+
+## Enabling process reporting
+
+Enable reporting by checking the “Use process in reporting” button on the settings/general page of each process version.
+
+<Info>
+You can also make data model changes on an already published version (if it is not set as read-only), but the effects of the changes are immediate and every periodic refresh will try to re-compute all historical instances to adapt to the changing data model, potentially taking a lot of computing.
+</Info>
+
+- Only the versions marked for reporting will be extracted to the database, using the master data model from the published version.
+- Modifying the data model of a process version has no impact until the moment the version becomes published and is also set to "use_in_reporting".
+- You can add / remove older process versions to be reported by opening the process branch modal, selecting the version, closing the branch modal, and then selecting Settings in the left bar, then in the General tab switching “Use process in reporting” on or off. You might not be able to do this on committed (read-only) versions.
+
+The reporting refresh schedule is set for a fixed interval (currently 5 minutes):
+
+- No processing overlaps are allowed. If processing takes more than 5 minutes, the next processing is automatically postponed until the current one is finished.
+- The number of Spark executors is automatically set by the reporting plugin depending on the volume of data to be processed, up to a certain fixed limit that is established in the cloud environment. This limit can be adapted depending on your needs.
+- Rebuilding the whole history for a process (if the master data model, process name or the Published version change) typically takes more time. It is better to make these changes after the working hours.
+
+
+## Process reporting modification scenarios
+
+**Modifying the data model for the Published version** causes all data for that process to be deleted from the database and to be rebuilt from scratch using the Data Model of the current Published version. 
+
+- This includes deleting process-specific array tables and rebuilding them, possibly with different names.
+- All historical instances from previous versions are also rebuilt using the most recent Published data model.
+- This may take a lot of time, so it is better to perform these operations during periods of low system use.
+
+
+<Info>
+The same thing happens whenever the Published version changes, or if the process name is modified.
+</Info>
+
+**Adding Process Versions**: Adds new rows to existing tables.
+
+**Removing Non-Published Process Versions** from reporting (by unchecking their “Use in reporting” switch in Settings) simply deletes their corresponding rows from the table.
+
+**Removing the Currently Published Version from Reporting**: **Not advisable** as it applies a random older data model and deletes all instances processed with this version.
+
+**Reporting Data Structure Obsolescence and Backwards Compatibility**: The master data model is applied to all historical data from all reported versions. If only the name of a parameter changes, the plugin uses its UUID to map the old name to the new one. However, if the full path changes or the parameter does not exist in an older version, it returns a `Null` value to the database.
+
+## Reporting database
+
+### Main tables
+
+Common fields for joins:
+
+- `inst_id`: Unique identifier for each process instance
+- `query_time`: Timestamp for when the plugin extracts data
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep20.png)
+</Frame>
+
+**Useful fields from instances table**:
+
+- `date_started/finished` timestamps
+- `process_alias` (process name with "_" instead of spaces)
+
+<Info>
+The published version alias will be used for all the reported versions.
+</Info>
+
+- State of the process (started, finished, etc.)
+- `context_name`: Useful if the process is started by another process
+
+**Useful fields from current_nodes table**:
+
+- `node_started/finished` timestamps for the nodes
+- `node_name`, `node_type`
+- `swimlane` of the current node
+- `prev_node_end`: For calculating when a token is waiting for another process branch
+
+**Useful fields from token_history table**:
+
+Similar to `current_nodes` but includes all nodes in the instance history.
+
+### Parameters and object tables
+
+Common fields, on which the joins are built:
+
+- `inst_id`, unique identifier for each process instance
+- `query_time`, recorded at the moment the plugin extracts data from the database
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/reporting30.png)
+</Frame>
+
+For the `params_` table, there is a single row per process instance. For arrays and arrays of objects tables, there are multiple rows per process instance.
+
+## Using Superset for data exploration
 
 ### Data sources
 
@@ -49,8 +261,6 @@ The **Data** tab represents the sources of all information:
 * CSV files
 * Tables
 * Excel files
-  
-#### Databases (PostgreSQL)
 
 Reporting plugin can be used with Superset by connecting it with a PostgreSQL DB.
 
@@ -66,9 +276,9 @@ With the use of dashboards, you can share persuading flows, show how metrics cha
 
 Contains all the information for extracting and processing data from the DB, including SQL queries, calculated metrics information, cache settings, etc. Datasets can also be exported / imported. 
 
-## Connecting to a database
+### Connecting to a database
 
-It is mandatory that before using Superset, the reporting plugin need to have a PostgreSQL database installed and configured.
+Before using Superset, ensure you have a PostgreSQL database installed and configured. Follow these guides for setup:
 
 [FlowX Engine DB configuration](../../../../../setup-guides/flowx-engine-setup-guide/engine-setup)
 
@@ -77,8 +287,6 @@ It is mandatory that before using Superset, the reporting plugin need to have a 
 <Info>
 Read-only users should be used in production in the reporting-plugin cronjob.
 </Info>
-
-### Connecting Superset to a DB
 
 To connect Superset to a database, follow the next steps:
 
@@ -102,33 +310,11 @@ To connect Superset to a database, follow the next steps:
 </Frame>
 
 <Info>
-**SQLAlchemy URI** represents the URI of **reporting-db**. The format would look like this: `postgresql://postgres:XXXXXXXXXX@reporting-plugin-postgresql:{{port}}/reporting`.
+The **SQLAlchemy URI** for **reporting-db** should be in this format: `postgresql://postgres:XXXXXXXXXX@reporting-plugin-postgresql:{{port}}/reporting`.
 </Info>
 
-   
-## Using reporting plugin
 
-Before using the plugin, make sure you marked all the **Data models** and **Processes** you want to include, so they can be further used in the reporting.
-
-### Use in reporting flag
-
-This flag can be used in the following places:
-
-* [**Data model**](../../../../building-blocks/process/process-definition#data-model) - for the keys that must be used in the reporting
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/flag_data_model.gif)
-</Frame>
-
-* [**Process settings**](../../../../building-blocks/process/process-definition#settings) tab - to include a process definition in reporting.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/reporting_flag.gif)
-</Frame>
-
-Now you can use Superset to manipulate the data and create any kind of visuals and dashboards.
-
-### Creating a Chart
+### Creating and configuring charts
 
 There are multiple ways in which you can create/configure a chart.
 
@@ -136,14 +322,15 @@ There are multiple ways in which you can create/configure a chart.
 
 To create a Chart using the first method, you must follow the next steps:
 
-1. From the top toolbar, select **Data** option tab, then click **Datasets**.
+1. From the top toolbar, select **Data** and then **Datasets**.
 
 <Check>
 You need to have a dataset added to Superset first. From that particular dataset you can build a visualization.
 </Check>
 
-2. Select the **dataset** you want to work with.
-3. After selection, the **explore** page appears.
+2. Select the desired **dataset**.
+3. On the **explore** page, choose the **visualization type** and click **Create chart**.
+
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/superset_add_chart.gif)
@@ -159,25 +346,19 @@ To view all the existent visualization types, click **View all charts**, the cha
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/superset_visualization_type.png)
 </Frame>
 
-5. Select the **visualization type** and click **Create chart**.
-
 #### Creating charts using Chart gallery
 
-Using Chart gallery is a useful method when you are not quite sure about which char will be best for you.
+Using the Chart gallery is a useful method when you are not quite sure about which chart will be best for you.
 
 To create a Chart using the second method, you must follow the next steps:
 
-1. From the **top toolbar**, select **"+"** icon, then select **Chart**.
-2. The **Create a new chart** screen appears.
-3. Choose the **dataset** that you want to use.
-4. The next step is to choose a **chart type**.
+1. Select the **"+"** icon from the top toolbar and choose **Chart**.
+2. Choose the **dataset** and **chart type**.
+3. Review the description and example graphics of the selected chart, then click **Create new chart**.
 
 <Tip>
 If you wish to explore all the chart types available, filter by **All charts**. The charts are also grouped by categories.
 </Tip>
-
-5. When you select a chart, at the bottom of the screen you will notice a description of the chart and also example graphics.
-6. When you are done with your selection, click **Create new chart**.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/superset_add_chart_second.gif)
@@ -185,29 +366,21 @@ If you wish to explore all the chart types available, filter by **All charts**. 
 
 ### Configuring a Chart
 
-After creating a chart, there are some **Query** fields that muse be configured. This can be easily done by dragging and dropping the relevant columns to the matching fields.
-
-<Info>
-Time and Query form attributes are different, depending on the chart type that you select.
-</Info>
+Configure the **Query** fields by dragging and dropping relevant columns to the matching fields. Note that time and query form attributes vary by chart type.
 
 ### Exporting/importing a Chart
 
 You can export and import charts to help you analyze your data and manipulate dashboards. To export/import a chart, follow the next steps:
 
-1. Open **Superset** and from the top navigation bar, select **Charts**.
-2. From the newly opened list, select your **chart**.
-3. In the top-right corner, select the **breadcrumbs** menu.
-4. Now click **Download**, three options are available:
-  * Export to .CSV
-  * Export to .JSON
-  * Download as image
+1. Open **Superset** and navigate to **Charts** from the top navigation bar.
+2. Select the desired **chart** and click the **breadcrumbs** menu in the top-right corner.
+3. Choose an export option: .CSV, .JSON, or Download as image.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/reporting_export_imp.png)
 </Frame>
 
-#### Table example
+**Table example**:
 
 * **Time** - time related form attributes
 * **Query** - query attributes
@@ -222,38 +395,20 @@ You can export and import charts to help you analyze your data and manipulate da
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/superset_query.png)
 </Frame>
 
-### Creating a slice and a dashboard
-
-To create a dashboard, while creating a Chart you can choose to add it to a new dashboard. A dashboard will be created automatically.
+### Creating a dashboard
 
 To create a dashboard follow the next steps:
 
-1. Let's create a new chart called **City of birth** (see the steps above).
-2. Now save the newly created **chart** to a new dashboard called **Cities**.
-3. To publish, click **Save and go to Dashboard**.
+1. Create a new chart and save it to a new dashboard.
+2. To publish, click **Save and go to Dashboard**.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/save_dashboard.gif)
 </Frame>
+
 
 For details on how to configure the FlowX.AI reporting plugin, check the following section:
 
 <Card title="Reporting setup guide" href="../../../../../setup-guides/plugins-setup-guide/reporting-setup" icon="gear">
 </Card>
 
-
-## Setting up reporting for a process
-
-<Steps>
-<Step title="Establish reporting data model to be extracted from process">
-
-This step is optional, performed only if you need to also extract custom business data from process execution.
-
-Creating or modifying an existing reporting data model can only be done on branches that are NOT read-only. This means that if you need to modify the data model for an existing process, you might need to first create a new process version for that and set it to Published.
-
-The “master” reporting data model that is applied to all historical reported versions is the one that is set as Published.
-
-</Step>
-<Step title="Enable reporting on the process versions to be reported">
-</Step>
-</Steps>
