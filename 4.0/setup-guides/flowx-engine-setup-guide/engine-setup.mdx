@@ -436,31 +436,7 @@ This section details the environment variable that controls the expiration of su
 | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | --------------- |
 | `FLOWX_PROCESS_EXPIRE_SUBPROCESSES` | Governs subprocess expiration in a parent process. When true, terminates all associated subprocesses upon parent process expiration. When false, subprocesses follow their individual expiration settings or persist indefinitely if not configured | `true`        | `true`, `false` |
 
-### Configuring application management
-
-The FlowX helm chart provides a management service with the necessary parameters to integrate with the Prometheus operator. However, this integration is disabled by default.
-
-#### Prometheus metrics export configuration
-
-<Warning>
-Old configuration from < v4.1 releases (will be deprecated in v4.5):
-
-* `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED`: Enables or disables Prometheus metrics export.
-
-</Warning>
-
-<Info>
-New configuration, starting from v4.1 release, available below. Note that this setup is backwards compatible, it does not affect the configuration from v3.4.x. The configuration files will still work until v4.5 release.
-
-</Info>
-
-To configure Prometheus metrics export for the FlowX.AI Engine, the following environment variable is required:
-
-
-| Environment Variable                           | Description                                    | Default Value | Possible Values |
-| ---------------------------------------------- | ---------------------------------------------- | ------------- | --------------- |
-| `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED` | Enables or disables Prometheus metrics export. | `false`       | `true`, `false` |
-
+## Configuring application management
 
 The FlowX helm chart provides a management service with the necessary parameters to integrate with the Prometheus operator. However, this integration is disabled by default.
 
