@@ -136,11 +136,49 @@ To control the log levels, the following environment variables can be set:
  
 * `APPLICATION_FILE_STORAGE_S3_PUBLIC_URL` - the public URL of the S3 solution, it specifies the URL that can be used to access the files stored
 
-### Configuring the maximum size of the files
+### Configuring application management
+
+The FlowX helm chart provides a management service with the necessary parameters to integrate with the Prometheus operator. However, this integration is disabled by default.
+
+#### Prometheus metrics export configuration
+
+<Warning>
+Old configuration from < v4.1 releases (will be deprecated in v4.5):
+
+* `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED`: Enables or disables Prometheus metrics export.
+
+</Warning>
 
 <Info>
-Uploaded in the Media Library.
+New configuration, starting from v4.1 release, available below. Note that this setup is backwards compatible, it does not affect the configuration from v3.4.x. The configuration files will still work until v4.5 release.
+
 </Info>
 
-* `SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: ${MULTIPART_MAX_FILE_SIZE:50MB}` (default : 50 MB): Maximum file size allowed for uploads.
-* `SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: ${MULTIPART_MAX_REQUEST_SIZE:50MB}` (default: 50 MB): Maximum request size allowed for uploads.
+To configure Prometheus metrics export for the FlowX.AI Engine, the following environment variable is required:
+
+
+| Environment Variable                           | Description                                    | Default Value | Possible Values |
+| ---------------------------------------------- | ---------------------------------------------- | ------------- | --------------- |
+| `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED` | Enables or disables Prometheus metrics export. | `false`       | `true`, `false` |
+
+
+The FlowX helm chart provides a management service with the necessary parameters to integrate with the Prometheus operator. However, this integration is disabled by default.
+
+<Warning>
+Old configuration from < v4.1 releases (will be deprecated in v4.5):
+
+* `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED`: Enables or disables Prometheus metrics export.
+
+</Warning>
+
+<Info>
+New configuration, starting from v4.1 release, available below. Note that this setup is backwards compatible, it does not affect the configuration from v3.4.x. The configuration files will still work until v4.5 release.
+
+</Info>
+
+To configure Prometheus metrics export for the FlowX.AI Engine, the following environment variable is required:
+
+
+| Environment Variable                           | Description                                    | Default Value | Possible Values |
+| ---------------------------------------------- | ---------------------------------------------- | ------------- | --------------- |
+| `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED` | Enables or disables Prometheus metrics export. | `false`       | `true`, `false` |
