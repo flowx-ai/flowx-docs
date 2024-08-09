@@ -1,0 +1,41 @@
+---
+title: FlowX.AI 4.1.3 LTS Release
+---
+
+<Info>
+This is a patch version part of the the long-term support for version 4.1.
+</Info>
+
+Welcome to FLowX.AI 4.1.3 release. Let’s dive in and explore:
+
+
+## Bug fixes 🛠️
+
+### Process Designer
+
+* **Copy/Paste Nodes**: Copying and pasting nodes with keyboard commands in the Process Designer? You might have noticed that things got a little too enthusiastic, sending multiple requests instead of just one. The system has been told to calm down. Now, it will only send one request per command, as it should. No more copy/paste overkill!
+* **Stuck Nodes and Stubborn Swimlanes**: The Process Designer decided to freeze things up, making it impossible to move existing nodes or resize the swimlane after pasting anything into it. We've unfrozen the nodes and swimlanes. Now you can move them around as much as you want — no more stubborn swimlanes or stuck nodes!
+
+
+### FlowX.AI Engine
+
+* **Business Rule Roulette**: Ever had that moment where you run the same business rule twice and get different results? Sometimes it works perfectly, and other times it leaves you puzzled with an error. Well, we’ve sorted that out! Now, your business rules will run smoothly and consistently, no more surprises or workarounds needed.
+
+## Gremlins to watch out for
+
+Keep an eye out for these quirks:
+
+- **UI Designer**: When relocating UI elements between parents, the elements' order doesn't always get the memo, causing a mix-up in the family tree. We're untangling this knot! 
+
+## Resources
+
+For deployment guidelines and a seamless transition to version 4.1.2: 
+
+<CardGroup>
+<Card title="Deployment guidelines v4.1.3" href="./deployment-guidelines-v4.1.3" icon ="file">
+</Card>
+
+<Card title="Migrating from previous versions" href="./migrating-from-previous-to-v4.1.3" icon ="file">
+</Card>
+
+</CardGroup>
