@@ -43,7 +43,7 @@ Understanding the various elements within process status data is crucial. Here's
 
 | Status         | Indicates the state of the process instance. Offers distinct values:                                                                        |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **CREATED**    | Visible if there's an error during process creation. Displays as "Started" without errors.                                                  |
+| **CREATED**    | Visible if there's an error during process creation. Displays as `STARTED` if there were no errors during creation.                                                  |
 | **STARTED**    | Indicates the current running status of the process.                                                                                        |
 | **DISMISSED**  | Available for processes with subprocesses, seen when a user halts a subprocess.                                                             |
 | **EXPIRED**    | This status appears when the defined "expiryTime" expression in the process definition elapses since the process was initiated (`STARTED`). |
@@ -196,3 +196,4 @@ Based on the exception type, there are multiple causes that could make a process
 | Node                     | When an outgoing node can’t be found (missing sequence etc).                                                                                                                                                        |
 | Gateway Evaluation       | <p>When the token can’t pass a gateway for any reason, possible causes:</p><ul><li>Missing sequence/node</li><li>Failed node rule</li></ul>                                                                         |
 | Subprocess               | Exceptions will be saved for them just like for any other process, parent process ID will also be saved (we can use this to link them when displaying exceptions).                                                  |
+
