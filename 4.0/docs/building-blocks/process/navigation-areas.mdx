@@ -402,7 +402,7 @@ You have two styling options available for these containers:
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/sticky_configuration.gif)
 </Frame>
 
-* **Static**: This style remains fixed and does not scroll along with the page content.
+* **Static**: The container remains fixed and does not scroll along with the page content.
 * **Sticky**: When the sticky property is enabled, the container maintains its position even during scrolling.
     * **Layout**: You have the option to specify minimum distances between the container and its parent element while scrolling. At runtime, sticky containers will keep their position on scroll relative to top/ bottom/ right/ left margin of the parent element
 
@@ -446,7 +446,7 @@ For each navigation area or node, you can choose to set if they are only availab
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/adding_alternative_flows.gif)
 </Frame>
 
-When starting a process, you must mention for the which flow the process will be initiated using the "navigationFlow" parameter and the name of the alternative flow:
+When starting a process, you must mention which flow the process will be initiated for, using the "navigationFlow" parameter and the name of the alternative flow:
 
 ```json
 {"navigationFlow": "First Flow"}
