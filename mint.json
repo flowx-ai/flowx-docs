@@ -1030,7 +1030,6 @@
 
           {
             "group": "v4.1.0 - May",
-            "icon": "fire",
             "pages": [
               "release-notes/v4.1.0-may-2024/v4.1.0-may-2024",
               "release-notes/v4.1.0-may-2024/deployment-guidelines-v4.1.0",
