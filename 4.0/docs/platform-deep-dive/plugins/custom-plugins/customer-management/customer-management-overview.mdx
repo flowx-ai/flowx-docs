@@ -1,6 +1,6 @@
 ---
 title: Overview
-description: Customer management plugin uses a search engine (for example, elasticSearch engine) to retrieve user details using partial match on big databases.
+description: Customer management plugin uses a search engine (for example, Elasticsearch engine) to retrieve user details using partial match on big databases.
 ---
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/crm-plugin.svg)
@@ -20,9 +20,9 @@ The kafka topics used for the Customer Management plugin can be defined/overwrit
 * `KAFKA_TOPIC_CUSTOMER_SEARCH_OUT` - used to get the response from the customer management plugin to the Engine.
 </Info>
 
-The request sent to the plugin can use any key that was previously configured in the elasticsearch index where the customers are saved.
+The request sent to the plugin can use any key that was previously configured in the Elasticsearch index where the customers are saved.
 
-Example of an elastic search index:
+Example of an Elasticsearch index:
 
 ```json
 {
@@ -163,7 +163,7 @@ With this index configuration we can search for customers using any key:
 
 ## Keys description
 
-* **customers** - list of customers found in the customer management, in the used elasticsearch index, maximum 10 results
+* **customers** - list of customers found in the customer management, in the used Elasticsearch index, maximum 10 results
 * **hasMore** - boolean, true if number of results are bigger than 10, false if the number of results are equal or smaller than 10
 * **error** - error description if the request returned an error
 

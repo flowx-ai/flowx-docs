@@ -18,9 +18,21 @@ By leveraging message events, processes can pause their execution until the expe
  
 ## Boundary events
 
-| Trigger | Description                                                                                                                                                                                                                                                                                                                                    |                                                                                                                    Marker                                                                                                                    |
-| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| Message | For boundary Events, handling first consists of consuming the Event occurrence. Specifically, Message Catch Boundary Events are triggered by incoming messages and can be configured as either interrupting or non-interrupting. **Non-interrupting**: the event can be triggered at any time while the associated task is being performed. **Interrupting**: the event can be triggered at any time while the associated task is being performed.   | Interrupting ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/message_catch_interrupting_event.png#center) Non-interrupting ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/%20message_catch_non_interrupting.png#center) |
+Boundary Events involve handling by first consuming the event occurrence. Message Catch Boundary Events, triggered by incoming messages, can be configured as either interrupting or non-interrupting.
+
+| Trigger | Description                                                                                                                    |                                                                  Marker                                                                  |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------: |
+| Message | **Non-interrupting Message Catch Event**: The event can be triggered at any time while the associated task is being performed. | Non-interrupting ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/%20message_catch_non_interrupting.png#center) |
+
+
+
+| Trigger | Description                                                                                                                                       |                                                               Marker                                                                |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------: |
+| Message | **Interrupting Message Catch Event**: The event can be triggered at any time while the associated task is being performed, interrupting the task. | Interrupting ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/message_catch_interrupting_event.png#center) |
+                                                                                                                                     
+
+
+
 
 ## Intermediate vs boundary
 

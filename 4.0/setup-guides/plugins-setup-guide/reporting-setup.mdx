@@ -11,7 +11,7 @@ The reporting plugin, available as a Docker image, requires the following depend
 - **PostgreSQL**: Dedicated instance for reporting data storage.
 - **Reporting-plugin Helm Chart**:
   - Utilizes a Spark Application to extract data from the FLOWX.AI Engine database and populate the Reporting plugin database.
-  - Utilizes Spark Operator (more info [**here**](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/4.0/docs/quick-start-guide.md)).
+  - Utilizes Spark Operator (more info [**here**](https://www.kubeflow.org/docs/components/spark-operator)).
 - **Superset**:
   - Requires a dedicated PostgreSQL database for its operation.
   - Utilizes Redis for efficient caching.
@@ -45,7 +45,7 @@ docker build ...
 
 4. Update the `reporting-image` URL in the `spark-app.yml` file.
 
-5. Configure the correct database ENV variables in the `spark-app.yml` file (check them in the above examples with/without webhook).
+5. Configure the correct database ENV variables in the `spark-app.yml` file (check them in the below examples with/without webhook).
 
 6. Deploy the application:
 
@@ -98,7 +98,7 @@ When using the webhook, employ environmental variables with secrets for a balanc
 ```yaml
 sparkApplication:
   enabled: "true"
-  schedule: "@every 5m"
+  schedule: "*/5 * * * *" #Every 5 minutes
   driver:
     env: #Environment variables for driver setup with secrets.
       ENGINE_DATABASE_USER: flowx
@@ -215,6 +215,9 @@ spec:
 Detailed Superset Configuration Guide:
 
 <Card title="Superset configuration" href="https://github.com/apache/superset/blob/master/helm/superset/README.md" icon="link">
+</Card>
+
+<Card title ="Superset docker image" href="https://hub.docker.com/r/apache/superset" icon="link">
 </Card>
 
 Refer to Superset Documentation for in-depth information:

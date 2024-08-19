@@ -24,14 +24,6 @@ It is essential to have the Advancing Controller service running alongside the F
 It is important to ensure that both the FlowX Engine and the Advancing Controller microservices are up and running concurrently for optimal performance.
 </Tip>
 
-## Database compatibility
-
-The Advancing Controller supports both PostgreSQL and OracleDB databases. However, the Process Engine and the Advancing Controller must be configured to use the same type of database at any given time. The Process Engine employs two databases: one shared with the FlowX Admin microservice for process metadata and instances, and the other dedicated to advancement. 
-
-<Warning>
-Mixing PostgreSQL and OracleDB is not supported; both databases must be of the same type.
-</Warning>
-
 ## Configuration
 
 For detailed instructions on how to set up the Advancing Controller microservice, refer to the following guide:

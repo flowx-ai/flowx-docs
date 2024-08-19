@@ -479,13 +479,21 @@
     {
       "group": "API reference",
       "version": "v4.0",
-      "pages": [
+        "pages": [
+          {
+            "group": "FlowX.AI Engine",
+            "pages": [
+
+              "4.0/docs/api/flowx-engine-api/rest",
+              "4.0/docs/api/flowx-engine-api/rest2",
+              "4.0/docs/api/flowx-engine-api/rest3",
+              "4.0/docs/api/flowx-engine-api/rest4"
+            ]
+
+            
+          },
         "4.0/docs/api/add-misconfigurations",
         "4.0/docs/api/clear-cache4.0",
-        "4.0/docs/api/rest",
-        "4.0/docs/api/rest2",
-        "4.0/docs/api/rest3",
-        "4.0/docs/api/rest4",
         "4.0/docs/api/list-buckets",
         "4.0/docs/api/list-objects-in-buckets",
         "4.0/docs/api/download-file",
@@ -989,7 +997,6 @@
         "group": "Release Notes",
         "pages": [
           "release-notes/overview",
-
           {
             "group": "v4.2.1 - July",
             "icon": "burst",
@@ -1009,6 +1016,18 @@
             ]
             
           },
+          
+          
+          {
+            "group": "v4.1.3 - August",
+            "pages": [
+              "release-notes/v4.1.3-august-2024/v4.1.3-august-2024",
+              "release-notes/v4.1.3-august-2024/deployment-guidelines-v4.1.3",
+              "release-notes/v4.1.3-august-2024/migrating-from-previous-to-v4.1.3"
+            ]
+            
+          },
+
 
           {
             "group": "v4.1.2 - June",
@@ -1033,7 +1052,6 @@
 
           {
             "group": "v4.1.0 - May",
-            "icon": "fire",
             "pages": [
               "release-notes/v4.1.0-may-2024/v4.1.0-may-2024",
               "release-notes/v4.1.0-may-2024/deployment-guidelines-v4.1.0",
@@ -1046,7 +1064,6 @@
 
           {
             "group": "v4.0.0 - April",
-            "icon": "fire",
             "pages": [
               "release-notes/v4.0.0-april-2024/v4.0.0-april-2024",
               "release-notes/v4.0.0-april-2024/deployment-guidelines-v4.0.0",

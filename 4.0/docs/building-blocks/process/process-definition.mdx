@@ -202,13 +202,19 @@ In the General settings, you can edit the process definition name, include the p
 
 * **Available Platforms** (Single Choice): This enable configuration (Navigation Areas, UI Designer, Misconfigurations) only for the specific platform selected:
 
+    - **Web Only**:  If the navigation areas are defined exclusively for the Web, the process should remain set to Web. This is because it is optimized solely for web usage and would not provide the same level of functionality or user experience on mobile devices
+    - **Mobile Only**: If the navigation areas are defined only for Mobile, the process should be set to Mobile. This ensures that the process leverages mobile-specific features and design considerations, providing an optimal experience on mobile devices.
+    - **Omnichannel**: If the existing process has navigation areas defined for both Web and Mobile platforms, it should be set to Omnichannel. This ensures that users have a consistent experience regardless of the platform they are using.
+
+
+<Tip>
+This setting is available starting with **v4.1.0** platform release.
+</Tip>
+
+
 <Info>
 Navigation Areas, UI Designer and misconfigurations will be affected by this setting.
 </Info>
-
-    * **Web Only**:  If the navigation areas are defined exclusively for the Web, the process should remain set to Web. This is because it is optimized solely for web usage and would not provide the same level of functionality or user experience on mobile devices
-    * **Mobile Only**: If the navigation areas are defined only for Mobile, the process should be set to Mobile. This ensures that the process leverages mobile-specific features and design considerations, providing an optimal experience on mobile devices.
-    * **Omnichannel**: If the existing process has navigation areas defined for both Web and Mobile platforms, it should be set to Omnichannel. This ensures that users have a consistent experience regardless of the platform they are using.
 
 <Info>
 By default, new processes are set to **Web Only**. This ensures that they are initially optimized for web-based usage, providing a starting point for most users and scenarios.

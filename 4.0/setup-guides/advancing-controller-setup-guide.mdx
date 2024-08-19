@@ -6,23 +6,33 @@ icon: chevron-right
 
 ## Infrastructure prerequisites
 
-Advancing controller requires the following components to be set up before it can be started:
+Before setting up the Advancing Controller, ensure the following components are properly set up:
 
-* **FlowX Engine deployment** - the Advancing Controller is dependent on the **FlowX Engine** and must be deployed in the same environment, refer to the FlowX Engine [**setup guide**](./flowx-engine-setup-guide/engine-setup) for more information on how to set up the Engine
-* **DB instance** - the Advancing Controller uses a PostgreSQL or OracleDB as database instance
-
+* **FlowX.AI Engine Deployment**: The Advancing Controller depends on the FlowX Engine and must be deployed in the same environment. Refer to the FlowX Engine [**setup guide**](./flowx-engine-setup-guide/engine-setup) for more information on setting up the Engine.
+* **Database Instance**: The Advancing Controller uses a PostgreSQL or OracleDB instance as its database.
 
 ## Dependencies
 
-* [Database](#database-configuration)
-* [Datasource](#configuring-datasource)
-* [FlowX Engine](./flowx-engine-setup-guide/engine-setup)
+Ensure the following dependencies are met:
 
-### Database configuration
+* [Database](#database-configuration): Properly configured database instance.
+* [Datasource](#configuring-datasource): Configuration details for connecting to the database.
+* [FlowX.AI Engine](./flowx-engine-setup-guide/engine-setup): Must be set up and running. Refer to the FlowX Engine setup guide.
 
-#### Postgres
 
-A basic Postgres configuration for Advancing:
+### Database compatibility
+
+The Advancing Controller supports both PostgreSQL and OracleDB databases. However, the FlowX.AI Engine and the Advancing Controller must be configured to use the same type of database at any given time. The FlowX.AI Engine employs two databases: one shared with the FlowX.AI Admin microservice for process metadata and instances, and the other dedicated to advancement. 
+
+<Warning>
+Mixing PostgreSQL and OracleDB is not supported; both databases must be of the same type.
+</Warning>
+
+## Database configuration
+
+### PostgreSQL
+
+A basic PostgreSQL configuration for Advancing:
 
 ```yaml
 postgresql:
@@ -56,31 +66,27 @@ postgresql:
 ```
 
 <Warning>
-If the parallel advancing configuration already exists, resetting the 'advancing' database must be done by executing the SQL command `DROP DATABASE advancing;`. Once the database has been dropped, the Liquibase script will automatically re-enable it.
+If the parallel advancing configuration already exists, you must reset the 'advancing' database by executing the SQL command `DROP DATABASE advancing;`. Once the database has been dropped, the Liquibase script will automatically re-enable it.
 </Warning>
 
 ## Configuration
 
-The following configuration details need to be added using environment variables:
+The Advancing Controller uses a PostgreSQL or an Oracle database as a dependency.
 
-Advancing controller uses a PostgreSQL or an Oracle database as a dependency.
-
-* the user, password, connection link, and database name need to be configured correctly, if these details are not configured correctly, errors will occur at startup
-* the datasource is configured automatically via a Liquibase script inside the engine. All updates will include migration scripts.
+* Ensure that the user, password, connection link, and database name are correctly configured. If these details are not configured correctly, errors will occur at startup.
+* The datasource is configured automatically via a Liquibase script inside the engine. All updates will include migration scripts.
 
 ### Configuring datasource
 
-The following configuration details need to be added using environment variables:
+If you need to change the datasource configuration detail, you can use the following environment variables:
 
-* `SPRING_DATASOURCE_URL` - environment variable used to configure a data source URL for a Spring application, it typically contains the JDBC driver name, the server name, port number, and database name
-* `SPRING_DATASOURCE_USERNAME` - environment variable used to set the username for the database connection, this can be used to connect to a database instance
-* `SPRING_DATASOURCE_PASSWORD` - environment variable used to store the password for the database connection, this can be used to secure access to the database and ensure that only authorized users have access to the data
-* `SPRING_JPA_DATABASE` - relevant because it is used to specify the type of database that the Spring application should connect to (accepted values: `oracle` or `postgresql`)
-* `SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULTSCHEMA` (❗️only for Oracle DBs) - dpecifies the default schema to use for the database (default value: `public`)
-
-You will need to make sure that the user, password, connection link and db name are configured correctly, otherwise, you will receive errors at start time.
+* `SPRING_DATASOURCE_URL`: Environment variable used to configure a data source URL for a Spring application. It typically contains the JDBC driver name, the server name, port number, and database name.
+* `SPRING_DATASOURCE_USERNAME`: Environment variable used to set the username for the database connection. This can be used to connect to a database instance.
+* `SPRING_DATASOURCE_PASSWORD`: Environment variable used to store the password for the database connection. This can be used to secure access to the database and ensure that only authorized users have access to the data.
+* `SPRING_JPA_DATABASE`: Specifies the type of database that the Spring application should connect to (accepted values: `oracle` or `postgresql`).
+* `SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULTSCHEMA` (❗️only for Oracle DBs): Specifies the default schema to use for the database (default value: `public`).
 
 <Info>
-It's important to keep in mind that the Advancing Controller is tightly integrated with the Flowx.AI Engine. Therefore, it is important to ensure that both the Engine and the Advancing Controller are configured correctly and are in sync.
+It's important to keep in mind that the Advancing Controller is tightly integrated with the FlowX.AI Engine. Therefore, it is crucial to ensure that both the Engine and the Advancing Controller are configured correctly and are in sync.
 </Info>
 

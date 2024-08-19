@@ -1,8 +1,24 @@
 ---
 title: FlowX Admin setup
-description: The admin part manages process-related entities and provides the REST API used by the FlowX Designer. The processes defined here will be handled by the FlowX Engine.
+description: The FlowX.AI Admin microservice manages process-related entities and provides the REST API used by the FlowX.AI Designer. The processes defined here will be handled by the FlowX.AI Engine. The Admin microservice uses most of the same resources as the FlowX.AI Engine.
 icon: terminal
 ---
+
+
+## Infrastructure Prerequisites
+
+Before setting up the Admin microservice, ensure the following components are properly set up:
+
+- **Database Instance**: The Admin microservice connects to the same database as the FlowX.AI Engine.
+
+
+## Dependencies
+
+Ensure the following dependencies are met:
+
+- **[Database](#database-configuration)**: Properly configured database instance.
+- **[Datasource](#datasource-configuration)**: Configuration details for connecting to the database where also the FlowX.Ai Engine is connected.
+- **Kafka cluster**: If you intend to use the [**FlowX.AI Audit**](../../4.0/docs/platform-deep-dive/core-extensions/audit) functionality, ensure that the backend microservice can connect to the Kafka cluster. When connected to Kafka, it sends details about all database transactions to a configured Kafka topic.
 
 ## Datasource configuration
 
@@ -10,9 +26,9 @@ To store process definitions the Admin microservice connects to the same Postgre
 
 The following configuration details need to be added using environment variables:
 
-* `SPRING_DATASOURCE_URL` - This environment variable is used to specify the URL of the database that the Admin microservice and Engine connect to. The URL typically includes the necessary information to connect to the database server, such as the host, port, and database name. It follows the format of the database's JDBC URL, which is specific to the type of database being used (e.g., PostgreSQL or Oracle).
-* `SPRING_DATASOURCE_USERNAME` - This environment variable sets the username that the Admin microservice and Engine used to authenticate themselves when connecting to the database. The username is used to identify the user account that has access to the specified database.
-* `SPRING_DATASOURCE_PASSWORD` - This environment variable specifies the password associated with the username provided in the `SPRING_DATASOURCE_USERNAME` variable. The password is used to authenticate the user and grant access to the database.
+* `SPRING_DATASOURCE_URL`: This environment variable is used to specify the URL of the database that the Admin microservice and Engine connect to. The URL typically includes the necessary information to connect to the database server, such as the host, port, and database name. It follows the format of the database's JDBC URL, which is specific to the type of database being used (e.g., PostgreSQL or Oracle).
+* `SPRING_DATASOURCE_USERNAME`: This environment variable sets the username that the Admin microservice and Engine used to authenticate themselves when connecting to the database. The username is used to identify the user account that has access to the specified database.
+* `SPRING_DATASOURCE_PASSWORD`: This environment variable specifies the password associated with the username provided in the `SPRING_DATASOURCE_USERNAME` variable. The password is used to authenticate the user and grant access to the database.
 
 <Warning>
 You will need to make sure that the user, password, connection link and db name are configured correctly, otherwise, you will receive errors at start time.

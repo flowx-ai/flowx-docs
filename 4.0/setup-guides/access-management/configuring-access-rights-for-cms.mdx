@@ -4,7 +4,7 @@ description: Granular access rights can be configured for restricting access to 
 icon: lock-open
 ---
 
-Two different access authorizations are provided, each with specified access scopes:
+Four different access authorizations are provided, each with specified access scopes:
 
 1. **Manage-contents** - for configuring access for manipulating CMS contents
 
@@ -118,9 +118,9 @@ To configure access for each of the roles above, adapt the following input:
 
 `SECURITY_ACCESSAUTHORIZATIONS_AUTHORIZATIONNAME_SCOPES_SCOPENAME_ROLESALLOWED: NEEDED_ROLE_NAMES`
 
-Possible values for AUTHORIZATIONNAME: MANAGECONTENTS, MANAGETAXONOMIES.
+Possible values for `AUTHORIZATIONNAME`: `MANAGECONTENTS`, `MANAGETAXONOMIES`.
 
-Possible values for SCOPENAME: import, read, edit, admin.
+Possible values for `SCOPENAME`: import, read, edit, admin.
 
 For example, if you need to configure role access for import, insert this:
 
