@@ -401,8 +401,7 @@
             "4.1.x/docs/platform-deep-dive/integrations/creating-a-kafka-consumer",
             "4.1.x/docs/platform-deep-dive/integrations/creating-a-kafka-producer",
             "4.1.x/docs/platform-deep-dive/integrations/mock-integrations",
-            "4.1.x/docs/platform-deep-dive/integrations/open-telemetry",
-            "4.1.x/docs/platform-deep-dive/integrations/jaeger-setup-for-microservices"
+            "4.1.x/docs/platform-deep-dive/integrations/open-telemetry"
           ]
         },
         "4.1.x/docs/platform-deep-dive/third-party-components",
