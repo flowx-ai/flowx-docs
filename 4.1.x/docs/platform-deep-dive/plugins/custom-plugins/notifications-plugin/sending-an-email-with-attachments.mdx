@@ -1,0 +1,77 @@
+---
+title: Sending an email
+description: To use the notification plugin for sending emails with attachments, you must define the same topic configuration as for sending regular notifications. A notification template must be created, and the corresponding Kafka topics must be defined.
+---
+
+<Check>
+
+Check first the [Send a notification](./sending-a-notification) section.
+
+</Check>
+
+## **Defining process actions**
+
+### Example: send an email notification with attached files from a business flow
+
+Let's pick a simple use-case. Imagine we need to send a copy of a contract signed by a new customer. Before setting the action for the notification, another action must be defined, so the first one will save the new contract using the documents plugin.
+
+<Frame>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/send_email_notif_attach.jpeg)
+
+</Frame>
+
+<Card>
+See the example from [<u>**Generating a document from template**</u>](../documents-plugin/generating-from-html-templates) section 
+</Card>
+
+The steps for sending the notification are the following:
+
+<Steps>
+
+<Step>
+
+Configure the template that you want to use for the email, see the [Managing notification templates](./managing-notification-templates) section for more information.
+
+</Step>
+
+<Step>
+
+Check that the needed topics are defined by going to **`FlowX Designer > Platform Status > notification-plugin-mngt > kafkaTopicsHealthCheckIndicator > details > configuration > topic > notifications`**.
+
+
+</Step>
+
+<Step>
+
+Use the **FlowX Designer** to add a new [Send Message Task (Kafka)](../../../../building-blocks/node/message-send-received-task-node#send-message-task) action to the correct node in the process definition.
+
+</Step>
+
+<Step>
+
+Add the proper configuration to the action, the Kafka topic and message to be sent.
+
+</Step>
+
+</Steps>
+
+The message to be sent to Kafka will look something like:
+
+```json
+{
+  "templateName" : "contractCopy",
+  "identifier" : "text",
+  "language": "en",
+  "receivers" : [ "someone@somewhere.com" ],
+  "contentParams" : {
+    "clientId" : "clientId",
+    "firstName" : "first",
+    "lastName" : "last"
+  },
+  "attachments" : [ {
+    "filename" : "contract",
+    "path" : "MINIO_BUCKET_PATH/contract.pdf"
+  } ]
+}
+```

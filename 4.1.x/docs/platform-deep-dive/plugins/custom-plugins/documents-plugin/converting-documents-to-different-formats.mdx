@@ -1,0 +1,138 @@
+---
+title: Converting files
+---
+
+
+<Info>
+Currently, the supported conversion method is limited to transforming **PDF** files into **JPEG** format.
+</Info>
+
+This guide provides step-by-step instructions on how to convert an uploaded file (utilizing the provided example) from PDF to JPEG.
+
+## Prerequisites
+
+1. **Access Permissions**: Ensure that you have the necessary permissions to use the Documents Plugin. The user account used for these operations should have the required access rights.
+
+2. **Kafka Configuration**: Verify that the Kafka messaging system is properly configured and accessible. The Documents Plugin relies on Kafka for communication between nodes.
+
+  - **Kafka Topics**: Familiarize yourself with the Kafka topics used for these operations (later in this section)
+
+3. Before initiating the conversion process, it is essential to identify the file in the storage solution using its unique ID. This ensures that the conversion is performed on an already uploaded file.
+
+You have two options to obtain the file ID:
+
+- Extract the file ID from a [**Response Message**](./uploading-a-new-document) of an upload file request. For more details, refer to the [**upload process documentation**](./uploading-a-new-document).
+
+- Extract the file ID from a [**Response Message**](./generating-from-html-templates) of a generate from template request. For more details, refer to the [**document generation reply documentation**](./generating-from-html-templates)
+
+<Info>
+In the following example, we will use the `fileId` generated for [**Uploading a New Document**](./uploading-a-new-document) scenario.
+
+```json
+{
+  "customId": "119246",
+  "fileId": "96975e03-7fba-4a03-99b0-3b30c449dfe7",
+  "documentType": "BULK",
+  "documentLabel": null,
+  "minioPath": "flowx-dev-process-id-119246/119246/458_BULK.pdf",
+  "downloadPath": "internal/files/96975e03-7fba-4a03-99b0-3b30c449dfe7/download",
+  "noOfPages": null,
+  "error": null
+}
+```
+</Info>
+
+## Configuring the process
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/convert_pdf_to_jpeg.png)
+
+To create a process that converts a document from PDF to JPEG format, follow these steps:
+
+1. Create a process that includes a [**Send Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node) node and a [**Receive Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node):
+
+* Use the **Send Message Task** node to send the conversion request.
+* Use the **Receive Message Task** node to receive the reply.
+
+2. Configure the first node (**Send Message Task**) by adding a **Kafka send action**.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/convert_action_name.png)
+
+3. Specify the [**Kafka topic**](../../../../../setup-guides/flowx-engine-setup-guide/engine-setup#kafka-configuration) where you send the conversion request.
+
+<Tip>
+To identify your defined topics in your current environment, follow the next steps:
+
+1. From the FLOWX.AI main screen, navigate to the **Platform Status** menu at the bottom of the left sidebar.
+2. In the FLOWX Components list, scroll to the **document-plugin-mngt** line and press the eye icon on the right side.
+3. In the details screen, expand the `KafkaTopicsHealthCheckIndicator` line and then **details → configuration → topic → file → convert**. Here will find the in and out topics for converting files.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/kakfa_topics_convert.png)
+</Tip>
+
+4. Fill in the body of the message request.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/convert_action.png)
+
+#### Message request example
+
+<Info>
+This is an example of a message that follows the custom integration data model.
+</Info>
+
+```json
+{
+  "fileId": "96975e03-7fba-4a03-99b0-3b30c449dfe7",
+  "to": "image/jpeg"
+}
+```
+
+* `fileId`: The file ID that will be converted 
+* `to`: The file extension to convert to (in this case, "JPEG")
+
+
+5. Configure the second node (**Receive Message Task**) by adding a **Data stream topic**:
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/convert_stream.png)
+
+<Info>
+The response will be sent to this `..out` Kafka topic.
+</Info>
+
+## Receiving the reply
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/convert_response.png)
+
+The following values are expected in the reply body:
+
+* **customId**: The unique identifier for your document (it could be for example the ID of a client)
+* **fileId**: The file ID
+* **documentType**: The document type
+* **documentLabel**: The document label (if available)
+* **minioPath**: The path where the converted file is saved. It represents the location of the file in the storage system, whether it's a MinIO path or an S3 path, depending on the specific storage solution
+* **downloadPath**: The download path for the converted file
+* **noOfPages**: If applicable
+* **error**: Any error message in case of an error during the conversion process
+
+
+#### Message response example
+
+```json
+{
+  "customId": "119246",
+  "fileId": "8ec75c0e-eaa6-4d80-b7e5-15a68bba7459",
+  "documentType": "BULK",
+  "documentLabel": null,
+  "minioPath": "flowx-dev-process-id-119246/119246/461_BULK.jpg",
+  "downloadPath": "internal/files/461/download",
+  "noOfPages": null,
+  "error": null
+}
+```
+
+The converted file is now available in the storage solution and it can be downloaded:
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/jpg_final.png)
+
+<Info>
+Note that the actual values in the response will depend on the specific conversion request and the document being converted.
+</Info>

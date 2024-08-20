@@ -1,0 +1,184 @@
+---
+title: CMS setup
+description:
+---
+
+## Infrastructure prerequisites
+
+The CMS service requires the following components to be set up before it can be started:
+
+* **Docker engine** - version 17.06 or higher
+* **MongoDB** - version 4.4 or higher for storing taxonomies and contents
+* **Redis** - version 6.0 or higher
+* **Kafka** - version 2.8 or higher
+* **Elastisearch** - version 7.11.0 or higher
+
+<Info>
+The service comes with most of the needed configuration properties filled in, but there are a few that need to be set up using some custom environment variables.
+</Info>
+
+## Dependencies
+
+* [**DB instance**](#mongodb-database)
+* [**Authorization & access roles**](#configuring-authorization--access-roles)
+* [**Redis**](#configuring-redis)
+* [**Kafka**](#configuring-kafka)
+
+## Configuration
+
+### MongoDB database
+
+A basic MongoDB configuration for the CMS service can be set up using a helm values.yaml file as follows:
+
+```yaml
+cms-mdb:
+    existingSecret: {{secretName}}
+    mongodbDatabase: {{CmsDatabaseName}}
+    mongodbUsername: {{CmsDatabaseUser}}
+    persistence:
+      enabled: true
+      mountPath: /bitnami/mongodb
+      size: 4Gi
+    replicaSet:
+      enabled: true
+      name: rs0
+      pdb:
+        enabled: true
+        minAvailable:
+          arbiter: 1
+          secondary: 1
+      replicas:
+        arbiter: 1
+        secondary: 1
+      useHostnames: true
+    serviceAccount:
+      create: false
+    usePassword: true
+```
+
+
+
+## Configuration <a href="#bad24571-ff23-4ec3-83d9-8a2ace74a6b4" id="bad24571-ff23-4ec3-83d9-8a2ace74a6b4"></a>
+
+### Configuring authorization & access roles
+
+To connect to the identity management platform, the following variables need to be set:
+
+* `SECURITY_OAUTH2_BASE_SERVER_URL` - the base URL for the OAuth 2.0 Authorization Server, which is responsible for authentication and authorization for clients and users, it is used to authorize clients, as well as to issue and validate access tokens
+
+* `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - a unique identifier for a client application that is registered with the OAuth 2.0 Authorization Server, this is used to authenticate the client application when it attempts to access resources on behalf of a user
+
+* `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - secret key that is used to authenticate requests made by an authorization client
+
+* `SECURITY_OAUTH2_REALM` - security configuration env var in the Spring Security OAuth2 framework, it is used to specify the realm name used when authenticating with OAuth2 provider
+
+### Configuring MongoDB
+
+The MongoDB database is used for storing taxonomies and contents. The following configurations need to be set using environment variables:
+
+* `SPRING_DATA_MONGODB_URI` - environment variable used to provide the connection string for a MongoDB database that is used with, this connection string provides the host, port, database name, user credentials, and other configuration details for the MongoDB server
+
+### Configuring Redis
+
+<Info>
+The service can use the [**Redis component**](../../platform-setup-guides/platform-setup-guides-docs.md#redis-configuration) already deployed for the engine.
+</Info>
+
+The following values should be set with the corresponding Redis-related values:
+
+* `SPRING_DATA_REDIS_HOST` - environment variable used to configure the hostname or IP address of a Redis server when using Spring Data Redis
+
+* `SPRING_DATA_REDIS_PORT` - environment variable used to specify the port number for connecting to a Redis server in a Spring Boot application
+
+* `SPRING_DATA_REDIS_PASSWORD` - environment variable used to store the password used to authenticate with a Redis server, it is used to secure access to the Redis server and should be kept confidential
+
+All the data produced by the service will be stored in Redis under a specific key. The name of the key can be configured using the environment variable:
+
+### Configuring Kafka <a href="#63673403-7b21-440b-a173-211fd5c9a86e" id="63673403-7b21-440b-a173-211fd5c9a86e"></a>
+
+To configure the Kafka server, you need to set the following environment variables:
+
+* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - address of the Kafka server, it should be in the format "host:port"
+
+* `SPRING_KAFKA_CONSUMER_GROUP_ID` - a group of consumers
+
+* `KAFKA_CONSUMER_THREADS` - the number of Kafka consumer threads
+
+* `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` - the interval between retries after `AuthorizationException` is thrown by `KafkaConsumer`
+
+* `KAFKA_TOPIC_AUDIT_OUT` - the topic key for receiving audit logs
+
+Each action available in the service corresponds to a Kafka event. A separate Kafka topic must be configured for each use case.
+
+<Info>
+It is important to note that all the actions that start with a configured pattern will be consumed by the engine.
+</Info>
+
+### Configuring logging
+
+To control the log levels, the following environment variables can be set:
+
+* `LOGGING_LEVEL_ROOT` - the log level for the root spring boot microservice logs
+
+* `LOGGING_LEVEL_APP` - the log level for app-level logs
+
+* `LOGGING_LEVEL_MONGO_DRIVER` - the log level for mongo driver
+
+### Configuring file storage
+
+* `APPLICATION_FILE_STORAGE_S3_SERVER_URL` - environment variable used to store the URL of the S3 server that is used to store files for the application.
+
+* `APPLICATION_FILE_STORAGE_S3_BUCKET_NAME` - environment variable used to store the name of the S3 bucket that is used to store files for the application
+
+* `APPLICATION_FILE_STORAGE_S3_ROOT_DIRECTORY` - environment variable used to store the root directory within the S3 bucket where the files for the application are stored
+
+* `APPLICATION_FILE_STORAGE_S3_CREATE_BUCKET` - environment variable used to indicate whether the S3 bucket should be created if it does not already exist, it can be set to true or false
+ 
+* `APPLICATION_FILE_STORAGE_S3_PUBLIC_URL` - the public URL of the S3 solution, it specifies the URL that can be used to access the files stored
+
+### Configuring application management
+
+The FlowX helm chart provides a management service with the necessary parameters to integrate with the Prometheus operator. However, this integration is disabled by default.
+
+#### Prometheus metrics export configuration
+
+<Warning>
+Old configuration from < v4.1 releases (will be deprecated in v4.5):
+
+* `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED`: Enables or disables Prometheus metrics export.
+
+</Warning>
+
+<Info>
+New configuration, starting from v4.1 release, available below. Note that this setup is backwards compatible, it does not affect the configuration from v3.4.x. The configuration files will still work until v4.5 release.
+
+</Info>
+
+To configure Prometheus metrics export for the FlowX.AI Engine, the following environment variable is required:
+
+
+| Environment Variable                           | Description                                    | Default Value | Possible Values |
+| ---------------------------------------------- | ---------------------------------------------- | ------------- | --------------- |
+| `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED` | Enables or disables Prometheus metrics export. | `false`       | `true`, `false` |
+
+
+The FlowX helm chart provides a management service with the necessary parameters to integrate with the Prometheus operator. However, this integration is disabled by default.
+
+<Warning>
+Old configuration from < v4.1 releases (will be deprecated in v4.5):
+
+* `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED`: Enables or disables Prometheus metrics export.
+
+</Warning>
+
+<Info>
+New configuration, starting from v4.1 release, available below. Note that this setup is backwards compatible, it does not affect the configuration from v3.4.x. The configuration files will still work until v4.5 release.
+
+</Info>
+
+To configure Prometheus metrics export for the FlowX.AI Engine, the following environment variable is required:
+
+
+| Environment Variable                           | Description                                    | Default Value | Possible Values |
+| ---------------------------------------------- | ---------------------------------------------- | ------------- | --------------- |
+| `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED` | Enables or disables Prometheus metrics export. | `false`       | `true`, `false` |

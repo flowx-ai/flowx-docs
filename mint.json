@@ -1,7 +1,11 @@
 {
   "$schema": "https://mintlify.com/schema.json",
   "name": "Docs",
-  "versions": ["v4.0", "v3.x"],
+  "versions": [
+    "v4.1.x",
+    "v4.0",
+    "v3.x"
+  ],
   "logo": {
     "dark": "/logo/dark.png",
     "light": "/logo/light.png"
@@ -21,60 +25,514 @@
       "name": "Support",
       "url": "https://flowxai.zendesk.com/"
     },
-
     {
       "name": "Community",
       "url": "https://discord.gg/Gm3Dv7YjbW"
     }
-
   ],
   "topbarCtaButton": {
     "name": "Academy",
     "url": "https://academy.flowx.ai/"
   },
-
   "tabs": [
-
     {
       "name": "Release notes",
       "url": "release-notes"
     },
-
     {
       "name": "SDKs",
       "version": "v4.0",
       "url": "4.0/sdks"
     },
-
     {
       "name": "SDKs",
       "version": "v3.x",
       "url": "3.x/sdks"
     },
-
+    {
+      "name": "SDKs",
+      "version": "v4.1.x",
+      "url": "4.1.x/sdks"
+    },
     {
       "name": "Setup guides",
       "version": "v3.x",
       "url": "3.x/setup-guides"
     },
-
     {
       "name": "Setup guides",
       "version": "v4.0",
       "url": "4.0/setup-guides"
     },
-
-
     {
-      "name":"Requests",
+      "name": "Setup guides",
+      "version": "v4.1.x",
+      "url": "4.1.x/setup-guides"
+    },
+    {
+      "name": "Requests",
       "url": "https://flowxai.canny.io/documentation-feedback"
     }
   ],
-  "anchors": [
-    
-  ],
+  "anchors": [],
   "navigation": [
 
+    {
+      "group": "Getting Started",
+      "version": "v4.1.x",
+      "pages": [
+        "4.1.x/docs/introduction",
+        "4.1.x/docs/getting-started/building-your-first-proc",
+        "4.1.x/docs/getting-started/learn-more"
+      ]
+    },
+    {
+      "group": "Platform overview",
+      "version": "v4.1.x",
+      "pages": [
+        {
+          "group": "Frameworks and standards",
+          "icon": "gears",
+          "pages": [
+            {
+              "group": "Business process industry and standards",
+              "pages": [
+                "4.1.x/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn",
+                "4.1.x/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn",
+                "4.1.x/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel"
+              ]
+            },
+            {
+              "group": "Event-driven architecture frameworks",
+              "pages": [
+                "4.1.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts",
+                "4.1.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch",
+                "4.1.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kubernetes",
+                "4.1.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-nginx",
+                "4.1.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis"
+              ]
+            }
+          ]
+        },
+        "4.1.x/docs/platform-overview/flowx-architecture"
+      ]
+    },
+    {
+      "group": "Building blocks",
+      "version": "v4.1.x",
+      "pages": [
+        {
+          "group": "Process",
+          "icon": "network-wired",
+          "pages": [
+            "4.1.x/docs/building-blocks/process/process",
+            "4.1.x/docs/building-blocks/process/process-definition",
+            "4.1.x/docs/building-blocks/process/process-instance",
+            "4.1.x/docs/building-blocks/process/subprocess",
+            "4.1.x/docs/building-blocks/process/versioning",
+            "4.1.x/docs/building-blocks/process/navigation-areas"
+          ]
+        },
+        {
+          "group": "Nodes",
+          "icon": "circle-nodes",
+          "pages": [
+            "4.1.x/docs/building-blocks/node/node",
+            "4.1.x/docs/building-blocks/node/start-end-node",
+            "4.1.x/docs/building-blocks/node/message-send-received-task-node",
+            "4.1.x/docs/building-blocks/node/task-node",
+            "4.1.x/docs/building-blocks/node/user-task-node",
+            "4.1.x/docs/building-blocks/node/exclusive-gateway-node",
+            "4.1.x/docs/building-blocks/node/parallel-gateway",
+            {
+              "group": "Call subprocess tasks",
+              "pages": [
+                "4.1.x/docs/building-blocks/node/call-subprocess-tasks/call-activity-node",
+                "4.1.x/docs/building-blocks/node/call-subprocess-tasks/start-embedded-subprocess"
+              ]
+            },
+            {
+              "group": "Message events",
+              "pages": [
+                "4.1.x/docs/building-blocks/node/message-events/message-events",
+                "4.1.x/docs/building-blocks/node/message-events/message-catch-start-event",
+                {
+                  "group": "Message intermediate events",
+                  "pages": [
+                    "4.1.x/docs/building-blocks/node/message-events/message-intermediate/message-intermediate",
+                    "4.1.x/docs/building-blocks/node/message-events/message-intermediate/message-throw-intermediate-event",
+                    "4.1.x/docs/building-blocks/node/message-events/message-intermediate/message-catch-intermediate-event",
+                    "4.1.x/docs/building-blocks/node/message-events/message-intermediate/example-intermediate-message-events"
+                  ]
+                },
+                "4.1.x/docs/building-blocks/node/message-events/message-catch-boundary-event"
+              ]
+            },
+            {
+              "group": "Timer events",
+              "pages": [
+                "4.1.x/docs/building-blocks/node/timer-events/timer-events",
+                "4.1.x/docs/building-blocks/node/timer-events/timer-start-event",
+                "4.1.x/docs/building-blocks/node/timer-events/timer-intermediate-event",
+                "4.1.x/docs/building-blocks/node/timer-events/timer-boundary-event",
+                "4.1.x/docs/building-blocks/node/timer-events/timer-expressions"
+              ]
+            },
+            "4.1.x/docs/building-blocks/node/error-events"
+          ]
+        },
+        {
+          "group": "Actions",
+          "icon": "bolt",
+          "pages": [
+            "4.1.x/docs/building-blocks/actions/actions",
+            {
+              "group": "Business rule actions",
+              "pages": [
+                "4.1.x/docs/building-blocks/actions/business-rule-action/business-rule-action",
+                "4.1.x/docs/building-blocks/actions/business-rule-action/dmn-business-rule-action"
+              ]
+            },
+            "4.1.x/docs/building-blocks/actions/send-data-to-user-interface",
+            "4.1.x/docs/building-blocks/actions/upload-file-action",
+            "4.1.x/docs/building-blocks/actions/start-subprocess-action",
+            "4.1.x/docs/building-blocks/actions/append-params-to-parent-process",
+            "4.1.x/docs/building-blocks/actions/kafka-send-action"
+          ]
+        },
+        {
+          "group": "UI Designer",
+          "icon": "paintbrush",
+          "pages": [
+            "4.1.x/docs/building-blocks/ui-designer/ui-designer",
+            {
+              "group": "Root components",
+              "pages": [
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/root-components/root-components",
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/root-components/container",
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/root-components/card",
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/root-components/custom"
+              ]
+            },
+            {
+              "group": "Collections UI elements",
+              "pages": [
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/collection/collection",
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/collection/collection_prototype"
+              ]
+            },
+            {
+              "group": "Form elements",
+              "pages": [
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/input-form-field",
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/text-area",
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/select-form-field",
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/checkbox-form-field",
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/radio-form-field",
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/switch-form-field",
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/datepicker-form-field",
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/slider",
+                "4.1.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/segmented-button"
+              ]
+            },
+            "4.1.x/docs/building-blocks/ui-designer/ui-component-types/buttons",
+            "4.1.x/docs/building-blocks/ui-designer/ui-component-types/file-preview",
+            "4.1.x/docs/building-blocks/ui-designer/ui-component-types/image",
+            "4.1.x/docs/building-blocks/ui-designer/ui-component-types/indicators",
+            "4.1.x/docs/building-blocks/ui-designer/ui-component-types/typography",
+            "4.1.x/docs/building-blocks/ui-designer/ui-actions",
+            "4.1.x/docs/building-blocks/ui-designer/validators",
+            "4.1.x/docs/building-blocks/ui-designer/dynamic-and-computed-values",
+            "4.1.x/docs/building-blocks/ui-designer/layout-configuration"
+          ]
+        },
+        "4.1.x/docs/building-blocks/token",
+        "4.1.x/docs/building-blocks/supported-scripts"
+      ]
+    },
+    {
+      "group": "FlowX.AI Designer",
+      "version": "v4.1.x",
+      "pages": [
+        "4.1.x/docs/flowx-designer/overview",
+        {
+          "group": "Managing a process flow",
+          "icon": "arrow-progress",
+          "pages": [
+            "4.1.x/docs/flowx-designer/managing-a-process-flow/creating-a-new-process-definition",
+            "4.1.x/docs/flowx-designer/managing-a-process-flow/adding-a-new-node",
+            "4.1.x/docs/flowx-designer/managing-a-process-flow/adding-an-action-to-a-node",
+            "4.1.x/docs/flowx-designer/managing-a-process-flow/handling-decisions-in-the-flow",
+            "4.1.x/docs/flowx-designer/managing-a-process-flow/adding-more-flow-branches",
+            "4.1.x/docs/flowx-designer/managing-a-process-flow/creating-a-user-interface",
+            "4.1.x/docs/flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process",
+            "4.1.x/docs/flowx-designer/managing-a-process-flow/export-import-a-process-definition",
+            "4.1.x/docs/flowx-designer/managing-a-process-flow/starting-a-process"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Platform deep dive",
+      "version": "v4.1.x",
+      "pages": [
+        {
+          "group": "Core components",
+          "icon": "puzzle",
+          "pages": [
+            "4.1.x/docs/platform-deep-dive/core-components/flowx-engine",
+            "4.1.x/docs/platform-deep-dive/core-components/advancing-controller",
+            "4.1.x/docs/platform-deep-dive/core-components/events-gateway"
+          ]
+        },
+        {
+          "group": "Core extensions",
+          "icon": "puzzle-piece",
+          "pages": [
+            {
+              "group": "Content management",
+              "pages": [
+                "4.1.x/docs/platform-deep-dive/core-extensions/content-management/content-management",
+                "4.1.x/docs/platform-deep-dive/core-extensions/content-management/enumerations",
+                "4.1.x/docs/platform-deep-dive/core-extensions/content-management/substitution-tags",
+                "4.1.x/docs/platform-deep-dive/core-extensions/content-management/content-models",
+                "4.1.x/docs/platform-deep-dive/core-extensions/content-management/languages",
+                "4.1.x/docs/platform-deep-dive/core-extensions/content-management/source-systems",
+                "4.1.x/docs/platform-deep-dive/core-extensions/content-management/media-library",
+                "4.1.x/docs/platform-deep-dive/core-extensions/content-management/font-files",
+                "4.1.x/docs/platform-deep-dive/core-extensions/content-management/themes"
+              ]
+            },
+            "4.1.x/docs/platform-deep-dive/core-extensions/generic-parameters",
+            "4.1.x/docs/platform-deep-dive/core-extensions/license-engine",
+            "4.1.x/docs/platform-deep-dive/core-extensions/audit",
+            "4.1.x/docs/platform-deep-dive/core-extensions/scheduler",
+            "4.1.x/docs/platform-deep-dive/core-extensions/search-data-service",
+            {
+              "group": "Integration management",
+              "version": "v4.1.x",
+              "pages": [
+                "4.1.x/docs/platform-deep-dive/core-extensions/integration-management/integration-management-overview",
+                "4.1.x/docs/platform-deep-dive/core-extensions/integration-management/configuring-access-rights-for-intgr-mngmnt"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Plugins",
+          "version": "v4.1.x",
+          "icon": "puzzle-piece-simple",
+          "pages": [
+            "4.1.x/docs/platform-deep-dive/plugins/custom-plugins",
+            {
+              "group": "Documents plugin",
+              "version": "v4.1.x",
+              "pages": [
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin-overview",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/generating-from-html-templates",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/managing-html-templates",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/uploading-a-new-document",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/converting-documents-to-different-formats",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/splitting-a-document",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/deleting-a-file",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/getting-urls-to-documents",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/listing-stored-files"
+              ]
+            },
+            {
+              "group": "Notifications plugin",
+              "version": "v4.1.x",
+              "pages": [
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/notifications-plugin-overview",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/managing-notification-templates",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-a-notification",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-an-email-with-attachments",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/forwarding-notifications-to-an-external-system",
+                {
+                  "group": "OTP flow",
+                  "version": "v4.1.x",
+                  "pages": [
+                    "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/otp-flow",
+                    "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/generate-otp",
+                    "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/validate-otp"
+                  ]
+                }
+              ]
+            },
+            {
+              "group": "Task Management",
+              "version": "v4.1.x",
+              "pages": [
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-allocation-rules",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-hooks",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-out-of-office-records",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-stages"
+              ]
+            },
+            "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/ocr-plugin",
+            {
+              "group": "Customer management",
+              "version": "v4.1.x",
+              "pages": [
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/customer-management/customer-management-overview",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/customer-management/crm-plugin-example"
+              ]
+            },
+            {
+              "group": "Reporting plugin",
+              "version": "v4.0",
+              "pages": [
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/reporting/reporting-overview",
+                "4.1.x/docs/platform-deep-dive/plugins/custom-plugins/reporting/access-and-authorization"
+              ]
+            },
+            "4.1.x/docs/platform-deep-dive/plugins/ai-agents",
+            "4.1.x/docs/platform-deep-dive/plugins/wysiwyg"
+          ]
+        },
+        {
+          "group": "Integrations",
+          "version": "v4.1.x",
+          "icon": "link",
+          "pages": [
+            "4.1.x/docs/platform-deep-dive/integrations/integrations-overview",
+            "4.1.x/docs/platform-deep-dive/integrations/building-a-connector",
+            "4.1.x/docs/platform-deep-dive/integrations/creating-a-kafka-consumer",
+            "4.1.x/docs/platform-deep-dive/integrations/creating-a-kafka-producer",
+            "4.1.x/docs/platform-deep-dive/integrations/mock-integrations",
+            "4.1.x/docs/platform-deep-dive/integrations/open-telemetry",
+            "4.1.x/docs/platform-deep-dive/integrations/jaeger-setup-for-microservices"
+          ]
+        },
+        "4.1.x/docs/platform-deep-dive/third-party-components",
+        {
+          "group": "User roles management",
+          "version": "v4.1.x",
+          "icon": "user",
+          "pages": [
+            "4.1.x/docs/platform-deep-dive/user-roles-management/swimlanes",
+            "4.1.x/docs/platform-deep-dive/user-roles-management/business-filters"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "API reference",
+      "version": "v4.1.x",
+      "pages": [
+        {
+          "group": "FlowX.AI Engine",
+          "pages": [
+            "4.1.x/docs/api/flowx-engine-api/rest",
+            "4.1.x/docs/api/flowx-engine-api/rest2",
+            "4.1.x/docs/api/flowx-engine-api/rest3",
+            "4.1.x/docs/api/flowx-engine-api/rest4"
+          ]
+        },
+        "4.1.x/docs/api/add-misconfigurations",
+        "4.1.x/docs/api/clear-cache4.0",
+        "4.1.x/docs/api/list-buckets",
+        "4.1.x/docs/api/list-objects-in-buckets",
+        "4.1.x/docs/api/download-file",
+        "4.1.x/docs/api/add-kafka-mock",
+        "4.1.x/docs/api/view-kafka-exchanges"
+      ]
+    },
+    {
+      "group": "SDKs",
+      "version": "v4.1.x",
+      "pages": [
+        "4.1.x/sdks/sdks-overview",
+        "4.1.x/sdks/angular-renderer",
+        "4.1.x/sdks/ios-renderer",
+        "4.1.x/sdks/android-renderer"
+      ]
+    },
+    {
+      "group": "Microservices",
+      "version": "v4.1.x",
+      "pages": [
+        "4.1.x/setup-guides/setup-guides-overview",
+        {
+          "group": "FlowX Engine setup",
+          "version": "v4.1.x",
+          "icon": "engine",
+          "pages": [
+            "4.1.x/setup-guides/flowx-engine-setup-guide/engine-setup",
+            "4.1.x/setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes",
+            {
+              "group": "Process instance indexing",
+              "version": "v4.1.x",
+              "pages": [
+                "4.1.x/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/elasticsearch-indexing",
+                "4.1.x/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/process-instance-indexing-config-guidelines"
+              ]
+            },
+            "4.1.x/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving"
+          ]
+        },
+        "4.1.x/setup-guides/advancing-controller-setup-guide",
+        "4.1.x/setup-guides/designer-setup-guide",
+        "4.1.x/setup-guides/admin-setup-guide",
+        "4.1.x/setup-guides/cms-setup",
+        "4.1.x/setup-guides/scheduler-setup-guide",
+        "4.1.x/setup-guides/events-gateway-setup",
+        "4.1.x/setup-guides/audit-setup-guide",
+        "4.1.x/setup-guides/search-data-service-setup-guide",
+        "4.1.x/setup-guides/license-engine-setup"
+      ]
+    },
+    {
+      "group": "Plugins",
+      "version": "v4.1.x",
+      "pages": [
+        "4.1.x/setup-guides/plugins-setup-guide/plugins-setup-guide-overview",
+        "4.1.x/setup-guides/plugins-setup-guide/documents-plugin-setup",
+        "4.1.x/setup-guides/plugins-setup-guide/notifications-plugin-setup",
+        "4.1.x/setup-guides/plugins-setup-guide/task-management-plugin-setup",
+        "4.1.x/setup-guides/plugins-setup-guide/ocr-plugin-setup",
+        "4.1.x/setup-guides/plugins-setup-guide/reporting-setup",
+        "4.1.x/setup-guides/plugins-setup-guide/customer-management-plugin-configuration"
+      ]
+    },
+    {
+      "group": "Observability",
+      "version": "v4.1.x",
+      "pages": [
+        "4.1.x/setup-guides/open-telemetry-config",
+        "4.1.x/setup-guides/ot-default-properties"
+      ]
+    },
+    {
+      "group": "Microservices access rights",
+      "version": "v4.1.x",
+      "pages": [
+        {
+          "group": "Access management",
+          "version": "v4.1.x",
+          "icon": "lock",
+          "pages": [
+            "4.1.x/setup-guides/access-management/access-management-overview",
+            "4.1.x/setup-guides/access-management/configuring-an-iam-solution",
+            "4.1.x/setup-guides/access-management/default-roles"
+          ]
+        },
+        "4.1.x/setup-guides/access-management/configuring-access-rights-for-admin",
+        "4.1.x/setup-guides/access-management/configuring-access-rights-for-engine",
+        "4.1.x/setup-guides/access-management/configuring-access-rights-for-cms",
+        "4.1.x/setup-guides/access-management/configuring-access-rights-for-license"
+      ]
+    },
+    {
+      "group": "Plugins access rights",
+      "version": "v4.1.x",
+      "pages": [
+        "4.1.x/setup-guides/plugins-access-rights/configuring-access-rights-for-documents",
+        "4.1.x/setup-guides/plugins-access-rights/configuring-access-rights-for-notifications",
+        "4.1.x/setup-guides/plugins-access-rights/configuring-access-rights-for-task-management"
+      ]
+    },
 
     {
       "group": "Getting Started",
@@ -96,7 +554,6 @@
             {
               "group": "Business process industry and standards",
               "pages": [
-
                 "4.0/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn",
                 "4.0/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn",
                 "4.0/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel"
@@ -110,18 +567,13 @@
                 "4.0/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kubernetes",
                 "4.0/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-nginx",
                 "4.0/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis"
-
-
               ]
             }
           ]
-
         },
         "4.0/docs/platform-overview/flowx-architecture"
-
       ]
     },
-
     {
       "group": "Building blocks",
       "version": "v4.0",
@@ -136,10 +588,8 @@
             "4.0/docs/building-blocks/process/subprocess",
             "4.0/docs/building-blocks/process/versioning",
             "4.0/docs/building-blocks/process/navigation-areas"
-
           ]
         },
-
         {
           "group": "Nodes",
           "icon": "circle-nodes",
@@ -151,7 +601,6 @@
             "4.0/docs/building-blocks/node/user-task-node",
             "4.0/docs/building-blocks/node/exclusive-gateway-node",
             "4.0/docs/building-blocks/node/parallel-gateway",
-           
             {
               "group": "Call subprocess tasks",
               "pages": [
@@ -159,7 +608,6 @@
                 "4.0/docs/building-blocks/node/call-subprocess-tasks/start-embedded-subprocess"
               ]
             },
-
             {
               "group": "Message events",
               "pages": [
@@ -174,12 +622,9 @@
                     "4.0/docs/building-blocks/node/message-events/message-intermediate/example-intermediate-message-events"
                   ]
                 },
-
                 "4.0/docs/building-blocks/node/message-events/message-catch-boundary-event"
               ]
-          
             },
-
             {
               "group": "Timer events",
               "pages": [
@@ -190,12 +635,9 @@
                 "4.0/docs/building-blocks/node/timer-events/timer-expressions"
               ]
             },
-
             "4.0/docs/building-blocks/node/error-events"
-
           ]
         },
-
         {
           "group": "Actions",
           "icon": "bolt",
@@ -208,17 +650,13 @@
                 "4.0/docs/building-blocks/actions/business-rule-action/dmn-business-rule-action"
               ]
             },
-
             "4.0/docs/building-blocks/actions/send-data-to-user-interface",
             "4.0/docs/building-blocks/actions/upload-file-action",
             "4.0/docs/building-blocks/actions/start-subprocess-action",
             "4.0/docs/building-blocks/actions/append-params-to-parent-process",
             "4.0/docs/building-blocks/actions/kafka-send-action"
-
-
           ]
         },
-
         {
           "group": "UI Designer",
           "icon": "paintbrush",
@@ -233,7 +671,6 @@
                 "4.0/docs/building-blocks/ui-designer/ui-component-types/root-components/custom"
               ]
             },
-
             {
               "group": "Collections UI elements",
               "pages": [
@@ -241,7 +678,6 @@
                 "4.0/docs/building-blocks/ui-designer/ui-component-types/collection/collection_prototype"
               ]
             },
-
             {
               "group": "Form elements",
               "pages": [
@@ -256,7 +692,6 @@
                 "4.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/segmented-button"
               ]
             },
-            
             "4.0/docs/building-blocks/ui-designer/ui-component-types/buttons",
             "4.0/docs/building-blocks/ui-designer/ui-component-types/file-preview",
             "4.0/docs/building-blocks/ui-designer/ui-component-types/image",
@@ -268,16 +703,10 @@
             "4.0/docs/building-blocks/ui-designer/layout-configuration"
           ]
         },
-
         "4.0/docs/building-blocks/token",
         "4.0/docs/building-blocks/supported-scripts"
-
-
-
       ]
     },
-
-
     {
       "group": "FlowX.AI Designer",
       "version": "v4.0",
@@ -297,11 +726,9 @@
             "4.0/docs/flowx-designer/managing-a-process-flow/export-import-a-process-definition",
             "4.0/docs/flowx-designer/managing-a-process-flow/starting-a-process"
           ]
-          }
-      
+        }
       ]
     },
-
     {
       "group": "Platform deep dive",
       "version": "v4.0",
@@ -314,184 +741,151 @@
             "4.0/docs/platform-deep-dive/core-components/advancing-controller",
             "4.0/docs/platform-deep-dive/core-components/events-gateway"
           ]
-          },
-
-          {
-            "group": "Core extensions",
-            "icon": "puzzle-piece",
-            "pages": [
-              {
-                "group": "Content management",
-                "pages": [
-                  "4.0/docs/platform-deep-dive/core-extensions/content-management/content-management",
-                  "4.0/docs/platform-deep-dive/core-extensions/content-management/enumerations",
-                  "4.0/docs/platform-deep-dive/core-extensions/content-management/substitution-tags",
-                  "4.0/docs/platform-deep-dive/core-extensions/content-management/content-models",
-                  "4.0/docs/platform-deep-dive/core-extensions/content-management/languages",
-                  "4.0/docs/platform-deep-dive/core-extensions/content-management/source-systems",
-                  "4.0/docs/platform-deep-dive/core-extensions/content-management/media-library",
-                  "4.0/docs/platform-deep-dive/core-extensions/content-management/font-files",
-                  "4.0/docs/platform-deep-dive/core-extensions/content-management/themes"           
-
-              
-                
-                ]
-
-                
-              },
-
-
-
-                "4.0/docs/platform-deep-dive/core-extensions/generic-parameters",
-                "4.0/docs/platform-deep-dive/core-extensions/license-engine",
-                "4.0/docs/platform-deep-dive/core-extensions/audit",
-                "4.0/docs/platform-deep-dive/core-extensions/scheduler",
-                "4.0/docs/platform-deep-dive/core-extensions/search-data-service",
-
+        },
+        {
+          "group": "Core extensions",
+          "icon": "puzzle-piece",
+          "pages": [
+            {
+              "group": "Content management",
+              "pages": [
+                "4.0/docs/platform-deep-dive/core-extensions/content-management/content-management",
+                "4.0/docs/platform-deep-dive/core-extensions/content-management/enumerations",
+                "4.0/docs/platform-deep-dive/core-extensions/content-management/substitution-tags",
+                "4.0/docs/platform-deep-dive/core-extensions/content-management/content-models",
+                "4.0/docs/platform-deep-dive/core-extensions/content-management/languages",
+                "4.0/docs/platform-deep-dive/core-extensions/content-management/source-systems",
+                "4.0/docs/platform-deep-dive/core-extensions/content-management/media-library",
+                "4.0/docs/platform-deep-dive/core-extensions/content-management/font-files",
+                "4.0/docs/platform-deep-dive/core-extensions/content-management/themes"
+              ]
+            },
+            "4.0/docs/platform-deep-dive/core-extensions/generic-parameters",
+            "4.0/docs/platform-deep-dive/core-extensions/license-engine",
+            "4.0/docs/platform-deep-dive/core-extensions/audit",
+            "4.0/docs/platform-deep-dive/core-extensions/scheduler",
+            "4.0/docs/platform-deep-dive/core-extensions/search-data-service",
+            {
+              "group": "Integration management",
+              "version": "v4.0",
+              "pages": [
+                "4.0/docs/platform-deep-dive/core-extensions/integration-management/integration-management-overview",
+                "4.0/docs/platform-deep-dive/core-extensions/integration-management/configuring-access-rights-for-intgr-mngmnt"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Plugins",
+          "version": "v4.0",
+          "icon": "puzzle-piece-simple",
+          "pages": [
+            "4.0/docs/platform-deep-dive/plugins/custom-plugins",
+            {
+              "group": "Documents plugin",
+              "version": "v4.0",
+              "pages": [
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin-overview",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/generating-from-html-templates",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/managing-html-templates",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/uploading-a-new-document",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/converting-documents-to-different-formats",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/splitting-a-document",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/deleting-a-file",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/getting-urls-to-documents",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/listing-stored-files"
+              ]
+            },
+            {
+              "group": "Notifications plugin",
+              "version": "v4.0",
+              "pages": [
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/notifications-plugin-overview",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/managing-notification-templates",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-a-notification",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-an-email-with-attachments",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/forwarding-notifications-to-an-external-system",
                 {
-                  "group": "Integration management",
+                  "group": "OTP flow",
                   "version": "v4.0",
                   "pages": [
-                    "4.0/docs/platform-deep-dive/core-extensions/integration-management/integration-management-overview",      
-                    "4.0/docs/platform-deep-dive/core-extensions/integration-management/configuring-access-rights-for-intgr-mngmnt"     
+                    "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/otp-flow",
+                    "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/generate-otp",
+                    "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/validate-otp"
                   ]
                 }
-
-            ]
-            },
-
-            {
-              "group": "Plugins",
-              "version": "v4.0",
-              "icon": "puzzle-piece-simple",
-              "pages": [
-                "4.0/docs/platform-deep-dive/plugins/custom-plugins",
-                {
-                  "group": "Documents plugin",
-                  "version": "v4.0",
-                  "pages": [
-                    "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin-overview",
-                    "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/generating-from-html-templates",
-                    "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/managing-html-templates",
-                    "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/uploading-a-new-document",
-                    "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/converting-documents-to-different-formats",
-                    "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/splitting-a-document",
-                    "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/deleting-a-file",
-                    "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/getting-urls-to-documents",
-                    "4.0/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/listing-stored-files"
-
-                     
-
-                  ]
-                  },
-
-                  {
-                    "group": "Notifications plugin",
-                    "version": "v4.0",
-                    "pages": [
-                      "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/notifications-plugin-overview",
-                      "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/managing-notification-templates",
-                      "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-a-notification",
-                      "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-an-email-with-attachments",
-                      "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/forwarding-notifications-to-an-external-system",
-                      {
-                        "group": "OTP flow",
-                        "version": "v4.0",
-                        "pages": [
-                          "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/otp-flow",
-                          "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/generate-otp",
-                          "4.0/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/validate-otp"
-                   
-                        ]
-                        }
-                    ]
-                    },
-
-                    {
-                      "group": "Task Management",
-                      "version": "v4.0",
-                      "pages": [
-                        "4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview",
-                        "4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-allocation-rules",
-                        "4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-hooks",
-                        "4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-out-of-office-records",
-                        "4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-stages"
-                      ]
-                      },
-
-                      "4.0/docs/platform-deep-dive/plugins/custom-plugins/ocr-plugin",
-
-                      {
-                        "group": "Customer management",
-                        "version": "v4.0",
-                        "pages": [
-                          "4.0/docs/platform-deep-dive/plugins/custom-plugins/customer-management/customer-management-overview",
-                          "4.0/docs/platform-deep-dive/plugins/custom-plugins/customer-management/crm-plugin-example"
-                        ]
-                      },
-
-                      {
-                          "group": "Reporting plugin",
-                          "version": "v4.0",
-                          "pages": [
-                            "4.0/docs/platform-deep-dive/plugins/custom-plugins/reporting/reporting-overview",
-                            "4.0/docs/platform-deep-dive/plugins/custom-plugins/reporting/access-and-authorization"
-                          ]
-                       },
-                       "4.0/docs/platform-deep-dive/plugins/ai-agents",
-                       "4.0/docs/platform-deep-dive/plugins/wysiwyg"
-
               ]
-              },
-
-              {
-                "group": "Integrations",
-                "version": "v4.0",
-                "icon": "link",
-                "pages": [
-                  "4.0/docs/platform-deep-dive/integrations/integrations-overview",      
-                  "4.0/docs/platform-deep-dive/integrations/building-a-connector",
-                  "4.0/docs/platform-deep-dive/integrations/creating-a-kafka-consumer",
-                  "4.0/docs/platform-deep-dive/integrations/creating-a-kafka-producer",
-                  "4.0/docs/platform-deep-dive/integrations/mock-integrations",
-                  "4.0/docs/platform-deep-dive/integrations/open-telemetry",
-                  "4.0/docs/platform-deep-dive/integrations/jaeger-setup-for-microservices"
-                ]
-              },
-
-
-              "4.0/docs/platform-deep-dive/third-party-components",
-
-
-              {
-                "group": "User roles management",
-                "version": "v4.0",
-                "icon": "user",
-                "pages": [
-                  "4.0/docs/platform-deep-dive/user-roles-management/swimlanes",      
-                  "4.0/docs/platform-deep-dive/user-roles-management/business-filters"     
-                ]
-              }
-      
+            },
+            {
+              "group": "Task Management",
+              "version": "v4.0",
+              "pages": [
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-allocation-rules",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-hooks",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-out-of-office-records",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-stages"
+              ]
+            },
+            "4.0/docs/platform-deep-dive/plugins/custom-plugins/ocr-plugin",
+            {
+              "group": "Customer management",
+              "version": "v4.0",
+              "pages": [
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/customer-management/customer-management-overview",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/customer-management/crm-plugin-example"
+              ]
+            },
+            {
+              "group": "Reporting plugin",
+              "version": "v4.0",
+              "pages": [
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/reporting/reporting-overview",
+                "4.0/docs/platform-deep-dive/plugins/custom-plugins/reporting/access-and-authorization"
+              ]
+            },
+            "4.0/docs/platform-deep-dive/plugins/ai-agents",
+            "4.0/docs/platform-deep-dive/plugins/wysiwyg"
+          ]
+        },
+        {
+          "group": "Integrations",
+          "version": "v4.0",
+          "icon": "link",
+          "pages": [
+            "4.0/docs/platform-deep-dive/integrations/integrations-overview",
+            "4.0/docs/platform-deep-dive/integrations/building-a-connector",
+            "4.0/docs/platform-deep-dive/integrations/creating-a-kafka-consumer",
+            "4.0/docs/platform-deep-dive/integrations/creating-a-kafka-producer",
+            "4.0/docs/platform-deep-dive/integrations/mock-integrations",
+            "4.0/docs/platform-deep-dive/integrations/jaeger-setup-for-microservices"
+          ]
+        },
+        "4.0/docs/platform-deep-dive/third-party-components",
+        {
+          "group": "User roles management",
+          "version": "v4.0",
+          "icon": "user",
+          "pages": [
+            "4.0/docs/platform-deep-dive/user-roles-management/swimlanes",
+            "4.0/docs/platform-deep-dive/user-roles-management/business-filters"
+          ]
+        }
       ]
     },
-
     {
       "group": "API reference",
       "version": "v4.0",
-        "pages": [
-          {
-            "group": "FlowX.AI Engine",
-            "pages": [
-
-              "4.0/docs/api/flowx-engine-api/rest",
-              "4.0/docs/api/flowx-engine-api/rest2",
-              "4.0/docs/api/flowx-engine-api/rest3",
-              "4.0/docs/api/flowx-engine-api/rest4"
-            ]
-
-            
-          },
+      "pages": [
+        {
+          "group": "FlowX.AI Engine",
+          "pages": [
+            "4.0/docs/api/flowx-engine-api/rest",
+            "4.0/docs/api/flowx-engine-api/rest2",
+            "4.0/docs/api/flowx-engine-api/rest3",
+            "4.0/docs/api/flowx-engine-api/rest4"
+          ]
+        },
         "4.0/docs/api/add-misconfigurations",
         "4.0/docs/api/clear-cache4.0",
         "4.0/docs/api/list-buckets",
@@ -500,122 +894,93 @@
         "4.0/docs/api/add-kafka-mock",
         "4.0/docs/api/view-kafka-exchanges"
       ]
-
     },
-
-
-      {
-        "group": "SDKs",
-        "version": "v4.0",
-        "pages": [
-          "4.0/sdks/sdks-overview",
-          "4.0/sdks/angular-renderer",
-          "4.0/sdks/ios-renderer",
-          "4.0/sdks/android-renderer"
-        ]
-
-      },
-
-      {
-        "group": "Microservices",
-        "version": "v4.0",
-        "pages": [
-          "4.0/setup-guides/setup-guides-overview",
-
-          {
-            "group": "FlowX Engine setup",
-            "version": "v4.0",
-            "icon": "engine",
-            "pages": [
-              "4.0/setup-guides/flowx-engine-setup-guide/engine-setup",
-              "4.0/setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes",
-
-              {
-                "group": "Process instance indexing",
-                "version": "v4.0",
-                "pages": [
-                  "4.0/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/elasticsearch-indexing",
-                  "4.0/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/process-instance-indexing-config-guidelines"
-                ]
-              },
-
-              "4.0/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving"
-            ]
-    
-          },
-          "4.0/setup-guides/advancing-controller-setup-guide",
-          "4.0/setup-guides/designer-setup-guide",
-          "4.0/setup-guides/admin-setup-guide",
-          "4.0/setup-guides/cms-setup",     
-          "4.0/setup-guides/scheduler-setup-guide",
-          "4.0/setup-guides/events-gateway-setup",
-          "4.0/setup-guides/audit-setup-guide",
-          "4.0/setup-guides/search-data-service-setup-guide",
-          "4.0/setup-guides/license-engine-setup"   
-          
-        ]
-      },
-
-
-      {
-        "group": "Plugins",
-        "version": "v4.0",
-        "pages": [
-          "4.0/setup-guides/plugins-setup-guide/plugins-setup-guide-overview",
-          "4.0/setup-guides/plugins-setup-guide/documents-plugin-setup",
-          "4.0/setup-guides/plugins-setup-guide/notifications-plugin-setup",
-          "4.0/setup-guides/plugins-setup-guide/task-management-plugin-setup",
-          "4.0/setup-guides/plugins-setup-guide/ocr-plugin-setup",
-          "4.0/setup-guides/plugins-setup-guide/reporting-setup",
-          "4.0/setup-guides/plugins-setup-guide/customer-management-plugin-configuration"
-
-        ]
-      },
-
-      {
-        "group": "Observability",
-        "version": "v4.0",
-        "pages":[
-          "4.0/setup-guides/open-telemetry-config",
-          "4.0/setup-guides/ot-default-properties"
-        ]
-      },
-
-      {
-        "group": "Microservices access rights",
-        "version": "v4.0",
-        "pages": [
-          {
-            "group": "Access management",
-            "version": "v4.0",
-            "icon": "lock",
-            "pages": [
-              "4.0/setup-guides/access-management/access-management-overview",
-              "4.0/setup-guides/access-management/configuring-an-iam-solution",
-              "4.0/setup-guides/access-management/default-roles"
-
-            ]
+    {
+      "group": "SDKs",
+      "version": "v4.0",
+      "pages": [
+        "4.0/sdks/sdks-overview",
+        "4.0/sdks/angular-renderer",
+        "4.0/sdks/ios-renderer",
+        "4.0/sdks/android-renderer"
+      ]
+    },
+    {
+      "group": "Microservices",
+      "version": "v4.0",
+      "pages": [
+        "4.0/setup-guides/setup-guides-overview",
+        {
+          "group": "FlowX Engine setup",
+          "version": "v4.0",
+          "icon": "engine",
+          "pages": [
+            "4.0/setup-guides/flowx-engine-setup-guide/engine-setup",
+            "4.0/setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes",
+            {
+              "group": "Process instance indexing",
+              "version": "v4.0",
+              "pages": [
+                "4.0/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/elasticsearch-indexing",
+                "4.0/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/process-instance-indexing-config-guidelines"
+              ]
             },
-            "4.0/setup-guides/access-management/configuring-access-rights-for-admin",  
-            "4.0/setup-guides/access-management/configuring-access-rights-for-engine",
-            "4.0/setup-guides/access-management/configuring-access-rights-for-cms",
-            "4.0/setup-guides/access-management/configuring-access-rights-for-license"
-        
-        ]
-      },
-
-
-
-      {
-        "group": "Plugins access rights",
-        "version": "v4.0",
-        "pages": [
-          "4.0/setup-guides/plugins-access-rights/configuring-access-rights-for-documents",
-          "4.0/setup-guides/plugins-access-rights/configuring-access-rights-for-notifications",
-          "4.0/setup-guides/plugins-access-rights/configuring-access-rights-for-task-management"
-        ]
-      },
-
+            "4.0/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving"
+          ]
+        },
+        "4.0/setup-guides/advancing-controller-setup-guide",
+        "4.0/setup-guides/designer-setup-guide",
+        "4.0/setup-guides/admin-setup-guide",
+        "4.0/setup-guides/cms-setup",
+        "4.0/setup-guides/scheduler-setup-guide",
+        "4.0/setup-guides/events-gateway-setup",
+        "4.0/setup-guides/audit-setup-guide",
+        "4.0/setup-guides/search-data-service-setup-guide",
+        "4.0/setup-guides/license-engine-setup"
+      ]
+    },
+    {
+      "group": "Plugins",
+      "version": "v4.0",
+      "pages": [
+        "4.0/setup-guides/plugins-setup-guide/plugins-setup-guide-overview",
+        "4.0/setup-guides/plugins-setup-guide/documents-plugin-setup",
+        "4.0/setup-guides/plugins-setup-guide/notifications-plugin-setup",
+        "4.0/setup-guides/plugins-setup-guide/task-management-plugin-setup",
+        "4.0/setup-guides/plugins-setup-guide/ocr-plugin-setup",
+        "4.0/setup-guides/plugins-setup-guide/reporting-setup",
+        "4.0/setup-guides/plugins-setup-guide/customer-management-plugin-configuration"
+      ]
+    },
+    {
+      "group": "Microservices access rights",
+      "version": "v4.0",
+      "pages": [
+        {
+          "group": "Access management",
+          "version": "v4.0",
+          "icon": "lock",
+          "pages": [
+            "4.0/setup-guides/access-management/access-management-overview",
+            "4.0/setup-guides/access-management/configuring-an-iam-solution",
+            "4.0/setup-guides/access-management/default-roles"
+          ]
+        },
+        "4.0/setup-guides/access-management/configuring-access-rights-for-admin",
+        "4.0/setup-guides/access-management/configuring-access-rights-for-engine",
+        "4.0/setup-guides/access-management/configuring-access-rights-for-cms",
+        "4.0/setup-guides/access-management/configuring-access-rights-for-license"
+      ]
+    },
+    {
+      "group": "Plugins access rights",
+      "version": "v4.0",
+      "pages": [
+        "4.0/setup-guides/plugins-access-rights/configuring-access-rights-for-documents",
+        "4.0/setup-guides/plugins-access-rights/configuring-access-rights-for-notifications",
+        "4.0/setup-guides/plugins-access-rights/configuring-access-rights-for-task-management"
+      ]
+    },
     {
       "group": "Getting Started",
       "version": "v3.x",
@@ -636,7 +1001,6 @@
             {
               "group": "Business process industry and standards",
               "pages": [
-
                 "3.x/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn",
                 "3.x/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn",
                 "3.x/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel"
@@ -645,24 +1009,18 @@
             {
               "group": "Event-driven architecture frameworks",
               "pages": [
-              
                 "3.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts",
                 "3.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch",
                 "3.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kubernetes",
                 "3.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-nginx",
                 "3.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis"
-
-
               ]
             }
           ]
-
         },
         "3.x/docs/platform-overview/flowx-architecture"
-
       ]
     },
-
     {
       "group": "Building blocks",
       "version": "v3.x",
@@ -676,12 +1034,8 @@
             "3.x/docs/building-blocks/process/process-instance",
             "3.x/docs/building-blocks/process/subprocess",
             "3.x/docs/building-blocks/process/versioning"
-
           ]
         },
-
-
-
         {
           "group": "Nodes",
           "icon": "circle-nodes",
@@ -709,12 +1063,9 @@
                     "3.x/docs/building-blocks/node/message-events/message-intermediate/example-intermediate-message-events"
                   ]
                 },
-
                 "3.x/docs/building-blocks/node/message-events/message-catch-boundary-event"
               ]
-          
             },
-
             {
               "group": "Timer events",
               "pages": [
@@ -725,10 +1076,8 @@
                 "3.x/docs/building-blocks/node/timer-events/timer-expressions"
               ]
             }
-
           ]
         },
-
         {
           "group": "Actions",
           "icon": "bolt",
@@ -741,17 +1090,13 @@
                 "3.x/docs/building-blocks/actions/business-rule-action/dmn-business-rule-action"
               ]
             },
-
             "3.x/docs/building-blocks/actions/send-data-to-user-interface",
             "3.x/docs/building-blocks/actions/upload-file-action",
             "3.x/docs/building-blocks/actions/start-subprocess-action",
             "3.x/docs/building-blocks/actions/append-params-to-parent-process",
             "3.x/docs/building-blocks/actions/kafka-send-action"
-
-
           ]
         },
-
         {
           "group": "UI Designer",
           "icon": "paintbrush",
@@ -766,7 +1111,6 @@
                 "3.x/docs/building-blocks/ui-designer/ui-component-types/root-components/custom"
               ]
             },
-
             {
               "group": "Collections UI elements",
               "pages": [
@@ -774,7 +1118,6 @@
                 "3.x/docs/building-blocks/ui-designer/ui-component-types/collection/collection_prototype"
               ]
             },
-
             {
               "group": "Form elements",
               "pages": [
@@ -789,7 +1132,6 @@
                 "3.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/segmented-button"
               ]
             },
-            
             "3.x/docs/building-blocks/ui-designer/ui-component-types/buttons",
             "3.x/docs/building-blocks/ui-designer/ui-component-types/file-preview",
             "3.x/docs/building-blocks/ui-designer/ui-component-types/image",
@@ -801,16 +1143,10 @@
             "3.x/docs/building-blocks/ui-designer/layout-configuration"
           ]
         },
-
         "3.x/docs/building-blocks/token",
         "3.x/docs/building-blocks/supported-scripts"
-
-
-
       ]
     },
-
-
     {
       "group": "FlowX.AI Designer",
       "version": "v3.x",
@@ -830,11 +1166,9 @@
             "3.x/docs/flowx-designer/managing-a-process-flow/export-import-a-process-definition",
             "3.x/docs/flowx-designer/managing-a-process-flow/starting-a-process"
           ]
-          }
-      
+        }
       ]
     },
-
     {
       "group": "Platform deep dive",
       "version": "v3.x",
@@ -847,483 +1181,386 @@
             "3.x/docs/platform-deep-dive/core-components/advancing-controller",
             "3.x/docs/platform-deep-dive/core-components/events-gateway"
           ]
-          },
-
-          {
-            "group": "Core extensions",
-            "icon": "puzzle-piece",
-            "pages": [
-              {
-                "group": "Content management",
-                "pages": [
-                  "3.x/docs/platform-deep-dive/core-extensions/content-management/content-management",
-                  "3.x/docs/platform-deep-dive/core-extensions/content-management/enumerations",
-                  "3.x/docs/platform-deep-dive/core-extensions/content-management/substitution-tags",
-                  "3.x/docs/platform-deep-dive/core-extensions/content-management/content-models",
-                  "3.x/docs/platform-deep-dive/core-extensions/content-management/languages",
-                  "3.x/docs/platform-deep-dive/core-extensions/content-management/source-systems",
-                  "3.x/docs/platform-deep-dive/core-extensions/content-management/media-library",
-                  "3.x/docs/platform-deep-dive/core-extensions/content-management/font-files"
-              
-                ]
-  
-              },
-
-
-
-                "3.x/docs/platform-deep-dive/core-extensions/generic-parameters",
-                "3.x/docs/platform-deep-dive/core-extensions/license-engine",
-                "3.x/docs/platform-deep-dive/core-extensions/audit",
-                "3.x/docs/platform-deep-dive/core-extensions/scheduler",
-                "3.x/docs/platform-deep-dive/core-extensions/search-data-service",
-
+        },
+        {
+          "group": "Core extensions",
+          "icon": "puzzle-piece",
+          "pages": [
+            {
+              "group": "Content management",
+              "pages": [
+                "3.x/docs/platform-deep-dive/core-extensions/content-management/content-management",
+                "3.x/docs/platform-deep-dive/core-extensions/content-management/enumerations",
+                "3.x/docs/platform-deep-dive/core-extensions/content-management/substitution-tags",
+                "3.x/docs/platform-deep-dive/core-extensions/content-management/content-models",
+                "3.x/docs/platform-deep-dive/core-extensions/content-management/languages",
+                "3.x/docs/platform-deep-dive/core-extensions/content-management/source-systems",
+                "3.x/docs/platform-deep-dive/core-extensions/content-management/media-library",
+                "3.x/docs/platform-deep-dive/core-extensions/content-management/font-files"
+              ]
+            },
+            "3.x/docs/platform-deep-dive/core-extensions/generic-parameters",
+            "3.x/docs/platform-deep-dive/core-extensions/license-engine",
+            "3.x/docs/platform-deep-dive/core-extensions/audit",
+            "3.x/docs/platform-deep-dive/core-extensions/scheduler",
+            "3.x/docs/platform-deep-dive/core-extensions/search-data-service",
+            {
+              "group": "Integration management",
+              "pages": [
+                "3.x/docs/platform-deep-dive/core-extensions/integration-management/integration-management-overview",
+                "3.x/docs/platform-deep-dive/core-extensions/integration-management/configuring-access-rights-for-intgr-mngmnt"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Plugins",
+          "icon": "puzzle-piece-simple",
+          "pages": [
+            "3.x/docs/platform-deep-dive/plugins/custom-plugins",
+            {
+              "group": "Documents plugin",
+              "pages": [
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin-overview",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/generating-from-html-templates",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/managing-html-templates",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/uploading-a-new-document",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/converting-documents-to-different-formats",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/splitting-a-document",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/deleting-a-file",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/getting-urls-to-documents",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/listing-stored-files"
+              ]
+            },
+            {
+              "group": "Notifications plugin",
+              "pages": [
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/notifications-plugin-overview",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/managing-notification-templates",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-a-notification",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-an-email-with-attachments",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/forwarding-notifications-to-an-external-system",
                 {
-                  "group": "Integration management",
+                  "group": "OTP flow",
                   "pages": [
-                    "3.x/docs/platform-deep-dive/core-extensions/integration-management/integration-management-overview",      
-                    "3.x/docs/platform-deep-dive/core-extensions/integration-management/configuring-access-rights-for-intgr-mngmnt"     
+                    "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/otp-flow",
+                    "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/generate-otp",
+                    "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/validate-otp"
                   ]
                 }
-
-            ]
-            },
-
-            {
-              "group": "Plugins",
-              "icon": "puzzle-piece-simple",
-              "pages": [
-                "3.x/docs/platform-deep-dive/plugins/custom-plugins",
-                {
-                  "group": "Documents plugin",
-                  "pages": [
-                    "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin-overview",
-                    "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/generating-from-html-templates",
-                    "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/managing-html-templates",
-                    "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/uploading-a-new-document",
-                    "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/converting-documents-to-different-formats",
-                    "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/splitting-a-document",
-                    "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/deleting-a-file",
-                    "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/getting-urls-to-documents",
-                    "3.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/listing-stored-files"
-
-                  ]
-                  },
-
-                  {
-                    "group": "Notifications plugin",
-                    "pages": [
-                      "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/notifications-plugin-overview",
-                      "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/managing-notification-templates",
-                      "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-a-notification",
-                      "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-an-email-with-attachments",
-                      "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/forwarding-notifications-to-an-external-system",
-                      {
-                        "group": "OTP flow",
-                        "pages": [
-                          "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/otp-flow",
-                          "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/generate-otp",
-                          "3.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/validate-otp"
-                   
-                        ]
-                        }
-                    ]
-                    },
-
-                    {
-                      "group": "Task Management",
-                      "pages": [
-                        "3.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview",
-                        "3.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-allocation-rules",
-                        "3.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-hooks",
-                        "3.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-out-of-office-records",
-                        "3.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-stages"
-                      ]
-                      },
-
-                      "3.x/docs/platform-deep-dive/plugins/custom-plugins/ocr-plugin",
-
-                      {
-                        "group": "Customer management",
-                        "pages": [
-                          "3.x/docs/platform-deep-dive/plugins/custom-plugins/customer-management/customer-management-overview",
-                          "3.x/docs/platform-deep-dive/plugins/custom-plugins/customer-management/crm-plugin-example"
-                        ]
-                      },
-
-                      {
-                          "group": "Reporting plugin",
-                          "pages": [
-                            "3.x/docs/platform-deep-dive/plugins/custom-plugins/reporting/reporting-overview",
-                            "3.x/docs/platform-deep-dive/plugins/custom-plugins/reporting/access-and-authorization"
-                          ]
-                       },
-
-                       "3.x/docs/platform-deep-dive/plugins/wysiwyg"
-
               ]
-              },
-
-              {
-                "group": "Integrations",
-                "icon": "link",
-                "pages": [
-                  "3.x/docs/platform-deep-dive/integrations/integrations-overview",      
-                  "3.x/docs/platform-deep-dive/integrations/building-a-connector",
-                  "3.x/docs/platform-deep-dive/integrations/creating-a-kafka-consumer",
-                  "3.x/docs/platform-deep-dive/integrations/creating-a-kafka-producer",
-                  "3.x/docs/platform-deep-dive/integrations/mock-integrations",
-                  "3.x/docs/platform-deep-dive/integrations/jaeger-setup-for-microservices"     
-                ]
-              },
-
-
-              "3.x/docs/platform-deep-dive/third-party-components",
-
-
-              {
-                "group": "User roles management",
-                "icon": "user",
-                "pages": [
-                  "3.x/docs/platform-deep-dive/user-roles-management/swimlanes",      
-                  "3.x/docs/platform-deep-dive/user-roles-management/business-filters"     
-                ]
-              }
-      
+            },
+            {
+              "group": "Task Management",
+              "pages": [
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-allocation-rules",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-hooks",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-out-of-office-records",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-stages"
+              ]
+            },
+            "3.x/docs/platform-deep-dive/plugins/custom-plugins/ocr-plugin",
+            {
+              "group": "Customer management",
+              "pages": [
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/customer-management/customer-management-overview",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/customer-management/crm-plugin-example"
+              ]
+            },
+            {
+              "group": "Reporting plugin",
+              "pages": [
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/reporting/reporting-overview",
+                "3.x/docs/platform-deep-dive/plugins/custom-plugins/reporting/access-and-authorization"
+              ]
+            },
+            "3.x/docs/platform-deep-dive/plugins/wysiwyg"
+          ]
+        },
+        {
+          "group": "Integrations",
+          "icon": "link",
+          "pages": [
+            "3.x/docs/platform-deep-dive/integrations/integrations-overview",
+            "3.x/docs/platform-deep-dive/integrations/building-a-connector",
+            "3.x/docs/platform-deep-dive/integrations/creating-a-kafka-consumer",
+            "3.x/docs/platform-deep-dive/integrations/creating-a-kafka-producer",
+            "3.x/docs/platform-deep-dive/integrations/mock-integrations",
+            "3.x/docs/platform-deep-dive/integrations/jaeger-setup-for-microservices"
+          ]
+        },
+        "3.x/docs/platform-deep-dive/third-party-components",
+        {
+          "group": "User roles management",
+          "icon": "user",
+          "pages": [
+            "3.x/docs/platform-deep-dive/user-roles-management/swimlanes",
+            "3.x/docs/platform-deep-dive/user-roles-management/business-filters"
+          ]
+        }
       ]
     },
-
-
     {
-        "group": "Release Notes",
-        "pages": [
-          "release-notes/overview",
-          {
-            "group": "v4.2.1 - July",
-            "icon": "burst",
-            "pages": [
-              "release-notes/v4.2.1-july-2024/v4.2.1-july-2024",
-              "release-notes/v4.2.1-july-2024/deployment-guidelines-v4.2.1"
-            ]
-            
-          },
-
-          {
-            "group": "v4.2.0 - June",
-            "icon": "burst",
-            "pages": [
-              "release-notes/v4.2.0-june-2024/v4.2.0-june-2024",
-              "release-notes/v4.2.0-june-2024/deployment-guidelines-v4.2.0"
-            ]
-            
-          },
-          
-          
-          {
-            "group": "v4.1.3 - August",
-            "pages": [
-              "release-notes/v4.1.3-august-2024/v4.1.3-august-2024",
-              "release-notes/v4.1.3-august-2024/deployment-guidelines-v4.1.3",
-              "release-notes/v4.1.3-august-2024/migrating-from-previous-to-v4.1.3"
-            ]
-            
-          },
-
-
-          {
-            "group": "v4.1.2 - June",
-            "pages": [
-              "release-notes/v4.1.2-june-2024/v4.1.2-june-2024",
-              "release-notes/v4.1.2-june-2024/deployment-guidelines-v4.1.2",
-              "release-notes/v4.1.2-june-2024/migrating-from-previous-to-v4.1.2"
-            ]
-            
-          },
-
-
-          {
-            "group": "v4.1.1 - June",
-            "pages": [
-              "release-notes/v4.1.1-june-2024/v4.1.1-june-2024",
-              "release-notes/v4.1.1-june-2024/deployment-guidelines-v4.1.1",
-              "release-notes/v4.1.1-june-2024/migrating-from-previous-to-v4.1.1"
-            ]
-            
-          },
-
-          {
-            "group": "v4.1.0 - May",
-            "pages": [
-              "release-notes/v4.1.0-may-2024/v4.1.0-may-2024",
-              "release-notes/v4.1.0-may-2024/deployment-guidelines-v4.1.0",
-              "release-notes/v4.1.0-may-2024/ui-components-changelog",
-              "release-notes/v4.1.0-may-2024/migrating-from-v3.4.x-to-v4.1"
-            ]
-            
-          },
-
-
-          {
-            "group": "v4.0.0 - April",
-            "pages": [
-              "release-notes/v4.0.0-april-2024/v4.0.0-april-2024",
-              "release-notes/v4.0.0-april-2024/deployment-guidelines-v4.0.0",
-              "release-notes/v4.0.0-april-2024/ui-components-changelog",
-
-              {
-                "group": "Migrating from v3.4.x",
-                "pages": [
-                  "release-notes/v4.0.0-april-2024/migrating-from-v3.4.x/migrating-from-v3.4.x",
-                  "release-notes/v4.0.0-april-2024/migrating-from-v3.4.x/renderers",
-                  "release-notes/v4.0.0-april-2024/migrating-from-v3.4.x/process-configuration"
-
-                ]
-                
-              }
-
-            ]
-            
-          },
-
-          {
-            "group": "v3.4.8",
-            "pages": [
-              "release-notes/v3.4.8-june-2024/v3.4.8-june-2024",
-              "release-notes/v3.4.8-june-2024/deployment-guidelines-v3.4.8"
-            ]
-            
-          },
-
-          {
-            "group": "v3.4.7",
-            "pages": [
-              "release-notes/v3.4.7-january-2024/v3.4.7-january-2024",
-              "release-notes/v3.4.7-january-2024/deployment-guidelines-v3.4.7"
-            ]
-            
-          },
-
-          {
-            "group": "v3.4.6",
-            "pages": [
-              "release-notes/v3.4.6-december-2023/v3.4.6-december-2023",
-              "release-notes/v3.4.6-december-2023/deployment-guidelines-v3.4.6"
-            ]
-            
-          },
-
-          {
-            "group": "v3.4.5",
-            "pages": [
-              "release-notes/v3.4.5-november-2023/v3.4.5-november-2023",
-              "release-notes/v3.4.5-november-2023/deployment-guidelines-v3.4.5"
-            ]
-            
-          },
-
-
-          {
-            "group": "v3.4.4",
-            "pages": [
-              "release-notes/v3.4.4-november-2023/v3.4.4-november-2023",
-              "release-notes/v3.4.4-november-2023/deployment-guidelines-v3.4.4"
-            ]
-            
-          },
-
-          {
-            "group": "v3.4.3",
-            "pages": [
-              "release-notes/v3.4.3-october-2023/v3.4.3-october-2023",
-              "release-notes/v3.4.3-october-2023/deployment-guidelines-v3.4.3"
-            ]
-            
-          },
-
-          {
-            "group": "v3.4.2",
-            "pages": [
-              "release-notes/v3.4.2-october-2023/v3.4.2-october-2023",
-              "release-notes/v3.4.2-october-2023/deployment-guidelines-v3.4.2"
-            ]
-            
-          },
-
-
-          {
-            "group": "v3.4.1",
-            "pages": [
-              "release-notes/v3.4.1-september-2023/v3.4.1-september-2023",
-              "release-notes/v3.4.1-september-2023/deployment-guidelines-v3.4.1"
-            ]
-          },
-
-          {
-            "group": "v3.4.0",
-            "pages": [
-              "release-notes/v3.4.0-september-2023/v3.4.0-september-2023",
-              "release-notes/v3.4.0-september-2023/deployment-guidelines-v3.4.0"
-            ]
-          },
-
-          {
-            "group": "v3.3.0",
-            "pages": [
-              "release-notes/v3.3.0-july-2023/v3.3.0-july-2023",
-              "release-notes/v3.3.0-july-2023/deployment-guidelines-v3.3.0"
-            ]
-          },
-
-          {
-            "group": "v3.2.0",
-            "pages": [
-              "release-notes/v3.2.0-april-2023/v3.2.0-april-2023",
-              "release-notes/v3.2.0-april-2023/deployment-guidelines-v3.2.0"
-            ]
-          },
-
-          {
-            "group": "v3.1.0",
-            "pages": [
-              "release-notes/v3.1.0-march-2023/v3.1.0-march-2023",
-              "release-notes/v3.1.0-march-2023/deployment-guidelines-v3.1.0"
-            ]
-          },
-
-          {
-            "group": "v3.0.0",
-            "pages": [
-              "release-notes/v3.0.0-february-2023/v3.0.0-february-2023",
-              "release-notes/v3.0.0-february-2023/deployment-guidelines-v3.0.0"
-            ]
-          }
-        ]
-      },
-
-      {
-        "group": "API reference",
-        "version": "v3.x",
-        "pages": [
-          "3.x/docs/api/rest",
-          "3.x/docs/api/rest2",
-          "3.x/docs/api/rest3",
-          "3.x/docs/api/rest4",
-          "3.x/docs/api/list-buckets",
-          "3.x/docs/api/list-objects-in-buckets",
-          "3.x/docs/api/download-file",
-          "3.x/docs/api/add-kafka-mock",
-          "3.x/docs/api/view-kafka-exchanges"
-        ]
-
-      },
-
-
-      {
-        "group": "SDKs",
-        "version": "v3.x",
-        "pages": [
-          "3.x/sdks/sdks-overview",
-          "3.x/sdks/angular-renderer",
-          "3.x/sdks/ios-renderer",
-          "3.x/sdks/android-renderer"
-        ]
-
-      },
-
-      {
-        "group": "Microservices",
-        "version": "v3.x",
-        "pages": [
-          "3.x/setup-guides/setup-guides-overview",
-
-          {
-            "group": "FlowX Engine",
-            "icon": "engine",
-            "pages": [
-              "3.x/setup-guides/flowx-engine-setup-guide/engine-setup",
-              "3.x/setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes",
-
-              {
-                "group": "Process instance indexing",
-                "pages": [
-                  "3.x/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/elasticsearch-indexing",
-                  "3.x/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/process-instance-indexing-config-guidelines"
-                ]
-        
-              },
-              "3.x/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving"
-
-            ]
-    
-          },
-          "3.x/setup-guides/advancing-controller-setup-guide",
-          "3.x/setup-guides/designer-setup-guide",
-          "3.x/setup-guides/admin-setup-guide",
-          "3.x/setup-guides/cms-setup",     
-          "3.x/setup-guides/scheduler-setup-guide",
-          "3.x/setup-guides/events-gateway-setup",
-          "3.x/setup-guides/audit-setup-guide",
-          "3.x/setup-guides/search-data-service-setup-guide",
-          "3.x/setup-guides/license-engine-setup"   
-          
-        ]
-      },
-
-
-      {
-        "group": "Plugins",
-        "version": "v3.x",
-        "pages": [
-          "3.x/setup-guides/plugins-setup-guide/plugins-setup-guide-overview",
-          "3.x/setup-guides/plugins-setup-guide/documents-plugin-setup",
-          "3.x/setup-guides/plugins-setup-guide/notifications-plugin-setup",
-          "3.x/setup-guides/plugins-setup-guide/task-management-plugin-setup",
-          "3.x/setup-guides/plugins-setup-guide/ocr-plugin-setup",
-          "3.x/setup-guides/plugins-setup-guide/reporting-setup",
-          "3.x/setup-guides/plugins-setup-guide/customer-management-plugin-configuration"
-
-        ]
-      },
-
-      {
-        "group": "Microservices access rights",
-        "version": "v3.x",
-        "pages": [
-          {
-            "group": "Access management",
-            "icon": "lock",
-            "pages": [
-              "3.x/setup-guides/access-management/access-management-overview",
-              "3.x/setup-guides/access-management/configuring-an-iam-solution",
-              "3.x/setup-guides/access-management/default-roles"
-
-            ]
+      "group": "Release Notes",
+      "pages": [
+        "release-notes/overview",
+        {
+          "group": "v4.2.1 - July",
+          "icon": "burst",
+          "pages": [
+            "release-notes/v4.2.1-july-2024/v4.2.1-july-2024",
+            "release-notes/v4.2.1-july-2024/deployment-guidelines-v4.2.1"
+          ]
+        },
+        {
+          "group": "v4.2.0 - June",
+          "icon": "burst",
+          "pages": [
+            "release-notes/v4.2.0-june-2024/v4.2.0-june-2024",
+            "release-notes/v4.2.0-june-2024/deployment-guidelines-v4.2.0"
+          ]
+        },
+        {
+          "group": "v4.1.3 - August",
+          "pages": [
+            "release-notes/v4.1.3-august-2024/v4.1.3-august-2024",
+            "release-notes/v4.1.3-august-2024/deployment-guidelines-v4.1.3",
+            "release-notes/v4.1.3-august-2024/migrating-from-previous-to-v4.1.3"
+          ]
+        },
+        {
+          "group": "v4.1.2 - June",
+          "pages": [
+            "release-notes/v4.1.2-june-2024/v4.1.2-june-2024",
+            "release-notes/v4.1.2-june-2024/deployment-guidelines-v4.1.2",
+            "release-notes/v4.1.2-june-2024/migrating-from-previous-to-v4.1.2"
+          ]
+        },
+        {
+          "group": "v4.1.1 - June",
+          "pages": [
+            "release-notes/v4.1.1-june-2024/v4.1.1-june-2024",
+            "release-notes/v4.1.1-june-2024/deployment-guidelines-v4.1.1",
+            "release-notes/v4.1.1-june-2024/migrating-from-previous-to-v4.1.1"
+          ]
+        },
+        {
+          "group": "v4.1.0 - May",
+          "pages": [
+            "release-notes/v4.1.0-may-2024/v4.1.0-may-2024",
+            "release-notes/v4.1.0-may-2024/deployment-guidelines-v4.1.0",
+            "release-notes/v4.1.0-may-2024/ui-components-changelog",
+            "release-notes/v4.1.0-may-2024/migrating-from-v3.4.x-to-v4.1"
+          ]
+        },
+        {
+          "group": "v4.0.0 - April",
+          "pages": [
+            "release-notes/v4.0.0-april-2024/v4.0.0-april-2024",
+            "release-notes/v4.0.0-april-2024/deployment-guidelines-v4.0.0",
+            "release-notes/v4.0.0-april-2024/ui-components-changelog",
+            {
+              "group": "Migrating from v3.4.x",
+              "pages": [
+                "release-notes/v4.0.0-april-2024/migrating-from-v3.4.x/migrating-from-v3.4.x",
+                "release-notes/v4.0.0-april-2024/migrating-from-v3.4.x/renderers",
+                "release-notes/v4.0.0-april-2024/migrating-from-v3.4.x/process-configuration"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "v3.4.8",
+          "pages": [
+            "release-notes/v3.4.8-june-2024/v3.4.8-june-2024",
+            "release-notes/v3.4.8-june-2024/deployment-guidelines-v3.4.8"
+          ]
+        },
+        {
+          "group": "v3.4.7",
+          "pages": [
+            "release-notes/v3.4.7-january-2024/v3.4.7-january-2024",
+            "release-notes/v3.4.7-january-2024/deployment-guidelines-v3.4.7"
+          ]
+        },
+        {
+          "group": "v3.4.6",
+          "pages": [
+            "release-notes/v3.4.6-december-2023/v3.4.6-december-2023",
+            "release-notes/v3.4.6-december-2023/deployment-guidelines-v3.4.6"
+          ]
+        },
+        {
+          "group": "v3.4.5",
+          "pages": [
+            "release-notes/v3.4.5-november-2023/v3.4.5-november-2023",
+            "release-notes/v3.4.5-november-2023/deployment-guidelines-v3.4.5"
+          ]
+        },
+        {
+          "group": "v3.4.4",
+          "pages": [
+            "release-notes/v3.4.4-november-2023/v3.4.4-november-2023",
+            "release-notes/v3.4.4-november-2023/deployment-guidelines-v3.4.4"
+          ]
+        },
+        {
+          "group": "v3.4.3",
+          "pages": [
+            "release-notes/v3.4.3-october-2023/v3.4.3-october-2023",
+            "release-notes/v3.4.3-october-2023/deployment-guidelines-v3.4.3"
+          ]
+        },
+        {
+          "group": "v3.4.2",
+          "pages": [
+            "release-notes/v3.4.2-october-2023/v3.4.2-october-2023",
+            "release-notes/v3.4.2-october-2023/deployment-guidelines-v3.4.2"
+          ]
+        },
+        {
+          "group": "v3.4.1",
+          "pages": [
+            "release-notes/v3.4.1-september-2023/v3.4.1-september-2023",
+            "release-notes/v3.4.1-september-2023/deployment-guidelines-v3.4.1"
+          ]
+        },
+        {
+          "group": "v3.4.0",
+          "pages": [
+            "release-notes/v3.4.0-september-2023/v3.4.0-september-2023",
+            "release-notes/v3.4.0-september-2023/deployment-guidelines-v3.4.0"
+          ]
+        },
+        {
+          "group": "v3.3.0",
+          "pages": [
+            "release-notes/v3.3.0-july-2023/v3.3.0-july-2023",
+            "release-notes/v3.3.0-july-2023/deployment-guidelines-v3.3.0"
+          ]
+        },
+        {
+          "group": "v3.2.0",
+          "pages": [
+            "release-notes/v3.2.0-april-2023/v3.2.0-april-2023",
+            "release-notes/v3.2.0-april-2023/deployment-guidelines-v3.2.0"
+          ]
+        },
+        {
+          "group": "v3.1.0",
+          "pages": [
+            "release-notes/v3.1.0-march-2023/v3.1.0-march-2023",
+            "release-notes/v3.1.0-march-2023/deployment-guidelines-v3.1.0"
+          ]
+        },
+        {
+          "group": "v3.0.0",
+          "pages": [
+            "release-notes/v3.0.0-february-2023/v3.0.0-february-2023",
+            "release-notes/v3.0.0-february-2023/deployment-guidelines-v3.0.0"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "API reference",
+      "version": "v3.x",
+      "pages": [
+        "3.x/docs/api/rest",
+        "3.x/docs/api/rest2",
+        "3.x/docs/api/rest3",
+        "3.x/docs/api/rest4",
+        "3.x/docs/api/list-buckets",
+        "3.x/docs/api/list-objects-in-buckets",
+        "3.x/docs/api/download-file",
+        "3.x/docs/api/add-kafka-mock",
+        "3.x/docs/api/view-kafka-exchanges"
+      ]
+    },
+    {
+      "group": "SDKs",
+      "version": "v3.x",
+      "pages": [
+        "3.x/sdks/sdks-overview",
+        "3.x/sdks/angular-renderer",
+        "3.x/sdks/ios-renderer",
+        "3.x/sdks/android-renderer"
+      ]
+    },
+    {
+      "group": "Microservices",
+      "version": "v3.x",
+      "pages": [
+        "3.x/setup-guides/setup-guides-overview",
+        {
+          "group": "FlowX Engine",
+          "icon": "engine",
+          "pages": [
+            "3.x/setup-guides/flowx-engine-setup-guide/engine-setup",
+            "3.x/setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes",
+            {
+              "group": "Process instance indexing",
+              "pages": [
+                "3.x/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/elasticsearch-indexing",
+                "3.x/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/process-instance-indexing-config-guidelines"
+              ]
             },
-            "3.x/setup-guides/access-management/configuring-access-rights-for-admin",  
-            "3.x/setup-guides/access-management/configuring-access-rights-for-engine",
-            "3.x/setup-guides/access-management/configuring-access-rights-for-cms",
-            "3.x/setup-guides/access-management/configuring-access-rights-for-license"
-        
-        ]
-      },
-
-
-
-      {
-        "group": "Plugins access rights",
-        "version": "v3.x",
-        "pages": [
-          "3.x/setup-guides/plugins-access-rights/configuring-access-rights-for-documents",
-          "3.x/setup-guides/plugins-access-rights/configuring-access-rights-for-notifications",
-          "3.x/setup-guides/plugins-access-rights/configuring-access-rights-for-task-management"
-        ]
-      }
-
-
-      
-  
-  
-
-
+            "3.x/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving"
+          ]
+        },
+        "3.x/setup-guides/advancing-controller-setup-guide",
+        "3.x/setup-guides/designer-setup-guide",
+        "3.x/setup-guides/admin-setup-guide",
+        "3.x/setup-guides/cms-setup",
+        "3.x/setup-guides/scheduler-setup-guide",
+        "3.x/setup-guides/events-gateway-setup",
+        "3.x/setup-guides/audit-setup-guide",
+        "3.x/setup-guides/search-data-service-setup-guide",
+        "3.x/setup-guides/license-engine-setup"
+      ]
+    },
+    {
+      "group": "Plugins",
+      "version": "v3.x",
+      "pages": [
+        "3.x/setup-guides/plugins-setup-guide/plugins-setup-guide-overview",
+        "3.x/setup-guides/plugins-setup-guide/documents-plugin-setup",
+        "3.x/setup-guides/plugins-setup-guide/notifications-plugin-setup",
+        "3.x/setup-guides/plugins-setup-guide/task-management-plugin-setup",
+        "3.x/setup-guides/plugins-setup-guide/ocr-plugin-setup",
+        "3.x/setup-guides/plugins-setup-guide/reporting-setup",
+        "3.x/setup-guides/plugins-setup-guide/customer-management-plugin-configuration"
+      ]
+    },
+    {
+      "group": "Microservices access rights",
+      "version": "v3.x",
+      "pages": [
+        {
+          "group": "Access management",
+          "icon": "lock",
+          "pages": [
+            "3.x/setup-guides/access-management/access-management-overview",
+            "3.x/setup-guides/access-management/configuring-an-iam-solution",
+            "3.x/setup-guides/access-management/default-roles"
+          ]
+        },
+        "3.x/setup-guides/access-management/configuring-access-rights-for-admin",
+        "3.x/setup-guides/access-management/configuring-access-rights-for-engine",
+        "3.x/setup-guides/access-management/configuring-access-rights-for-cms",
+        "3.x/setup-guides/access-management/configuring-access-rights-for-license"
+      ]
+    },
+    {
+      "group": "Plugins access rights",
+      "version": "v3.x",
+      "pages": [
+        "3.x/setup-guides/plugins-access-rights/configuring-access-rights-for-documents",
+        "3.x/setup-guides/plugins-access-rights/configuring-access-rights-for-notifications",
+        "3.x/setup-guides/plugins-access-rights/configuring-access-rights-for-task-management"
+      ]
+    }
   ],
   "footerSocials": {
     "website": "https://www.flowx.ai/",
@@ -1332,27 +1569,18 @@
     "twitter": "https://twitter.com/FlowX_ai",
     "youtube": "https://www.youtube.com/@flowx_ai3398"
   },
-
   "feedback": {
     "thumbsRating": true,
     "suggestEdit": true,
     "raiseIssue": true
   },
-
-
   "search": {
     "prompt": "Search or ask..."
   },
-  
-
   "analytics": {
     "ga4": {
-        "measurementId": "G-CGW0FVK9YM"
+      "measurementId": "G-CGW0FVK9YM"
     }
-
-
   },
-
-"theme": "prism"
+  "theme": "prism"
 }
-
