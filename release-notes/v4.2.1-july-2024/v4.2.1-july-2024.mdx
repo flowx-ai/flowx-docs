@@ -1,0 +1,82 @@
+---
+title: FlowX.AI 4.2.1 Release
+description: We are excited to announce the release FlowX.AI 4.2.1 🔥, featuring new and improved features that will elevate your workflow experience.
+---
+
+Let's dive in and explore:
+
+## **What's New?** 🆕
+
+### Web Renderer
+
+Changes were made to the icons module configuration to allow the addition of a custom icon dictionary.
+
+#### Old configuration
+
+The previous configuration imported the FlxIconModule with an extra icon set directly in the imports array.
+
+```typescript
+@NgModule({
+  declarations: [...],
+  imports: [
+    FlxIconModule.withExtraIconSet(EXTRA_ICON_SET)
+  ]
+)
+```
+
+#### New configuration
+
+The new configuration separates the extra icon set from the imports array and places it in the providers array. This change allows for extending the existing icon set with a custom icon dictionary while still keeping the `FlxIconModule` in the imports array to use the `flx-icon` component.
+
+```typescript
+@NgModule({
+  declarations: [...],
+  imports: [
+    FlxIconModule // keep the module in order to be able to use the flx-icon component
+  ],
+  providers: [
+    provideExtraIconSet(EXTRA_ICON_SET) // extend the existing icon set with a custom icon dictionary
+  ]
+)
+```
+
+### FlowX.AI Engine - Scripting UX improvements
+
+**Input Fields**: Support interpolation as valid syntax in code editors.
+
+Autocomplete feature added to:
+
+* **Node Configurations**:
+    * Start subprocess actions: copy or exclude from the current state.
+    * Key names for the data stream topics.
+    * Process keys for Start message nodes.
+    * Process keys and correlation keys for Catch message nodes (boundary).
+    * Timer interrupting/non interrupting definition/function (x).
+    * Output and collection keys in Call activity nodes.
+* **Node actions**:
+    * Append params to parent process: destination states specified when appending parameters to parent processes.
+* **UI Designer**:
+    * Process data keys for file previews and image source locations.
+    * Collection sources and prototype identifier keys.
+    * Input keys for custom components.
+* **Process Settings**: Indexing keys used for the Task Management plugin.
+
+These updates aim to streamline the scripting user experience and enhance overall functionality.
+
+### FlowX.AI UI Designer
+
+* Improved UI Designer Navigator for better usability.
+
+## Bug Fixes 🛠️
+
+### FlowX.AI Engine
+
+- Fixed duplicate key error. This issue was caused by conflicting keys in processes with start embedded subprocesses nodes and throw/catch message events. The key management logic was updated to ensure unique keys, resolving the error.
+- Fixed an issue where executing a business rule with the same input sometimes caused the process engine to return an error. Implemented null checks in the business rule script, regular cache clearing, and enhanced error logging for improved debugging.
+
+## Additional information
+
+For deployment guidelines, refer to:
+ 
+<Card title="Deployment guidelines v4.2.1" href="./deployment-guidelines-v4.2.1">
+</Card>

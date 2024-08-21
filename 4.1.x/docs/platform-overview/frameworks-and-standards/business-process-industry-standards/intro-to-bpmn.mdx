@@ -1,0 +1,163 @@
+---
+title: Intro to BPMN
+description: The core element of the platform is a process. Think of it as a representation of your business use case, for example making a request for a new credit card, placing an online food order, registering your new car or creating an online fundraiser supporting your cause. 
+---
+
+To easily design and model process flows, we use the standard **BPMN 2.0** graphical representation.
+
+
+## What is Business Process Model and Notation (BPMN)?
+
+Business Process Model and Notation (BPMN) is a graphical representation for specifying business processes in a business process model.
+
+It is **the most widely used standard for business process diagrams**. It is intended to be used directly by the stakeholders who design, manage and realize business processes, but at the same time be precise enough to allow BPMN diagrams to be translated into software process components.
+
+This is why we chose it for modeling the process flows. 
+
+## BPMN 2.0 elements
+
+A BPMN business process flow is represented as a set of process elements connected by sequences. Here are the most common types of elements:
+
+<CardGroup>
+<Card title ="Events" icon="bell" href="#events">
+</Card>
+<Card title ="Activities" icon="briefcase" href="#activities">
+</Card>
+<Card title ="Gateways" icon="code-branch" href="#gateways">
+</Card>
+<Card title ="Pools and lanes" icon="layer-group" href="#pools-and-lanes">
+</Card>
+</CardGroup>
+
+### Events
+
+Events describe something that happens during the course of a process. There are three main events types: start events, intermediate events, and end events. These three types are also defined as either catching events (they react to a trigger) or throwing events (they are triggered by the process).
+
+<Frame>
+![basic event types](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/events.png)
+</Frame>
+
+### Activities
+
+An activity represents a unit of work to be performed by the business process. An activity can be atomic (a task) or can represent a group of more activities (a subprocess).
+
+<Frame>
+![various types of activities](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/activities.png)
+</Frame>
+
+### Gateways
+
+Gateways are used to control how a process flows. They act as a decision point that picks which sequence flow should the [**process instance**](../../../building-blocks/process/process-instance) take. This is based on the result of the evaluation of condition(s) specified (in case of exclusive gateways) or they can be used to split a process into more branches (in case of parallel gateways).
+
+<Frame>
+![exclusive and parallel gateways](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/gateways.png)
+</Frame>
+
+### Pools and lanes 
+
+Pools and lanes are used in order to group the process steps by process participants. To show that certain user roles are responsible for performing specific process steps you can divide the process using lanes.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/swimlanes_pool.png)
+</Frame>
+
+## BPMN basic concepts
+
+Let's get into a bit more details on the main types of BPMN process elements.
+
+### Events
+
+Events are signals that something happens within a process, including its start and end and any interactions with the process environment.
+
+Types of Events:
+
+- Start Events
+- End Events
+- Intermediate Events
+
+### Start and End events
+
+**Start & End events**
+
+
+|                                                                                    Start Event Icon                                                                                    |                                                                                    End Event Icon                                                                                    |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/bpmn-basic-concepts/event_start.png) | ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/bpmn-basic-concepts/event_end.png) |
+|                                                                            Event that triggers the process                                                                             |                                                               Event that defines the state that terminates the process                                                               |
+
+### Intermediate events
+
+An intermediate event occurs between a start and an end event. It is represented by a circle with a double line, indicating its ability to both catch and throw information.
+
+#### Message events
+
+Message events serve as a means to incorporate messaging capabilities into business process modeling. These events are specifically designed to capture the interaction between different process participants by referencing messages.
+
+### Activities
+
+#### Task
+
+An atomic activity within a process flow, created when the activity cannot be broken down further. A task belongs to one lane.
+
+|                                                                                          User task                                                                                          |                                                                                          Service task                                                                                          |
+| :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/bpmn-basic-concepts/user_task.png#center) | ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn/bpmn-basic-concepts/service_task.png#center) |
+|                                                                              A task that requires human action                                                                              |                                            A task that uses a web service, automated application, or other kinds of service in completing the task                                             |
+
+
+#### User Task
+
+A task performed by the user without aid from a business process execution engine or application, requiring a certain action in the application.
+
+#### Service Task
+
+Executed by a business process engine. The task defines a script that the FlowX Engine can interpret and execute, completing when the script finishes. It can also run a [**business rule**](../../../building-blocks/actions/business-rule-action/business-rule-action) on the process data.
+
+### BPMN Subprocesses
+
+In BPMN, a subprocess is a compound activity that represents a collection of other tasks and subprocesses. Generally, we create BPMN diagrams to communicate processes with others. To facilitate effective communications, we really do not want to make a business process diagram too complex. By using subprocesses, you can split a complex process into multiple levels, which allows you to focus on a particular area in a single process diagram.
+
+### Gateways
+
+Gateways allow to control as well as merge and split the **process flow**.
+
+#### Exclusive gateways
+
+In business processes, you typically need to make choices — **business decisions**. The most common type of decision is choosing **either/or**. Exclusive Gateways limit the possible outcome of a decision to a single path, and circumstances choose which one to follow.
+
+#### Parallel gateways
+
+In many cases, you want to split up the flow within your business process. For example the sales and risk departments may examine a new mortgage application at the same time. This reduces the total cycle time for a case. To express parallel flow in BPMN, you use a **parallel gateway**.
+
+|                                                                      Exclusive gateway (XOR)                                                                      |                                                                      Parallel gateway (AND)                                                                      |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/gateway_exclusive.png#center) | ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/business-process-industry-standards/gateway_parallel.png#center) |
+|                                                            <ul><li>defines a decision point</li></ul>                                                             |                                        <ul><li>no decision making </li><li>all outgoing branches are activated</li></ul>                                         |
+
+
+**Closing gateway**
+
+* Closes gateways by connecting branches with no logic involved
+* The symbol used is determined by the initial gateway type.
+* Parallel gateways: 
+  * These gateways wait for all input tokens and merge them into a single token.
+  * Are aware of all preceding token flows, know the paths selected, and expect tokens from these paths.
+
+
+## In depth docs
+
+<Card title = "BPMN Quick guide" icon="link" href="https://www.bpmnquickguide.com/view-bpmn-quick-guide/">
+</Card>
+
+<Card title = "BPMN Best practices" icon="link" href="https://bpmtips.com/interview-with-sandeep-johal-process-modeling-best-practices/">
+</Card>
+
+
+For comprehensive insights into BPMN and its various node types, explore our course at FlowX Academy:
+
+<Card title ="BPMN 101" href="https://academy.flowx.ai/explore/bpmn-101" icon ="school">
+- What's BPMN (Business Process Model Notation) and how does it work?
+- How is BPMN used in FlowX?
+</Card>
+
+
