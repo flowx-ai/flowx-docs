@@ -7,22 +7,26 @@ description: The Collection component is similar to a container element, allowin
 
 * `collectionSource` - This property specifies the process key where a list can be found. It should be a valid array of objects.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/collection_source_key1.png)
+</Frame>
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/%20collection_source_key.png)
+</Frame>
 
 ## Example
 
 Here's an example of configuring a Collection component to display a list of products:
 
+<Frame>
 ![Collection configuration for displaying employees](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/collection_example.png)
+</Frame>
 
 Source collection data example using an [**MVEL business rule**](../../../actions/business-rule-action/business-rule-action):
 
 <Frame>
-
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/collection_mvel.png)
-
 </Frame>
 
 ```java
@@ -61,9 +65,13 @@ The above example will render as follows:
 <Info>
 Components used inside a collection use **relative paths** to the collection source. This means that wherever the collection is found inside the process data, the components inside the collection need their keys configured relative to that collection.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/collection_relative_key.png)
+</Frame>
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/collection_key_rule.png)
+</Frame>
 </Info>
 
 <Warning>
