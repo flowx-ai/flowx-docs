@@ -6,18 +6,18 @@ icon: list-check
 
 It has the following dependencies:
 
-* a [mongodb](https://www.mongodb.com/2) database
+* a [MongoDB](https://www.mongodb.com/2) database
 * needs to be able to connect to the DB used by the engine
 * needs to be able to connect to the Kafka instance used by the engine
-* a [redis](https://redis.io/) instance for caching
+* a [Redis](https://redis.io/) instance for caching
 
 The plugin comes with most of the needed configuration properties filled in, but there are a few that need to be set up using some custom environment variables.
 
 ## Dependencies 
 
-### Mongo database
+### MongoDB database
 
-Basic mongo configuration - helm values.yaml
+Basic MongoDB configuration - helm values.yaml
 
 ```yaml
 notification-mdb:
@@ -47,7 +47,7 @@ notification-mdb:
 
 ### Redis server
 
-The plugin can use the [Redis component](../../4.0/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis) already deployed for the **FlowX Engine**.
+The plugin can use the [Redis component](../../docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis) already deployed for the **FlowX Engine**.
 
 ## Configuration 
 

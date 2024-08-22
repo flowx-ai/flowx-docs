@@ -34,7 +34,7 @@ The **Task Details** tab within **Task Manager** provides key process informatio
 ![Task details](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/task_mngmnt_task_details.png)
 
 <Info>
-Please note that specific roles must be defined in a process to utilize all task management features. For configuration details, see [**Configuring Access Roles for Task Management**](../../../../../setup-guides/plugins-access-rights/configuring-access-rights-for-task-management).
+Please note that specific roles must be defined in a process to utilize all the task management features. For configuration details, see [**Configuring Access Roles for Task Manager**](../../../../../setup-guides/plugins-access-rights/configuring-access-rights-for-task-management).
 </Info>
 
 ## Process status updates
@@ -92,11 +92,11 @@ The Task Manager plugin offers a range of features tailored to different roles, 
 You can configure Task Manager to send information/tasks about your process by enabling the **Use process in task management** button in the Process Settings menu. This allows the Task Manager plugin to send updates about the process.
 </Tip>
 
-**To set up Task Management to send updates on your process, follow these steps:**
+**To set up Task Manager to send updates on your process, follow these steps:**
 
 1. In **FlowX Designer**, open the desired **process definition**.
 2. Select the **Settings** tab from the left sidebar menu.
-3. Enable the **Use process in task management** toggle butto
+3. Enable the **Use process in task management** toggle button.
 
 ![Update task management](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/task_mngmnt_response.png)
 
@@ -104,7 +104,7 @@ You can configure Task Manager to send information/tasks about your process by e
 Some actions may be restricted based on user roles and access rights.
 </Info>
 
-**To set up Task Management to send extra updates on your process using only some specific areas of your process:**
+**To set up Task Manager to send extra updates on your process using only some specific areas of your process:**
  
 1. In **FlowX Designer**, open your process definition.
 2. Click the **Edit** button.
@@ -119,7 +119,7 @@ You can configure this action for multiple nodes.
 
 For detailed configuration steps, refer to the next section:
 
-[Task Management plugin setup](../../../../../setup-guides/plugins-setup-guide/task-management-plugin-setup)
+[Task Manager plugin setup](../../../../../setup-guides/plugins-setup-guide/task-management-plugin-setup)
 
 ## Task Assignment and Reassignment 
 
@@ -164,23 +164,6 @@ You can also use a predefined generic parameter as the URL: `${genericParameter}
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/tsk_generic_param1.png)
 
 </Tip>
-
-### Process data level
-
-If task.baseUrl is specified in the process parameters, it will be sent to the Task Manager to update the tasks accordingly.
-```java
-output.put("task", {"baseUrl": "https://your_base_url"});
-```
-
-
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/tsk_manager_base_url.png)
-</Frame>
-
-<Warning>
-The `baseURL` set in the process data (business rules) will override the `baseURL` set in the process definition settings.
-</Warning>
 
 ## Bulk updates
 

@@ -122,7 +122,7 @@ Currently not required to be set as they take values from old configs.
 
 This outlines the Elasticsearch configuration for the following microservices: FlowX Admin, FlowX Engine, Data Search, and Audit Core.
 
-#### Existing configuration
+##### Existing configuration
 
 * `SPRING_ELASTICSEARCH_REST_URIS`: This environment variable is used by the microservices listed above. This variable needs to be set to the appropriate value for each environment.
 
@@ -139,7 +139,7 @@ spring:
 If you do not upgrade to the new configuration, make sure that in the actual configuration you will remove the protocol/schema, it is no longer needed: for example, instead of `http://localhost:9200` you will have `localhost:9200` as value.
 </Info>
 
-#### New configuration
+##### New configuration
 
 * `SPRING_ELASTICSEARCH_REST_PROTOCOL`: Default value is `https`; should be overridden if connection to Elasticsearch needs to be done over `http`.
 
@@ -154,41 +154,41 @@ spring:
 
 ```
 
-### License core configuration
+#### License core configuration
 
 For the License core microservice you need to configure two different data sources: one for the engine database and one for the license database.
 
-#### Old Engine database source
+##### Old Engine database source
 
 * `ENGINE_DATASOURCE_URL`
 * `ENGINE_DATASOURCE_JDBC_URL`
 * `ENGINE_DATASOURCE_USERNAME`
 * `ENGINE_DATASOURCE_PASSWORD`
 
-#### New Engine database source
+##### New Engine database source
 
 * `SPRING_DATASOURCE_ENGINE_URL: ${spring.datasource.jdbc-url}`: Pointing to old config for backwards compatibility.
 * `SPRING_DATASOURCE_ENGINE_JDBC_URL: ${spring.datasource.jdbc-url}`: Pointing to old config for backwards compatibility
 * `SPRING_DATASOURCE_ENGINE_USERNAME: ${spring.datasource.username}`: Pointing to old config for backwards compatibility
 * `SPRING_DATASOURCE_ENGINE_PASSWORD: ${spring.datasource.password}`: Pointing to old config for backwards compatibility 
 
-#### Old License database source
+##### Old License database source
 
 * `SPRING_DATASOURCE_URL`
 * `SPRING_DATASOURCE_JDBC_URL` 
 * `SPRING_DATASOURCE_USERNAME`
 * `SPRING_DATASOURCE_PASSWORD`
 
-#### New License database source
+##### New License database source
 
 * `SPRING_DATASOURCE_LICENSE_URL: ${spring.datasource.jdbc-url}`: Pointing to old config for backwards compatibility.
 * `SPRING_DATASOURCE_LICENSE_JDBC_URL: ${spring.datasource.jdbc-url}`: Pointing to old config for backwards compatibility.
 * `SPRING_DATASOURCE_LICENSE_USERNAME: ${engine.datasource.username:postgres}`: Pointing to old config for backwards compatibility.
 * `SPRING_DATASOURCE_LICENSE_PASSWORD: ${engine.datasource.password:wrongpwd}`: Pointing to old config for backwards compatibility.
 
-### Customer management plugin
+#### Customer management plugin
 
-#### New configuration
+##### New configuration
 
 * `ELASTICSEARCH_PROTOCOL`: Possible values are `https` / `http`; default value is `https` - should be overridden if connection to Elasticsearch needs to be done over `http`.
 
@@ -202,14 +202,14 @@ Enabling Open Telemetry is optional.
 
 For more information about how to leverage Open Telemetry with FlowX, check the following section:
 
-<Card title= "Open Telemetry scenarios" href="../../4.0/docs/platform-deep-dive/integrations/open-telemetry" icon ="page">
+<Card title= "Open Telemetry scenarios" href="../../4.1.x/docs/platform-deep-dive/integrations/open-telemetry" icon ="page">
 </Card>
 
 **Additional configuration needed**! For more information about Open Telemetry deployment/configuration, check the following section:
 
-<Card title="Open Telemetry configuration" href="../../4.0/setup-guides/open-telemetry-config" icon ="page">
+<Card title="Open Telemetry configuration" href="../../4.1.x/setup-guides/open-telemetry-config" icon ="page">
 </Card>
 
 For more information about microservices Open Telemetry default properties, check the following section:
-<Card title ="Open Telemetry default properties" href="../../4.0/setup-guides/ot-default-properties" icon="page">
+<Card title ="Open Telemetry default properties" href="../../4.1.x/setup-guides/ot-default-properties" icon="page">
 </Card>

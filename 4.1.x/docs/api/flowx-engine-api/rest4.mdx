@@ -1,0 +1,16 @@
+---
+title: Execute action
+api: POST {ENGINE_URL}/api/process/{PROCESS_INSTANCE_ID}/token/{TOKEN_INSTANCE_ID}/action/{ACTION_NAME}/execute
+---
+
+<ParamField path="ACTION_NAME" type="string" required>
+  The name of the action to run.
+</ParamField>
+
+<ParamField path="TOKEN_INSTANCE_ID" type="integer" required>
+  The token instance ID.
+</ParamField>
+
+<ParamField path="PROCESS_INSTANCE_ID" type="integer" required>
+  The process instance ID.
+</ParamField>
