@@ -21,21 +21,14 @@ To achieve a smooth and successful deployment of your microservices, it's crucia
 
 Deploy the following backend services simultaneously, as they are foundational and interdependent:
 
-admin
-
-audit-core
-
-task-management
-
-scheduler-core
-
-data-search
-
-license-core
-
-events-gateway
-
-others
+- admin
+- audit-core
+- task-management
+- scheduler-core
+- data-search
+- license-core
+- events-gateway
+- others (any additional microservices)
 </Step>
 <Step title="designer">
 Finally, deploy the Frontend service. This should be done after the backend is fully operational, although it can be deployed alongside the backend if it won’t be accessed from the browser immediately (note that the platform status might crash or be incomplete while the backend is still starting up).
