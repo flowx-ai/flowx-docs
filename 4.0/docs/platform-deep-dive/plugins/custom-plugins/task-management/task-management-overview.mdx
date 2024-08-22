@@ -165,23 +165,6 @@ You can also use a predefined generic parameter as the URL: `${genericParameter}
 
 </Tip>
 
-### Process data level
-
-If task.baseUrl is specified in the process parameters, it will be sent to the Task Manager to update the tasks accordingly.
-```java
-output.put("task", {"baseUrl": "https://your_base_url"});
-```
-
-
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/tsk_manager_base_url.png)
-</Frame>
-
-<Warning>
-The `baseURL` set in the process data (business rules) will override the `baseURL` set in the process definition settings.
-</Warning>
-
 ## Bulk updates
 
 Send bulk update requests via Kafka (using Process Engine) to perform multiple operations at once. Use the Kafka topic:
