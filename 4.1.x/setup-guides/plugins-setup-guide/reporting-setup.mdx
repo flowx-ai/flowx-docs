@@ -1,5 +1,5 @@
 ---
-title: Reporting
+title: Reporting setup
 description: The Reporting setup guide assists in configuring the reporting plugin, relying on specific dependencies and configurations.
 icon: chart-simple
 ---
@@ -45,7 +45,7 @@ docker build ...
 
 4. Update the `reporting-image` URL in the `spark-app.yml` file.
 
-5. Configure the correct database ENV variables in the `spark-app.yml` file (check them in the below examples with/without webhook).
+5. Configure the correct database ENV variables in the `spark-app.yml` file (check them in the above examples with/without webhook).
 
 6. Deploy the application:
 
@@ -98,7 +98,7 @@ When using the webhook, employ environmental variables with secrets for a balanc
 ```yaml
 sparkApplication:
   enabled: "true"
-  schedule: "*/5 * * * *" #Every 5 minutes
+  schedule: "@every 5m"
   driver:
     env: #Environment variables for driver setup with secrets.
       ENGINE_DATABASE_USER: flowx
