@@ -29,7 +29,7 @@ The process visual designer works on [BPMN 2.0 standard](../platform-overview/fr
 
 Explore more:
 
-<Card title="FlowX.AI Designer" href="../flowx-designer/overview" icon="file">
+<Card title="FlowX.AI Designer" href="../flowx-designer/overview" icon="pen-ruler">
 </Card>
 
 ## Microservices
@@ -47,7 +47,9 @@ FlowX.AI leverages a suite of microservices to drive its functionality:
 
 We call it the engine because it’s a nice analogy, once deployed on an existing stack, FlowX.AI becomes the core of your digital operating model.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/engine_architecture.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Engine%20Diagram%20%281%29.png)
+</Frame>
 
 You can use FlowX Engine to do the following:
 
@@ -60,7 +62,7 @@ You can use FlowX Engine to do the following:
 
 This is extremely important because often, digital apps used by a bank’s clients, for example, are limited by the load imposed by the core banking system. And the customers see blocked screens and endlessly spinning flywheels. FlowX.AI buffers this load, offering a 0.2s response time, thus the customer never has to wait for data to load.
 
-<Card title="FlowX Engine" href="../platform-deep-dive/core-components/flowx-engine">
+<Card title="FlowX.AI Engine" href="../platform-deep-dive/core-components/flowx-engine" icon="brain-circuit">
 </Card>
 
 ### FlowX.AI SDKs
@@ -69,14 +71,14 @@ SDKs are used in the [Web (Angular)](../../sdks/angular-renderer), and [Android]
 
 Explore more:
 
-<Card title="FlowX.AI SDKs" href="../../sdks/">
+<Card title="FlowX.AI SDKs" href="../../sdks/" icon="window-flip">
 </Card>
 
 ### FlowX.AI Content Management
 
 This is another Java microservice that enables you to store and manage content. **The go-to place for all taxonomies.** The extension offers a convenient way of managing various content pieces such as lists or content translations. Anything that is under content management is managed by the [CMS backend service](../../setup-guides/cms-setup). To store content, the service will use a MongoDB database (unstructured database). For example, each time you edit an [enumeration](../platform-deep-dive/core-extensions/content-management/enumerations), the FlowX Designer will send an HTTP request to the microservice.
 
-<Card title="Content Management" href="../platform-deep-dive/core-extensions/content-management/content-management">
+<Card title="Content Management" href="../platform-deep-dive/core-extensions/content-management/content-management" icon ="folder-grid">
 </Card>
 
 ### FlowX.AI Scheduler
@@ -89,21 +91,21 @@ When you start a process, the process must have an expiry date.
 
 Scheduler microservice communicates with the FlowX Engine through Kafka Event Queue ⇾ it creates a new message (write some data) then will send that message to Kafka (with the scheduler address) → when the reminder time comes up, the scheduler will put back a new message in the Kafka layer with engine's destination (time + ID of the process).
 
-<Card title="FlowX.AI Scheduler" href="../platform-deep-dive/core-extensions/scheduler">
+<Card title="FlowX.AI Scheduler" href="../platform-deep-dive/core-extensions/scheduler" icon="clock">
 </Card>
 
 ### FlowX.AI License Manager
 
 Used for displaying usage reports related to the FlowX.AI platform within the FlowX Designer, ensuring transparent monitoring and management of the platform.
 
-<Card title="FlowX.AI License Manager" href="../platform-deep-dive/core-extensions/license-engine">
+<Card title="FlowX.AI License Manager" href="../platform-deep-dive/core-extensions/license-engine" icon="file-certificate">
 </Card>
 
 ### FlowX.AI Admin
 
 Used for storing and editing process definitions, FlowX Admin connects to the same database as the FlowX Engine, ensuring consistency in data management.
 
-<Card title="FlowX.AI Admin setup" href="../../setup-guides/admin-setup-guide">
+<Card title="FlowX.AI Admin setup" href="../../setup-guides/admin-setup-guide" icon="user-tie">
 </Card>
 
 ## FlowX.AI custom plugins
@@ -117,7 +119,7 @@ Plugins are bits of functionality that allow you to expand the functionality of 
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/plugins_architecture.png)
 
-<Card title="Plugins" href="../platform-deep-dive/plugins/custom-plugins">
+<Card title="Plugins" href="../platform-deep-dive/plugins/custom-plugins" icon="puzzle-piece-simple">
 </Card>
 
 ## Authorization & Session Manager
@@ -135,7 +137,7 @@ Connecting your legacy systems or third-party apps to the FlowX Engine is easily
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/integrations_architecture.png)
 
-<Card title="Integrations" href="../platform-deep-dive/integrations/integrations-overview">
+<Card title="Integrations" href="../platform-deep-dive/integrations/integrations-overview" icon="puzzle-piece">
 </Card>
 
 In summary, FlowX.AI offers a robust and versatile architecture that empowers users to create, manage, and integrate applications seamlessly, without the need for extensive coding expertise. Its microservices, SDKs, and plugins work in harmony to drive efficiency and innovation in application development and business process management.
