@@ -1,53 +1,73 @@
 ---
-title: Uploading a new document
-description: This guide provides a detailed walkthrough for seamlessly integrating document uploads into a process definition by incorporating a user task node with an Upload action. This feature empowers users to actively engage with the process and select the desired file for upload.
+title: Creating and uploading a new document
+description: A comprehensive guide to integrating document creation from templates, managing uploads, and configuring workflows for document processing.
 ---
+
 
 <Info>
 User task nodes provide a flexible framework to defining and configuring UI templates and actions for specific template config nodes, such as an upload file button.
 </Info>
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/docs_upload_proc.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/docs_upload_proc_4.5.png)
 </Frame>
 
 ## Prerequisites
 
+Before you begin, ensure the following prerequisites are met:
+
 - **Access Permissions**: Ensure that you have the necessary permissions to use the Documents Plugin. The user account used for these operations should have the required access rights.
 - **Kafka Configuration**: Verify that the Kafka messaging system is properly configured and accessible. The Documents Plugin relies on Kafka for communication between nodes.
 
-  - **Kafka Topics**: Familiarize yourself with the Kafka topics used for these operations (later in this section)
+  - **Kafka Topics**: Familiarize yourself with the Kafka topics used for these operations (later in this section).
 
 To upload a document using this process, follow the steps outlined below.
 
-## Uploading and reviewing a document - step by step
+## Step-by-step guide: uploading an previewing a document
 
-After exploring how to generate documents in the [previous section](./generating-from-html-templates), let's create a process that enables users to generate a document, review/sign it, and subsequently upload it again.
+In the [previous section](./generating-from-html-templates), you learned how to generate documents from HTML templates. This section focuses on creating a process where users can generate a document, review and sign it, and subsequently upload it.
 
-Consider a scenario where a user inputs data, a document is generated for preview, and the user must then sign and uploads it. The following types of nodes are involved:
+<Frame>
+<video
+  controls
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/upload_and_preview.mp4"
+></video>
+</Frame>
 
-- [**Start**](../../../../building-blocks/node/start-end-node#start-node) and [**End**](../../../../building-blocks/node/start-end-node#end-node) nodes
-- [**Milestone**](../../../../building-blocks/node/milestone-node) nodes to configure the [**stepper/steps**](../../../../building-blocks/node/milestone-node#stepper--steps) structure
-- A [**User Task**](../../../../building-blocks/node/user-task-node) for user input
-- [**Send Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node#send-message-task) and [**Receive Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node#receive-message-task) for document generation and retrieval
-- [**Service Task**](../../../../building-blocks/node/task-node) for adding the generated document path
-- User Tasks for document preview and upload
+### Process overview
+
+This process involves several key nodes, each performing specific tasks to ensure smooth document creation, preview, and upload:
+
+- **Start and End Nodes**: These nodes mark the beginning and end of the process, respectively.
+- **User Task Node**: Collects user input necessary for document generation.
+- **Send and Receive Message Tasks (Kafka)**: Handle communication with Kafka for generating the document and retrieving it after processing.
+- **Service Task Node**: Appends the path of the generated document to the process, enabling further actions.
+- **User Task Nodes**: Facilitate the preview of the generated document and manage the upload of the signed document.
+
+
 
 ## Configuring the process
 
-1. Follow the steps in [**Generating from HTML templates**](./generating-from-html-templates) to set up the document generation part of the process.
+<Steps>
+<Step title ="Document generation">
 
-<Info>
-If your goal is to only upload a new file without generating it from templates or requiring user input, you can skip the template generation step.
-</Info>
+Follow the steps outlined in [**Generating from HTML templates**](./generating-from-html-templates) configure the document generation part of the process.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/file_upload_proc.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/doc_plugin_upload_prev_ex.png)
 </Frame>
 
-After following the steps you should have something similar to the following request/response examples:
 
-### Request message example
+<Info>
+If you only need to upload a new file without generating it from templates, skip the template generation steps.
+</Info>
+
+After configuration, your request and response messages should resemble the examples below.
+
+#### Request message example
 
 This JSON structure represents a Kafka message sent through the `..in` topic to initiate a request in the Process Engine. It includes information for generating an "AccountCreation" document with a custom ID "119237" in English. Data specifies client details extracted dynamically from user input (first name, last name, age, country) and company information (name, registration date).
 
@@ -82,7 +102,7 @@ This an example of a message that follows the custom integration data model.
 }
 ```
 
-### Response message example
+#### Response message example
 
 This JSON structure represents the response received on the `..out` Kafka topic, where the Process Engine expects a reply. It contains details about the generated PDF file corresponding to the custom ID "119237" and the "AccountCreation" template. The response provides file-related information such as file ID, document type, document label, storage path, download path, number of pages, and any potential errors (null if none). The paths provided in the response facilitate access and download of the generated PDF file.
 
@@ -105,13 +125,18 @@ This JSON structure represents the response received on the `..out` Kafka topic,
   "error": null
 }
 ```
+</Step>
 
-2. Configure the **preview** and **upload** parts of the process.
+<Step title ="Preview document">
+
+Configure the **preview** part of the process.
 
 ![Preview and Upload](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/preview_and_upload.png)
 
 
-### Document path - Service Task
+#### Service task node
+
+We will configure the service task node to construct the file path for the generated document.
 
 Configure a business rule to construct a file path for the generated document. Ensure the base admin path is specified.
 
@@ -121,7 +146,7 @@ Ensuring the base admin path is specified is crucial, as it grants the required 
 
 #### Actions
 
-##### Actions Edit
+**Action Edit**
 
 - **Action Type**: Set to **Business Rule**
 - **Trigger Type**: Choose **Automatic** because is not a user-triggered action
@@ -131,7 +156,7 @@ Ensuring the base admin path is specified is crucial, as it grants the required 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/create_document_path.png)
 </Frame>
 
-##### Parameters
+**Parameters**
 
 - **Language**: We will use **MVEL** for this example
 - **Body Message**: Fill in the body message request
@@ -180,11 +205,13 @@ if(downloadPath != null){
 
 </Accordion>
 
-### Preview document - User Task
+### User Task
+
+Now we will configure the user task to preview the generated document.
 
 #### Actions
 
-##### Actions edit
+Configure the **Actions edit** section:
 
 * **Action Type**: Set to **Save Data**.
 * **Trigger Type**: Choose **Manual** to allow user-triggered action.
@@ -194,17 +221,20 @@ if(downloadPath != null){
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/document_preview_action.png)
 </Frame>
 
-Let's see what we have until now:
+Let's see what we have until now.
 
-* The screen where you can fill in the client details:
+The screen where you can fill in the client details:
 
 ![Client Details](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_fill_data.gif)
 
-* The screen where you can preview and download the generated document:
+The screen where you can preview and download the generated document:
 
 ![Preview Document](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/preview_document_vis.gif)
+</Step>
 
-### Upload document - User Task
+<Step title ="Upload document">
+
+Configure the user task where we will upload the signed document genereated from the previous document template.
 
 #### Node Config
 
@@ -275,6 +305,7 @@ To identify your defined topics in your current environment, follow the next ste
 * **Keys**: Used when data is sent from the frontend via an action for data validation.
 
 </Accordion>
+
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_config_a.png)
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_config_b.png)
@@ -282,13 +313,13 @@ To identify your defined topics in your current environment, follow the next ste
 
 Now, configure the child actions of Upload File Action.
 
-#### 1. Business Rule 
+#### Business rule
 
 This is necessary to create the path to display the uploaded document.
 
 <Accordion title ="Configuring the Business Rule action">
 
-##### Action edit
+**Action Edit**
 
 * **Order**: Set to **1** so it will be processed before the second child action.
 * **Action Type**: Set to **Upload File**.
@@ -296,7 +327,7 @@ This is necessary to create the path to display the uploaded document.
 * **Required Type**: Set as **Mandatory**.
 * **Repeatable**: Check this option if the action can be triggered multiple times. 
 
-##### Parameters
+**Parameters**
 
 * **Language**: In this example we will use **MVEL**.
 * **Body Message**: Fill in the body of the message request by applying a logic similar to the one utilized in configuring the "preview_document" node. Establish a path that will be later employed to showcase the uploaded document within a preview UI component.
@@ -320,13 +351,13 @@ if(downloadPath != null){
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_business_rule_b.png)
 </Frame>
 
-#### 2. Send Data to User Interface
+#### Send Data to User Interface
 
 This is necessary to send the previously created information to the frontend.
 
 <Accordion title = "Configuring the Send Data to User Interface action">
 
-##### Action Edit
+**Action Edit**
 
 * **Order**: Set to **2** so it will be processed after the previously created Business Rule.
 * **Action Type**: Set to **Send data to user interface**.
@@ -334,7 +365,7 @@ This is necessary to send the previously created information to the frontend.
 * **Required Type**: Set as **Mandatory**.
 * **Repeatable**: Check this option if the action can be triggered multiple times. 
 
-##### Parameters
+**Parameters**
 
 * **Message Type**: Set to **Default**.
 * **Body Message**: Populate the body of the message request; this object will be utilized to bind it to the document preview UI element.
@@ -359,7 +390,7 @@ This is necessary to send the previously created information to the frontend.
 
 Configure the last node action to save all the data.
 
-##### Action edit
+**Action edit**
 
 * **Order**: Set to **3**.
 * **Action Type**: Set to **Save Data**.
@@ -367,7 +398,7 @@ Configure the last node action to save all the data.
 * **Required Type**: Set as **Mandatory**.
 
 
-### Request message example
+#### Request message example
 
 To initiate the document processing, a Kafka request with the following JSON payload will be sent through `..in` topic:
 
@@ -383,7 +414,7 @@ This an example of a message that follows the custom integration data model.
 }
 ```
 
-### Response message example
+#### Response message example
 
 Upon successful processing, you will receive a JSON response on the `..out` topic with details about the processed document:
 
@@ -403,6 +434,9 @@ Upon successful processing, you will receive a JSON response on the `..out` topi
 Now the screen is configured for uploading the signed document:
 
 ![Upload File](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_document_signed.gif)
+
+</Step>
+</Steps>
 
 ## Receiving the reply
 

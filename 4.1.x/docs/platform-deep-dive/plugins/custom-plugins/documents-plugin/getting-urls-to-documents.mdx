@@ -20,38 +20,48 @@ Before retrieving document URLs, ensure:
 
 ## Configuring the getting URLs process
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/get_urls_proc.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/doc_plugin_get_urls.png)
+</Frame>
 
 To obtain document URLs, follow these steps:
 
-1. Create a process with the following nodes:
-   - [**Send Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node) - to send the get URLs request
-   - [**Receive Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node) - to receive the get URLs reply
-   - [**User Task**](../../../../building-blocks/node/user-task-node) node - where to perform the file upload action
-   - [**Start / End Milestone**](../../../../building-blocks/node/milestone-node) nodes - to [create a page](../../../../building-blocks/node/milestone-node#page)
+<Steps>
+<Step title ="Create the process">
+Create a process that will contain the following types of nodes:
+   - [**Send Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node) - used to send the get URLs request
+   - [**Receive Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node) - used to receive the get URLs reply
+   - [**User Task**](../../../../building-blocks/node/user-task-node) - where you will perform the upload action
+</Step>
+<Step title="Configure the User Task">
 
-2. Configure the **User Task** node:
+Start configuring the **User Task** node:
 
 #### Node Config
 
 * **Data stream topics**: Add the topic where the response will be sent; in this example `ai.flowx.updates.document.html.persist.v1` and its key: `uploadedDocument`.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/node_config_get_urls.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/doc_plugin_get_urls1.png)
 </Frame>
 
 #### Actions
 
-* Upload File action with two child actions:
-    * Business Rule
-    * Send Data to User Interface
-* Save Data action
+We will configure the following node actions:
+
+* Upload File action ("uploadDocument") will have two child actions:
+    * Send Data to User Interface ("uploadDocumentSendToInterface")
+    * Business Rule ("uploadDocumentBR")
+* Save Data action ("save")
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_document_actions.png)
 </Frame>
+</Step>
 
-3. Configure the parameters for the **Upload Action**:
+<Step title ="Upload action parameters">
+
+Configure the parameters for the **Upload Action**:
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/upload_action_get_urls.png)
@@ -63,8 +73,11 @@ For more details on uploading a document and configuring the file upload child a
 * [**Upload document**](./uploading-a-new-document)
 * [**Upload action**](../../../../building-blocks/actions/upload-file-action)
 </Info>
+</Step>
 
-4. Next, configure the **Message Event Send** node by adding a **Kafka Send Action** and specifying the `..in` [**Kafka topic**](../../../../../setup-guides/plugins-setup-guide/documents-plugin-setup#kafka-configuration) to send the request.
+<Step title="Configure the Send Message Task">
+
+Next, configure the **Send Message Tas (Kafka)** node by adding a **Kafka Send Action** and specifying the `..in` [**Kafka topic**](../../../../../setup-guides/plugins-setup-guide/documents-plugin-setup#kafka-configuration) to send the request.
 
 <Tip>
 Identify defined topics in your environment:
@@ -74,11 +87,14 @@ Identify defined topics in your environment:
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/get_urls_kafka.png)
 </Tip>
+</Step>
 
-5. Fill in the body of the request message for the action:
+<Step title="Configure the request action">
+
+Fill in the body of the request message for the Kafka Send action to send the get URLs request:
 
 <Frame>
-![Request Message](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/getting_urls_node.png)
+![Request Message](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/doc_plugin_get_urls2.png)
 </Frame>
 
 - `types`: A list of document types.
@@ -95,17 +111,22 @@ Example of a message following the custom integration data model:
   ]
 }
 ```
+</Step>
 
-6. Configure the [**Receive Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node#configuring-a-message-receive-task-node) by adding the `..out` kafka topic on which the response will be sent.
+<Step title="Configure the Receive Message Task">
+
+Configure the [**Receive Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node#configuring-a-message-receive-task-node) by adding the `..out` kafka topic on which the response will be sent.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/get_urls_stream.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/doc_plugin_get_urls3.png)
 </Frame>
+</Step>
+</Steps>
 
 ## Receiving the reply
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/getting_urls_response.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/doc_plugin_get_urls4.png)
 </Frame>
 
 The response body should include the following values:
@@ -123,10 +144,10 @@ The response body should include the following values:
 [
   {
     "success": true,
-    "fullName": "1234_119435/476_119435.pdf",
-    "fileName": "1234_119435/476_119435",
+    "fullName": "2024/2024-08-27/process-id-1926248/1234_1926248/7715_1926248.pdf",
+    "fileName": "2024/2024-08-27/process-id-1926248/1234_1926248/7715_1926248",
     "fileExtension": "pdf",
-    "url": "http://minio:9000/flowx-dev-process-id-119435/1234_119435/476_119435.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=Ha0wvtOE9gQ2NSzghEcs%2F20240205%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240205T114232Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=da7db0c2a9b0fa5e43af458d5ade76dbe83ac1052ec4ccd738564ddb5ac9c6cd"
+    "url": "http://minio:9000/qualitance-dev-paperflow-devmain/2024/2024-08-27/process-id-1926248/1234_1926248/7715_1926248.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minio%2F20240827%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240827T150257Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=575333697714249e9deb295359f5ba9365f618f53303bf5583ca30a9b1c45d84"
   }
 ]
 ```
