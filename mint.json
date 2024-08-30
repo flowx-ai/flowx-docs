@@ -422,7 +422,6 @@
           ]
         },
         "4.1.x/docs/api/add-misconfigurations",
-        "4.1.x/docs/api/clear-cache4.0",
         "4.1.x/docs/api/list-buckets",
         "4.1.x/docs/api/list-objects-in-buckets",
         "4.1.x/docs/api/download-file",

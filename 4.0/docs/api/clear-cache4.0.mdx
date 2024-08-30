@@ -29,6 +29,7 @@ This JSON payload specifies the cache name(s) that need to be cleared. In this c
 ```bash Request
 curl --request POST \
 --url {{baseUrlAdmin}}/api/internal/cache/clear \
+--header 'Authorization: Bearer <your-auth-token>' \
 --header 'Content-Type: application/json' \
 --data '{"cacheNames": ["flowx:core:cache"]}'
 
