@@ -15,7 +15,9 @@ After upgrading to **4.0** FLOWX.AI release, it is not possible to import old pr
 ## Component versions   
 
 <Warning>
-As of **FlowX.AI** next release (v4.1.0), the `paperflow-web-components` library will be deprecated, removing the dependencies. Instead, the new components can be found in `@flowx/ui-toolkit`.
+With the release of **FLOWX.AI 3.0**, there have been some changes that you need to be aware when upgrading to the latest version:
+* The `flowx-process-renderer` has been migrated to `@flowx\ui-sdk`.
+* As of **FlowX.AI 4.0** release version, the `paperflow-web-components` library is deprecated, removing the dependencies. Instead, the new components can be found in `@flowx/ui-toolkit`.
 </Warning>
 
 
@@ -27,7 +29,7 @@ As of **FlowX.AI** next release (v4.1.0), the `paperflow-web-components` library
 | **@flowx/ui-sdk**              | **4.0.1**  | 3.35.18-5  | 3.35.18-3 | 3.35.18-2 | 3.35.18-1 | 3.35.18 | 3.35.9 | 3.35.6 | 3.33.2 | 3.28.11 | 3.21.1 | 3.15.1 | 3.2.1  | n/a      |
 | **@flowx/ui-toolkit**          | **4.0.1**  | 3.35.18-5  | 3.35.18-3 | 3.35.18-2 | 3.35.18-1 | 3.35.18 | 3.35.9 | 3.35.6 | 3.33.2 | 3.28.11 | 3.21.1 | 3.15.1 | 3.2.1  | n/a      |
 | **@flowx/ui-theme**            | **4.0.1**  | 3.35.18-5  | 3.35.18-3 | 3.35.18-2 | 3.35.18-1 | 3.35.18 | 3.35.9 | 3.35.6 | 3.33.2 | 3.28.11 | 3.21.1 | 3.15.1 | 3.2.1  | n/a      |
-| **paperflow-web-components**   | 3.35.18-5  | 3.35.18-5  | 3.35.18-3 | 3.35.18-2 | 3.35.18-1 | 3.35.18 | 3.35.9 | 3.35.6 | 3.33.2 | 3.28.11 | 3.21.1 | 3.15.1 | 3.2.1  | 2.78.4-1 |
+| **paperflow-web-components**   | -          | 3.35.18-5  | 3.35.18-3 | 3.35.18-2 | 3.35.18-1 | 3.35.18 | 3.35.9 | 3.35.6 | 3.33.2 | 3.28.11 | 3.21.1 | 3.15.1 | 3.2.1  | 2.78.4-1 |
 | **flowx-process-renderer**     | -          | -          | -         | -         | -         | -       | -      | -      | -      | -       | -      | -      | -      | 2.78.4-1 |
 | **cms-core**                   | **2.2.5**  | 1.3.9      | 1.3.9     | 1.3.9     | 1.3.9     | 1.3.9   | 1.3.9  | 1.3.9  | 1.3.6  | 1.3.0   | 1.2.0  | 1.0.3  | 1.0.2  | 0.2.38   |
 | **scheduler-core**             | **2.1.4**  | 1.2.4      | 1.2.4     | 1.2.4     | 1.2.4     | 1.2.4   | 1.2.4  | 1.2.4  | 1.1.0  | 1.0.4   | 1.0.4  | 1.0.4  | 1.0.1  | 0.0.34   |
@@ -36,6 +38,7 @@ As of **FlowX.AI** next release (v4.1.0), the `paperflow-web-components` library
 | **document-plugin**            | **3.0.6**  | 2.0.10-1   | 2.0.10    | 2.0.10    | 2.0.10    | 2.0.10  | 2.0.8  | 2.0.8  | 2.0.6  | 2.0.4   | 2.0.3  | 2.0.3  | 2.0.2  | 1.0.53   |
 | **ocr-plugin**                 | **1.0.17** | 1.0.15     | 1.0.12    | 1.0.12    | 1.0.12    | 1.0.12  | 1.0.12 | 1.0.12 | 1.0.8  | 1.0.8   | 1.0.2  | 0.1.33 | 0.1.33 | 0.1.33   |
 | **license-core**               | **2.0.5**  | 1.1.0      | 1.0.7     | 1.0.7     | 1.0.7     | 1.0.7   | 1.0.7  | 1.0.7  | 1.0.4  | 1.0.2   | 1.0.2  | 1.0.2  | 1.0.1  | 0.1.28   |
+| **customer-management-plugin** | **1.0.6**  | 0.2.8      | 0.2.8     | 0.2.8     | 0.2.8     | 0.2.8   | 0.2.8  | 0.2.8  | 0.2.6  | 0.2.4   | 0.2.3  | 0.2.3  | 0.2.1  | 0.1.28   |
 | **task-management-plugin**     | **4.0.5**  | 3.0.3      | 3.0.3     | 3.0.3     | 3.0.3     | 3.0.3   | 3.0.3  | 3.0.3  | 3.0.0  | 2.1.2   | 1.0.4  | 1.0.4  | 1.0.1  | 0.0.42   |
 | **data-search**                | **1.0.6**  | 0.2.8      | 0.2.8     | 0.2.8     | 0.2.6     | 0.2.6   | 0.2.6  | 0.2.6  | 0.2.3  | 0.2.0   | 0.1.4  | 0.1.4  | 0.1.3  | 0.0.8    |
 | **audit-core**                 | **3.1.4**  | 2.2.0      | 2.2.0     | 2.2.0     | 2.2.0     | 2.2.0   | 2.1.3  | 2.1.3  | 2.1.0  | 1.0.6   | 1.0.5  | 1.0.4  | 1.0.1  | 0.0.8    |

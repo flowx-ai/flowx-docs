@@ -108,16 +108,6 @@ To configure the Kafka server, you need to set the following environment variabl
 
 * `KAFKA_TOPIC_AUDIT_OUT` - the topic key for receiving audit logs
 
-### Request content
-
-| Environment Variable            | Default FLOWX.AI value (Customizable)                              |
-| ------------------------------- | ------------------------------------------------------------------ |
-| KAFKA_TOPIC_REQUEST_CONTENT_IN  | ai.flowx.dev.plugin.cms.trigger.retrieve.content.v1                |
-| KAFKA_TOPIC_REQUEST_CONTENT_OUT | ai.flowx.dev.engine.receive.plugin.cms.retrieve.content.results.v1 |
-
-* `KAFKA_TOPIC_REQUEST_CONTENT_IN`: This variable defines the topic used by the CMS to listen for incoming content retrieval requests.
-* `KAFKA_TOPIC_REQUEST_CONTENT_OUT`: This variable defines the topic where the CMS sends the results of content retrieval requests back to the FlowX Engine.
-
 Each action available in the service corresponds to a Kafka event. A separate Kafka topic must be configured for each use case.
 
 <Info>
@@ -152,7 +142,6 @@ The FlowX helm chart provides a management service with the necessary parameters
 
 #### Prometheus metrics export configuration
 
-
 <Warning>
 Old configuration from < v4.1 releases (will be deprecated in v4.5):
 
@@ -173,3 +162,23 @@ To configure Prometheus metrics export for the FlowX.AI Engine, the following en
 | `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED` | Enables or disables Prometheus metrics export. | `false`       | `true`, `false` |
 
 
+The FlowX helm chart provides a management service with the necessary parameters to integrate with the Prometheus operator. However, this integration is disabled by default.
+
+<Warning>
+Old configuration from < v4.1 releases (will be deprecated in v4.5):
+
+* `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED`: Enables or disables Prometheus metrics export.
+
+</Warning>
+
+<Info>
+New configuration, starting from v4.1 release, available below. Note that this setup is backwards compatible, it does not affect the configuration from v3.4.x. The configuration files will still work until v4.5 release.
+
+</Info>
+
+To configure Prometheus metrics export for the FlowX.AI Engine, the following environment variable is required:
+
+
+| Environment Variable                           | Description                                    | Default Value | Possible Values |
+| ---------------------------------------------- | ---------------------------------------------- | ------------- | --------------- |
+| `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED` | Enables or disables Prometheus metrics export. | `false`       | `true`, `false` |

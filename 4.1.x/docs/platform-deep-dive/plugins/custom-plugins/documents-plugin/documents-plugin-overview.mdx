@@ -1,35 +1,29 @@
 ---
-title: Documents plugin
-description: The Documents plugin can be easily added to your custom FlowX.AI deployment to enhance the core platform capabilities with functionality specific to document handling.
+title: Overview
+description: The Documents Plugin can be easily added to your custom FlowX.AI deployment to enhance the core platform capabilities with functionality specific to document handling.
 ---
 
-<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/doc_plugin_general.png)
-</Frame>
 
 The plugin offers the following features:
 
-* **Document storage and editing**: Easily store and make changes to documents.
-* **Document generation**: Generate documents using predefined templates and custom process-related data.
-* **WYSIWYG editor**: Create various templates using a user-friendly ["What You See Is What You Get" (WYSIWYG) editor](../../wysiwyg).
+* **Document Storage and Editing**: Easily store and make changes to documents.
+* **Document Generation**: Generate documents using predefined templates and custom process-related data.
+* **WYSIWYG Editor**: Create various templates using a user-friendly ["What You See Is What You Get" (WYSIWYG) editor](../../wysiwyg).
 
-<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/doc_plugin_wysiwyg.png)
-</Frame>
+    
+* **Template Import**: Import templates created in other environments.
 
-* **Template import**: Import templates created in other environments.
-
-<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/doc_plugin_create_import.png)
-</Frame>
 
 <Warning>
 When exporting a document template, it is transformed into a JSON file that can be imported later.
 </Warning>
 
-* **Document conversion**: Convert documents from PDF to JPEG format.
-* **Document splitting**: Split bulk documents into smaller separate documents.
-* **Document editing**: Add generated barcodes, signatures, and assets to documents.
+* **Document Conversion**: Convert documents from PDF to JPEG format.
+* **Document Splitting**: Split bulk documents into smaller separate documents.
+* **Document Editing**: Add generated barcodes, signatures, and assets to documents.
 * **OCR integration**: When a document requires OCR (Optical Character Recognitionq) processing, the Documents Plugin initiates the interaction by passing the document data or reference to the [**OCR plugin**](../ocr-plugin).
 
 The Documents Plugin can be easily deployed on your chosen infrastructure, preloaded with industry-specific document templates using an intuitive WYSIWYG editor, and connected to the FLOWX Engine through Kafka events.
@@ -74,11 +68,11 @@ Let's explore a few examples that cover both the configuration and integration w
 
 
 <CardGroup>
-  <Card title="Generating documents based on templates" href="generating-from-html-templates" icon="file"/>
-  <Card title="Uploading a new document" href="uploading-a-new-document" icon ="upload" />
-  <Card title="Converting documents to different formats" href="converting-documents-to-different-formats" icon = "files"  />
-  <Card title="Splitting a document" href="splitting-a-document" icon = "scissors" />
-  <Card title="Deleting a file" href="deleting-a-file" icon="trash" />
-  <Card title="Getting URLs to documents" href="getting-urls-to-documents" icon="link" />
-  <Card title="Listing stored documents" href="listing-stored-files" icon ="list" />
+  <Card title="Generating documents based on templates" href="generating-from-html-templates" />
+  <Card title="Uploading a new document" href="uploading-a-new-document" />
+  <Card title="Converting documents to different formats" href="converting-documents-to-different-formats" />
+  <Card title="Splitting a document" href="splitting-a-document" />
+  <Card title="Deleting a file" href="deleting-a-file" />
+  <Card title="Getting URLs to documents" href="getting-urls-to-documents" />
+  <Card title="Listing stored documents" href="listing-stored-files" />
 </CardGroup>
