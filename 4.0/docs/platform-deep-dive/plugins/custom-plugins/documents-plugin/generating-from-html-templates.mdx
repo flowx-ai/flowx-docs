@@ -9,34 +9,36 @@ These templates can be easily configured using the [**What you see is what you g
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/docs_plugin_template.png)
 
-## Generating Documents from HTML Templates
+## Generating documents from HTML templates
 
-The Document Management Plugin simplifies the document generation process through predefined templates. This example focuses on generating documents using HTML templates.
+The Documents plugin simplifies the document generation process through predefined templates. This example focuses on generating documents using HTML templates.
 
 ## Prerequisites
 
-1. **Access Permissions**: Ensure that you have the necessary permissions to manage documents templates (more details, [**here**](../../../../../setup-guides/plugins-access-rights/configuring-access-rights-for-documents)). The user account used for these operations should have the required access rights.
+1. **Access permissions**: Ensure that you have the necessary permissions to manage documents templates (more details, [**here**](../../../../../setup-guides/plugins-access-rights/configuring-access-rights-for-documents)). The user account used for these operations should have the required access rights.
 
-2. **Kafka Configuration**: Verify that the Kafka messaging system is properly configured and accessible. The documents plugin relies on Kafka for communication between nodes.
+2. **Kafka configuration**: Verify that the Kafka messaging system is properly configured and accessible. The documents plugin relies on Kafka for communication between nodes.
 
-    - **Kafka Topics**: Familiarize yourself with the Kafka topics used for these operations (later in this section)
+    - **Kafka topics**: Familiarize yourself with the Kafka topics used for these operations (later in this section)
 
-## Creating an HTML Template
+## Creating an HTML template
 
 To begin the document generation process, HTML templates must be created or imported. Utilize the [**WYSIWYG**](/4.0/docs/platform-deep-dive/plugins/wysiwyg) editor accessible through **FLOWX Designer → Plugins → Document templates**.
 
 Learn more about managing HTML templates:
 
-[Managing HTML Templates](./managing-html-templates)
+<Card title="Managing HTML templates" href="./managing-html-templates" icon ="files"/>
 
 <Check>
 Before using templates, ensure they are in a **Published** state. Document templates marked as **Draft/In Progress** will not undergo the generation process.
 </Check>
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/ocr_doc_template.gif)
+</Frame>
 
 <Tip> 
-We've created a comprehensive course guiding you through the process of **Creating a Document Template in Designer**. Access the course [**here**](https://academy.flowx.ai/catalog/info/id:172) for detailed instructions and insights.
+We've created a comprehensive FlowX.AI Academy course guiding you through the process of **Creating a Document Template in Designer**. Access the course [**here**](https://academy.flowx.ai/catalog/info/id:172) for detailed instructions and insights.
 </Tip>
 
 ## Sending a document generation request
@@ -44,12 +46,16 @@ We've created a comprehensive course guiding you through the process of **Creati
 Consider a scenario where you need to send a personalized document to a customer based on specific details they provide. Create a process involving a [**User task**](../../../../building-blocks/node/user-task-node), a [**Send Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node#message-send-task), and a [**Receive Message Task (Kafka)**](../../../../building-blocks/node/message-send-received-task-node#message-receive-task).
 
 <Info>
-* In the initial user task node, users input information.
-* The second node (Kafka send) creates a request with a specified template and keys corresponding to user-filled values.
-* The third node sends the reply with the generated document under the specified key.
+In the initial user task node, users input information.
+
+The second node (Kafka send) creates a request with a specified template and keys corresponding to user-filled values.
+
+The third node sends the reply with the generated document under the specified key.
 </Info>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/generate_from_htm1l.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/doc_plugin_upload_prev_ex.png)
+</Frame>
 
 1. Add a **User task** and configure it with UI elements for user input.
 
@@ -57,9 +63,18 @@ Consider a scenario where you need to send a personalized document to a customer
 In this example, three UI elements, comprising two input fields and a select (dropdown), will be used. Subsequently, leverage the keys associated with these UI elements to establish a binding with the template. This binding enables dynamic adjustments to the template based on user-input values, enhancing flexibility and customization.
 </Info>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/data_model_doc_template.gif)
 
-2. Configure the second node (Kafka Send Event) by adding a **Kafka send action**.
+<video
+  autoPlay
+  muted
+  loop
+  className="w-full aspect-video"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/generate_template1.mp4"
+></video>
+
+
+
+2. Configure the second node (Send Message Task) by adding a **Kafka send action**.
 3. Specify the [**Kafka topic**](../../../../../setup-guides/plugins-setup-guide/documents-plugin-setup#kafka-configuration) to which the request should be sent, enabling the Process Engine to process it; in our example it is `ai.flowx.in.document.html.in`.
 
 <Tip>
@@ -69,11 +84,14 @@ To identify your defined topics in your current environment, follow the next ste
 2. In the FlowX Components list, scroll to the **document-plugin-mngt** line and press the eye icon on the right side.
 3. In the details screen, expand the `KafkaTopicsHealthCheckIndicator` line and then **details → configuration → topic → document → generate**. Under HTML and PDF you will find the in and out topics for generating HTML or PDF documents.
 
+
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/kafka_topics_html_generate.png)
 
 </Tip>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/kafka_html_generate.gif)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/generate_html.gif)
+</Frame>
 
 4. Fill in the message with the expected values in the request body:
 
@@ -113,20 +131,25 @@ To verify the default language of the platform, navigate to **FlowX Designer →
 
 Ultimately, the configuration should resemble the presented image:
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/ceva_model.png)
+</Frame>
 
-5. Configure the third node (Kafka Receive Event): 
+5. Configure the third node (Receive Message Task): 
 
     *  Add the topic where the response will be sent; in our example `ai.flowx.updates.document.html.generate.v1` and its key: `generatedDocuments`
   
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/receive_topic.png)    
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/generate_template_receive.png)    
+</Frame>
 
 ## Receiving the document generation reply
 
 The response, containing information about the generated documents, is sent to the output Kafka topic defined in the Kafka Receive Event Node. The response includes details such as file IDs, document types, and storage paths.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/html_generated_response.png)
+</Frame>
 
 Here is an example of a response after generation (received on `generatedDocuments` key):
 
@@ -164,9 +187,9 @@ Here is an example of a response after generation (received on `generatedDocumen
 
 Upon document generation, you now have the capability to present it using the Document Preview UI element. To facilitate this, let's optimize the existing process by introducing two supplementary nodes:
 
-* **Task Node**: This node is designated to generate the document path from the storage solution, specifically tailored for the Document Preview.
+* **Task node**: This node is designated to generate the document path from the storage solution, specifically tailored for the Document Preview.
 
-* **User Task**: In this phase, we seamlessly integrate the Document Preview UI Element. Here, we incorporate a key that contains the download path generated in the preceding node.
+* **User task**: In this phase, we seamlessly integrate the Document Preview UI Element. Here, we incorporate a key that contains the download path generated in the preceding node.
 
 For detailed instructions on displaying a generated or uploaded document, refer to the example provided in the following section:
 
