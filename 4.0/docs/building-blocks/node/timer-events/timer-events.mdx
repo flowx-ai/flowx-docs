@@ -1,5 +1,5 @@
 ---
-title: "Overview"
+title: "Timer events"
 description: Timer event nodes are a powerful feature in BPMN that allow you to introduce time-based behavior into your processes. These nodes enable you to trigger specific actions or events at predefined time intervals, durations, or cycles. With timer event nodes, you can design processes that respond to time-related conditions, ensuring smoother workflow execution and enhanced automation.
 ---
 
@@ -7,7 +7,7 @@ There are three primary types of timer event nodes:
 
 * **Timer Start Event (interrupting/non-interrupting)**: This node initiates a process instance at a scheduled time, either interrupting or non-interrupting ongoing processes. It allows you to set a specific date, duration, or cycle for the process to start. You can configure it to trigger a process instance just once or repeatedly.
 
-* **Timer Intermediate Event**: This node introduces time-based triggers within a process. It's used to pause the process execution until a specified time duration or date is reached. Once triggered, the process continues its execution.
+* **Timer Intermediate Event (interrupting)**: This node introduces time-based triggers within a process. It's used to pause the process execution until a specified time duration or date is reached. Once triggered, the process continues its execution.
 
 * **Timer Boundary Event (interrupting/non-interrupting)**: Attached to a task or subprocess, this node monitors the passage of time while the task is being executed. When the predefined time condition is met, the boundary event triggers an associated action, interrupting or non-interrupting the ongoing task or subprocess.
 
@@ -73,11 +73,11 @@ More information about timer expressions you can find in the below section:
 
 For each node type, the following timer types can be configured:
 
-| Node Type               | Date | Duration | Cycle |
-|-------------------------|------|----------|-------|
-| Timer Start Event       | Yes  | No       | Yes   |
-| Timer Intermediate Event| Yes  | Yes      | No    |
-| Timer Boundary Event    | Yes  | Yes      | No    |
+| Node Type                | Date | Duration | Cycle |
+| ------------------------ | ---- | -------- | ----- |
+| Timer Start Event        | Yes  | No       | Yes   |
+| Timer Intermediate Event | Yes  | Yes      | No    |
+| Timer boundary events    | Yes  | Yes      | No    |
 
 
 
@@ -92,10 +92,10 @@ For comprehensive details on each timer event node in this section, please refer
 <Card title="Timer Start Event (interrupting)" href="./timer-start-event">
 </Card>
 
-<Card title="Timer Intermediate Event" href="./timer-intermediate-event">
+<Card title="Timer Intermediate Event (interrupting)" href="./timer-intermediate-event">
 </Card>
 
-<Card title="Timer Boundary Events" href="./timer-boundary-event">
+<Card title="Timer boundary events" href="./timer-boundary-event">
 </Card>
 
 <Card title="Timer expressions" href="./timer-expressions">

@@ -131,8 +131,9 @@ This JSON structure represents the response received on the `..out` Kafka topic,
 
 Configure the **preview** part of the process.
 
-![Preview and Upload](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/preview_and_upload.png)
-
+<Frame>
+![Preview and Upload](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/preview_path.png)
+</Frame>
 
 #### Service task node
 
@@ -442,7 +443,9 @@ Now the screen is configured for uploading the signed document:
 
 The response, containing information about the generated and uploaded documents as mentioned earlier, is sent to the output Kafka topic defined in the Kafka Receive Event Node. The response includes details such as file IDs, document types, and storage paths.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/final_response.png)
+</Frame>
 
 The reply body is expected to contain the following values:
 
