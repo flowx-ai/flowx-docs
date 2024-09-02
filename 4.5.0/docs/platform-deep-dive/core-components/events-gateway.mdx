@@ -1,0 +1,68 @@
+---
+title: FlowX.AI Events Gateway  
+description: The FlowX Events Gateway is a service that centralizes the communication with Server-Sent Events (SSE) messages from Backend to Frontend.
+---
+
+<Frame>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/events_gateway_archi.png)
+
+</Frame>
+
+The FlowX Events Gateway serves as a central component for handling and distributing events within the system:
+
+<CardGroup>
+<Card title ="Event processing" icon="gears" href="#event-processing">
+</Card>
+<Card title ="Message distribution" icon="stack-exchange" href="#stack-exchange">
+</Card>
+<Card title ="Event publication" icon="tower-broadcast" href="#tower-broadcast">
+</Card>
+<Card title ="Integration with Redis" icon ="network-wired" href="#network-wired">
+</Card>
+</CardGroup>
+
+### Event processing
+
+The Events Gateway system is responsible for receiving and processing events from various sources, such as the [**FlowX Engine**](./flowx-engine) and [**Task Management**](../plugins/custom-plugins/task-management/task-management-overview). It acts as an intermediary between these systems and the rest of the system components.
+
+<Tip>
+It is a reusable component and is also used in administration scenarios to provide feedback without a refresh—for example, [**misconfigurations**](../../../../release-notes/v4.1.0-may-2024/v4.1.0-may-2024#misconfigurations) in  platform version 4.1, allowing an error to be displayed in real-time during configuration.
+</Tip>
+
+
+### Message distribution
+
+The Events Gateway system reads messages from the Kafka topic (`messaging_events_topic`) and distributes them to relevant components within the system. It ensures that the messages are appropriately routed to the intended recipients for further processing.
+
+### Event publication
+
+The Events Gateway system plays a crucial role in publishing events to the frontend renderer (FE renderer). It communicates with the frontend renderer using `HTTP` via `WebFlux`. By publishing events, it enables real-time updates and notifications on the user interface, keeping the user informed about the progress and changes in the system.
+
+It is designed to efficiently send updates to the frontend in the following scenarios:
+
+* When reaching a specific [**User Task (UT)**](../../building-blocks/node/user-task-node), a notification is sent to ensure the corresponding screen is rendered promptly.
+* When specific actions require data to be sent to the user interface from a node.
+
+### Integration with Redis
+
+<Info>
+[**Redis**](../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis) plays an important role within the platform. It handles every message and is mandatory for the platform to function correctly, especially with the frontend. The platform relies on Redis to ensure that the messages are distributed efficiently and that the correct instance with the SSE connection pointer for the recipient is always reached.
+</Info>
+
+The events-gateway system also interacts with Redis to publish events on a stream. This allows other components in the system to consume the events from the Redis stream and take appropriate actions based on the received events.
+
+In these situations, the FlowX Engine places a message on Kafka for the Events Gateway. The Events Gateway then retrieves the message and stores it in Redis. 
+
+
+In summary, the events-gateway system acts as a hub for event processing, message distribution, and event publication within the system. It ensures efficient communication and coordination between various system components, facilitating real-time updates and maintaining system consistency.
+
+For more details about how to configure events-gateway microservice, check the following section:
+
+<Card title="Events gateway configuration" href="../../../setup-guides/events-gateway-setup">
+</Card>
+
+
+
+
+
