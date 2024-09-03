@@ -1,22 +1,129 @@
 ---
 title: Layout configuration
-description: Layout settings will be available for all components that can group other types of elements (for example, Containers or Cards).
+description: Layout settings are available for all components that can group other types of elements (for example, Containers or Cards).
 ---
 
-These settings allow users to customize properties as the layout direction, alignment, gap, sizing, and spacing.
+The layout configuration settings enable users to customize key properties, including layout direction, alignment, gap, sizing, and spacing, to create visually appealing and functional designs.
+
 
 <Frame>
-
-![Layout configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/layout_configuration.png#center)
-
+<video
+  autoPlay
+  muted
+  loop
+  width="350"
+  height="200"
+  center
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_ov.mp4"
+></video>
 </Frame>
 
-These settings can be applied practically in various ways, depending on the context and purpose of the design. For example:
+These settings can be applied practically in various ways, depending on the context and purpose of the design:
 
-- The layout direction and alignment settings can be used to ensure that the content is displayed in a logical and visually appealing way. For instance, a left-to-right layout direction may be more appropriate for languages that read from left to right, while a center alignment may be better for headings or titles.
-- The gap, sizing, and spacing settings can be used to control the distance between elements in a design. This can help create a sense of hierarchy and balance, as well as improve readability and usability. For example, increasing the spacing between paragraphs or sections can make the content easier to scan and read, while reducing the size of certain elements can help prioritize others.
-- Customizing these properties can also help ensure that a design is accessible and inclusive. For instance, adjusting the layout direction and alignment settings can make the design more readable for users with certain disabilities or who use assistive technologies. Similarly, increasing the spacing and sizing of interactive elements can make them easier to click or tap for users with motor impairments.
+- **Layout Direction and Alignment**: Use these settings to control how content is displayed, ensuring a logical and visually appealing arrangement. For example, a left-to-right layout direction suits languages that read from left to right, while center alignment is ideal for headings or titles.
+- **Gap, Sizing, and Spacing**: Manage the distance between elements to create a sense of hierarchy and balance. Adjusting spacing between paragraphs or sections can improve readability, while resizing elements can prioritize certain components within the design.
+- **Accessibility Considerations**: Customizing layout direction, alignment, spacing, and sizing can enhance the accessibility and inclusivity of your design. For example, adjusting these settings can make content more readable for users with disabilities or those using assistive technologies.
+
+## Linear layout
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/linear-layout.mp4"
+></video>
+</Frame>
+
+### Linear layout configuration properties
+
+<Steps>
+<Step title= "Display Mode">
+**Linear**: Selected by default for arranging child elements in a linear fashion.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/set_linear.png)
+</Frame>
+
+</Step>
+<Step title="Direction">
+* **Horizontal**: Aligns child elements horizontally in a row.
+* **Vertical**: Aligns child elements vertically in a column.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/linear_direction.gif)
+</Frame>
+
+</Step>
+<Step title="Justify">
+Controls the alignment of child elements along the main axis (the direction set by Horizontal or Vertical).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/linear_justify.gif)
+</Frame>
+
+Options include:
+- **Start**: Aligns elements at the start of the container.
+- **Center**: Centers elements along the main axis.
+- **End**: Aligns elements at the end of the container.
+- **Space Between**: Distributes elements evenly with space between them.
+- **Space Around**: Distributes elements with space around them.
+- **Space Evenly**: Distributes elements with equal space around them.
+</Step>
+<Step title="Align"> 
+Controls the alignment of child elements along the cross axis (perpendicular to the main axis).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/linear_align.gif)
+</Frame>
+
+Options include:
+- **Start**: Aligns elements at the start of the cross axis.
+- **Center**: Centers elements along the cross axis.
+- **End**: Aligns elements at the end of the cross axis.
+- **Stretch**: Stretches elements to fill the container along the cross axis.
+</Step>
+<Step title="Wrap">
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/linear_wrap.gif)
+</Frame>
+
+**Enabled** (Yes): This option allows elements to wrap onto multiple lines when they exceed the container's width along the main axis, ensuring a flexible and responsive layout.
+
+**Disabled** (No): This option forces all elements to remain on a single line, even if they overflow beyond the container's width, potentially causing elements to be clipped or hidden.
+</Step>
+<Step title="Gap">
+Sets the spacing between child elements, measured in pixels.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/linear_gap.gif)
+</Frame>
+
+</Step>
+</Steps>
 
 To better understand how these layout configurations work and see real-time feedback on different combinations, please refer to the following link: 
 
-<Card title ="Layout configuration" icon = "link" href ="https://tburleson-layouts-demos.firebaseapp.com/#/docs"></Card>
+<Card title ="Layout configuration" icon = "link" href ="https://tburleson-layouts-demos.firebaseapp.com/#/docs">
+</Card>
+
+## Grid layout
+
+In addition to linear (flex-based) layouts, you can configure components using a Grid layout. This option is particularly useful for designs requiring a more structured and multi-dimensional arrangement of elements.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_layout.png)
+</Frame>
+
+* **Switching Layout Types**: For components that contain child elements (such as Containers, Cards, and Forms), you can easily switch between a linear layout and a Grid layout using a layout picker.
+* **Configuring the Grid**: Once the Grid layout is selected, you can define the number of columns to arrange your content precisely as needed. This allows for more intricate designs where elements need to be organized in a grid pattern, providing greater control over the visual structure.
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_layout.mp4"
+></video>
+</Frame>
+
