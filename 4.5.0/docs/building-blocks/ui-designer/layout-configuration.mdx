@@ -213,22 +213,83 @@ However, you have the flexibility to override these default settings for individ
     - **Columns**: 2
     - **ColumnGap**: Inherited from component theming gap
     - **RowGap**: Inherited from component theming gap
-    - **Position**: Start Start
+    - **Position**: Start Start (aligning items to the start both horizontally and vertically)
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_layout_defaults.png)
 </Frame>
 
 - **Grid Child Defaults**:
-    - **Position**: Start Start
-    - **ColumnSpan:** 1
-    - **RowSpan (Web)**: 1
-    - **Order**: 0 (Auto)
+    - **Position**: Start Start (aligned to the start of both axes)
+    - **ColumnSpan:** 1 (spans a single column)
+    - **RowSpan (Web)**: 1 (spans a single row)
+    - **Order**: 0 (Auto, maintaining the default order of elements)
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_child_defaults.png)
 </Frame>
 
+---
+
+### Example using grid layout
+
+**Use case**: **Customer Information Form**
+
+This scenario involves a banking application that requires detailed input from a company representative, either during onboarding or for a loan application. Given the need to gather extensive information, a form with a 2-column grid layout is used to ensure clean and consistent alignment of fields.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/example_gridd.png)
+</Frame>
+
+
+<Tip>
+For forms requiring additional inputs, consider adjusting the **Columns** property to match the number of fields needed. Expanding the form layout will help organize the inputs efficiently and improve user experience.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/more_columns.gif)
+
+</Tip>
+
+<AccordionGroup>
+
+<Accordion title="Role and Name">
+- Collect the company representative’s role and name.
+- A 2-column grid layout can display the *Role* in one column and *Name* in the other, ensuring fields are aligned and easy to access.
+</Accordion>
+
+<Accordion title="Shareholder Status">
+- A toggle or checkbox asks if the representative is the main shareholder and/or the ultimate beneficial owner.
+- A 2-column grid places these toggles side by side for a cleaner interface.
+</Accordion>
+
+<Accordion title="Personal Details">
+- Fields like *First Name*, *Personal Identification Number*, *Date of Birth*, and *Country of Residence* are collected.
+- The 2-column grid aligns these fields horizontally, with appropriate spacing for readability.
+</Accordion>
+
+<Accordion title="Contact Details">
+- Collects *Phone Number*, *Email*, and *Preferred Method of Contact*.
+- The grid places *Phone Number* and *Email* side by side, while the *Preferred Method of Contact* dropdown spans the row.
+</Accordion>
+
+<Accordion title="Residence Address">
+- Collect *State*, *Country*, and *City*.
+- A 3-column grid displays these fields in a single row, simplifying navigation for the user.
+</Accordion>
+
+<Accordion title="Employment Seniority">
+- Capture employment history such as *Total Service Duration* and *Verified By*.
+- A 2-column grid aligns these fields for easy comparison, avoiding misalignment or unnecessary gaps.
+</Accordion>
+
+<Accordion title="Union Membership">
+- A simple yes/no radio button for union membership.
+- A grid layout ensures the options are neatly aligned for a clean, straightforward selection.
+</Accordion>
+
+</AccordionGroup>
+
+
+---
 
 ### Best Practices
 
