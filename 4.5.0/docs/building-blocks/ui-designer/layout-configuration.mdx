@@ -155,7 +155,20 @@ Once the Grid layout is selected, you can define the number of columns. Initiall
 When configuring a grid, individual child components can be further customized:
 
 - **Column Span**: Set how many columns a child component should span across.
+
+<Warning>
+Col Span should not exceed the number of grid columns.
+</Warning>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_layout_child_settings.gif)
+</Frame>
+
 - **Row Span (Web Only)**: Set how many rows a child component should span.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_layout_child_settings1.gif)
+</Frame>
 
 #### Order property
 
@@ -163,6 +176,11 @@ The Order property is a powerful tool for arranging elements within both linear 
 
 - **Auto**: Default setting, maintaining the order from the array.
 - **First**: Moves the element to the first position by setting its order to `-999`.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/order_first.gif)
+</Frame>
+
 - **Last**: Moves the element to the last position by setting its order to `999`.
 - **Manual**: Allows for custom ordering by setting a specific numerical value.
 
@@ -178,7 +196,12 @@ However, you have the flexibility to override these default settings for individ
 
 ### Component details
 
-* **Components with gridLayout Property**: The following components support the `gridLayout` property: CONTAINER, CARD, FORM, COLLECTION, COLLECTION_PROTOTYPE.
+* **Components with gridLayout Property**: The following components support the `gridLayout` property: 
+    * [**CONTAINER**](./ui-component-types/root-components/container)
+    * [**CARD**](./ui-component-types/root-components/card) 
+    * **FORM**
+    * [**COLLECTION**](./ui-component-types/collection)
+    * [**COLLECTION PROTOTYPE**](./ui-component-types/collection/collection_prototype)
 * **Components with gridChild Property**: All components can have the `gridChild` property, depending on their parent component's layout.
 * **Collection gridLayout**: Within collections, the `gridLayout` property specifies only the number of columns, rowGap, and columnGap.
 * **Collection Prototype**: The collection prototype does not include the `gridChild` property.
