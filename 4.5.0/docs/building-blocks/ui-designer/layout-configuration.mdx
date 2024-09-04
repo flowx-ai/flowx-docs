@@ -157,7 +157,7 @@ When configuring a grid, individual child components can be further customized:
 - **Column Span**: Set how many columns a child component should span across.
 
 <Warning>
-Col Span should not exceed the number of grid columns.
+Col Span should not exceed the number of parent grid columns.
 </Warning>
 
 <Frame>
@@ -312,9 +312,16 @@ To ensure an optimal user experience and consistent visual design, consider thes
 
 ### FAQs
 
-- **Q: I have a Grid with 10 elements, and I set one element's order to `5`. Why is it not displayed as the fifth element?**
-  - **A:** The order property works relative to other elements. If other elements are set to `auto` (which equals `0`), then the element with order `5` will be placed after all the `0` elements, making it appear last.
-  
-- **Q: What should I be cautious about when working with a Grid layout?**
-  - **A:** Be careful with using fixed widths in Grid layouts. Fixed widths can lead to unexpected behavior, especially on different devices. It's better to use flexible sizing options whenever possible to maintain a responsive and predictable design.
+<AccordionGroup>
+<Accordion title="I have a Grid with 10 elements, and I set one element's order to `5`. Why is it not displayed as the fifth element?
+">
+**A:** The order property works relative to other elements. If other elements are set to `auto` (which equals `0`), then the element with order `5` will be placed after all the `0` elements, making it appear last.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/FAQ1.gif)
+</Frame>
+</Accordion>
 
+<Accordion title ="What should I be cautious about when working with a Grid layout?">
+**A:** Be careful with using fixed widths in Grid layouts. Fixed widths can lead to unexpected behavior, especially on different devices. It's better to use flexible sizing options whenever possible to maintain a responsive and predictable design.
+</Accordion>
+</AccordionGroup>
