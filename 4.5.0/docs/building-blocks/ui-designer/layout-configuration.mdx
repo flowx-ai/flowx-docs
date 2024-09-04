@@ -25,6 +25,9 @@ These settings can be applied practically in various ways, depending on the cont
 - **Accessibility Considerations**: Customizing layout direction, alignment, spacing, and sizing can enhance the accessibility and inclusivity of your design. For example, adjusting these settings can make content more readable for users with disabilities or those using assistive technologies.
 
 ## Linear layout
+
+The Linear layout arranges child elements in a single line, either horizontally or vertically.
+
 <Frame>
 <video
   autoPlay
@@ -38,6 +41,7 @@ These settings can be applied practically in various ways, depending on the cont
 
 <Steps>
 <Step title= "Display Mode">
+
 **Linear**: Selected by default for arranging child elements in a linear fashion.
 
 <Frame>
@@ -46,6 +50,7 @@ These settings can be applied practically in various ways, depending on the cont
 
 </Step>
 <Step title="Direction">
+
 * **Horizontal**: Aligns child elements horizontally in a row.
 * **Vertical**: Aligns child elements vertically in a column.
 
@@ -88,9 +93,8 @@ Options include:
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/linear_wrap.gif)
 </Frame>
 
-**Enabled** (Yes): This option allows elements to wrap onto multiple lines when they exceed the container's width along the main axis, ensuring a flexible and responsive layout.
-
-**Disabled** (No): This option forces all elements to remain on a single line, even if they overflow beyond the container's width, potentially causing elements to be clipped or hidden.
+- **Enabled** (Yes): This option allows elements to wrap onto multiple lines when they exceed the container's width along the main axis, ensuring a flexible and responsive layout.
+- **Disabled** (No): This option forces all elements to remain on a single line, even if they overflow beyond the container's width, potentially causing elements to be clipped or hidden.
 </Step>
 <Step title="Gap">
 Sets the spacing between child elements, measured in pixels.
@@ -109,14 +113,15 @@ To better understand how these layout configurations work and see real-time feed
 
 ## Grid layout
 
-In addition to linear (flex-based) layouts, you can configure components using a Grid layout. This option is particularly useful for designs requiring a more structured and multi-dimensional arrangement of elements.
+In addition to linear (flex-based) layouts, you can configure components using a grid layout. This option is particularly useful for designs requiring a more structured and multi-dimensional arrangement of elements.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_layout.png)
 </Frame>
 
-* **Switching Layout Types**: For components that contain child elements (such as Containers, Cards, and Forms), you can easily switch between a linear layout and a Grid layout using a layout picker.
-* **Configuring the Grid**: Once the Grid layout is selected, you can define the number of columns to arrange your content precisely as needed. This allows for more intricate designs where elements need to be organized in a grid pattern, providing greater control over the visual structure.
+### Switching layout types
+
+For components that contain child elements (such as Containers, Cards, and Forms), you can easily switch between a linear layout and a Grid layout using a layout picker. The default layout is linear, but you can select Grid to arrange your content in a more structured way.
 
 <Frame>
 <video
@@ -126,4 +131,106 @@ In addition to linear (flex-based) layouts, you can configure components using a
   src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_layout.mp4"
 ></video>
 </Frame>
+
+#### Configuring the grid
+
+Once the Grid layout is selected, you can define the number of columns. Initially, the columns will be distributed equally, meaning all columns will have the same width. Additional customization options include:
+
+- **Number of Columns**: Set the number of columns for the grid. By default, grid will use two columns.
+- **Alignment**: Control how child elements are aligned within the grid. Alignment can be adjusted both horizontally and vertically, ensuring that content is positioned exactly where needed.
+- **Gap Configuration**: Customize the gap between columns and rows. The default gap is inherited from the parent component's theme settings, ensuring consistency across your design.
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_layout.mp4"
+></video>
+</Frame>
+
+
+#### Grid child settings
+
+When configuring a grid, individual child components can be further customized:
+
+- **Column Span**: Set how many columns a child component should span across.
+- **Row Span (Web Only)**: Set how many rows a child component should span.
+
+#### Order property
+
+The Order property is a powerful tool for arranging elements within both linear and grid layouts. By default, all elements are ordered based on their position in the parent component's array. However, this order can be modified:
+
+- **Auto**: Default setting, maintaining the order from the array.
+- **First**: Moves the element to the first position by setting its order to `-999`.
+- **Last**: Moves the element to the last position by setting its order to `999`.
+- **Manual**: Allows for custom ordering by setting a specific numerical value.
+
+<Tip>
+Example: In a Grid with 10 elements, setting one element's order to `5` while the others are set to `auto` (which equals `0`) will place that element last, because `5` is greater than `0`.
+</Tip>
+
+#### Alignment in grid layouts
+
+Proper alignment within grid layouts is essential, particularly when working with fixed-width columns or rows. By default, child elements will inherit alignment settings from their parent component, ensuring a consistent look and feel. 
+
+However, you have the flexibility to override these default settings for individual child elements, allowing precise control over horizontal and vertical alignment. This customization is key to achieving the desired visual structure, especially when certain elements need specific positioning within the grid.
+
+### Component details
+
+* **Components with gridLayout Property**: The following components support the `gridLayout` property: CONTAINER, CARD, FORM, COLLECTION, COLLECTION_PROTOTYPE.
+* **Components with gridChild Property**: All components can have the `gridChild` property, depending on their parent component's layout.
+* **Collection gridLayout**: Within collections, the `gridLayout` property specifies only the number of columns, rowGap, and columnGap.
+* **Collection Prototype**: The collection prototype does not include the `gridChild` property.
+* **Grid and Flex Layout Application**: The grid and flex layouts apply exclusively to the layout of child components. Elements such as Card titles, subtitles, and Form titles are excluded from these layout types.
+
+### Default style properties
+
+- **Grid Layout Defaults**:
+    - **Columns**: 2
+    - **ColumnGap**: Inherited from component theming gap
+    - **RowGap**: Inherited from component theming gap
+    - **Position**: Start Start
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_layout_defaults.png)
+</Frame>
+
+- **Grid Child Defaults**:
+    - **Position**: Start Start
+    - **ColumnSpan:** 1
+    - **RowSpan (Web)**: 1
+    - **Order**: 0 (Auto)
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_child_defaults.png)
+</Frame>
+
+
+### Best Practices
+
+To ensure an optimal user experience and consistent visual design, consider these best practices when using grid layouts:
+
+- **Minimize Fixed Widths**: Avoid using fixed widths for child components in a grid. Relying on flexible sizing allows the grid to adapt smoothly across different screen sizes and devices. Only use fixed widths when absolutely necessary (e.g., for icons or buttons with defined sizes).
+  
+- **Consider Total Width**: If you know the width of the screen is `X`, ensure that the total width of your fixed-width elements doesn't exceed `X`. This prevents layout issues like content overflow or misalignment across different devices.
+
+- **Use Column Span Thoughtfully**: When setting the `columnSpan` for a grid child, ensure that the total spans across all elements do not exceed the number of columns. This ensures a consistent and predictable layout.
+
+- **Avoid Overcrowding**: When adding numerous child components to a grid, be mindful of spacing (gaps) between elements. Proper use of `rowGap` and `columnGap` helps maintain clarity and reduces visual clutter.
+
+- **Leverage Default Inheritance**: Utilize the default alignment inheritance from the parent grid to ensure consistency. Only override alignment on child components when specific visual differences are needed.
+
+- **Use `Auto` Order When Possible**: Stick with the `auto` order setting for most child components, unless a specific element needs to appear first or last. This will help maintain logical reading and visual flow without complex manual ordering.
+
+- **Test Across Platforms**: Given potential differences in behavior between web, iOS, and Android platforms, test your grid layout across these platforms to ensure consistent performance and avoid unexpected behavior like overflow or misalignment.
+
+
+### FAQs
+
+- **Q: I have a Grid with 10 elements, and I set one element's order to `5`. Why is it not displayed as the fifth element?**
+  - **A:** The order property works relative to other elements. If other elements are set to `auto` (which equals `0`), then the element with order `5` will be placed after all the `0` elements, making it appear last.
+  
+- **Q: What should I be cautious about when working with a Grid layout?**
+  - **A:** Be careful with using fixed widths in Grid layouts. Fixed widths can lead to unexpected behavior, especially on different devices. It's better to use flexible sizing options whenever possible to maintain a responsive and predictable design.
 
