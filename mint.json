@@ -1743,15 +1743,7 @@
       "pages": [
         "release-notes/overview",
 
-        {
-          "group": "v4.1.4 - September",
-          "pages": [
-            "release-notes/v4.1.4-september-2024/v4.1.4-september-2024",
-            "release-notes/v4.1.4-september-2024/deployment-guidelines-v4.1.4",
-            "release-notes/v4.1.4-september-2024/migrating-from-previous-to-v4.1.4"
-          ]
-        },
-
+        
         {
           "group": "v4.5.0 - October",
           "icon": "rocket",
@@ -1759,6 +1751,14 @@
             "release-notes/v4.5.0-october-2024/v4.5.0-october-2024",
             "release-notes/v4.5.0-october-2024/deployment-guidelines-v4.5.0",
             "release-notes/v4.5.0-october-2024/migrating-from-previous-to-v4.5.0"
+          ]
+        },
+        {
+          "group": "v4.1.4 - September",
+          "pages": [
+            "release-notes/v4.1.4-september-2024/v4.1.4-september-2024",
+            "release-notes/v4.1.4-september-2024/deployment-guidelines-v4.1.4",
+            "release-notes/v4.1.4-september-2024/migrating-from-previous-to-v4.1.4"
           ]
         },
         {
