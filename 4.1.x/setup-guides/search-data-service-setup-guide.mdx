@@ -35,15 +35,17 @@ Set the following Kafka-related configurations using environment variables:
 Set the following Elasticsearch-related configurations using environment variables:
 
 * `SPRING_ELASTICSEARCH_REST_URIS` 
+* `SPRING_ELASTICSEARCH_REST_PROTOCOL`
 * `SPRING_ELASTICSEARCH_REST_DISABLESSL` 
 * `SPRING_ELASTICSEARCH_REST_USERNAME`
 * `SPRING_ELASTICSEARCH_REST_PASSWORD`
-* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME` (default: `process-instance`) Customize the index for Data Search service, similar to the [FlowX Engine configuration](./flowx-engine-setup-guide/configuring-elasticsearch-indexing/)
+* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME` (default: `process_instance`)
 
 ```yaml
 spring:
   elasticsearch:
     rest:
+      protocol: https
       uris: localhost:9200
       disableSsl: false
       username: ""
