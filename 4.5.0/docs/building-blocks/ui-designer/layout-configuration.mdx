@@ -119,6 +119,7 @@ In addition to linear (flex-based) layouts, you can configure components using a
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_layout.png)
 </Frame>
 
+
 ### Switching layout types
 
 For components that contain child elements (such as Containers, Cards, and Forms), you can easily switch between a linear layout and a Grid layout using a layout picker. The default layout is linear, but you can select Grid to arrange your content in a more structured way.
@@ -130,6 +131,14 @@ For components that contain child elements (such as Containers, Cards, and Forms
   loop
   src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid_layout.mp4"
 ></video>
+</Frame>
+
+### Platform-specific layouts
+
+You can configure different layout settings for different platforms. For example, you can opt for a grid layout on the web but switch to a linear layout on mobile for a more streamlined user experience. This flexibility ensures that the design is responsive and optimized for each platform, improving usability across different devices.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/layout_platform_specific.gif)
 </Frame>
 
 #### Configuring the grid
@@ -284,7 +293,7 @@ For forms requiring additional inputs, consider adjusting the **Columns** proper
 
 
 ---
-
+ 
 ### Best Practices
 
 To ensure an optimal user experience and consistent visual design, consider these best practices when using grid layouts:
@@ -301,7 +310,11 @@ To ensure an optimal user experience and consistent visual design, consider thes
 
 - **Use `Auto` Order When Possible**: Stick with the `auto` order setting for most child components, unless a specific element needs to appear first or last. This will help maintain logical reading and visual flow without complex manual ordering.
 
+- **Always Be Mindful of Mobile Screen Width**: When designing for mobile, always consider the narrower screen width. Ensure that grid layouts adapt gracefully, perhaps switching from a grid to a linear layout, or adjusting spacing and sizing to fit within the mobile screen's constraints without causing overflow or misalignment.
+
 - **Test Across Platforms**: Given potential differences in behavior between web, iOS, and Android platforms, test your grid layout across these platforms to ensure consistent performance and avoid unexpected behavior like overflow or misalignment.
+
+- **Avoid Fixed Widths on Columns**: Instead of setting fixed widths on the entire column, apply fixed widths to the individual elements inside the grid cells. This ensures more flexible layouts that adapt to different screen sizes, especially on mobile devices, without causing issues like overflow or misalignment.
 
 
 ### FAQs
