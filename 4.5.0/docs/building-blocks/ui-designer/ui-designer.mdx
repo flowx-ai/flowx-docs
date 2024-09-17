@@ -136,18 +136,21 @@ Overrides are completely independent of the theme, regardless of which theme you
 
 ### Layout 
 
-Users can customize the direction, alignment, gap, sizing, and spacing of their layout. These properties help to create well-organized and visually pleasing user interfaces.
+There are two main types of layouts for organizing child elements: **Linear** and **Grid**.
 
-Layout configuration is available for components that group children: [root components](./ui-component-types/root-components/) and [forms](./ui-component-types/form-elements) (more details about layouts can be found [here](https://tburleson-layouts-demos.firebaseapp.com/#/docs)):
+* **Linear Layout**: Arranges child elements in a single line, either horizontally or vertically. Ideal for simple, sequential content flow.
+* **Grid Layout**: Organizes elements into a structured grid with multiple columns and rows, useful for more complex, multi-dimensional designs.
+* **Platform-Specific Layouts**: You can customize layout settings per platform (e.g., Grid on web, Linear on mobile) to ensure optimal responsiveness.
 
-   * **Direction** - horizontal or vertical
-   * **Alignment** - start, center, end, stretch
-   * **Wrap** - content will wrap to the next line when it reaches the end of a line within the element
-   * **Gap** - the gap property defines the size of the gap between the rows and between the columns
+<Info>
+Both layouts offer options to customize direction, alignment, spacing, and wrap behavior for flexibility in design.
+</Info>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/layout_styling.gif)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/set_linear.png)
+</Frame>
 
-<Card title ="Layout" href="https://tburleson-layouts-demos.firebaseapp.com/#/docs">
+<Card title ="Layout" href="layout-configuration" icon ="scroll">
 </Card>
 
 ### Sizing
