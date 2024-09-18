@@ -208,15 +208,15 @@ When starting a new version of the process-engine, we recommend manually executi
 This section contains environment variables that control the settings for data partitioning and archiving and also for the archiving scheduler. These settings determine how data is partitioned, retained, and managed, including compression and batch processing.
 
 
-| Environment Variable                                     | Description                                                                  | Default Value                         | Possible Values                       |
-| -------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------- |
-| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `false`                               | `true`, `false`                       |
-| `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`                               | `DAY`, `WEEK`, `MONTH`                |
-| `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`                                   | Integer values (e.g., `1`, `2`, `3`)  |
-| `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for archived (detached) partitions (Oracle only).        | `OFF`                                 | `OFF`, `BASIC`, `ADVANCED`            |
-| `FLOWX_DATA_PARTITIONING_MOVED_DATA_BATCH_SIZE`          | Batch size for moving data (PostgreSQL only).                                | `5000`                                | Integer values (e.g., `1000`, `5000`) |
-| `SCHEDULER_DATA_PARTITIONING_ENABLED`                    | Activates the cron job for archiving partitions.                             | `true`                                | `true`, `false`                       |
-| `SCHEDULER_DATA_PARTITIONING_CRON_EXPRESSION`            | Cron expression for the data partitioning scheduler.                         | `0 0 1 * * ?` -> every day at 1:00AM  | Cron expression (e.g., `0 0 1 * * ?`) |
+| Environment Variable                                     | Description                                                                  | Default Value                        | Possible Values                       |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------ | ------------------------------------- |
+| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `false`                              | `true`, `false`                       |
+| `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`                              | `DAY`, `WEEK`, `MONTH`                |
+| `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`                                  | Integer values (e.g., `1`, `2`, `3`)  |
+| `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for archived (detached) partitions (Oracle only).        | `OFF`                                | `OFF`, `BASIC`, `ADVANCED`            |
+| `FLOWX_DATA_PARTITIONING_MOVED_DATA_BATCH_SIZE`          | Batch size for moving data (PostgreSQL only).                                | `5000`                               | Integer values (e.g., `1000`, `5000`) |
+| `SCHEDULER_DATAPARTITIONING_ENABLED`                     | Activates the cron job for archiving partitions.                             | `true`                               | `true`, `false`                       |
+| `SCHEDULER_DATAPARTITIONING_CRONEXPRESSION`              | Cron expression for the data partitioning scheduler.                         | `0 0 1 * * ?` -> every day at 1:00AM | Cron expression (e.g., `0 0 1 * * ?`) |
 
 <Info>
 Compression for archived (detached) partitions is available only for Oracle DBs.

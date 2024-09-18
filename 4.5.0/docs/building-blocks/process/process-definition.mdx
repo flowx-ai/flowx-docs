@@ -73,79 +73,10 @@ In the Data Model, you can add new key-pair values, which enables you to use sho
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/add_new_data_model.png)
 </Frame>
 
-### Attributes type
+For more information on how to work with the Data Model, explore the following section:
 
-<Frame>
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/add_new_data_model.png)
-
-</Frame>
-
-The Data Model supports the following attribute types:
-
-* STRING
-* NUMBER
-* BOOLEAN
-* OBJECT
-* ARRAY
-    * ARRAY OF STRINGS
-    * ARRAY OF NUMBERS
-    * ARRAY OF BOOLEANS
-    * ARRAY OF OBJECTS
-    * ARRAY OF ENUMS
-* ENUM
-
-<Info>
-When you export or import a [**process definition**](./process-definition), the data model will be included.
-</Info>
-
-### Data model reference
-
-You can use data model reference feature to view attribute usage within the data model. You can now easily see where a specific attribute is being used by accessing the "View References" feature. This feature provides a list of process keys associated with each attribute and displays possible references, such as UI Elements.
-
-For UI Elements, the references include the element label, node name, and UI Element key. Additionally, the context of the reference is provided, showing the node name and the UI element type along with its label. Users can conveniently navigate to the context by clicking the provided link to the node's UI page.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/data_model_ref.gif)
-</Frame>
-
-### Sensitive data
-
-To protect your data and your customer's data, you can hide data that could be visible in the process details or in the browser's console. You can now also secret data for a specific key.
-
-<Frame>
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/sensitive_data_new.png)
-
-</Frame>
-
-### Reporting
-
-The **Use in Reporting** tag is used for keys that will be used further in the reporting plugin.
-
-<Card title ="Reporting" href="../../platform-deep-dive/plugins/custom-plugins/reporting/reporting-overview">
+<Card title= "Data model" href="./data-model" icon="scroll">
 </Card>
-
-### Generating data model
-
-A data model can be generated using data values from a [process instance](./process-instance). This can be done by either merging the data model with an existing one or replacing it entirely.
-
-To generate a data model, follow these steps:
-
-1. Open **FlowX.AI Designer**.
-2. Go to the **Definitions** tab and select the desired **process definition**.
-3. Select the **Data Model** tab and then click **Generate data model** button.
-4. Add the **process instance** of the process from which you want to generate the data model.
-5. Choose whether to **replace** the existing data model or **merge** it with the new one.
-6. Click the **Load Data** button to display the data model body.
-7. Finally, click **Save** button to save the generated data model.
-
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/generate_data_model.gif)
-</Frame>
-
-By generating a data model, you can ensure that your data is structured and organized in a way that is appropriate for your business needs. It can also help you to identify any inconsistencies or errors in the data, allowing you to correct them before they cause problems down the line.
 
 ## Swimlanes
 

@@ -139,6 +139,7 @@
           "pages": [
             "4.5.0/docs/building-blocks/process/process",
             "4.5.0/docs/building-blocks/process/process-definition",
+            "4.5.0/docs/building-blocks/process/data-model",
             "4.5.0/docs/building-blocks/process/process-instance",
             "4.5.0/docs/building-blocks/process/subprocess",
             "4.5.0/docs/building-blocks/process/versioning",
@@ -401,6 +402,7 @@
           "icon": "link",
           "pages": [
             "4.5.0/docs/platform-deep-dive/integrations/integrations-overview",
+            "4.5.0/docs/platform-deep-dive/integrations/integration-designer",
             "4.5.0/docs/platform-deep-dive/integrations/building-a-connector",
             "4.5.0/docs/platform-deep-dive/integrations/creating-a-kafka-consumer",
             "4.5.0/docs/platform-deep-dive/integrations/creating-a-kafka-producer",
