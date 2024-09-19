@@ -58,7 +58,7 @@ When encountering a step with `canGoBack` switched to false, all steps found beh
 A naming pattern must be defined on the [process engine configuration](../../../setup-guides/flowx-engine-setup-guide/engine-setup#configuring-kafka) to use the defined topics. It is important to know that all the events that start with a configured pattern will be consumed by the Engine. For example, `KAFKA_TOPIC_PATTERN` is the topic name pattern where the Engine listens for incoming Kafka events.
 </Warning>
 
-* **Key Name** - will hold the result received from the external system, if the key already exists in the process values, it will be overwritten
+* **Key Name** - will hold the result received from the external system; if the key already exists in the process values, it will be overwritten
 
 #### Task Management
 
