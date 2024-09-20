@@ -29,7 +29,7 @@ First, we need to configure the [manual action](../actions/actions) that will be
 2. Select the action type - for example **Save Data**.
 3. The action **type** should be **manual**.
 4. **Keys** - it has two important implications:
-   * First, this is a prefix of the keys that will sent back by the UI Action. For example, if we have a big form with a lot of elements, but we need an action that just sends the email back (maybe creating email validation functionality) we will add just the key of that field: `application.client.email`; if we need a button that will send back all the form elements that have keys that start with `application.client` we can add just this part
+   * First, this is a prefix of the keys that will send back by the UI Action link to this action. For example, if we have a big form with a lot of elements, but we need an action that just sends the email back (maybe creating email validation functionality) we will add just the key of that field: `application.client.email`; if we need a button that will send back all the form elements that have keys that start with `application.client` we can add just this part
    * Second, a backend validation will be run to accept and persist just the data that start with this prefix. If we have three explicit keys, `application.client.email`, `application.client.phone`, `application.client.address` and we send `application.client.age`this key will not be persisted
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_action_key.png)
