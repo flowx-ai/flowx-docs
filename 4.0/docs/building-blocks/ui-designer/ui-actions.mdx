@@ -5,7 +5,7 @@ description: Multiple UI elements can be linked to a specific action via a UI ac
 
 UI actions create a link between an [**action**](../actions/actions) and a UI component or [**custom component**](./ui-component-types/root-components/custom). 
 
-The UI action informs the UI element to execute the given action when triggered. Other options are available for configuration when setting an action to a button and are detailed below.
+The UI action informs the UI element to execute the given action when triggered. Other options are available for configuration when setting an action to a UI component and are detailed below.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_actions.gif)
 
@@ -16,7 +16,7 @@ There are two main types of UI Actions:
 
 ## Process UI actions
 
-This is a UI action that describes how a [**Button**](../ui-designer/ui-component-types/buttons) (generated or custom) should interact with a process Manual action.
+This is a UI action that describes how a [**UI Component**](../ui-designer/ui-designer#ui-components) (generated or custom) should interact with a process Manual action.
 
 First, we need to configure the [manual action](../actions/actions) that will be referred from the UI Action. For more information on how to add an action to a node, and how to configure it, check the following section:
 
@@ -48,7 +48,7 @@ Multiple configurations are available - **ACTION** type example:
 * [**Type**](#action-types)
 * **Node Action Name** - dropdown with available actions for this node. If the dropdown is empty please add a manual action that is required before we create the UI Action
 * **Use a different name for UI action**
-* **UI action name** - **this becomes** important when the action is used in a [**Custom component**](./ui-component-types/root-components/custom) as it will be used to trigger the action. For UI actions added on a generated button component this name is just descriptive
+* **UI action name** - **this becomes** important when the action is used in a [**Custom component**](./ui-component-types/root-components/custom) as it will be used to trigger the action. For UI actions added on a generated UI component, this name is just descriptive
 * **Custom body** - this is the default response in JSON format that will be merged with any extra parameters added explicitly when executing the action, by a web application (from a [custom component](./ui-component-types/root-components/custom))
 * **Forms to validate** - select from the dropdown what element will be validated (you can also select the children)
 * **Hide Subprocess Navigation** - if the UI Action is added on a subprocess and this parameter is true, triggering this UI action will dismiss the subprocess view (useful for modals subprocess)
