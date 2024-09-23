@@ -17,28 +17,15 @@ User task nodes allow you to define and configure UI templates and possible [act
 
 * **Node name** - the name of the node
 * **Can go back** - setting this to true will allow users to return to this step after completing it. When encountering a step with `canGoBack` false, all steps found behind it will become unavailable.
-* **Flow Names** - leave this field empty if the node should be included in all flows
-
+* [**Stage** ](../../platform-deep-dive/plugins/custom-plugins/task-management/using-stages)- assign a stage to the node
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/user_task_general_config.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/node_config_new.png)
 </Frame>
-
 
 <Info>
 When encountering a step with `canGoBack` switched to false, all steps found behind it will become unavailable.
 </Info>
-
-* [**Swimlane**](../../platform-deep-dive/user-roles-management/swimlanes) - choose a swimlane (if there are multiple swimlanes on the process) to make sure only certain user roles have access to certain process nodes- if there are no multiple swimlanes, the value is **Default**
-* [**Stage** ](../../platform-deep-dive/plugins/custom-plugins/task-management/using-stages)- assign a stage to the node
-
-#### Response Timeout 
-
-* **Response timeout** - can be triggered if, for example, a topic that you define and add in the [Data stream topics](#data-stream-topics) tab does not respect the pattern, the format used for this is [ISO 8601 duration format ](https://www.w3.org/TR/NOTE-datetime)(for example, a delay of 30s will be set up like `PT30S`)
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/user_task_node_response_timeout.png)
-</Frame>
 
 #### Data stream topics
 
@@ -150,13 +137,6 @@ More details in the following section:
 <Card title ="Custom" href="../ui-designer/ui-component-types/root-components/custom">
 </Card>
 
-The sections that can be configured are as follows:
-
-1. **Message** - configure what data will be pushed to the frontend application
-2. **Input keys** - used to define the process model paths from which the components will receive its data
-3. [**UI Actions**](../ui-designer/ui-actions) - actions defined here will be made available to the custom component. Multiple actions can be configured on a custom component and mapped to different triggers when developing it. Naming each action suggestively is important so the frontend engineer developing the component knows what actions should be triggered by certain events.
-
-More information about configuration, [here](using ui designer).
 
 ## Displaying a UI element
 
