@@ -1,0 +1,84 @@
+---
+title: Localization and internationalization
+description: FlowX localization and internationalization adapt applications to different languages, regions, and formats, enhancing the user experience with dynamic date, number and currency formatting.
+---
+
+
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="w-full aspect-video"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/l10_i18n.mp4"
+></video>
+
+## Internationalization
+
+Internationalization (i18n) in FlowX enables applications to be easily adapted for multiple languages and regions without altering the core code. It sets the foundation for localization by handling language structure, layout adjustments, and supporting various formats.
+
+## Localization
+
+Locale settings impact all date, number, and currency formats based on the combination of region and language. The language dictates translations, while the region specifies formatting order and conventions.
+
+### Locale sources
+
+Locale settings are derived from three main sources:
+
+* **Container Application**: Enforces global locale settings across the application.
+* **Application Level**: Allows for context-specific overrides within the application.
+* **Device or Browser**: Uses the user's device or browser settings to determine locale preferences.
+
+## Core i18n & l10n features
+
+### Date formats
+
+FlowX supports five date formatting options to accommodate regional preferences:
+
+- **Short**: Standard brief format (e.g., `MM/DD/YY`).
+- **Medium**: A more detailed standard format (e.g., `MMM DD, YYYY`).
+- **Long**: Extended date format with more descriptive elements (e.g., `MMMM DD, YYYY`).
+- **Full**: The most comprehensive format, often including day of the week (e.g., `EEEE, MMMM DD, YYYY`).
+- **Custom**: Define your own date format (e.g., `dd/MM/yy`) to match specific requirements.
+
+### Number formatting
+
+FlowX provides comprehensive support for number formatting, ensuring that numerical data aligns with regional standards:
+
+- **Locale-Specific Formatting**: Formatting the numbers to adapt decimal separators (`comma` vs. `dot`) and digit grouping (`1,000` vs. `1.000`) to match regional conventions.
+- **Decimal Precision**: You can set minimum and maximum decimal places for numbers in application settings, to store data and display it with the required precision in the data store.
+- **Type Consistency**: When setting input types as `number`, values are saved as numbers across all platforms, addressing inconsistencies where some platforms previously saved them as strings.
+- **Data Model Integration**: For fields that support `number` or `currency` types, FlowX checks the data model for precision settings and applies them during data storage, ensuring consistency and adherence to configured precision levels.
+- **Dynamic Formatting in UI**: Number formatting is dynamically adjusted in UI components like inputs and sliders, allowing real-time changes based on locale settings.
+- **Rendering Logic**: At runtime, rendering follows the metadata defined in the data model, ensuring that number formatting is applied correctly across all relevant components.
+
+### Currency formatting
+
+FlowX provides robust currency formatting features that dynamically adapt to regional settings, ensuring accurate representation of financial data:
+
+- **Currency Object Structure**: Currencies are managed as a system object with `amount` and `code` keys, creating a wrapper that facilitates consistent handling. This design ensures that every currency display corresponds accurately to the regional and formatting standards defined by the locale.
+- **Display Behavior**: When displaying currency values, the system expects fields like `loanAmount` to have both `amount` and `code` properties. For example, with the locale set to `en-US`, the output will automatically follow the US formatting conventions.
+
+<Info>
+Currency values can be displayed using ISO codes (e.g., USD) or symbols (e.g., $), depending on locale settings. 
+</Info>
+
+- **Locale-Sensitive Formatting**: Currency formatting depends primarily on the region defined by the locale, not the language. 
+
+<Info>
+When the currency `code` is `null`, the system defaults to the currency settings embedded within the locale, ensuring region-specific accuracy.
+</Info>
+
+- **Dynamic Integration with UI Components**: Currency formatting is seamlessly integrated into various UI elements, such as radio buttons, segmented buttons, and input fields, commonly used in financial applications like loan calculators. This integration allows these components to display currency values correctly according to locale standards.
+- **Real-Time Adaptation**: UI components that support currency types, such as sliders and inputs, dynamically format values in real-time based on the selected locale. For instance, when selecting a currency type in an input field, the corresponding value is saved in the `.amount` field of the data model.
+- **Implementation in Financial Scenarios**: The currency formatting feature is particularly useful for applications in banking and financial services, where accurate representation of monetary values is crucial. The system’s design ensures that components like inputs and buttons present currency data in a way that aligns with user expectations and local financial practices.
+
+## UI Designer integration
+
+The UI Designer enables application-level formatting settings for localized display of dynamic values. Components like text, messages, and links have dedicated formatting options, allowing customization beyond default settings.
+
+### Supported components
+
+* **Text/Message/Link**: Override general localization settings to match localized content presentation.
+* **Input Fields**: Inputs correctly format currency and number types based on regional settings.
+* **Sliders**: Currency formatting for sliders, with suffixes disabled when currency types are detected.
