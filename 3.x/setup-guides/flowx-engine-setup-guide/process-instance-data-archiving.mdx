@@ -156,8 +156,8 @@ This section contains environment variables that control the settings for data p
 | `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`                               | `DAY`, `WEEK`, `MONTH`                |
 | `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`                                   | Integer values (e.g., `1`, `2`, `3`)  |
 | `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for archived (detached) partitions.                      | `OFF`                                 | `OFF`, `BASIC`, `ADVANCED`            |
-| `SCHEDULER_DATA_PARTITIONING_ENABLED`                    | Activates the cron job for detaching and archiving partitions.               | `true`                                | `true`, `false`                       |
-| `SCHEDULER_DATA_PARTITIONING_CRON_EXPRESSION`            | Cron expression for the data partitioning scheduler.                         | `0 0 1 * * ?` ->  every day at 1:00AM | Cron expression (e.g., `0 0 1 * * ?`) |
+| `SCHEDULER_DATAPARTITIONING_ENABLED`                     | Activates the cron job for detaching and archiving partitions.               | `true`                                | `true`, `false`                       |
+| `SCHEDULER_DATAPARTITIONING_CRONEXPRESSION`              | Cron expression for the data partitioning scheduler.                         | `0 0 1 * * ?` ->  every day at 1:00AM | Cron expression (e.g., `0 0 1 * * ?`) |
 
 
 ## Logging information
