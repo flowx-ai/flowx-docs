@@ -17,6 +17,13 @@ description: FlowX localization and internationalization adapt applications to d
 
 Internationalization (i18n) in FlowX enables applications to be easily adapted for multiple languages and regions without altering the core code. It sets the foundation for localization by handling language structure, layout adjustments, and supporting various formats.
 
+<Tip>
+To set the default language at the application level, navigate to **Projects -> Application -> Settings**.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application_language.png)
+
+</Tip>
+
 ## Localization
 
 Locale settings impact all date, number, and currency formats based on the combination of region and language. The language dictates translations, while the region specifies formatting order and conventions.
@@ -26,15 +33,45 @@ Locale settings impact all date, number, and currency formats based on the combi
 Locale settings are derived from two main sources:
 
 * **Container Application**: Provides global locale settings across the application.
+
+<Info>
+If not specified during deployment, the default locale will be set to `en-US`.
+</Info>
+
 * **Application Level**: Enables context-specific overrides within the application for formatting Numbers, Dates, and Currencies.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application_lvl_formatting.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/app_lvl_format.png)
 </Frame>
 
 ## Core i18n & l10n features
 
 ### Date formats
+
+The default date format in FlowX is automatically determined by the default locale set at the application or system level. Each locale follows its region-specific date convention.
+
+For example:
+
+* en-US locale (United States): `MM/DD/YYYY` → 09/28/2024
+
+<Tip>
+You can set date formats at the application level (as you can see in the example above), choosing from five predefined options: short, medium, long, full, or custom (e.g., dd/mm/yy).
+
+Additionally, date formats can be overridden at the UI Designer level for specific UI elements that support date customization.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/override_custom.png)
+</Frame>
+
+</Tip>
+
+
+UI Elements supporting date formats:
+
+* Text
+* Link
+* Message
+* Datepicker
 
 FlowX will apply the following formatting options, adapting to the region's standard conventions:
 
@@ -44,26 +81,22 @@ FlowX will apply the following formatting options, adapting to the region's stan
 | **Medium**  | `MMM dd, yyyy`        | `Sep 28, 2024`                 | Abbreviated month, day, four-digit year.   |
 | **Long**    | `MMMM dd, yyyy`       | `September 28, 2024`           | Full month name, day, and four-digit year. |
 | **Full**    | `EEEE, MMMM dd, yyyy` | `Thursday, September 28, 2024` | Full day of the week, month, day, year.    |
-| **Custom**  | `dd/MM/yyyy`          | `28/09/2024`                   | User-defined format; day before month.     |
+| **Custom**  | `dd/MM/yyyy`          | `28/08/2024`                   | User-defined format; day before month.     |
 
 <Info>
 The date formats shown in the example are based on the **en-US (United States English) locale**, which typically uses the month-day-year order.
 </Info>
 
-<Tip>
-You can also use a custom date format at UI Designer level:
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/override_custom.png)
-</Frame>
-
-</Tip>
-
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/date_formats.png)
 </Frame>
 
-The following example will demonstrate how to set and display various date formats using text UI elements. We will override the default format (originating from the date selected in the datepicker on the first screen) directly in the UI Designer to showcase all available formats:
+<Tip>
+If the predefined date formats do not met your needs you can declare and use a custom date format (both at application level or override in UI Designer).
+</Tip>
+
+
+The following example will demonstrate how to set and display various date formats using text UI elements. We will override the default format (originating from the application level) directly in the UI Designer to showcase all available formats:
 
 <video
   autoPlay
@@ -77,9 +110,6 @@ The following example will demonstrate how to set and display various date forma
 FlowX formats dates using [**ISO 8601**](https://www.iso.org/iso-8601-date-and-time-format.html) for consistent and clear international representation.
 </Info>
 
-<Tip>
-In application settings, you can choose from five date formats: short, medium, long, full, and custom (e.g., dd/mm/yy).
-</Tip>
 
 ### Number formatting
 
@@ -148,37 +178,104 @@ If you set both Minimum and Maximum Decimals to 3, a number like 2 would display
 <Info>
 At runtime, the system applies number formatting rules based on the locale and the settings defined in the application's configuration or UI Designer overrides.
 
-If the number is linked to a data model field, the formatting adheres to the metadata defined there, ensuring consistent rendering of numerical data.
+If the number is linked to a data model key the formatting adheres to the metadata defined there, ensuring consistent rendering of numerical data.
 </Info>
 
 ### Currency formatting
 
-FlowX provides robust currency formatting features that dynamically adapt to regional settings, ensuring accurate representation of financial data:
+FlowX provides currency formatting features that dynamically adapt to regional settings, ensuring accurate representation of financial data.
 
-- **Currency Object Structure**: Currencies are managed as a system object with `amount` and `code` keys, creating a wrapper that facilitates consistent handling. This design ensures that every currency display corresponds accurately to the regional and formatting standards defined by the locale.
-- **Display Behavior**: When displaying currency values, the system expects fields like `loanAmount` to have both `amount` and `code` properties. For example, with the locale set to `en-US`, the output will automatically follow the US formatting conventions.
+#### Currency object structure
 
-<Info>
-Currency values can be displayed using ISO codes (e.g., USD) or symbols (e.g., $), depending on locale settings. 
-</Info>
+Currencies are managed as a system object with `amount` and `code` keys, creating a wrapper that facilitates consistent handling. This design ensures that every currency display corresponds accurately to the regional and formatting standards defined by the locale. If the `code` is not provided, the system uses the locale to determine the appropriate currency symbol or code.
 
-- **Locale-Sensitive Formatting**: Currency formatting depends primarily on the region defined by the locale, not the language. 
+#### Display behavior
+
+
+When displaying currency values, the system expects keys like `loanAmount` to have both `amount` and `code` properties. For example, with the locale set to `en-US`, the output will automatically follow the US formatting conventions, displaying amounts like "$12,000.78" when the currency is USD.
+
+* If the value found at the key path is not an object containing `amount` or `code`, the system will display the value as-is if it is primitive. If it's an object, it will show an empty string.
+* If the key path is not defined, similar behavior applies: primitive values are displayed as-is, and objects result in an empty string.
+
+#### Locale-sensitive formatting
+
+Currency formatting depends primarily on the region defined by the locale, not the language.
 
 <Info>
 When the currency `code` is `null`, the system defaults to the currency settings embedded within the locale, ensuring region-specific accuracy.
 </Info>
 
-- **Dynamic Formatting in UI**: FlowX dynamically applies number formatting within UI components, such as inputs and sliders. These components adjust in real-time based on the current locale, ensuring that users always see numbers in their preferred format.- **Real-Time Adaptation**: UI components that support currency types, such as sliders and inputs, dynamically format values in real-time based on the selected locale. For instance, when selecting a currency type in an input field, the corresponding value is saved in the `.amount` field of the data model.
+#### Dynamic formatting in UI
+
+FlowX dynamically applies number formatting within UI components, such as inputs and sliders. These components adjust in real-time based on the current locale, ensuring that users always see numbers in their preferred format. UI components that support currency values dynamically format them in real time. For example:
+
+* Input fields with `CURRENCY` types save values in `{key path}.amount` and will delete the entry from the data store if the input is empty.
+* Sliders will save integer values (with no decimals) to `{key path}.amount` and format the displayed values, including min/max labels, according to the locale and currency.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/slider_min_max.gif)
+</Frame>
+
+**Formatting Text with locale and data from UI elements**
+
+This example demonstrates how to format a dynamic text by substituting placeholders with values from a data store, taking into account locale-specific formatting. In this case, the goal is to insert the value  coming from a key called loanAmount (added on an Input UI element) into a text and format it according to the en-US locale.
+
+**Data store**:
+
+A JSON object containing key-value pairs. The `loanAmount` key holds a currency object with two properties:
+
+* amount: The actual loan value (a float or number).
+* code: The currency code in ISO format (e.g., "USD" for US Dollars).
+
+
+```json{
+  "loanAmount": {
+    "amount": 12000.78,
+    "code": "USD"
+  }
+}
+```
+
+
+**Locale**
+
+The locale determines the number and currency formatting rules, such as the use of commas, periods, and currency symbols.
+
+Locale: en-US (English - United States)
+
+**Processing**
+
+* Step 1: The platform extracts the loanAmount.amount value (12000.78) and the loanAmount.code from the data store.
+* Step 2: Format the amount according to the specified locale (en-US). In this locale:
+    * Use a comma , to separate thousands.
+    * Use a period . to denote decimal places.
+* Step 3: Replace the `${loanAmount}` placeholder in the text with the formatted value $12,000.78.
+
+**Output**
+
+The resulting text with the formatted loan amount and the appropriate currency symbol for the en-US locale.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/loanAmount.gif)
+</Frame>
+
+
+Here is the data extracted from the data store (it is available on the process instance)
+
+<Tip>
+For instance, with a Romanian locale (`ro-RO`), currency is displayed like "12.000,78 RON" when the `code` is null or unavailable.
+</Tip>
 
 
 ## Data model integration
 
-FlowX integrates number formatting directly with the data model. When fields are set to number or currency types, the system automatically checks and applies precision settings during data storage. This approach ensures consistency across different data sources and UI components.
+FlowX integrates number formatting directly with the data model. When keys are set to number or currency types, the system automatically checks and applies precision settings during data storage. This approach ensures consistency across different data sources and UI components.
 
 Integration Details:
 
 * Numbers are broken down into integer and decimal parts, stored according to specified precision.
-* Currency fields are managed as wrapper objects containing amount and code, formatted according to the locale settings.
+* Currency keys are managed as wrapper objects containing amount and code, formatted according to the locale settings.
+
 
 
 ## UI Designer integration
@@ -213,4 +310,4 @@ The UI Designer enables application-level formatting settings for localized disp
 * **Text/Message/Link**: Override general localization settings to match localized content presentation.
 * **Input Fields**: Inputs correctly format currency and number types based on regional settings.
 * **Sliders**: Currency formatting for sliders, with suffixes disabled when currency types are detected.
-
+* **Datepickers**: Date formatting
