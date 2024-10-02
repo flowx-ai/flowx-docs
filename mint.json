@@ -129,12 +129,36 @@
         "4.5.0/docs/platform-overview/flowx-architecture"
       ]
     },
+
+    {
+      "group": "FlowX.AI Designer",
+      "version": "v4.5.0",
+      "pages": [
+        "4.5.0/docs/flowx-designer/overview",
+        {
+          "group": "Managing a process flow",
+          "icon": "arrow-progress",
+          "pages": [
+            "4.5.0/docs/flowx-designer/managing-a-process-flow/creating-a-new-process-definition",
+            "4.5.0/docs/flowx-designer/managing-a-process-flow/adding-a-new-node",
+            "4.5.0/docs/flowx-designer/managing-a-process-flow/adding-an-action-to-a-node",
+            "4.5.0/docs/flowx-designer/managing-a-process-flow/handling-decisions-in-the-flow",
+            "4.5.0/docs/flowx-designer/managing-a-process-flow/adding-more-flow-branches",
+            "4.5.0/docs/flowx-designer/managing-a-process-flow/creating-a-user-interface",
+            "4.5.0/docs/flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process",
+            "4.5.0/docs/flowx-designer/managing-a-process-flow/export-import-a-process-definition",
+            "4.5.0/docs/flowx-designer/managing-a-process-flow/starting-a-process"
+          ]
+        }
+      ]
+    },
+
     {
       "group": "Building blocks",
       "version": "v4.5.0",
       "pages": [
         {
-          "group": "Process",
+          "group": "Processes",
           "icon": "network-wired",
           "pages": [
             "4.5.0/docs/building-blocks/process/process",
@@ -265,28 +289,6 @@
       ]
     },
     {
-      "group": "FlowX.AI Designer",
-      "version": "v4.5.0",
-      "pages": [
-        "4.5.0/docs/flowx-designer/overview",
-        {
-          "group": "Managing a process flow",
-          "icon": "arrow-progress",
-          "pages": [
-            "4.5.0/docs/flowx-designer/managing-a-process-flow/creating-a-new-process-definition",
-            "4.5.0/docs/flowx-designer/managing-a-process-flow/adding-a-new-node",
-            "4.5.0/docs/flowx-designer/managing-a-process-flow/adding-an-action-to-a-node",
-            "4.5.0/docs/flowx-designer/managing-a-process-flow/handling-decisions-in-the-flow",
-            "4.5.0/docs/flowx-designer/managing-a-process-flow/adding-more-flow-branches",
-            "4.5.0/docs/flowx-designer/managing-a-process-flow/creating-a-user-interface",
-            "4.5.0/docs/flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process",
-            "4.5.0/docs/flowx-designer/managing-a-process-flow/export-import-a-process-definition",
-            "4.5.0/docs/flowx-designer/managing-a-process-flow/starting-a-process"
-          ]
-        }
-      ]
-    },
-    {
       "group": "Platform deep dive",
       "version": "v4.5.0",
       "pages": [
@@ -309,7 +311,6 @@
                 "4.5.0/docs/platform-deep-dive/core-extensions/content-management/content-management",
                 "4.5.0/docs/platform-deep-dive/core-extensions/content-management/enumerations",
                 "4.5.0/docs/platform-deep-dive/core-extensions/content-management/substitution-tags",
-                "4.5.0/docs/platform-deep-dive/core-extensions/content-management/content-models",
                 "4.5.0/docs/platform-deep-dive/core-extensions/content-management/languages",
                 "4.5.0/docs/platform-deep-dive/core-extensions/content-management/source-systems",
                 "4.5.0/docs/platform-deep-dive/core-extensions/content-management/media-library",
