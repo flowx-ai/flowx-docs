@@ -15,10 +15,19 @@ Available scopes:
 * edit - users are able to edit notification templates
 * admin - users are able to publish or delete notification templates
 
+2. **Manage-notifications** -  for configuring access to REST endpoints for managing and sending notifications
+
+
+Available scopes:
+
+* read - users are able to view and retrieve notification records via REST
+* send - users are able to send notifications via REST API endpoints to specified recipients
+* admin - users are able to manage general notification settings and administration
+
 The Notification plugin is preconfigured with the following default users roles for each of the access scopes mentioned above:
 
 * manage-notification-templates
-  * import
+  * import:
     * ROLE_NOTIFICATION_TEMPLATES_IMPORT
     * ROLE_NOTIFICATION_TEMPLATES_EDIT
     * ROLE_NOTIFICATION_TEMPLATES_ADMIN
@@ -28,10 +37,19 @@ The Notification plugin is preconfigured with the following default users roles 
     * ROLE_NOTIFICATION_TEMPLATES_EDIT
     * ROLE_NOTIFICATION_TEMPLATES_ADMIN
   * edit:
-    * ROLE_NOTIFICATION_TEMPLATES_EDIT"
-    * ROLE_NOTIFICATION_TEMPLATES_ADMIN"
+    * ROLE_NOTIFICATION_TEMPLATES_EDIT
+    * ROLE_NOTIFICATION_TEMPLATES_ADMIN
   * admin:
     * ROLE_NOTIFICATION_TEMPLATES_ADMIN
+
+* manage-notifications: 
+  * read:
+    * ROLE_MANAGE_NOTIFICATIONS_READ
+  * send:
+    * ROLE_MANAGE_NOTIFICATIONS_SEND
+  * admin:
+    * ROLE_MANAGE_NOTIFICATIONS_ADMIN
+
 
 <Warning>
 These roles need to be defined in the chosen identity provider solution.
@@ -52,3 +70,5 @@ For example, if you need to configure role access for read, insert this:
 ```
 SECURITY_ACCESSAUTHORIZATIONS_MANAGENOTIFICATIONTEMPLATES_SCOPES_READ_ROLESALLOWED: ROLE_NAME_TEST
 ```
+
+
