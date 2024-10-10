@@ -19,7 +19,7 @@ It is mandatory that in order to use this type of node together with task manage
 
 #### General config
 
-* **Can go back?** - setting this to true will allow users to return to this step after completing it, when encountering a step with `canGoBack` false, all steps found behind it will become unavailable
+* **Can go back?** - setting this to true will allow users to return to this step after completing it, when encountering a step with `canGoBack` false, all steps found before it will become unavailable
 * **Correlate with catch events** - the dropdown contains all catch messages from the process definitions accessible to the user
 * **Correlation key** - is a process key that uniquely identifies the instance to which the message is sent
 * **Send data** - allows the user to define a JSON structure with the data to be sent along with the message
@@ -42,7 +42,7 @@ It is mandatory that in order to use this type of node together with task manage
 
 ##### General config
 
-* **Can go back?**  - Setting this to true allows users to return to this step after completion. When encountering a step with canGoBack set to false, all steps found behind it become unavailable.
+* **Can go back?**  - Setting this to true allows users to return to this step after completion. When encountering a step with canGoBack set to false, all steps found before it become unavailable.
 * **Correlate with catch events** - Should match the configuration in the message catch start event.
 * **Correlation key** - A process key that uniquely identifies the instance to which the message is sent.
 * **Send data** - Define a JSON structure with the data to be sent along with the message. In our example, we will send a test object:

@@ -24,7 +24,7 @@ A Message throw intermediate event is an event in a process where a message is s
 
 #### General config
 
-* **Can go back?** - setting this to true will allow users to return to this step after completing it, when encountering a step with `canGoBack` false, all steps found behind it will become unavailable
+* **Can go back?** - setting this to true will allow users to return to this step after completing it, when encountering a step with `canGoBack` false, all steps found before it will become unavailable
 * **Correlate with catch events** - the dropdown contains all catch messages from the process definitions accessible to the user
 * **Correlation key** - is a process key that uniquely identifies the instance to which the message is sent
 * **The data field** - allows the user to define a JSON structure with the data to be sent along with the message

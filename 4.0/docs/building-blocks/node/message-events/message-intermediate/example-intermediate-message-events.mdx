@@ -179,7 +179,7 @@ A Message Throw Intermediate Event is an event in a process where a message is s
 
 #### General Configuration
 
-* **Can go back?** - Setting this to true allows users to return to this step after completing it. When encountering a step with `canGoBack` false, all steps found behind it will become unavailable.
+* **Can go back?** - Setting this to true allows users to return to this step after completing it. When encountering a step with `canGoBack` false, all steps found before it will become unavailable.
 
 * **Correlate with catch message events** - The dropdown contains all catch messages from the process definitions accessible to the user, in our example: `throwcatchsequenceloan`
 
@@ -222,7 +222,7 @@ A Message Catch Intermediate Event is a type of event in a process that waits fo
 
 #### General Configuration
 
-* **Can go back?** - Setting this to true allows users to return to this step after completing it. When encountering a step with `canGoBack` false, all steps found behind it will become unavailable.
+* **Can go back?** - Setting this to true allows users to return to this step after completing it. When encountering a step with `canGoBack` false, all steps found before it will become unavailable.
 * **Correlate with throwing events** - The dropdown contains all catch messages from the process definitions accessible to the user (must be the same as the one assigned in Message throw intermediate event)
 * **Correlation key** - Process key used to establish a correlation between the received message and a specific process instance (must be the same as the one assigned in Message throw intermediate event).
 * **Receive data** - The process key that will be used to store the data received from the throw event along with the message.
