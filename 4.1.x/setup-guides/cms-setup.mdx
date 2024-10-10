@@ -21,7 +21,7 @@ The service comes with most of the needed configuration properties filled in, bu
 ## Dependencies
 
 * [**DB instance**](#mongodb-database)
-* [**Authorization & access roles**](#configuring-authorization--access-roles)
+* [**Authorization & access roles**](#configuring-authorization-and-access-roles)
 * [**Redis**](#configuring-redis)
 * [**Kafka**](#configuring-kafka)
 
@@ -81,6 +81,13 @@ To connect to the identity management platform, the following variables need to 
 * `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - a unique identifier for a client application that is registered with the OAuth 2.0 Authorization Server, this is used to authenticate the client application when it attempts to access resources on behalf of a user
 * `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - secret key that is used to authenticate requests made by an authorization client
 * `SECURITY_OAUTH2_REALM` - security configuration env var in the Spring Security OAuth2 framework, it is used to specify the realm name used when authenticating with OAuth2 provider
+
+
+To configure user roles and access rights tailored to your specific use case in FlowX Designer, please refer to the following section:
+
+<Card title ="FlowX CMS access rights" href="./access-management/configuring-access-rights-for-cms" icon ="file">
+</Card>
+
 
 ### Configuring MongoDB
 

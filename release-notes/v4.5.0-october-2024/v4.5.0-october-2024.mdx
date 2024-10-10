@@ -1,0 +1,202 @@
+---
+title: FlowX.AI 4.5.0 Release
+description: FlowX.AI 4.5.0 has landed, and it's epic! 🚀
+---
+
+Get ready because this update is big—really big. We’re taking the scenic route to explore all the exciting new features and improvements that you won’t want to miss, so get ready. There’s a lot to explore here (and yes, that pun is courtesy of our AI, since even our technical writer was stumped on how to market this one).
+Let's dive in:
+
+## **What's new?** 🆕
+
+### Integration Designer
+
+The Integration Designer simplifies the integration of FlowX with external systems using REST APIs. It offers a user-friendly graphical interface with intuitive drag-and-drop functionality for defining data models, orchestrating workflows, and configuring system endpoints.
+
+With Integration Designer, you can easily set up REST-based connections and define workflows, while enjoying flexible authorization options such as Service Token, Bearer, or No Auth.
+
+<Tip>
+**Did you know?**
+
+Unlike [Postman](https://www.postman.com/), which focuses on API testing, the Integration Designer automates workflows between systems. With drag-and-drop ease, it handles REST API connections, real-time processes, and error management, making integrations seamless and scalable.
+</Tip>
+
+---
+
+### Localization and Internationalization
+
+We are introducing robust localization and internationalization features to enhance global usability and adaptability. Key updates include:
+
+<CardGroup>
+<Card title="Flexible Date, Time, Number, and Unit Formatting" icon="calendar">
+Enhanced formatting options for dates, times, numbers, and currencies with support for various international standards including short, medium, long, full, and custom formats.
+</Card>
+<Card title="Currency Customization" icon="money-bill-wave">
+Support for currency formatting with options to display values using ISO codes or symbols, adapting to user-selected locales and regional preferences.
+</Card>
+<Card title="Support for RTL Languages" icon="align-right">
+Implementation of right-to-left (RTL) layout direction, essential for Middle Eastern languages, ensuring correct rendering and usability.
+</Card>
+<Card title="Locale-Based Configurations" icon="map">
+Comprehensive settings for pluralization, capitalization, alignment, and sorting that adapt to regional requirements, helping cater to a diverse global user base.
+</Card>
+<Card title="Enhanced UI Component Formatting" icon="pencil">
+New options in the UI Designer to override general settings for text, messages, links, and form elements based on locale and region.
+</Card>
+<Card title="Document Localization" icon="globe">
+Static and dynamically generated legal documents can now be customized based on regional and locale settings, improving compliance and communication with local audiences.
+</Card>
+</CardGroup>
+
+
+
+---
+
+### Data model 2.0
+
+
+
+
+
+---
+
+
+### Grid layout 
+
+We are excited to introduce the Grid Layout feature in this release, enhancing the flexibility and usability of the UI Designer for creating structured and responsive layouts. With the new Grid Layout, users can organize form elements, tables, and other components using a multi-column and row system, allowing for more complex, bidirectional designs compared to the previous flex-based layout.
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid-release.mp4"
+></video>
+</Frame>
+
+Key features include:
+
+- Flexible column and row spans for precise element placement.
+- Improved drag-and-drop functionality for easier element rearrangement.
+- Responsiveness across different device sizes, ensuring consistent layout performance on web and mobile.
+- Enhanced control over element alignment and spacing for a cleaner, more structured UI.
+
+---
+
+### FlowX.AI UI Designer new navigator
+
+We are thrilled to introduce the new and improved **UI Designer Navigator**, a major update designed to streamline your UI design process.
+
+<CardGroup>
+<Card title="Enhanced UI Layer Panel Design and Functionality" icon="layer-group">
+The UI layer panel has been redesigned for a more intuitive experience, making it easier to manage and navigate through your design elements.
+</Card>
+<Card title="Improved Drag and Drop Experience" icon="arrow-pointer"> 
+Dragging and dropping components in the preview is now smoother and more precise, allowing for faster and easier creation of UIs.
+</Card>
+<Card title= "Flexible Root Component Management" icon ="block-quote">
+You can now change the root component from a form group to a container or vice versa, offering greater flexibility when copying nodes or resolving configuration problems.
+</Card>
+<Card title="Clearer Component Hierarchy" icon="sitemap">
+It is now simpler to identify where you are placing a component within the hierarchy, thanks to the enhanced drag/reorder functionality in the right panel.
+</Card>
+</CardGroup>
+
+<br></br>
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/new_navigator.mp4"
+></video>
+</Frame>
+
+
+---
+
+### Autocomputed data to send
+
+In previous platform versions, when creating your UI screens and working with data, you had to ensure that all the data stored in your process keys was saved in the process instance. This required adding an extra parameter called "Data to send" to the "Save Data" node action.
+
+
+**Older versions** vs **v4.5**:
+
+<Frame>
+<Frame><img height="200" alt="older versions" src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/4.x-aut.png"/> </Frame> <Frame> <img height="200" alt="v.4.5" src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/4.2-aut.png"/> </Frame>
+</Frame>
+
+
+Now, with the autocompute feature, this step is no longer necessary, as the data is automatically saved and sent on your process instance.
+
+
+<Tip>
+
+You no longer need to add "Save Data" node actions, but make sure to include "Forms to Validate" on the UI Actions. This helps ensure that data is submitted correctly and automatically activates any added validators where they exist.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/forms_to_validate.png)
+</Frame>
+</Tip>
+
+However, you still have the option to customize which keys are included or excluded as needed.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/include_exclude_keys.png)
+</Frame>
+
+
+---
+
+### Scripting UX improvements
+
+We're excited to announce significant improvements to our scripting UX. These enhancements focus on upgrading the code editors and introducing an advanced autocomplete feature. Configurators, both experienced and novice, will benefit from better visual feedback, support for interpolation syntax, and integrated help and examples. 
+
+The updates aim to streamline the configuration process, reduce errors, and make testing and troubleshooting more efficient.
+
+#### Autocomplete based on data model
+
+Introducing autocomplete for attributes, tailored to the data model attributes for enhanced configuration efficiency:
+
+| Section                                                            | Autocomplete field(s)/editors                      | Type                         | 
+| ------------------------------------------------------------------ | -------------------------------------------------- | ---------------------------- | 
+| Node config > Action -> Start subprocess                           | Copy from current state Exclude from current state | Field w/out interpolation    | 
+| Node config > Data stream topics                                   | Key name                                           | Field w/out interpolation    | 
+| Node config > Action > Kafka send action                           | Message Header                                     | JSON editor w/ interpolation | 
+| Action > Business Rule                                             | Business rule                                      | Code editor                  | 
+| Node config > Action > Kafka send action > From integration        | All integration fields                             | Input w/ interpolation       | 
+| Throw message node > Node config                                   | Correlation Key                                    | Field                        |
+| Throw message node > Node config                                   | Send data                                          | Editor - JSON                |
+| Start message node > Node config                                   | Process key                                        | Field w/out interpolation    | 
+| Exclusive gateway > Gateway decision                               | Expression                                         | Code editor                  | 
+| UI designer > Form & form elements                                 | Disable expression                                 | JS editor                    | 
+| UI designer > Input, text area (?), slider (min & max), text, link | Computed values                                    | JS editor                    | 
+| UI designer > UI components                                        | Hide expression                                    | JS editor                    | 
+| Catch message node (boundary) > Node config                        | Process Key Correlation key                        | Field w/out interpolation    | 
+
+
+
+#### New test business rule editor
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/business_r_editor.gif)
+</Frame>
+
+#### New hide/disabled expressions editor
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/hide%3Adisable%20editor.png)
+</Frame>
+
+
+---
+
+## **Changes**  🔧
+
+- **WEB SDK**: Angular update (v17).
+
+## Additional information
+
+For deployment guidelines, refer to:
+ 
+<Card title="Deployment guidelines v4.5.0" href="./deployment-guidelines-v4.5.0"/>

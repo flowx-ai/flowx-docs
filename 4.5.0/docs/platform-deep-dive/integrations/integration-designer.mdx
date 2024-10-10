@@ -1,0 +1,58 @@
+---
+title: Integration Designer
+description: The Integration Designer is a tool that facilitates integration of FlowX platform with other systems, applications or data sources.
+---
+## Overview
+
+Integration Designer is a powerful tool developed to facilitate the seamless integration of the FlowX platform with external systems, applications, and data sources. 
+
+By enabling Configurators to design, manage, and deploy integration flows through a visual interface, the plugin eliminates the need for custom development.
+
+Integration Designer focuses on REST API integrations, with future updates expanding support for other protocols.
+
+## Key features 
+
+<Steps>
+<Step title="Graphical Interface for Data Modeling & Mapping">
+* **Drag-and-Drop Interface**: Users can design data models and map them across different formats (XML, JSON, CSV) to ensure consistency and compatibility between systems.
+* **Visual Workflow Design**: Integration flows can be designed visually, allowing users to define data inputs/outputs, configure endpoints, and map business rules.
+</Step>
+<Step title="Workflow Orchestration">
+* **Workflow Definition**: Users can define workflows and automation rules to control data flow between systems.
+* **REST API Support**: The initial release focuses on supporting REST APIs, ensuring integration with modern web services.
+</Step>
+<Step title="Scalability & Performance">
+* **Protocol Support**: Currently supporting REST, with future updates planned for other protocols such as SOAP and JDBC.
+* **Smart Caching**: Designed to handle high volumes of data through intelligent caching mechanisms, ensuring that data flows smoothly without performance degradation.
+</Step>
+<Step title="Real-Time & Batch Processing">
+* **Real-Time Processing**: Handles real-time message processing, enabling instant data exchanges between FlowX and integrated systems.
+* **Batch Processing**: Supports batch processing for cases where large volumes of data need to be handled periodically.
+</Step>
+<Step title= "Monitoring & Troubleshooting">
+* **Performance Tracking**: Users can monitor the performance of their integrations, track real-time status updates, and diagnose potential issues.
+* **Error Handling**: The plugin provides detailed error tracking, helping users troubleshoot issues within the integration flows.
+</Step>
+<Step title="Security & Compliance">
+* **Secure Data Transmission**: Integration Designer ensures secure data communication through encryption and authentication methods such as Service Tokens and Bearer Authentication.
+* **Compliance**: The tool adheres to industry standards for security and compliance, ensuring that integrations meet regulatory requirements.
+</Step>
+</Steps>
+
+## Components of Integration Designer
+
+### System Definition
+
+* Code: A unique identifier for the external system.
+* Name: The system's name.
+* Description: A description of the system and its purpose.
+* Configuration:
+* Base URL: Supports environment-based URL configuration (e.g., https://api.example.com/v0/{environment}).
+* Variables: Configurable parameters specific to the system (e.g., API keys).
+* Authorization: Options for authentication methods include Service Token, Bearer, and No Auth.
+
+### Workflow Definition
+
+* Workflow Nodes: Users can configure the workflow with various nodes, such as Send Message Tasks, Start/End nodes, Fork nodes, REST endpoints, and Data Mappings.
+* Trigger Workflow: Workflows can be triggered through various means, such as Kafka events or HTTP triggers.
+* Error Handling: In-built error handling within the workflow allows for graceful recovery and logging of issues.

@@ -1,0 +1,27 @@
+---
+title: Authorization & access roles
+---
+
+## IAM solution
+
+<Info>
+Superset is using be default flask-openid, as implemented in flask-security.
+</Info>
+
+Superset can be integrated Keycloak, an open-source identity and access management solution. This integration enables users to manage authentication and authorization for their Superset dashboards. 
+
+<Card title="Configuring an IAM solution" href="../../../../../setup-guides/access-management/configuring-an-iam-solution" icon ="link">
+</Card>
+
+### Prerequisites
+
+* Keycloak server
+    * Keycloak Realm
+    * Keycloak Client & broker configured with OIDC protocols
+    * client_secret.json
+* admin username & password of postgres instance
+* Superset Database created in postgresql 
+* optionally Cert-manager if you want to have SSL certificates on hostnames.
+
+<Card title="Superset + Keycloak configuration" href="../../../../../setup-guides/plugins-setup-guide/reporting-setup#keycloak-configuration" icon ="link">
+</Card>
