@@ -1,58 +1,213 @@
 ---
 title: Integration Designer
-description: The Integration Designer is a tool that facilitates integration of FlowX platform with other systems, applications or data sources.
+description: The Integration Designer simplifies the integration of FlowX with external systems using REST APIs. It offers a user-friendly graphical interface with intuitive drag-and-drop functionality for defining data models, orchestrating workflows, and configuring system endpoints.
 ---
+
+<Card title ="Did you know?" icon="info">
+Unlike [Postman](https://www.postman.com/), which focuses on API testing, the Integration Designer automates workflows between systems. With drag-and-drop ease, it handles REST API connections, real-time processes, and error management, making integrations scalable and easy to mantain.
+</Card>
+
+
 ## Overview
 
 Integration Designer is a powerful tool developed to facilitate the seamless integration of the FlowX platform with external systems, applications, and data sources. 
 
-By enabling Configurators to design, manage, and deploy integration flows through a visual interface, the plugin eliminates the need for custom development.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/intg_designer.png)
+</Frame>
 
+<Info>
 Integration Designer focuses on REST API integrations, with future updates expanding support for other protocols.
+</Info>
 
 ## Key features 
 
 <Steps>
-<Step title="Graphical Interface for Data Modeling & Mapping">
-* **Drag-and-Drop Interface**: Users can design data models and map them across different formats (XML, JSON, CSV) to ensure consistency and compatibility between systems.
-* **Visual Workflow Design**: Integration flows can be designed visually, allowing users to define data inputs/outputs, configure endpoints, and map business rules.
+<Step title="Drag-and-Drop Simplicity">
+Users can easily build complex API workflows using a drag-and-drop interface, making it accessible for both technical and non-technical users.
 </Step>
-<Step title="Workflow Orchestration">
-* **Workflow Definition**: Users can define workflows and automation rules to control data flow between systems.
-* **REST API Support**: The initial release focuses on supporting REST APIs, ensuring integration with modern web services.
+<Step title="Visual REST API Integration">
+Specifically tailored for creating and managing REST API calls through a visual interface, streamlining the integration process without the need for extensive coding.
 </Step>
-<Step title="Scalability & Performance">
-* **Protocol Support**: Currently supporting REST, with future updates planned for other protocols such as SOAP and JDBC.
-* **Smart Caching**: Designed to handle high volumes of data through intelligent caching mechanisms, ensuring that data flows smoothly without performance degradation.
-</Step>
-<Step title="Real-Time & Batch Processing">
-* **Real-Time Processing**: Handles real-time message processing, enabling instant data exchanges between FlowX and integrated systems.
-* **Batch Processing**: Supports batch processing for cases where large volumes of data need to be handled periodically.
-</Step>
-<Step title= "Monitoring & Troubleshooting">
-* **Performance Tracking**: Users can monitor the performance of their integrations, track real-time status updates, and diagnose potential issues.
-* **Error Handling**: The plugin provides detailed error tracking, helping users troubleshoot issues within the integration flows.
-</Step>
-<Step title="Security & Compliance">
-* **Secure Data Transmission**: Integration Designer ensures secure data communication through encryption and authentication methods such as Service Tokens and Bearer Authentication.
-* **Compliance**: The tool adheres to industry standards for security and compliance, ensuring that integrations meet regulatory requirements.
+<Step title="Real-Time Testing and Validation">
+Allows for immediate testing and validation of REST API calls within the design interface.
 </Step>
 </Steps>
 
-## Components of Integration Designer
+## Managing integration endpoints
 
-### System Definition
+With **Systems** feature you can create, update, and organize endpoints used in API integrations. These endpoints are integral to building workflows within the Integration Designer, offering flexibility and ease of use for managing connections between systems. Endpoints can be configured, tested, and reused across multiple workflows, streamlining the integration process.
 
-* Code: A unique identifier for the external system.
-* Name: The system's name.
-* Description: A description of the system and its purpose.
-* Configuration:
-* Base URL: Supports environment-based URL configuration (e.g., https://api.example.com/v0/{environment}).
-* Variables: Configurable parameters specific to the system (e.g., API keys).
-* Authorization: Options for authentication methods include Service Token, Bearer, and No Auth.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/systems.png)
+</Frame>
+
+### Creating a new system definition
+
+
+Go to the **Systems** section in FlowX Designer at **Projects** -> **Your application** -> **Integrations** -> **Systems**.
+        
+1. Add a **New System**, set the system’s unique code, name, and description:
+    * **Code**: A unique identifier for the external system.
+    * **Name**: The system's name.
+    * **Description**: A description of the system and its purpose.
+
+2. Configure the system’s **Base URL**.
+
+<Tip>
+Base URL: Supports environment-based URL configuration (e.g., https://api.example.com/v0/{environment}).
+</Tip>
+
+3. Set up authorization (Service Token, Bearer Token, or No Auth).
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/create_new_system.mp4"
+></video>
+</Frame>
+
+### Defining REST integration endpoints
+
+In this section you can define REST API endpoints that can be reused across different workflows.
+
+1. Under the **Endpoints** section, add the necessary endpoints for system integration.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/add_new_endpoint.png)
+</Frame>
+
+2. Configure an endpoint by filling in the following properties:
+    - **Method**: GET, POST, PUT, PATCH, DELETE.
+    - **Path**: Path for the endpoint.
+    - **Parameters**: Path, query, and header parameters.
+    - **Response**: Expected response codes and formats.
+    - **Body**: JSON payload for requests.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/configure_endpoint.png)
+</Frame>
+
+### Defining variables
+
+The Variables Tab allows you to store system-specific variables that can be referenced throughout workflows using the format `${variableName}`.
+
+These declared variables can be utilized not only in workflows but also in other sections, such as the Endpoint or Authorization tabs.
+
+<Tip> 
+For example:
+- You can declare a variable to store your authentication token and reference it in the **Authorization** tab. 
+- Use variables in the **Base URL** to switch between different environments, such as UAT or production.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/variables_auth.gif)
+</Tip>
+
+### Endpoint parameter types
+
+When configuring endpoints, several parameter types help define how the endpoint interacts with external systems. These parameters ensure that requests are properly formatted and data is correctly passed.
+
+#### Path parameters
+
+Elements embedded directly within the URL path of an API request that acts as a placeholder for specific value.
+
+- Used to specify variable parts of the endpoint URL (e.g., `/users/{userId}`).
+- Defined with `${parameter}` format.
+- Mandatory in the request URL.
+
+<Tip>
+Path parameters must always be included, while query and header parameters are optional but can be set as required based on the endpoint’s design.
+</Tip>
+
+#### Query parameters
+
+Parameters added to the end of a URL to provide extra information to a web server when making requests.
+
+- Optional key-value pairs added to the URL (e.g., `?search=value`).
+- Useful for filtering or pagination.
+
+#### Header parameters
+
+Used to give information about the request and basically to give instructions to the API of how to handle the request.
+
+- Custom headers sent with the request (e.g., `Authorization: Bearer token`).
+- Define metadata or authorization details.
+
+#### Body parameters
+
+The data sent to the server when an API request is made.
+
+- These are the data fields included in the body of a request, usually in JSON format.
+- Body parameters are used in POST, PUT, and PATCH requests to send data to the external system (e.g., creating or updating a resource).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/body_param.png)
+</Frame>
+
+#### Response body parameters
+
+The data sent back from the server after an API request is made.
+
+- These parameters are part of the response returned by the external system after a request is processed. They contain the data that the system sends back.
+- Typically returned in GET, POST, PUT, and PATCH requests. Response body parameters provide details about the result of the request (e.g., confirmation of resource creation, or data retrieval)
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/response_body_param.png)
+</Frame>
+
+### Authorization
+
+Authorization defines how external systems verify the identity of the requests made by the Integration Designer. There are multiple types of authorization that can be configured depending on the system's requirements.
+
+
+#### Service account
+
+   - Requires two fields:
+     - **Realm**: The domain or scope under which the service account operates.
+     - **Client ID**: The unique identifier for the client within the realm.
+
+2. **Basic Authentication**:
+   - Requires the following credentials:
+     - **Username**: The account's username.
+     - **Password**: The account's password.
+   - Suitable for systems that rely on simple username/password combinations for access.
+
+3. **Bearer Token (Future Support)**:
+   - Requires an **Access Token** to be included in the request headers.
+   - Commonly used for OAuth 2.0 implementations.
+
+#### **Configuring Authorization:**
+
+- Select the required **Authorization Type** from a predefined list.
+- Enter the relevant details based on the selected type (e.g., Realm and Client ID for Service Accounts).
+- These details will be automatically included in the request headers when the integration is executed.
+
+---
+
+**Note:** Additional authentication methods like OAuth 2.0 and API key support may be introduced in future updates.
+
+
 
 ### Workflow Definition
 
 * Workflow Nodes: Users can configure the workflow with various nodes, such as Send Message Tasks, Start/End nodes, Fork nodes, REST endpoints, and Data Mappings.
 * Trigger Workflow: Workflows can be triggered through various means, such as Kafka events or HTTP triggers.
 * Error Handling: In-built error handling within the workflow allows for graceful recovery and logging of issues.
+
+
+## FAQs
+
+<AccordionGroup>
+<Accordion title="Can I use protocols other than REST?">
+**A:**  Currently, the Integration Designer only supports REST APIs, but future updates will include support for SOAP and JDBC.
+</Accordion>
+
+<Accordion title ="How is security handled in integrations??">
+**A:** The Integration Service handles all security aspects, including certificates and secret keys. Authorization methods like Service Token, Bearer Token, and OAuth 2.0 are supported.
+</Accordion>
+
+<Accordion title="How are errors handled?">
+**A**: Errors are logged within the workflow and can be reviewed in the monitoring dedicated console for troubleshooting and diagnostics
+</Accordion>
+</AccordionGroup>
