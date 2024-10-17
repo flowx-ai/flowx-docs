@@ -1,0 +1,126 @@
+---
+title: "Call activity node"
+description: Call activity is a node that provides advanced options for starting subprocesses.
+---
+
+There are cases when extra functionality is needed on certain nodes to enhance process management and execution.
+
+<Frame>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/call_activity1.png)
+
+</Frame>
+
+<Card title ="Subprocess" href="../../process/subprocess" icon = "link">
+</Card>
+
+The Call Activity node contains a default action for starting a subprocess, which can be started in two modes:
+
+* **Async mode**: The parent **process** will continue without waiting for the subprocess to finish.
+
+<Info>
+Select if this task should be invoked asynchronously. Make tasks asynchronous if they cannot be executed instantaneously, for example, a task performed by an outside service.
+</Info>
+
+* **Sync mode**: The parent process must wait for the subprocess to finish before advancing.
+
+The start mode can be chosen when configuring the call activity.
+
+If the parent process needs to wait for the subprocess to finish and retrieve results, the parent process key that will hold the results must be defined using the *output key* node configuration value.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ca_output_key.png)
+</Frame>
+
+## Starting multiple subprocesses
+
+This node type can also be used for starting a set of subprocesses that will be started and run at the same time.
+
+This is useful when there is an array of values in the parent process parameters, and a subprocess needs to be started for each element in that array.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ca_parent_array.png)
+</Frame>
+
+
+#### Business rule example
+
+Below is an example of an MVEL business rule used to generate a list of shipping codes:
+
+
+```java
+import java.util.*;
+
+def mapValues(shippingCode) {
+    return {
+        "shippingCode": shippingCode
+    }
+}
+
+shippingCodeList = [];
+
+shippingCodeList.add(mapValues("12456"));
+shippingCodeList.add(mapValues("146e3"));
+shippingCodeList.add(mapValues("24356"));
+shippingCodeList.add(mapValues("54356"));
+output.put("shippingCodeList", shippingCodeList);
+```
+
+
+In this example, the shippingCodeList array contains multiple shipping code maps. Each of these maps could represent parameters for individual subprocesses. The ability to generate and handle such arrays allows the system to dynamically start and manage multiple subprocesses based on the elements in the array, enabling parallel processing of tasks or operations.
+
+To achieve this, select the *parallel multi-instance* option. The *collection key* name from the parent process also needs to be specified.
+
+<Frame>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ca_collection.png)
+
+</Frame>
+
+
+
+<Info>
+When designing such a subprocess that will be started in a loop, remember that the input value for the subprocess (one of the values from the array in the parent process) will be stored in the subprocess parameter values under the key named _item_. This key should be used inside the subprocess. If this subprocess produces any results, they should be stored under a key named _result_ to be sent back to the parent process.
+</Info>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ca_subprocess.png)
+</Frame>
+
+#### Subprocess business rule example
+
+Here's an MVEL business rule for a subprocess that processes shipping codes:
+
+```java
+import java.util.*;
+
+map = new HashMap();
+
+if (input.item.shippingCode.startsWith("1")) {
+    map.package = "Fragile";
+} else {
+    map.package = "Non-fragile";
+}
+
+map.shippingCode = input.item.shippingCode;
+
+output.put("result", map);
+```
+
+## Result (one of the subprocess instances)
+
+The result shows the output of a process that has handled multiple shipping codes. The structure is:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ca_result.png)
+</Frame>
+
+
+```json
+{
+    "package": "Non-fragile",
+    "shippingCode": "54356"
+}
+```
+
+This contains the result of processing the specific shipping code, indicating additional attributes related to the shipping code (e.g., package type) determined during the subprocess execution.
