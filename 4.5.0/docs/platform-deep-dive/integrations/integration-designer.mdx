@@ -20,6 +20,8 @@ Integration Designer is a powerful tool developed to facilitate the seamless int
 Integration Designer focuses on REST API integrations, with future updates expanding support for other protocols.
 </Info>
 
+---
+
 ## Key features 
 
 <Steps>
@@ -34,15 +36,28 @@ Allows for immediate testing and validation of REST API calls within the design 
 </Step>
 </Steps>
 
+---
+
+
 ## Managing integration endpoints
+
+
+### Systems
+
+A system is a collection of resources—endpoints, authentication, and variables—used to define and run integration workflows.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/systems_overview.png)
+</Frame>
+
+
+### Creating a new system definition
 
 With **Systems** feature you can create, update, and organize endpoints used in API integrations. These endpoints are integral to building workflows within the Integration Designer, offering flexibility and ease of use for managing connections between systems. Endpoints can be configured, tested, and reused across multiple workflows, streamlining the integration process.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/systems.png)
 </Frame>
-
-### Creating a new system definition
 
 
 Go to the **Systems** section in FlowX Designer at **Projects** -> **Your application** -> **Integrations** -> **Systems**.
@@ -51,11 +66,11 @@ Go to the **Systems** section in FlowX Designer at **Projects** -> **Your applic
     * **Code**: A unique identifier for the external system.
     * **Name**: The system's name.
     * **Description**: A description of the system and its purpose.
-
+ 
 2. Configure the system’s **Base URL**.
 
 <Tip>
-Base URL: Supports environment-based URL configuration (e.g., https://api.example.com/v0/{environment}).
+To dynamically adjust the base URL based on the upper environment (e.g., dev, QA, stage), you can use environment variables and configuration parameters. For example: https://api.${environment}.example.com/v1.
 </Tip>
 
 3. Set up authorization (Service Token, Bearer Token, or No Auth).
@@ -116,6 +131,11 @@ Elements embedded directly within the URL path of an API request that acts as a 
 - Defined with `${parameter}` format.
 - Mandatory in the request URL.
 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/path_parameters.png)
+</Frame>
+
 <Tip>
 Path parameters must always be included, while query and header parameters are optional but can be set as required based on the endpoint’s design.
 </Tip>
@@ -124,15 +144,31 @@ Path parameters must always be included, while query and header parameters are o
 
 Parameters added to the end of a URL to provide extra information to a web server when making requests.
 
-- Optional key-value pairs added to the URL (e.g., `?search=value`).
+- Parameters added to the end of a URL to provide extra information to a web server when making requests. (e.g., `?search=value`).
 - Useful for filtering or pagination.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/Screenshot%202024-10-17%20at%2018.18.12.png)
+</Frame>
+
+<Warning>
+Query parameters should only be defined in the system table and not included in the path. 
+</Warning>
 
 #### Header parameters
 
-Used to give information about the request and basically to give instructions to the API of how to handle the request.
+Used to give information about the request and basically to give instructions to the API of how to handle the request
 
+- Header parameters (HTTP headers) provide extra details about the request or its message body. 
+- They are not part of the URL. Default values can be set for testing and overridden in the workflow.
 - Custom headers sent with the request (e.g., `Authorization: Bearer token`).
 - Define metadata or authorization details.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/header_parameters1.png)
+</Frame>
+
 
 #### Body parameters
 
@@ -156,45 +192,52 @@ The data sent back from the server after an API request is made.
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/response_body_param.png)
 </Frame>
 
-### Authorization
 
-Authorization defines how external systems verify the identity of the requests made by the Integration Designer. There are multiple types of authorization that can be configured depending on the system's requirements.
-
-
-#### Service account
-
-   - Requires two fields:
-     - **Realm**: The domain or scope under which the service account operates.
-     - **Client ID**: The unique identifier for the client within the realm.
-
-2. **Basic Authentication**:
-   - Requires the following credentials:
-     - **Username**: The account's username.
-     - **Password**: The account's password.
-   - Suitable for systems that rely on simple username/password combinations for access.
-
-3. **Bearer Token (Future Support)**:
-   - Requires an **Access Token** to be included in the request headers.
-   - Commonly used for OAuth 2.0 implementations.
-
-#### **Configuring Authorization:**
+### Configuring authorization
 
 - Select the required **Authorization Type** from a predefined list.
 - Enter the relevant details based on the selected type (e.g., Realm and Client ID for Service Accounts).
 - These details will be automatically included in the request headers when the integration is executed.
 
+### Authorization types
+
+The Integration Designer supports several authorization methods, allowing you to configure the security settings for API calls. Depending on the external system's requirements, you can choose one of the following authorization formats:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/auth_type.png)
+</Frame>
+
+#### Service account
+
+Requires two fields:
+    
+- **Realm**: The domain or scope under which the service account operates.
+- **Client ID**: The unique identifier for the client within the realm.
+- **Client secret**:
+- **Identity Provider Url**:
+
+#### Basic authentication
+
+- Requires the following credentials:
+    - **Username**: The account's username.
+    - **Password**: The account's password.
+        - Suitable for systems that rely on simple username/password combinations for access.
+
+#### Bearer
+
+- Requires an **Access Token** to be included in the request headers.
+- Commonly used for OAuth 2.0 implementations.
+
 ---
 
-**Note:** Additional authentication methods like OAuth 2.0 and API key support may be introduced in future updates.
-
-
-
-### Workflow Definition
+## Workflow Definition
 
 * Workflow Nodes: Users can configure the workflow with various nodes, such as Send Message Tasks, Start/End nodes, Fork nodes, REST endpoints, and Data Mappings.
 * Trigger Workflow: Workflows can be triggered through various means, such as Kafka events or HTTP triggers.
 * Error Handling: In-built error handling within the workflow allows for graceful recovery and logging of issues.
 
+
+---
 
 ## FAQs
 
