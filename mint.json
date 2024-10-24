@@ -457,6 +457,7 @@
       "pages": [
         "4.5.0/sdks/sdks-overview",
         "4.5.0/sdks/angular-renderer",
+        "4.5.0/sdks/react-renderer",
         "4.5.0/sdks/ios-renderer",
         "4.5.0/sdks/android-renderer"
       ]
@@ -2032,8 +2033,7 @@
     "website": "https://www.flowx.ai/",
     "discord": "https://discord.gg/Gm3Dv7YjbW",
     "linkedin": "https://www.linkedin.com/company/flowxai/",
-    "twitter": "https://twitter.com/FlowX_ai",
-    "youtube": "https://www.youtube.com/@flowx_ai3398"
+    "twitter": "https://twitter.com/FlowX_ai"
   },
   "feedback": {
     "thumbsRating": true,

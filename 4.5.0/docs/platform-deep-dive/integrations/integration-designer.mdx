@@ -142,18 +142,23 @@ Path parameters must always be included, while query and header parameters are o
 
 #### Query parameters
 
-Parameters added to the end of a URL to provide extra information to a web server when making requests.
+Query parameters are added to the end of a URL to provide extra information to a web server when making requests.
 
-- Parameters added to the end of a URL to provide extra information to a web server when making requests. (e.g., `?search=value`).
+- Query parameters are appended to the URL after a `?` symbol and are typically used for filtering or pagination (e.g., `?search=value`)
 - Useful for filtering or pagination.
+- Example URL with query parameters: https://api.example.com/users?search=johndoe&page=2.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/Screenshot%202024-10-17%20at%2018.18.12.png)
 </Frame>
 
 <Warning>
-Query parameters should only be defined in the system table and not included in the path. 
+These parameters must be defined in the Parameters table, not directly in the endpoint path.
 </Warning>
+
+<Info>
+To preview how query parameters are sent in the request, you can use the **Preview** feature to see the exact request in cURL format. This shows the complete URL, including query parameters. 
+</Info>
 
 #### Header parameters
 
@@ -168,7 +173,6 @@ Used to give information about the request and basically to give instructions to
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/header_parameters1.png)
 </Frame>
-
 
 #### Body parameters
 
@@ -192,14 +196,13 @@ The data sent back from the server after an API request is made.
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/response_body_param.png)
 </Frame>
 
-
 ### Configuring authorization
 
 - Select the required **Authorization Type** from a predefined list.
 - Enter the relevant details based on the selected type (e.g., Realm and Client ID for Service Accounts).
 - These details will be automatically included in the request headers when the integration is executed.
 
-### Authorization types
+### Authorization methods
 
 The Integration Designer supports several authorization methods, allowing you to configure the security settings for API calls. Depending on the external system's requirements, you can choose one of the following authorization formats:
 
@@ -209,12 +212,20 @@ The Integration Designer supports several authorization methods, allowing you to
 
 #### Service account
 
-Requires two fields:
-    
-- **Realm**: The domain or scope under which the service account operates.
-- **Client ID**: The unique identifier for the client within the realm.
-- **Client secret**:
-- **Identity Provider Url**:
+Service Account authentication requires the following key fields:
+
+- **Identity Provider Url**: The URL for the identity provider responsible for authenticating the service account.    
+- **Client Id**: The unique identifier for the client within the realm.
+- **Client secret**: A secure secret used to authenticate the client alongside the Client ID.
+- **Scope**: Specifies the access level or permissions for the service account.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/auth_service_account.png)
+</Frame>
+
+<Info>
+When using Entra as an authentication solution, the **Scope** parameter is mandatory. Ensure it is defined correctly in the authorization settings.
+</Info>
 
 #### Basic authentication
 
@@ -223,21 +234,206 @@ Requires two fields:
     - **Password**: The account's password.
         - Suitable for systems that rely on simple username/password combinations for access.
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/basic_auth.png)
+</Frame>
+
 #### Bearer
 
 - Requires an **Access Token** to be included in the request headers.
 - Commonly used for OAuth 2.0 implementations.
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/bearer.png)
+</Frame>
+
+#### Certificates
+
+You might want to access another external system that require a certificate to do that. Use this setup to configure the secure communication with the system. 
+
+It includes paths to both a Keystore (which holds the client certificate) and a Truststore (which holds trusted certificates). You can toggle these features based on the security requirements of the integration.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/certificates_expand.gif)
+</Frame>
+
+When the Use Certificate option is enabled, you will need to provide the following certificate-related details:
+
+- **Keystore Path**: Specifies the file path to the keystore, in this case, `/opt/certificates/testkeystore.jks`. The keystore contains the client certificate used for securing the connection.
+- **Keystore Password**: The password used to unlock the keystore.
+- **Keystore Type**: The format of the keystore, JKS or PKCS12, depending on the system requirements.
+
+**Truststore credentials**
+
+- **Truststore Path**: The file path is set to `/opt/certificates/testtruststore.jks`, specifying the location of the truststore that holds trusted certificates.
+- **Truststore Password**: Password to access the truststore.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/certificates.png)
+</Frame>
+
+
+
 ---
 
-## Workflow Definition
+## Workflows
 
-* Workflow Nodes: Users can configure the workflow with various nodes, such as Send Message Tasks, Start/End nodes, Fork nodes, REST endpoints, and Data Mappings.
-* Trigger Workflow: Workflows can be triggered through various means, such as Kafka events or HTTP triggers.
-* Error Handling: In-built error handling within the workflow allows for graceful recovery and logging of issues.
+A workflow defines a series of tasks and processes to automate system integrations. Within the Integration Designer, workflows can be configured using different components to ensure efficient data exchange and process orchestration.
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/workflow_ex.png)
+</Frame>
+
+### Workflow nodes 
+
+Users can visually build workflows by adding various nodes, including:
+
+* Start node
+* REST endpoint nodes
+* Data mapping nodes (scripts)
+* Fork nodes (conditions)
+* End node
+
+#### Worflow start node
+
+The Start node is the default and mandatory first node in any workflow. It initializes the workflow and defines the input parameters for subsequent nodes.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/workflow_start_node.png)
+</Frame>
+
+<Info>
+Only one Start node is allowed per workflow. The Start node is always the first node in the workflow and cannot have any incoming connections. Its sole function is to provide the initial data for the workflow.
+</Info>
+
+The Start node defines the initial data model for the workflow. This input data model can be customized. You can enter custom JSON data by clicking inside the code editor and typing their input. This input data will be passed to subsequent nodes in the workflow.
+
+
+<Tip>
+For example, if you want to define a **first name** parameter, you can add it like this in the **Start Node**:
+
+```json
+{
+  "firstName": "John"
+}
+```
+
+Later, in the body of a subsequent workflow node, you can reference this input using:
+
+```json
+{
+  "First Name": "${firstName}"
+}
+```
+This ensures that the data from the Start Node is dynamically passed through the workflow.
+</Tip>
+
+
+<Info>
+The Start Node cannot be altered in name, nor can it be deleted from the workflow.
+</Info>
+
+#### REST endpoint nodes
+
+The REST endpoint node enables communication with external systems to retrieve or update data by making REST API calls. It supports multiple methods like GET, POST, PUT, PATCH, and DELETE. Endpoints are selected via a dropdown menu, where available endpoints are grouped by the system they belong to.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/add_rest_endpoint.gif)
+</Frame>
+
+The node is added by selecting it from the "Add Connection" dropdown in the workflow designer.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/rest_endpoint_add.png)
+</Frame>
+
+<Info>
+You can include multiple REST endpoint nodes within the same workflow, allowing for integration with various systems or endpoints.
+</Info>
+
+<Tip>
+Unlike some nodes, the Endpoint Call node can be run independently, making it possible to test the connection or retrieve data without executing the entire workflow.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/run_endpoint_node.gif)
+
+</Tip>
+
+**Input and output**
+
+Each REST endpoint node includes some essential tabs:
+
+* **Params**: 
+* **Response key**: The response from the endpoint node, including both data and metadata, is organized under a predefined response key.
+* **Input**:
+    * This tab contains read-only JSON data that is automatically populated with the output from the previous node in the workflow.
+* **Output**:
+    * It displays the API response in JSON format.
+
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/input_output.mp4"
+></video>
+</Frame>
+
+
+#### Condition (fork) nodes
+
+The Condition node evaluates incoming data from a connected node based on defined logical conditions(if/else if with). It directs the workflow along different paths depending on whether the condition evaluates to TRUE or FALSE.
+
+<Info>
+**Defining Conditions in JavaScript or Python**
+
+Logical conditions for the Condition Node can be written in either JavaScript or Python, depending on the requirements of your workflow.
+</Info>
+
+* If the condition evaluates to TRUE, the workflow follows the If path.
+* If the condition evaluates to FALSE, it follows the Else if path.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/fork_condition_node.png)
+</Frame>
+
+You can include multiple Condition nodes within a single workflow, enabling the creation of complex branching logic and decision-making flows.
+
+**Parallel processing and forking**
+
+The Condition node can split the workflow into parallel branches, allowing for multiple conditions to be evaluated simultaneously. This capability makes it ideal for efficiently processing different outcomes at the same time.
+
+#### Data mapping nodes (scripts)
+
+The Script node allows you to transform and map data between different systems during workflow execution by writing and executing custom code in JavaScript or Python. It enables complex data transformations and logic to be applied directly within the workflow.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/script_node.png)
+</Frame>
+
+#### End node
+
+The End node signifies the termination of a workflow's execution. It collects the final output and completes the workflow process.
+
+<Info>
+Multiple End nodes can be included within a single workflow. This allows the workflow to have multiple possible end points based on different execution paths.
+</Info>
+
+The End node automatically receives input in JSON format from the previous node, and you can modify this input by editing it directly in the code editor. If the node's output doesn't meet mandatory requirements, it will be flagged as an error to ensure all necessary data is included. 
+
+The output of the End node represents the final data model of the workflow once execution is complete.
 
 ---
+
+After you configured your systems endpoints, it is time to integrate them in a workflow using the workflow nodes.
+
+---
+
+## Translate CMS values
+
+### Enum mapper
+
+The enum mapper for the request body enables you to configure enumerations for specific keys in the request body, aligning them with values from the External System or translations into another language.
 
 ## FAQs
 
@@ -252,5 +448,11 @@ Requires two fields:
 
 <Accordion title="How are errors handled?">
 **A**: Errors are logged within the workflow and can be reviewed in the monitoring dedicated console for troubleshooting and diagnostics
+</Accordion>
+
+<Accordion title="Can I import endpoint specifications in the Integration Designer?">
+**A**: Currently, the Integration Designer only supports adding endpoint specifications manually. Import functionality (e.g., importing configurations from sources like Swagger) is planned for future releases.
+
+For now, you can manually define your endpoints by entering the necessary details directly in the system.
 </Accordion>
 </AccordionGroup>
