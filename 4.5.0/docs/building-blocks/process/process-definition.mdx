@@ -1,0 +1,207 @@
+---
+title: "Process definition"
+description: "The core of the platform is the process definition, which is the blueprint of the business process made up of nodes that are linked by sequences."
+---
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/process_definitions.png)
+</Frame>
+
+Once a process is defined and set as published on the platform, it can be executed, monitored, and optimized. When a business process is started, a new instance of the definition is created.
+
+<CardGroup>
+<Card title="Process instance" href="./process-instance" icon="file">
+</Card>
+
+<Card title="Failed process start" href="/4.0/docs/building-blocks/process/process-instance#exceptions" icon="file">
+</Card>
+</CardGroup>
+
+
+## History
+
+In the **History** tab, you will find a record of all the modifications and events that have occurred in the process.
+
+* **Versions** - provides information on who edited the process, when it was modified, and the version number and status
+* **Audit log** - provides a detailed record of events and changes
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_audit.gif)
+</Frame>
+
+### Versions
+
+In the **Versions** tab you will find the following details:
+
+* Last edited on - the last time when the process was modified
+* Last edited by - the last person who modified a process
+* Version - version number
+* Status - can be either **Published** or **Draft** 
+
+
+* View process - clicking on the eye icon will redirect you to the process definition 
+
+More details available in the following section:
+
+<Card title="Versioning" href="./versioning">
+</Card>
+
+### Audit log
+
+In the **Audit log** tab you will find the following items:
+
+* Timestamp 
+* User 
+* Subject 
+* Event 
+* Subject Identifier 
+* Version
+* Status 
+
+<Info>
+Some items in the Audit log are filterable, making it easy to track changes in the process.
+</Info>
+
+<Card title ="Audit" href="../../platform-deep-dive/core-extensions/audit">
+</Card>
+
+## Data model
+
+In the Data Model, you can add new key-pair values, which enables you to use shortcuts when adding new keys using the UI Designer, without having to switch back and forth between menus.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/add_new_data_model.png)
+</Frame>
+
+For more information on how to work with the Data Model, explore the following section:
+
+<Card title= "Data model" href="./data-model" icon="scroll">
+</Card>
+
+## Swimlanes
+
+Swimlanes offer a useful method of organizing process nodes based on process participants. By utilizing swimlanes, you can establish controlled access to specific process nodes for particular user roles.
+
+#### Adding new swimlanes
+
+To add new swimlanes, please follow these steps:
+
+1. Access the **FlowX.AI Designer**.
+2. Open an existing process definition or create a new one.
+3. Identify the default swimlane and select it to display the contextual menu.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/add_new_swimlane.png)
+</Frame>
+
+<Tip>
+With the contextual menu, you can easily perform various actions related to swimlanes, such as adding or removing swimlanes or reordering them. 
+</Tip>
+
+4. Choose the desired location for the new swimlane, either below or above the default swimlane.
+5. Locate and click the **add swimlane icon** to create the new swimlane.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/swimlanes_docs.gif)
+</Frame>
+
+For more details about access management, check the following sections:
+
+<CardGroup>
+
+<Card title="User roles management - Swimlanes" href="../../platform-deep-dive/user-roles-management/swimlanes" icon="file">
+</Card>
+
+<Card title ="Configuring access roles for processes" href="../../../setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes" icon="file">
+</Card>
+
+</CardGroup>
+
+## Settings
+
+### Process Name
+
+* **Process definition name**: Edit the process definition name.
+
+<Info>
+Name can only contain letters, numbers and the following special characters: [] () . _ -
+</Info>
+
+### General
+
+In the General settings, you can edit the process definition name, include the process in reporting, set general data, and configure expiry time expression using Cron Expressions and ISO 8601 formatting.
+
+* **Available Platforms** (Single Choice): This enable configuration (Navigation Areas, UI Designer, Misconfigurations) only for the specific platform selected:
+
+    - **Web Only**:  If the navigation areas are defined exclusively for the Web, the process should remain set to Web. This is because it is optimized solely for web usage and would not provide the same level of functionality or user experience on mobile devices
+    - **Mobile Only**: If the navigation areas are defined only for Mobile, the process should be set to Mobile. This ensures that the process leverages mobile-specific features and design considerations, providing an optimal experience on mobile devices.
+    - **Omnichannel**: If the existing process has navigation areas defined for both Web and Mobile platforms, it should be set to Omnichannel. This ensures that users have a consistent experience regardless of the platform they are using.
+
+
+<Tip>
+This setting is available starting with **v4.1.0** platform release.
+</Tip>
+
+
+<Info>
+Navigation Areas, UI Designer and misconfigurations will be affected by this setting.
+</Info>
+
+<Info>
+By default, new processes are set to **Web Only**. This ensures that they are initially optimized for web-based usage, providing a starting point for most users and scenarios.
+</Info>
+
+* **Use process in reporting**: When enabled, this setting includes the process in reporting.
+* **Use process in task management**: Enabling this option creates tasks that are displayed in the Task Manager plugin. For more details, refer to the [**Task Management**](../../platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview) section.
+* **General data**: Refers to customizable data that can be both set and received in a response context.
+* **Expiry time**: A user can set up an expiryTime expression on a process definition to specify an expiry date. 
+
+| **Example**               | **Expression**         | **Explanation**                                                                                                         |
+| ------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Daily Expiry at Midnight  | `0 0 0 * * ?`          | Sets the process to expire at 00:00 (midnight) every day. The `?` is used in the day-of-week field to ignore its value. |
+| Hourly Expiry on Weekdays | `0 0 9-17 * * MON-FRI` | Sets the process to expire at the start of each hour between 9 AM and 5 PM on weekdays (Monday to Friday).              |
+| Expiry After a Duration   | `PT3M22S`              | Sets the process to expire after a duration of 3 minutes and 22 seconds from the start, using **ISO 8601 format**.      |
+
+
+<Tip>
+FlowX support Spring cron expressions. They  **must always include six fields**: `seconds`, `minutes`, `hours`, `day of month`, `month`, and `day of week`.  
+This differs from traditional UNIX cron, which uses only five fields. Be sure to include the `seconds` field in Spring cron expressions to avoid errors.
+</Tip>
+
+<Info>
+The cron expression format should include seconds (0), minutes (0), hours (0), and then wildcards for the day, month, and day of the week fields. The `?` sign in the day-of-week field is used when the day-of-month field is already specified (or ignored in this case).
+</Info>
+
+<Info>
+You can use both ISO 8601 duration format (`PT3M22S`) and cron expressions (`0 0 0 * * ?`, `0 0 9-17 * * MON-FRI`) to define `expiryTime` expressions for process definitions.
+</Info>
+
+
+For more information about **Cron Expressions** and **ISO 8601** formatting, check the following section:
+
+[Timer Expressions](../node/timer-events/timer-expressions)
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/proc_general_settings.png)
+</Frame>
+
+### Permissions
+
+After defining roles in the identity provider solution, they will be available to be used in the process definition settings panel for configuring swimlane access. 
+
+When you create a new swimlane, it comes with two default permissions assigned based on a specific role: execute and self-assign. Other permissions can be added manually, depending on the needs of the user.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process_permissions.png)
+</Frame>
+
+<Card title="Configuring access rights for processes" href="../../../setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes">
+</Card>
+
+### Task Management
+
+The Task Management plugin offers a business-oriented view of the process you defined in the Designer and allows for interactions at the assignment level. It also includes a generic parameter pointing to the application URL where the FlowX.AI process is loaded and uses process keys to search data stored in the process.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_task_mngmnt.png)
+</Frame>

@@ -1,0 +1,12 @@
+---
+title: Start process
+api: POST {ENGINE_URL}/api/process/{PROCESS_DEFINITION_NAME}/start
+---
+
+<ParamField path="PROCESS_DEFINITION_NAME" type="string" required>
+  The name of the process definition to instantiate.
+</ParamField>
+
+<ParamField path="ENGINE_URL" type="string"  required>
+The URL of the engine.
+</ParamField>
