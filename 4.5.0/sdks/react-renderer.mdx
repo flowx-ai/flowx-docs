@@ -22,11 +22,8 @@ Use the following command to install the **renderer** library and its required d
 
 ```bash
 npm install \
-<<<<<<< HEAD
-=======
   react@18 \
   react-dom@18 \
->>>>>>> 2aee90615b9dca7e564b24089b422c0c6b57909d
   @flowx/core-sdk@4.5.0 \
   @flowx/core-theme@4.5.0 \
   @flowx/react-sdk@4.5.0 \
@@ -136,21 +133,20 @@ The entry point of the library is the `<FlxProcessRenderer />` component. A list
 
 **Parameters**:
 
-| Name              | Description                                                                                                                                                                            | Type    | Mandatory | Default value | Example                                          |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------- | ------------- | ------------------------------------------------ |
-| apiUrl            | Your base url                                                                                                                                                                          | string  | true      | -             | [https://yourDomain.dev](https://yourdomain.dev) |
-| processApiPath    | Process subpath                                                                                                                                                                        | string  | true      | -             | onboarding                                       |
-| authToken         | Authorization token                                                                                                                                                                    | string  | true      | -             | 'eyJhbGciOiJSUzI1NiIsIn....'                     |
-| themeId           | Theme id used to style the process. Can be obtained from the themes section in the admin                                                                                               | string  | true      | -             | '123-456-789'                                    |
-| processName       | Identifies a process                                                                                                                                                                   | string  | true      | -             | client\_identification                           |
-| processStartData  | Data required to start the process                                                                                                                                                     | json    | true      | -             | `{ "firstName": "John", "lastName": "Smith"}`    |
-                                                |
-| language          | Language used to localize the enumerations inside the application.                                                                                                                                             | string  | false     | ro         | -                                                |
-| isDraft           | When true allows starting a process in draft state. \*Note that isDraft = true requires that processName be the **id** (number) of the process and NOT the name.                       | boolean | false     | false         | -                                                |
-| locale           | Defines the locale of the process, used to apply date, currency and number formatting to data model values                       | boolean | false     | ro-RO         | -                                                |
-| locale           | Defines the locale of the process, used to apply date, currency and number formatting to data model values                       | boolean | false     | ro-RO         | -                                                |
-| appInfo           | Defines which FlowX Application will be run inside the process renderer.                       | json | true     | -         | `{ "appId": "111111-222222-333333-44444"}`                                                |
-| buildId           | Defines which FlowX Application build will be run inside the process renderer. Can be used for version controlling the processes.                      | json | true     | -        | "111111-222222-333333-44444"                                                |
+| Name             | Description                                                                                                                                                      | Type    | Mandatory | Default value | Example                                          |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------- | ------------- | ------------------------------------------------ |
+| apiUrl           | Your base url                                                                                                                                                    | string  | true      | -             | [https://yourDomain.dev](https://yourdomain.dev) |
+| processApiPath   | Process subpath                                                                                                                                                  | string  | true      | -             | onboarding                                       |
+| authToken        | Authorization token                                                                                                                                              | string  | true      | -             | 'eyJhbGciOiJSUzI1NiIsIn....'                     |
+| themeId          | Theme id used to style the process. Can be obtained from the themes section in the admin                                                                         | string  | true      | -             | '123-456-789'                                    |
+| processName      | Identifies a process                                                                                                                                             | string  | true      | -             | client\_identification                           |
+| processStartData | Data required to start the process                                                                                                                               | json    | true      | -             | `{ "firstName": "John", "lastName": "Smith"}`    |
+| language         | Language used to localize the enumerations inside the application.                                                                                               | string  | false     | ro            | -                                                |
+| isDraft          | When true allows starting a process in draft state. \*Note that isDraft = true requires that processName be the **id** (number) of the process and NOT the name. | boolean | false     | false         | -                                                |
+| locale           | Defines the locale of the process, used to apply date, currency and number formatting to data model values                                                       | boolean | false     | ro-RO         | -                                                |
+| locale           | Defines the locale of the process, used to apply date, currency and number formatting to data model values                                                       | boolean | false     | ro-RO         | -                                                |
+| appInfo          | Defines which FlowX Application will be run inside the process renderer.                                                                                         | json    | true      | -             | `{ "appId": "111111-222222-333333-44444"}`       |
+| buildId          | Defines which FlowX Application build will be run inside the process renderer. Can be used for version controlling the processes.                                | json    | true      | -             | "111111-222222-333333-44444"                     |
 
 
 

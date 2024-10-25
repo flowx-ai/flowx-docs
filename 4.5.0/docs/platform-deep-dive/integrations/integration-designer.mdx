@@ -484,6 +484,7 @@ Integrating workflows into a BPMN process allows for structured handling of task
 
 This is achieved by connecting workflow nodes to User Tasks and Service Tasks using the [**Start Integration Workflow**](../../building-blocks/actions/start-integration-workflow) action.
 
+
 <Steps>
 
 <Step title="Create a BPMN Process">
@@ -493,8 +494,17 @@ This is achieved by connecting workflow nodes to User Tasks and Service Tasks us
    - Create a new process or edit an existing one.
 
 2. **Define the Data Model**:
+
+<Info>
+Needed if you want to send data from your user task to the workflow.
+</Info>
+
    - Establish the data model that will be shared between the process and the workflow.
    - Ensure all necessary data fields that the workflow will use are included.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/data_model_int.png)
+</Frame>
 
 </Step>
 
@@ -505,35 +515,38 @@ This is achieved by connecting workflow nodes to User Tasks and Service Tasks us
    - A **User Task** requires user input, while a **Service Task** can trigger automated actions without manual intervention.
 
 2. **Configure Actions for the Task**:
-   - In the task properties, add a **Start Integration Workflow** action.
+   - In the node config, add a **Start Integration Workflow** action.
    - Select the target workflow you want to integrate. This links the task with the predefined workflow in the Integration Designer.
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/add_action.png)
+</Frame>
+
 3. **Map the Payload**:
-   - Set up a payload containing the keys and values to be sent to the workflow. This typically includes data fields defined in the data model.
-   - The payload enables dynamic inputs to flow from the process into the workflow based on user actions.
+   - If input data is defined in the **Start Node** of the workflow, it will be **automatically mapped** in the **Start Integration Workflow** action. Ensure that the workflow’s Start Node contains the fields you need.
+   - Additional payload keys and values can also be set up as needed to facilitate data flow from the process to the workflow.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/add_start_integration_workflow.gif)
+</Frame>
 
 
 </Step>
 
-<Step title="Send Data from Process to Workflow">
-
-1. **Define Input Data**:
-   - In the **Start Integration Workflow** action, ensure that input parameters from the process are mapped to the workflow's **Start Node**.
-   - Use form fields in the UI Designer to gather input data and ensure they correspond to the expected parameters in the workflow.
-
-2. **Validate Input Mapping**:
-   - Verify that the data from the BPMN process is accurately passed into the workflow's input fields. Incorrect or missing mappings can cause errors during workflow execution.
-
-</Step>
 
 <Step title="Receive Data from the Workflow">
 
 1. **Add a Receive Message Task**:
    - To handle data returned by the workflow, add a **Receive Message Task** in the BPMN diagram.
-   - This task captures the workflow’s output data, such as processing status or results.
+   - This task captures the workflow’s output data, such as processing status or results sent via Kafka.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/receive_kafka_workflow.png)
+</Frame>
+
 
 2. **Set Up a Data Stream Topic**:
-   - Define a **Data Stream Topic** in the Receive Message Task that aligns with the workflow's output.
+   - In the **Receive Message Task**, select your workflow from the **Data Stream Topics** dropdown.
    - Ensure that the workflow output data, including status or returned values, is accurately captured under a predefined key.
 
 </Step>
@@ -543,26 +556,172 @@ This is achieved by connecting workflow nodes to User Tasks and Service Tasks us
 
 ---
 
-## Integration example - Airtable
+## Integration with external systems
 
-Scenario: Integrating with Airtable to manage credit data using REST API.
+This example demonstrates how to integrate FlowX with an external system, in this example, using Airtable, to manage and update user credit status data. It walks through the setup of an integration system, defining API endpoints, creating workflows, and linking them to BPMN processes in FlowX Designer.
 
-1. Fetch Existing Records:
+<Check>
+Before going through this example of integration, we recommend:
 
-* Use a GET REST Endpoint to retrieve a list of records.
-* If the request fails, end the workflow with a failure status.
+* Create your own base and table in Airtable, details [here](https://www.airtable.com/guides/build/create-a-base).
+* Check Airtable Web API docs [here](https://airtable.com/developers/web/api/introduction) to get familiarized with Airtable API.
 
-2. Create New Records:
+</Check>
 
-* Use a POST REST Endpoint to add a new record to Airtable.
-* Automatically utilize parameters and body data configured at the system level.
+### Integration in FlowX
 
-3. Check Credit Score:
+<Steps>
+<Step title="Define a System">
 
-* Add a Condition Node to evaluate the credit score. If it is below 300, generate a warning message.
-* End the workflow with a success or failure status depending on the outcome.
+Navigate to the **Integration Designer** and create a new system:
+
+   - Name: **Airtable Credit Data**
+   - **Base URL**: `https://api.airtable.com/v0/`
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/airtable1.png)
+</Frame>
+
+</Step>
+
+<Step title="Define Endpoints">
+
+In the **Endpoints** section, add the necessary API endpoints for system integration:
+
+1. **Get Records Endpoint**:
+   - **Method**: GET
+   - **Path**: `/${baseId}/${tableId}`
+   - **Path Parameters**: Add the values for the baseId and for the tableId so they will be available in the path. 
+   - **Header Parameters**: Authorization Bearer token
+
+See the [API docs](https://airtable.com/developers/web/api/list-records).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/airtable2.png)
+</Frame>
 
 
+2. **Create Records Endpoint**:
+   - **Method**: POST
+   - **Path**: `/${baseId}/${tableId}`
+   - **Path Parameters**: Add the values for the baseId and for the tableId so they will be available in the path. 
+   - **Header Parameters**:
+        *  `Content-Type: application/json`
+        *  Authorization Bearer token
+   - **Body**: JSON format containing the fields for the new record. Example:
+   
+```json
+   {
+    "typecast": true,
+    "records": [
+        {
+            "fields": {
+                "First Name": "${firstName}",
+                "Last Name": "${lastName}",
+                "Age": ${age},
+                "Gender": "${gender}",
+                "Email": "${email}",
+                "Phone": "${phone}",
+                "Address": "${address}",
+                "Occupation": "${occupation}",
+                "Monthly Income ($)": ${income},
+                "Credit Score": ${creditScore},
+                "Credit Status": "${creditStatus}"
+            }
+        }
+    ]
+}
+```
+   
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/airtable3.png)
+</Frame>
+
+
+</Step>
+
+<Step title="Design the Workflow">
+
+1. **Open the Workflow Designer** and create a new workflow.
+   - Provide a name and description.
+   
+2. **Configure Workflow Nodes**:
+   - **Start Node**: Initialize the workflow.
+
+<Check>
+On the start node add the data that you want to extract from the process. This way when you will add the **Start Workflow Integration** node action it will be populated with this data.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/start_data.gif)
+
+
+```json
+{
+"firstName": "${firstName}",
+"lastName": "${lastName}",
+"age": ${age},
+"gender": "${gender}",
+"email": "${email}",
+"phone": "${phone}",
+"address": "${address}",
+"occupation": "${occupation}",
+"income": ${income},
+"creditScore": ${creditScore},
+"creditStatus": "${creditStatus}"
+}
+```
+
+Make sure this keys are also mapped in the data model of your process with their corresponding attributes.
+
+</Check>
+
+   - **REST Node**: Set up API calls:
+     - **GET Endpoint** for fetching records from Airtable.
+     - **POST Endpoint** for creating new records.
+   - **Condition Node**: Add logic to handle credit scores (e.g., triggering a warning if the credit score is below 300).
+
+<Tip>
+Condition example:
+
+```json
+input.responseKey.data.records[0].fields["Credit Score"] < 300
+```
+</Tip>
+
+   - **Script Node**: Include custom scripts if needed for processing data (not used in this example).
+   - **End Node**: Define the end of the workflow with success or failure outcomes.
+
+
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/create_workflow.mp4"
+></video>
+
+
+
+</Step>
+
+<Step title="Link the Workflow to a Process">
+
+1. **Integrate the workflow** into a BPMN process:
+   - Open the process diagram and include a **User Task**.
+   - Add a **Start Integration Workflow** action to trigger the workflow upon user submission.
+
+2. **Map Data** in the **UI Designer**:
+   - Link data attributes from the data model to form fields, ensuring the user input aligns with the expected parameters.
+
+
+</Step>
+
+<Step title="Monitor Workflow and Capture Output">
+
+**Receive Workflow Output**:
+   - Use a **Receive Message Task** to capture workflow outputs like status or returned data.
+   - Set up a **Data Stream Topic** to ensure workflow output is mapped to a predefined key.
+   
+</Step>
+</Steps>
 ---
 
 ## FAQs
