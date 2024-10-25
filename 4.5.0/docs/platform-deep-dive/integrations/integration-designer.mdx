@@ -196,6 +196,11 @@ The data sent back from the server after an API request is made.
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/response_body_param.png)
 </Frame>
 
+### Enum mapper
+
+The enum mapper for the request body enables you to configure enumerations for specific keys in the request body, aligning them with values from the External System or translations into another language.
+
+
 ### Configuring authorization
 
 - Select the required **Authorization Type** from a predefined list.
@@ -242,10 +247,25 @@ When using Entra as an authentication solution, the **Scope** parameter is manda
 
 - Requires an **Access Token** to be included in the request headers.
 - Commonly used for OAuth 2.0 implementations.
+- Header Configuration: Use the format `Authorization: Bearer {access_token}` in headers of requests needing authentication. 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/token_bearer.png)
+</Frame>
+
+
+- System-Level Example: You can store the Bearer token at the system level, as shown in the example below, ensuring it's applied automatically to future API calls:
+
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/bearer.png)
 </Frame>
+
+<Tip>
+Store tokens in a configuration parameter so updates propagate across all requests seamlessly when tokens are refreshed or changed.
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/token_config_param.png)
+</Tip>
+
 
 #### Certificates
 
@@ -284,11 +304,28 @@ A workflow defines a series of tasks and processes to automate system integratio
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/workflow_ex.png)
 </Frame>
 
+### Creating a workflow
+
+1. Navigate to Workflow Designer:
+    * In FlowX.AI Designer to **Projects -> Your application -> Integrations -> Workflows**.
+    * Create a New Workflow, provide a name and description, and save it.
+3. Start to design your workflow by adding nodes to represent the steps of your workflow:
+- **Start Node**: Defines where the workflow begins and also defines the input parameter for subsequent nodes.
+- **REST endpoint nodes**: Add REST API calls for fetching or sending data.
+- **Fork nodes (conditions)**: Add conditional logic for decision-making.
+- **Data mapping nodes (scripts)**: Write custom scripts in JavaScript or Python.
+- **End Nodes**: Capture output data as the completed workflow result, ensuring the process concludes with all required information.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/create_workflow.gif)
+</Frame>
+
+
 ### Workflow nodes 
 
 Users can visually build workflows by adding various nodes, including:
 
-* Start node
+* Workflow start node
 * REST endpoint nodes
 * Data mapping nodes (scripts)
 * Fork nodes (conditions)
@@ -296,15 +333,11 @@ Users can visually build workflows by adding various nodes, including:
 
 #### Worflow start node
 
-The Start node is the default and mandatory first node in any workflow. It initializes the workflow and defines the input parameters for subsequent nodes.
+The Start node is the default and mandatory first node in any workflow. It initializes the workflow and defines the input parameters defined on it for subsequent nodes.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/workflow_start_node.png)
 </Frame>
-
-<Info>
-Only one Start node is allowed per workflow. The Start node is always the first node in the workflow and cannot have any incoming connections. Its sole function is to provide the initial data for the workflow.
-</Info>
 
 The Start node defines the initial data model for the workflow. This input data model can be customized. You can enter custom JSON data by clicking inside the code editor and typing their input. This input data will be passed to subsequent nodes in the workflow.
 
@@ -325,12 +358,30 @@ Later, in the body of a subsequent workflow node, you can reference this input u
   "First Name": "${firstName}"
 }
 ```
-This ensures that the data from the Start Node is dynamically passed through the workflow.
+This ensures that the data from the Start node is dynamically passed through the workflow.
 </Tip>
 
 
+When you try to send input data from a process to a workflow, you can use the Start workflow node to map the data coming from a process and to send it acrross the entire workflow.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/start_input.png)
+</Frame>
+
+<Check>
+Make sure the data is also mapped in the **Start Integration Workflow** node action where you have the data.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/data_input_start.png)
+
+</Check>
+
 <Info>
-The Start Node cannot be altered in name, nor can it be deleted from the workflow.
+Only one Start node is allowed per workflow. The Start node is always the first node in the workflow and cannot have any incoming connections. Its sole function is to provide the initial data for the workflow.
+</Info>
+
+
+<Info>
+The Start node cannot be altered in name, nor can it be deleted from the workflow.
 </Info>
 
 #### REST endpoint nodes
@@ -417,23 +468,102 @@ The End node signifies the termination of a workflow's execution. It collects th
 
 <Info>
 Multiple End nodes can be included within a single workflow. This allows the workflow to have multiple possible end points based on different execution paths.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/end_1.png)
+
 </Info>
 
 The End node automatically receives input in JSON format from the previous node, and you can modify this input by editing it directly in the code editor. If the node's output doesn't meet mandatory requirements, it will be flagged as an error to ensure all necessary data is included. 
 
 The output of the End node represents the final data model of the workflow once execution is complete.
 
+
+### Workflow integration
+
+Integrating workflows into a BPMN process allows for structured handling of tasks like user interactions, data processing, and external system integrations. 
+
+This is achieved by connecting workflow nodes to User Tasks and Service Tasks using the [**Start Integration Workflow**](../../building-blocks/actions/start-integration-workflow) action.
+
+<Steps>
+
+<Step title="Create a BPMN Process">
+
+1. **Open the FlowX Process Designer**:
+   - Navigate to **Projects -> Your application -> Processes**.
+   - Create a new process or edit an existing one.
+
+2. **Define the Data Model**:
+   - Establish the data model that will be shared between the process and the workflow.
+   - Ensure all necessary data fields that the workflow will use are included.
+
+</Step>
+
+<Step title="Configure a User Task or Service Task">
+
+1. **Add a Task**:
+   - Insert a **User Task** or **Service Task** into your BPMN diagram.
+   - A **User Task** requires user input, while a **Service Task** can trigger automated actions without manual intervention.
+
+2. **Configure Actions for the Task**:
+   - In the task properties, add a **Start Integration Workflow** action.
+   - Select the target workflow you want to integrate. This links the task with the predefined workflow in the Integration Designer.
+
+3. **Map the Payload**:
+   - Set up a payload containing the keys and values to be sent to the workflow. This typically includes data fields defined in the data model.
+   - The payload enables dynamic inputs to flow from the process into the workflow based on user actions.
+
+
+</Step>
+
+<Step title="Send Data from Process to Workflow">
+
+1. **Define Input Data**:
+   - In the **Start Integration Workflow** action, ensure that input parameters from the process are mapped to the workflow's **Start Node**.
+   - Use form fields in the UI Designer to gather input data and ensure they correspond to the expected parameters in the workflow.
+
+2. **Validate Input Mapping**:
+   - Verify that the data from the BPMN process is accurately passed into the workflow's input fields. Incorrect or missing mappings can cause errors during workflow execution.
+
+</Step>
+
+<Step title="Receive Data from the Workflow">
+
+1. **Add a Receive Message Task**:
+   - To handle data returned by the workflow, add a **Receive Message Task** in the BPMN diagram.
+   - This task captures the workflow’s output data, such as processing status or results.
+
+2. **Set Up a Data Stream Topic**:
+   - Define a **Data Stream Topic** in the Receive Message Task that aligns with the workflow's output.
+   - Ensure that the workflow output data, including status or returned values, is accurately captured under a predefined key.
+
+</Step>
+
+</Steps>
+
+
 ---
 
-After you configured your systems endpoints, it is time to integrate them in a workflow using the workflow nodes.
+## Integration example - Airtable
+
+Scenario: Integrating with Airtable to manage credit data using REST API.
+
+1. Fetch Existing Records:
+
+* Use a GET REST Endpoint to retrieve a list of records.
+* If the request fails, end the workflow with a failure status.
+
+2. Create New Records:
+
+* Use a POST REST Endpoint to add a new record to Airtable.
+* Automatically utilize parameters and body data configured at the system level.
+
+3. Check Credit Score:
+
+* Add a Condition Node to evaluate the credit score. If it is below 300, generate a warning message.
+* End the workflow with a success or failure status depending on the outcome.
+
 
 ---
-
-## Translate CMS values
-
-### Enum mapper
-
-The enum mapper for the request body enables you to configure enumerations for specific keys in the request body, aligning them with values from the External System or translations into another language.
 
 ## FAQs
 
