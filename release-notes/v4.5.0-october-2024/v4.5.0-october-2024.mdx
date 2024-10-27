@@ -17,15 +17,41 @@ Before diving in, here is a bonus meme:
 The new Application concept introduces a streamlined approach to managing and deploying complex projects within FlowX. By grouping all related resources—such as processes, enumerations, integrations, and assets—into a single, organized workspace, applications provide a cohesive view for efficient development and deployment. 
 
 
-This feature supports version control at the application level, allowing users to create and manage multiple versions and builds. Applications also facilitate resource sharing through dependencies, enabling the reuse of processes and configurations across projects. These enhancements make it easier to maintain project integrity, deploy updates seamlessly, and ensure consistency across environments.
+<Frame>
+![FlowX.AI Designer](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/designer_new.png)
+</Frame>
 
 
-<Info>
-With the introduction of the **Application** concepy you might notice some significant changes in the FlowX.AI Designer structure, and also new concepts that Application is briging to the table:
+This feature supports version control at the application level, allowing users to create and manage multiple versions and builds. Applications also facilitate resource sharing through dependencies, enabling the reuse of processes and configurations across projects. These enhancements make it easier to maintain project integrity, deploy updates seamlessly, and ensure consistency across environments. Here is a quick walkthrough demo:
 
-* Config vs build
-* Global resources vs application resources
-</Info>
+<Frame>
+<video
+  controls
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/Application%204.5%20Feature%20Demo.mp4"
+></video>
+</Frame>
+
+
+#### Config vs build
+
+* Config mode is the environment where you set up, adjust, and manage your application's resources, processes, and configurations. It's the workspace where you fine-tune every aspect of the application before it's ready for deployment. Think of it as the design phase, where the focus is on setup, organization, and preparation.
+* Build mode is the stage where the configurations you've set up are packaged into a deployable form. This is the runtime-ready version of your application, containing everything needed for it to function in a production environment. A build includes a snapshot of the application’s state at a given point, ensuring stability and predictability when deployed.
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/config_vs_build.mp4"
+></video>
+</Frame>
+
+<CardGroup>
+<Card title="Configuration" href="../../4.5.0/docs/projects/managing-applications/application" icon="file">
+</Card>
+<Card title="Runtime" href="../../4.5.0/docs/projects/runtime/builds" icon="file">
+</Card>
+</CardGroup>
 
 ---
 
@@ -40,6 +66,9 @@ With Integration Designer, you can easily set up REST-based connections and defi
 
 Unlike [Postman](https://www.postman.com/), which focuses on API testing, the Integration Designer automates workflows between systems. With drag-and-drop ease, it handles REST API connections, real-time processes, and error management, making integrations seamless and scalable.
 </Tip>
+
+<Card title="Integration Designer" href="../../4.5.0/docs/platform-deep-dive/integrations/integration-designer" icon="file">
+</Card>
 
 ---
 
@@ -95,11 +124,13 @@ We are excited to introduce the Grid Layout feature in this release, enhancing t
 ></video>
 </Frame>
 
-This might happen after using it for the first time:
 
+
+<Accordion title="This might happen after using it for the first time:">
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid-layout-first-time.jpg)
 </Frame>
+</Accordion>
 ---
 
 #### Table
