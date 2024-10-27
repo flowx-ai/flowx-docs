@@ -157,6 +157,49 @@
     },
     
     
+    {
+      "group": "Building projects",
+      "version": "v4.5.0",
+      "pages": [
+        {
+          "group": "Configuration",
+          "icon": "box",
+          "pages": [
+   
+                "4.5.0/docs/projects/managing-applications/application",
+                "4.5.0/docs/projects/managing-applications/libraries"
+              ]
+            },
+
+
+
+            {
+              "group": "Runtime",
+              "icon": "play",
+              "pages": [
+                "4.5.0/docs/projects/runtime/builds",
+                "4.5.0/docs/projects/runtime/active-policy",
+                "4.5.0/docs/projects/runtime/configuration-parameters-overrides",
+
+                {
+                  "group": "Active process",
+                  "pages": [
+                    "4.5.0/docs/projects/runtime/active-process/process-instance",
+                    "4.5.0/docs/projects/runtime/active-process/failed-process-start"
+    
+    
+                  ]
+                }
+
+
+              ]
+            }
+
+
+          ]
+        },
+
+
     
 
     {
@@ -170,7 +213,6 @@
             "4.5.0/docs/building-blocks/process/process",
             "4.5.0/docs/building-blocks/process/process-definition",
             "4.5.0/docs/building-blocks/process/data-model",
-            "4.5.0/docs/building-blocks/process/process-instance",
             "4.5.0/docs/building-blocks/process/subprocess",
             "4.5.0/docs/building-blocks/process/versioning",
             "4.5.0/docs/building-blocks/process/navigation-areas"

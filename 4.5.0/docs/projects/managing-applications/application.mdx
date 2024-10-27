@@ -1,0 +1,199 @@
+---
+title: Applications
+description: Applications group all resources and dependencies needed to implement an use case.
+---
+
+
+<Frame>
+![FlowX.AI Designer](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/designer_new.png)
+</Frame>
+
+## Overview
+
+An application groups resources that represent a project's entire lifecycle. It's not just a collection of processes; it's an organized workspace containing all dependencies required for that project, from themes and templates to integrations and other resources. Applications enable you to:
+
+* Create Versions of an application to manage changes over time.
+* Deploy Builds for consistent environments.
+* Organize Resources to ensure clarity and reduce errors.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/application_processes.png)
+</Frame>
+
+## Core features
+
+<CardGroup>
+<Card title="Centralized Resource Management" icon="folder">
+Applications provide a single view of all resources referenced in a process, enabling you to manage everything from one central workspace. This approach reduces context-switching and keeps configuration focused.
+</Card>
+<Card title="Localization and Multi-Language Support" icon="globe">
+Applications support the definition of multiple locales, allowing for easy handling of regional content and settings. Enumerations, substitution tags, and media can be localized to meet specific environment requirements.
+</Card>
+<Card title="Version Control and Builds" icon="code-branch">
+Applications support a robust versioning mechanism that tracks changes to processes, resources, and configurations. The Application Version captures a snapshot of all included resources, while the Build consolidates everything into a deployable package. Each build contains only one version of an application, ensuring a consistent deployment.
+</Card>
+<Card title="Dependency Management" icon="line-columns">
+Applications can leverage Libraries, which act similarly to applications but are designed for resource sharing across projects. A library can contain reusable components like processes or templates that can be included in other applications. Dependencies between applications and libraries are managed carefully to ensure compatibility.
+</Card>
+</CardGroup>
+
+
+
+## Config 
+
+Config mode is the environment where you set up, adjust, and manage your application's resources, processes, and configurations. It's the workspace where you fine-tune every aspect of the application before it's ready for deployment. Think of it as the design phase, where the focus is on setup, organization, and preparation.
+
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/config_vs_build.mp4"
+></video>
+
+## Application components
+
+### Processes
+
+* **Processes**: Process definitions that drive the application's core functionality and share an application's resources.
+
+<Card title="Processes" href="../../building-blocks/process/process-definition" icon="link">
+</Card>
+
+
+* **Subprocesses**: Processes that can be invoked within the main process. These can either be part of the same application or imported from a library set as a dependency for the application.
+
+<Card title="Subprocesses" href="../../building-blocks/process/subprocess" icon="link">
+</Card>
+
+
+
+### Content Management System (CMS)
+
+* Enumerations: Predefined sets of options or categories used across the application. These are useful for dropdown menus, filters, and other selection fields.
+* Substitution Tags: Dynamic placeholders that allow for personalized content, such as user-specific data in notifications or documents.
+* Media Library: A collection of images, videos, documents, and other media assets accessible within the application.
+
+### Task Management
+
+* Views:
+* Hooks: Custom scripts or actions triggered at specific points in a task's lifecycle.
+* Stages: The phases that a task goes through within a workflow (e.g., Pending, In Progress, Completed).
+* Allocation Rules: Criteria for assigning tasks within workflows based on predefined rules (e.g., user roles, availability).
+
+### Integrations
+
+* Systems(API Endpoints): Configurations for connecting to external systems via REST APIs. These endpoints facilitate data exchange and integration with third-party platforms.
+* Workflows:
+
+### Dependencies
+
+* Libraries: Collections of reusable resources that can be referenced across multiple applications. Libraries act as shared repositories for processes, templates, and more.
+* Application Builds: Versions of the application that can be linked as dependencies, ensuring compatibility between related projects.
+
+### Configuration Parameters
+
+Configuration Parameters are essential components that allow applications to be dynamic, flexible, and environment-specific. They provide a way to manage variables and values that are likely to change based on different deployment environments (e.g., Development, QA, Production), without requiring hardcoded changes within the application. This feature is particularly useful for managing sensitive information and environment-specific settings.
+
+What Are Configuration Parameters?
+Configuration Parameters are user-defined variables that can be referenced throughout an application. These parameters allow you to:
+
+* Set environment-specific values: Tailor your application's behavior depending on the target environment.
+* Store sensitive data securely: Store API keys, passwords, or tokens securely using environment variables.
+* Centralize settings: Manage common values in one place, making it easier to update settings across multiple processes or integrations.
+
+
+### Application level settings
+
+#### Name
+The name of the application, which serves as the main identifier for your project within FlowX AI. This name is used to categorize and manage all associated resources.
+
+#### Type
+
+You have two options:
+
+- **Application**: A standard project that will contain processes, resources, integrations, and other elements.
+- **Library**: A reusable set of resources that can be referenced by multiple applications.
+
+#### Platform type
+
+You can specify the platforms for the application:
+
+- **Omnichannel**: The application will support web, mobile, and other platforms.
+- **Web**: The application will be restricted to web-based access.
+- **Mobile**: The application will only be accessible via mobile platforms.
+
+#### Default theme
+
+Choose a theme to apply a consistent look and feel across the application. Themes manage colors, fonts, and UI elements for a unified visual experience. In the screenshot, "FlowXTheme" is selected as the default.
+
+#### Number formatting
+
+- **Min Decimals** and **Max Decimals**: Configure how numbers are displayed in the application by setting the minimum and maximum decimal points. This helps ensure data consistency when dealing with financial or scientific information.
+- **Date Format**: Choose the format for displaying dates (e.g., short or long formats) to ensure the information is localized or standardized based on your application's requirements.
+- **Currency Format**: Set whether currency is displayed using the ISO code (e.g., USD) or using a symbol ($). This affects how financial information is presented across the application.
+
+#### Languages
+
+This section allows you to manage languages supported by the application.
+
+- **Default Language**: You can set one language as the default, which will be the primary language for users unless they specify otherwise. In the screenshot, English (EN) is set as the default language.
+- **Add Multiple Languages**: This enables multi-language support. Substitution tags and enumerations can be localized to provide a seamless experience for users in different regions.
+
+This settings interface gives you a centralized place to manage your application's configuration, ensuring consistency, flexibility, and control over how your project behaves and appears across different environments and platforms.
+
+## Creating and managing applications
+
+An application's lifecycle includes the following stages:
+
+1. Creating an Application
+
+* Start by defining the name and type (Omnichannel, Web, Mobile).
+* Set up initial configurations like themes, languages, and formats.
+* Inherit system-wide design assets like themes or fonts.
+
+2. Configuring Resources
+
+* Add processes, define templates, set up enumerations, and manage integrations.
+* Configure environment-specific parameters like API URLs or passwords using environment variables.
+* Reuse resources from libraries by setting up dependencies, allowing seamless access to shared content.
+
+3. Publishing an Application
+
+* Submit your configured resources to a version.
+* Once finalized, a version can be committed for stability.
+* Create a build from a version when ready to deploy to a different environment.
+
+4. Deploying a Build
+
+* A build packages the application version for a consistent deployment.
+* Each build is immutable and cannot be modified once created, ensuring runtime stability.
+
+
+
+## FAQs
+
+<AccordionGroup> 
+<Accordion title="How do I create a new version of an application?"> 
+To create a new version, navigate to the application dashboard, select "Create New Version," and make any changes. Once finalized, commit the version to lock it. 
+</Accordion>
+<Accordion title="What happens when I create a build?"> 
+Creating a build captures a snapshot of the application version, consolidating resources into a single deployable package. Builds are immutable and cannot be edited once created. 
+</Accordion> 
+<Accordion title="Can I manage multiple localizations within an application?"> 
+Yes, applications support multiple locales. You can define regional settings, such as date formats and currencies, to cater to different environments. 
+</Accordion> <Accordion title="How do I handle resource changes in a shared environment?"> 
+When modifying shared resources, FlowX AI enforces versioning. You can track which processes or resources are affected by a change and revert if necessary. 
+</Accordion> 
+<Accordion title="What is the difference between an Application Version and a Build?"> 
+An Application Version is a snapshot of resources and configurations that can be modified, tracked, and rolled back. A Build is a deployable package created from a committed version, and it is immutable once deployed.
+</Accordion> 
+<Accordion title="How do I add a library as a dependency?">
+ Go to your application settings, navigate to dependencies, and select the desired library. Choose the build you want to use, and its resources will be accessible within your application. 
+</Accordion> 
+<Accordion title="Can I make changes to a deployed build?"> 
+No, a build is immutable. To make changes, modify the application version, create a new version, and deploy a new build. 
+</Accordion> 
+<Accordion title="How are resource versions managed within an application?"> 
+Each resource has a Resource Definition ID (consistent across versions) and a Resource Version ID (specific to each version). These ensure that the correct version of a resource is used at runtime. 
+</Accordion> 
+</AccordionGroup>
