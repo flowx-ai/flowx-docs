@@ -4,11 +4,28 @@ description: FlowX.AI 4.5.0 has landed, and it's epic! 🚀
 ---
 
 Get ready because this update is big—really big. We’re taking the scenic route to explore all the exciting new features and improvements that you won’t want to miss, so get ready. There’s a lot to explore here (and yes, that pun is courtesy of our AI, since even our technical writer was stumped on how to market this one).
-Let's dive in:
+Before diving in, here is a bonus meme:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/IMG_5678.png)
+</Frame>
 
 ## **What's new?** 🆕
 
 ### Application
+
+The new Application concept introduces a streamlined approach to managing and deploying complex projects within FlowX. By grouping all related resources—such as processes, enumerations, integrations, and assets—into a single, organized workspace, applications provide a cohesive view for efficient development and deployment. 
+
+
+This feature supports version control at the application level, allowing users to create and manage multiple versions and builds. Applications also facilitate resource sharing through dependencies, enabling the reuse of processes and configurations across projects. These enhancements make it easier to maintain project integrity, deploy updates seamlessly, and ensure consistency across environments.
+
+
+<Info>
+With the introduction of the **Application** concepy you might notice some significant changes in the FlowX.AI Designer structure, and also new concepts that Application is briging to the table:
+
+* Config vs build
+* Global resources vs application resources
+</Info>
 
 ---
 
@@ -78,17 +95,14 @@ We are excited to introduce the Grid Layout feature in this release, enhancing t
 ></video>
 </Frame>
 
-Key features include:
+This might happen after using it for the first time:
 
-- Flexible column and row spans for precise element placement.
-- Improved drag-and-drop functionality for easier element rearrangement.
-- Responsiveness across different device sizes, ensuring consistent layout performance on web and mobile.
-- Enhanced control over element alignment and spacing for a cleaner, more structured UI.
-
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid-layout-first-time.jpg)
+</Frame>
 ---
 
 #### Table
-
 
 ---
 ####  FlowX.AI UI Designer new navigator
@@ -123,6 +137,11 @@ It is now simpler to identify where you are placing a component within the hiera
 
 
 ---
+
+
+### Task management
+
+
 
 ### Autocomputed data to send
 
@@ -165,25 +184,7 @@ The updates aim to streamline the configuration process, reduce errors, and make
 
 #### Autocomplete based on data model
 
-Introducing autocomplete for attributes, tailored to the data model attributes for enhanced configuration efficiency:
-
-| Section                                                            | Autocomplete field(s)/editors                      | Type                         | 
-| ------------------------------------------------------------------ | -------------------------------------------------- | ---------------------------- | 
-| Node config > Action -> Start subprocess                           | Copy from current state Exclude from current state | Field w/out interpolation    | 
-| Node config > Data stream topics                                   | Key name                                           | Field w/out interpolation    | 
-| Node config > Action > Kafka send action                           | Message Header                                     | JSON editor w/ interpolation | 
-| Action > Business Rule                                             | Business rule                                      | Code editor                  | 
-| Node config > Action > Kafka send action > From integration        | All integration fields                             | Input w/ interpolation       | 
-| Throw message node > Node config                                   | Correlation Key                                    | Field                        |
-| Throw message node > Node config                                   | Send data                                          | Editor - JSON                |
-| Start message node > Node config                                   | Process key                                        | Field w/out interpolation    | 
-| Exclusive gateway > Gateway decision                               | Expression                                         | Code editor                  | 
-| UI designer > Form & form elements                                 | Disable expression                                 | JS editor                    | 
-| UI designer > Input, text area (?), slider (min & max), text, link | Computed values                                    | JS editor                    | 
-| UI designer > UI components                                        | Hide expression                                    | JS editor                    | 
-| Catch message node (boundary) > Node config                        | Process Key Correlation key                        | Field w/out interpolation    | 
-
-
+Autocomplete for attributes is now available, improving configuration efficiency by offering tailored suggestions based on data model attributes. These enhancements apply to various fields and editors, including JSON, code, and JavaScript editors, as well as input fields across different node configurations, UI components, and business rules.
 
 #### New test business rule editor
 
