@@ -384,6 +384,7 @@ Only one Start node is allowed per workflow. The Start node is always the first 
 The Start node cannot be altered in name, nor can it be deleted from the workflow.
 </Info>
 
+
 #### REST endpoint nodes
 
 The REST endpoint node enables communication with external systems to retrieve or update data by making REST API calls. It supports multiple methods like GET, POST, PUT, PATCH, and DELETE. Endpoints are selected via a dropdown menu, where available endpoints are grouped by the system they belong to.
@@ -476,6 +477,27 @@ Multiple End nodes can be included within a single workflow. This allows the wor
 The End node automatically receives input in JSON format from the previous node, and you can modify this input by editing it directly in the code editor. If the node's output doesn't meet mandatory requirements, it will be flagged as an error to ensure all necessary data is included. 
 
 The output of the End node represents the final data model of the workflow once execution is complete.
+
+#### Testing the workflow
+
+<Tip>
+You can always test your endpoints in the context of the workflow. Run the endpoints separately (where is the case or run the entire workflow).
+</Tip>
+
+#### Debugging 
+
+Use the integrated console after running each workflow (either if you test your workflow in the workflow designer or in a process definition). It provides useful info like logs, input and output data about eacg endpoint and other details like execution time etc.
+
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/console.mp4"
+></video>
+</Frame>
+
 
 
 ### Workflow integration
@@ -705,11 +727,38 @@ input.responseKey.data.records[0].fields["Credit Score"] < 300
 <Step title="Link the Workflow to a Process">
 
 1. **Integrate the workflow** into a BPMN process:
-   - Open the process diagram and include a **User Task**.
-   - Add a **Start Integration Workflow** action to trigger the workflow upon user submission.
+   - Open the process diagram and include a **User Task** and a **Receive Message Task**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/bpmn_airtable.png)
+</Frame>
+
+<Info>
+In this example, we'll use a User Task because we need to capture user data and send it to our workflow.
+</Info>
+
 
 2. **Map Data** in the **UI Designer**:
+   - Create the data model
    - Link data attributes from the data model to form fields, ensuring the user input aligns with the expected parameters.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/data_model_id.png)
+</Frame>
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/ut_dat_input.gif)
+</Frame>
+
+
+3. **Add a Start Integration Workflow** node action:
+- Make sure all the input will be captured.
+
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/workflow_action.mp4"
+></video>
 
 
 </Step>
@@ -717,12 +766,44 @@ input.responseKey.data.records[0].fields["Credit Score"] < 300
 <Step title="Monitor Workflow and Capture Output">
 
 **Receive Workflow Output**:
-   - Use a **Receive Message Task** to capture workflow outputs like status or returned data.
-   - Set up a **Data Stream Topic** to ensure workflow output is mapped to a predefined key.
+   - Use the **Receive Message Task** to capture workflow outputs like status or returned data.
+   - Set up a **Data stream topic** to ensure workflow output is mapped to a predefined key.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/id_kafka_receive.png)
+</Frame>
    
+</Step>
+
+<Step title ="Start the integration">
+
+
+- Start your process to initiate the workflow integration. It should add a new user with the details captured in the user task.
+
+<video
+  controls
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/start.mp4"
+></video>
+
+
+- Check if it worked by going to your base in Airtable. You can see, our user has been added.
+
+<video
+  controls
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/result.mp4"
+></video>
+
 </Step>
 </Steps>
 ---
+
+This example demonstrates how to integrate Airtable with FlowX to automate data management. You configured a system, set up endpoints, designed a workflow, and linked it to a BPMN process.
+
+
 
 ## FAQs
 
