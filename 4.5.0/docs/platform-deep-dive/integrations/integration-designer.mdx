@@ -10,7 +10,7 @@ Unlike [Postman](https://www.postman.com/), which focuses on API testing, the In
 
 ## Overview
 
-Integration Designer is a powerful tool developed to facilitate the seamless integration of the FlowX platform with external systems, applications, and data sources. 
+Integration Designer facilitates the integration of the FlowX platform with external systems, applications, and data sources. 
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/intg_designer.png)
@@ -26,7 +26,7 @@ Integration Designer focuses on REST API integrations, with future updates expan
 
 <Steps>
 <Step title="Drag-and-Drop Simplicity">
-Users can easily build complex API workflows using a drag-and-drop interface, making it accessible for both technical and non-technical users.
+You can easily build complex API workflows using a drag-and-drop interface, making it accessible for both technical and non-technical audience.
 </Step>
 <Step title="Visual REST API Integration">
 Specifically tailored for creating and managing REST API calls through a visual interface, streamlining the integration process without the need for extensive coding.
@@ -107,7 +107,7 @@ In this section you can define REST API endpoints that can be reused across diff
 
 ### Defining variables
 
-The Variables Tab allows you to store system-specific variables that can be referenced throughout workflows using the format `${variableName}`.
+The Variables tab allows you to store system-specific variables that can be referenced throughout workflows using the format `${variableName}`.
 
 These declared variables can be utilized not only in workflows but also in other sections, such as the Endpoint or Authorization tabs.
 
@@ -200,6 +200,27 @@ The data sent back from the server after an API request is made.
 
 The enum mapper for the request body enables you to configure enumerations for specific keys in the request body, aligning them with values from the External System or translations into another language.
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/enum_mapper.png)
+</Frame>
+
+On enumerations you can map both translation values from different languages or values for different source systems.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-10-27%20at%2012.42.28.png)
+</Frame>
+
+Make sure you have the enumerations created with corresponding translations and system values values in your application already:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/2024-10-27%2012.41.08.gif)
+</Frame>
+
+<Info>
+Select whether to use in the integration the enumeration value corresponding to the External System or the translation into another language. 
+
+For translating into language a header parameter called 'Language' is required to specify the language for translation.
+</Info>
 
 ### Configuring authorization
 
