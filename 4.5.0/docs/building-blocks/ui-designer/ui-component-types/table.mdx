@@ -1,0 +1,126 @@
+---
+title: Table
+description: The Table component is a versatile UI element allowing structured data display with customizable columns, pagination, filtering, and styling options.
+---
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_rn.png)
+</Frame>
+
+<Info>
+**Web-only UI Component:** The Table component is designed specifically for web applications and includes theming options for consistent design across the platform.
+</Info>
+
+
+## Configuring the Table element
+
+The Table component closely mirrors some of the functionalities of the [**Collection**](./collection/collection) component. When configuring a Table, users define the number of columns, which automatically generates two prototypes: `th` (table header) and `tr` (table row).
+
+- **`th`** - Used for defining column headers.
+- **`tr`** - Repeated for each row based on the source data.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_config.png)
+</Frame>
+
+
+## Table Elements
+
+- **Table Header**: The top row containing column labels.
+- **Rows**: Each row represents a single data entry.
+- **Cells**: Individual cells hold data points within each row.
+- **Cell Elements**: Customizable elements within each cell for dynamic data presentation.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_elements.png)
+</Frame>
+
+
+<Info>
+When creating a table, three columns with one corresponding cells are added by default.
+</Info>
+
+### Table generic settings
+
+The following generic settings are found in the Generic tab and apply to all platforms (Web, iOS, and Android):
+
+- [**Source key**](#source-key)  
+- [**Columns**](#columns)  
+- [**Table body**]()
+- [**Expressions**](#expressions)  
+- [**Table Styling**](#table-styling)  
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_settings.png)  
+</Frame>
+
+#### Source key
+
+<Info>
+Similar to Collection, the Table component requires a `source` (array of objects) to populate rows dynamically.
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/Screenshot%202024-10-15%20at%2019.22.32.png)
+</Info>
+
+
+#### Columns
+
+Customize the columns displayed in the table, including adding, deleting, or renaming columns.
+
+#### Table body
+
+- **Pagination**: Configure page size or enable scrolling.
+    - Page size - maximum entries per page
+    - Disabled - scrollable
+
+#### Hide condition
+
+Using the data key from a related element, apply JavaScript expressions to control the Table’s visibility based on dependencies.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/table_hide_example.png)  
+</Frame>
+
+Example rule:
+
+```javascript  
+${application.table.relatedElement} === null || ${application.table.relatedElement} === ""
+```
+
+Result:
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/table_hide_result.gif)  
+</Frame>
+
+## Table Styling
+
+### Sizing
+
+- **Fit Width**: Expands to fill available width (default).
+- **Fit Height**: Automatically adjusts height to content (default).
+
+### Cell Styling
+
+**Layout Options:**
+
+- **Direction**: Horizontal (default).
+- **Justify**: Space-around (evenly spaces elements within each cell).
+- **Align**: Start (left-aligned).
+- **Wrap**: Enables text wrapping.
+- **Gap**: 8px spacing between cell elements.
+
+**Column Style Options:**
+
+- **Width Fit Options**:
+  - **Fill**: Fills available container space.
+  - **Fixed**: Keeps a fixed column width.
+  - **Auto**: Adjusts column width to fit content.
+- **User Resizable Columns**: Enables users to adjust column width by dragging the column edges in the header, enhancing customization.
+
+![User Resizable Columns](https://prod-files-secure.s3.us-west-2.amazonaws.com/c6682236-4f7f-44f3-acb6-31dfb44536e8/3aa0fa89-9ae0-4256-af46-1321a2a4515f/2024-10-15_19.37.13.gif)
+
+This Table component enhances flexibility and offers a cohesive design, integrated with FlowX.AI’s theming framework for a consistent, web-optimized user experience.
+
+
+
+
