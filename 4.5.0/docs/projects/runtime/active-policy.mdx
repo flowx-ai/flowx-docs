@@ -1,0 +1,100 @@
+---
+title: Active policy
+description: The Active policy defines the strategy for selecting which build version of an application is active in the runtime environment. 
+---
+
+This feature plays a key role in ensuring that the correct [**application**](../managing-applications/application) configuration is executed, managing how processes interact with specific builds, and controlling how changes propagate through environments. The active policy determines which application version is currently "live" and dictates how updates and new builds are adopted.
+
+#### Key Concepts
+
+1. **Active Build**
+   - The active build is the currently selected version of an application that is deployed in the runtime environment. It is the version that all process executions will reference when initiated.
+   - Only one build can be active per environment at a time, ensuring clarity and stability.
+
+2. **Policy Types**
+   - **Draft Policy**: Configures the application to run the latest draft version. This is useful for environments like development or testing, where ongoing changes need to be reflected in real-time without committing to a finalized version.
+   - **Fixed Version Policy**: Points to a specific, committed build version of the application. This policy ensures that no unexpected updates are introduced and is typically used for UAT and Production environments.
+
+3. **Version Control and Flexibility**
+   - Active Policy provides flexibility by allowing the user to switch between different build versions based on the environment's needs. This makes it easy to test, stage, and deploy without affecting production stability.
+   - By managing the policy, you control which changes go live and when, allowing for seamless testing and controlled rollouts.
+
+#### Workflow for Managing Active Policy
+
+1. **Setting the Active Policy**
+   - Navigate to the application's settings in the FlowX AI Designer.
+   - Go to the **Active Policy** section, where you can manage the behavior of the active build.
+   - Choose the policy type—either Draft or Fixed Version—to specify how builds should be managed in the environment.
+
+2. **Managing Draft Policy**
+   - When selecting the Draft Policy, the application will always refer to the latest draft build created on the chosen branch.
+   - This allows for continuous development and testing without having to commit to a specific version. However, it is important to use this policy only in non-production environments.
+
+3. **Selecting a Fixed Version Policy**
+   - For stability, you can set the active policy to a Fixed Version. This locks the application to a specific build, ensuring that no changes are applied unless a new build is created and explicitly set as active.
+   - This policy is ideal for UAT, QA, and Production environments where stability and consistency are key.
+
+4. **Publishing a New Build as Active**
+   - Once a new build is ready and verified, you can update the active policy to point to the new build version.
+   - The change takes effect immediately, making the new build the active version for all processes and interactions in that environment.
+
+#### Key Features
+
+1. **Environment-Specific Control**
+   - Each environment (Development, UAT, Production) can have its own active policy, providing control over what version of the application is running in each stage of the development lifecycle.
+
+2. **Rollback Capability**
+   - The active policy makes it easy to revert to a previous build if needed. By simply changing the active policy, you can switch back to an earlier stable version, minimizing disruption.
+
+3. **Branch-Specific Management**
+   - Active Policy supports management by branch. This means you can maintain different policies for different branches, allowing separate versions of the application to be active in separate environments.
+
+4. **Process Consistency**
+   - By defining which build version is active, the active policy ensures that all processes reference the correct resources. This eliminates inconsistencies and ensures that the expected behavior is maintained throughout the application's lifecycle.
+
+#### Benefits
+
+- **Controlled Rollouts**: Provides a clear pathway to manage when updates go live, ensuring that no untested changes accidentally reach production.
+- **Simplified Management**: Offers a straightforward way to manage the complexity of multiple application versions across various environments.
+- **Enhanced Stability**: Reduces the risk of runtime errors by maintaining control over the specific version that is active.
+- **Efficient Testing**: Allows for easy testing of new changes without affecting the stability of other environments by using Draft Policy.
+
+#### Managing Active Policy
+
+1. **Configuring a New Active Policy**
+   - In the application settings, navigate to the **Active Policy** tab.
+   - Choose between **Draft** or **Fixed Version**.
+   - If selecting Fixed Version, pick the specific build from the dropdown list.
+
+2. **Changing the Active Build**
+   - To update which build is active, modify the policy to reference a new build.
+   - Confirm the changes to activate the selected build in the runtime environment.
+
+3. **Branch Management**
+   - Use branches to manage draft builds independently. Each branch can have its own active policy, which allows parallel development without interference.
+
+#### Technical Details
+
+1. **Application Context and Resource References**
+   - The active policy is closely tied to the application context. It determines how resource references are handled during process execution.
+   - At runtime, the system identifies the active build based on the policy, ensuring that the correct resource definitions are used.
+
+2. **Metadata and Versioning**
+   - Each active policy includes metadata about the selected build, including build ID, version tags, and branch references. This metadata helps track which version is running in each environment.
+
+3. **Interaction with Runtime Environment**
+   - The runtime environment relies on the active policy to decide which build version of an application to execute. This is managed through an internal reference that points to the active build.
+
+4. **Storage and Management**
+   - The active policy is stored separately from the build data, making it easy to update the active build without modifying the build itself. This separation ensures that changes to the active state do not affect the integrity of the builds.
+
+#### Example Use Case
+
+Imagine you have an application in production, and a new feature is developed. You:
+- Use a **Draft Policy** to test the new feature in a development environment, pointing to the latest draft build.
+- Once the feature is verified, create a build and switch the environment's active policy to a **Fixed Version**, ensuring that the feature is consistent and stable.
+- In case a problem arises, you can easily revert the active policy to a previous build version without any reconfiguration.
+
+#### Conclusion
+
+The Active Policy feature in FlowX AI provides a flexible and reliable way to manage which version of an application is running in each environment. It offers a clear structure for testing, deployment, and rollback, making it a vital tool for maintaining stability and consistency throughout the application's lifecycle.

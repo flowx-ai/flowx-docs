@@ -529,6 +529,8 @@
             "4.5.0/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving"
           ]
         },
+        "4.5.0/setup-guides/application-manager",
+        "4.5.0/setup-guides/integration-designer-setup",
         "4.5.0/setup-guides/advancing-controller-setup-guide",
         "4.5.0/setup-guides/designer-setup-guide",
         "4.5.0/setup-guides/admin-setup-guide",
