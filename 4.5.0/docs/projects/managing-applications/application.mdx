@@ -56,11 +56,19 @@ Config mode is the environment where you set up, adjust, and manage your applica
 
 * **Processes**: Process definitions that drive the application's core functionality and share an application's resources.
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/process_definition.png)
+</Frame>
+
 <Card title="Processes" href="../../building-blocks/process/process-definition" icon="link">
 </Card>
 
 
 * **Subprocesses**: Processes that can be invoked within the main process. These can either be part of the same application or imported from a library set as a dependency for the application.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/application_subprocess.gif)
+</Frame>
 
 <Card title="Subprocesses" href="../../building-blocks/process/subprocess" icon="link">
 </Card>
@@ -69,26 +77,96 @@ Config mode is the environment where you set up, adjust, and manage your applica
 
 ### Content Management System (CMS)
 
-* Enumerations: Predefined sets of options or categories used across the application. These are useful for dropdown menus, filters, and other selection fields.
-* Substitution Tags: Dynamic placeholders that allow for personalized content, such as user-specific data in notifications or documents.
-* Media Library: A collection of images, videos, documents, and other media assets accessible within the application.
+* **Enumerations**: Predefined sets of options or categories used across the application. These are useful for dropdown menus, filters, and other selection fields.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/enums_app.png)
+</Frame>
+
+<Card title ="Enumerations" href="../../platform-deep-dive/core-extensions/content-management/enumerations" icon ="file">
+</Card>
+
+
+* **Substitution tags**: Here you have system predefined substitutin tags and dynamic placeholders that allow for personalized content, such as user-specific data in notifications or documents.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/react/subst_tags.png)
+</Frame>
+
+<Card title="Substitution tags" href="../../platform-deep-dive/core-extensions/content-management/substitution-tags" icon="page">
+</Card>
+
+
+* **Media Library**: A collection of images, videos, documents, and other media assets accessible within the application.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/react/media_library_app.png)
+</Frame>
 
 ### Task Management
 
-* Views:
-* Hooks: Custom scripts or actions triggered at specific points in a task's lifecycle.
-* Stages: The phases that a task goes through within a workflow (e.g., Pending, In Progress, Completed).
-* Allocation Rules: Criteria for assigning tasks within workflows based on predefined rules (e.g., user roles, availability).
+* **Views**: Views are configurable interfaces that present task-related data based on specific business process definitions. They allow users to create tailored visualizations of task information, utilizing filters, sorting options, and custom parameters to focus on relevant data.
+* **Hooks**: Custom scripts or actions triggered at specific points in a task's lifecycle.
+* **Stages**: The phases that a task goes through within a workflow (e.g., Pending, In Progress, Completed).
+* **Allocation Rules**: Criteria for assigning tasks within workflows based on predefined rules (e.g., user roles, availability).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/react/app_task_manager.gif)
+</Frame>
+
 
 ### Integrations
 
-* Systems(API Endpoints): Configurations for connecting to external systems via REST APIs. These endpoints facilitate data exchange and integration with third-party platforms.
-* Workflows:
+* **Systems (API Endpoints)**: Configurations for connecting to external systems via REST APIs. These endpoints facilitate data exchange and integration with third-party platforms.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/systems_overview.png)
+</Frame>
+
+
+* **Workflows**: Workflows are configurable sequences of tasks and decision nodes that automate data processing, system interactions, and integrations, enabling efficient communication and functionality across different applications and services.
+
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/create_workflow.mp4"
+></video>
+
 
 ### Dependencies
 
-* Libraries: Collections of reusable resources that can be referenced across multiple applications. Libraries act as shared repositories for processes, templates, and more.
-* Application Builds: Versions of the application that can be linked as dependencies, ensuring compatibility between related projects.
+Dependencies refer to the relationship between an application and the external resources it relies on, typically housed in a **Library**. These dependencies allow applications to access and utilize common assets, like processes, enumerations, or media files, from another project without duplicating content. By managing dependencies effectively, organizations can ensure that their applications remain consistent, efficient, and modular, streamlining both development and maintenance.
+
+* **Libraries**: A library is a special type of project that stores reusable resources. Applications can declare a library as a dependency to gain access to the resources stored within it.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/react/libraries_dependencies.gif)
+</Frame>
+
+* **Build-Specific Dependencies**: When an application adds a library as a dependency, it does so by referencing a specific build of that library
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/react/build_library.png)
+</Frame>
+
+
+<Info>
+This build-specific dependency ensures that changes in the library do not automatically propagate to the dependent applications, providing stability and control over which version is in use.
+</Info>
+
+* **Versioning**: Dependencies are versioned, meaning an application can rely on a particular version of a library's build. This versioning capability allows applications to remain insulated from future changes until they are ready to update to a newer version.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/library_build.gif)
+</Frame>
+
+<Card title="Libraries" href="libraries" icon="file">
+Read more about libraries by accessing this section
+</Card>
+
+---
 
 ### Configuration Parameters
 
@@ -97,14 +175,20 @@ Configuration Parameters are essential components that allow applications to be 
 What Are Configuration Parameters?
 Configuration Parameters are user-defined variables that can be referenced throughout an application. These parameters allow you to:
 
-* Set environment-specific values: Tailor your application's behavior depending on the target environment.
-* Store sensitive data securely: Store API keys, passwords, or tokens securely using environment variables.
-* Centralize settings: Manage common values in one place, making it easier to update settings across multiple processes or integrations.
+* **Set environment-specific values**: Tailor your application's behavior depending on the target environment.
+* **Store sensitive data securely**: Store API keys, passwords, or tokens securely using environment variables.
+* **Centralize settings**: Manage common values in one place, making it easier to update settings across multiple processes or integrations.
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/config_params.png)
+</Frame>
+
+---
 
 ### Application level settings
 
 #### Name
+
 The name of the application, which serves as the main identifier for your project within FlowX AI. This name is used to categorize and manage all associated resources.
 
 #### Type
@@ -126,6 +210,9 @@ You can specify the platforms for the application:
 
 Choose a theme to apply a consistent look and feel across the application. Themes manage colors, fonts, and UI elements for a unified visual experience. In the screenshot, "FlowXTheme" is selected as the default.
 
+<Card title="Theming" href="" icon="page">
+</Card>
+
 #### Number formatting
 
 - **Min Decimals** and **Max Decimals**: Configure how numbers are displayed in the application by setting the minimum and maximum decimal points. This helps ensure data consistency when dealing with financial or scientific information.
@@ -137,37 +224,73 @@ Choose a theme to apply a consistent look and feel across the application. Theme
 This section allows you to manage languages supported by the application.
 
 - **Default Language**: You can set one language as the default, which will be the primary language for users unless they specify otherwise. In the screenshot, English (EN) is set as the default language.
-- **Add Multiple Languages**: This enables multi-language support. Substitution tags and enumerations can be localized to provide a seamless experience for users in different regions.
+- **Add Multiple Languages**: This enables multi-language support. Substitution tags and enumerations can be localized to provide a better experience for users in different regions.
 
-This settings interface gives you a centralized place to manage your application's configuration, ensuring consistency, flexibility, and control over how your project behaves and appears across different environments and platforms.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/app_settings.png)
+</Frame>
+
+Fore more information about localization and interanationalization, check the following section:
+
+<Card title ="l10n & i18n" href ="../../building-blocks/ui-designer/localization-and-i18n" icon="page">
+</Card>
 
 ## Creating and managing applications
 
 An application's lifecycle includes the following stages:
 
-1. Creating an Application
+<Steps>
+<Step title="Creating an application">
 
 * Start by defining the name and type (Omnichannel, Web, Mobile).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/create_first_app.gif)
+</Frame>
+
 * Set up initial configurations like themes, languages, and formats.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/configure_initial.gif)
+</Frame>
+
+
 * Inherit system-wide design assets like themes or fonts.
 
-2. Configuring Resources
+</Step>
+
+<Step title="Configuring Resources">
 
 * Add processes, define templates, set up enumerations, and manage integrations.
 * Configure environment-specific parameters like API URLs or passwords using environment variables.
-* Reuse resources from libraries by setting up dependencies, allowing seamless access to shared content.
+* Reuse resources from libraries by setting up dependencies, allowing access to shared content.
+</Step>
 
-3. Publishing an Application
+<Step title="Publishing an Application">
 
 * Submit your configured resources to a version.
 * Once finalized, a version can be committed for stability.
 * Create a build from a version when ready to deploy to a different environment.
 
-4. Deploying a Build
+</Step>
+
+<Step title ="Deploying a Build">
 
 * A build packages the application version for a consistent deployment.
 * Each build is immutable and cannot be modified once created, ensuring runtime stability.
 
+</Step>
+</Steps>
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/publish_first_app.mp4"
+></video>
+</Frame>
 
 
 ## FAQs
@@ -196,4 +319,29 @@ No, a build is immutable. To make changes, modify the application version, creat
 <Accordion title="How are resource versions managed within an application?"> 
 Each resource has a Resource Definition ID (consistent across versions) and a Resource Version ID (specific to each version). These ensure that the correct version of a resource is used at runtime. 
 </Accordion> 
+
+<Accordion title="What is the purpose of dependencies in FlowX AI?">
+**A:** Dependencies allow applications to share and reuse resources like processes, enumerations, and templates that are stored in libraries. By setting a library as a dependency, an application can access the resources it needs without duplication, fostering modular development.
+</Accordion>
+
+<Accordion title="How do versioning and dependencies work together?">
+**A:** Dependencies are version-controlled, meaning you can choose specific library builds to ensure stability. Each build version of a library captures the state of its resources, allowing applications to lock onto a particular version until they are ready to upgrade.
+</Accordion>
+
+<Accordion title="Can I remove a dependency from an application?">
+**A:** Yes, you can remove a dependency from the application. Go to the **Dependencies** section in the application workspace and select the dependency you want to remove. However, make sure that no critical resources in the application rely on that dependency.
+</Accordion>
+
+<Accordion title="What are the risks of circular dependencies?">
+**A:** Circular dependencies occur when two libraries depend on each other. This can lead to conflicts and unexpected behavior. It's best to keep dependencies modular and avoid tightly coupling libraries to prevent such issues.
+</Accordion>
+
+<Accordion title="How do I ensure that a library update doesn't break my application?">
+**A:** Use a controlled environment like Dev or UAT to test new builds of the library before updating the dependency in your main application. This allows you to validate changes and ensure they don't negatively impact your application.
+</Accordion>
+
+<Accordion title="What happens to resource versions when I update a dependency?">
+**A:** When a dependency is updated to a newer build, any resources that were modified in the library will reflect the latest version. Applications have control over when to update, so older versions remain stable until the dependency is manually updated.
+</Accordion>
+
 </AccordionGroup>
