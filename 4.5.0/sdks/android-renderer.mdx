@@ -11,7 +11,7 @@ System requirements:
 
 The SDK library was build using:
 * **[Android Gradle Plugin](https://developer.android.com/build/releases/gradle-plugin) 8.1.4**
-* **[Kotlin](https://kotlinlang.org/) 1.9.22**
+* **[Kotlin](https://kotlinlang.org/) 1.9.24**
 
 ## Installing the library
 
@@ -38,7 +38,7 @@ dependencyResolutionManagement {
 ```kotlin
 dependencies {
     ...
-    implementation("ai.flowx.android:android-sdk:3.0.8")
+    implementation("ai.flowx.android:android-sdk:4.0.0")
     ...
 }
 ```
@@ -48,29 +48,29 @@ dependencies {
 Impactful dependencies:
 
 * **[Koin](https://insert-koin.io/) 3.2.2**, including the implementation for **[Koin Context Isolation](https://insert-koin.io/docs/reference/koin-core/context-isolation/)**
-* **[Compose BOM](https://developer.android.com/jetpack/compose/bom/bom-mapping) 2024.02.00** + **[Compose Compiler](https://developer.android.com/jetpack/androidx/releases/compose-compiler) 1.5.9**
+* **[Compose BOM](https://developer.android.com/jetpack/compose/bom/bom-mapping) 2024.06.00** + **[Compose Compiler](https://developer.android.com/jetpack/androidx/releases/compose-compiler) 1.5.14**
 * **[Accompanist](https://google.github.io/accompanist/) 0.32.0**
 * **[Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) 1.8.0**
 * **[OkHttp BOM](https://square.github.io/okhttp/) 4.11.0**
 * **[Retrofit](https://square.github.io/retrofit/) 2.9.0**
 * **[Coil Image Library](https://coil-kt.github.io/coil/) 2.5.0**
-* **[Gson](https://github.com/google/gson) 2.10.1**
+* **[Gson](https://github.com/google/gson) 2.11.0**
 
 ### Public API
 
 The SDK library is managed through the `FlowxSdkApi` singleton instance, which exposes the following methods:
 
-| Name                         | Description                                                                                                        | Definition                                                                                                                                                                                                 |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `init`                       | Initializes the FlowX SDK. Must be called in your application's `onCreate()`                                       | `fun init(context: Context, config: SdkConfig, accessTokenProvider: FlowxSdkApi.Companion.AccessTokenProvider? = null, customComponentsProvider: CustomComponentsProvider? = null)`   |
-| `setAccessTokenProvider`     | Updates the access token provider (i.e. a functional interface) inside the renderer                                | `fun setAccessTokenProvider(accessTokenProvider: FlowxSdkApi.Companion.AccessTokenProvider)`                                                                                          |
-| `setupTheme`                 | Sets up the theme to be used when rendering a process                                                              | `fun setupTheme(themeUuid: String, fallbackThemeJsonFileAssetsPath: String? = null, @MainThread onCompletion: () -> Unit)`                                                            |
-| `changeLanguage`             | Changes the current language                                                                                       | `fun changeLanguage(language: String)`                                                                                                                                                |
-| `startProcess`               | Starts a FlowX process instance, by returning a `@Composable` function where the process is rendered.              | `fun startProcess(processName: String, params: JSONObject = JSONObject(), isModal: Boolean = false, closeModalFunc: ((processName: String) -> Unit)? = null): @Composable () -> Unit` |
-| `continueProcess`            | Continues an existing FlowX process instance, by returning a `@Composable` function where the process is rendered. | `fun continueProcess(processUuid: String, isModal: Boolean = false, closeModalFunc: ((processName: String) -> Unit)? = null): @Composable () -> Unit`                                 |
-| `executeAction`              | Runs an action from a custom component                                                                             | `fun executeAction(action: CustomComponentAction, params: JSONObject? = null)`                                                                                                        |
-| `getMediaResourceUrl`        | Extracts a media item URL needed to populate the UI of a custom component                                          | `fun getMediaResourceUrl(key: String): String?`                                                                                                                                       |
-| `replaceSubstitutionTag`     | Extracts a substitution tag value needed to populate the UI of a custom component                                  | `fun replaceSubstitutionTag(key: String): String`                                                                                                                                     |
+| Name                         | Description                                                                                                        | Definition                                                                                                                                                                                                                                            |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `init`                       | Initializes the FlowX SDK. Must be called in your application's `onCreate()`                                       | `fun init(context: Context, config: SdkConfig, accessTokenProvider: FlowxSdkApi.Companion.AccessTokenProvider? = null, customComponentsProvider: CustomComponentsProvider? = null, customStepperHeaderProvider: CustomStepperHeaderProvider? = null)` |
+| `setAccessTokenProvider`     | Updates the access token provider (i.e. a functional interface) inside the renderer                                | `fun setAccessTokenProvider(accessTokenProvider: FlowxSdkApi.Companion.AccessTokenProvider)`                                                                                                                                                          |
+| `setupTheme`                 | Sets up the theme to be used when rendering a process                                                              | `fun setupTheme(themeUuid: String, fallbackThemeJsonFileAssetsPath: String? = null, @MainThread onCompletion: () -> Unit)`                                                                                                                            |
+| `changeLocaleSettings`       | Changes the current locale settings (i.e. locale and language)                                                     | `fun changeLocaleSettings(locale: Locale, language: String)`                                                                                                                                                                                                                |
+| `startProcess`               | Starts a FlowX process instance, by returning a `@Composable` function where the process is rendered.              | `fun startProcess(processName: String, params: JSONObject = JSONObject(), isModal: Boolean = false, closeModalFunc: ((processName: String) -> Unit)? = null): @Composable () -> Unit`                                                                 |
+| `continueProcess`            | Continues an existing FlowX process instance, by returning a `@Composable` function where the process is rendered. | `fun continueProcess(processUuid: String, isModal: Boolean = false, closeModalFunc: ((processName: String) -> Unit)? = null): @Composable () -> Unit`                                                                                                 |
+| `executeAction`              | Runs an action from a custom component                                                                             | `fun executeAction(action: CustomComponentAction, params: JSONObject? = null)`                                                                                                                                                                        |
+| `getMediaResourceUrl`        | Extracts a media item URL needed to populate the UI of a custom component                                          | `fun getMediaResourceUrl(key: String): String?`                                                                                                                                                                                                       |
+| `replaceSubstitutionTag`     | Extracts a substitution tag value needed to populate the UI of a custom component                                  | `fun replaceSubstitutionTag(key: String): String`                                                                                                                                                                                                     |
 
 ## Configuring the library
 
@@ -117,7 +117,9 @@ class MyApplication : Application() {
                 imageBaseUrl = "URL to FlowX CMS Media Library",
                 enginePath = "some_path",
                 language = "en",
+                locale = Locale.getDefault(),
                 validators = mapOf("exact_25_in_length" to { it.length == 25 }),
+                enableLog = false,
             ),
             accessTokenProvider = null, // null by default; can be set later, depending on the existing authentication logic
             customComponentsProvider = object : CustomComponentsProvider {...},
@@ -129,13 +131,15 @@ class MyApplication : Application() {
 
 The configuration properties that should be passed as `SdkConfig` data for the `config` parameter above are:
 
-| Name                                | Description                                                         | Type                                | Requirement                                        |
-| ----------------------------------- | ------------------------------------------------------------------- | ----------------------------------- | -------------------------------------------------- |
-| `baseUrl`                           | URL to connect to the FlowX back-end environment                    | `String`                            | Mandatory                                          |
-| `imageBaseUrl`                      | URL to connect to the FlowX Media Library module of the CMS         | `String`                            | Mandatory                                          |
-| `enginePath`                        | URL path segment used to identify the process engine service        | `String`                            | Mandatory                                          |
-| `language`                          | The language used for retrieving enumerations and substitution tags | `String`                            | Optional. Defaults to `en`.                        |
-| `validators`                        | Custom validators for form elements                                 | `Map<String, (String) -> Boolean>?` | Optional.                                          |
+| Name                                | Description                                                         | Type                                | Requirement                                 |
+| ----------------------------------- | ------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------- |
+| `baseUrl`                           | URL to connect to the FlowX back-end environment                    | `String`                            | Mandatory                                   |
+| `imageBaseUrl`                      | URL to connect to the FlowX Media Library module of the CMS         | `String`                            | Mandatory                                   |
+| `enginePath`                        | URL path segment used to identify the process engine service        | `String`                            | Mandatory                                   |
+| `language`                          | The language used for retrieving enumerations and substitution tags | `String`                            | Optional. Defaults to `en`.                 |
+| `locale`                            | The locale used for date, number and currency formatting            | `java.util.Locale`                  | Optional. Defaults to `Locale.getDefault()` |
+| `validators`                        | Custom validators for form elements                                 | `Map<String, (String) -> Boolean>?` | Optional.                                   |
+| `enableLog`                         | Flag indicating if logs should be printed                           | `Boolean`                           | Optional. Defaults to `false`               |
 
 
 #### Custom validators
@@ -221,29 +225,30 @@ viewModelScope.launch {
 
 <Warning>Do not [start](#start-a-flowx-process) or [resume](#resume-a-flowx-process) a process before the completion of the theme setup mechanism.</Warning>
 
-### Changing current language
+### Changing current locale settings
 
-The current language can be also changed after the [initial setup](#configuring-the-library), by calling the `changeLanguage` function:
+The current `locale` and `language` can be also changed after the [initial setup](#configuring-the-library), by calling the `changeLocaleSettings` function:
 
 ```kotlin
-fun changeLanguage(language: String)
+fun changeLocaleSettings(locale: Locale, language: String)
 ```
 
 #### Parameters
 
-| Name        | Description                    | Type      | Requirement   |
-| ----------- | ------------------------------ | --------- | ------------- |
-| `language`  | The code for the new language  | `String`  | Mandatory     |
+| Name        | Description                    | Type               | Requirement   |
+| ----------- | ------------------------------ | ------------------ | ------------- |
+| `locale`    | The new locale                 | `java.util.Locale` | Mandatory     |
+| `language`  | The code for the new language  | `String`           | Mandatory     |
 
 <Warning>
-    **Do not change the language while a process is rendered.**<br/>
+    **Do not change the locale or the language while a process is rendered.**<br/>
     The change is successful only if made before [starting](#start-a-flowx-process) or [resuming](#resume-a-flowx-process) a process.
 </Warning>
 
 #### Sample
 
 ```kotlin
-FlowxSdkApi.getInstance().changeLanguage(language = "en")
+FlowxSdkApi.getInstance().changeLocaleSettings(locale = Locale("en", "US"), language = "en")
 ```
 
 ### Start a FlowX process
@@ -254,21 +259,25 @@ After performing all the above steps and all the prerequisites are fulfilled, a 
 
 ```kotlin
 fun startProcess(
+    applicationUuid: String,
     processName: String,
     params: JSONObject = JSONObject(),
     isModal: Boolean = false,
+    onProcessEnded: (() -> Unit)? = null,
     closeModalFunc: ((processName: String) -> Unit)? = null,
 ): @Composable () -> Unit
 ```
 
 #### Parameters
 
-| Name             | Description                                                                                        | Type                               | Requirement                                         |
-| ---------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------- |
-| `processName`    | The name of the process                                                                            | `String`                           | Mandatory                                           |
-| `params`         | The starting params for the process, if any                                                        | `JSONObject`                       | Optional. If omitted, if defaults to `JSONObject()` |
-| `isModal`        | Flag indicating whether the process can be closed at anytime by tapping the top-right close button | `Boolean`                          | Optional. It defaults to `false`.                   |
-| `closeModalFunc` | Lambda function where you should handle closing the process when `isModal` flag is `true`          | `((processName: String) -> Unit)?` | Optional. It defaults to `null`.                    |
+| Name              | Description                                                                                        | Type                               | Requirement                                         |
+| ----------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------- |
+| `applicationUuid` | The uuid string of the application containing the process to be started                            | `String`                           | Mandatory                                           |
+| `processName`     | The name of the process                                                                            | `String`                           | Mandatory                                           |
+| `params`          | The starting params for the process, if any                                                        | `JSONObject`                       | Optional. If omitted, if defaults to `JSONObject()` |
+| `isModal`         | Flag indicating whether the process can be closed at anytime by tapping the top-right close button | `Boolean`                          | Optional. It defaults to `false`.                   |
+| `onProcessEnded`  | Lambda function where you can do additional processing when the started process ends               | `(() -> Unit)?`                    | Optional. It defaults to `null`.                    |
+| `closeModalFunc`  | Lambda function where you should handle closing the process when `isModal` flag is `true`          | `((processName: String) -> Unit)?` | Optional. It defaults to `null`.                    |
 
 <Tip>
     The returned **[@Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable)** function must be included in its own **[Activity](https://developer.android.com/reference/android/app/Activity)**, which is part of (controlled and maintained by) the container application.<br/><br/>
@@ -284,9 +293,13 @@ class ProcessActivity : ComponentActivity() {
         ...
         setContent {
             FlowxSdkApi.getInstance().startProcess(
+                applicationUuid = "your application uuid",
                 processName = "your process name",
                 params: JSONObject = JSONObject(),
                 isModal = true,
+                onProcessEnded = {
+                    // NOTE: possible processing could involve doing something in the container app (i.e. navigating to a different screen)
+                },
                 closeModalFunc = { processName ->
                     // NOTE: possible handling could involve doing something differently based on the `processName` value
                 },
@@ -307,6 +320,7 @@ To resume an existing instance of a FlowX process, after fulfilling all the prer
 fun continueProcess(
     processUuid: String,
     isModal: Boolean = false,
+    onProcessEnded: (() -> Unit)? = null,
     closeModalFunc: ((processName: String) -> Unit)? = null,
 ): @Composable () -> Unit
 ```
@@ -317,6 +331,7 @@ fun continueProcess(
 | ---------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------- |
 | `processUuid`    | The UUID string of the process                                                                     | `String`                           | Mandatory                         |
 | `isModal`        | Flag indicating whether the process can be closed at anytime by tapping the top-right close button | `Boolean`                          | Optional. It defaults to `false`. |
+| `onProcessEnded` | Lambda function where you can do additional processing when the continued process ends             | `(() -> Unit)?`                    | Optional. It defaults to `null`.  |
 | `closeModalFunc` | Lambda function where you should handle closing the process when `isModal` flag is `true`          | `((processName: String) -> Unit)?` | Optional. It defaults to `null`.  |
 
 <Tip>
@@ -335,6 +350,9 @@ class ProcessActivity : ComponentActivity() {
             FlowxSdkApi.getInstance().continueProcess(
                 processUuid = "some process UUID string",
                 isModal = true,
+                onProcessEnded = {
+                    // NOTE: possible processing could involve doing something in the container app (i.e. navigating to a different screen)
+                },
                 closeModalFunc = { processName ->
                     // NOTE: possible handling could involve doing something differently based on the `processName` value
                 },

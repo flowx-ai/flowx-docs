@@ -1,0 +1,75 @@
+## Android SDK migration guide
+
+### Initialization config changes
+
+A new configuration parameter, named `locale` was added in order to improve formatting the dates, numbers and currencies.
+
+When the SDK initialization happens through the `FlowxSdkApi.getInstance().init(...)` method, the argument has to be set inside the `config: SdkConfig` parameter value:
+
+```kotlin
+FlowxSdkApi.getInstance().init(
+    ...
+    config = SdkConfig(
+        baseUrl = "URL to FlowX backend",
+        imageBaseUrl = "URL to FlowX CMS Media Library",
+        enginePath = "some_path",
+        language = "en",
+        locale = Locale.getDefault(), // e.g. Locale("en", "US"), Locale("fr", "CA")
+        validators = mapOf("exact_25_in_length" to { it.length == 25 }),
+        enableLog = false,
+    ),
+    ...
+)
+```
+
+### Changes when starting a Flowx process
+
+Two new parameters were added:
+
+| Name              | Description                                                                                        | Type                               | Requirement                                         |
+| ----------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------- |
+| `applicationUuid` | The uuid string of the application containing the process to be started                            | `String`                           | Mandatory                                           |
+| `onProcessEnded`  | Callback function where you can do additional processing when the started process ends             | `(() -> Unit)?`                    | Optional. It defaults to `null`.                    |
+
+```kotlin
+fun startProcess(
+    applicationUuid: String,
+    processName: String,
+    params: JSONObject = JSONObject(),
+    isModal: Boolean = false,
+    onProcessEnded: (() -> Unit)? = null,
+    closeModalFunc: ((processName: String) -> Unit)? = null,
+): @Composable () -> Unit
+```
+
+### Changes when resuming a Flowx process
+
+One new parameter was added:
+
+| Name             | Description                                                                                        | Type                               | Requirement                       |
+| ---------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------- |
+| `onProcessEnded` | Callback function where you can do additional processing when the continued process ends           | `(() -> Unit)?`                    | Optional. It defaults to `null`.  |
+
+```kotlin
+fun continueProcess(
+    processUuid: String,
+    isModal: Boolean = false,
+    onProcessEnded: (() -> Unit)? = null,
+    closeModalFunc: ((processName: String) -> Unit)? = null,
+): @Composable () -> Unit
+```
+
+### Public API changes
+
+The `changeLanguage` method has been updated and renamed to `changeLocaleSettings`, in order to accommodate the newly added `locale` config parameter:
+
+```kotlin
+fun changeLocaleSettings(locale: Locale, language: String)
+```
+
+### Library dependencies updates
+
+- **[Kotlin](https://kotlinlang.org/)**: 1.9.22 **&nearr;** **1.9.24**
+- **[Compose BOM](https://developer.android.com/jetpack/compose/bom/bom-mapping)**: 2024.02.00 **&nearr;** **2024.06.00**
+- **[Compose Compiler](https://developer.android.com/jetpack/androidx/releases/compose-compiler)**: 1.5.9 **&nearr;** **1.5.14**
+- **[Gson](https://github.com/google/gson)**: 2.10.1 **&nearr;** **2.11.0**
