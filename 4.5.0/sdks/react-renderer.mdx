@@ -1,6 +1,6 @@
 ---
-title: Web SDK (React renderer)
-icon: computer
+title: React SDK
+icon: react 
 description: The FlowxProcessRenderer is a low code library designed to render UI configured via the Flowx Process Editor.
 ---
 
@@ -19,6 +19,10 @@ The library uses React version **react\~18**, **npm v10.8.0** and **node v18.16.
 ## Installing the library
 
 Use the following command to install the **renderer** library and its required dependencies:
+
+<Check>
+Installing `react` and `react-dom` can be skipped if you already have them installed in your project.
+</Check>
 
 ```bash
 npm install \
@@ -101,9 +105,9 @@ export function MyFlxContainer() {
         staticAssetsPath={...}
         locale="en-US"
         language="en"
-        appInfo={
+        appInfo={{
           appId: ...
-        }
+        }}
         buildId={...}
       />
 }
@@ -149,6 +153,48 @@ The entry point of the library is the `<FlxProcessRenderer />` component. A list
 | buildId          | Defines which FlowX Application build will be run inside the process renderer. Can be used for version controlling the processes.                                | json    | true      | -             | "111111-222222-333333-44444"                     |
 
 
+## Starting a process
+
+### Prerequisites
+
+* **Process Name**: You need to know the name of the process you want to start. This name is used to identify the process in the system.
+
+* **FlowX Application UUID**: You need the UUID of the FlowX Application that contains the process you want to start. This UUID is used to identify the application in the system.
+
+* **Locale**: You can specify the locale of the process to apply date, currency, and number formatting to data model values.
+
+* **Language**: You can specify the language used to localize the enumerations inside the application.
+
+### Getting the application UUID
+
+The application UUID can be obtained from the FlowX Dashboard. Navigate to the Applications section and select the application you want to start a process in. The UUID can be copied from the application actions popover.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/react/copy_uuid_application.png)
+
+### Getting the process name
+
+The process name can be obtained from the FlowX Designer. Navigate to the process you want to start and copy the process name from the breadcrumbs.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/react/copy_process_name.png)
+
+### Initializing the process renderer
+
+To start a process, you need to initialize the `FlxProcessRenderer` component in your application. The component accepts various props that define the process to start, the theme to use, and other configuration options.
+
+```typescript.tsx
+import { FlxProcessRenderer } from '@flowx/react-sdk';
+
+export function MyFlxContainer() {
+    return <FlxProcessRenderer
+        {...props}
+        locale="en-US"
+        language="en"
+        processName={processName}
+        appInfo={{ appId }}
+        buildId={buildId}
+      />
+}
+```
 
 ## Custom components
 
@@ -159,6 +205,14 @@ Custom components will be provided through the `components` parameter to the `<F
 <Warning>
 The object keys passed in the `components` prop **MUST** match the custom component names defined in the FlowX process.
 </Warning>
+
+<Check>
+Component data defined through an `inputKey` is available under `data` -> `data`
+</Check>
+
+<Check>
+Component actions are always found under `data` -> `actionsFn` key.
+</Check>
 
 
 ```typescript.tsx
@@ -177,15 +231,93 @@ data: {
    }
 ```
 
-### Data
+To add a custom component in the template config tree, we need to know its unique identifier and the data it should receive from the process model.
 
-Component data defined through an `inputKey` is available under `data` -> `data`
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_designer_custom.png)
 
-### Actions
+The properties that can be configured are as follows:
 
-Component actions are always found under `data` -> `actionsFn` key.
+* **Identifier** - This enables the custom component to be displayed within the component hierarchy and determines the actions available for the component.
+* **Input keys** - These are used to specify the pathway to the process data that components will utilize to receive their information.
+* [**UI Actions**](../../ui-actions) - actions defined here will be made available to the custom component
 
-Action names are configurable via the process editor.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_designer_custom_settings.png#center)
+</Frame>
+
+### Prerequisites (before creation)
+
+* **React Knowledge**: You should have a good understanding of React, as custom components are created and imported using React.
+
+* **Development Environment**: Set up a development environment for React development, including Node.js and npm (Node Package Manager).
+
+* **Component Identifier**: You need a unique identifier for your custom component. This identifier is used for referencing the component within the application.
+
+### Creating a custom component 
+
+To create a Custom Component in React, follow these steps:
+
+1. Create a new React component. 
+2. Implement the necessary HTML structure, TypeScript logic, and SCSS styling to define the appearance and behavior of your custom component.
+
+### Importing the component
+
+After creating the Custom Component, you need to import it into your application.
+
+In your `<FlxProcessRenderer />` component, add the following property:
+
+```tsx
+<FlxProcessRenderer
+  {...otherProps}
+  components={{ MyCustomComponentIdentifier: MyCustomComponent }}
+/>
+```
+
+### Using the custom component
+
+Once your Custom Component is declared, you can use it for configuration within your application. 
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/loader_component.gif)
+
+### Data input and actions
+
+The Custom Component accepts input data from processes and can also include actions extracted from a process. These inputs and actions allow you to configure and interact with the component dynamically.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/cst_input_data.png)
+
+### Extracting data from processes
+
+There are multiple ways to extract data from processes to use within your Custom Component. You can utilize the data provided by the process or map actions from the BPMN process to Angular actions within your component.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/cst_loader_input.png)
+</Frame>
+
+<Warning>
+Make sure that the React actions that you declare match the names of the process actions.
+</Warning>
+
+### Styling with CSS
+
+To apply CSS classes to UI elements within your Custom Component, you first need to identify the UI element identifiers within your component's HTML structure. Once identified, you can apply defined CSS classes to style these elements as desired.
+
+Example:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/Screenshot%202023-10-10%20at%2012.29.51.png)
+</Frame>
+
+### Additional considerations
+
+* **Naming Conventions**: Be consistent with naming conventions for components, identifiers, and actions. Ensure that Angular actions match the names of process actions as mentioned in the documentation.
+
+* **Component Hierarchy**: Understand how the component fits into the overall component hierarchy of your application. This will help determine where the component is displayed and what actions are available for it.
+
+* **Documentation and Testing**: Document your custom component thoroughly for future reference. Additionally, testing is crucial to ensure that the component behaves as expected in various scenarios.
+
+* **Security**: If your custom component interacts with sensitive data or performs critical actions, consider security measures to protect the application from potential vulnerabilities.
+
+* **Integration with FLOWX Designer**: Ensure that your custom component integrates seamlessly with FLOWX Designer, as it is part of the application's process modeling capabilities.
 
 ## Custom validators
 
@@ -202,3 +334,18 @@ const customValidator = (...params: string[]) => (v: any) => boolean | Promise<b
 <Warning>
 The object keys passed in the `validators` prop **MUST** match the custom validator names defined in the FlowX process.
 </Warning>
+
+## Custom CSS
+
+The renderer SDK allows you to pass custom CSS classes on any component inside the process. These classes are then applied to the component's root element.
+
+To add a CSS custom class to a component, you need to define the class in the process designer by navigating to the styles tab of the component, expanding the Advanced accordion and writing down the CSS class.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/react/add_css_class.gif)
+
+<Warning>
+The classes will be applied last on the element, so they will override the classes already defined on the element.
+</Warning>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/react/css_class_inspector.png)
+
