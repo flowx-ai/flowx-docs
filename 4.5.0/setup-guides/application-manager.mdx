@@ -1,10 +1,152 @@
 ---
-title: Application manager
-icon: computer-classic
-description:
+title: Application manager setup 
+description: The Application Manager is a backend microservice for managing FlowX applications, libraries, versions, manifests, configurations, and builds. This guide provides detailed instructions for setting up the service and configuring its components to manage application-related operations effectively. 
+icon: computer
 ---
 
+## Infrastructure Prerequisites
 
-This service will have its own relational database where it will manage the application details (app, libs, manifest, configs, settings, builds, etc). See the data model section of this page for more details.
+Before you start setting up the Application Manager service, ensure the following infrastructure components are in place:
 
-**application-manager** will have the main modules described below (each of them with its own responsibilities).
+* **Docker Engine** - version 17.06 or higher
+* **PostgreSQL** - version 13 or higher for storing application data (could vary based on your preferred relational database)
+* **MongoDB** - version 4.4 or higher for managing runtime builds
+* **Redis** - version 6.0 or higher (if caching is required)
+* **Kafka** - version 2.8 or higher for messaging and event-driven communication between services
+* **Elasticsearch** - version 7.11.0 or higher (if needed for search and indexing capabilities)
+
+<Info>
+Ensure that the database for storing application data is properly set up and configured before starting the service.
+</Info>
+
+## Dependencies
+
+The Application Manager relies on several other FlowX services and components:
+
+* [**Database instance**](#database-configuration)
+* [**Authorization & Access Management**](#configuring-authorization-and-access-roles)
+* [**Kafka Event Bus**](#configuring-kafka)
+* **Proxy Mechanism** - Ensure resource endpoints are accessible through the application-proxy.
+
+## Configuration
+
+### Database Configuration
+
+The Application Manager requires a relational database to store application details, manifests, and configurations. A basic PostgreSQL configuration can be set up using the following parameters in a `values.yaml` file for Helm deployment:
+
+```yaml
+app-manager-db:
+  postgresqlUsername: {{AppManagerDbUser}}
+  postgresqlPassword: {{AppManagerDbPassword}}
+  postgresqlDatabase: {{AppManagerDbName}}
+  persistence:
+    enabled: true
+    mountPath: /bitnami/postgresql
+    size: 5Gi
+  replicaSet:
+    enabled: false
+  serviceAccount:
+    create: false
+  usePassword: true
+```
+
+### Environment Variables
+
+* **APP_MANAGER_DB_URL** - Connection string for the relational database
+* **APP_MANAGER_DB_USER** - Username for the database
+* **APP_MANAGER_DB_PASSWORD** - Password for the database
+* **APP_MANAGER_DB_NAME** - Database name
+
+#### Configuring Authorization and Access Roles
+
+To integrate the Application Manager with the identity management system for authorization, set the following environment variables:
+
+* **SECURITY_OAUTH2_BASE_SERVER_URL** - Base URL for the OAuth 2.0 Authorization Server
+* **SECURITY_OAUTH2_CLIENT_CLIENT_ID** - Unique identifier for the client application registered with the OAuth 2.0 server
+* **SECURITY_OAUTH2_CLIENT_CLIENT_SECRET** - Secret key for authenticating requests made by the authorization client
+* **SECURITY_OAUTH2_REALM** - The realm name for OAuth2 authentication
+
+Refer to the dedicated section for configuring user roles and access rights:
+
+<Card title="Access Management" href="./access-management/app-manager-access-rights" icon="lock">
+</Card>
+
+### Configuring MongoDB (Runtime Database)
+
+The Application Manager requires MongoDB to store runtime build information. Use the following environment variables for configuration:
+
+* **SPRING_DATA_MONGODB_URI** - Connection string for MongoDB, specifying the host, port, database name, user credentials, and other details.
+
+### Configuring Redis
+
+If caching is required, configure Redis using the following environment variables:
+
+* **SPRING_REDIS_HOST** - Hostname or IP address of the Redis server
+* **SPRING_REDIS_PASSWORD** - Password for authenticating with the Redis server
+
+### Configuring Kafka
+
+The Application Manager uses Kafka for event-driven operations. Set up the Kafka configuration using the following environment variables:
+
+* **SPRING_KAFKA_BOOTSTRAP_SERVERS** - Address of the Kafka server, formatted as "host"
+* **SPRING_KAFKA_CONSUMER_GROUP_ID** - Consumer group ID for Kafka topics
+* **KAFKA_CONSUMER_THREADS** - Number of Kafka consumer threads
+
+#### Kafka Topics for Resource Events
+
+| Environment Variable            | Description                                                         | Default Value                       |
+|---------------------------------|---------------------------------------------------------------------|-------------------------------------|
+| `KAFKA_TOPIC_RESOURCE_UPDATE`   | Topic for updating resources in an application                      | `app-manager.resource.update`       |
+| `KAFKA_TOPIC_RESOURCE_DELETE`   | Topic for deleting resources associated with an application         | `app-manager.resource.delete`       |
+| `KAFKA_TOPIC_BUILD_COMPLETED`   | Topic for notifications when a build is completed                   | `app-manager.build.completed`       |
+
+
+### Configuring Resource Proxy
+
+The Resource Proxy module forwards resource-related requests to appropriate services, handling CRUD operations on the manifest. It requires proper configuration of proxy endpoints:
+
+* **RESOURCE_PROXY_MANIFEST_URL** - URL for managing the application manifest
+* **RESOURCE_PROXY_TARGET_URL** - URL for forwarding resource-related requests to their respective services
+
+
+### Configuring Logging
+
+To control the logging levels for the Application Manager, use the following environment variables:
+
+* **LOGGING_LEVEL_ROOT** - Log level for the root service logs
+* **LOGGING_LEVEL_APP** - Log level for application-level logs
+* **LOGGING_LEVEL_DB** - Log level for database interactions
+
+
+### Configuring File Storage (Optional)
+
+If the Application Manager requires file storage for resources or builds, configure S3-compatible storage using the following environment variables:
+
+* **APPLICATION_FILE_STORAGE_S3_URL** - URL of the S3-compatible storage server
+* **APPLICATION_FILE_STORAGE_S3_BUCKET_NAME** - S3 bucket name for storing application files
+* **APPLICATION_FILE_STORAGE_S3_ACCESS_KEY** - Access key for S3 storage
+* **APPLICATION_FILE_STORAGE_S3_SECRET_KEY** - Secret key for S3 storage
+
+
+### Configuring Application Management
+
+Configure the management of applications, builds, and related resources using these variables:
+
+* **APP_MANAGER_MAX_FILE_SIZE** - Maximum file size allowed for uploads
+* **APP_MANAGER_MAX_REQUEST_SIZE** - Maximum request size for uploads
+* **APP_MANAGER_BUILD_POLICY** - Build policy configuration for the Application Manager
+
+### Data Model Overview
+
+The Application Manager stores application data using a relational database schema, with key entities such as application, application_version, and application_manifest. Below are descriptions of primary entities:
+
+* **Application** - Defines an application with its details like name, type, and metadata.
+* **Application Branch** - Represents branches for versioning within an application.
+* **Application Version** - Keeps track of each version of an application, including committed and WIP statuses.
+* **Application Manifest** - Contains the list of resources associated with a specific application version.
+
+### Monitoring and Maintenance
+
+To monitor the performance and health of the Application Manager, use tools like Prometheus or Grafana. Configure Prometheus metrics with the following environment variable:
+
+* **MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED** - Enables or disables Prometheus metrics export (default: false).

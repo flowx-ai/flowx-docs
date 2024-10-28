@@ -1,0 +1,56 @@
+---
+title: Application manager access rights
+description: Granular access rights can be configured for restricting access to the Application-manager component.
+icon: lock-open
+---
+
+Access authorizations are provided, each with specified access scopes:
+
+1. **Manage-processes** - for configuring access for managing processes
+
+Available scopes:
+
+* **edit** - users are able to edit processes
+* **admin** - users are able to publish and delete process definitions, delete stages, edit sensitive data for process definitions
+
+2. **Manage-instances** - for configuring access for manipulating process instances
+
+Available scopes:
+
+* **read** - users can view the list of process instances
+* **admin** - users are able to retry an action on a process instance token
+
+The Application manager service is configured with the following default users roles for each of the access scopes mentioned above:
+
+* **manage-processes**
+  * edit:
+    * ROLE_ADMIN_MANAGE_PROCESS_EDIT
+    * ROLE_ADMIN_MANAGE_PROCESS_ADMIN
+  * admin:
+    * ROLE_ADMIN_MANAGE_PROCESS_ADMIN
+* **manage-instances**
+  * read:
+    * ROLE_ENGINE_MANAGE_INSTANCE_READ
+    * ROLE_ENGINE_MANAGE_INSTANCE_ADMIN
+  * admin:
+    * ROLE_ENGINE_MANAGE_INSTANCE_ADMIN
+
+<Warning>
+These roles need to be defined in the chosen identity provider solution. It can be either kyecloak, RH-SSO, or other identity provider solution.
+</Warning>
+
+In case other custom roles are needed, you can configure them using environment variables. More than one role can be set for each access scope.
+
+To configure access for each of the roles above, adapt the following input:
+
+**`SECURITY_ACCESSAUTHORIZATIONS_AUTHORIZATIONNAME_SCOPES_SCOPENAME_ROLESALLOWED: NEEDED_ROLE_NAMES`**
+
+Possible values for `AUTHORIZATIONNAME`: `MANAGEPLATFORM`, `MANAGEPROCESSES`, `MANAGECONFIGURATIONS`, `MANAGEUSERS`.
+
+Possible values for `SCOPENAME`: import, read, edit, admin.
+
+For example, if you need to configure role access for read, insert this:
+
+```
+SECURITY_ACCESSAUTHORIZATIONS_MANAGEPROCESSES_SCOPES_READ_ROLESALLOWED: ROLE_NAME_TEST
+```
