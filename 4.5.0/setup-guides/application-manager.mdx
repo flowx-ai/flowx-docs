@@ -13,7 +13,6 @@ Before you start setting up the Application Manager service, ensure the followin
 * **MongoDB** - version 4.4 or higher for managing runtime builds
 * **Redis** - version 6.0 or higher (if caching is required)
 * **Kafka** - version 2.8 or higher for messaging and event-driven communication between services
-* **Elasticsearch** - version 7.11.0 or higher (if needed for search and indexing capabilities)
 
 <Info>
 Ensure that the database for storing application data is properly set up and configured before starting the service.
@@ -23,32 +22,12 @@ Ensure that the database for storing application data is properly set up and con
 
 The Application Manager relies on several other FlowX services and components:
 
-* [**Database instance**](#database-configuration)
+* [**Database instance**](#database-configuration) - To store application details, manifests, and configurations
 * [**Authorization & Access Management**](#configuring-authorization-and-access-roles)
 * [**Kafka Event Bus**](#configuring-kafka)
 * **Proxy Mechanism** - Ensure resource endpoints are accessible through the application-proxy.
 
 ## Configuration
-
-### Database Configuration
-
-The Application Manager requires a relational database to store application details, manifests, and configurations. A basic PostgreSQL configuration can be set up using the following parameters in a `values.yaml` file for Helm deployment:
-
-```yaml
-app-manager-db:
-  postgresqlUsername: {{AppManagerDbUser}}
-  postgresqlPassword: {{AppManagerDbPassword}}
-  postgresqlDatabase: {{AppManagerDbName}}
-  persistence:
-    enabled: true
-    mountPath: /bitnami/postgresql
-    size: 5Gi
-  replicaSet:
-    enabled: false
-  serviceAccount:
-    create: false
-  usePassword: true
-```
 
 ### Environment Variables
 
@@ -92,14 +71,66 @@ The Application Manager uses Kafka for event-driven operations. Set up the Kafka
 * **SPRING_KAFKA_CONSUMER_GROUP_ID** - Consumer group ID for Kafka topics
 * **KAFKA_CONSUMER_THREADS** - Number of Kafka consumer threads
 
-#### Kafka Topics for Resource Events
+The Application Manager uses a structured naming convention for Kafka topics, designed to support flexibility through pre-defined components in the topic structure. These components, while not directly configurable, allow optional modifications when the desired version cannot be obtained through `$package . $environment . $separator . $version`. 
 
-| Environment Variable            | Description                                                         | Default Value                       |
-|---------------------------------|---------------------------------------------------------------------|-------------------------------------|
-| `KAFKA_TOPIC_RESOURCE_UPDATE`   | Topic for updating resources in an application                      | `app-manager.resource.update`       |
-| `KAFKA_TOPIC_RESOURCE_DELETE`   | Topic for deleting resources associated with an application         | `app-manager.resource.delete`       |
-| `KAFKA_TOPIC_BUILD_COMPLETED`   | Topic for notifications when a build is completed                   | `app-manager.build.completed`       |
+Each topic adheres to a consistent naming schema for streamlined communication across environments and versions.
 
+#### Topic Naming Components
+
+| Component     | Description                                        | Default Value                                                    |
+| ------------- | -------------------------------------------------- | ---------------------------------------------------------------- |
+| `package`     | Package identifier for namespace                   | `ai.flowx.`                                                      |
+| `environment` | Environment identifier                             | `dev.`                                                           |
+| `version`     | Version identifier for topic compatibility         | `.v1`                                                            |
+| `separator`   | Primary separator for components                   | `.`                                                              |
+| `separator2`  | Secondary separator for additional distinction     | `-`                                                              |
+| `prefix`      | Combines package and environment as a topic prefix | `${kafka.topic.naming.package}${kafka.topic.naming.environment}` |
+| `suffix`      | Appends version to the end of the topic name       | `${kafka.topic.naming.version}`                                  |
+
+
+#### Application Resource Topics
+
+* **Resource Export**  
+  * **Topic:** `${kafka.topic.naming.prefix}application${separator2}version${separator}export${kafka.topic.naming.suffix}`
+  * **Purpose:** Topic for exporting application resources.
+  
+* **Resource Import**  
+  * **Topic:** `${kafka.topic.naming.prefix}application${separator2}version${separator}import${kafka.topic.naming.suffix}`
+  * **Purpose:** Topic for importing application resources.
+
+#### Build Resource Topics
+
+* **Build Export**  
+  * **Topic:** `${kafka.topic.naming.prefix}build${separator}export${kafka.topic.naming.suffix}`
+  * **Purpose:** Topic for exporting build resources.
+  
+* **Build Import**  
+  * **Topic:** `${kafka.topic.naming.prefix}build${separator}import${kafka.topic.naming.suffix}`
+  * **Purpose:** Topic for importing build resources.
+
+#### Process Topics
+
+* **Start for Event**  
+  * **Topic:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}start${separator2}for${separator2}event${separator}process${kafka.topic.naming.suffix}`
+  * **Purpose:** Topic for starting processes based on external events.
+  
+* **Scheduled Timer Events**  
+  * **Set Timer Schedule**  
+    * **Topic:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}set${separator}timer${separator2}event${separator2}schedule${kafka.topic.naming.suffix}`
+    * **Purpose:** Topic for setting scheduled timer events.
+  * **Stop Timer Schedule**  
+    * **Topic:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}stop${separator}timer${separator2}event${separator2}schedule${kafka.topic.naming.suffix}`
+    * **Purpose:** Topic for stopping scheduled timer events.
+
+#### Audit Topics
+
+* **Audit Output**  
+  * **Topic:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}save${separator}audit${kafka.topic.naming.suffix}`
+  * **Purpose:** Topic for sending audit-related events.
+
+<Info>
+These Kafka topics use predefined naming conventions for ease of use. Optional adjustments may be made if the desired topic name cannot be achieved with the `$package . $environment . $separator . $version` structure.
+</Info>
 
 ### Configuring Resource Proxy
 
