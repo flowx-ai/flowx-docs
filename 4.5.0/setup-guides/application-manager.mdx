@@ -31,19 +31,19 @@ The Application Manager relies on several other FlowX services and components:
 
 ### Environment variables
 
-* **APP_MANAGER_DB_URL** - Connection string for the relational database
-* **APP_MANAGER_DB_USER** - Username for the database
-* **APP_MANAGER_DB_PASSWORD** - Password for the database
-* **APP_MANAGER_DB_NAME** - Database name
+* `APP_MANAGER_DB_URL`- Connection string for the relational database
+* `APP_MANAGER_DB_USER` - Username for the database
+* `APP_MANAGER_DB_PASSWORD` - Password for the database
+* `APP_MANAGER_DB_NAME` - Database name
 
 #### Configuring authorization and access roles
 
 To integrate the Application Manager with the identity management system for authorization, set the following environment variables:
 
-* **SECURITY_OAUTH2_BASE_SERVER_URL** - Base URL for the OAuth 2.0 Authorization Server
-* **SECURITY_OAUTH2_CLIENT_CLIENT_ID** - Unique identifier for the client application registered with the OAuth 2.0 server
-* **SECURITY_OAUTH2_CLIENT_CLIENT_SECRET** - Secret key for authenticating requests made by the authorization client
-* **SECURITY_OAUTH2_REALM** - The realm name for OAuth2 authentication
+* `SECURITY_OAUTH2_BASE_SERVER_URL` - Base URL for the OAuth 2.0 Authorization Server
+* `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - Unique identifier for the client application registered with the OAuth 2.0 server
+* `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - Secret key for authenticating requests made by the authorization client
+* `SECURITY_OAUTH2_REALM` - The realm name for OAuth2 authentication
 
 Refer to the dedicated section for configuring user roles and access rights:
 
@@ -54,22 +54,25 @@ Refer to the dedicated section for configuring user roles and access rights:
 
 The Application Manager requires MongoDB to store runtime build information. Use the following environment variables for configuration:
 
-* **SPRING_DATA_MONGODB_URI** - Connection string for MongoDB, specifying the host, port, database name, user credentials, and other details.
+* `SPRING_DATA_MONGODB_URI` - Connection string for MongoDB, specifying the host, port, database name, user credentials, and other details.
+* `SPRING_DATA_MONGODB_STORAGE`- Specifies the storage type used for MongoDB 
+    * **Possible values**: `mongodb`, `cosmosdb`
+
 
 ### Configuring Redis
 
 If caching is required, configure Redis using the following environment variables:
 
-* **SPRING_REDIS_HOST** - Hostname or IP address of the Redis server
-* **SPRING_REDIS_PASSWORD** - Password for authenticating with the Redis server
+* `SPRING_REDIS_HOST` - Hostname or IP address of the Redis server
+* `SPRING_REDIS_PASSWORD` - Password for authenticating with the Redis server
 
 ### Configuring Kafka
 
 The Application Manager uses Kafka for event-driven operations. Set up the Kafka configuration using the following environment variables:
 
-* **SPRING_KAFKA_BOOTSTRAP_SERVERS** - Address of the Kafka server, formatted as "host"
-* **SPRING_KAFKA_CONSUMER_GROUP_ID** - Consumer group ID for Kafka topics
-* **KAFKA_CONSUMER_THREADS** - Number of Kafka consumer threads
+* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - Address of the Kafka server, formatted as "host"
+* `SPRING_KAFKA_CONSUMER_GROUP_ID` - Consumer group ID for Kafka topics
+* `KAFKA_CONSUMER_THREADS` - Number of Kafka consumer threads
 
 The Application Manager uses a structured naming convention for Kafka topics, designed to support flexibility through pre-defined components in the topic structure. These components, while not directly configurable, allow optional modifications when the desired version cannot be obtained through `$package . $environment . $separator . $version`. 
 
