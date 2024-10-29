@@ -4,7 +4,7 @@ description: This guide provides step-by-step instructions to set up and configu
 icon: arrow-progress
 ---
 
-## Infrastructure Prerequisites
+## Infrastructure prerequisites
 
 The Integration Designer service requires the following components to be set up before it can be started:
 
@@ -25,36 +25,39 @@ Integration Designer is built as a Docker image and relies on several backend se
 
 ## Configuration
 
-### Database Configuration
+### Database configuration
 
 Integration Designer uses both PostgreSQL and MongoDB for managing advancing data and integration information. Configure these database connections with the following environment variables:
 
-#### PostgreSQL (Advancing Data Source)
+#### PostgreSQL (Advancing data source)
 
 * `ADVANCING_DATASOURCE_URL` - Database URL for the advancing data source in PostgreSQL  
 * `ADVANCING_DATASOURCE_USERNAME` - Username for the advancing data source in PostgreSQL
 
 
-#### MongoDB (Integration Data and Runtime Data)
+#### MongoDB (Integration data and runtime data)
 
-* `SPRING_DATA_MONGODB_URI` - URI for connecting to MongoDB for integration data  
-* `DB_USERNAME` - Username for connecting to the MongoDB integration database
+* `SPRING_DATA_MONGODB_URI` - URI for connecting to the MongoDB instance  
+* `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables runtime MongoDB usage
+	* **Default Value:** `true`
+* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for MongoDB  
+  * **Possible Values:** `mongodb`, `cosmosdb`
+  * **Default Value:** `mongodb`
+  
+Details to connect to Runtime database (if runtime is enabled):
+
 * `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to MongoDB for runtime data  
-* `RUNTIME_DB_USERNAME` - Username for connecting to the MongoDB runtime database
-* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for MongoDB 
-    * **Possible values**: `mongodb`, `cosmosdb`
-
 
 ### Configuring Kafka
 
 To configure Kafka for Integration Designer, set the following environment variables. This configuration includes naming patterns, consumer group settings, and retry intervals for authentication exceptions.
 
-#### General Kafka Configuration
+#### General Kafka configuration
 
 * `SPRING_KAFKA_BOOTSTRAP_SERVERS` - Address of the Kafka server in the format `host:port`
 * `KAFKA_TOPIC_NAMING_ENVIRONMENT` - Environment-specific suffix for Kafka topics
 
-#### Kafka Consumer Settings
+#### Kafka consumer settings
 
 * `KAFKA_CONSUMER_GROUP_ID_START_WORKFLOWS` - Consumer group ID for starting workflows  
   * **Default Value:** `start-workflows-group`
@@ -66,40 +69,23 @@ To configure Kafka for Integration Designer, set the following environment varia
   * **Default Value:** `10`
 
 
-#### Kafka Topic Naming Structure
+#### Kafka topic naming structure
 
 The Kafka topics for Integration Designer use a structured naming convention with dynamic components, allowing for easy integration across environments. This setup defines separators, environment identifiers, and specific naming patterns for both engine and integration-related messages.
 
-##### Naming Components
+#### Topic naming components
 
-* `dot` - Primary separator for Kafka topics  
-  * **Value:** `"."`
-* `dash` - Secondary separator for Kafka topics  
-  * **Value:** `"-"`
+| Component     | Description                                        | Default Value                                                    |
+| ------------- | -------------------------------------------------- | ---------------------------------------------------------------- |
+| `package`     | Package identifier for namespace                   | `ai.flowx.`                                                      |
+| `environment` | Environment identifier                             | `dev.`                                                           |
+| `version`     | Version identifier for topic compatibility         | `.v1`                                                            |
+| `separator`   | Primary separator for components                   | `.`                                                              |
+| `separator2`  | Secondary separator for additional distinction     | `-`                                                              |
+| `prefix`      | Combines package and environment as a topic prefix | `${kafka.topic.naming.package}${kafka.topic.naming.environment}` |
+| `suffix`      | Appends version to the end of the topic name       | `${kafka.topic.naming.version}`                                  |
 
-##### Naming Patterns
-
-* **Package** - `kafka.topic.naming.package`  
-  * **Pattern:** `ai${dot}flowx${dot}`
-  * **Example Value:** `ai.flowx.`
-
-* **Environment** - `kafka.topic.naming.environment`  
-  * **Pattern:** `dev${dot}`
-  * **Example Value:** `dev.`
-
-* **Version** - `kafka.topic.naming.version`  
-  * **Pattern:** `${dot}v1`
-  * **Example Value:** `.v1`
-
-* **Prefix** - Combines `package` and `environment` to create a consistent topic prefix  
-  * **Pattern:** `${kafka.topic.naming.package}${kafka.topic.naming.environment}`
-  * **Example Value:** `ai.flowx.dev.`
-
-* **Suffix** - Appends version information to the end of topic names  
-  * **Pattern:** `${kafka.topic.naming.version}`
-  * **Example Value:** `.v1`
-
-##### Predefined Patterns for Services
+##### Predefined patterns for services
 
 * **Engine Receive Pattern** - `kafka.topic.naming.engineReceivePattern`  
   * **Pattern:** `engine${dot}receive${dot}`
@@ -109,7 +95,7 @@ The Kafka topics for Integration Designer use a structured naming convention wit
   * **Pattern:** `integration${dot}receive${dot}`
   * **Example Topic Prefix:** `ai.flowx.dev.integration.receive.`
 
-#### Kafka Topics
+#### Kafka topics
 
 * **Events Gateway - Outgoing Messages**  
   * **Topic:** `${kafka.topic.naming.prefix}eventsgateway${dot}receive${dot}workflowinstances${kafka.topic.naming.suffix}`
@@ -126,9 +112,11 @@ The Kafka topics for Integration Designer use a structured naming convention wit
   * **Purpose:** Topic pattern for receiving messages by the integration service
   * **Example Value:** `ai.flowx.dev.integration.receive.*`
 
-> **Note:** Replace placeholders with appropriate values for your environment before starting the service.
+<Info>
+Replace placeholders with appropriate values for your environment before starting the service.
+</Info>
 
-#### Kafka OAuth Authentication
+#### Kafka OAuth authentication
 
 Configure OAuth credentials for secure Kafka communication:
 
@@ -138,9 +126,7 @@ Configure OAuth credentials for secure Kafka communication:
   * **Format:** `https://<auth-server>/auth/realms/<realm>/protocol/openid-connect/token`
 
 
-
-
-### Configuring Health and Management Endpoints
+### Configuring health and management endpoints
 
 Integration Designer provides various management endpoints for health monitoring. Configure health and readiness checks with the following variables:
 
@@ -148,11 +134,11 @@ Integration Designer provides various management endpoints for health monitoring
 * `MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE` - Defines checks included for readiness
 * `MANAGEMENT_ENDPOINT_HEALTH_GROUP_LIVENESS_INCLUDE` - Defines checks included for liveness
 
-### Configuring Authentication and Access Roles
+### Configuring authentication and access roles
 
 Integration Designer uses OAuth2 for secure access control. Set up OAuth2 configurations with these environment variables:
 
-#### Authentication and Access Roles
+#### Authentication and access roles
 
 * `SECURITY_OAUTH2_BASE_SERVER_URL` - Base URL for the OAuth2 authorization server  
 * `SECURITY_OAUTH2_REALM` - Realm for OAuth2 authentication  
@@ -161,7 +147,7 @@ Integration Designer uses OAuth2 for secure access control. Set up OAuth2 config
 * `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID` - Client ID for the Keycloak admin service account  
 * `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` - Client Secret for the Keycloak admin service account  
 
-### Configuring Logging
+### Configuring loogging
 
 To control the log levels for Integration Designer, set the following environment variables:
 

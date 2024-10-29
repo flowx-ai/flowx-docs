@@ -4,6 +4,9 @@ description: The Application Manager is a backend microservice for managing Flow
 icon: computer
 ---
 
+Application manager is microservice meant manage applications and also acts as a proxy for front-end requests related to resources.
+
+
 ## Infrastructure prerequisites
 
 Before you start setting up the Application Manager service, ensure the following infrastructure components are in place:
@@ -44,20 +47,40 @@ To integrate the Application Manager with the identity management system for aut
 * `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - Unique identifier for the client application registered with the OAuth 2.0 server
 * `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - Secret key for authenticating requests made by the authorization client
 * `SECURITY_OAUTH2_REALM` - The realm name for OAuth2 authentication
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID` - Client ID for the admin service account  
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` - Client Secret for the admin service account  
+
 
 Refer to the dedicated section for configuring user roles and access rights:
 
 <Card title="Access Management" href="./access-management/app-manager-access-rights" icon="lock">
 </Card>
 
-### Configuring MongoDB (runtime database)
+### Database configuration
+
+Configure the data sources for PostgreSQL and MongoDB as follows:
+
+#### PostgreSQL (application data)
+
+* `SPRING_DATASOURCE_URL` - Database URL for PostgreSQL  
+* `SPRING_DATASOURCE_USERNAME` - Username for PostgreSQL  
+* `SPRING_DATASOURCE_PASSWORD` - Password for PostgreSQL  
+* `SPRING_DATASOURCE_DRIVER_CLASS_NAME` - Driver class for PostgreSQL  
+
+#### Configuring MongoDB (runtime database - additional data)
 
 The Application Manager requires MongoDB to store runtime build information. Use the following environment variables for configuration:
 
-* `SPRING_DATA_MONGODB_URI` - Connection string for MongoDB, specifying the host, port, database name, user credentials, and other details.
-* `SPRING_DATA_MONGODB_STORAGE`- Specifies the storage type used for MongoDB 
-    * **Possible values**: `mongodb`, `cosmosdb`
+* `SPRING_DATA_MONGODB_URI` - URI for connecting to the MongoDB instance  
+* `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables runtime MongoDB usage
+	* **Default Value:** `true`
+* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for MongoDB  
+  * **Possible Values:** `mongodb`, `cosmosdb`
+  * **Default Value:** `mongodb`
 
+Details to connect to Runtime database (if runtime is enabled):
+
+* `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to MongoDB for runtime data  
 
 ### Configuring Redis
 
@@ -152,8 +175,7 @@ The Resource Proxy module forwards resource-related requests to appropriate serv
 * **RESOURCE_PROXY_MANIFEST_URL** - URL for managing the application manifest
 * **RESOURCE_PROXY_TARGET_URL** - URL for forwarding resource-related requests to their respective services
 
-
-### Configuring Logging
+### Configuring logging
 
 To control the logging levels for the Application Manager, use the following environment variables:
 

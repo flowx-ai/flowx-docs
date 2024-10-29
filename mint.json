@@ -1811,7 +1811,12 @@
             "release-notes/v4.5.0-october-2024/v4.5.0-october-2024",
             "release-notes/v4.5.0-october-2024/deployment-guidelines-v4.5.0",
             "release-notes/v4.5.0-october-2024/migrating-from-previous-to-v4.5.0",
-            "release-notes/v4.5.0-october-2024/migrating-android"
+            {
+              "group": "Migrating from v4.1.x",
+              "pages": [
+                "release-notes/v4.5.0-october-2024/migrating-from-v4.1.x-to-v4.5.0/renderers"
+              ]
+            }
 
 
           ]
