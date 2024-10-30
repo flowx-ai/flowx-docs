@@ -38,13 +38,29 @@ You will need to make sure that the user, password, connection link and db name 
 The database schema is managed by a [liquibase](https://www.liquibase.org/) script provided with the Engine.
 </Info>
 
+
+### MongoDB Configuration
+
+The Admin microservice also connects to a MongoDB database for additional data management. Configure the MongoDB connection with the following environment variables:
+
+* `SPRING_DATA_MONGODB_URI` - URI for connecting to the MongoDB instance  
+* `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables runtime MongoDB usage
+	* **Default Value:** `true`
+* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for MongoDB  
+  * **Possible Values:** `mongodb`, `cosmosdb`
+  * **Default Value:** `mongodb`
+
+<Info>
+Ensure that the MongoDB configuration is compatible with the same database requirements as the FlowX.AI Engine, especially if sharing database instances.
+</Info>
+
+
 ## Kafka configuration
 
 **Kafka** is used for saving audit logs and for using scheduled timer events. Only a producer needs to be configured. The environment variables that need to be set are:
 
 * `KAFKA_BOOTSTRAP_SERVERS` - the Kafka bootstrap servers URL
-* `KAFKA_TOPIC_AUDIT_OUT` - topic key for sending audit logs. Default value: `ai.flowx.audit.log`
-* `KAFKA_TOPIC_PROCESS_START_FOR_EVENT_IN`
+* `KAFKA_TOPIC_AUDIT_OUT` - topic key for sending audit logs
 * `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_SET`
 * `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_STOP`
 
