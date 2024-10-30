@@ -100,9 +100,9 @@ end
 
 The SDK has 2 configurations, available through shared instances: `FXConfig` which holds general purpose properties, and `FXSessionConfig` which holds user session properties.
 
-<Tip>
-It is recommended to call the `FXConfig` configuration method at app launch.<br/>Call the FXSessionConfig configure method after the user logs in and a valid user session is available. 
-</Tip>
+It is recommended to call the `FXConfig` configuration method at app launch.
+
+Call the FXSessionConfig configure method after the user logs in and a valid user session is available. 
 
 ### FXConfig
 
@@ -110,13 +110,14 @@ This config is used for general purpose properties.
 
 #### Properties
 
-| Name          | Description                                                           | Type                    | Requirement                 |
-|---------------|-----------------------------------------------------------------------|-------------------------|-----------------------------|
-| baseURL       | The base URL used for REST networking                                 | String                  | Mandatory                   |
-| enginePath    | The process engine url path component                                 | String                  | Mandatory                   |
-| imageBaseURL  | The base URL used for static assets                                   | String                  | Mandatory                   |
-| language      | The language used for retrieving enumerations and substitution tags   | String                  | Mandatory. Defaults to "en" |
-| logLevel      | Enum value indicating the log level logging. Default is none          | Bool                    | Optional                    |
+| Name          | Description                                                           | Type                    | Requirement                    |
+|---------------|-----------------------------------------------------------------------|-------------------------|--------------------------------|
+| baseURL       | The base URL used for REST networking                                 | String                  | Mandatory                      |
+| enginePath    | The process engine url path component                                 | String                  | Mandatory                      |
+| imageBaseURL  | The base URL used for static assets                                   | String                  | Mandatory                      |
+| locale        | The locale used for localization                                      | String                  | Mandatory. Defaults to "en-us" |
+| language      | The language used for retrieving enumerations and substitution tags   | String                  | Mandatory. Defaults to "en"    |
+| logLevel      | Enum value indicating the log level logging. Default is none          | Bool                    | Optional                       |
 
 **Sample**
 
@@ -125,17 +126,20 @@ FXConfig.sharedInstance.configure { (config) in
     config.baseURL = myBaseURL
     config.enginePath = "engine"
     config.imageBaseURL = myImageBaseURL
+    config.locale = "en-us" 
     config.language = "en" 
     config.logLevel = .verbose
 }
 ```
 
+
 #### Changing the current language
 
-The current language can be changed after the initial configuration, by calling the `changeLanguage` method:
+The current language and locale can be changed after the initial configuration, by calling the `changeLocaleSettings` method:
 
 ```swift
-FXConfig.sharedInstance.changeLanguage(language: "en")
+FXConfig.sharedInstance.changeLocaleSettings(locale: "ro-ro",
+                                             language: "en")
 ```
 
 ### FXSessionConfig
@@ -291,12 +295,15 @@ The controller to be presented will be provided inside the `completion` closure 
 <Tip>Use this method when you want the process to be rendered inside a controller themed using the FlowX Theme defined in the FlowX Designer.</Tip>
 
 ```swift
-public func startProcess(name: String,
+public func startProcess(applicationUuid: String,
+                         name: String,
                          params: [String: Any]?,
                          isModal: Bool = false,
                          showLoader: Bool = false,
-                         completion: ((UIViewController?) -> Void)?)
+                         completion: ((UIViewController?) -> Void)?,
+                         onProcessEnded: (() -> Void)? = nil)
 ```
+- `applicationUuid` - the uuid of the application
 
 - `name` - the name of the process
 
@@ -308,6 +315,8 @@ public func startProcess(name: String,
 
 - `completion` - a completion closure which passes either an instance of `UINavigationController` or `UITabBarController` to be presented.
 
+- `onProcessEnded` - a closure called when the process ends. The closure is strongly referenced inside the SDK. Avoid reference cycles by using [weak self]
+
 2. Start a process which renders inside a provided instance of a `UINavigationController`.
 
 <Tip>Use this method when you want the process to be rendered inside a custom instance of `UINavigationController`.<br/>Optionally you can pass an instance of `FXNavigationViewController`, which has the appearance set in the FlowX Theme, using the `FXNavigationViewController`s class func `FXNavigationViewController.navigationController()`.</Tip>
@@ -316,21 +325,27 @@ If you use this method, make sure that the process does not use a tab controller
 
 ```swift
 public func startProcess(navigationController: UINavigationController,
+                         applicationUuid: String,
                          name: String,
                          params: [String: Any]?,
                          isModal: Bool = false,
-                         showLoader: Bool = false)
+                         showLoader: Bool = false,
+                         onProcessEnded: (() -> Void)? = nil)
 ```
 
-`navigationController` - the instance of UINavigationController which will hold the process navigation stack
+- `navigationController` - the instance of UINavigationController which will hold the process navigation stack
 
-`name` - the name of the process
+- `applicationUuid` - the uuid of the application
 
-`params` - the start parameters, if any
+- `name` - the name of the process
 
-`isModal` - a boolean indicating whether the process navigation is modally displayed. When the process navigation is displayed modally, a close bar button item is displayed on each screen displayed throughout the process navigation.
+- `params` - the start parameters, if any
 
-`showLoader` - a boolean indicating whether the loader should be displayed when starting the process.
+- `isModal` - a boolean indicating whether the process navigation is modally displayed. When the process navigation is displayed modally, a close bar button item is displayed on each screen displayed throughout the process navigation.
+
+- `showLoader` - a boolean indicating whether the loader should be displayed when starting the process.
+
+- `onProcessEnded` - a closure called when the process ends. The closure is strongly referenced inside the SDK. Avoid reference cycles by using [weak self]
 
 3. Start a process which renders inside a provided instance of a `UITabBarController`.
 
@@ -341,33 +356,42 @@ public func startProcess(navigationController: UINavigationController,
 
 ```swift
 public func startProcess(tabBarController: UITabBarController,
+                         applicationUuid: String,
                          name: String,
                          params: [String: Any]?,
                          isModal: Bool = false,
-                         showLoader: Bool = false)
+                         showLoader: Bool = false,
+                         onProcessEnded: (() -> Void)? = nil)
 ```
 
-`tabBarController` - the instance of UITabBarController which will hold the process navigation
+- `tabBarController` - the instance of UITabBarController which will hold the process navigation
 
-`name` - the name of the process
+- `applicationUuid` - the uuid of the application
 
-`params` - the start parameters, if any
+- `name` - the name of the process
 
-`isModal` - a boolean indicating whether the process navigation is modally displayed. When the process navigation is displayed modally, a close bar button item is displayed on each screen displayed throughout the process navigation.
+- `params` - the start parameters, if any
 
-`showLoader` - a boolean indicating whether the loader should be displayed when starting the process.
+- `isModal` - a boolean indicating whether the process navigation is modally displayed. When the process navigation is displayed modally, a close bar button item is displayed on each screen displayed throughout the process navigation.
+
+- `showLoader` - a boolean indicating whether the loader should be displayed when starting the process.
+ 
+ - `onProcessEnded` - a closure called when the process ends. The closure is strongly referenced inside the SDK. Avoid reference cycles by using [weak self]
  
 #### Sample
 
 ```swift
-FlowX.sharedInstance.startProcess(name: processName,
-                                  params: startParams,
+FlowX.sharedInstance.startProcess(applicationUuid: applicationUuid,
+                                  name: processName,
+                                  params: [:],
                                   isModal: true,
                                   showLoader: true) { processRootViewController in
     if let processRootViewController = processRootViewController {
         processRootViewController.modalPresentationStyle = .overFullScreen
         self.present(processRootViewController, animated: false)
     }
+} onProcessEnded: { [weak self] in
+    //TODO
 }
 ```
 
@@ -375,6 +399,7 @@ or
 
 ```swift
 FlowX.sharedInstance.startProcess(navigationController: processNavigationController,
+                                  applicationUuid: applicationUuid,
                                   name: processName,
                                   params: startParams,
                                   isModal: true
@@ -387,6 +412,7 @@ or
 
 ```swift
 FlowX.sharedInstance.startProcess(tabBarController: processTabController,
+                                  applicationUuid: applicationUuid,
                                   name: processName,
                                   params: startParams,
                                   isModal: true
@@ -408,9 +434,10 @@ The controller to be presented will be provided inside the `completion` closure 
 
 ```swift
 public func continueExistingProcess(uuid: String,
+                                    name: String,
                                     isModal: Bool = false,
-                                    showLoader: Bool = false,
-                                    completion: ((UIViewController?) -> Void)?)
+                                    completion: ((UIViewController?) -> Void)? = nil,
+                                    onProcessEnded: (() -> Void)? = nil)
 ```
 
 - `name` - the name of the process
@@ -420,6 +447,8 @@ public func continueExistingProcess(uuid: String,
 - `showLoader` - a boolean indicating whether the loader should be displayed when starting the process.
 
 - `completion` - a completion closure which passes either an instance of `UINavigationController` or `UITabBarController` to be presented.
+
+- `onProcessEnded` - a closure called when the process ends. The closure is strongly referenced inside the SDK. Avoid reference cycles by using [weak self]
 
 2. Continue a process which renders inside a provided instance of a `UINavigationController`.
 
@@ -431,16 +460,19 @@ If you use this method, make sure that the process does not use a tab controller
 public func continueExistingProcess(uuid: String,
                                     name: String,
                                     navigationController: UINavigationController,
-                                    isModal: Bool = false) {
+                                    isModal: Bool = false,
+                                    onProcessEnded: (() -> Void)? = nil)
 ```
 
-`uuid` - the UUID string of the process
+- `uuid` - the UUID string of the process
 
-`name` - the name of the process
+- `name` - the name of the process
 
-`navigationController` - the instance of UINavigationController which will hold the process navigation stack
+- `navigationController` - the instance of UINavigationController which will hold the process navigation stack
 
-`isModal` - a boolean indicating whether the process navigation is modally displayed. When the process navigation is displayed modally, a close bar button item is displayed on each screen displayed throughout the process navigation.
+- `isModal` - a boolean indicating whether the process navigation is modally displayed. When the process navigation is displayed modally, a close bar button item is displayed on each screen displayed throughout the process navigation.
+
+- `onProcessEnded` - a closure called when the process ends. The closure is strongly referenced inside the SDK. Avoid reference cycles by using [weak self]
 
 3. Continue a process which renders inside a provided instance of a `UITabBarController`.
 
@@ -453,16 +485,19 @@ public func continueExistingProcess(uuid: String,
 public func continueExistingProcess(uuid: String,
                                     name: String,
                                     tabBarController: UITabBarController,
-                                    isModal: Bool = false) {
+                                    isModal: Bool = false,
+                                    onProcessEnded: (() -> Void)? = nil)
 ```
 
-`uuid` - the UUID string of the process
+- `uuid` - the UUID string of the process
 
-`name` - the name of the process
+- `name` - the name of the process
 
-`tabBarController` - the instance of UITabBarController which will hold the process navigation
+- `tabBarController` - the instance of UITabBarController which will hold the process navigation
 
-`isModal` - a boolean indicating whether the process navigation is modally displayed. When the process navigation is displayed modally, a close bar button item is displayed on each screen displayed throughout the process navigation.
+- `isModal` - a boolean indicating whether the process navigation is modally displayed. When the process navigation is displayed modally, a close bar button item is displayed on each screen displayed throughout the process navigation.
+
+- `onProcessEnded` - a closure called when the process ends. The closure is strongly referenced inside the SDK. Avoid reference cycles by using [weak self]
 
 #### Sample
 
@@ -474,6 +509,8 @@ FlowX.sharedInstance.continueExistingProcess(uuid: uuid,
         processRootViewController.modalPresentationStyle = .overFullScreen
         self.present(processRootViewController, animated: true)
     }
+} onProcessEnded: { [weak self] in
+    
 }
 ```
 
