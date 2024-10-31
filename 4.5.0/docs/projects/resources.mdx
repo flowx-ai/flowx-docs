@@ -1,0 +1,76 @@
+---
+title: Resources
+icon: building-wheat
+description: Overview of Global and Application Resources, including their usage, dependencies, promotion, and configuration within the platform.
+---
+
+# Resources
+
+This page explains the distinction between **Global Resources** and **Application Resources** within the FlowX.AI Designer platform, highlighting how they are structured, used, and promoted across environments.
+
+---
+
+## Overview
+
+Resources are categorized into **Global Resources** and **Application Resources**. Each type of resource has unique characteristics that determine its usage, dependencies, and how it’s promoted between environments. Understanding these differences is crucial for efficient application development, management, and deployment.
+
+---
+
+## Global Resources
+
+Global Resources are elements designed to be **reused across multiple applications** or business contexts. These resources are often organized within **libraries**, enabling consistency and efficiency by providing a central repository of shared components.
+
+### Key Characteristics of Global Resources
+
+- **Reusability**: Global Resources are created with the intention of reuse. They include common design elements, themes, fonts, and other assets that can be referenced by multiple applications.
+- **Dependency Rules**: Libraries, which store Global Resources, **cannot have dependencies** on other libraries or applications. This ensures that Global Resources remain standalone, maximizing their adaptability across various business cases.
+- **Application Independence**: These resources are not application-specific, making them versatile for broad use cases. Applications can reference libraries without requiring modifications to the core resources.
+  
+### Examples of Global Resources
+
+1. **Design Assets**
+   - **Themes**: Standardized themes provide a consistent look and feel across applications.
+   - **System Assets**: Common media elements stored in the media library (e.g., images, icons) for theme customization.
+   - **Fonts**: Font families that can be reused to maintain branding across different applications.
+
+2. **Libraries**: Libraries encapsulate reusable resources and offer a structured way to manage elements like **enumerations**, **substitution tags**, and **CMS components** shared across applications.
+
+### Promotion of Global Resources
+
+- **Promotion Workflow**: Global Resources within libraries are promoted separately from applications. They are typically **imported into the Designer UI** in target environments as part of their own libraries.
+- **Configuration Management**: When libraries are promoted, existing configurations, such as **generic parameters**, are replaced by application-level configurations in the target environment.
+
+---
+
+## Application Resources
+
+Application Resources are resources specific to a particular **business use case**. Unlike Global Resources, these resources are confined to the context of the application they belong to, allowing for tailored configurations and dependencies on one or more libraries.
+
+### Key Characteristics of Application Resources
+
+- **Business Specificity**: Application Resources are tailored to a specific application, addressing unique business requirements.
+- **Dependencies on Libraries**: Applications can reference libraries to access Global Resources, allowing for customization and adaptability.
+- **Configurability**: Application-specific configurations are defined at the development stage, and values can be updated as needed in upper environments through environment variables or direct parameter overrides.
+
+### Examples of Application Resources
+
+1. **CMS Components**: Custom CMS enumerations, substitution tags, and media items unique to the application.
+2. **Application Builds**: Builds represent finalized versions of the application, including all associated metadata and linked library versions.
+3. **Rendering Parameters**: Application-specific rendering settings like `applicationUuid`, `locale`, `language`, and `process parameters`.
+
+### Promotion of Application Resources
+
+- **Promotion Workflow**: Only **builds** (not commits) are eligible for promotion to upper environments. Builds are exported from the development environment and imported into target environments via the Designer UI.
+- **Design Asset Handling**: During import, any referenced design assets are created if absent but are not updated, ensuring consistency in upper environments.
+- **Configuration Overwrites**: Upper environment values replace development defaults, and these can be managed through environment variables, enabling flexibility without direct development environment access.
+
+---
+
+## Summary Table
+
+| Resource Type           | Reusability           | Dependency Management                | Promotion Method                       | Configuration Management            |
+|-------------------------|-----------------------|--------------------------------------|----------------------------------------|-------------------------------------|
+| **Global Resources**    | Multi-application     | No dependencies allowed              | Libraries imported via Designer UI     | Generic parameters managed centrally|
+| **Application Resources** | Application-specific | Can depend on libraries              | Builds promoted via Designer UI        | Environment-specific overrides      |
+
+---

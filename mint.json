@@ -173,11 +173,13 @@
       "group": "Building projects",
       "version": "v4.5.0",
       "pages": [
+        "4.5.0/docs/projects/resources",
+
+
         {
           "group": "Configuration",
           "icon": "box",
           "pages": [
-   
                 "4.5.0/docs/projects/managing-applications/application",
                 "4.5.0/docs/projects/managing-applications/libraries"
               ]
