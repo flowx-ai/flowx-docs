@@ -136,6 +136,18 @@
       "pages": [
         "4.5.0/docs/flowx-designer/overview",
 
+
+        {
+          "group": "Design Assets",
+          "icon": "pen",
+          "pages": [
+            "4.5.0/docs/flowx-designer/design-assets/themes",
+            "4.5.0/docs/flowx-designer/design-assets/font-files",
+            "4.5.0/docs/flowx-designer/design-assets/system-assets"
+
+          ]
+        },
+
     
         {
           "group": "Managing a process flow",
@@ -194,7 +206,6 @@
 
               ]
             }
-
 
           ]
         },
@@ -364,9 +375,7 @@
                 "4.5.0/docs/platform-deep-dive/core-extensions/content-management/substitution-tags",
                 "4.5.0/docs/platform-deep-dive/core-extensions/content-management/languages",
                 "4.5.0/docs/platform-deep-dive/core-extensions/content-management/source-systems",
-                "4.5.0/docs/platform-deep-dive/core-extensions/content-management/media-library",
-                "4.5.0/docs/platform-deep-dive/core-extensions/content-management/font-files",
-                "4.5.0/docs/platform-deep-dive/core-extensions/content-management/themes"
+                "4.5.0/docs/platform-deep-dive/core-extensions/content-management/media-library"
               ]
             },
             "4.5.0/docs/platform-deep-dive/core-extensions/generic-parameters",
