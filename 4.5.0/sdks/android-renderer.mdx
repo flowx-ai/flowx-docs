@@ -1,0 +1,694 @@
+---
+title: Android SDK
+icon: android
+---
+
+## Android project requirements
+
+System requirements:
+* **minSdk = 26** (Android 8.0)
+* **compileSdk = 34**
+
+The SDK library was build using:
+* **[Android Gradle Plugin](https://developer.android.com/build/releases/gradle-plugin) 8.1.4**
+* **[Kotlin](https://kotlinlang.org/) 1.9.24**
+
+## Installing the library
+
+1. Add the maven repository in your project's `settings.gradle.kts` file:
+
+```kotlin
+dependencyResolutionManagement {
+    ...
+    repositories {
+        ...
+        maven {
+            url = uri("https://nexus-jx.dev.rd.flowx.ai/repository/flowx-maven-releases/")
+            credentials {
+                username = "your_username"
+                password = "your_password"
+            }
+        }
+    }
+}
+```
+
+2. Add the library as a dependency in your `app/build.gradle.kts` file:
+
+```kotlin
+dependencies {
+    ...
+    implementation("ai.flowx.android:android-sdk:4.0.0")
+    ...
+}
+```
+
+### Library dependencies
+
+Impactful dependencies:
+
+* **[Koin](https://insert-koin.io/) 3.2.2**, including the implementation for **[Koin Context Isolation](https://insert-koin.io/docs/reference/koin-core/context-isolation/)**
+* **[Compose BOM](https://developer.android.com/jetpack/compose/bom/bom-mapping) 2024.06.00** + **[Compose Compiler](https://developer.android.com/jetpack/androidx/releases/compose-compiler) 1.5.14**
+* **[Accompanist](https://google.github.io/accompanist/) 0.32.0**
+* **[Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) 1.8.0**
+* **[OkHttp BOM](https://square.github.io/okhttp/) 4.11.0**
+* **[Retrofit](https://square.github.io/retrofit/) 2.9.0**
+* **[Coil Image Library](https://coil-kt.github.io/coil/) 2.5.0**
+* **[Gson](https://github.com/google/gson) 2.11.0**
+
+### Public API
+
+The SDK library is managed through the `FlowxSdkApi` singleton instance, which exposes the following methods:
+
+| Name                         | Description                                                                                                        | Definition                                                                                                                                                                                                                                            |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `init`                       | Initializes the FlowX SDK. Must be called in your application's `onCreate()`                                       | `fun init(context: Context, config: SdkConfig, accessTokenProvider: FlowxSdkApi.Companion.AccessTokenProvider? = null, customComponentsProvider: CustomComponentsProvider? = null, customStepperHeaderProvider: CustomStepperHeaderProvider? = null)` |
+| `setAccessTokenProvider`     | Updates the access token provider (i.e. a functional interface) inside the renderer                                | `fun setAccessTokenProvider(accessTokenProvider: FlowxSdkApi.Companion.AccessTokenProvider)`                                                                                                                                                          |
+| `setupTheme`                 | Sets up the theme to be used when rendering a process                                                              | `fun setupTheme(themeUuid: String, fallbackThemeJsonFileAssetsPath: String? = null, @MainThread onCompletion: () -> Unit)`                                                                                                                            |
+| `changeLocaleSettings`       | Changes the current locale settings (i.e. locale and language)                                                     | `fun changeLocaleSettings(locale: Locale, language: String)`                                                                                                                                                                                                                |
+| `startProcess`               | Starts a FlowX process instance, by returning a `@Composable` function where the process is rendered.              | `fun startProcess(processName: String, params: JSONObject = JSONObject(), isModal: Boolean = false, closeModalFunc: ((processName: String) -> Unit)? = null): @Composable () -> Unit`                                                                 |
+| `continueProcess`            | Continues an existing FlowX process instance, by returning a `@Composable` function where the process is rendered. | `fun continueProcess(processUuid: String, isModal: Boolean = false, closeModalFunc: ((processName: String) -> Unit)? = null): @Composable () -> Unit`                                                                                                 |
+| `executeAction`              | Runs an action from a custom component                                                                             | `fun executeAction(action: CustomComponentAction, params: JSONObject? = null)`                                                                                                                                                                        |
+| `getMediaResourceUrl`        | Extracts a media item URL needed to populate the UI of a custom component                                          | `fun getMediaResourceUrl(key: String): String?`                                                                                                                                                                                                       |
+| `replaceSubstitutionTag`     | Extracts a substitution tag value needed to populate the UI of a custom component                                  | `fun replaceSubstitutionTag(key: String): String`                                                                                                                                                                                                     |
+
+## Configuring the library
+
+To configure the SDK, call the `init` method in your project's application class `onCreate()` method:
+
+```kotlin
+fun init(
+    context: Context,
+    config: SdkConfig,
+    accessTokenProvider: AccessTokenProvider? = null,
+    customComponentsProvider: CustomComponentsProvider? = null,
+    customStepperHeaderProvider: CustomStepperHeaderProvider? = null,
+)
+```
+
+#### Parameters
+
+| Name                          | Description                                                | Type                                                                 | Requirement                   |
+| ----------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------- | ----------------------------- |
+| `context`                     | Android application `Context`                              | `Context`                                                            | Mandatory                     |
+| `config`                      | SDK configuration parameters                               | `ai.flowx.android.sdk.process.model.SdkConfig`                       | Mandatory                     |
+| `accessTokenProvider`         | Functional interface provider for passing the access token | `ai.flowx.android.sdk.FlowxSdkApi.Companion.AccessTokenProvder?`     | Optional. Defaults to `null`. |
+| `customComponentsProvider`    | Provider for the `@Composable`/`View` custom components    | `ai.flowx.android.sdk.component.custom.CustomComponentsProvider?`    | Optional. Defaults to `null`. |
+| `customStepperHeaderProvider` | Provider for the `@Composable` custom stepper header view  | `ai.flowx.android.sdk.component.custom.CustomStepperHeaderProvider?` | Optional. Defaults to `null`. |
+
+&bull; Providing the `access token` is explained in the [authentication](#authentication) section.<br/>
+&bull; The `custom components` implementation is explained in [its own section](#custom-components).<br/>
+&bull; The implementation for providing a `custom view for the header` of the [Stepper](../docs/building-blocks/process/navigation-areas#stepper) component is detailed in [its own section](#custom-header-view-for-the-stepper-component).
+
+#### Sample
+
+```kotlin
+class MyApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        initFlowXSdk()
+    }
+
+    private fun initFlowXSdk() {
+        FlowxSdkApi.getInstance().init(
+            context = applicationContext,
+            config = SdkConfig(
+                baseUrl = "URL to FlowX backend",
+                imageBaseUrl = "URL to FlowX CMS Media Library",
+                enginePath = "some_path",
+                language = "en",
+                locale = Locale.getDefault(),
+                validators = mapOf("exact_25_in_length" to { it.length == 25 }),
+                enableLog = false,
+            ),
+            accessTokenProvider = null, // null by default; can be set later, depending on the existing authentication logic
+            customComponentsProvider = object : CustomComponentsProvider {...},
+            customStepperHeaderProvider = object : CustomStepperHeaderProvider {...},
+        )
+    }
+}
+```
+
+The configuration properties that should be passed as `SdkConfig` data for the `config` parameter above are:
+
+| Name                                | Description                                                         | Type                                | Requirement                                 |
+| ----------------------------------- | ------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------- |
+| `baseUrl`                           | URL to connect to the FlowX back-end environment                    | `String`                            | Mandatory                                   |
+| `imageBaseUrl`                      | URL to connect to the FlowX Media Library module of the CMS         | `String`                            | Mandatory                                   |
+| `enginePath`                        | URL path segment used to identify the process engine service        | `String`                            | Mandatory                                   |
+| `language`                          | The language used for retrieving enumerations and substitution tags | `String`                            | Optional. Defaults to `en`.                 |
+| `locale`                            | The locale used for date, number and currency formatting            | `java.util.Locale`                  | Optional. Defaults to `Locale.getDefault()` |
+| `validators`                        | Custom validators for form elements                                 | `Map<String, (String) -> Boolean>?` | Optional.                                   |
+| `enableLog`                         | Flag indicating if logs should be printed                           | `Boolean`                           | Optional. Defaults to `false`               |
+
+
+#### Custom validators
+
+The `custom validators` map is a collection of lambda functions, referenced by *name* (i.e. the value of the `key` in this map), each returning a `Boolean` based on the `String` which needs to be validated.
+For a custom validator to be evaluated for a form field, its *name* must be specified in the form field process definition.
+
+<Tip>
+    By looking at the example from above:
+    ```kotlin
+    mapOf("exact_25_in_length" to { it.length == 25 })
+    ```
+    if a form element should be validated using this lambda function, a custom validator named `"exact_25_in_length"` should be specified in the process definition.
+</Tip>
+
+## Using the library
+
+### Authentication
+
+To be able to use the SDK, **authentication is required**. Therefore, before calling any other method on the singleton instance, make sure that the access token provider is set by calling:
+
+```kotlin
+FlowxSdkApi.getInstance().setAccessTokenProvider(accessTokenProvider = { "your access token" })
+```
+
+The lambda passed in as parameter has the `ai.flowx.android.sdk.FlowxSdkApi.Companion.AccessTokenProvider` type, which is actually a functional interface defined like this:
+```kotlin
+fun interface AccessTokenProvider {
+    fun get(): String
+}
+```
+
+<Tip>Whenever the access token changes based on your own authentication logic, it must be updated in the renderer by calling the `setAccessTokenProvider` method again.</Tip>
+
+### Theming
+
+<Warning>Prior setting up the theme, make sure the `access token provider` was set.<br/>Check the [authentication](#authentication) section for details.</Warning>
+
+To be able to use styled components while rendering a process, the theming mechanism must be invoked by calling the `suspend`-ing `setupTheme(...)` method over the singleton instance of the SDK:
+
+```kotlin
+suspend fun setupTheme(
+    themeUuid: String,
+    fallbackThemeJsonFileAssetsPath: String? = null,
+    @MainThread onCompletion: () -> Unit
+)
+```
+
+#### Parameters
+
+| Name                              | Description                                                                                                                                                  | Type         | Requirement                  |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | ---------------------------- |
+| `themeUuid`                       | UUID string of the theme configured in FlowX Designer                                                                                                        | `String`     | Mandatory. Can be empty      |
+| `fallbackThemeJsonFileAssetsPath` | Android asset relative path to the corresponding JSON file to be used as fallback, in case fetching the theme fails and there is no cached version available | `String?`    | Optional. Defaults to `null` |
+| `onCompletion`                    | `@MainThread` invoked closure, called when setting up the theme completes                                                                                    | `() -> Unit` | Mandatory                    |
+
+<Note>
+    If the `themeUuid` parameter value is empty (`""`), no theme will be fetched, and the mechanism will rely only on the fallback file, if set.<br/><br/>
+    If the `fallbackThemeJsonFileAssetsPath` parameter value is `null`, there will be no fallback mechanism set in place, meaning if fetching the theme fails, the redered process will have no style applied over it's displayed components.
+</Note>
+
+<Note>
+    The SDK caches the fetched themes, so if a theme fetch fails, a cached version will be used, if available. Otherwise, it will use the file given as fallback.
+</Note>
+
+#### Sample
+
+```kotlin
+viewModelScope.launch {
+    FlowxSdkApi.getInstance().setupTheme(
+        themeUuid = "some uuid string",
+        fallbackThemeJsonFileAssetsPath = "theme/a_fallback_theme.json",
+    ) {
+        // theme setup complete
+        // TODO specific logic
+    }
+}
+```
+
+<Tip>
+    The `fallbackThemeJsonFileAssetsPath` always search for files under your project's `assets/` directory, meaning the example parameter value is translated to `file://android_asset/theme/a_fallback_theme.json` before being evaluated.
+</Tip>
+
+<Warning>Do not [start](#start-a-flowx-process) or [resume](#resume-a-flowx-process) a process before the completion of the theme setup mechanism.</Warning>
+
+### Changing current locale settings
+
+The current `locale` and `language` can be also changed after the [initial setup](#configuring-the-library), by calling the `changeLocaleSettings` function:
+
+```kotlin
+fun changeLocaleSettings(locale: Locale, language: String)
+```
+
+#### Parameters
+
+| Name        | Description                    | Type               | Requirement   |
+| ----------- | ------------------------------ | ------------------ | ------------- |
+| `locale`    | The new locale                 | `java.util.Locale` | Mandatory     |
+| `language`  | The code for the new language  | `String`           | Mandatory     |
+
+<Warning>
+    **Do not change the locale or the language while a process is rendered.**<br/>
+    The change is successful only if made before [starting](#start-a-flowx-process) or [resuming](#resume-a-flowx-process) a process.
+</Warning>
+
+#### Sample
+
+```kotlin
+FlowxSdkApi.getInstance().changeLocaleSettings(locale = Locale("en", "US"), language = "en")
+```
+
+### Start a FlowX process
+
+<Warning>Prior starting a process, make sure the [authentication](#authentication) and [theming](#theming) were correctly set up</Warning>
+
+After performing all the above steps and all the prerequisites are fulfilled, a new instance of a FlowX process can be started, by using the `startProcess` function:
+
+```kotlin
+fun startProcess(
+    applicationUuid: String,
+    processName: String,
+    params: JSONObject = JSONObject(),
+    isModal: Boolean = false,
+    onProcessEnded: (() -> Unit)? = null,
+    closeModalFunc: ((processName: String) -> Unit)? = null,
+): @Composable () -> Unit
+```
+
+#### Parameters
+
+| Name              | Description                                                                                        | Type                               | Requirement                                         |
+| ----------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------- |
+| `applicationUuid` | The uuid string of the application containing the process to be started                            | `String`                           | Mandatory                                           |
+| `processName`     | The name of the process                                                                            | `String`                           | Mandatory                                           |
+| `params`          | The starting params for the process, if any                                                        | `JSONObject`                       | Optional. If omitted, if defaults to `JSONObject()` |
+| `isModal`         | Flag indicating whether the process can be closed at anytime by tapping the top-right close button | `Boolean`                          | Optional. It defaults to `false`.                   |
+| `onProcessEnded`  | Lambda function where you can do additional processing when the started process ends               | `(() -> Unit)?`                    | Optional. It defaults to `null`.                    |
+| `closeModalFunc`  | Lambda function where you should handle closing the process when `isModal` flag is `true`          | `((processName: String) -> Unit)?` | Optional. It defaults to `null`.                    |
+
+<Tip>
+    The returned **[@Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable)** function must be included in its own **[Activity](https://developer.android.com/reference/android/app/Activity)**, which is part of (controlled and maintained by) the container application.<br/><br/>
+    This wrapper activity must display only the `@Composable` returned from the SDK (i.e. it occupies the whole activity screen space).
+</Tip>
+
+#### Sample
+
+```kotlin
+class ProcessActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ...
+        setContent {
+            FlowxSdkApi.getInstance().startProcess(
+                applicationUuid = "your application uuid",
+                processName = "your process name",
+                params: JSONObject = JSONObject(),
+                isModal = true,
+                onProcessEnded = {
+                    // NOTE: possible processing could involve doing something in the container app (i.e. navigating to a different screen)
+                },
+                closeModalFunc = { processName ->
+                    // NOTE: possible handling could involve doing something differently based on the `processName` value
+                },
+            ).invoke()
+        }
+    }
+    ...
+}
+```
+
+### Resume a FlowX process
+
+<Warning>Prior resuming process, make sure the [authentication](#authentication) and [theming](#theming) were correctly set up</Warning>
+
+To resume an existing instance of a FlowX process, after fulfilling all the prerequisites, use the `continueProcess` function:
+
+```kotlin
+fun continueProcess(
+    processUuid: String,
+    isModal: Boolean = false,
+    onProcessEnded: (() -> Unit)? = null,
+    closeModalFunc: ((processName: String) -> Unit)? = null,
+): @Composable () -> Unit
+```
+
+#### Parameters
+
+| Name             | Description                                                                                        | Type                               | Requirement                       |
+| ---------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------- |
+| `processUuid`    | The UUID string of the process                                                                     | `String`                           | Mandatory                         |
+| `isModal`        | Flag indicating whether the process can be closed at anytime by tapping the top-right close button | `Boolean`                          | Optional. It defaults to `false`. |
+| `onProcessEnded` | Lambda function where you can do additional processing when the continued process ends             | `(() -> Unit)?`                    | Optional. It defaults to `null`.  |
+| `closeModalFunc` | Lambda function where you should handle closing the process when `isModal` flag is `true`          | `((processName: String) -> Unit)?` | Optional. It defaults to `null`.  |
+
+<Tip>
+    The returned **[@Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable)** function must be included in its own **[Activity](https://developer.android.com/reference/android/app/Activity)**, which is part of (controlled and maintained by) the container application.<br/><br/>
+    This wrapper activity must display only the `@Composable` returned from the SDK (i.e. it occupies the whole activity screen space).
+</Tip>
+
+#### Sample
+
+```kotlin
+class ProcessActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ...
+        setContent {
+            FlowxSdkApi.getInstance().continueProcess(
+                processUuid = "some process UUID string",
+                isModal = true,
+                onProcessEnded = {
+                    // NOTE: possible processing could involve doing something in the container app (i.e. navigating to a different screen)
+                },
+                closeModalFunc = { processName ->
+                    // NOTE: possible handling could involve doing something differently based on the `processName` value
+                },
+            ).invoke()
+        }
+    }
+    ...
+}
+```
+
+## Custom components
+
+The container application should decide which custom component view to provide using the `componentIdentifier` configured in the UI designer.<br/>
+A custom component receives `data` to populate the view and `actions` available to execute, as described below.
+
+To handle custom components, an *implementation* of the `CustomComponentsProvider` interface should be passed as a parameter when initializing the SDK:
+
+```kotlin
+interface CustomComponentsProvider {
+    fun provideCustomComposableComponent(): CustomComposableComponent?
+    fun provideCustomViewComponent(): CustomViewComponent?
+}
+```
+
+There are two methods to provide a custom component:
+1. by implementing the [CustomComposableComponent](#customcomposablecomponent) interface
+2. by implementing the [CustomViewComponent](#customviewcomponent) interface
+
+#### Sample
+
+```kotlin
+class CustomComponentsProviderImpl : CustomComponentsProvider {
+    override fun provideCustomComposableComponent(): CustomComposableComponent? {
+        return object : CustomComposableComponent {...}
+    }
+    override fun provideCustomViewComponent(): CustomViewComponent? {
+        return object : CustomViewComponent {...}
+    }
+}
+```
+
+### CustomComposableComponent
+
+To provide the custom component as a [@Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable) function, you have to implement the `CustomComposableComponent` interface:
+
+```kotlin
+interface CustomComposableComponent {
+    fun provideCustomComposable(componentIdentifier: String): CustomComposable
+}
+```
+
+The returned `CustomComposable` object is an interface defined like this:
+
+```kotlin
+interface CustomComposable {
+    // `true` for the custom components that are implemented and can be handled
+    // `false` otherwise
+    val isDefined: Boolean
+
+    // `@Composable` definitions for the custom components that can be handled
+    val composable: @Composable () -> Unit
+
+    /**
+     * Called when the data is available for the custom component
+     * (i.e. when the User Task that contains the custom component is displayed)
+     *
+     * @param data used to populate the custom component
+     */
+    fun populateUi(data: Any?)
+
+    /**
+     * Called when the actions are available for the custom component
+     * (i.e. when the User Task that contains the custom component is displayed)
+     *
+     * @param actions that need to be attached to the custom component (e.g. onClick events)
+     */
+    fun populateUi(actions: Map<String, CustomComponentAction>)
+}
+```
+
+<Tip>
+    The value for the `data` parameter received in the `populateUi(data: Any?)` could be:<br/>
+    - `Boolean`
+    - `String`
+    - `java.lang.Number`
+    - `org.json.JSONObject`
+    - `org.json.JSONArray`
+
+    The appropriate way to check and cast the data accordingly to the needs must belong to the implementation details of the custom component.
+</Tip>
+
+#### Sample
+
+```kotlin
+override fun provideCustomComposableComponent(): CustomComposableComponent? {
+    return object : CustomComposableComponent {
+        override fun provideCustomComposable(componentIdentifier: String) = object : CustomComposable {
+            override val isDefined: Boolean = when (componentIdentifier) {
+                "some custom component identifier" -> true
+                "other custom component identifier" -> true
+                else -> false
+            }
+
+            override val composable: @Composable () -> Unit = {
+                when (componentIdentifier) {
+                    "some custom component identifier" -> { /* add some @Composable implementation */ }
+                    "other custom component identifier" -> { /* add other @Composable implementation */ }
+                }
+            }
+
+            override fun populateUi(data: Any?) {
+                // extract the necessary data to be used for displaying the custom components
+            }
+
+            override fun populateUi(actions: Map<String, CustomComponentAction>) {
+                // extract the available actions that may be executed from the custom components
+            }
+        }
+    }
+}
+```
+
+### CustomViewComponent
+
+To provide the custom component as a classical Android [View](https://developer.android.com/reference/android/view/View) function, you have to implement the `CustomViewComponent` interface:
+
+```kotlin
+interface CustomViewComponent {
+    fun provideCustomView(componentIdentifier: String): CustomView
+}
+```
+
+The returned `CustomView` object is an interface defined like this:
+
+```kotlin
+interface CustomView {
+
+    // `true` for the custom components that are implemented and can be handled
+    // `false` otherwise
+    val isDefined: Boolean
+
+    /**
+     * returns the `View`s for the custom components that can be handled
+     */
+    fun getView(context: Context): View
+
+    /**
+     * Called when the data is available for the custom component
+     * (i.e. when the User Task that contains the custom component is displayed)
+     *
+     * @param data used to populate the custom component
+     */
+    fun populateUi(data: Any?)
+
+    /**
+     * Called when the actions are available for the custom component
+     * (i.e. when the User Task that contains the custom component is displayed)
+     *
+     * @param actions that need to be attached to the custom component (e.g. onClick events)
+     */
+    fun populateUi(actions: Map<String, CustomComponentAction>)
+}
+```
+
+<Tip>
+    The value for the `data` parameter received in the `populateUi(data: Any?)` could be:<br/>
+    - `Boolean`
+    - `String`
+    - `java.lang.Number`
+    - `org.json.JSONObject`
+    - `org.json.JSONArray`
+
+    The appropriate way to check and cast the data accordingly to the needs must belong to the implementation details of the custom component.
+</Tip>
+
+#### Sample
+
+```kotlin
+override fun provideCustomViewComponent(): CustomViewComponent? {
+    return object : CustomViewComponent {
+        override fun provideCustomView(componentIdentifier: String) = object : CustomView {
+            override val isDefined: Boolean = when (componentIdentifier) {
+                "some custom component identifier" -> true
+                "other custom component identifier" -> true
+                else -> false
+            }
+
+            override fun getView(context: Context): View {
+                return when (componentIdentifier) {
+                    "some custom component identifier" -> { /* return some View */ }
+                    "other custom component identifier" -> { /* return other View */ }
+                }
+            }
+
+            override fun populateUi(data: Any?) {
+                // extract the necessary data to be used for displaying the custom components
+            }
+
+            override fun populateUi(actions: Map<String, CustomComponentAction>) {
+                // extract the available actions that may be executed from the custom components
+            }
+        }
+    }
+}
+```
+
+### Execute action
+
+The custom components which the container app provides may contain FlowX actions available for execution.<br/><br/>
+These actions are received through the `actions` parameter of the `populateUi(actions: Map<String, CustomComponentAction>)` method.<br/><br/>
+In order to run an action (i.e. on a click of a button in the custom component) you need to call the `executeAction` method:
+
+```kotlin
+fun executeAction(action: CustomComponentAction, params: JSONObject? = null)
+```
+
+#### Parameters
+
+| Name     | Description                                                                 | Type                                                          | Requirement                     |
+| -------- | --------------------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------- |
+| `action` | Action object extracted from the `actions` received in the custom component | `ai.flowx.android.sdk.component.custom.CustomComponentAction` | Mandatory                       |
+| `params` | Parameters needed to execute the `action`                                   | `JSONObject?`                                                 | Optional. It defaults to `null` |
+
+
+### Get a substitution tag value by key
+
+```kotlin
+fun replaceSubstitutionTag(key: String): String
+```
+
+All substitution tags will be retrieved by the SDK before starting the process and will be stored in memory.
+
+Whenever the container app needs a substitution tag value for populating the UI of the custom components, it can request the substitution tag using the method above, by providing the `key`.
+
+It returns:
+- the key's counterpart, if the `key` is valid and found
+- the empty string, if the `key` is valid, but not found
+- the unaltered string, if the key has the wrong format (i.e. not starting with `@@`)
+
+### Get a media item url by key
+
+```kotlin
+fun getMediaResourceUrl(key: String): String?
+```
+
+All media items will be retrieved by the SDK before starting the process and will be stored in memory.
+
+Whenever the container app needs a media item url for populating the UI of the custom components, it can request the url using the method above, by providing the `key`.
+
+It returns the `URL` string of the media resource, or `null`, if not found.
+
+## Custom header view for the [STEPPER](../docs/building-blocks/process/navigation-areas#stepper) component
+
+The container application can opt for providing a custom view in order to be used, for all the [Stepper](../docs/building-blocks/process/navigation-areas#stepper) components, as a replacement for the built-in header.<br/>
+The custom view receives `data` to populate its UI, as described below.
+
+To provide a custom header for the [Stepper](../docs/building-blocks/process/navigation-areas#stepper), an *implementation* of the `CustomStepperHeaderProvider` interface should be passed as a parameter when initializing the SDK:
+
+```kotlin
+interface CustomStepperHeaderProvider {
+    fun provideCustomComposableStepperHeader(): CustomComposableStepperHeader?
+}
+```
+
+As opposed to the [Custom components](#custom-compoments), the only supported way is by providing the view as a [@Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable) function.
+
+#### Sample
+
+```kotlin
+class CustomStepperHeaderProviderImpl : CustomStepperHeaderProvider {
+    override fun provideCustomComposableStepperHeader(): CustomComposableStepperHeader? {
+        return object : CustomComposableStepperHeader {...}
+    }
+}
+```
+
+### CustomComposableStepperHeader
+
+To provide the custom header view as a [@Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable) function, you have to implement the `CustomComposableStepperHeader` interface:
+
+```kotlin
+interface CustomComposableStepperHeader {
+    fun provideComposableStepperHeader(): ComposableStepperHeader
+}
+```
+
+The returned `ComposableStepperHeader` object is an interface defined like this:
+
+```kotlin
+interface ComposableStepperHeader {
+    /**
+     * `@Composable` definition for the custom header view
+     * The received argument contains the stepper header necessary data to render the view.
+     */
+    val composable: @Composable (data: CustomStepperHeaderData) -> Unit
+}
+```
+
+The value for the `data` parameter received as function argument is an interface defined like this:<br/>
+
+```kotlin
+interface CustomStepperHeaderData {
+    // title for the current step; can be empty or null
+    val stepTitle: String?
+    // title for the current selected substep; optional;
+    // can be empty ("") if not defined or `null` if currently there is no selected substep
+    val substepTitle: String?
+    // 1-based index of the current step
+    val step: Int
+    // total number of steps
+    val totalSteps: Int
+    // 1-based index of the current substep; can be `null` when there are no defined substeps
+    val substep: Int?
+    // total number of substeps in the current step; can be `null` or `0`
+    val totalSubsteps: Int?
+}
+```
+
+#### Sample
+
+```kotlin
+override fun provideComposableStepperHeader(): ComposableStepperHeader? {
+    return object : ComposableStepperHeader {
+        override val composable: @Composable (data: CustomStepperHeaderData) -> Unit
+            get() = @Composable { data ->
+                /* add some @Composable implementation which displays `data` */
+            }
+    }
+}
+```
+
+## Known issues
+
+- shadows are rendered only on **Android >= 28** having [hardware acceleration](https://developer.android.com/topic/performance/hardware-accel) **enabled**
+- there is no support yet for [subprocesses](../docs/building-blocks/process/subprocess) started using the [Call Activity node](../docs/building-blocks/node/call-subprocess-tasks/call-activity-node) when configuring a [TabBar](../docs/building-blocks/process/navigation-areas#tab-bar) [Navigation Area](../docs/building-blocks/process/navigation-areas)
+{/*- only **[PORTRAIT](https://developer.android.com/guide/topics/manifest/activity-element#screen)** orientation is supported for now*/}
+{/*- there is no support for **[Dark Mode](https://developer.android.com/develop/ui/views/theming/darktheme)** yet*/}
+{/*- **[CONTAINER](../docs/building-blocks/node/milestone-node.md#container)** milestone nodes are not supported yet*/}
+{/*- can not run multiple processes in parallel (e.g. in a Bottom Tab Navigation)*/}

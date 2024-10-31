@@ -1,0 +1,342 @@
+---
+title: Table
+description: The Table component is a versatile UI element allowing structured data display with customizable columns, pagination, filtering, and styling options.
+---
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_rn.png)
+</Frame>
+
+<Info>
+**Web-only UI Component:** The Table component is designed specifically for web applications and includes theming options for consistent design across the platform.
+</Info>
+
+
+## Configuring the Table element
+
+The Table component closely mirrors some of the functionalities of the [**Collection**](./collection/collection) component. When configuring a Table, you define the number of columns, which automatically generates two prototypes: `th` (table header) and `tr` (table row).
+
+- **`th`** - Used for defining column headers.
+- **`tr`** - Repeated for each row based on the source data.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_config.png)
+</Frame>
+
+<Tip>
+The table example above is generated based on dynamic data. We used a JavaScript business rule to prepopulate the table with an array of objects, similar as in collection configuration.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/dynamic_table.png)
+
+<Accordion title="Business rule exmaple">
+```js
+ users = [
+    {
+        "firstName": "John",
+        "lastName": "Doe",
+        "loanAmount": {
+            "amount": 1000.00,
+            "code": "USD"
+        },
+        "birthDate": "1985-01-01T00:00:00Z",
+        "email": "john.doe@example.com"
+    },
+    {
+        "firstName": "John",
+        "lastName": "Does",
+        "loanAmount": {
+            "amount": 2000.00,
+            "code": "USD"
+        },
+        "birthDate": "1985-02-01T00:00:00Z",
+        "email": "john.does@example.com"
+    },
+    {
+        "firstName": "Jane",
+        "lastName": "Doe",
+        "loanAmount": {
+            "amount": 3000.00,
+            "code": "USD"
+        },
+        "birthDate": "1985-03-01T00:00:00Z",
+        "email": "jane.doe@example.com"
+    },
+    {
+        "firstName": "Jane",
+        "lastName": "Does",
+        "loanAmount": {
+            "amount": 4000.00,
+            "code": "USD"
+        },
+        "birthDate": "1985-04-01T00:00:00Z",
+        "email": "jane.does@example.com"
+    },
+    {
+        "firstName": "Jim",
+        "lastName": "Doe",
+        "loanAmount": {
+            "amount": 5000.00,
+            "code": "USD"
+        },
+        "birthDate": "1985-05-01T00:00:00Z",
+        "email": "jim.doe@example.com"
+    },
+    {
+        "firstName": "Jim",
+        "lastName": "Does",
+        "loanAmount": {
+            "amount": 6000.00,
+            "code": "USD"
+        },
+        "birthDate": "1985-06-01T00:00:00Z",
+        "email": "jim.does@example.com"
+    },
+    {
+        "firstName": "Jake",
+        "lastName": "Doe",
+        "loanAmount": {
+            "amount": 7000.00,
+            "code": "USD"
+        },
+        "birthDate": "1985-07-01T00:00:00Z",
+        "email": "jake.doe@example.com"
+    },
+    {
+        "firstName": "Jake",
+        "lastName": "Does",
+        "loanAmount": {
+            "amount": 8000.00,
+            "code": "USD"
+        },
+        "birthDate": "1985-08-01T00:00:00Z",
+        "email": "jake.does@example.com"
+    },
+    {
+        "firstName": "Jill",
+        "lastName": "Doe",
+        "loanAmount": {
+            "amount": 9000.00,
+            "code": "USD"
+        },
+        "birthDate": "1985-09-01T00:00:00Z",
+        "email": "jill.doe@example.com"
+    },
+    {
+        "firstName": "Jill",
+        "lastName": "Does",
+        "loanAmount": {
+            "amount": 10000.00,
+            "code": "USD"
+        },
+        "birthDate": "1985-10-01T00:00:00Z",
+        "email": "jill.does@example.com"
+    },
+    {
+        "firstName": "Joe",
+        "lastName": "Doe",
+        "loanAmount": {
+            "amount": 11000.00,
+            "code": "USD"
+        },
+        "birthDate": "1985-11-01T00:00:00Z",
+        "email": "joe.doe@example.com"
+    },
+    {
+        "firstName": "Joe",
+        "lastName": "Does",
+        "loanAmount": {
+            "amount": 12000.00,
+            "code": "USD"
+        },
+        "birthDate": "1985-12-01T00:00:00Z",
+        "email": "joe.does@example.com"
+    }
+];
+
+application = {
+    "users": users
+};
+
+output.put("application", application);
+```
+</Accordion>
+</Tip>
+
+## Table Elements
+
+- **Table Header**: The top row containing column labels.
+- **Rows**: Each row represents a single data entry.
+- **Cells**: Individual cells hold data points within each row.
+- **Cell Elements**: Customizable elements within each cell for dynamic data presentation.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_elements.png)
+</Frame>
+
+
+<Info>
+When creating a table, three columns with one corresponding cells are added by default.
+</Info>
+
+### Table generic settings
+
+The following generic settings are found in the Generic tab and apply to all platforms (Web, iOS, and Android):
+
+- [**Source key**](#source-key)  
+- [**Columns**](#columns)  
+- [**Table body**]()
+- [**Expressions**](#expressions)  
+- [**Table Styling**](#table-styling)  
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_settings.png)  
+</Frame>
+
+#### Source key
+
+<Info>
+Similar to Collection, the Table component requires a `source` (array of objects) to populate rows dynamically.
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/Screenshot%202024-10-15%20at%2019.22.32.png)
+</Info>
+
+
+#### Columns
+
+Customize the columns displayed in the table, including adding, deleting, or renaming columns.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_columns.gif)
+</Frame>
+
+#### Table Body
+
+- **Pagination**: Control how data is displayed by configuring pagination or enabling scrolling.
+  - **Page Size**: Set the maximum number of entries displayed per page.
+- **Scrollable**: Disable pagination to enable continuous scrolling through data.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_pagination.gif)
+</Frame>
+
+#### Hide condition
+
+Using the data key from a related element, apply JavaScript expressions to control the Table’s visibility based on dependencies.
+
+**Demonstration**:
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/hide_table.mp4"
+></video>
+</Frame>
+
+## Table styling
+
+### Sizing
+
+- **Fit Width**: Expands to fill available width (default).
+- **Fit Height**: Automatically adjusts height to content (default).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_sizing.png)
+</Frame>
+
+### Cell styling
+
+**Layout Options:**
+
+- **Direction**: Horizontal (default).
+- **Justify**: Space-around (evenly spaces elements within each cell).
+- **Align**: Start (left-aligned).
+- **Wrap**: Enables text wrapping.
+- **Gap**: 8px spacing between cell elements.
+
+**Column Style Options:**
+
+- **Width Fit Options**:
+  - **Fill**: Fills available container space.
+  - **Fixed**: Keeps a fixed column width.
+  - **Auto**: Adjusts column width to fit content.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/cell_styling.png)
+</Frame>
+
+- **User Resizable Columns**: Adjust column width by dragging the column edges in the header, enhancing customization.
+
+<Frame>
+![User Resizable Columns](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/2024-10-15%2019.37.13.gif)
+</Frame>
+
+This Table component enhances flexibility and offers a cohesive design, integrated with FlowX.AI’s theming framework for a consistent, web-optimized user experience.
+
+
+## Actions in table cells
+
+When configuring actions within a Table component, each action is bound to a unique table item key, ensuring that interactions within each cell are tracked and recorded precisely. The key allows the action to target specific rows and store results or updates effectively.
+
+* **Table Item Save Key**: This key is essential for identifying the exact cell or row where an action should be executed and saved. It ensures that data within each cell remains distinct and correctly mapped to each table entry.
+* **Custom Key for Data Saving**: You must add a custom key to save action data in a table cell, especially when handling unique interactions like inline editing or dynamic data updates within cells.
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_item_save_key.png)
+</Frame>
+
+* **Supported Action Types** - Available actions include:
+    * Action: Initiates predefined actions within the cell.
+    * Start Process Inherit: Enables workflows inherited from process configurations to be triggered.
+    * Upload: Allows file or data uploads directly within a table cell.
+    * External: Used to create an action that will open a link in a new tab.
+
+## FAQs
+
+<AccordionGroup>
+
+<Accordion title="What is the `table item key` used for in Table actions?">
+The `table item key` is essential for identifying specific rows and cells within a table. When actions are triggered in table cells, this key ensures that the action applies to the correct item, allowing data to be saved accurately in the intended cell or row. Without this key, actions may not track or save data correctly.
+</Accordion>
+
+<Accordion title="How does the Table component differ from Collection?">
+While the Table component shares structural similarities with Collection, it is tailored specifically for tabular data. Unlike Collection, it supports easy customization of columns, row pagination, and in-place editing (in future versions), streamlining the handling of tabular data.
+</Accordion>
+
+<Accordion title="Can I use conditional styling in Table cells?">
+Conditional styling is a planned feature for version 5.0.0. Once available, it will allow you to apply specific styles to cells or rows based on conditions, such as highlighting critical items or overdue entries.
+</Accordion>
+
+<Accordion title="Does the Table component support nested tables?">
+No, nested tables (tables within other tables) are currently unsupported and are not planned for future updates. This limitation keeps the Table component optimized for its intended use without overcomplicating its structure.
+</Accordion>
+
+<Accordion title="What actions can I use within Table cells?">
+Table cells support various actions:
+- **Action**: Executes a predefined action within the cell.
+- **Start Process Inherit**: Triggers workflows based on inherited process configurations.
+- **Upload**: Allows direct file or data uploads within a cell.
+Each of these actions requires a `table item key` to ensure data accuracy.
+</Accordion>
+
+<Accordion title="How is pagination configured in the Table component?">
+Pagination can be customized to control the number of entries displayed per page. Alternatively, you can enable scrollable view mode by disabling pagination, which provides a continuous, scrollable data view.
+</Accordion>
+
+<Accordion title="Can I edit data directly within the Table cells?">
+Direct in-place editing is scheduled for version 4.6.0, allowing users to edit data directly within table cells. This feature will improve efficiency for workflows requiring frequent table data updates.
+</Accordion>
+
+<Accordion title="Are there specific data sources required for populating a Table?">
+Yes, the Table component requires a source in the form of an array of objects. The source allows the Table to dynamically populate cells based on the data structure, ensuring rows and columns align with your data set.
+</Accordion>
+
+<Accordion title="What if I need to add custom actions within the Table?">
+Custom actions can be configured using the UI Designer. Each action added to a cell will leverage the `table item key` to perform tasks such as saving edits, initiating workflows, or uploading files directly from the table.
+</Accordion>
+
+<Accordion title="Can I hide specific columns or rows based on conditions?">
+Yes, the Table component supports JavaScript expressions to control visibility dynamically. By setting up expressions, you can create conditions that hide certain columns or rows when specific criteria are met.
+</Accordion>
+
+</AccordionGroup>

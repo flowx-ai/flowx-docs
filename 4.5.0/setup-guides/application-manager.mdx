@@ -1,0 +1,221 @@
+---
+title: Application manager setup 
+description: The Application Manager is a backend microservice for managing FlowX applications, libraries, versions, manifests, configurations, and builds. This guide provides detailed instructions for setting up the service and configuring its components to manage application-related operations effectively. 
+icon: computer
+---
+
+Application manager is microservice meant manage applications and also acts as a proxy for front-end requests related to resources.
+
+
+## Infrastructure prerequisites
+
+Before you start setting up the Application Manager service, ensure the following infrastructure components are in place:
+
+* **Docker Engine** - version 17.06 or higher
+* **PostgreSQL** - version 13 or higher for storing application data (could vary based on your preferred relational database)
+* **MongoDB** - version 4.4 or higher for managing runtime builds
+* **Redis** - version 6.0 or higher (if caching is required)
+* **Kafka** - version 2.8 or higher for messaging and event-driven communication between services
+
+<Info>
+Ensure that the database for storing application data is properly set up and configured before starting the service.
+</Info>
+
+## Dependencies
+
+The Application Manager relies on several other FlowX services and components:
+
+* [**Database instance**](#database-configuration) - To store application details, manifests, and configurations
+* [**Authorization & Access Management**](#configuring-authorization-and-access-roles)
+* [**Kafka Event Bus**](#configuring-kafka)
+* **Proxy Mechanism** - Ensure resource endpoints are accessible through the application-proxy.
+
+## Configuration
+
+### Environment variables
+
+* `APP_MANAGER_DB_URL`- Connection string for the relational database
+* `APP_MANAGER_DB_USER` - Username for the database
+* `APP_MANAGER_DB_PASSWORD` - Password for the database
+* `APP_MANAGER_DB_NAME` - Database name
+
+#### Configuring authorization and access roles
+
+To integrate the Application Manager with the identity management system for authorization, set the following environment variables:
+
+* `SECURITY_OAUTH2_BASE_SERVER_URL` - Base URL for the OAuth 2.0 Authorization Server
+* `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - Unique identifier for the client application registered with the OAuth 2.0 server
+* `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - Secret key for authenticating requests made by the authorization client
+* `SECURITY_OAUTH2_REALM` - The realm name for OAuth2 authentication
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID` - Client ID for the application manager service account  
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` - Client Secret for the application manager service account  
+
+
+Refer to the dedicated section for configuring user roles and access rights:
+
+<Card title="Access Management" href="./access-management/app-manager-access-rights" icon="lock">
+</Card>
+
+### Database configuration
+
+Configure the data sources for PostgreSQL and MongoDB as follows:
+
+#### PostgreSQL (application data)
+
+* `SPRING_DATASOURCE_URL` - Database URL for PostgreSQL  
+* `SPRING_DATASOURCE_USERNAME` - Username for PostgreSQL  
+* `SPRING_DATASOURCE_PASSWORD` - Password for PostgreSQL  
+* `SPRING_DATASOURCE_DRIVER_CLASS_NAME` - Driver class for PostgreSQL  
+
+#### Configuring MongoDB (runtime database - additional data)
+
+The Application Manager requires MongoDB to store runtime build information. Use the following environment variables for configuration:
+
+* `SPRING_DATA_MONGODB_URI` - URI for connecting to the MongoDB instance  
+* `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables runtime MongoDB usage
+	* **Default Value:** `true`
+* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for MongoDB  
+  * **Possible Values:** `mongodb`, `cosmosdb`
+  * **Default Value:** `mongodb`
+
+Details to connect to Runtime database (if runtime is enabled):
+
+* `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to MongoDB for runtime data  
+
+### Configuring Redis
+
+If caching is required, configure Redis using the following environment variables:
+
+* `SPRING_REDIS_HOST` - Hostname or IP address of the Redis server
+* `SPRING_REDIS_PASSWORD` - Password for authenticating with the Redis server
+
+### Configuring Kafka
+
+The Application Manager uses Kafka for event-driven operations. Set up the Kafka configuration using the following environment variables:
+
+* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - Address of the Kafka server, formatted as "host"
+* `SPRING_KAFKA_CONSUMER_GROUP_ID` - Consumer group ID for Kafka topics
+* `KAFKA_CONSUMER_THREADS` - Number of Kafka consumer threads
+
+The Application Manager uses a structured naming convention for Kafka topics, designed to support flexibility through pre-defined components in the topic structure. These components, while not directly configurable, allow optional modifications when the desired version cannot be obtained through `$package . $environment . $separator . $version`. 
+
+Each topic adheres to a consistent naming schema for streamlined communication across environments and versions.
+
+#### Topic naming components
+
+| Component     | Description                                        | Default Value                                                    |
+| ------------- | -------------------------------------------------- | ---------------------------------------------------------------- |
+| `package`     | Package identifier for namespace                   | `ai.flowx.`                                                      |
+| `environment` | Environment identifier                             | `dev.`                                                           |
+| `version`     | Version identifier for topic compatibility         | `.v1`                                                            |
+| `separator`   | Primary separator for components                   | `.`                                                              |
+| `separator2`  | Secondary separator for additional distinction     | `-`                                                              |
+| `prefix`      | Combines package and environment as a topic prefix | `${kafka.topic.naming.package}${kafka.topic.naming.environment}` |
+| `suffix`      | Appends version to the end of the topic name       | `${kafka.topic.naming.version}`                                  |
+
+
+#### Application resource topics
+
+- **Resource Export**
+  - **Pattern:** `${kafka.topic.naming.prefix}application${separator2}version${separator}export${kafka.topic.naming.suffix}`
+  - **Purpose:** For exporting application resources.
+  - **Example:** `ai.flowx.application-version.export.v1`
+
+- **Resource Import**
+  - **Pattern:** `${kafka.topic.naming.prefix}application${separator2}version${separator}import${kafka.topic.naming.suffix}`
+  - **Purpose:** For importing application resources.
+  - **Example:** `ai.flowx.application-version.import.v1`
+
+#### Build resource topics
+
+- **Build Export**
+  - **Pattern:** `${kafka.topic.naming.prefix}build${separator}export${kafka.topic.naming.suffix}`
+  - **Purpose:** For exporting build resources.
+  - **Example:** `ai.flowx.build.export.v1`
+
+- **Build Import**
+  - **Pattern:** `${kafka.topic.naming.prefix}build${separator}import${kafka.topic.naming.suffix}`
+  - **Purpose:** For importing build resources.
+  - **Example:** `ai.flowx.build.import.v1`
+
+#### Process topics
+
+- **Start for Event**
+  - **Pattern:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}start${separator2}for${separator2}event${separator}process${kafka.topic.naming.suffix}`
+  - **Purpose:** For triggering process start events.
+  - **Example:** `ai.flowx.core.trigger.start-for-event.process.v1`
+
+- **Scheduled Timer Events**
+  - **Set Timer Schedule**
+    - **Pattern:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}set${separator}timer${separator2}event${separator2}schedule${kafka.topic.naming.suffix}`
+    - **Purpose:** For setting scheduled timer events.
+    - **Example:** `ai.flowx.core.trigger.set.timer-event-schedule.v1`
+    
+  - **Stop Timer Schedule**
+    - **Pattern:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}stop${separator}timer${separator2}event${separator2}schedule${kafka.topic.naming.suffix}`
+    - **Purpose:** For stopping scheduled timer events.
+    - **Example:** `ai.flowx.core.trigger.stop.timer-event-schedule.v1`
+
+#### Audit topics
+
+- **Audit Output**
+  - **Pattern:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}save${separator}audit${kafka.topic.naming.suffix}`
+  - **Purpose:** For sending audit-related events.
+  - **Example:** `ai.flowx.core.trigger.save.audit.v1`
+
+
+<Info>
+These Kafka topics use predefined naming conventions for ease of use. Optional adjustments may be made if the desired topic name cannot be achieved with the `$package . $environment . $separator . $version` structure.
+</Info>
+
+### Configuring resource proxy
+
+The Resource Proxy module forwards resource-related requests to appropriate services, handling CRUD operations on the manifest. It requires proper configuration of proxy endpoints:
+
+* **RESOURCE_PROXY_MANIFEST_URL** - URL for managing the application manifest
+* **RESOURCE_PROXY_TARGET_URL** - URL for forwarding resource-related requests to their respective services
+
+### Configuring logging
+
+To control the logging levels for the Application Manager, use the following environment variables:
+
+* **LOGGING_LEVEL_ROOT** - Log level for the root service logs
+* **LOGGING_LEVEL_APP** - Log level for application-level logs
+* **LOGGING_LEVEL_DB** - Log level for database interactions
+
+
+### Configuring file storage (optional)
+
+If the Application Manager requires file storage for resources or builds, configure S3-compatible storage using the following environment variables:
+
+* **APPLICATION_FILE_STORAGE_S3_URL** - URL of the S3-compatible storage server
+* **APPLICATION_FILE_STORAGE_S3_BUCKET_NAME** - S3 bucket name for storing application files
+* **APPLICATION_FILE_STORAGE_S3_ACCESS_KEY** - Access key for S3 storage
+* **APPLICATION_FILE_STORAGE_S3_SECRET_KEY** - Secret key for S3 storage
+
+
+### Configuring application management
+
+Configure the management of applications, builds, and related resources using these variables:
+
+* **APP_MANAGER_MAX_FILE_SIZE** - Maximum file size allowed for uploads
+* **APP_MANAGER_MAX_REQUEST_SIZE** - Maximum request size for uploads
+* **APP_MANAGER_BUILD_POLICY** - Build policy configuration for the Application Manager
+
+### Data model overview
+
+The Application Manager stores application data using a relational database schema, with key entities such as application, application_version, and application_manifest. Below are descriptions of primary entities:
+
+* **Application** - Defines an application with its details like name, type, and metadata.
+* **Application Branch** - Represents branches for versioning within an application.
+* **Application Version** - Keeps track of each version of an application, including committed and WIP statuses.
+* **Application Manifest** - Contains the list of resources associated with a specific application version.
+
+### Monitoring and maintenance
+
+To monitor the performance and health of the Application Manager, use tools like Prometheus or Grafana. Configure Prometheus metrics with the following environment variable:
+
+* **MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED** - Enables or disables Prometheus metrics export (default: false).
+
+
+

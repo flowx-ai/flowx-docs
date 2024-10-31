@@ -1,0 +1,158 @@
+---
+title: Integration designer setup
+description: This guide provides step-by-step instructions to set up and configure the Integration Designer service, including database, Kafka, and OAuth2 authentication settings, to ensure integration and data flow management
+icon: arrow-progress
+---
+
+## Infrastructure prerequisites
+
+The Integration Designer service requires the following components to be set up before it can be started:
+
+* **Docker Engine** - version 17.06 or higher
+* **PostgreSQL** - version 13 or higher for managing advancing data source
+* **MongoDB** - version 4.4 or higher for managing integration and runtime data
+* **Kafka** - version 2.8 or higher for event-driven communication between services
+* **OAuth2 Authentication** - Ensure a Keycloak server or compatible OAuth2 authorization server is configured
+
+## Dependencies
+
+Integration Designer is built as a Docker image and relies on several backend services and components. Ensure these services are set up and running before starting Integration Designer.
+
+* [**Database configuration**](#database-configuration)
+* [**Kafka configuration**](#configuring-kafka)
+* [**Authentication & access roles**](#configuring-authentication-and-access-roles)
+* [**Logging**](./setup-guides-overview#logging)
+
+## Configuration
+
+### Database configuration
+
+Integration Designer uses both PostgreSQL and MongoDB for managing advancing data and integration information. Configure these database connections with the following environment variables:
+
+#### PostgreSQL (Advancing data source)
+
+* `ADVANCING_DATASOURCE_URL` - Database URL for the advancing data source in PostgreSQL  
+* `ADVANCING_DATASOURCE_USERNAME` - Username for the advancing data source in PostgreSQL
+
+
+#### MongoDB (Integration data and runtime data)
+
+* `SPRING_DATA_MONGODB_URI` - URI for connecting to the MongoDB instance  
+* `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables runtime MongoDB usage
+	* **Default Value:** `true`
+* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for MongoDB  
+  * **Possible Values:** `mongodb`, `cosmosdb`
+  * **Default Value:** `mongodb`
+
+Details to connect to Runtime database (if runtime is enabled):
+
+* `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to MongoDB for runtime data  
+
+### Configuring Kafka
+
+To configure Kafka for Integration Designer, set the following environment variables. This configuration includes naming patterns, consumer group settings, and retry intervals for authentication exceptions.
+
+#### General Kafka configuration
+
+* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - Address of the Kafka server in the format `host:port`
+* `KAFKA_TOPIC_NAMING_ENVIRONMENT` - Environment-specific suffix for Kafka topics
+
+#### Kafka consumer settings
+
+* `KAFKA_CONSUMER_GROUP_ID_START_WORKFLOWS` - Consumer group ID for starting workflows  
+  * **Default Value:** `start-workflows-group`
+
+* `KAFKA_CONSUMER_THREADS_START_WORKFLOWS` - Number of Kafka consumer threads for starting workflows  
+  * **Default Value:** `3`
+
+* `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` - Interval (in seconds) between retries after an `AuthorizationException`  
+  * **Default Value:** `10`
+
+
+#### Kafka topic naming structure
+
+The Kafka topics for Integration Designer use a structured naming convention with dynamic components, allowing for easy integration across environments. This setup defines separators, environment identifiers, and specific naming patterns for both engine and integration-related messages.
+
+#### Topic naming components
+
+| Component     | Description                                        | Default Value                                                    |
+| ------------- | -------------------------------------------------- | ---------------------------------------------------------------- |
+| `package`     | Package identifier for namespace                   | `ai.flowx.`                                                      |
+| `environment` | Environment identifier                             | `dev.`                                                           |
+| `version`     | Version identifier for topic compatibility         | `.v1`                                                            |
+| `separator`   | Primary separator for components                   | `.`                                                              |
+| `separator2`  | Secondary separator for additional distinction     | `-`                                                              |
+| `prefix`      | Combines package and environment as a topic prefix | `${kafka.topic.naming.package}${kafka.topic.naming.environment}` |
+| `suffix`      | Appends version to the end of the topic name       | `${kafka.topic.naming.version}`                                  |
+
+##### Predefined patterns for services
+
+* **Engine Receive Pattern** - `kafka.topic.naming.engineReceivePattern`  
+  * **Pattern:** `engine${dot}receive${dot}`
+  * **Example Topic Prefix:** `ai.flowx.dev.engine.receive.`
+
+* **Integration Receive Pattern** - `kafka.topic.naming.integrationReceivePattern`  
+  * **Pattern:** `integration${dot}receive${dot}`
+  * **Example Topic Prefix:** `ai.flowx.dev.integration.receive.`
+
+#### Kafka topics
+
+* **Events Gateway - Outgoing Messages**  
+  * **Topic:** `${kafka.topic.naming.prefix}eventsgateway${dot}receive${dot}workflowinstances${kafka.topic.naming.suffix}`
+  * **Purpose:** Topic for outgoing workflow instance messages from the events gateway
+  * **Example Value:** `ai.flowx.dev.eventsgateway.receive.workflowinstances.v1`
+
+* **Engine Pattern**  
+  * **Pattern:** `${kafka.topic.naming.prefix}${kafka.topic.naming.engineReceivePattern}`
+  * **Purpose:** Topic pattern for receiving messages by the engine service
+  * **Example Value:** `ai.flowx.dev.engine.receive.*`
+
+* **Integration Pattern**  
+  * **Pattern:** `${kafka.topic.naming.prefix}${kafka.topic.naming.integrationReceivePattern}*`
+  * **Purpose:** Topic pattern for receiving messages by the integration service
+  * **Example Value:** `ai.flowx.dev.integration.receive.*`
+
+<Info>
+Replace placeholders with appropriate values for your environment before starting the service.
+</Info>
+
+### Configuring authentication and access roles
+
+Integration Designer uses OAuth2 for secure access control. Set up OAuth2 configurations with these environment variables:
+
+* `SECURITY_OAUTH2_BASE_SERVER_URL` - Base URL for the OAuth 2.0 Authorization Server
+* `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - Unique identifier for the client application registered with the OAuth 2.0 server
+* `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - Secret key for authenticating requests made by the authorization client
+* `SECURITY_OAUTH2_REALM` - The realm name for OAuth2 authentication
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID` - Client ID for the integration designer service account  
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` - Client Secret for the integration designer  service account  
+
+Refer to the dedicated section for configuring user roles and access rights:
+
+<Card title="Access Management" href="./access-management/configuring-access-rights-for-integration-designer" icon="lock">
+</Card>
+
+
+#### Authentication and access roles
+
+* `SECURITY_OAUTH2_BASE_SERVER_URL` - Base URL for the OAuth2 authorization server  
+* `SECURITY_OAUTH2_REALM` - Realm for OAuth2 authentication  
+* `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - Client ID for the Integration Designer OAuth2 client  
+* `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - Client Secret for the Integration Designer OAuth2 client  
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID` - Client ID for the Keycloak admin service account  
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` - Client Secret for the Keycloak admin service account  
+
+### Configuring loogging
+
+To control the log levels for Integration Designer, set the following environment variables:
+
+* `LOGGING_LEVEL_ROOT` - The log level for root Spring Boot microservice logs
+* `LOGGING_LEVEL_APP` - The log level for application-level logs
+
+
+## Monitoring and maintenance
+
+To monitor the performance and health of the Application Manager, use tools like Prometheus or Grafana. Configure Prometheus metrics with the following environment variable:
+
+* `MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED` - Enables or disables Prometheus metrics export (default: false).
+

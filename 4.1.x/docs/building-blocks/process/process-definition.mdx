@@ -225,11 +225,21 @@ By default, new processes are set to **Web Only**. This ensures that they are in
 * **General data**: Refers to customizable data that can be both set and received in a response context.
 * **Expiry time**: A user can set up an expiryTime expression on a process definition to specify an expiry date. 
 
-| **Example**               | **Expression**         | **Explanation**                                                                                                    |
-| ------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Daily Expiry at Midnight  | `0 0 * * *`            | Sets the process to expire at 00:00 (midnight) every day.                                                          |
-| Hourly Expiry on Weekdays | `0 0 9-17 * * MON-FRI` | Sets the process to expire at the start of each hour between 9 AM and 5 PM on weekdays (Monday to Friday).         |
-| Expiry After a Duration   | `PT3M22S`              | Sets the process to expire after a duration of 3 minutes and 22 seconds from the start, using **ISO 8601 format**. |
+| **Example**               | **Expression**         | **Explanation**                                                                                                         |
+| ------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Daily Expiry at Midnight  | `0 0 0 * * ?`          | Sets the process to expire at 00:00 (midnight) every day. The `?` is used in the day-of-week field to ignore its value. |
+| Hourly Expiry on Weekdays | `0 0 9-17 * * MON-FRI` | Sets the process to expire at the start of each hour between 9 AM and 5 PM on weekdays (Monday to Friday).              |
+| Expiry After a Duration   | `PT3M22S`              | Sets the process to expire after a duration of 3 minutes and 22 seconds from the start, using **ISO 8601 format**.      |
+
+
+<Tip>
+FlowX support Spring cron expressions. They  **must always include six fields**: `seconds`, `minutes`, `hours`, `day of month`, `month`, and `day of week`.  
+This differs from traditional UNIX cron, which uses only five fields. Be sure to include the `seconds` field in Spring cron expressions to avoid errors.
+</Tip>
+
+<Info>
+The cron expression format should include seconds (0), minutes (0), hours (0), and then wildcards for the day, month, and day of the week fields. The `?` sign in the day-of-week field is used when the day-of-month field is already specified (or ignored in this case).
+</Info>
 
 <Info>
 You can use both ISO 8601 duration format (`PT3M22S`) and cron expressions (`0 0 * * *`, `0 0 9-17 * * MON-FRI`) to define `expiryTime` expressions for process definitions.

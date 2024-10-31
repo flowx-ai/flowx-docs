@@ -1,0 +1,133 @@
+---
+title: Building with FlowX.AI
+icon: rocket
+description: Let's explore how to build innovative solutions with FlowX.AI.
+---
+
+
+<AccordionGroup>
+  <Accordion title="BPMN Process" icon="sitemap">
+    [Design a BPMN Process](../flowx-designer/managing-a-process-flow).
+  </Accordion>
+  <Accordion title="Process Flow" icon="arrow-progress">
+    Define and manage a process flow using [**FLOWX Process Designer**](../building-blocks/process/process).  
+ </Accordion>
+  <Accordion title="Process Execution" icon="play">
+   Run a process instance with [**FlowX Engine**](../platform-deep-dive/core-components/flowx-engine).
+  </Accordion>
+    <Accordion title="Front-End Application" icon="desktop">
+    Create the **Front-End Application**.
+    </Accordion>
+  <Accordion title="Plugins" icon="puzzle-piece">
+    Connect **Plugins**.
+    </Accordion>
+</AccordionGroup>
+
+## FlowX.AI implementation methodology
+
+The implementation of FlowX.AI follows a structured approach comprising several phases, using a hybrid methodology that has proven effective in past implementations. These phases include:
+
+- Mobilization
+- Analysis & Solution Design
+- Project Execution
+- Production & Go-live
+- Transition to Business as Usual (BaU)
+
+These phases address various aspects of the implementation process, ensuring a comprehensive and successful deployment of FlowX.AI solutions.
+
+Explore our Academy course on Implementation Methodology for in-depth insights:
+
+- What are the project stages in a FlowX implementation?
+
+- What are the key roles of an implementation team?
+
+- What are the main responsibilities of each role in the team?
+
+<Card title ="Implementation Methodology academy course" href="https://academy.flowx.ai/explore/flowxai-implementation-methodology" icon="school">
+</Card>
+
+## Designing the BPMN Process: Requesting a New Credit Card from a Bank App
+
+Let's initiate by designing the BPMN process diagram for a sample use case: requesting a new credit card from a bank app.
+
+## Sample Process Steps
+
+Taking a **business process example** of a credit card application, it involves the following steps:
+
+
+<Steps>
+
+  <Step title="Create Business Process Example">
+    Create a business process example of a credit card application.
+  </Step>
+
+
+  <Step title="Initiate Credit Card Request">
+    A user initiates a request for a new credit card - _**Start Event**_
+  </Step>
+
+
+  <Step title="Fill in Personal Data">
+    The user fills in a form with their personal data - _**User Task**_
+  </Step>
+
+
+  <Step title="Automated Credit Score Check">
+    The bank system performs a credit score check automatically using a send event that communicates with the credit score adapter, followed by a receive event to collect the response from the adapter - _**Automatic Task**_
+  </Step>
+
+
+  <Step title="Credit Score Bifurcation">
+    The process bifurcates based on the credit score using an _**Exclusive Gateway**_
+  </Step>
+
+
+  <Step title="Save Credit Card Type">
+    Each branch entails a service task that saves the appropriate credit card type to the process data - _**Automatic Task**_
+  </Step>
+
+
+  <Step title="Branch Reconciliation">
+    The branches reconvene through a _**Closing Gateway**_
+  </Step>
+
+
+  <Step title="View and Confirm Credit Card Details">
+    The user views the credit card details and confirms - _**User Task**_
+  </Step>
+
+
+  <Step title="Parallel Branching">
+    After user confirmation, the process divides into two parallel branches - _**Parallel Gateway**_. One registers the request in the bank's systems (bank system adapter/integration), and the other sends a confirmation email (notification plugin) to the user
+  </Step>
+
+
+  <Step title="External API Call">
+    An additional automatic task follows: a call to an external API to compute the distance between the user's address and the bank locations ([Google Maps Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/overview)) - _**Automatic Task**_
+  </Step>
+
+
+  <Step title="Sort Location Distances">
+    A task is utilized to sort the location distances and present the top three to the user - _**Automatic Task**_
+  </Step>
+
+
+  <Step title="Select Card Pickup Point">
+    The user selects the card pickup point from the bank location suggestions - _**User Task**_
+  </Step>
+
+
+  <Step title="Receive Confirmation">
+    A receive task awaits confirmation from the bank that the user has collected the new card, concluding the process flow - _**End Event**_
+  </Step>
+</Steps>
+
+
+## Sample Process Diagram
+
+Here's what the **BPMN** diagram illustrates:
+
+![Request a new credit card](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/request_a_credit_card_new.png)
+
+<Card title="Download process sample" a href="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/sample_bpmn_process_new_credit_card.bpmn" icon="download">
+</Card>

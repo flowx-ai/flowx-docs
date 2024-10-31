@@ -17,13 +17,10 @@ User task nodes allow you to define and configure UI templates and possible [act
 
 * **Node name** - the name of the node
 * **Can go back** - setting this to true will allow users to return to this step after completing it. When encountering a step with `canGoBack` false, all steps found behind it will become unavailable.
-* **Flow Names** - leave this field empty if the node should be included in all flows
-
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/user_task_general_config.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/node_config_new.png)
 </Frame>
-
 
 <Info>
 When encountering a step with `canGoBack` switched to false, all steps found behind it will become unavailable.
@@ -32,13 +29,6 @@ When encountering a step with `canGoBack` switched to false, all steps found beh
 * [**Swimlane**](../../platform-deep-dive/user-roles-management/swimlanes) - choose a swimlane (if there are multiple swimlanes on the process) to make sure only certain user roles have access to certain process nodes- if there are no multiple swimlanes, the value is **Default**
 * [**Stage** ](../../platform-deep-dive/plugins/custom-plugins/task-management/using-stages)- assign a stage to the node
 
-#### Response Timeout 
-
-* **Response timeout** - can be triggered if, for example, a topic that you define and add in the [Data stream topics](#data-stream-topics) tab does not respect the pattern, the format used for this is [ISO 8601 duration format ](https://www.w3.org/TR/NOTE-datetime)(for example, a delay of 30s will be set up like `PT30S`)
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/user_task_node_response_timeout.png)
-</Frame>
 
 #### Data stream topics
 
@@ -150,150 +140,114 @@ More details in the following section:
 <Card title ="Custom" href="../ui-designer/ui-component-types/root-components/custom">
 </Card>
 
-The sections that can be configured are as follows:
-
-1. **Message** - configure what data will be pushed to the frontend application
-2. **Input keys** - used to define the process model paths from which the components will receive its data
-3. [**UI Actions**](../ui-designer/ui-actions) - actions defined here will be made available to the custom component. Multiple actions can be configured on a custom component and mapped to different triggers when developing it. Naming each action suggestively is important so the frontend engineer developing the component knows what actions should be triggered by certain events.
-
-More information about configuration, [here](using ui designer).
-
-## Displaying a UI element
+## Displaying a UI Element in FlowX Designer
 
 When a process instance is started the web application will receive all the UI elements that can be displayed in that process.
 
-When the process instance token will reach a User Task, a web socket message will be sent informing the SDK to display the UI element associated with that user task
+1. Starting a Process:
 
-Example:
-
-1. Start a process: **POST** `{{processUrl}}/api/internal/process/DemoProcess/start`
-
-<Info>
-The provided instruction involves initiating a process by making a `POST` request to the specified URL `({{processUrl}}/api/internal/process/DemoProcess/start)`. This API call triggers the start of a process named "DemoProcess" by sending relevant data to the server.
-</Info>
-
-```json
-{
-"processDefinitionName" : "DemoProcess",
-  "tokens" : [ {
-    "id" : 759224,
-    "startNodeId" : null,
-    "currentNodeId" : 662807,
-    "currentNodeName" : null,
-    "state" : "ACTIVE",
-    "statusCurrentNode" : "ARRIVED",
-    "dateUpdated" : "2023-05-31T09:44:39.969634Z",
-    "uuid" : "d310996d-f3b9-44e5-983d-3631c844409e"
-  } ],
-  "state" : "STARTED",
-  "templateConfig" : [ {
-    "id" : 630831,
-    "flowxUuid" : "80ea0a85-2b0b-442a-a123-2480c7aa2dce",
-    "nodeDefinitionId" : 662856,
-    "componentIdentifier" : "CONTAINER",
-    "type" : "FLOWX",
-    "order" : 1,
-    "canGoBack" : true,
-    "displayOptions" : {
-      "flowxProps" : { },
-      "style" : null,
-      "flexLayout" : {
-        "fxLayoutGap" : 0,
-        "fxLayoutAlign" : "start stretch",
-        "fxLayout" : "column"
-      },
-      "className" : null,
-      "platform" : "DEFAULT"
-    },
-    "templateConfig" : [ {
-      "id" : 630832,
-      "flowxUuid" : "38e2c164-f8cd-4f6e-93c8-39b7cdd734cf",
-      "nodeDefinitionId" : 662856,
-      "uiTemplateParentId" : 630831,
-      "componentIdentifier" : "TEXT",
-      "type" : "FLOWX",
-      "order" : 0,
-      "key" : "",
-      "canGoBack" : true,
-      "displayOptions" : {
-        "flowxProps" : {
-          "text" : "Demo text"
-        },
-        "style" : null,
-        "flexLayout" : null,
-        "className" : null,
-        "platform" : "DEFAULT"
-      },
-      "expressions" : {
-        "hide" : ""
-      },
-      "templateConfig" : [ ],
-      "dataSource" : {
-        "processData" : {
-          "parentFlowxUuid" : null
-        },
-        "nomenclator" : {
-          "parentFlowxUuid" : null
-        }
-      }
-    } ]
-  } ],
-  "uuid" : "44177340-5ac6-4591-89ad-04df0815fbd0",
-  "generalData" : null,
-  "backCounter" : 0,
-  "startedByActionId" : null,
-  "subProcesses" : null,
-  "subprocessesUuids" : null,
-  "baseUrl" : null
-}
-```
-
-2. **ProgressUpdateDto** will trigger the **SDK** to search for the UI element having the same **nodeId** with the one in the SSE event.
-
-3. Additionally, it will ask for data and actions that are required for this component via a **GET request** `{{processUrl}}/api/process/db573705-71dd-4216-9d94-5ba2fb36ff2a/data/42062`
+- The process is initiated by sending a request to the renderer `POST/ {BASE_URL}/onboarding/api/process/{name}/start`
+- This tells the server to start the specific process definition, in this case, named "DemoProcess".
 
 ```json
 ...
-nodeDefinitionId" : 662856,
-      "processDefinitionId" : 662952,
-      "actionParams" : [ {
-        "id" : 759458,
-        "key" : "headers",
-        "value" : "{\"processInstanceId\": ${processInstanceId}}",
-        "replaceValues" : true,
-        "actionDefinitionId" : 759403
-      }, {
-        "id" : 759457,
-        "key" : "customId",
-        "value" : "folder",
-        "replaceValues" : true,
-        "actionDefinitionId" : 759403
-      }, {
-        "id" : 759456,
-        "key" : "documentType",
-        "value" : "document",
-        "replaceValues" : false,
-        "actionDefinitionId" : 759403
-      }, {
-        "id" : 759455,
-        "key" : "topicName",
-        "value" : "test.topic",
-        "replaceValues" : false,
-        "actionDefinitionId" : 759403
-      } ],
-      "actionRuleDefinitions" : [ ],
-      "callbackActions" : null,
-      "timerExpression" : "",
-      "order" : 1,
-      "manual" : false,
-      "repeatable" : false,
-      "optional" : false,
-      "autoRunChildren" : false,
-      "allowTokenReset" : false,
-      "restartFromSnapshot" : false,
-      "keysForRestart" : [ ],
-      "keys" : [ ]
- ...
- ```
-    
+{
+  "processDefinitionName" : "DemoProcess",
+  "tokens" : [ {
+    "id" : 1961367,
+    "startNodeId" : null,
+    "embedNodeId" : null,
+    "mainSwimlaneId" : null,
+    "currentProcessVersionId" : 861684,
+    "currentContext" : "main",
+    "initiatorType" : null,
+    "initiatorId" : null,
+    "currentNodeId" : 921777,
+    "currentNodeName" : null,
+    "state" : "ACTIVE",
+    "statusCurrentNode" : "ARRIVED",
+    "dateUpdated" : "2024-09-23T09:29:06.668355Z",
+    "uuid" : "60ecb3a1-0073-4d98-86b8-263bdaa95a8b"
+  } ],
+  "state" : "STARTED"
+  ...
+}
+```
 
+2. Displaying UI Elements:
+
+- As the process progresses, it reaches different nodes, in our example, "User Tasks" (nodes that require human interaction).
+- When a User Task is reached, a server message is sent to the application, instructing it to display the UI element associated with that users task. This UI element is essentially the part of the interface that the user will interact with at this point in the process.
+- Inside the `templateConfig` you can find all the UI elements configured on the node. In the following example you can see the details of a `CARD` UI element.
+
+```json
+...
+ "templateConfig" : [ {
+      "id" : 781824,
+      "flowxUuid" : "771f7a69-2858-4ef4-8f58-a052c0cfe724",
+      "componentIdentifier" : "CARD",
+      "type" : "FLOWX",
+      "order" : 1,
+      "canGoBack" : true,
+      "displayOptions" : {
+        "flowxProps" : {
+          "title" : "Company representative",
+          "hasAccordion" : false
+        },
+        "style" : {
+          "widthType" : "fixed",
+          "layoutType" : "grid",
+          "flexLayout" : {
+            "fxLayout" : "row wrap",
+            "fxLayoutAlign" : "start start",
+            "fxLayoutGap" : 10
+          },
+          "gridLayout" : {
+            "columns" : 3,
+            "position" : "start start",
+            "columnGap" : 8,
+            "rowGap" : 8
+          },
+          "gridChild" : {
+            "colSpan" : 1,
+            "rowSpan" : 1,
+            "order" : 0
+          },
+          "heightType" : "auto",
+          "width" : 950
+        },
+        "className" : null,
+        "platform" : "web"
+      }
+      } ]
+...
+```
+
+
+3. Matching UI Elements to User Tasks:
+
+- When the application receives an update ProgressUpdateDto will trigger the SDK to search for the UI element having the same `nodeId` with the one in the SSE event.
+
+Start process response:
+
+```json
+...
+      "navigationAreaId" : 86501151,
+      "nodeDefinitionId" : 921779,
+      "context" : "main"
+...
+```
+
+SSE event:
+
+```json
+"{\"progressUpdateDTO\":{\"processInstanceUuid\":\"271f00b9-4344-4a82-8479-378be92a5377\",\"tokenUuid\":\"7fd79711-ec92-425e-8b5d-8bb6c6362095\",\"currentNodeId\":921779,\"currentContext\":\"main\"}}"
+```
+
+
+4. Fetching Data and Actions:
+
+- To display the UI element correctly, the application may need additional data or perform certain actions. 
+- It retrieves this data via a request to the server. This step ensures that the displayed UI element has all the information and functionality it needs to work properly, like updating the displayed information or enabling specific actions for the user.
+
+In simple terms, the process involves starting a sequence, notifying the application when to show specific user interface parts, and ensuring these parts have the necessary data to function correctly.
