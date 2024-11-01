@@ -139,3 +139,70 @@ The `changeLanguage` method has been updated and renamed to `changeLocaleSetting
 ```swift
 func changeLocaleSettings(locale: String?, language: String?)
 ```
+
+---
+
+## Angular SDK migration guide
+
+### Initialization config changes
+
+In the Angular SDK, two new parameters have been introduced: appInfo and locale. These additions help support localization and application-specific configurations.
+
+#### appInfo Parameter
+
+New `appInfo` and `locale` Parameters: The SDK now expects an appInfo object containing the appId and a locale parameter alongside language to improve localization.
+
+* **appInfo**: Object containing appId, which identifies the application.
+* **locale**: Provides region-specific settings for localization.
+
+
+```typescript
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,  // For requests by renderer SDK
+    FlxProcessModule.forRoot({
+      appInfo: { appId: 'your-app-id' },
+      themeId: '123-456-789',
+      locale: 'en-US',
+    }),
+  ],
+...
+```
+
+### Renderer SDK Component Usage
+
+Add `<flx-process-renderer>` in templates and pass the new locale:
+
+
+```html
+<flx-process-renderer
+...
+  [locale]="locale"
+  [appInfo]="appId"
+...
+></flx-process-renderer>
+```
+
+### Icon module update 
+
+The `withExtraIconSet` method has been replaced with `provideExtraIconSet`, which should now be used in the providers array.
+
+```typescript
+@NgModule({
+  imports: [
+    IconModule,  // Import the IconModule
+  ],
+  providers: [
+    // Use provideExtraIconSet to add your custom icon set
+    provideExtraIconSet({
+      customIcon1: 'path/to/custom-icon1.svg',
+      customIcon2: 'path/to/custom-icon2.svg',
+      // Add more icons as needed
+    })
+  ]
+})
+export class AppModule {}
+```
