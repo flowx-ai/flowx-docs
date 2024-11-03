@@ -144,46 +144,26 @@ func changeLocaleSettings(locale: String?, language: String?)
 
 ## Angular SDK migration guide
 
-### Initialization config changes
+### Renderer SDK component usage
 
-In the Angular SDK, two new parameters have been introduced: appInfo and locale. These additions help support localization and application-specific configurations.
-
-#### appInfo Parameter
-
-New `appInfo` and `locale` Parameters: The SDK now expects an appInfo object containing the appId and a locale parameter alongside language to improve localization.
-
-* **appInfo**: Object containing appId, which identifies the application.
+In the Angular SDK, the `<flx-process-renderer>` component has two new parameters have been introduced: appInfo and locale. These additions help support localization and application-specific configurations.
+* **appInfo**: Object containing an  appId key, which identifies the application.
 * **locale**: Provides region-specific settings for localization.
 
+Add the definitions for these properties in the class file of the component that uses the process renderer component:
 
 ```typescript
-@NgModule({
-  declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,  // For requests by renderer SDK
-    FlxProcessModule.forRoot({
-      appInfo: { appId: 'your-app-id' },
-      themeId: '123-456-789',
-      locale: 'en-US',
-    }),
-  ],
-...
+appInfo = { appId: 'your-app-id' },
+locale = 'en-US',
 ```
-
-### Renderer SDK Component Usage
-
-Add `<flx-process-renderer>` in templates and pass the new locale:
-
+Use these parameters in the template as inputs for the `<flx-process-renderer>` component:
 
 ```html
 <flx-process-renderer
-...
+  ...
   [locale]="locale"
   [appInfo]="appId"
-...
-></flx-process-renderer>
+/>
 ```
 
 ### Icon module update 
@@ -206,3 +186,13 @@ The `withExtraIconSet` method has been replaced with `provideExtraIconSet`, whic
 })
 export class AppModule {}
 ```
+
+### Additional libraries
+
+The following npm packages are now essential for handling date and input formatting:
+
+```npm
+npm i date-fns inputmask
+```
+* date-fns
+* inputmask
