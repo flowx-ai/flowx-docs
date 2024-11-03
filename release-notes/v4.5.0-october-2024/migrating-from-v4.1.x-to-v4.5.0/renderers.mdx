@@ -139,3 +139,60 @@ The `changeLanguage` method has been updated and renamed to `changeLocaleSetting
 ```swift
 func changeLocaleSettings(locale: String?, language: String?)
 ```
+
+---
+
+## Angular SDK migration guide
+
+### Renderer SDK component usage
+
+In the Angular SDK, the `<flx-process-renderer>` component has two new parameters have been introduced: appInfo and locale. These additions help support localization and application-specific configurations.
+* **appInfo**: Object containing an  appId key, which identifies the application.
+* **locale**: Provides region-specific settings for localization.
+
+Add the definitions for these properties in the class file of the component that uses the process renderer component:
+
+```typescript
+appInfo = { appId: 'your-app-id' },
+locale = 'en-US',
+```
+Use these parameters in the template as inputs for the `<flx-process-renderer>` component:
+
+```html
+<flx-process-renderer
+  ...
+  [locale]="locale"
+  [appInfo]="appId"
+/>
+```
+
+### Icon module update 
+
+The `withExtraIconSet` method has been replaced with `provideExtraIconSet`, which should now be used in the providers array.
+
+```typescript
+@NgModule({
+  imports: [
+    IconModule,  // Import the IconModule
+  ],
+  providers: [
+    // Use provideExtraIconSet to add your custom icon set
+    provideExtraIconSet({
+      customIcon1: 'path/to/custom-icon1.svg',
+      customIcon2: 'path/to/custom-icon2.svg',
+      // Add more icons as needed
+    })
+  ]
+})
+export class AppModule {}
+```
+
+### Additional libraries
+
+The following npm packages are now essential for handling date and input formatting:
+
+```npm
+npm i date-fns inputmask
+```
+* date-fns
+* inputmask

@@ -1,27 +1,21 @@
 ---
 title: Runtime Handler Setup
-description: This guide provides a step-by-step process for setting up and configuring the Runtime Handler service, including database, Kafka, and OAuth2 authentication settings to manage runtime and build configurations.
+description: This guide provides a step-by-step process for setting up and configuring the Runtime Manager module, including database, Kafka, and OAuth2 authentication settings to manage runtime and build configurations.
 icon: database
 ---
 
-Application manager is microservice meant manage applications and also acts as a proxy for front-end requests related to resources.
 
-
-
-## Infrastructure Prerequisites
+## Infrastructure prerequisites
 
 The Runtime Handler service requires the following components to be set up before it can be started:
 
-* **Docker Engine** - version 17.06 or higher
 * **PostgreSQL** - version 13 or higher for managing application data
 * **MongoDB** - version 4.4 or higher for managing runtime data
 * **Redis** - version 6.0 or higher (if required)
 * **Kafka** - version 2.8 or higher for event-driven communication between services
-* **OAuth2 Authentication** - Ensure a Keycloak server or compatible OAuth2 authorization server is configured
+* **OAuth2 Authentication** - Ensure a Keycloak server or compatible OAuth2 authorization server is configured.
 
 ## Dependencies
-
-The Runtime Handler service is built as a Docker image and relies on several backend services and components. Ensure these services are set up and running before starting the Runtime Handler.
 
 * [**Database configuration**](#database-configuration)
 * [**Kafka configuration**](#configuring-kafka)
@@ -30,31 +24,25 @@ The Runtime Handler service is built as a Docker image and relies on several bac
 
 ## Configuration
 
-### General Environment Variables
+### General environment variables
 
 The following environment variables provide essential configurations:
 
-* `CONFIG_PROFILE` - Defines the active Spring profile for the environment.
 * `LOGGING_CONFIG_FILE` - Path to the logging configuration file for customized logging levels.
 * `SPRING_APPLICATION_NAME` - Sets the application name  
   * **Default Value:** `runtime-manager`
 
-### Database Configuration
+### Database configuration
 
-The Runtime Handler uses PostgreSQL to store application data and MongoDB to manage runtime data. Configure these database connections with the following environment variables:
+The Runtime Manager uses the same PostgreSQL (to store application data) and MongoDB (to manage runtime data) as [**application-manager**](application-manager). Configure these database connections with the following environment variables:
 
-#### PostgreSQL (Application Data)
+#### PostgreSQL (Application data)
 
-* `SPRING_DATASOURCE_URL` - Database URL for the PostgreSQL data source  
-  * **Format:** `jdbc:postgresql://host:port/database`
-  * **Default Value:** `jdbc:postgresql://postgresql:5432/app_manager`
+* `SPRING_DATASOURCE_URL` - Database URL for the PostgreSQL data source  (same as the one configured in `application-manager` setup)
 
-* `SPRING_DATASOURCE_USERNAME` - Username for the PostgreSQL data source  
-  * **Default Value:** `flowx`
+#### MongoDB (Runtime data)
 
-#### MongoDB (Runtime Data)
-
-* `SPRING_DATA_MONGODB_URI` - URI for connecting to MongoDB for runtime data  
+* `SPRING_DATA_MONGODB_URI` - URI for connecting to MongoDB for runtime data  (same as the one configured in `application-manager` setup)
 * `DB_USERNAME` - Username for MongoDB runtime database  
   * **Default Value:** `app-runtime`
 
@@ -74,7 +62,7 @@ To securely integrate with Kafka, configure the following OAuth credentials:
 * `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` - OAuth Token Endpoint URI for obtaining Kafka tokens  
   * **Format:** `https://<auth-server>/auth/realms/<realm>/protocol/openid-connect/token`
 
-### Configuring Health and Management Endpoints
+### Configuring Health and management endpoints
 
 Runtime Handler provides various health and management endpoints, which can be configured using these variables:
 
@@ -93,17 +81,38 @@ Runtime Handler uses OAuth2 for secure access control. Set up the OAuth2 configu
 * `SECURITY_OAUTH2_REALM` - Realm for OAuth2 authentication
 * `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - Client ID for the Runtime Handler’s OAuth2 client
 
-### Redis Configuration (Optional)
+### Redis configuration (optional)
 
 If Redis is required for caching, set the following environment variable:
 
 * `SPRING_REDIS_HOST` - Hostname or IP address of the Redis server
 
-### Configuring File Storage
+### Configuring file storage
 
 For file storage needs, configure the S3-compatible storage with the following environment variable:
 
 * `APPLICATION_FILE_STORAGE_S3_SERVER_URL` - URL of the S3-compatible storage server for storing application files.
 
+### Ingress configuration
+
+
+For exposing the Runtime manager service, configure public and admin ingress settings:
+
+```yaml
+ingress:
+  enabled: true
+  public:
+    enabled: true
+    hostname: "{{ .Values.flowx.ingress.public }}"
+    path: /rtm/api/runtime(/|$)(.*)
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /api/runtime/$2
+  admin:
+    enabled: true
+    hostname: "{{ .Values.flowx.ingress.admin }}"
+    path: /rtm/api/build-mgmt(/|$)(.*)
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /api/build-mgmt/$2
+```
 
 > **Note:** Replace placeholders in environment variables with the appropriate values for your environment before starting the service.
