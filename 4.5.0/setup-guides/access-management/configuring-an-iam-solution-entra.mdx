@@ -1,0 +1,814 @@
+---
+title: Configuring an IAM solution (EntraID)
+description: This guide provides step-by-step instructions for configuring a minimal EntraId setup to manage users, roles, and applications efficiently.
+---
+
+## Prerequisites
+
+* Application Administrator role
+* Basic understanding of IAM and OIDC concepts
+
+## Recommended EntraID setup
+
+To configure a required EntraID setup, in this guide we will covere the following steps:
+
+* Flowx-web app registration
+* Flowx-api app registration
+* Example JWT token for user
+* Configuring helm charts
+
+### Flowx-web app registration
+
+The Flowx-web application serves as the main entry point for logging into FloWX Designer or container applications.
+
+#### Appplication registration steps
+
+To register the Flowx-web application, follow these steps:
+
+1. Navigate to https://portal.azure.com and log in to your EntraID directory, which will host your FlowX.AI application registrations.
+2. Go to **Microsoft EntraID > App registrations > New registration**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/image%20%283%29.png)
+</Frame>
+
+3. Enter a name for your application, then select **Accounts in this organizational directory only (Single tenant)** to limit access to your organization’s directory.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2010.56.35.png)
+</Frame>
+
+4. Click **Register** to complete the setup.
+
+<Info>
+You will be redirected to the overview of the newly created app registration.
+</Info>
+
+#### Authentication steps
+
+Follow these steps to configure authentication for the Flowx-web application:
+
+
+1. Go to the **Authentication** tab. Under **Platform configurations**, add a new platform by selecting **Single-page application (SPA)**. Then, set the **Redirect URIs** to point to the URIs of your Designer application.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/2024-11-04%2010.54.45.gif)
+</Frame>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2010.58.31.png)
+</Frame>
+
+2. Click **Configure** to save the platform settings.
+3. Next, click **Add URI** to include an additional redirect URI, this time pointing to your container application's URI.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2017.14.29.png)
+</Frame>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2011.31.19.png)
+</Frame>
+
+4. Click **Save** to confirm the redirect URI changes.
+5. Scroll down to **Advanced Settings**. Under **Mobile and Desktop Applications**, toggle **Enable the following mobile and desktop flows** to **Yes**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2017.16.55.png)
+</Frame>
+
+6. Click **Save** again to apply all changes.
+
+#### API permissions
+
+To configure the necessary API permissions, follow these steps:
+
+1. Go to the **API permissions** tab and click **Add a permission**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2011.33.31.png)
+</Frame>
+
+2. In the permissions menu, select **Microsoft Graph** and then choose **Delegated permissions**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2011.35.56.png)
+</Frame>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2011.36.46.png)
+</Frame>
+
+3. Add the following permissions by selecting each option under **OpenId permissions**:
+    
+- email
+- offline_access
+- openid
+- profile
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2011.38.35.png)
+</Frame>
+
+4. After adding these permissions, click **Add permissions** to confirm.
+
+#### Token configuration
+
+Configure the claims you want to include in the ID token.
+
+1. Navigate to the **Token configuration** tab. Click **Add optional claim**, then select **Token type > Access**.
+
+* Choose the following claims to include in the token:
+    * email
+    * family_name
+    * given_name
+    * preferred
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2011.40.21.png)
+</Frame>
+
+2. Click **Add** to save these optional claims.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2011.41.33.png)
+</Frame>
+
+3. Next, add group claims to the token by clicking **Add groups claim**.
+4. Select **All groups** and, under each token type, select **sAMAccountName** (this may differ for your specific organization).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/image%20%285%29.png)
+</Frame>
+
+---
+
+### Flowx-API app registration
+
+The Flowx-API application is used to configure the access token necessary for secure communication between the browser and all exposed FlowX APIs.
+
+#### Appplication registration steps
+
+To register the Flowx-API application, follow these steps:
+
+1. Navigate to https://portal.azure.com and log in to your EntraID directory, which will host your FlowX.AI application registrations.
+2. Go to **Microsoft EntraID > App registrations > New registration**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/image%20%283%29.png)
+</Frame>
+
+3. Enter a name for your application, then select **Accounts in this organizational directory only (Single tenant)** to limit access to your organization’s directory.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2012.04.27.png)
+</Frame>
+
+4. Click **Register** to complete the setup. 
+
+<Info>
+You will be redirected to the overview page of the newly created app registration.
+</Info>
+
+#### API permissions
+
+To configure the necessary API permissions, follow these steps:
+
+1. Go to the **API permissions** tab and click **Add a permission**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/ent1.png)
+</Frame>
+
+2. In the permissions menu, select **Microsoft Graph** and then choose **Delegated permissions**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2011.35.56.png)
+</Frame>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2011.36.46.png)
+</Frame>
+
+3. Add the following permissions by selecting each option under **OpenId permissions**:
+    
+- email
+- offline_access
+- openid
+- profile
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2011.38.35.png)
+</Frame>
+
+4. After adding these permissions, click **Add permissions** to confirm.
+
+#### Token configuration
+
+Configure the claims you want to include in the ID token.
+
+1. Navigate to the **Token configuration** tab. Click **Add optional claim**, then select **Token type > Access**.
+
+* Choose the following claims to include in the token:
+    * email
+    * family_name
+    * given_name
+    * preferred
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2015.36.40.png)
+</Frame>
+
+2. Click **Add** to save these optional claims.
+3. Next, add group claims to the token by clicking **Add groups claim**.
+4. Select **All groups** and, under each token type, select **sAMAccountName** (this may differ for your specific organization).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2016.14.01.png)
+</Frame>
+
+#### Expose an API
+
+To configure the API exposure and define scopes:
+
+1. In the **Expose an API** section, click **Add** under **Application ID URI**. It’s recommended to use the application’s name for consistency.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2018.11.53.png)
+</Frame>
+
+2. Click **Save**.
+3. Under **Scopes defined by this API**, click **Add a scope** and configure it as follows:
+
+* **Scope name**: `FlowxAI.ReadWrite.All`
+* **Who can consent**: Admins and users
+* **Admin consent display name**: Full API Access for FlowX.AI Platform
+* **Admin consent description**: Grants this application full access to all available APIs, allowing it to read, write, and manage resources across the FlowX.AI platform.
+* **User consent display name**: Same as admin consent display name
+* **User consent description**: Same as admin consent description
+* **State**: Enabled
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2018.16.52.png)
+</Frame>
+
+<Info> 
+This scope is not used directly to grant permissions. Instead, it is included in login requests made from a web client. When a client makes a login request with this scope, Entra ID uses it to identify and provide the appropriate access token configured here, ensuring secure access. 
+</Info>
+
+4. Under **Authorized client applications**, click **Add a client application**. Add each of the following client applications, selecting the `FlowxAI.ReadWrite.All` scope:
+- flowx-web
+- flowx-admin
+- flowx-process-engine
+- flowx-integration-designer
+- flowx-task-management-plugin
+- flowx-scheduler-core
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2018.38.41.png)
+</Frame>
+
+    
+<Info> 
+Client IDs for these applications can be found on the **Overview** page of each respective application. If some applications are not created yet, you can return and add them to this section after their creation. 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2018.36.39.png)
+</Frame>
+
+</Info>
+
+#### Application roles
+
+To configure application roles, follow these steps:
+
+1. Navigate to **App roles** and click **Create app role**. 
+2. Select **Allowed member types** select **Both (Users/Groups + Applications)**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2018.43.05.png)
+</Frame>
+
+3. Complete the role details with the following information:
+
+* Display name: The name displayed for the role.
+* Value: A unique identifier for the role within applications.
+* Description: A description of the role’s purpose.
+
+<Info>
+App role list should be the same as the Keycloak setup. A list of default roles can be found [**here**](default-roles).
+</Info>
+
+## Other apps registration
+
+These steps outline the registration and configuration of additional applications required for FlowX.AI functionality.
+
+* Flowx-Admin app
+* Flowx-Process-Engine app 
+* Flowx-Integration-Designer app
+* Flowx-Task-Management-Plugin app
+* Flowx-Scheduler-Core app
+
+---
+
+### Flowx-Admin app registration 
+
+1. **Create a New Application Registration**  
+   - Go to [https://portal.azure.com](https://portal.azure.com) and log in to your Entra ID directory where you will host FlowX.AI application registrations.
+
+2. **Register the Application**  
+   - Navigate to **Microsoft Entra ID > App registrations > New registration**.
+   - Set the application name and select **Accounts in this organizational directory only (Single tenant)**.
+   - Click **Register**. You will be redirected to the overview page of the newly created app registration.
+
+<Info>
+You will now see the overview for your new app registration.
+</Info>
+
+#### Configure client secrets
+
+1. Navigate to **Certificates & secrets**.
+2. Under **Client secrets**, click **New client secret**.
+3. Set a **description** and choose an **expiration time** for the client secret, then click **Add**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2018.57.31.png)
+</Frame>
+
+<Info>
+Copy the generated client secret value. This will be used to configure `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENT_SECRET`.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2018.59.12.png)
+</Frame>
+
+</Info>
+
+#### Configure API permissions
+
+1. Go to the **API permissions** tab and click **Add a permission**.
+2. Select **Microsoft Graph > Application permissions**.
+3. Add the following permissions for **flowx-admin**:
+   - **Application.Read.All**
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2019.01.20.png)
+</Frame>
+
+<Info>
+If you have admin privileges, you can click **Grant admin consent** to apply these permissions. If not, contact your tenant administrator to grant consent.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2019.03.00.png)
+</Frame>
+</Info>
+
+---
+
+### Flowx-Process-Engine app registration
+
+Follow the same **Application Registration Steps** and **Configure Client Secrets** steps as above.
+
+#### Configure API permissions
+
+- **API Permissions**: No additional permissions required.
+
+
+---
+
+### Flowx-Integration-Designer app registration
+
+Follow the same **Application Registration Steps** and **Configure Client Secrets** steps as above.
+
+#### Configure API permissions
+
+- **API Permissions**: No additional permissions required.
+
+---
+
+### Flowx-Task-Management-Plugin app registration
+
+Follow the same **Application Registration Steps** and **Configure Client Secrets** steps as above.
+
+#### Configure API permissions
+
+1. Go to the **API permissions** tab and click **Add a permission**.
+2. Select **Microsoft Graph > Application permissions**.
+3. Add the following permissions for **flowx-task-management-plugin**:
+   - **Application.Read.All**
+   - **Group.Read.All**
+   - **User.Read.All**
+
+<Info>
+If you have admin privileges, you can click **Grant admin consent** to apply these permissions. If not, contact your tenant administrator to grant consent.
+</Info>
+
+--- 
+### Flowx-Scheduler-Core app registration
+
+Follow the same **Application Registration Steps** and **Configure Client Secrets** steps as above.
+
+#### Configure API permissions
+
+- **API Permissions**: No additional permissions required.
+
+---
+
+### Assigning a role to a user/group
+
+To assign a role to a user or group for your FlowX.AI applications, follow these steps:
+
+1. Go to [https://portal.azure.com](https://portal.azure.com) and log in to your Entra ID directory that hosts your FlowX.AI application registrations.
+
+2. Navigate to **Microsoft Entra ID > Enterprise applications** and search for your **flowx-api** app registration name.  
+   (An enterprise application with the same name was automatically created when the app registration was set up.)
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2019.11.43.png)
+</Frame>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2019.12.51.png)
+</Frame>
+
+3. Under **Users and groups**, select **Add user/group**.  
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2019.14.17.png)
+</Frame>
+   - Choose the user or group you want to assign.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2019.16.53.png)
+</Frame>
+   
+   - Select the appropriate role from the available options.
+
+4. Click **Assign** to complete the role assignment.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2019.19.39.png)
+</Frame>
+
+<Info>
+It is recommended to provide roles through group membership for easier management and scalability.
+</Info>
+
+---
+
+### Adding custom attributes 
+
+<Info>
+This is done using Microsoft Graph CLI.
+</Info>
+
+To add custom attributes to your FlowX.AI applications, follow these steps using the Microsoft Graph CLI (mgc).
+
+#### Prerequisites
+
+- [Install the Microsoft Graph CLI](https://learn.microsoft.com/en-us/graph/cli/installation?tabs=macos).
+
+#### Create an attribute extension property
+
+Create an Attribute Extension Property on the flowx-api app registration:
+
+1. Log in to Microsoft Graph CLI with the necessary permissions:
+
+```bash
+   $ mgc login --scopes Directory.Read.All
+```
+
+2. Create the attribute extension property by running the following command. Replace `<application_object_id>` with the object ID of your flowx-api application:
+
+```bash
+$ mgc applications extension-properties create --application-id <application_object_id> --body '
+{
+  "dataType": "String",
+  "name": "businessFilter",
+  "targetObjects": [
+    "User", "Group"
+  ]
+}'
+```
+#### Retrieve the attribute extension name
+
+
+To confirm the attribute extension name, use the command below. This will output the exact name of the created extension property.
+
+```bash
+$ mgc applications extension-properties list --application-id <application_object_id> --select name
+```
+
+Example output:
+
+```json
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#applications(\u0027<application_object_id>\u0027)/extensionProperties(name)",
+  "value": [
+    {
+      "name": "extension_ec959542898b42bcb6922e7d3f9df282_businessFilter"
+    }
+  ]
+}
+```
+
+#### Configure token claim
+
+1. Go to the **flowx-api** app registration in the Azure portal.
+2. Navigate to **Token configuration**.
+3. Click **Add optional claim**.
+    * Select **Token type** as **Access**.
+    * Check the box for `extn.businessFilter`.
+4. Click Add to save the changes.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2019.31.05.png)
+</Frame>
+
+#### Assign attribute extension to a user
+
+1. Log in with the required permissions to modify user attributes:
+
+```bash
+$ mgc login --scopes User.ReadWrite.All
+```
+
+2. Assign the `businessFilter` attribute to a user by running the command below. Replace `<user_object_id>` with the user's `object ID`:
+
+```bash
+$ mgc users patch --user-id <user_object_id> --body '
+{
+  "extension_ec959542898b42bcb6922e7d3f9df282_businessFilter": "docs"
+}'
+```
+
+#### Assign attribute extension to a group
+
+Follow similar steps to assign the `businessFilter` attribute to a group. Replace `<group_object_id>` with the group’s `object ID` and use the following command:
+
+```bash
+$ mgc groups patch --group-id <group_object_id> --body '
+{
+  "extension_ec959542898b42bcb6922e7d3f9df282_businessFilter": "docs"
+}'
+```
+---
+## Example JWT Token for User
+
+To verify that the custom attributes and roles have been correctly applied, you can inspect a sample JWT token issued to a user. This token will include standard claims along with any custom attributes and roles configured in your Entra ID setup.
+
+### Steps to Retrieve a JWT Token
+
+1. **Login to the FlowX.AI Application**  
+   Log in to the FlowX.AI application as the user for whom the JWT token needs to be inspected.
+
+2. **Retrieve the JWT Token**  
+   After logging in, retrieve the JWT token by one of the following methods:
+   - Using browser developer tools to inspect network requests (look for requests with an `Authorization` header).
+   - Accessing a token endpoint if available, using a tool like Postman.
+
+3. **Decode the JWT Token**  
+   Use a JWT decoding tool, such as [jwt.io](https://jwt.io/), to decode and inspect the token.
+
+---
+
+### Sample JWT Token Structure
+
+Below is an example JWT token structure that includes key claims, custom attributes, and roles:
+
+<Accordion title="JWT token example">
+```json
+{
+  "aud": "api://rd-p-example-flowx-api",
+  "iss": "https://sts.windows.net/673cac6c-3d63-40cf-a43f-07408dd91072/",
+  "iat": 1730720856,
+  "nbf": 1730720856,
+  "exp": 1730726397,
+  "acr": "1",
+  "aio": "ATQAy/8YAAAAj3ca5D/znraYUsif7RVc7TmWJPj66tqsUon0oon1xPamN1W7wN070R1JwaCwUQyQ",
+  "amr": [
+    "pwd"
+  ],
+  "appid": "673b5314-a9c8-40ec-beb5-636fa9a781b4",
+  "appidacr": "0",
+  "email": "john.doe@flowx.ai",
+  "extn.businessFilter": [
+    "docs"
+  ],
+  "family_name": "Doe",
+  "given_name": "John",
+  "groups": [
+    "ef731a0d-b44f-44da-bd78-67363c901bb1",
+    "db856713-0dfa-4d3d-aefa-bbb598257084",
+    "4336202b-6fc4-4132-afab-7f6573993325",
+    "5dc0b52e-823b-4ce9-b3e4-b3070912a4ef",
+    "ce006d40-555f-4247-890b-1053fa3cb172",
+    "291ac248-4e29-4c91-8e1d-19cbeec64eb8",
+    "b82dc551-f3f0-4d28-aaf0-a0a74fe3b3e3",
+    "42b39b5f-7545-48be-88d1-6e88716236db",
+    "cc0f776a-1cb2-4b8c-a472-8e1393764442",
+    "6eac9487-e04c-41e6-81ce-364f09c22bbf",
+    "01c30789-6862-4085-b5c4-f0cb02fb41b0",
+    "75ac188b-61c4-4aa9-ad7e-af1d543e199a",
+    "e726fda5-79f0-440b-b86c-8a9820d14d2e",
+    "259980bb-e881-4d93-9912-d2562441a257",
+    "9146edd4-6194-4487-b524-79956635f514",
+    "ce046ce2-6ef8-40f2-9f4e-a70f1ca14ecf",
+    "62d1f9f5-858c-43e2-af92-94bcc575681b",
+    "69df5ff6-1da9-49d1-9871-b7e62de2b212",
+    "043d25fc-a507-47ee-83e3-1d31ce0d9b35"
+  ],
+  "ipaddr": "86.126.6.183",
+  "name": "Jonh Doe",
+  "oid": "61159071-3fd6-4373-8aec-77ee58675776",
+  "preferred_username": "john.doe@flowx.ai",
+  "rh": "1.AYEAbKw8Z2M9z0CkPwdAjdkQckKVleyLibxCtpIufT-d8oKBAAeBAA.",
+  "roles": [
+    "ROLE_DOCUMENT_TEMPLATES_IMPORT",
+    "FLOWX_ROLE",
+    "ROLE_TASK_MANAGER_OOO_ADMIN",
+    "ROLE_ADMIN_MANAGE_CONFIG_IMPORT",
+    "ROLE_INTEGRATION_SYSTEM_READ",
+    "ROLE_INTEGRATION_WORKFLOW_READ_RESTRICTED",
+    "ROLE_ADMIN_MANAGE_PROCESS_ADMIN",
+    "ROLE_MANAGE_NOTIFICATIONS_ADMIN",
+    "ROLE_ADMIN_MANAGE_INTEGRATIONS_EDIT",
+    "ROLE_TASK_MANAGER_HOOKS_IMPORT",
+    "ROLE_THEMES_READ",
+    "ROLE_ENGINE_MANAGE_PROCESS_EDIT",
+    "ROLE_TASK_MANAGER_PROCESS_ALLOCATION_SETTINGS_ADMIN",
+    "ROLE_AI_OPTIMIZER_EDIT",
+    "ROLE_ENGINE_MANAGE_INSTANCE_READ",
+    "ROLE_ADMIN_MANAGE_INTEGRATIONS_ADMIN",
+    "ROLE_ADMIN_MANAGE_PROCESS_IMPORT",
+    "ROLE_COPO_TELLER",
+    "ROLE_CMS_CONTENT_READ",
+    "ROLE_CMS_CONTENT_IMPORT",
+    "ROLE_INTEGRATION_WORKFLOW_ADMIN",
+    "ROLE_AI_ARCHITECT_EDIT",
+    "ROLE_TASK_MANAGER_HOOKS_READ",
+    "ROLE_AI_WRITER_EDIT",
+    "ROLE_TASK_MANAGER_HOOKS_ADMIN",
+    "ROLE_MEDIA_LIBRARY_EDIT",
+    "ROLE_CMS_TAXONOMIES_READ",
+    "ROLE_AI_INSPECTOR_EDIT",
+    "FLOWX_FRONTOFFICE",
+    "ROLE_START_EXTERNAL",
+    "ROLE_DOCUMENT_TEMPLATES_READ",
+    "ROLE_TASK_MANAGER_PROCESS_ALLOCATION_SETTINGS_IMPORT",
+    "VIEW_INSTANCES",
+    "ROLE_ADMIN_MANAGE_INTEGRATIONS_IMPORT",
+    "ROLE_ADMIN_MANAGE_USERS_READ",
+    "ROLE_THEMES_ADMIN",
+    "ROLE_ADMIN_MANAGE_PLATFORM_READ",
+    "ROLE_TASK_MANAGER_OOO_EDIT",
+    "ROLE_CMS_TAXONOMIES_EDIT",
+    "ROLE_THEMES_IMPORT",
+    "ROLE_AI_DEVELOPER_EDIT",
+    "ROLE_MANAGE_NOTIFICATIONS_READ",
+    "ROLE_INTEGRATION_SYSTEM_EDIT",
+    "ROLE_MANAGE_NOTIFICATIONS_SEND",
+    "FLOWX_ADMIN",
+    "ROLE_INTEGRATION_READ",
+    "FLOWX_BACKOFFICE",
+    "ROLE_DOCUMENT_TEMPLATES_EDIT",
+    "ROLE_MEDIA_LIBRARY_IMPORT",
+    "ROLE_AI_ASSISTANT_READ",
+    "ROLE_ADMIN_MANAGE_CONFIG_EDIT",
+    "ROLE_CMS_TAXONOMIES_IMPORT",
+    "ROLE_ADMIN_MANAGE_CONFIG_ADMIN",
+    "ROLE_TASK_MANAGER_TASKS_READ",
+    "ROLE_DOCUMENT_TEMPLATES_ADMIN",
+    "ROLE_INTEGRATION_WORKFLOW_READ",
+    "ROLE_COPO_VIEWER",
+    "ROLE_MEDIA_LIBRARY_ADMIN",
+    "ROLE_NOTIFICATION_TEMPLATES_EDIT",
+    "ROLE_ADMIN_MANAGE_PROCESS_READ",
+    "ROLE_AI_INTEGRATOR_EDIT",
+    "ROLE_AI_SUPERVISOR_EDIT",
+    "ROLE_INTEGRATION_WORKFLOW_EDIT",
+    "ROLE_CMS_CONTENT_ADMIN",
+    "ROLE_CMS_CONTENT_EDIT",
+    "FLOWX_SUPERVISOR",
+    "ROLE_ADMIN_MANAGE_CONFIG_READ",
+    "ROLE_TASK_MANAGER_OOO_READ",
+    "ROLE_TASK_MANAGER_PROCESS_ALLOCATION_SETTINGS_EDIT",
+    "ROLE_INTEGRATION_ADMIN",
+    "ROLE_NOTIFICATION_TEMPLATES_READ",
+    "ROLE_AI_AUDITOR_EDIT",
+    "ROLE_ENGINE_MANAGE_INSTANCE_ADMIN",
+    "ROLE_INTEGRATION_SYSTEM_ADMIN",
+    "ROLE_ADMIN_MANAGE_PROCESS_EDIT",
+    "ROLE_INTEGRATION_EDIT",
+    "ROLE_AI_DESIGNER_EDIT",
+    "ROLE_TASK_MANAGER_HOOKS_EDIT",
+    "ROLE_AI_COMMAND_READ",
+    "ROLE_CMS_TAXONOMIES_ADMIN",
+    "ROLE_ADMIN_MANAGE_USERS_ADMIN",
+    "ROLE_LICENSE_MANAGE_READ",
+    "ROLE_AI_ANALYST_EDIT",
+    "ROLE_TASK_MANAGER_VIEWS_ADMIN",
+    "ROLE_ADMIN_MANAGE_PLATFORM_ADMIN",
+    "ROLE_TASK_MANAGER_PROCESS_ALLOCATION_SETTINGS_READ",
+    "ROLE_AI_STRATEGIST_EDIT",
+    "ROLE_LICENSE_MANAGE_ADMIN",
+    "ROLE_THEMES_EDIT",
+    "ROLE_NOTIFICATION_TEMPLATES_ADMIN",
+    "ROLE_LICENSE_MANAGE_EDIT",
+    "ROLE_INTEGRATION_IMPORT",
+    "ROLE_NOTIFICATION_TEMPLATES_IMPORT",
+    "ROLE_ADMIN_MANAGE_INTEGRATIONS_READ",
+    "ROLE_ADMIN_MANAGE_USERS_EDIT",
+    "ROLE_MEDIA_LIBRARY_READ"
+  ],
+  "scp": "FlowxAI.ReadWrite.All",
+  "sub": "tMG9A1npM9hK89AV9rdUvTAKVlli3oLkyI1E8F7bV5Y",
+  "tid": "673cac6c-3d63-40cf-a43f-07408dd91072",
+  "unique_name": "john.doe@flowx.ai",
+  "upn": "john.doe@flowx.ai",
+  "uti": "v3igRE_kEUqZC4nbXII3AA",
+  "ver": "1.0",
+  "wids": [
+    "9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3",
+    "fe930be7-5e62-47db-91af-98c3a49a38b1",
+    "e3973bdf-4987-49ae-837a-ba8e231c7286",
+    "158c047a-c907-4556-b7ef-446551a6b5f7",
+    "e8611ab8-c189-46e8-94e1-60213ab1f814",
+    "b79fbf4d-3ef9-4689-8143-76b194e85509"
+  ]
+}
+```
+</Accordion>
+
+## Configure helm charts
+
+This section provides details on configuring Helm charts for FlowX.AI applications, including where to retrieve required values and setting environment variables for different application components.
+
+---
+
+### Where to Get the Values:
+
+- **tenant_id**: The unique identifier for your Entra ID tenant.
+  
+  ![Tenant ID](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/image%20%286%29.png)
+
+- **client_id**: The client ID for the specific FlowX.AI application.
+
+  ![Client ID](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/image%20%287%29.png)
+
+- **client_secret**: The client secret generated during app registration (only visible at creation).
+
+  ![Client Secret](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/image%20%288%29.png)
+
+---
+
+### Helm Chart Values
+
+These configurations are required for different FlowX.AI application components. Substitute `<tenant_id>`, `<flowx_web_client_id>`, and `<client_id>` with your specific values.
+
+---
+
+### Designer
+
+For the Designer component, use the following settings:
+
+```yaml
+SKIP_ISSUER_CHECK: true
+STRICT_DISCOVERY_DOCUMENT_VALIDATION: false
+KEYCLOAK_ISSUER: https://login.microsoftonline.com/<tenant_id>/v2.0
+KEYCLOAK_CLIENT_ID: <flowx_web_client_id>
+KEYCLOAK_SCOPES: "openid profile email offline_access api://rd-e-example-flowx-api/FlowxAI.ReadWrite.All"
+KEYCLOAK_REDIRECT_URI: https://flowx.example.az1.cloud.flowxai.dev
+```
+
+### All Java application
+
+
+```yaml
+SECURITY_TYPE: jwt-public-key
+SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: https://sts.windows.net/<tenant_id>/
+SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: https://login.microsoftonline.com/<tenant_id>/discovery/v2.0/keys
+```
+
+### Java applications with a Service Principal
+
+These settings apply to Java applications that require a service principal, such as Admin, Integration Designer, Process Engine, Scheduler Core, and Task Management Plugin.
+
+```yaml
+SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_MAINAUTHPROVIDER_TOKEN_URI: https://login.microsoftonline.com/<tenant_id>/oauth2/v2.0/token
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENT_ID: <client_id>
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENT_SECRET: <client_secret>
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_SCOPE: api://rd-p-example-flowx-api/.default
+```
+
+### Java applications with access to Microsoft Graph API
+
+The following configuration is required for Java applications that need access to the Microsoft Graph API, such as Admin and Task Management Plugin.
+
+```yaml
+OPENID_PROVIDER: entra
+OPENID_ENTRA_TENANT_ID: <tenant_id>
+OPENID_ENTRA_PRINCIPAL_ID: <flowx_admin_client_id>
+```

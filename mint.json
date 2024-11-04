@@ -586,6 +586,7 @@
           "pages": [
             "4.5.0/setup-guides/access-management/access-management-overview",
             "4.5.0/setup-guides/access-management/configuring-an-iam-solution",
+            "4.5.0/setup-guides/access-management/configuring-an-iam-solution-entra",
             "4.5.0/setup-guides/access-management/default-roles"
           ]
         },
