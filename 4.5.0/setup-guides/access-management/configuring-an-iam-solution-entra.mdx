@@ -3,6 +3,12 @@ title: Configuring an IAM solution (EntraID)
 description: This guide provides step-by-step instructions for configuring a minimal EntraId setup to manage users, roles, and applications efficiently.
 ---
 
+## Overview
+
+
+Microsoft Entra is Microsoft’s unified identity and access management solution designed to protect access to applications, resources, and user data across an organization’s environment. It provides a robust identity and access management (IAM) framework, allowing secure access control, role management, and integration of various applications under a single directory. Entra is crucial for managing multi-cloud and hybrid environments securely, enforcing policies, and supporting both on-premises and cloud resources.
+
+
 ## Prerequisites
 
 * Application Administrator role
@@ -10,12 +16,32 @@ description: This guide provides step-by-step instructions for configuring a min
 
 ## Recommended EntraID setup
 
-To configure a required EntraID setup, in this guide we will covere the following steps:
+This setup configures Microsoft Entra to manage and secure access for FlowX.AI applications, handling user roles, custom attributes, and application-specific permissions. The setup covers these main components:
 
-* Flowx-web app registration
-* Flowx-api app registration
-* Example JWT token for user
-* Configuring helm charts
+<AccordionGroup>
+<Accordion title="1. Application Registrations">
+- Flowx-Web and Flowx-API are the core applications that act as entry points for the FlowX.AI platform. Additional applications like Flowx-Admin, Task Management Plugin, and Scheduler Core are registered to support specific functionalities.
+- Each application registration includes settings for authentication, API permissions, and role assignments.
+</Accordion>
+<Accordion title="2. Authentication and Authorization">
+- Configures OAuth 2.0 and OIDC protocols, enabling secure access to resources.
+- Roles and permissions are assigned through Entra, and single sign-on (SSO) is set up for ease of access across applications.
+</Accordion>
+<Accordion title="3. Token and API Permissions">
+- Token Configuration includes defining claims (e.g., `email`, `groups`) for use in JWTs, which are used for secure identity validation across services.
+- API Permissions are managed using Microsoft Graph, which governs access to resources like user profiles and groups within FlowX.AI.
+</Accordion>
+<Accordion title="4. Custom Attributes">
+Custom attribute extensions (e.g., `businessFilter`) allow organizations to apply additional filters or metadata to user and group profiles, configured and managed using Microsoft Graph CLI.
+</Accordion>
+<Accordion title="5. Helm Chart Configuration">
+- Helm charts provide a structured setup for deploying FlowX.AI applications in containerized environments.
+- Key values such as `tenant_id`, `client_id`, and `client_secret` are configured to support authentication and secure access.
+</Accordion>
+<Accordion title="6. Example JWT Tokens">
+JWT tokens are configured to carry user claims, roles, and custom attributes, ensuring that each token provides comprehensive identity details for FlowX.AI applications.
+</Accordion>
+</AccordionGroup>
 
 ### Flowx-web app registration
 
@@ -83,7 +109,7 @@ Follow these steps to configure authentication for the Flowx-web application:
 
 To configure the necessary API permissions, follow these steps:
 
-1. Go to the **API permissions** tab and click **Add a permission**.
+1. Navigate the **API permissions** tab and click **Add a permission**.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/Screenshot%202024-11-04%20at%2011.33.31.png)
@@ -140,6 +166,22 @@ Configure the claims you want to include in the ID token.
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/image%20%285%29.png)
 </Frame>
+
+
+#### Setting token expiration policies
+
+For organizations that require specific control over token lifetimes, Microsoft Entra allows customization of token expiration policies.
+
+1. **Create a Custom Token Lifetime Policy**: Define the desired expiration settings for access, ID, and refresh tokens in the policy.
+2. **Assign the Policy to a Service Principal**: Apply the policy to your Flowx-web or Flowx-API app registrations to enforce token lifetime requirements.
+
+<Tip>
+For more details on creating and assigning policies for token expiration, refer to [**Microsoft's guide on configuring token lifetimes**](https://learn.microsoft.com/en-us/entra/identity-platform/configure-token-lifetimes#create-a-policy-and-assign-it-to-a-service-principal).
+</Tip>
+
+<Info>
+Adjusting token lifetimes can enhance security by reducing the window for unauthorized access. 
+</Info>
 
 ---
 
@@ -300,15 +342,15 @@ To configure application roles, follow these steps:
 App role list should be the same as the Keycloak setup. A list of default roles can be found [**here**](default-roles).
 </Info>
 
-## Other apps registration
+### Other applications registration
 
-These steps outline the registration and configuration of additional applications required for FlowX.AI functionality.
+The following FlowX.AI applications require similar steps for registration:
 
-* Flowx-Admin app
-* Flowx-Process-Engine app 
-* Flowx-Integration-Designer app
-* Flowx-Task-Management-Plugin app
-* Flowx-Scheduler-Core app
+* Flowx-Admin 
+* Flowx-Process-Engine
+* Flowx-Integration-designer
+* Flowx-Task-Management-Plugin
+* Flowx-Scheduler-Core
 
 ---
 
@@ -460,11 +502,15 @@ It is recommended to provide roles through group membership for easier managemen
 
 ### Adding custom attributes 
 
-<Info>
-This is done using Microsoft Graph CLI.
-</Info>
+Using Microsoft Graph CLI, you can add custom attributes such as `businessFilter`.
 
-To add custom attributes to your FlowX.AI applications, follow these steps using the Microsoft Graph CLI (mgc).
+<Tip>
+For more information about Microsoft Graph CLI, check the following docs: 
+
+<Card title ="Get started with Microsoft Graph CLI" href="https://learn.microsoft.com/en-us/graph/cli/get-started" icon="link">
+</Card>
+
+</Tip>
 
 #### Prerequisites
 
@@ -479,6 +525,10 @@ Create an Attribute Extension Property on the flowx-api app registration:
 ```bash
    $ mgc login --scopes Directory.Read.All
 ```
+
+<Tip>
+You can add additional permissions by repeating the mgc login command with the new permission scopes.
+</Tip>
 
 2. Create the attribute extension property by running the following command. Replace `<application_object_id>` with the object ID of your flowx-api application:
 
@@ -548,6 +598,16 @@ $ mgc users patch --user-id <user_object_id> --body '
 
 Follow similar steps to assign the `businessFilter` attribute to a group. Replace `<group_object_id>` with the group’s `object ID` and use the following command:
 
+1. Log in with the required permissions to modify group attributes:
+
+```bash
+$ mgc login --scopes User.ReadWrite.All
+```
+
+
+2. Assign the custom attribute by  the command below, replacing `<user_object_id>` with the user’s object ID. The businessFilter attribute is set to "docs" in this example.
+
+
 ```bash
 $ mgc groups patch --group-id <group_object_id> --body '
 {
@@ -555,11 +615,11 @@ $ mgc groups patch --group-id <group_object_id> --body '
 }'
 ```
 ---
-## Example JWT Token for User
+## Example JWT token for user
 
 To verify that the custom attributes and roles have been correctly applied, you can inspect a sample JWT token issued to a user. This token will include standard claims along with any custom attributes and roles configured in your Entra ID setup.
 
-### Steps to Retrieve a JWT Token
+### Steps to retrieve a JWT token
 
 1. **Login to the FlowX.AI Application**  
    Log in to the FlowX.AI application as the user for whom the JWT token needs to be inspected.
@@ -574,7 +634,7 @@ To verify that the custom attributes and roles have been correctly applied, you 
 
 ---
 
-### Sample JWT Token Structure
+### Sample JWT token structure
 
 Below is an example JWT token structure that includes key claims, custom attributes, and roles:
 
@@ -748,7 +808,7 @@ This section provides details on configuring Helm charts for FlowX.AI applicatio
 
 ---
 
-### Where to Get the Values:
+### Where to get the values
 
 - **tenant_id**: The unique identifier for your Entra ID tenant.
   
@@ -764,13 +824,13 @@ This section provides details on configuring Helm charts for FlowX.AI applicatio
 
 ---
 
-### Helm Chart Values
+### Helm chart values
 
 These configurations are required for different FlowX.AI application components. Substitute `<tenant_id>`, `<flowx_web_client_id>`, and `<client_id>` with your specific values.
 
 ---
 
-### Designer
+#### Designer
 
 For the Designer component, use the following settings:
 
@@ -783,7 +843,7 @@ KEYCLOAK_SCOPES: "openid profile email offline_access api://rd-e-example-flowx-a
 KEYCLOAK_REDIRECT_URI: https://flowx.example.az1.cloud.flowxai.dev
 ```
 
-### All Java application
+#### All Java application
 
 
 ```yaml
@@ -792,7 +852,7 @@ SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: https://sts.windows.net/<t
 SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: https://login.microsoftonline.com/<tenant_id>/discovery/v2.0/keys
 ```
 
-### Java applications with a Service Principal
+#### Java applications with a Service Principal
 
 These settings apply to Java applications that require a service principal, such as Admin, Integration Designer, Process Engine, Scheduler Core, and Task Management Plugin.
 
@@ -803,7 +863,7 @@ SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENT_SECRET: <client_s
 SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_SCOPE: api://rd-p-example-flowx-api/.default
 ```
 
-### Java applications with access to Microsoft Graph API
+#### Java applications with access to Microsoft Graph API
 
 The following configuration is required for Java applications that need access to the Microsoft Graph API, such as Admin and Task Management Plugin.
 
