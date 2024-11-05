@@ -1,5 +1,5 @@
 ---
-title: Configuring an IAM solution
+title: Configuring an IAM solution (Keycloak)
 description: This guide provides step-by-step instructions for configuring a minimal Keycloak setup to manage users, roles, and applications efficiently.
 ---
 
@@ -700,7 +700,6 @@ In the end, you should have something similiar to this:
 </Step>
 
 
-
 <Step title="Add a Realm Roles Mapper">
 
 In the newly created task management plugin service account, select **Client Scopes**:
@@ -816,5 +815,43 @@ The configuration is similiar to the **process engine service account**:
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/md5.png)
 </Frame>
+
+### Integration Designer service account
+
+The Integration Designer service account is used by the integration designer microservice to interact securely with Keycloak, enabling it to manage various integrations within the FlowX.AI platform.
+
+Steps to set up an Integration Designer service account:
+
+<Steps> 
+<Step title="Create the Client"> 
+- In Keycloak, navigate to **Clients** and select **Create client**.
+- Enter a **Client ID** for your new client (e.g., `integration-designer-sa`).
+
+<Frame> 
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/keycloak/id-sa.png) 
+</Frame>
+</Step> 
+
+<Step title="Configure Client Capabilities"> 
+
+- Enable **Client authentication** under access type.
+- Enable **Service accounts roles** to allow the account to manage integrations.
+
+
+<Frame> 
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/keycloak/Screenshot%202024-11-05%20at%2013.58.06.png) 
+</Frame> 
+
+</Step>
+<Step title ="Save the Client Configuration">
+- Skip the **Login settings** page.
+- Click **Save** to apply the configuration.
+</Step> 
+</Steps> 
+
+For further details on configuring access rights and roles for the Integration Designer service account, refer to the following section:
+
+<Card title="Configuring Access Rights for Integration Designer" href="../access-management/configuring-access-rights-for-integration-designer" icon="file">
+</Card>
 
 By following these steps, you will have a minimal Keycloak setup to manage users, roles, and applications efficiently. For more detailed configurations and advanced features, refer to the official Keycloak documentation.
