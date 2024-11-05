@@ -1,0 +1,54 @@
+---
+title: Data-sync job setup guide
+icon: rotate
+description: This guide provides essential environment variables for configuring the Data-Sync Job. Clients should use these environment variables to set up and run the Job in their Kubernetes environment.
+---
+
+## Required environment variables
+
+### General configuration
+
+- `VERSION` - Specifies the version of the Data-Sync Job.
+- `CONFIG_PROFILE` - Configuration profile(s) to apply.
+
+
+## Database connections
+
+### PostgreSQL (Application Manager)
+
+- `FLOWX_DATASOURCE_APPMANAGER_URL` - Connection URL for PostgreSQL database.
+- `FLOWX_DATASOURCE_APPMANAGER_USERNAME` - Username for PostgreSQL.
+- `FLOWX_DATASOURCE_APPMANAGER_PASSWORD` - Password for PostgreSQL (retrieved from Kubernetes secret `postgresql-generic`).
+
+### MongoDB (CMS and other services)
+
+- `FLOWX_DATASOURCE_CMS_URI` - MongoDB URI for CMS database.
+- `CMS_MONGO_USERNAME` and `CMS_MONGO_PASSWORD` - MongoDB credentials for CMS database (retrieved from Kubernetes secret `cms-core-application-config`).
+- `FLOWX_DATASOURCE_SCHEDULER_URI` - MongoDB URI for Scheduler database.
+- `SCHEDULER_MONGO_USERNAME` and `SCHEDULER_MONGO_PASSWORD` - MongoDB credentials for Scheduler database (retrieved from Kubernetes secret `scheduler-core-application-config`).
+
+## Data sync configuration
+
+- `FLOWX_SYNC_RELEASE45_APPMANAGER_LASTCHANGELOGID` - ID for the last change log applied in the App Manager database.
+- `FLOWX_SYNC_RELEASE45_ENGINE_LASTCHANGELOGID` - ID for the last change log applied in the Engine database.
+
+## Secret references
+
+The following secrets need to be configured in Kubernetes for sensitive information:
+
+- `postgresql-generic` - Stores `FLOWX_DATASOURCE_APPMANAGER_PASSWORD` for PostgreSQL.
+- `cms-core-application-config` - Stores `CMS_MONGO_USERNAME` and `CMS_MONGO_PASSWORD` for MongoDB CMS.
+- `scheduler-core-application-config` - Stores `SCHEDULER_MONGO_USERNAME` and `SCHEDULER_MONGO_PASSWORD` for MongoDB Scheduler.
+
+> **Note**: Replace placeholders (e.g., `${CMS_MONGO_USERNAME}`, `${CMS_MONGO_PASSWORD}`) with actual secret values in Kubernetes before deploying the Job.
+
+## Deployment
+
+To deploy the Data-Sync Job, apply the YAML configuration with the required environment variables:
+
+```bash
+kubectl apply -f data-sync-job.yaml
+```
+
+Monitor the Job status and logs as needed to ensure successful execution.
+

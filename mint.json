@@ -552,7 +552,9 @@
         "4.5.0/setup-guides/events-gateway-setup",
         "4.5.0/setup-guides/audit-setup-guide",
         "4.5.0/setup-guides/search-data-service-setup-guide",
-        "4.5.0/setup-guides/license-engine-setup"
+        "4.5.0/setup-guides/license-engine-setup",
+        "4.5.0/setup-guides/data-sync"
+
       ]
     },
     {
