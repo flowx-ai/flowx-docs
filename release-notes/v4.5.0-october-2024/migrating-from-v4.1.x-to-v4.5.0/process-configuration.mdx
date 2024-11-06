@@ -1,0 +1,16 @@
+---
+title: Process configuration
+description: This guide outlines changes in process and UI configuration from v4.1.x to 4.5.0 version.
+---
+
+## Parameter configuration update
+
+* **Overview**: In version 4.5.0, global generic parameters (from versions prior to 4.5.0) have been migrated to application-level as Configuration Parameters, consolidating parameter management within specific applications for improved organization and control.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/Screenshot%202024-11-06%20at%2019.04.49.png)
+</Frame>
+
+* **Migration**: All generic parameters will be automatically migrated to Configuration Parameters section under a default application.
+* **Business Rules Unaffected**: There is no impact on existing business rules; they will continue to function as before without requiring updates.
+* **Process Export Considerations**: If you export a process from one application to another, ensure that you also transfer the associated configuration parameters. This step is crucial to maintain process functionality and consistency across applications.
