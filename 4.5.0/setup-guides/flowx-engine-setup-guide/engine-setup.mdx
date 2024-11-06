@@ -7,58 +7,21 @@ description: This guide provides instructions on how to set up and configure the
 
 Before initiating the FlowX.AI Engine, ensure the following infrastructure components are properly installed and configured:
 
-* **Docker Engine**: Version 17.06 or higher.
 * **Kafka**: Version 2.8 or higher.
 * **Elasticsearch**: Version 7.11.0 or higher.
-* **Database Instance**: Properly configured and accessible.
+* **PostgreSQL** - version 13 or higher for storing application data (could vary based on your preferred relational database)
+* **MongoDB** - version 4.4 or higher for managing runtime builds
 
 
 ## Dependencies
 
 The FlowX Engine interacts with various components critical for its operation:
 
-- **Database**: Primary storage for the engine. See [Database Configuration](#database-configuration).
+- **Database**: Primary storage for the engine.
 - **Redis Server**: Used for caching purposes. Refer to [Redis Configuration](../setup-guides-overview#redis-configuration).
 - **Kafka**: Facilitates messaging and event-driven architecture. Details on [Configuring Kafka](#configuring-kafka).
 
 For a microservices architecture, it’s common for services to manage their data via dedicated databases.
-
-### Example: Basic PostgreSQL Configuration
-
-Configure PostgreSQL using the Helm chart as demonstrated below:
-
-```yaml
-onboardingdb:
-  existingSecret: {{secretName}}
-  metrics:
-    enabled: true
-    service:
-      annotations:
-        prometheus.io/port: {{prometheus port}}
-        prometheus.io/scrape: "true"
-      type: ClusterIP
-    serviceMonitor:
-      additionalLabels:
-        release: prometheus-operator
-      enabled: true
-      interval: 30s
-      scrapeTimeout: 10s
-  persistence:
-    enabled: true
-    size: 1Gi
-  postgresqlDatabase: onboarding
-  postgresqlExtendedConf:
-    maxConnections: 200
-    sharedBuffers: 128MB
-  postgresqlUsername: postgres
-  resources:
-    limits:
-      cpu: 6000m
-      memory: 2048Mi
-    requests:
-      cpu: 200m
-      memory: 512Mi
-```
 
 ### Required External Services
 
@@ -70,12 +33,34 @@ onboardingdb:
 
 FlowX.AI Engine utilizes environment variables for configuration. Below are the key environment variables you need to configure:
 
+* [**Database configuration**]()
 * [**Configuring authorization and access roles**](#authorization--access-roles)
 * [**Configuring the data source**](../setup-guides-overview#datasource-configuration)
 * [**Configuring Redis**](../setup-guides-overview#redis-configuration)
 * [**Configuring logging**](../setup-guides-overview#logging)
 * [**Configuring Kafka**](#configuring-kafka)
 * [**Configuring access roles for processes**](./configuring-access-roles-for-processes)
+
+
+## Database configuration
+
+
+### PostgreSQL
+
+* `SPRING_DATASOURCE_URL` - Database URL for PostgreSQL
+* `SPRING_DATASOURCE_USERNAME` - Username for PostgreSQL
+* `SPRING_DATASOURCE_PASSWORD` - Password for PostgreSQL
+* `SPRING_DATASOURCE_DRIVER_CLASS_NAME` - Driver class for PostgreSQL
+
+### Configuring MongoDB (runtime database - additional data)
+
+The Process Engine requires to connect to Runtime MongoDB instance to access runtime build information. Use the following environment variables for configuration:
+
+* `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables runtime MongoDB usage
+	* **Default Value:** `true`
+* `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to MongoDB for Runtime DB (`app-runtime`)
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
+* `DB_USERNAME`: ` app-runtime`
 
 ## Authorization & access roles
 
@@ -84,7 +69,7 @@ This section outlines the OAuth2 configuration settings for securing the Spring 
 ### Resource server settings (OAuth2 configuration)
 
 <Warning>
-Old configuration from < v4.1 releases (will be deprecated in v4.5):
+Old configuration from < v4.1 releases:
 
 * `SECURITY_OAUTH2_BASE_SERVER_URL`: The base URL for the OAuth 2.0 Authorization Server, which is responsible for authentication and authorization for clients and users, it is used to authorize clients, as well as to issue and validate access tokens.
 * `SECURITY_OAUTH2_CLIENT_CLIENT_ID`: A unique identifier for a client application that is registered with the OAuth 2.0 Authorization Server, this is used to authenticate the client application when it attempts to access resources on behalf of a user.
@@ -458,3 +443,27 @@ To configure Prometheus metrics export for the FlowX.AI Engine, the following en
 | Environment Variable                           | Description                                    | Default Value | Possible Values |
 | ---------------------------------------------- | ---------------------------------------------- | ------------- | --------------- |
 | `MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED` | Enables or disables Prometheus metrics export. | `false`       | `true`, `false` |
+
+
+## RBAC configuration
+
+Process Engine requires specific RBAC (Role-Based Access Control) permissions to ensure proper access to Kubernetes resources like pods for database lock management. This configuration enables the necessary RBAC rules.
+
+- `rbac.create`: Set to `false` to avoid creating additional RBAC resources by default. Custom rules can still be added if required.
+- `rbac.rules`: Define custom RBAC rules for database locking, as shown below.
+
+```yaml
+rbac:
+  create: true
+  rules:
+    - apiGroups:
+        - ""
+      resources:
+        - secrets
+        - configmaps
+        - pods
+      verbs:
+        - get
+        - list
+        - watch
+```

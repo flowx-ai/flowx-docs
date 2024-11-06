@@ -1,46 +1,52 @@
 ---
 title: Data-sync job setup guide
 icon: rotate
-description: This guide provides essential environment variables for configuring the Data-Sync Job. Clients should use these environment variables to set up and run the Job in their Kubernetes environment.
+description: This guide provides essential environment variables for configuring the Data-Sync Job. You should use these environment variables to set up and run the Job in your Kubernetes environment.
 ---
+
+# Overview
+
+The Data-Sync Job is designed to synchronize and transfer data across multiple databases, ensuring data consistency and up-to-date information across all connected systems.
+
+It operates by connecting to multiple databases, retrieves data, and synchronizes changes across them. The job logs its actions and can be scheduled to run regularly, keeping all databases in sync and up-to-date.
+
+# Data-sync job setup guide
+
+This guide details the essential environment variables required to configure and run the Data-Sync Job for synchronizing data across various databases.
 
 ## Required environment variables
 
-### General configuration
+### MongoDB connections
 
-- `VERSION` - Specifies the version of the Data-Sync Job.
-- `CONFIG_PROFILE` - Configuration profile(s) to apply.
-
-
-## Database connections
-
-### PostgreSQL (Application Manager)
-
-- `FLOWX_DATASOURCE_APPMANAGER_URL` - Connection URL for PostgreSQL database.
-- `FLOWX_DATASOURCE_APPMANAGER_USERNAME` - Username for PostgreSQL.
-- `FLOWX_DATASOURCE_APPMANAGER_PASSWORD` - Password for PostgreSQL (retrieved from Kubernetes secret `postgresql-generic`).
-
-### MongoDB (CMS and other services)
+#### CMS database
 
 - `FLOWX_DATASOURCE_CMS_URI` - MongoDB URI for CMS database.
-- `CMS_MONGO_USERNAME` and `CMS_MONGO_PASSWORD` - MongoDB credentials for CMS database (retrieved from Kubernetes secret `cms-core-application-config`).
+- `CMS_MONGO_USERNAME` - Username for MongoDB CMS database.
+- `CMS_MONGO_DATABASE` - Database name for CMS.
+
+#### Scheduler database
+
 - `FLOWX_DATASOURCE_SCHEDULER_URI` - MongoDB URI for Scheduler database.
-- `SCHEDULER_MONGO_USERNAME` and `SCHEDULER_MONGO_PASSWORD` - MongoDB credentials for Scheduler database (retrieved from Kubernetes secret `scheduler-core-application-config`).
+- `SCHEDULER_MONGO_USERNAME` - Username for MongoDB Scheduler database.
+- `SCHEDULER_MONGO_DATABASE` - Database name for Scheduler.
 
-## Data sync configuration
+#### Task Manager database
 
-- `FLOWX_SYNC_RELEASE45_APPMANAGER_LASTCHANGELOGID` - ID for the last change log applied in the App Manager database.
-- `FLOWX_SYNC_RELEASE45_ENGINE_LASTCHANGELOGID` - ID for the last change log applied in the Engine database.
+- `FLOWX_DATASOURCE_TASKMANAGER_URI` - MongoDB URI for Task Manager database.
+- `TASKMANAGER_MONGO_USERNAME` - Username for MongoDB Task Manager database.
+- `TASKMANAGER_MONGO_DATABASE` - Database name for Task Manager.
 
-## Secret references
+### PostgreSQL connections
 
-The following secrets need to be configured in Kubernetes for sensitive information:
+#### Process Engine database
 
-- `postgresql-generic` - Stores `FLOWX_DATASOURCE_APPMANAGER_PASSWORD` for PostgreSQL.
-- `cms-core-application-config` - Stores `CMS_MONGO_USERNAME` and `CMS_MONGO_PASSWORD` for MongoDB CMS.
-- `scheduler-core-application-config` - Stores `SCHEDULER_MONGO_USERNAME` and `SCHEDULER_MONGO_PASSWORD` for MongoDB Scheduler.
+- `FLOWX_DATASOURCE_ENGINE_URL` - PostgreSQL URL for Process Engine database.
+- `FLOWX_DATASOURCE_ENGINE_USERNAME` - Username for PostgreSQL Process Engine database.
 
-> **Note**: Replace placeholders (e.g., `${CMS_MONGO_USERNAME}`, `${CMS_MONGO_PASSWORD}`) with actual secret values in Kubernetes before deploying the Job.
+#### Application Manager database
+
+- `FLOWX_DATASOURCE_APPMANAGER_URL` - PostgreSQL URL for Application Manager database.
+- `FLOWX_DATASOURCE_APPMANAGER_USERNAME` - Username for PostgreSQL Application Manager database.
 
 ## Deployment
 

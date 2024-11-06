@@ -27,42 +27,7 @@ The service comes with most of the needed configuration properties filled in, bu
 
 ## Configuration
 
-### MongoDB database
-
-A basic MongoDB configuration for the CMS service can be set up using a helm values.yaml file as follows:
-
-```yaml
-cms-mdb:
-    existingSecret: {{secretName}}
-    mongodbDatabase: {{CmsDatabaseName}}
-    mongodbUsername: {{CmsDatabaseUser}}
-    persistence:
-      enabled: true
-      mountPath: /bitnami/mongodb
-      size: 4Gi
-    replicaSet:
-      enabled: true
-      name: rs0
-      pdb:
-        enabled: true
-        minAvailable:
-          arbiter: 1
-          secondary: 1
-      replicas:
-        arbiter: 1
-        secondary: 1
-      useHostnames: true
-    serviceAccount:
-      create: false
-    usePassword: true
-```
-
-
-
-## Configuration
-
 Configure the default application name to be used when retrieving content:
-
 
 ```yaml
 application:
@@ -89,13 +54,31 @@ To configure user roles and access rights tailored to your specific use case in 
 
 ### Configuring MongoDB
 
-The MongoDB database is used for storing taxonomies and contents. The following configurations need to be set using environment variables:
+The MongoDB database is used for storing taxonomies and contents in the CMS service. Configure MongoDB with the following environment variables:
 
-* `SPRING_DATA_MONGODB_URI` - URI for connecting to the MongoDB instance  
+* `SPRING_DATA_MONGODB_URI` - URI for connecting to the CMS MongoDB instance  
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
+* `DB_USERNAME` : `cms-core`
+* `MONGOCK_TRANSACTIONENABLED` - Enables or disables transactions in MongoDB for compatibility with the Mongock library  
+  * **Default Value:** `false` (Set it to `false` to support successful migrations)
+  * **Note:** Set to `false` due to known issues with transactions in MongoDB version 5.
+
+
+#### Configuring MongoDB (runtime database - additional data)
+
+The CMS service also requires connection to a Runtime MongoDB instance for managing additional data related to runtime operations. Use the following environment variables for configuration:
+
+* `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables Runtime MongoDB usage
 	* **Default Value:** `true`
-* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for MongoDB  
+* `RUNTIME_DB_USERNAME`: `app-runtime`
+	* **Default Value:** `true`
+* `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to the Runtime MongoDB instance (`app-runtime`)  
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
+* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
   * **Possible Values:** `mongodb`, `cosmosdb`
-  * **Default Value:** `mongodb`ossible values**: `mongodb`, `cosmosdb`
+  * **Default Value:** `mongodb`
+
+
 
 ### Configuring Redis
 
