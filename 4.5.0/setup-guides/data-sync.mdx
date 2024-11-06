@@ -1,0 +1,60 @@
+---
+title: Data-sync job setup guide
+icon: rotate
+description: This guide provides essential environment variables for configuring the Data-Sync Job. You should use these environment variables to set up and run the Job in your Kubernetes environment.
+---
+
+# Overview
+
+The Data-Sync Job is designed to synchronize and transfer data across multiple databases, ensuring data consistency and up-to-date information across all connected systems.
+
+It operates by connecting to multiple databases, retrieves data, and synchronizes changes across them. The job logs its actions and can be scheduled to run regularly, keeping all databases in sync and up-to-date.
+
+# Data-sync job setup guide
+
+This guide details the essential environment variables required to configure and run the Data-Sync Job for synchronizing data across various databases.
+
+## Required environment variables
+
+### MongoDB connections
+
+#### CMS database
+
+- `FLOWX_DATASOURCE_CMS_URI` - MongoDB URI for CMS database.
+- `CMS_MONGO_USERNAME` - Username for MongoDB CMS database.
+- `CMS_MONGO_DATABASE` - Database name for CMS.
+
+#### Scheduler database
+
+- `FLOWX_DATASOURCE_SCHEDULER_URI` - MongoDB URI for Scheduler database.
+- `SCHEDULER_MONGO_USERNAME` - Username for MongoDB Scheduler database.
+- `SCHEDULER_MONGO_DATABASE` - Database name for Scheduler.
+
+#### Task Manager database
+
+- `FLOWX_DATASOURCE_TASKMANAGER_URI` - MongoDB URI for Task Manager database.
+- `TASKMANAGER_MONGO_USERNAME` - Username for MongoDB Task Manager database.
+- `TASKMANAGER_MONGO_DATABASE` - Database name for Task Manager.
+
+### PostgreSQL connections
+
+#### Process Engine database
+
+- `FLOWX_DATASOURCE_ENGINE_URL` - PostgreSQL URL for Process Engine database.
+- `FLOWX_DATASOURCE_ENGINE_USERNAME` - Username for PostgreSQL Process Engine database.
+
+#### Application Manager database
+
+- `FLOWX_DATASOURCE_APPMANAGER_URL` - PostgreSQL URL for Application Manager database.
+- `FLOWX_DATASOURCE_APPMANAGER_USERNAME` - Username for PostgreSQL Application Manager database.
+
+## Deployment
+
+To deploy the Data-Sync Job, apply the YAML configuration with the required environment variables:
+
+```bash
+kubectl apply -f data-sync-job.yaml
+```
+
+Monitor the Job status and logs as needed to ensure successful execution.
+

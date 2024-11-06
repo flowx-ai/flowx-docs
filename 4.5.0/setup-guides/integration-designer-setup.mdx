@@ -8,15 +8,12 @@ icon: arrow-progress
 
 The Integration Designer service requires the following components to be set up before it can be started:
 
-* **Docker Engine** - version 17.06 or higher
 * **PostgreSQL** - version 13 or higher for managing advancing data source
 * **MongoDB** - version 4.4 or higher for managing integration and runtime data
 * **Kafka** - version 2.8 or higher for event-driven communication between services
 * **OAuth2 Authentication** - Ensure a Keycloak server or compatible OAuth2 authorization server is configured
 
 ## Dependencies
-
-Integration Designer is built as a Docker image and relies on several backend services and components. Ensure these services are set up and running before starting Integration Designer.
 
 * [**Database configuration**](#database-configuration)
 * [**Kafka configuration**](#configuring-kafka)
@@ -37,16 +34,25 @@ Integration Designer uses both PostgreSQL and MongoDB for managing advancing dat
 
 #### MongoDB (Integration data and runtime data)
 
-* `SPRING_DATA_MONGODB_URI` - URI for connecting to the MongoDB instance  
-* `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables runtime MongoDB usage
-	* **Default Value:** `true`
-* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for MongoDB  
+Integration Designer requires two MongoDB databases for managing integration-specific data and runtime data. The `integration-designer` database is dedicated to Integration Designer, while the shared `app-runtime` database supports multiple services.
+
+
+* **Integration Designer Database** (`integration-designer`) - Stores data specific to Integration Designer, such as integration configurations and metadata.
+* **Shared Runtime Database** (`app-runtime`) - Used across multiple services for runtime data.
+
+Set up these MongoDB connections with the following environment variables:
+
+* `SPRING_DATA_MONGODB_URI`- URI for connecting to the Integration Designer MongoDB instance  
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
+* `DB_USERNAME`: `integration-designer`
+* `SPRING_DATA_MONGODB_STORAGE` -  Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
   * **Possible Values:** `mongodb`, `cosmosdb`
   * **Default Value:** `mongodb`
-
-Details to connect to Runtime database (if runtime is enabled):
-
-* `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to MongoDB for runtime data  
+* `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables runtime MongoDB usage
+	* **Default Value:** `true`
+* `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to MongoDB for Runtime MongoDB (`app-runtime`)
+    * **Format**: `SPRING_DATA_MONGODB_RUNTIME_URI` : `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>??retryWrites=false`
+* `DB_USERNAME`: `app-runtime`
 
 ### Configuring Kafka
 
@@ -150,9 +156,54 @@ To control the log levels for Integration Designer, set the following environmen
 * `LOGGING_LEVEL_APP` - The log level for application-level logs
 
 
+### Configuring admin ingress
+
+Integration Designer provides an admin ingress route, which can be enabled and customized with additional annotations for SSL certificates or routing preferences.
+
+- **Enabled**: Set to `true` to enable the admin ingress route.
+- **Hostname**: Define the hostname for admin access.
+
+```yaml
+  ingress:
+    enabled: true
+    admin:
+      enabled: true
+      hostname: "{{ .Values.flowx.ingress.admin }}"
+      path: /integration(/|$)(.*)
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
+        nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,platform,Flowx-Platform
+```
+
+
 ## Monitoring and maintenance
 
 To monitor the performance and health of the Application Manager, use tools like Prometheus or Grafana. Configure Prometheus metrics with the following environment variable:
 
 * `MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED` - Enables or disables Prometheus metrics export (default: false).
 
+
+### RBAC configuration
+
+Integration Designer requires specific RBAC (Role-Based Access Control) permissions to access Kubernetes ConfigMaps and Secrets, which store necessary configurations and credentials. Set up these permissions by enabling RBAC and defining the required rules.
+
+* `rbac.create`: Set to true to create RBAC resources.
+* `rbac.rules`: Define custom RBAC rules as follows:
+
+```yaml
+rbac:
+  create: true
+  rules:
+    - apiGroups:
+        - ""
+      resources:
+        - secrets
+        - configmaps
+        - pods
+      verbs:
+        - get
+        - list
+        - watch
+```
+
+This configuration grants read access (`get`, `list`, `watch`) to ConfigMaps, Secrets, and Pods, which is essential for retrieving application settings and credentials required by Integration Designer.

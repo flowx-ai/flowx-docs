@@ -39,14 +39,14 @@ The database schema is managed by a [liquibase](https://www.liquibase.org/) scri
 </Info>
 
 
-### MongoDB Configuration
+### MongoDB configuration
 
-The Admin microservice also connects to a MongoDB database for additional data management. Configure the MongoDB connection with the following environment variables:
+The Admin microservice also connects to a MongoDB database instance for additional data management. Configure the MongoDB connection with the following environment variables:
 
-* `SPRING_DATA_MONGODB_URI` - URI for connecting to the MongoDB instance  
-* `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables runtime MongoDB usage
-	* **Default Value:** `true`
-* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for MongoDB  
+* `SPRING_DATA_MONGODB_URI` - URI for connecting to the Admin MongoDB instance
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
+* `DB_USERNAME`: `data-model`.
+* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
   * **Possible Values:** `mongodb`, `cosmosdb`
   * **Default Value:** `mongodb`
 
@@ -112,9 +112,9 @@ Configuration needed to clear the offline sessions of a user session from the id
 
 ```yaml
 flowx:
-	undo-redo:
-	    ttl: 6000000   <---- redis ttl for undoable actions by user+nodeid (seconds)
-	    cleanup:
-	      cronExpression: 0 2 * * * * # every day at 2am   <---- when to run cleanup marked as deleted
-	      days: 2   <----- marked as deleted will be deleted when older than days number
+  undo-redo:
+    ttl: 6000000  # Redis TTL for undoable actions by user+nodeid (in seconds)
+    cleanup:
+      cronExpression: "0 2 * * * *"  # Every day at 2am
+      days: 2  # Items marked as deleted will be permanently removed if older than this number of days
 ```

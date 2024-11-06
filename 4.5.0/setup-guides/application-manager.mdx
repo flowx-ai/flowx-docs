@@ -4,14 +4,13 @@ description: The Application Manager is a backend microservice for managing Flow
 icon: computer
 ---
 
-Application manager is microservice meant manage applications and also acts as a proxy for front-end requests related to resources.
+The Aplication manager is microservice that manages applications and also acts as a proxy for front-end requests related to resources.
 
 
 ## Infrastructure prerequisites
 
 Before you start setting up the Application Manager service, ensure the following infrastructure components are in place:
 
-* **Docker Engine** - version 17.06 or higher
 * **PostgreSQL** - version 13 or higher for storing application data (could vary based on your preferred relational database)
 * **MongoDB** - version 4.4 or higher for managing runtime builds
 * **Redis** - version 6.0 or higher (if caching is required)
@@ -71,16 +70,12 @@ Configure the data sources for PostgreSQL and MongoDB as follows:
 
 The Application Manager requires MongoDB to store runtime build information. Use the following environment variables for configuration:
 
-* `SPRING_DATA_MONGODB_URI` - URI for connecting to the MongoDB instance  
-* `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables runtime MongoDB usage
-	* **Default Value:** `true`
-* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for MongoDB  
+* `SPRING_DATA_MONGODB_URI` - URI for connecting to the MongoDB instance  -> to connect to `app-runtime` database
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
+* `DB_USERNAME` : `app-runtime`
+* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
   * **Possible Values:** `mongodb`, `cosmosdb`
   * **Default Value:** `mongodb`
-
-Details to connect to Runtime database (if runtime is enabled):
-
-* `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to MongoDB for runtime data  
 
 ### Configuring Redis
 
@@ -184,7 +179,7 @@ To control the logging levels for the Application Manager, use the following env
 * **LOGGING_LEVEL_DB** - Log level for database interactions
 
 
-### Configuring file storage (optional)
+### Configuring file storage 
 
 If the Application Manager requires file storage for resources or builds, configure S3-compatible storage using the following environment variables:
 
@@ -192,15 +187,6 @@ If the Application Manager requires file storage for resources or builds, config
 * **APPLICATION_FILE_STORAGE_S3_BUCKET_NAME** - S3 bucket name for storing application files
 * **APPLICATION_FILE_STORAGE_S3_ACCESS_KEY** - Access key for S3 storage
 * **APPLICATION_FILE_STORAGE_S3_SECRET_KEY** - Secret key for S3 storage
-
-
-### Configuring application management
-
-Configure the management of applications, builds, and related resources using these variables:
-
-* **APP_MANAGER_MAX_FILE_SIZE** - Maximum file size allowed for uploads
-* **APP_MANAGER_MAX_REQUEST_SIZE** - Maximum request size for uploads
-* **APP_MANAGER_BUILD_POLICY** - Build policy configuration for the Application Manager
 
 ### Data model overview
 
@@ -218,4 +204,22 @@ To monitor the performance and health of the Application Manager, use tools like
 * **MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED** - Enables or disables Prometheus metrics export (default: false).
 
 
+### Ingress configuration
 
+Configure ingress to control external access to Application Manager:
+
+```yaml
+ingress:
+  enabled: true
+  public:
+    enabled: false
+  admin:
+    enabled: true
+    hostname: "{{ .Values.flowx.ingress.admin }}"
+    path: /appmanager(/|$)(.*)
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+      nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,flowx-platform
+```
+
+> Note: Replace placeholders with actual values for your environment before starting the service.

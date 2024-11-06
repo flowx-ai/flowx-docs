@@ -29,8 +29,8 @@ The Runtime Manager service requires the following components to be set up befor
 The following environment variables provide essential configurations:
 
 * `LOGGING_CONFIG_FILE` - Path to the logging configuration file for customized logging levels.
-* `SPRING_APPLICATION_NAME` - Sets the application name  
-  * **Default Value:** `runtime-manager`
+* `SPRING_APPLICATION_NAME` - Sets the application name.  
+  * **Default Value:** `application-manager` -> must be changed to `runtime-manager`.
 
 ### Database configuration
 
@@ -43,8 +43,8 @@ The Runtime Manager uses the same PostgreSQL (to store application data) and Mon
 #### MongoDB (Runtime data)
 
 * `SPRING_DATA_MONGODB_URI` - URI for connecting to MongoDB for runtime data  (same as the one configured in `application-manager` setup)
-* `DB_USERNAME` - Username for MongoDB runtime database  
-  * **Default Value:** `app-runtime`
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
+* `DB_USERNAME`: `app-runtime`
 
 ### Configuring Kafka
 
@@ -62,18 +62,7 @@ To securely integrate with Kafka, configure the following OAuth credentials:
 * `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` - OAuth Token Endpoint URI for obtaining Kafka tokens  
   * **Format:** `https://<auth-server>/auth/realms/<realm>/protocol/openid-connect/token`
 
-### Configuring Health and management endpoints
-
-Runtime Handler provides various health and management endpoints, which can be configured using these variables:
-
-* `MANAGEMENT_HEALTH_KAFKA_ENABLED` - Enables Kafka health checks  
-  * **Default Value:** `true`
-* `MANAGEMENT_HEALTH_REDIS_ENABLED` - Enables Redis health checks  
-  * **Default Value:** `false`
-* `MANAGEMENT_HEALTH_KUBERNETES_ENABLED` - Enables Kubernetes health checks  
-  * **Default Value:** `false`
-
-### Configuring Authentication and Access Roles
+### Configuring authentication and access roles
 
 Runtime Handler uses OAuth2 for secure access control. Set up the OAuth2 configurations with the following environment variables:
 
@@ -96,7 +85,7 @@ For file storage needs, configure the S3-compatible storage with the following e
 ### Ingress configuration
 
 
-For exposing the Runtime manager service, configure public and admin ingress settings:
+For exposing the Runtime manager service, configure public, admin and adminInstances ingress settings:
 
 ```yaml
 ingress:
@@ -107,12 +96,21 @@ ingress:
     path: /rtm/api/runtime(/|$)(.*)
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /api/runtime/$2
+      nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,platform,Flowx-Platform
   admin:
     enabled: true
     hostname: "{{ .Values.flowx.ingress.admin }}"
     path: /rtm/api/build-mgmt(/|$)(.*)
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /api/build-mgmt/$2
+      nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,platform,Flowx-Platform
+  adminInstances:
+    enabled: true
+    hostname: "{{ .Values.flowx.ingress.admin }}"
+    path: /rtm/api/runtime(/|$)(.*)
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /api/runtime/$2
+      nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,platform,Flowx-Platform
 ```
 
 > **Note:** Replace placeholders in environment variables with the appropriate values for your environment before starting the service.
