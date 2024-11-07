@@ -8,7 +8,6 @@ icon: folder-grid
 
 The CMS service requires the following components to be set up before it can be started:
 
-* **Docker engine** - version 17.06 or higher
 * **MongoDB** - version 4.4 or higher for storing taxonomies and contents
 * **Redis** - version 6.0 or higher
 * **Kafka** - version 2.8 or higher
@@ -26,41 +25,6 @@ The service comes with most of the needed configuration properties filled in, bu
 * [**Kafka**](#configuring-kafka)
 
 ## Configuration
-
-### MongoDB database
-
-A basic MongoDB configuration for the CMS service can be set up using a helm values.yaml file as follows:
-
-```yaml
-cms-mdb:
-    existingSecret: {{secretName}}
-    mongodbDatabase: {{CmsDatabaseName}}
-    mongodbUsername: {{CmsDatabaseUser}}
-    persistence:
-      enabled: true
-      mountPath: /bitnami/mongodb
-      size: 4Gi
-    replicaSet:
-      enabled: true
-      name: rs0
-      pdb:
-        enabled: true
-        minAvailable:
-          arbiter: 1
-          secondary: 1
-      replicas:
-        arbiter: 1
-        secondary: 1
-      useHostnames: true
-    serviceAccount:
-      create: false
-    usePassword: true
-```
-
-
-
-## Configuration
-
 Configure the default application name to be used when retrieving content:
 
 

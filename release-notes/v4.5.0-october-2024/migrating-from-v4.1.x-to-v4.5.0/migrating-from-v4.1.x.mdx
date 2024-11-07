@@ -1,0 +1,46 @@
+---
+title: Deployment changes for v.4.5.0
+description: This document outlines the configuration and infrastructure changes introduced from v4.1.x to v4.5.0 for deploying the FlowX.AI platform.
+---
+
+## CMS Setup
+
+### MongoDB configuration
+
+In version 4.5.0, the CMS setup includes a more comprehensive MongoDB configuration, especially for runtime data handling:
+
+- **Runtime MongoDB Instance**: A dedicated MongoDB instance for managing runtime data.
+  - **New Environment Variables**:
+    - `SPRING_DATA_MONGODB_RUNTIME_ENABLED`: Enables runtime MongoDB usage. Default is `true`.
+    - `RUNTIME_DB_USERNAME`: Username for runtime MongoDB access.
+    - `SPRING_DATA_MONGODB_RUNTIME_URI`: Connection URI for the runtime MongoDB instance.
+    - `SPRING_DATA_MONGODB_STORAGE`: Specifies storage type for Azure environments (`mongodb` or `cosmosdb`). Default is `mongodb`.
+  - **Transaction Settings for Mongock Library**:
+    - `MONGOCK_TRANSACTIONENABLED`: Controls MongoDB transaction support with Mongock, defaulting to `false` due to compatibility concerns with MongoDB 5.
+
+---
+
+## Admin setup
+
+### MongoDB configuration
+
+Version 4.5.0 introduces a new MongoDB setup in the Admin service for managing data model information:
+
+- **New MongoDB Data Model Configuration**:
+  - **Environment Variables**:
+    - `SPRING_DATA_MONGODB_URI`: URI for connecting to the MongoDB data model instance.
+    - `DB_USERNAME`: Set to `data-model` for data model access.
+    - `SPRING_DATA_MONGODB_STORAGE`: Specifies storage type for Azure environments (`mongodb` or `cosmosdb`).
+
+---
+
+## Engine setup
+
+MongoDB configuration
+
+The Engine configuration now includes additional setup for a runtime MongoDB instance to manage runtime builds:
+- **Runtime MongoDB for Engine**:
+  - **New Environment Variables**:
+    - `SPRING_DATA_MONGODB_RUNTIME_ENABLED`: Enables runtime MongoDB access. Default is `true`.
+    - `SPRING_DATA_MONGODB_RUNTIME_URI`: URI for connecting to the runtime MongoDB.
+    - `DB_USERNAME`: Set to `app-runtime` for runtime data access.
