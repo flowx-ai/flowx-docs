@@ -3,6 +3,46 @@ title: Configuration and migration guide
 description: This guide outlines changes in process and UI configuration from v4.1.x to 4.5.0 version.
 ---
 
+## Applications
+
+The **Applications** feature in FlowX AI v4.5.0 is a new structure that organizes all dependencies and resources required for a project into a single deployable view. This enhancement simplifies configuration, deployment, and maintenance by layering applications on top of processes, offering a centralized workspace that encapsulates everything needed for project execution.
+
+<Frame>
+![FlowX.AI Designer](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/designer_new.png)
+</Frame>
+
+
+Several key configuration changes impact how resources and dependencies are managed, deployed, and maintained. This guide provides a breakdown of the configuration changes, automatic migration processes, and manual steps required to ensure a smooth transition.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/application_processes.png)
+</Frame>
+---
+
+### Consolidated resource management
+
+- **Change**: All resources that were previously managed individually within processes are now grouped within Applications. This includes content management elements, integrations, themes, task configurations, and permissions.
+- **Impact**: Resources like **enumerations**, **substitution tags**, and **generic parameters** are now managed within Applications, allowing centralized configuration and version control.
+- **Migration**: All process-related resources will be migrated automatically into a **default application**, ensuring continuity of functionality in the new framework. After migration, you should verify that all critical resources are correctly configured within this default application.
+
+
+<Card title= "What are resources?" href="../../../4.5.0/docs/projects/resources" icon="page">
+</Card>
+
+### Enhanced version control and dependency management
+
+- **Impact**: Applications support **dependency management** through **Libraries** and enforce version-controlled resources. Setting up an application now requires careful dependency management and versioning to prevent unintended updates.
+- **Benefit**: Allows for modular, reusable resources and stable deployments across applications, reducing resource duplication and enhancing project compatibility.
+
+
+### Migration checklist
+
+1. **Verify Process Migration**: Confirm that all existing process definitions have been correctly migrated into the default application.
+2. **Set Configuration Parameter Overrides**: Post-deployment, adjust environment-specific Configuration Parameters in the default application.
+3. **Update Task Views**: Replace the global "All Tasks" feature with application-specific Views in each application.
+4. **Transfer Processes and Dependencies Manually**: If moving a process from the default application to another application, manually transfer associated resources and check the dependencies.
+
+---
 
 ## Generic parameters migration
 
@@ -29,4 +69,22 @@ To set configuration parameter overrides, navigate to **Your App -> Runtime -> C
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-07%20at%2010.42.06.png)
+</Frame>
+
+---
+
+## Task management
+
+* "All Tasks" as a View: The global "All Tasks" feature is no longer standalone and will now function as a View in an application.
+
+**v4.5.0:**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/views_task_manager.png)
+</Frame>
+
+**v4.1.x:**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/all_tasks.png)
 </Frame>

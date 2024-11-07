@@ -7,7 +7,6 @@ description: This guide provides instructions on how to set up and configure the
 
 Before initiating the FlowX.AI Engine, ensure the following infrastructure components are properly installed and configured:
 
-* **Docker Engine**: Version 17.06 or higher.
 * **Kafka**: Version 2.8 or higher.
 * **Elasticsearch**: Version 7.11.0 or higher.
 * **Database Instance**: Properly configured and accessible.
@@ -23,50 +22,13 @@ The FlowX Engine interacts with various components critical for its operation:
 
 For a microservices architecture, it’s common for services to manage their data via dedicated databases.
 
-### Example: Basic PostgreSQL Configuration
-
-Configure PostgreSQL using the Helm chart as demonstrated below:
-
-```yaml
-onboardingdb:
-  existingSecret: {{secretName}}
-  metrics:
-    enabled: true
-    service:
-      annotations:
-        prometheus.io/port: {{prometheus port}}
-        prometheus.io/scrape: "true"
-      type: ClusterIP
-    serviceMonitor:
-      additionalLabels:
-        release: prometheus-operator
-      enabled: true
-      interval: 30s
-      scrapeTimeout: 10s
-  persistence:
-    enabled: true
-    size: 1Gi
-  postgresqlDatabase: onboarding
-  postgresqlExtendedConf:
-    maxConnections: 200
-    sharedBuffers: 128MB
-  postgresqlUsername: postgres
-  resources:
-    limits:
-      cpu: 6000m
-      memory: 2048Mi
-    requests:
-      cpu: 200m
-      memory: 512Mi
-```
-
-### Required External Services
+### Required external services
 
 * **Redis Cluster**: Essential for caching process definitions, compiled scripts, and Kafka responses.
 * **Kafka Cluster**: Serves as the communication backbone with external plugins and integration.
 
 
-## Configuration Setup
+## Configuration setup
 
 FlowX.AI Engine utilizes environment variables for configuration. Below are the key environment variables you need to configure:
 

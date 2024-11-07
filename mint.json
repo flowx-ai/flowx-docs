@@ -1829,7 +1829,8 @@
               "group": "Migrating from v4.1.x",
               "pages": [
                 "release-notes/v4.5.0-october-2024/migrating-from-v4.1.x-to-v4.5.0/renderers",
-                "release-notes/v4.5.0-october-2024/migrating-from-v4.1.x-to-v4.5.0/process-configuration"
+                "release-notes/v4.5.0-october-2024/migrating-from-v4.1.x-to-v4.5.0/process-configuration",
+                "release-notes/v4.5.0-october-2024/migrating-from-v4.1.x-to-v4.5.0/migrating-from-v4.1.x"
 
               ]
             }
