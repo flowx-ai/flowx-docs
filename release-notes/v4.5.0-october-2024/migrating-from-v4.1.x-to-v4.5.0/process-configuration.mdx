@@ -1,0 +1,32 @@
+---
+title: Configuration and migration guide 
+description: This guide outlines changes in process and UI configuration from v4.1.x to 4.5.0 version.
+---
+
+
+## Generic parameters migration
+
+* **Overview**: In version 4.5.0, global generic parameters (from versions prior to 4.5.0) have been migrated to application-level as Configuration Parameters, consolidating parameter management within specific applications for improved organization and control.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/Screenshot%202024-11-06%20at%2019.04.49.png)
+</Frame>
+
+* **Migration**: All generic parameters will be automatically migrated to Configuration Parameters section under a default application.
+* **Business Rules Unaffected**: There is no impact on existing business rules; they will continue to function as before without requiring updates.
+* **Process Export Considerations**: If you export a process from one application to another, ensure that you also transfer the associated configuration parameters. This step is crucial to maintain process functionality and consistency across applications.
+* **Important Note**: Only values of generic parameters associated with the specific environment, or where `env = null` (displayed as "all" in the interface in versions prior to 4.5.0), will be migrated. You must ensure that you have correctly set the values for generic parameters, paying attention to environment values (which are case-sensitive), and export these generic parameters before migration to avoid any potential data loss.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-07%20at%2010.39.29.png)
+</Frame>
+                                              
+* **Post-Deployment Step**: After the first deployment to an upper environment, you will need to create configuration parameter overrides with the specific values required for that environment. This ensures that all environment-specific configurations are accurately maintained and applied across different deployment stages.
+
+<Tip>
+To set configuration parameter overrides, navigate to **Your App -> Runtime -> Configuration Parameters Overrides**.
+</Tip>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-07%20at%2010.42.06.png)
+</Frame>
