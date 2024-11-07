@@ -384,15 +384,7 @@
             "4.5.0/docs/platform-deep-dive/core-extensions/license-engine",
             "4.5.0/docs/platform-deep-dive/core-extensions/audit",
             "4.5.0/docs/platform-deep-dive/core-extensions/scheduler",
-            "4.5.0/docs/platform-deep-dive/core-extensions/search-data-service",
-            {
-              "group": "Integration management",
-              "version": "v4.5.0",
-              "pages": [
-                "4.5.0/docs/platform-deep-dive/core-extensions/integration-management/integration-management-overview",
-                "4.5.0/docs/platform-deep-dive/core-extensions/integration-management/configuring-access-rights-for-intgr-mngmnt"
-              ]
-            }
+            "4.5.0/docs/platform-deep-dive/core-extensions/search-data-service"
           ]
         },
         {
