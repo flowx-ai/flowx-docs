@@ -37,10 +37,12 @@ Several key configuration changes impact how resources and dependencies are mana
 
 ### Migration checklist
 
+To ensure a smooth transition, complete the following steps:
+
 1. **Verify Process Migration**: Confirm that all existing process definitions have been correctly migrated into the default application.
 2. **Set Configuration Parameter Overrides**: Post-deployment, adjust environment-specific Configuration Parameters in the default application.
 3. **Update Task Views**: Replace the global "All Tasks" feature with application-specific Views in each application.
-4. **Transfer Processes and Dependencies Manually**: If moving a process from the default application to another application, manually transfer associated resources and check the dependencies.
+4. **Transfer Processes and Dependencies Manually**: If moving a process from the default application to another application, manually transfer associated resources and re-check dependencies.
 
 ---
 
@@ -88,3 +90,46 @@ To set configuration parameter overrides, navigate to **Your App -> Runtime -> C
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/all_tasks.png)
 </Frame>
+
+---
+## General
+
+Before starting the migration, complete the following steps:
+
+1. **Merge All Feature Branches**: Ensure all feature branches for processes are merged into the latest version on the main branch.
+2. **Remove Unnecessary Resources**: Delete any test processes or resources that are no longer needed.
+3. **Export Generic Parameters**: Export generic parameters as a backup to ensure they migrate accurately to application-specific Configuration Parameters.
+
+### Migration steps
+
+During migration, resources will be transferred into a single **default application** with one committed version.
+
+- **Process Definitions**: Only the last committed process version on the main branch will migrate. If no committed version exists, the latest WIP version will be used.
+- **Enumerations, Substitution Tags, and Task Manager**: These resources will be migrated to the default application.
+- **Generic Parameters**: Migrated as **Configuration Parameters** within the default application, covering only values where `env = null` or that match the platform’s environment setting.
+- **Languages**: Language settings (available languages and default) will be moved to application settings. Languages remain globally available.
+
+### Resources excluded from migration
+
+Some resources will remain globally available or are deprecated:
+
+- **Themes**
+- **Fonts**
+- **Global Media Library** (for media used in themes)
+- **Source Systems**
+- **Notifications and Document Templates**
+- **Out of Office (Task Manager)**
+- **Integration Management** (not included in v4.5)
+- **Content Models** (deprecated)
+
+---
+
+## Post-migration recommendations
+
+For complex projects with multiple use cases, **do not use the default application for ongoing development or production builds**. Instead:
+
+1. **Create Branches within the Default Application**: Organize and streamline resources by creating branches. This enables a lightweight build focused on production.
+2. **Split the Default Application into Smaller Applications**: Use the import/export feature to separate the default application into individual applications by use case.
+   - **Note**: When importing processes into a new application, resource references may need to be manually reconfigured.
+
+---
