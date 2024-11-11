@@ -379,6 +379,19 @@
                 "4.5.0/docs/platform-deep-dive/core-extensions/content-management/media-library"
               ]
             },
+
+            {
+              "group": "Task management",
+              "version": "v4.5.0",
+              "pages": [
+                "4.5.0/docs/platform-deep-dive/core-extensions/task-management/task-management-overview",
+                "4.5.0/docs/platform-deep-dive/core-extensions/task-management/using-allocation-rules",
+                "4.5.0/docs/platform-deep-dive/core-extensions/task-management/using-hooks",
+                "4.5.0/docs/platform-deep-dive/core-extensions/task-management/using-out-of-office-records",
+                "4.5.0/docs/platform-deep-dive/core-extensions/task-management/using-stages"
+              ]
+            },
+
             "4.5.0/docs/platform-deep-dive/core-extensions/generic-parameters",
             "4.5.0/docs/platform-deep-dive/core-extensions/license-engine",
             "4.5.0/docs/platform-deep-dive/core-extensions/audit",
@@ -429,19 +442,6 @@
             },
 
             "4.5.0/docs/platform-deep-dive/plugins/languages",
-
-
-            {
-              "group": "Task management",
-              "version": "v4.5.0",
-              "pages": [
-                "4.5.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview",
-                "4.5.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-allocation-rules",
-                "4.5.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-hooks",
-                "4.5.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-out-of-office-records",
-                "4.5.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-stages"
-              ]
-            },
             "4.5.0/docs/platform-deep-dive/plugins/custom-plugins/ocr-plugin",
             {
               "group": "Reporting plugin",
@@ -831,6 +831,7 @@
                 "4.1.x/docs/platform-deep-dive/core-extensions/content-management/themes"
               ]
             },
+
             "4.1.x/docs/platform-deep-dive/core-extensions/generic-parameters",
             "4.1.x/docs/platform-deep-dive/core-extensions/license-engine",
             "4.1.x/docs/platform-deep-dive/core-extensions/audit",

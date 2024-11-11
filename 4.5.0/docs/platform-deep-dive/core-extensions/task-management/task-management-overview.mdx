@@ -1,24 +1,109 @@
 ---
 title: Task management
-description: The Task management plugin is a powerful plugin that enables back-officers and supervisors to efficiently track and assign tasks within a company. It provides a business-oriented view of a **process** defined using FlowX Designer and allows for seamless interactions at the assignment level.
+description: Task Management in FlowX.AI is a core functionality that allows users to create, configure, and manage tasks within the platform, providing a structured way to handle work processes. It enables the definition of tasks based on business processes, offers tools for allocating, tracking, and managing tasks across various roles and departments, and supports customization through views, filters, and rules.
 ---
 
-![Task Manager](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/task_management_overview.gif)
-
-## Activities
-
-Within the **Task Manager** section, particularly under **All Tasks**, you'll find the **Activities** tab, featuring:
-
-* **Title**: The task's title.
-* **Stage**: The specific [stages](./using-stages) during process execution.
-* **Assignee**: The person responsible for the process.
-* **Status**: The current process status (details in [Process status updates](#process-status-updates)).
-* **Priority**: Allows task prioritization.
-* **Last Updated**: Timestamp for the latest updates.
-* **Search**: A search function to find process keys stored in the process.
+<Frame>
+![Task Manager](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/tsk_mng2.0.png)
+</Frame>
 
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/indexed_keys.png)
+Task Management also includes capabilities for user roles, customizable tables, and integration with the application through both low-code and full-code approaches, ensuring flexibility for various use cases.
+
+## Key features
+
+- **Views**: Configurable interfaces to display task-related data based on process definitions.
+- **Hooks**:  Upon a token's entry/exit from the selected process, it initiates a specified process, swimlane, or stage based on the configured settings.
+- **Stages**: used to monitor the progression of tasks within a process by identifying where it may have stalled. This functionality can be used for teams but also for various business stages: onboarding, verification, and validation processes.
+- **Allocation Rules**: Facilitate the equal distribution of tasks among users with permissions in a specific swimlane. 
+
+
+## Task Management Views
+
+Views offer a flexible way to tailor task data display according to business needs. By configuring views, users can create structured, customized interfaces that help specific roles, departments, or use cases access relevant data effectively.
+
+### All tasks
+
+In the All Tasks section, you can view all tasks generated from any process definition marked as "to be used in task manager" within an application. This provides a centralized view of all relevant tasks, as long as you have the appropriate permissions.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-11%20at%2018.32.13.png)
+</Frame>
+
+It provides an interactive visualization, with built-in filtering functionalities for refined data display.
+
+<Info>
+Dataset Config and Table Config options are not accessible in the All Tasks view.
+</Info>
+
+### Creating a view
+
+In the Views section, you can create a new view by selecting a name and choosing a process definition. The process definition is crucial because it determines which keys you can access when configuring the view.
+
+To set up a view, navigate to the Views section in the Task Management interface:
+
+1. Click **Add View**.
+2. Enter a **Name** for the view.
+3. **Choose a Process Definition**: This will link the view's configuration to a specific process and its associated keys.
+
+<Info>
+Once a view is created for a process (e.g., Process X), it cannot be reassigned to another process. This ensures consistent data structuring based on the selected process definition.
+</Info>
+
+Upon creating a view, you are automatically redirected to configure its parameters.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/2024-11-11%2018.34.39.gif)
+</Frame>
+
+The Task Management default view contains four primary columns, with two additional default columns that can be added. 
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-11%20at%2018.37.30.png)
+</Frame>
+
+
+<Tip>
+You also have the option to add custom parameters to the table, with no limit on the number of columns.
+</Tip>
+
+#### Columns explained
+
+* **Stage**: Indicates where the process halted, providing a clear view of its current state.
+* **Assignee**: Displays the individual to whom the task is assigned.
+* **Priority**: Reflects the urgency level of the task.
+* **Last Updated**: Shows the timestamp of the most recent action taken on the task.
+* **Title**: Displays the designated name of the task, which can be customized by using Business Rules.
+* **Status**: Represents the current state of a Token, such as 'Started' or 'Finished.'
+* **Custom parameters**: User-defined keys within the process settings, which become available only after their configuration is complete.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-11%20at%2019.11.02.png)
+</Frame>
+
+### Customer parameters and display names
+
+### Display names
+
+You can rename default and custom parameters to make them contextually relevant for various business needs. For example:
+
+* Rename an address field to clarify if it refers to "Residence" or "Issuing Location."
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/2024-11-11%2019.13.07.gif)
+</Frame>
+
+
+* Use Substitution Tags for dynamic display names.
+
+<Info>
+Renaming a parameter’s Display Name will only change how it’s shown in the interface, without altering the actual data model.
+</Info>
+
+### Custom parameters
+
 
 ## Task Details
 
