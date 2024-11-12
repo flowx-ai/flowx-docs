@@ -22,6 +22,13 @@ Task Management also includes capabilities for user roles, customizable tables, 
 
 Views offer a flexible way to tailor task data display according to business needs. By configuring views, users can create structured, customized interfaces that help specific roles, departments, or use cases access relevant data effectively.
 
+
+Example of custom view:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-12%20at%2016.29.13.png)
+</Frame>
+
 ### All tasks
 
 In the All Tasks section, you can view all tasks generated from any process definition marked as "to be used in task manager" within an application. This provides a centralized view of all relevant tasks, as long as you have the appropriate permissions.
@@ -35,6 +42,7 @@ It provides an interactive visualization, with built-in filtering functionalitie
 <Info>
 Dataset Config and Table Config options are not accessible in the All Tasks view.
 </Info>
+
 
 ### Creating a view
 
@@ -78,9 +86,6 @@ You also have the option to add custom parameters to the table, with no limit on
 * **Status**: Represents the current state of a Token, such as 'Started' or 'Finished.'
 * **Custom parameters**: User-defined keys within the process settings, which become available only after their configuration is complete.
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-11%20at%2019.11.02.png)
-</Frame>
 
 ### Customer parameters and display names
 
@@ -99,27 +104,187 @@ You can rename default and custom parameters to make them contextually relevant 
 * Use Substitution Tags for dynamic display names.
 
 <Info>
-Renaming a parameter’s Display Name will only change how it’s shown in the interface, without altering the actual data model.
+Renaming a parameter’s Display Name will only change how it’s shown in the interface, without altering the actual data model. The rename option is also available for default parameters (not just custom parameters). Changing the Display Name also allows the use of Substitution Tags.
 </Info>
 
-### Custom parameters
+### Custom Parameters in Task Management
+
+Custom parameters in Task Management provide a way to tailor task displays and ensure that task data aligns with specific business needs and contexts.
+
+#### Key setup and configuration
+
+1. **Adding Custom Parameters**:
+   - In **Process Settings** → **Task Management**, you can define the custom keys that will be indexed and made available for tasks.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-11%20at%2019.11.02.png)
+</Frame>
+
+   - Each custom parameter can be renamed to suit different business contexts, ensuring clarity in cases where parameters may have multiple meanings. 
 
 
-## Task Details
+<Check>
+Ensure that the custom key exists in the **Data Model** before it can be mapped in Task Management. 
+
+<Warning>
+If the **attribute type** of a custom key is modified after it has been indexed, the key must be re-indexed in the **Task Management** section. This re-indexing step is crucial to ensure that Task Management reflects the updated attribute type correctly.
+</Warning>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-12%20at%2010.38.23.png)
+</Frame>
+
+</Check>
+
+<Tip>
+For data from custom parameters to flow correctly, ensure that **Forms to Validate** is set on the **UI Action button** in your UI for the corresponding process. This configuration is necessary for custom parameters to be validated and included in Task Management.
+</Tip>
+
+2. **Labeling Custom Parameters**:
+   - When adding a custom parameter, use the rename option to assign it a label relevant to the process context (as demonstrated in the example [**above**](#display-names)).
+   - This allows parameters to remain flexible for different roles or departments, adapting to each use case seamlessly.
+
+
+3. **Enabling Task Management Integration**:
+   - To ensure that data flows correctly into Task Management, enable the **Use process in task management** toggle in **Process Settings** within your **application** in **FlowX Designer**.
+   - Some actions may be restricted based on user roles and access rights, so confirm that your role allows necessary access.
+
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/tm_key.mp4"
+></video>
+</Frame>
+
+4. **Configuring Node-Specific Updates**:
+   - To enable Task Manager to send targeted updates from specific parts of a process:
+      - In **FlowX Designer**, open the relevant **application** and then the desired **process definition** and click **Edit**.
+      - Select the node(s) where updates should be triggered and enable the **Update task management?** switch.
+      - You can configure this action for multiple nodes, allowing flexibility in tracking and updating based on process flow.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-12%20at%2013.01.54.png)
+</Frame>
+
+
+<Warning>
+Activating the **Use process in task management** flag at both the process settings level and node level is essential for ensuring data consistency and visibility in Task Management.
+</Warning>
+
+
+
+### Table config and Dataset config in Task Management
+
+You can use **Table Config** and **Dataset Config** to configure and filter task data effectively. These configurations help create a customized and user-friendly interface for different roles, departments, or organizational needs.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-12%20at%2013.41.17.png)
+</Frame>
+
+#### Table config
+
+**Table Config** is used to define the structure and content of the Task Management table view. Here, you can configure the columns displayed in the table and set up default sorting options.
+
+1. **Configuring the Table Columns**:
+   - **Default Columns**: By default, the table includes the following columns: **Stage**, **Assignee**, **Priority**, and **Last Updated**.
+   - You can add additional columns, such as **Title**, **Status**, and **Custom Parameters**. Custom parameters can be chosen from the keys configured in **Process Settings** → **Task Management**.
+
+2. **Setting Default Sorting**:
+   - You can select one column for **default sorting** in ascending or descending order. This configuration helps prioritize how data is initially displayed, often based on “Last Updated” or other relevant fields.
+   - If no specific sorting rule is configured, the table will automatically apply sorting based on the **Last Updated** column.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-12%20at%2013.54.57.png)
+</Frame>
+
+
+#### Dataset config
+
+**Dataset Config** is used to filter and refine the data displayed in Task Management views. This helps create targeted views based on specific needs, such as differentiating data for front office vs. back office or specific roles like managers and operators.
+
+1. **Adding Filters**:
+   - You can apply filters on the keys brought into the **Dataset Config** to customize the data shown. Filters can be applied based on various data types, such as enums, strings, numbers, dates, and booleans.
+
+2. **Filtering Options by Data Type**:
+   - **Enums**: Can be filtered using the `In` operator. Only parent enums are available for mapping in Task Management (ensure enums are mapped in the data model beforehand).
+   - **Strings**: Available filters include `Not equal`, `In`, `Starts with`, `Ends with`, `Contains`, and `Not contains`.
+   - **Numbers**: Filters include `Equals`, `Not equal`, `Greater than`, `Less than`, `Greater than or equal`, and `Less than or equal`.
+   - **Dates and Currencies**: Filters include `Equals`, `Not equal`, `Greater than`, `Less than`, `Greater than or equal`, `Less than or equal`, and `In range`.
+   - **Booleans**: Can be filtered using the `Equals` operator.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-12%20at%2017.07.35.png)
+</Frame>
+
+
+3. **Role-Specific Configurations**:
+   - **Dataset Config** allows creating views tailored to specific audiences, such as different departments or roles within an organization. However, note that filters in Dataset Config do not override user permissions on task visibility.
+
+
+Example with filter applied a number attribute:
+
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/dataset_config.mp4"
+></video>
+</Frame>
+
+
+### Task details
 
 The **Task Details** tab within **Task Manager** provides key process information, including:
 
 * **Priority**: Enables task prioritization.
-* **Status**: The current process status.
+* **Status**: The current process status (in our example, `STARTED`)
 * **Stage**: Specific stages during process execution.
 * **Comments**: User comments.
 * **History**: Information such as task creation, creator, and status changes.
+* **Last Updated**: Displays the most recent timestamp of any changes made to a task.
+* **View Application**: Provides direct access to the application URL where the FlowX.AI process related to a specific task is running.
 
 
-![Task details](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/task_mngmnt_task_details.png)
+<Frame>
+![Task details](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-12%20at%2017.46.01.png)
+</Frame>
+
+
+**Accessing Task details in Task Management**
+
+To access the **Task Details** of a specific task in a Task Management view, follow these steps:
+
+1. **Navigate to the Task Management Interface**:
+   - Open the Task Management section within the application and select the desired **View** that contains the list of tasks.
+
+2. **Locate the Task**:
+   - In the selected view (e.g., All Tasks, Custom View), find the task you want to inspect. Use filters and sorting options if necessary to locate the task more efficiently.
+
+3. **Open Task Details**:
+   - Click on the task or select the **Details** option (often represented by an icon or “Details” link) associated with the task entry.
+   - This action will open the **Task Details** panel, which provides an in-depth view of information specific to that task.
+
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/task_view.mp4"
+></video>
+</Frame>
+
 
 <Info>
-Please note that specific roles must be defined in a process to utilize all the task management features. For configuration details, see [**Configuring Access Roles for Task Manager**](../../../../../setup-guides/plugins-access-rights/configuring-access-rights-for-task-management).
+Please note that specific roles must be defined in a process to utilize all the task management features. For configuration details, see [**Configuring Access Roles for Task Manager**](../../../../setup-guides/plugins-access-rights/configuring-access-rights-for-task-management).
 </Info>
 
 ## Process status updates
@@ -139,12 +304,12 @@ Task Manager displays various statuses based on process state:
 | **On hold**    | Freezes the process, blocking further actions. A superuser can trigger this status for clarification or unfreeze.                                                                                                                                                                                                                                                                                                                                                                    |
 | **Terminated** | A request is sent via Kafka to terminate a process instance, ending all active tokens in the current process or subprocesses.                                                                                                                                                                                                                                                                                                                                                        |
 
-## Swimlanes and Stages Updates
+## Swimlanes and Stages updates
 
 
 Task Manager also tracks swimlane and stage changes:
 
-### Swimlanes Updates
+### Swimlanes updates
 
 | Status             | Definition                           |
 | ------------------ | ------------------------------------ |
@@ -152,7 +317,7 @@ Task Manager also tracks swimlane and stage changes:
 | **Swimlane Exit**  | Indicates token exiting a swimlane.  |
 
 
-### Stages Updates 
+### Stages updates 
 
 | Status          | Definition                        |
 | --------------- | --------------------------------- |
@@ -171,42 +336,7 @@ The Task Manager plugin offers a range of features tailored to different roles, 
 * [Viewing the application URL](#viewing-the-application)
 * [Bulk Updates (via Kafka)](#bulk-updates)
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/task_operations.png)
-
-<Tip>
-You can configure Task Manager to send information/tasks about your process by enabling the **Use process in task management** button in the Process Settings menu. This allows the Task Manager plugin to send updates about the process.
-</Tip>
-
-**To set up Task Manager to send updates on your process, follow these steps:**
-
-1. In **FlowX Designer**, open the desired **process definition**.
-2. Select the **Settings** tab from the left sidebar menu.
-3. Enable the **Use process in task management** toggle button.
-
-![Update task management](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/task_mngmnt_response.png)
-
-<Info>
-Some actions may be restricted based on user roles and access rights.
-</Info>
-
-**To set up Task Manager to send extra updates on your process using only some specific areas of your process:**
- 
-1. In **FlowX Designer**, open your process definition.
-2. Click the **Edit** button.
-3. Select a node for Task Manager to trigger updates upon reaching.
-4. Enable the **Update task management?** switch.
-
-<Tip>
-You can configure this action for multiple nodes.
-</Tip>
-
-![Update task management](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/task_mngmnt_response1.png)
-
-For detailed configuration steps, refer to the next section:
-
-[Task Manager plugin setup](../../../../../setup-guides/plugins-setup-guide/task-management-plugin-setup)
-
-## Task Assignment and Reassignment 
+## Task Assignment and reassignment 
 
 Consider this scenario: you're the HR manager overseeing the onboarding process for new employees. In order to streamline this operation, you've opted to leverage a task manager plugin. This process consists of two key phases: the Initiation Stage and the Account Setup Stage, each requiring a designated team member.
 
@@ -214,17 +344,17 @@ The Initiation Stage has successfully concluded, marking the transition to the A
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/tsk_assign.gif)
 
-## Managing On-Hold Projects
+## Managing On-Hold projects
 
 As a project manager overseeing various ongoing projects, you may need to temporarily pause one due to unforeseen circumstances. To manage this, you use the "On Hold" status.
 
-## Adding Comments 
+## Adding comments 
 
 When handling on-hold projects, document the reasons, inform the team, and plan for resumption. This pause helps address issues and ensures a smoother project flow upon resuming. Never forget to add comments:
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/tsk_hold_comment.gif)
 
-## Viewing the Application
+## Viewing the application
 
 Property used to point to the application url where the flowx process is loaded.
 
