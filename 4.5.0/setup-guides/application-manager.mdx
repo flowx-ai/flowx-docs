@@ -66,6 +66,11 @@ Configure the data sources for PostgreSQL and MongoDB as follows:
 * `SPRING_DATASOURCE_PASSWORD` - Password for PostgreSQL  
 * `SPRING_DATASOURCE_DRIVER_CLASS_NAME` - Driver class for PostgreSQL  
 
+
+<Info>
+Note: The same container image and Helm chart are used for both [**Application Manager**](./runtime-manager) and Runtime Manager. Be sure to review the [**deployment guidelines**](../../release-notes/v4.5.1-november-2024/deployment-guidelines-v4.5.1#component-versions) in the release notes to verify compatibility and check the correct version.
+</Info>
+
 #### Configuring MongoDB (runtime database - additional data)
 
 The Application Manager requires MongoDB to store runtime build information. Use the following environment variables for configuration:

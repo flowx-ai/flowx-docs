@@ -43,7 +43,6 @@ It provides an interactive visualization, with built-in filtering functionalitie
 Dataset Config and Table Config options are not accessible in the All Tasks view.
 </Info>
 
-
 ### Creating a view
 
 In the Views section, you can create a new view by selecting a name and choosing a process definition. The process definition is crucial because it determines which keys you can access when configuring the view.
@@ -76,7 +75,7 @@ The Task Management default view contains four primary columns, with two additio
 You also have the option to add custom parameters to the table, with no limit on the number of columns.
 </Tip>
 
-#### Columns explained
+**Columns explained**:
 
 * **Stage**: Indicates where the process halted, providing a clear view of its current state.
 * **Assignee**: Displays the individual to whom the task is assigned.
@@ -111,7 +110,7 @@ Renaming a parameter’s Display Name will only change how it’s shown in the i
 
 Custom parameters in Task Management provide a way to tailor task displays and ensure that task data aligns with specific business needs and contexts.
 
-#### Key setup and configuration
+**Key setup and configuration**
 
 1. **Adding Custom Parameters**:
    - In **Process Settings** → **Task Management**, you can define the custom keys that will be indexed and made available for tasks.
@@ -212,6 +211,16 @@ You can use **Table Config** and **Dataset Config** to configure and filter task
 
 2. **Filtering Options by Data Type**:
    - **Enums**: Can be filtered using the `In` operator. Only parent enums are available for mapping in Task Management (ensure enums are mapped in the data model beforehand).
+
+<Info>
+Before you can map enums in Task Management, they must be configured in the Data Model. Only parent enums can be mapped.
+
+<Warning>
+If any changes are made to the Data Model after the keys have been configured and indexed in Task Management, these changes will not be automatically reflected. You must re-add and re-index the keys in the process settings to ensure that the updated information is indexed correctly.
+</Warning>
+
+</Info>
+
    - **Strings**: Available filters include `Not equal`, `In`, `Starts with`, `Ends with`, `Contains`, and `Not contains`.
    - **Numbers**: Filters include `Equals`, `Not equal`, `Greater than`, `Less than`, `Greater than or equal`, and `Less than or equal`.
    - **Dates and Currencies**: Filters include `Equals`, `Not equal`, `Greater than`, `Less than`, `Greater than or equal`, `Less than or equal`, and `In range`.
@@ -238,6 +247,11 @@ Example with filter applied a number attribute:
   src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/dataset_config.mp4"
 ></video>
 </Frame>
+
+
+### Managing data model changes
+
+While creating a view, you may want to modify the **data model**. It's important to note that changes to the **data model** do not directly impact the views. Views are tied to the process definition, not the data model. Therefore, if you make changes to the data model, you do not need to create a new view unless the changes also impact the underlying process.
 
 
 ### Task details
@@ -330,57 +344,114 @@ Task Manager also tracks swimlane and stage changes:
 The Task Manager plugin offers a range of features tailored to different roles, including:
 
 
-* [Assigning and Unassigning Tasks](#task-assignment-and-reassignment)
-* [Managing On-Hold Projects](#managing-on-hold-projects)
-* [Adding Comments](#adding-comments)
-* [Viewing the application URL](#viewing-the-application)
-* [Bulk Updates (via Kafka)](#bulk-updates)
+* [Swimlane permissions for Task Management](#swmlane-permissions-for-task-management)
+* [Assigning and unassigning Tasks](#task-assignment-and-reassignment)
+* [Hold/unhold tasks](#hold/unhold-tasks)
+* [Adding comments](#adding-comments)
+* [Viewing the application](#viewing-the-application)
+* [Bulk updates (via Kafka)](#bulk-updates)
 
-## Task Assignment and reassignment 
+
+### Swimlane permissions for Task Management
+
+To perform specific actions within Task Management at process level, you must configure swimlane permissions at the process settings level. Each swimlane (e.g., BackOffice, FrontOffice, Manager) should be assigned appropriate roles and permissions based on the responsibilities and access needs of each user group.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-14%20at%2012.44.21.png)
+</Frame>
+
+**Example permissions configuration**
+
+Below are example configurations for swimlane permissions based on roles commonly used in a loan application approval process:
+
+1. **BackOffice Swimlane**:
+   - Role: `FLOWX_BACKOFFICE`
+   - Permissions:
+     - **Unhold**: Allows the user to resume tasks that have been put on hold.
+     - **Execute**: Enables the user to perform task actions.
+     - **Self Assign**: Permits users to assign tasks to themselves.
+     - **View**: Grants viewing rights for tasks.
+     - **Hold**: Allows tasks to be temporarily paused.
+
+
+
+3. **Manager (Supervisor) Swimlane**:
+   - Role: `FLOWX_MANAGER`
+   - Permissions:
+     - **Unhold**: Allows the user to resume tasks that have been put on hold.
+     - **Execute**: Enables the user to perform task actions.
+     - **Self Assign**: Permits users to assign tasks to themselves.
+     - **View**: Grants viewing rights for tasks.
+     - **Hold**: Allows tasks to be temporarily paused.
+
+<Info>
+These permissions can be customized depending on each use case and organizational needs. Ensure that permissions are aligned with the roles' responsibilities within the workflow.
+</Info>
+
+### Task assignment and reassignment 
 
 Consider this scenario: you're the HR manager overseeing the onboarding process for new employees. In order to streamline this operation, you've opted to leverage a task manager plugin. This process consists of two key phases: the Initiation Stage and the Account Setup Stage, each requiring a designated team member.
 
 The Initiation Stage has successfully concluded, marking the transition to the Account Setup Stage. At this juncture, it's essential to reassign the task, originally assigned to John Doe, to Jane Doe, a valuable member of the backoffice team.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/tsk_assign.gif)
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/unassing_assign.mp4"
+></video>
+</Frame>
 
-## Managing On-Hold projects
+
+### Hold/unhold tasks
 
 As a project manager overseeing various ongoing projects, you may need to temporarily pause one due to unforeseen circumstances. To manage this, you use the "On Hold" status.
 
-## Adding comments 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/2024-11-13%2013.48.35.gif)
+</Frame>
+
+### Adding comments 
 
 When handling on-hold projects, document the reasons, inform the team, and plan for resumption. This pause helps address issues and ensures a smoother project flow upon resuming. Never forget to add comments:
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/tsk_hold_comment.gif)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-13%20at%2013.53.07.png)
+</Frame>
 
-## Viewing the application
+### Viewing the application
 
 Property used to point to the application url where the flowx process is loaded.
 
-### Process settings level
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-13%20at%2017.06.08.png)
+</Frame>
 
-In the Process Definitions settings, navigate to the **Task Management** tab and locate the **Application URL** field. Here, paste the application URL where the process is loaded, following this format:
+#### Process settings level
+
+In the Process Definition settings, navigate to the **Task Management** tab and locate the **Application URL** field. Here, paste the application URL where the process is loaded, following this format:
 
 ```
-{baseURL}/processes/instance
+{baseURL}/appId/buildId/processes/resourceId/instance
 ```
 
 Example:
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/tsk_view_app.png)
-
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-13%20at%2017.45.08.png)
+</Frame>
 
 <Tip>
 You can also use a predefined generic parameter as the URL: `${genericParameter}`.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/tsk_generic_param.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-13%20at%2017.07.36.png)
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/tsk_generic_param1.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-13%20at%2017.08.12.png)
 
 </Tip>
 
-### Process data level
+#### Process data level
 
 If task.baseUrl is specified in the process parameters, it will be sent to the Task Manager to update the tasks accordingly.
 ```java
@@ -396,6 +467,7 @@ output.put("task", {"baseUrl": "https://your_base_url"});
 <Warning>
 The `baseURL` set in the process data (business rules) will override the `baseURL` set in the process definition settings.
 </Warning>
+
 
 ## Bulk updates
 
@@ -431,6 +503,28 @@ Example of a bulk request:
 }      
 ```
 
-For more information on bulk updates configuration, see Process Engine Setup:
+For more information on bulk updates configuration, see FlowX Engine setup:
 
-[Process Engine Setup](../../../../../setup-guides/flowx-engine-setup-guide/engine-setup#topics-related-to-the-task-management-plugin)
+<Card title="FlowX Engine setup" href="../../../../../setup-guides/flowx-engine-setup-guide/engine-setup#topics-related-to-the-task-management-plugin" icon ="file">
+</Card>
+
+### Full-Code implementation
+
+For more customized UX, the **full-code** implementation using the **Task Management SDKs (React and Angular)** allows developers to build custom tables, cards, or any other UI elements based on the views and columns configured in Task Management.
+
+
+
+
+## FAQs
+
+<AccordionGroup>
+<Accordion title="What happens to currencies, numbers, and dates already indexed when a locale or format override is applied in the UI Designer?">
+A: The format changes will only affect how the data is displayed, not how it's indexed.
+</Accordion>
+<Accordion title="Can I switch to full-code if I'm not satisfied with the current view and filter options?">
+A: Yes, you can always switch to full-code and create custom views or tables using the Task Management SDK.
+</Accordion>
+<Accordion title="How are subprocess keys handled in Task Management?">
+A: To use data from a subprocess, you must send it to the parent process first. Subprocess keys are currently displayed in the task manager once indexed through the parent process.
+</Accordion>
+</AccordionGroup>

@@ -117,9 +117,9 @@ Each action available in the service corresponds to a Kafka event. A separate Ka
 
 `KAFKA_TOPIC_OTP_VALIDATE_OUT` - Response to the request to validate an OTP will be sent back to the Engine on this topic
 
-:::caution
+<Warning>
 The Engine is listening for messages on topics with names of a certain pattern, make sure to use correct outgoing topic names when configuring the notifications plugin.
-:::
+</Warning>
 
 ### File storage configuration
 
@@ -164,20 +164,6 @@ The maximum file size for files to be attached as email attachments can also be 
 `SPRING_HTTP_MULTIPART_MAX_REQUEST_SIZE`
 
 
-/*
-### Firebase push notifications configuration
-
-We use [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging) for sending push notifications to mobile devices. If you want to use the feature of sending push notifications, it needs to be enabled by setting the A`PPLICATION_FIREBASE_PUSH_NOTIFICATIONS_ENABLED` environment variable to true.
-
-Also, some setup is needed in your [Firebase Console](https://console.firebase.google.com) account:
-
-* create a new project
-* register each mobile app and download their respective config files and include them in the apps
-* you will need to configure [a new service account ](https://firebase.google.com/docs/admin/setup#set-up-project-and-service-account)in your firebase account and download the service account JSON file and add the path to it in the plugin configuration:
-
-`APPLICATION_FIREBASE_CONFIG_FILE`
-*/
-
 ### OTP Configuration
 
 The desired character size and expiration time of the generated one-time-passwords can also be configured.
@@ -198,9 +184,6 @@ The following environment variables could be set in order to control log levels:
 
 `LOGGING_LEVEL_THYMELEAF` - [Thymeleaf](https://www.thymeleaf.org/) logs, logs related to using notifications templates
 
-/*
-`LOGGING_LEVEL_FCM_CLIENT` - Google API client logs, related to sending push notifications using Firebase
-*/
 
 ### Error handling
 
@@ -210,7 +193,7 @@ The following environment variables could be set in order to control log levels:
 
 `KAFKA_CONSUMER_ERROR_HANDLING_RETRY_INTERVAL`- default value: `1000`→ when `KAFKA_CONSUMER_ERROR_HANDLING_ENABLED` is set to true and retries are enabled with `KAFKA_CONSUMER_ERROR_HANDLING_RETRIES`, this environment variable specifies the amount of time that the consumer application should wait before attempting to retry processing a message
 
-:::info
+<Info>
 For example, if KAFKA_CONSUMER_ERROR_HANDLING_RETRY_INTERVAL is set to 5 seconds, the consumer application will wait 5 seconds before attempting to retry processing a failed message. This interval is applied to all retry attempts, so if KAFKA_CONSUMER_ERROR_HANDLING_RETRIES is set to 5 and the retry interval is 5 seconds, the consumer application will make up to 5 attempts, waiting 5 seconds between each attempt.
-:::
+</Info>
 
