@@ -62,6 +62,9 @@ To configure Kafka for Integration Designer, set the following environment varia
 
 * `SPRING_KAFKA_BOOTSTRAP_SERVERS` - Address of the Kafka server in the format `host:port`
 * `KAFKA_TOPIC_NAMING_ENVIRONMENT` - Environment-specific suffix for Kafka topics
+* `FLOWX_WORKFLOW_CREATETOPICS` -  To automatically create kafka topics for development environments
+    * **When set to true**: In development environments, where Kafka topics may need to be created automatically, this configuration can be enabled (flowx.workflow.createTopics: true). This allows for the automatic creation of "in" and "out" topics when workflows are created, eliminating the need to wait for topic creation at runtime.
+    * **Default setting (false)**: In production or controlled environments, where automated topic creation is not desired, this setting remains false to prevent unintended Kafka topic creation.
 
 #### Kafka consumer settings
 

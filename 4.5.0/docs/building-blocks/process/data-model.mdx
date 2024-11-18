@@ -1,24 +1,19 @@
 ---
 title: Data model
-description: In the Data Model, you can add new key-pair values, which enables you to use shortcuts when adding new keys using the UI Designer, without having to switch back and forth between menus.
+description: The Data Model is a centralized configuration feature that enables efficient management of key-value attributes inside process definitions. It supports multiple attribute types, such as strings, numbers, booleans, objects, arrays, and enums, offering users the ability to define, update, delete, and apply data attributes seamlessly.
 ---
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/data_model_new.png)
 </Frame>
 
-### Attributes type
-
-<Frame>
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/add_new_data_model.png)
-
-</Frame>
+### Attribute types
 
 The Data Model supports the following attribute types:
 
 * STRING
 * NUMBER
+* CURRENCY
 * BOOLEAN
 * OBJECT
 * ARRAY
@@ -28,34 +23,151 @@ The Data Model supports the following attribute types:
     * ARRAY OF OBJECTS
     * ARRAY OF ENUMS
 * ENUM
+* DATE
 
-<Info>
-When you export or import a [**process definition**](./process-definition), the data model will be included.
-</Info>
+#### Currency attribute
+
+Currencies are managed using an object structure that ensures accurate representation and localization.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2010.36.00.png)
+</Frame>
+
+
+- **Currency Object Structure**: 
+  - Includes `amount` (numerical value) and `code` (ISO 4217 currency code, e.g., USD, EUR).
+  - Example:
+    ```json
+    {
+      "amount": 12000.78,
+      "code": "USD"
+    }
+    ```
+- **Regional Formatting**:
+  - Currency values adapt to regional conventions for grouping, decimals, and symbol placement. For instance:
+    - **en-US (United States)**: `$12,000.78` (symbol before the value, comma for grouping, dot for decimals).
+    - **ro-RO (Romania)**: `12.000,78 RON` (dot for grouping, comma for decimals, code appended).
+- **Fallback Behavior**: If the `code` is null, the system defaults to the locale's predefined currency settings.
+- **UI Integration**:
+  - Currency input fields dynamically format values based on locale settings and save the `amount` and `code` into the data store.
+  - Sliders and other components follow the same behavior, formatting values and labels according to the locale.
+
+<Card title=" Localization and internationalization" href="../ui-designer/localization-and-i18n" icon="page">
+Check this section for more details about l10n & i18n
+</Card>
+
+#### Date attribute
+
+Dates are represented in ISO 8601 format and dynamically formatted based on locale and application settings.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2010.44.33.png)
+</Frame>
+
+- **Locale-Specific Date Formats**: FlowX dynamically applies regional date formatting rules based on the locale. For instance:
+  - **en-US (United States)**: `MM/DD/YYYY` → `09/28/2024`
+  - **fr-FR (France)**: `DD/MM/YYYY` → `28/09/2024`
+- **Customizable Formats**: You can choose from predefined formats (e.g., short, medium, long, full) or define custom formats at both application and UI Designer levels.
+- **Timezone Handling**:
+  - **Standard Date**: Adjusts to the current timezone.
+  - **Date Agnostic**: Ignores time zones, using GMT for consistent representation.
+- **ISO 8601 Compliance**: Ensures compatibility with international standards.
+
+<Card title=" Localization and internationalization" href="../ui-designer/localization-and-i18n" icon="page">
+Check this section for more details about l10n & i18n
+</Card>
+
+#### Number attribute
+
+The **Number** attribute type supports two subtypes: **integers** and **floating point numbers**, providing flexibility to represent whole numbers or decimal values as required.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2010.41.25.png)
+</Frame>
+
+- **Subtypes**
+    - **Integer**: Represents whole numbers without any fractional or decimal part.
+        - Example: `1, 42, 1000`
+    - **Floating Point**: Represents numbers with a decimal point, enabling precise storage and representation of fractional values.
+        - Example: `3.14, 0.01, -123.456`
+- **Locale-Specific Formatting**:
+  - Numbers adapt to regional conventions for decimal separators and digit grouping. For example:
+    - **en-US (United States)**: `1,234.56` (comma for grouping, dot for decimals)
+    - **de-DE (Germany)**: `1.234,56` (dot for grouping, comma for decimals)
+    - **fr-FR (France)**: `1 234,56` (space for grouping, comma for decimals)
+- **Precision Settings**:
+  - **Minimum Decimals**: Ensures a minimum number of decimal places are displayed, adding trailing zeros if necessary.
+  - **Maximum Decimals**: Limits the number of decimal places stored, rounding values to the defined precision.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2010.42.16.png)
+</Frame>
+
+<Tip>
+These settings can be overriden at the application level or in the **UI Designer** for specific components.
+</Tip>
+
+- **Validation**:
+  - Enforce range constraints (e.g., minimum and maximum values).
+  - Input fields automatically apply formatting masks to prevent invalid data entry.
+
+
+<Card title=" Localization and internationalization" href="../ui-designer/localization-and-i18n" icon="page">
+Check this section for more details about l10n & i18n
+</Card>
+
+### Creatinga a data model 
+
+In the Data Model, you can add new key-pair values, allowing seamless integration with the UI Designer. This functionality enables quick shortcuts for adding new keys without switching between menus
+
+
+Example:
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/link_dm.mp4"
+></video>
+</Frame>
+
+
 
 ### Data model reference
 
-You can use data model reference feature to view attribute usage within the data model. You can now easily see where a specific attribute is being used by accessing the "View References" feature. This feature provides a list of process keys associated with each attribute and displays possible references, such as UI Elements.
+The "View References" feature allows you to see where specific attributes are used within the data model. This includes:
 
-For UI Elements, the references include the element label, node name, and UI Element key. Additionally, the context of the reference is provided, showing the node name and the UI element type along with its label. Users can conveniently navigate to the context by clicking the provided link to the node's UI page.
+- **Process Keys**: Lists all process keys linked to an attribute.
+- **UI Elements**: Displays references such as the element label, node name, and UI Element key.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/data_model_ref.gif)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/2024-11-18%2010.18.08.gif)
 </Frame>
 
 ### Sensitive data
 
-To protect your data and your customer's data, you can hide data that could be visible in the process details or in the browser's console. You can now also secret data for a specific key.
+Protect sensitive information by flagging specific keys in the data model. This ensures data is hidden from process details and browser console outputs.
 
 <Frame>
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/sensitive_data_new.png)
-
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/dm_privacy.mp4"
+></video>
 </Frame>
+
+
 
 ### Reporting
 
-The **Use in Reporting** tag is used for keys that will be used further in the reporting plugin.
+The **Use in Reporting** tag allows you to designate keys for use in the reporting plugin, enabling efficient tracking and analysis.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/dm_reporting.png)
+</Frame>
 
 <Card title ="Reporting" href="../../platform-deep-dive/plugins/custom-plugins/reporting/reporting-overview">
 </Card>
