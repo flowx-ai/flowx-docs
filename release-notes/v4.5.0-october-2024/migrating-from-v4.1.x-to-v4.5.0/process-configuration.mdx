@@ -1,9 +1,9 @@
 ---
 title: Configuration and migration guide 
-description: This guide outlines changes in process and UI configuration from v4.1.x to 4.5.0 version.
+description: This guide outlines changes in process and UI configuration from v4.1.x to 4.5.1 version.
 ---
 
-## Applications
+## Applications 
 
 The **Applications** feature in FlowX AI v4.5.0 is a new structure that organizes all dependencies and resources required for a project into a single deployable view. This enhancement simplifies configuration, deployment, and maintenance by layering applications on top of processes, offering a centralized workspace that encapsulates everything needed for project execution.
 
@@ -46,7 +46,7 @@ To ensure a smooth transition, complete the following steps:
 
 ---
 
-## Generic parameters migration
+## Generic parameters migration 
 
 * **Overview**: In version 4.5.0, global generic parameters (from versions prior to 4.5.0) have been migrated to application-level as Configuration Parameters, consolidating parameter management within specific applications for improved organization and control.
 
@@ -75,7 +75,7 @@ To set configuration parameter overrides, navigate to **Your App -> Runtime -> C
 
 ---
 
-## Task management
+## Task management 
 
 * "All Tasks" as a View: The global "All Tasks" feature is no longer standalone and will now function as a View in an application.
 
@@ -92,7 +92,7 @@ To set configuration parameter overrides, navigate to **Your App -> Runtime -> C
 </Frame>
 
 ---
-## General
+## General 
 
 Before starting the migration, complete the following steps:
 
@@ -123,6 +123,67 @@ Some resources will remain globally available or are deprecated:
 - **Content Models** (deprecated)
 
 ---
+
+
+## Datepicker Migration 
+
+In version 4.5, significant updates have been introduced to the **Datepicker** component to ensure compatibility with ISO 8601 date formats and enhanced handling of date attributes within the **Data Model**. This migration affects both newly created and existing processes.
+
+### Key changes
+
+1. **Introduction of Date Types**:
+   - **Standard Date**: Stores and displays date values in ISO 8601 format, respecting the application's locale and timezone settings.
+   - **Legacy Date**: Retains previous formatting to ensure compatibility with existing business rules and processes.
+
+2. **Properties Updates**:
+   - The **Datepicker** now supports dependent properties such as `minDate`, `maxDate`, and `defaultValue`. These properties:
+     - Follow the formatting rules of the selected date type (Standard or Legacy).
+     - Ensure that dynamic date values pulled from the **Data Model** are displayed correctly.
+
+3. **Backward Compatibility**:
+   - **Existing Processes**: All migrated processes with legacy Datepicker components will default to `Legacy Date` type. This preserves the original formatting and ensures no disruption in business rules or workflows.
+   - **New Processes**: Newly created processes will default to `Standard Date` type, saving values in ISO 8601 format.
+
+---
+
+### Migration process
+
+1. **Legacy Datepickers**:
+
+   - Automatically flagged during migration.
+   - Continue to work with existing business rules.
+   - Require manual review for future updates to transition to the **Standard Date** format.
+
+2. **Business Rules Updates**:
+   - Legacy Datepickers may require manual adjustments if associated business rules reference hardcoded date formats.
+   - Ensure that any dynamic dates used in business rules are compatible with the ISO 8601 standard.
+
+3. **Standard Datepickers**:
+   - All new Datepicker components save date values directly in ISO 8601 format.
+   - Fully compatible with updated **Data Model** attributes, allowing seamless integration with external systems, adaptors, and reporting plugins.
+
+### Considerations
+
+- **Default Values**:
+  - For **Standard Datepickers**, the `defaultValue` must be in ISO 8601 format.
+  - Dynamic defaults can also be set using **Data Model** attributes or process data.
+- **Data Model Integration**:
+  - All external and internal date attributes, including those used by adaptors or business rules, must be explicitly defined in the **Data Model**.
+- **UI Designer Overrides**:
+  - Overrides can be applied to display dates differently for specific UI elements, ensuring flexibility for localized formatting.
+
+
+### Recommendations for transition
+
+- **Existing Processes**:
+  - Leave Datepicker components in `Legacy` mode unless business rules and workflows are updated to support ISO 8601.
+- **New Processes**:
+  - Use `Standard Date` to ensure future compatibility and alignment with ISO 8601 formatting.
+- **Documentation**:
+  - Review and update all timer expressions, adaptors, and external data feeds to use ISO 8601 format for consistency.
+
+---
+
 
 ## Post-migration recommendations
 

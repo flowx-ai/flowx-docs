@@ -49,3 +49,16 @@ The Engine configuration now includes additional setup for a runtime MongoDB ins
     - `DB_USERNAME`: Set to `app-runtime` for runtime data access.
 
 ---
+
+## 4.5.1 changes
+
+In the 4.5.1 release, a new configuration option has been added to the Integration Designer for enhanced Kafka topic management.
+
+* **New Configuration**: `FLOWX_WORKFLOW_CREATETOPICS`
+
+    * **When set to true**: In development environments, where Kafka topics may need to be created automatically, this configuration can be enabled (flowx.workflow.createTopics: true). This allows for the automatic creation of "in" and "out" topics when workflows are created, eliminating the need to wait for topic creation at runtime.
+    * **Default setting (false)**: In production or controlled environments, where automated topic creation is not desired, this setting remains false to prevent unintended Kafka topic creation.
+
+This update aims to streamline the development process by enabling faster setup of workflows with automatic Kafka topic creation in designated environments.
+
+
