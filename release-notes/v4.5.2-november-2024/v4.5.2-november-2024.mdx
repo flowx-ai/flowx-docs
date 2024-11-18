@@ -1,0 +1,83 @@
+---
+title: FlowX.AI 4.5.2 Release
+description: FlowX.AI 4.5.2 introduces table updates, performance improvements, enhanced plugin integrations, and essential bug fixes.
+
+---
+
+## **What's new?** 🆕
+
+The FlowX.AI 4.5.2 release brings exciting updates focusing on performance, integration enhancements, and improved rendering capabilities to provide a more seamless and robust experience.
+
+### Rendering updates
+
+#### Table enhancements
+
+The table component has been enhanced with several new customization options to provide greater control over its appearance and functionality:
+
+- **Min-Max Cell Width**: Define precise minimum and maximum widths for table cells to ensure optimal layout and readability.
+- **Header Text Alignment**: Customize the alignment of header text for better visual consistency across tables.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2017.03.34.png)
+</Frame>
+
+- **Padding and Spacing**: Fine-tune padding and spacing properties for both rows and columns to improve table design and usability.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2017.05.46.png)
+</Frame>
+
+
+- **"No Data" Message Customization**: Introduced the ability to set a custom system message (through `sys_table_empty` system substitution tag) for tables when no data is available, offering a more user-friendly experience.
+ 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2017.14.19.png)
+</Frame>
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2017.15.55.png)
+</Frame>
+
+---
+
+### Performance improvements
+
+Added significant optimizations to improve runtime efficiency and scalability:
+
+- **Caching for Runtime Committed Builds**: Reduced runtime overhead with enhanced caching mechanisms, speeding up build deployments.
+- **MongoDB Indexing**: Introduced indices for the MongoDB runtime, significantly improving database query performance.
+- **Improved Data-Sync Support**: Enhanced data-sync service to support minor version releases, ensuring smoother version transitions and minimal downtime during upgrades.
+
+---
+
+### Plugin updates
+
+#### Notifications & Documents plugins
+
+Notifications and Documents plugins have been integrated as **application resources**.
+
+<Info>
+**Deployment changes**: Added **Runtime Database Integration** and **Data-Sync Service Enhancements**
+
+See the [**Deployment guidelines**](deployment-guidelines-v4.5.2#documents-and-notifications-templates-setup-guides) for more details.
+</Info>
+
+---
+
+
+
+## Bug fixes 🐞
+
+- Addressed multiple rendering and core engine bugs to enhance system stability and user experience.
+
+
+## **Changes**  🔧
+
+* **UX Refinements**: Multiple user experience improvements, addressing minor design and workflow tweaks, make the platform more consistent and user-friendly.
+
+## Additional information
+
+For deployment guidelines, refer to:
+ 
+<Card title="Deployment guidelines v4.5.2" href="./deployment-guidelines-v4.5.2" icon="link"/>
