@@ -1,183 +1,159 @@
 ---
-title: Generic parameters
-description: Generic parameters are variables or settings that are used to control the behavior of a software application or system. These parameters are designed to be flexible and adaptable, allowing users to customize the software to their specific needs. 
+title: Configuration parameters
+description: Configuration parameters allow applications to be dynamic, flexible, and environment-specific. They enable managing variables and values that change across deployment environments (e.g., Development, QA, Production), without requiring hardcoded updates. This feature is particularly valuable for managing sensitive information, environment-specific settings, and configurations for integrations.
 ---
 
-Through the **FlowX Designer**, you can create, edit, import, or export these generic parameters. You can also assign the relevant environment(s) to these parameters, ensuring they are applied exactly where they are needed.
-
-Generic parameters can be defined and used in many scenarios. Here are a few examples of useful generic parameters:
-
-| Parameter       | Description                                                                                                                                                                                                            |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **baseURL**     | This parameter can be used to define the base URL of an API or website, which can be utilized across multiple environments                                                                                             |
-| **redirectURL** | This parameter can be used to define the URL to which a user should be redirected after completing a certain action or process. This can save time and effort by avoiding the need to hardcode multiple redirect URLs. |
-| **envFilePath** | This parameter can be used to define the path of the environment file that stores a document uploaded                                                                                                                  |
-
-To add a new generic parameter, follow the next steps:
-
-1. Go to **FlowX Designer** and select the **General Settings** tab.
-2. Select **Generic Parameters** from the list.
-3. Click **New parameter**.
-4. Fill in the details.
-5. Click **Save**.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/generic_params.gif)
-</Frame>
-
-## Configuring a generic parameter
-
-To configure a generic parameter you need to fill in the following details:
-
-* **Key** - the key that will be used in a process to call the generic parameter
-* **Value** - the value that will replace the key depending on the defined parameters
-* **Environment** - set the environment where you want to use the generic parameter (❗️leave empty to apply to all environments)
-* **Add a new value** - to add a new value for the same key but for a different environment
 
 <Info>
-For example, if you want to set a `baseURL` generic parameter (the URL will be different, depending on the environmaent).
+Configuration Parameters are defined per **application version**, ensuring consistency across builds while allowing for environment-specific overrides. These parameters can be used across various components, such as business rules, UI elements, integration designer, and gateways.
 </Info>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/generic_params_base.png)
-
-## Using generic parameters
-
-### Use case
-
-Imagine that you need to create a process in which you need to upload an image or a document. We will define a generic parameter called `envfilePath` that will represent the path where the document/image will be uploaded. 
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/generic_param_env.png)
-
-The minimum requirement to build an upload doc/image process:
-
-* a start node
-* a task node
-* a user task node
-* an end node
-
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/generic_params_proc.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2018.45.32.png)
 </Frame>
 
-### Configuring the task node
+---
 
-Set a **business rule** action on the task node with the following properties:
+## Default and override values
 
-#### Action Edit
+- **Default Value**: Defined during parameter creation and included in the application build. It serves as the fallback value when no environment-specific override is set.
+- **Override Value**: A value defined post-deployment for a specific environment. Overrides take precedence during runtime.
 
-* **Name** - used internally to make a distinction between different actions on nodes in the process - example *getGenericParameters*
-* **Order** - if multiple actions are defined on the same node, the running order should be set using this option
-* **Action type** - should be set to **Business Rule**
-* **Trigger type** - Automatic - choose if this action should be triggered automatically (when the process flow reaches this step) 
-* **Required type** - automatic actions can only be defined as mandatory
+For details on configuring runtime overrides, see:
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/get_generic_params.png)
-</Frame>
+<Card title="Configuration Parameters Overrides" href="../../projects/runtime/configuration-parameters-overrides" icon="file">
+</Card>
 
-#### Parameters
+---
 
-* **Language** - we will choose **MVEL** for this business rule example
-* **Message body** - MVEL expression
+## Types of configuration parameters
 
-```java
-output.put("envfilePath", additionalData.applicationConfiguration.get("envfilePath"));
-```
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/generic_params_init.png)
-</Frame>
+Configuration parameters are defined as **key-value pairs** and support the following types:
 
-This MVEL business rule assigns a value to a key, `envFilePath` (our defined generic parameter) in the "output" map object. The value assigned to the key is retrieved from another object, `additionalData.applicationConfiguration`, using the "get" method and passing the key `envFilePath` as the parameter.
+### Value
 
-In other words, this rule extracts the value of the `envFilePath` generic parameter from the `additionalData.applicationConfiguration` object and assigns it to the `envFilePath` key in the "output" map object.
+A static value directly used by the application. Suitable for settings that do not change across environments.
 
-It is important to note that the `additionalData.applicationConfiguration` object and the "output" map object must be previously defined and accessible in the current context for this rule to work.
+- **Use Cases**:
+  - Feature flags to toggle functionality (e.g., enabling/disabling insurance sales in a customer dashboard).
+  - Email addresses for notification recipients.
+  - Homebank redirect URLs for specific processes.
 
-### Configuring the user task node
-
-On this node we will define the following:
-
-* an Upload File action with two child actions:
-    * a Business Rule
-    * a Send data to user interface action
-
-<Info>
-Child actions can be marked as callbacks to be run after a reply from an external system is received. They will need to be set when defining the interaction with the external system (the Kafka send action).
-</Info>
-
-For example, a callback function might be used to handle a user's interaction with a web page, such as upload a file. When the user performs the action, the callback function is executed, allowing the web application to respond appropriately.
-
-#### Configuring Upload file action
-
-Set an Upload file action on the task node with the following properties:
-
-##### Action Edit
-
-* **Name** - *uploadDocument*
-* **Order** - if multiple actions are defined on the same node, the running order should be set using this option
-* **Action type** - should be set to **Upload File**
-* **Trigger type** - manually (triggered by the user)
-* **Required type** - optional
-* Repeatable - yes - should be checked if the action can be triggered multiple times
-* **Autorun Children** - when this is switched on, the child actions (the ones defined as mandatory and automatic) will run immediately after the execution of the parent action is finalized
-
-##### Parameters
-
-* **Address** - the Kafka topic where the file will be posted - `ai.flowx.in.devmain.document.persist.v1` 
-
-<Warning>
-In this example we used an environment called `devmain`, topic naming convention is different depending on what environment you are working.
-</Warning>
-
-* **Document Type** - other metadata that can be set (useful for the document plugin) - example: `BULK`
-* **Folder** - allows you to configure a value by which the file will be identified in the future - example: `1234_${processInstanceId}`
-* **Advanced configuration (Show headers)** - this represents a JSON value that will be sent on the headers of the Kafka message
-
-```json
-{"processInstanceId": ${processInstanceId}, "destinationId": "Upload document", "callbacksForAction": "uploadDocument"}
-```
-
-* `callbacksForAction` - the value of this key is a string that specifies a callback action associated with the `Upload document` destination ID (node). This is part of an event-driven system (Kafka send action) where this callback will be called once the `uploadDocument` action is completed.
-
-
-#### Configuring Business rule action
-
-```java
-envfilePath = input.?envfilePath;
-uploadedDocument = input.?uploadedDocument;
-if(uploadedDocument.?downloadPath != null && uploadedDocument.?downloadPath != ""){
-    filePath = envfilePath + uploadedDocument.?downloadPath;
-    uploadedDocument.filePath = filePath;
-
-    output.put("uploadedDocument", uploadedDocument);  
-}
-```
-
-1. The business rule is expecting two inputs: `envfilePath` and `uploadedDocument`.
-2. It is checking if the `downloadPath` property of the `uploadedDocument` input is not null and not an empty string. If it's not, then it proceeds to the next steps.
-3. It concatenates the `envfilePath` and the `downloadPath` to form the full file path (filePath) where the uploaded document is expected to be located.
-4. It updates the `uploadedDocument` input by adding a new property called `filePath` with the value of `filePath`.
-5. It puts the updated `uploadedDocument` object into the output object as a key-value pair, with the key being "uploadedDocument".
-
-In summary, the code seems to be processing an uploaded document by checking its download path, constructing a full file path, and updating the document object with the new file path. Finally, it outputs the updated document object.
-
-
- #### Configuring a Send data to user interface action
-
-
-```json
-{"uploadedDocument": 
-    {
-        "filePath": "${uploadedDocument.filePath}"
-    }
-}
-```
-
-
-* `filePath`: This is a key in the object which holds the value `${uploadedDocument.filePath}`. The syntax `${...}` suggests that it's a variable placeholder that will be replaced with the actual value at runtime.
-
-After configuring all the nodes and parameters, run the process:
+- **Example**:
+  - **Key**: `officeEmail`
+  - **Type**: `value`
+  - **Value**: `officeEmail@office.com`
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/generic_parameters.gif)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-19%20at%2010.02.09.png)
 </Frame>
+
+---
+
+### Environment variable
+
+References an external variable set by the DevOps team. These variables are defined per environment and referenced using a **name convention**.
+
+- **Use Cases**:
+  - Environment-specific API base URLs.
+  - Dynamic configuration of services or integrations.
+
+- **Example**:
+  - **Key**: `baseUrl`
+  - **Type**: `environment variable`
+  - **Value**: `BASE_URL` (name convention pointing to an externally defined value)
+
+
+Configuration details:
+
+| Key      | Type                    | Value             | Description                                               |
+|----------|-------------------------|-------------------|-----------------------------------------------------------|
+| baseUrl  | `environment variable`  | `BASE_URL`        | A reference to the base URL configured externally by DevOps.|
+
+
+**Example values for different environments**
+
+| Environment | External Variable Name | Actual Value                  |
+| ----------- | ---------------------- | ----------------------------- |
+| Development | `BASE_URL`             | `https://dev.example.com/api` |
+| QA          | `BASE_URL`             | `https://qa.example.com/api`  |
+| Production  | `BASE_URL`             | `https://api.example.com`     |
+
+---
+
+### Secret environment variable
+
+Used for sensitive data like passwords, API keys, or credentials. These values are securely managed by DevOps and referenced using a **name convention**.
+
+- **Use Cases**:
+  - Passwords or tokens for integrations.
+  - Secure configuration of external services in the integration designer.
+
+- **Example**:
+  - **Key**: `dbPassword`
+  - **Type**: `secret environment variable`
+  - **Value**: `DB_PASSWORD`
+
+---
+
+
+## Use cases for configuration parameters
+
+Configuration parameters simplify the management of environment-specific or dynamic settings across multiple application components:
+
+1. **Business Rules**:
+   - Define dynamic logic based on parameters such as feature toggles or environment-specific conditions.
+2. **UI Elements**:
+   - Configure content dynamically based on the environment (e.g., URLs for redirects, conditional features).
+3. **Integration Designer**:
+   - Reference the token parameter.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-19%20at%2010.40.02.png)
+</Frame>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-19%20at%2010.41.41.png)
+</Frame>
+
+4. **Gateways**:
+   - Dynamically manage routing and decision-making logic using environment-specific parameters.
+
+
+## Adding a configuration parameter
+
+To add a new configuration parameter:
+
+1. Navigate to **Your Application** → **Configuration Parameters**.
+2. Click **New Parameter** and provide the following:
+   - **Key**: Name of the parameter.
+   - **Type**: Select `value`, `environment variable`, or `secret environment variable`.
+   - **Value**:
+     - For `value`: Enter the static value.
+     - For `environment variable` or `secret environment variable`: Enter the agreed name convention.
+3. Click **Save** to include the parameter in the application build.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2019.07.20.png)
+</Frame>
+---
+
+## Technical notes and best practices
+
+### Security
+
+- **Sensitive Values (ENV_SECRET)**:
+  - Store and manage securely.
+  - Do not display in the frontend or expose via public APIs.
+  - Avoid logging sensitive information.
+
+### Environment-specific updates
+
+- Environment variable updates (`ENV`/`ENV_SECRET`) are managed by DevOps.
+- Updates may require service restarts unless a caching or real-time mechanism (e.g., change streams) is implemented.
+
+### Reserved keys
+
+- Certain keys are reserved for system use (e.g., `processInstanceId`). Avoid using reserved keys for custom configurations.
+
+---
