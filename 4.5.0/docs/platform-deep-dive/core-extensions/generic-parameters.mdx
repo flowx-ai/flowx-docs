@@ -1,11 +1,11 @@
 ---
 title: Configuration parameters
-description: Configuration Parameters allow applications to be dynamic, flexible, and environment-specific. They enable managing variables and values that change across deployment environments (e.g., Development, QA, Production), without requiring hardcoded updates. This feature is particularly valuable for managing sensitive information and environment-specific settings.
+description: Configuration parameters allow applications to be dynamic, flexible, and environment-specific. They enable managing variables and values that change across deployment environments (e.g., Development, QA, Production), without requiring hardcoded updates. This feature is particularly valuable for managing sensitive information, environment-specific settings, and configurations for integrations.
 ---
 
 
 <Info>
-Configuration parameters are defined per **application version**, ensuring consistency across builds while allowing for environment-specific overrides.
+Configuration Parameters are defined per **application version**, ensuring consistency across builds while allowing for environment-specific overrides. These parameters can be used across various components, such as business rules, UI elements, integration designer, and gateways.
 </Info>
 
 <Frame>
@@ -14,7 +14,7 @@ Configuration parameters are defined per **application version**, ensuring consi
 
 ---
 
-## Default and Override Values
+## Default and override values
 
 - **Default Value**: Defined during parameter creation and included in the application build. It serves as the fallback value when no environment-specific override is set.
 - **Override Value**: A value defined post-deployment for a specific environment. Overrides take precedence during runtime.
@@ -26,24 +26,37 @@ For details on configuring runtime overrides, see:
 
 ---
 
-## Types of Configuration parameters
+## Types of configuration parameters
 
 Configuration parameters are defined as **key-value pairs** and support the following types:
 
 ### Value
 
-Stores a static value directly used in the application. This type is suitable for parameters that do not change across environments.
+A static value directly used by the application. Suitable for settings that do not change across environments.
+
+- **Use Cases**:
+  - Feature flags to toggle functionality (e.g., enabling/disabling insurance sales in a customer dashboard).
+  - Email addresses for notification recipients.
+  - Homebank redirect URLs for specific processes.
 
 - **Example**:
   - **Key**: `officeEmail`
   - **Type**: `value`
   - **Value**: `officeEmail@office.com`
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-19%20at%2010.02.09.png)
+</Frame>
+
 ---
 
 ### Environment variable
 
 References an external variable set by the DevOps team. These variables are defined per environment and referenced using a **name convention**.
+
+- **Use Cases**:
+  - Environment-specific API base URLs.
+  - Dynamic configuration of services or integrations.
 
 - **Example**:
   - **Key**: `baseUrl`
@@ -70,16 +83,41 @@ Configuration details:
 
 ### Secret environment variable
 
-Used for sensitive data like passwords or API keys. These values are securely managed by DevOps and referenced using a **name convention**. They are not exposed in the frontend or logged.
+Used for sensitive data like passwords, API keys, or credentials. These values are securely managed by DevOps and referenced using a **name convention**.
+
+- **Use Cases**:
+  - Passwords or tokens for integrations.
+  - Secure configuration of external services in the integration designer.
 
 - **Example**:
-  - **Key**: `officeEmailPassword`
+  - **Key**: `dbPassword`
   - **Type**: `secret environment variable`
-  - **Value**: `OFFICE_EMAIL_PASSWORD` (secure reference set by DevOps)
+  - **Value**: `DB_PASSWORD`
 
-- Secrets could require role-based access for display or update.
 ---
 
+
+## Use cases for configuration parameters
+
+Configuration parameters simplify the management of environment-specific or dynamic settings across multiple application components:
+
+1. **Business Rules**:
+   - Define dynamic logic based on parameters such as feature toggles or environment-specific conditions.
+2. **UI Elements**:
+   - Configure content dynamically based on the environment (e.g., URLs for redirects, conditional features).
+3. **Integration Designer**:
+   - Reference the token parameter.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-19%20at%2010.40.02.png)
+</Frame>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-19%20at%2010.41.41.png)
+</Frame>
+
+4. **Gateways**:
+   - Dynamically manage routing and decision-making logic using environment-specific parameters.
 
 
 ## Adding a configuration parameter
@@ -100,7 +138,7 @@ To add a new configuration parameter:
 </Frame>
 ---
 
-## Technical Notes and Best Practices
+## Technical notes and best practices
 
 ### Security
 
@@ -109,12 +147,12 @@ To add a new configuration parameter:
   - Do not display in the frontend or expose via public APIs.
   - Avoid logging sensitive information.
 
-### Environment-Specific Updates
+### Environment-specific updates
 
 - Environment variable updates (`ENV`/`ENV_SECRET`) are managed by DevOps.
 - Updates may require service restarts unless a caching or real-time mechanism (e.g., change streams) is implemented.
 
-### Reserved Keys
+### Reserved keys
 
 - Certain keys are reserved for system use (e.g., `processInstanceId`). Avoid using reserved keys for custom configurations.
 
