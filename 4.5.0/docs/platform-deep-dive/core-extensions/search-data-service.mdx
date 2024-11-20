@@ -1,6 +1,6 @@
 ---
 title: FlowX.AI Data Search
-description: The Data Search service is a microservice that enables data searches within other processes. It facilitates the creation of processes capable of conducting searches and retrieving data by utilizing Kafka actions in tandem with Elasticsearch mechanisms.
+description: The Data Search service is a microservice that enables data searches within other processes in an aplication or within other processes from other applications. It facilitates the creation of processes capable of conducting searches and retrieving data by utilizing Kafka actions in tandem with Elasticsearch mechanisms.
 ---
 <Tip>
 Data Search service leverages Elasticsearch to execute searches based on indexed keys, using existing mechanisms.
@@ -20,6 +20,9 @@ For our example, two process definitions are necessary:
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/search_in_another_proc_34.png)
 </Frame>
+
+
+
 
 - one process where we look for data - in our example ***"add_new_clients"***
 
@@ -123,16 +126,17 @@ The Kafka topic for the search service requests (defined at `KAFKA_TOPIC_DATA_SE
 	"processStartDateAfter": "YYY-MM-DD:THH:MM:SS", //optional, standard ISO 8601 date format
 	"processStartDateBefore": "YYY-MM-DD:THH:MM:SS", //optional, standard ISO 8601 date format
 	"processDefinitionNames": [ "processDef1", "processDef2"],
-	"states": ["STARTED", "FINISHED, ONHOLD"] //optional, depending if you want to filter process instances based on their status, if the parameter is ommited, the process will display all the statuses
+	"states": ["STARTED", "FINISHED, ONHOLD"], //optional, depending if you want to filter process instances based on their status, if the parameter is ommited, the process will display all the statuses
+  "applicationIds": "[8dd20844-2dc5-4445-83a5-bbbcc82bed5f]"
 }
 ```
 
 * **searchKey** - represents the process key used to search data stored in a process
 
 <Warning>
-Indexing this key within the process is crucial for the Data Search service to effectively locate it. To enable indexing, navigate to your desired process definition and access **Process Settings → Task Management → Search indexing**.
+Indexing this key within the process is crucial for the Data Search service to effectively locate it. To enable indexing, navigate to your desired Application then choose the process definition and access **Process Settings → Data Search**.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/indexed_key.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-19%20at%2018.37.53.png)
 
 ❗️ Keys are indexed automatically when the process status changes (e.g., created, started, finished, failed, terminated, expired), when swimlanes are altered, or when stages are modified. To ensure immediate indexing, select the 'Update in Task Management' option either in the **node configuration** or within **Process Settings → General** tab.
 </Warning>
