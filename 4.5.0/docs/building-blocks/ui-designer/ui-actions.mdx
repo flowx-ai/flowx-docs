@@ -1,48 +1,64 @@
 ---
 title: UI actions
-description: Multiple UI elements can be linked to a specific action via a UI action. If the action is just a method to interact with the process, the UI Action adds information about how that UI should react. For example, should a loader appear after executing the action, should a modal be dismissed, or if some default data should be sent back to the process.
+description: UI Actions link multiple UI elements to specific actions, defining how the interface responds. They determine behaviors such as displaying loaders, dismissing modals, or sending default data back to the process, enhancing the interaction between UI components and underlying logic.
 ---
 
-UI actions create a link between an [**action**](../actions/actions) and a UI component or [**custom component**](./ui-component-types/root-components/custom). 
+UI actions create a connection between multiple UI elements and a specific [**action**](../actions/actions). These actions provide methods for interacting with processes while also defining how the UI should behave in response. For example, they determine whether:
 
-The UI action informs the UI element to execute the given action when triggered. Other options are available for configuration when setting an action to a button and are detailed below.
+- A loader appears after executing an action.
+- A modal is dismissed.
+- Default data is sent back to the process.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_actions.gif)
 
-There are two main types of UI Actions:
+UI actions link a [**UI component**](./ui-component-types/root-components/custom) or a custom element with the specified action. They enable seamless integration between the user interface and the underlying logic.
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/ui-actions.mp4"
+></video>
+</Frame>
+
+
+## Types of UI actions
 
 - [Process UI Actions](#process-ui-actions)
 - [External UI Actions](#external-ui-actions)
 
-## Process UI actions
+### Process UI actions
 
-This is a UI action that describes how a [**Button**](../ui-designer/ui-component-types/buttons) (generated or custom) should interact with a process Manual action.
+Process UI Actions (marked `ACTION`) describe how a [**Button**](../ui-designer/ui-component-types/buttons) (generated or custom) interacts with a manual process action. Before defining a UI action, the corresponding [manual action](../actions/actions) must be configured.
 
-First, we need to configure the [manual action](../actions/actions) that will be referred from the UI Action. For more information on how to add an action to a node, and how to configure it, check the following section:
+For guidance on adding and configuring node actions, refer to:
 
 <Card title="Adding an action to a node" href="../../flowx-designer/managing-a-process-flow/adding-an-action-to-a-node">
 </Card>
 
-### Manual action configuration example - Save Data
+### Example: configuring a manual action (save data)
 
-1. Add an **action** to a node.
-2. Select the action type - for example **Save Data**.
-3. The action **type** should be **manual**.
-4. **Keys** - it has two important implications:
-   * First, this is a prefix of the keys that will send back by the UI Action link to this action. For example, if we have a big form with a lot of elements, but we need an action that just sends the email back (maybe creating email validation functionality) we will add just the key of that field: `application.client.email`; if we need a button that will send back all the form elements that have keys that start with `application.client` we can add just this part
-   * Second, a backend validation will be run to accept and persist just the data that start with this prefix. If we have three explicit keys, `application.client.email`, `application.client.phone`, `application.client.address` and we send `application.client.age`this key will not be persisted
+
+1. **Add an Action**: Attach an action to a node.  
+2. **Select the Action Type**: Choose **Save Data**, for instance.  
+3. **Action Type**: Set it to **manual**.  
+4. **Keys**: Configure the keys for specific data handling:
+   - Keys act as a prefix for the data returned by the UI Action.
+   - Example: To send only an email field from a form, configure the key as `application.client.email`.  
+   - Keys also enforce backend validation, ensuring only prefixed data is persisted.
+
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_action_key.png)
 
-When this prerequisite is ready we can define the UI Action.
+Once the node action is ready, the corresponding UI action can be defined.
 
 <Check>
-UI Actions and [Actions](../actions/actions) must be configured on the same node.
+Both UI actions and [node actions](../actions/actions) must be configured on the same node.
 </Check>
 
-### UI action configuration example
+### Example: configuring a UI action
 
-Multiple configurations are available - **ACTION** type example:
+Below are the available configurations for defining a UI action:
 
 * [**Event**](#events)
 * [**Type**](#action-types)

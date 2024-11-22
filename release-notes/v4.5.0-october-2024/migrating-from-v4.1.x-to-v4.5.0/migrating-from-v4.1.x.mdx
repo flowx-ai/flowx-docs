@@ -1,5 +1,5 @@
 ---
-title: Deployment changes for v.4.5.0
+title: Deployment changes for v4.5.0
 description: This document outlines the configuration and infrastructure changes introduced from v4.1.x to v4.5.0 for deploying the FlowX.AI platform.
 ---
 
@@ -19,6 +19,21 @@ In version 4.5.0, the CMS setup includes a more comprehensive MongoDB configurat
     - `MONGOCK_TRANSACTIONENABLED`: Controls MongoDB transaction support with Mongock, defaulting to `false` due to compatibility concerns with MongoDB 5.
 
 ---
+
+### Private storage configuration
+
+Private CMS to securely store uploaded documents and AI-generated documents, ensuring they are accessible only via authenticated endpoints. This CMS will support AI services and workflows while maintaining strict access controls.
+
+<Info>
+Private CMS ensures secure file storage by keeping documents hidden from the Media Library and accessible only through authenticated endpoints with access token permissions. Files can be retrieved using tags (e.g., ai_document, ref:UUID_doc) and are excluded from application builds as they aren't needed at runtime.
+</Info>
+
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_SERVER_URL`: This environment variable specifies the URL of the S3 server used for private file storage.
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_BUCKET_NAME`: This environment variable specifies the name of the S3 bucket dedicated to private file storage.
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_CREATE_BUCKET`: This environment variable indicates whether the private S3 bucket should be created if it does not already exist. It can be set to true or false.
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_ACCESS_KEY`: This environment variable holds the access key used to authenticate to the S3 server for private file storage.
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_SECRET_KEY`: This environment variable holds the secret key used to authenticate to the S3 server for private file storage.
+
 
 ## Admin setup
 
