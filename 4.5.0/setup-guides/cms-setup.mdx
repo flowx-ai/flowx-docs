@@ -1,33 +1,35 @@
 ---
 title: FlowX CMS setup
-description: The CMS service is a microservice that allows managing taxonomies and contents. It is available as a Docker image and is designed to make it easy to edit and analyze content. This guide will walk you through the process of setting up the service and configuring it to meet your needs.
+description: The CMS service is a microservice designed for managing taxonomies and content inside an application. Delivered as a Docker image, it simplifies content editing and analysis. This guide provides step-by-step instructions for setting up the service and configuring it to suit your needs.
 icon: folder-grid
 ---
 
-## Infrastructure prerequisites
+Ensure the following infrastructure components are available before starting the CMS service:
 
-The CMS service requires the following components to be set up before it can be started:
+- **Docker Engine**: Version 17.06 or higher.
+- **MongoDB**: Version 4.4 or higher for storing taxonomies and content.
+- **Redis**: Version 6.0 or higher.
+- **Kafka**: Version 2.8 or higher.
+- **Elasticsearch**: Version 7.11.0 or higher.
 
-* **Docker engine** - version 17.06 or higher
-* **MongoDB** - version 4.4 or higher for storing taxonomies and contents
-* **Redis** - version 6.0 or higher
-* **Kafka** - version 2.8 or higher
-* **Elastisearch** - version 7.11.0 or higher
 
 <Info>
-The service comes with most of the needed configuration properties filled in, but there are a few that need to be set up using some custom environment variables.
+The service is pre-configured with most default values. However, some environment variables require customization during setup.
 </Info>
 
-## Dependencies
+## Dependencies overview
 
-* [**DB instance**](#mongodb-database)
+* [**MongoDB instance**](#mongodb-database)
 * [**Authorization & access roles**](#configuring-authorization-access-roles)
 * [**Redis**](#configuring-redis)
 * [**Kafka**](#configuring-kafka)
 
 ## Configuration
 
-Configure the default application name to be used when retrieving content:
+### Set application defaults
+
+
+Define the default application name for retrieving content:
 
 ```yaml
 application:
@@ -40,35 +42,35 @@ If this configuration is not provided, the default value will be set to `flowx`.
 
 ### Configuring authorization & access roles
 
-To connect to the identity management platform, the following variables need to be set:
+Connect the CMS to an OAuth 2.0 identity management platform by setting the following variables:
 
-* `SECURITY_OAUTH2_BASE_SERVER_URL` - the base URL for the OAuth 2.0 Authorization Server, which is responsible for authentication and authorization for clients and users, it is used to authorize clients, as well as to issue and validate access tokens
-* `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - a unique identifier for a client application that is registered with the OAuth 2.0 Authorization Server, this is used to authenticate the client application when it attempts to access resources on behalf of a user
-* `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - secret key that is used to authenticate requests made by an authorization client
-* `SECURITY_OAUTH2_REALM` - security configuration env var in the Spring Security OAuth2 framework, it is used to specify the realm name used when authenticating with OAuth2 provider
+- **`SECURITY_OAUTH2_BASE_SERVER_URL`**: Specifies the base URL for the OAuth 2.0 Authorization Server, which handles authentication and token issuance.
+- **`SECURITY_OAUTH2_CLIENT_CLIENT_ID`**: Unique identifier for the client application. Used during authentication with the OAuth 2.0 server.
+- **`SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`**: Secret key to authenticate requests from the client application.
+- **`SECURITY_OAUTH2_REALM`**: Defines the realm name for OAuth 2.0 provider authentication in Spring Security.
 
-To configure user roles and access rights tailored to your specific use case in FlowX Designer, please refer to the following section:
+For detailed role and access configuration, refer to:  
 
 <Card title ="FlowX CMS access rights" href="./access-management/configuring-access-rights-for-cms" icon ="file">
 </Card>
 
 ### Configuring MongoDB
 
-The MongoDB database is used for storing taxonomies and contents in the CMS service. Configure MongoDB with the following environment variables:
+The CMS requires MongoDB for taxonomy and content storage. Configure MongoDB with the following variables:
 
-* `SPRING_DATA_MONGODB_URI` - URI for connecting to the CMS MongoDB instance  
+* `SPRING_DATA_MONGODB_URI`: URI for connecting to the CMS MongoDB instance.
     * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
 * `DB_USERNAME` : `cms-core`
-* `MONGOCK_TRANSACTIONENABLED` - Enables or disables transactions in MongoDB for compatibility with the Mongock library  
-  * **Default Value:** `false` (Set it to `false` to support successful migrations)
+* `MONGOCK_TRANSACTIONENABLED`: Enables or disables transactions in MongoDB for compatibility with the Mongock library. 
+  * **Default Value:** `false` (Set it to `false` to support successful migrations).
   * **Note:** Set to `false` due to known issues with transactions in MongoDB version 5.
 
 
 #### Configuring MongoDB (runtime database - additional data)
 
-The CMS service also requires connection to a Runtime MongoDB instance for managing additional data related to runtime operations. Use the following environment variables for configuration:
+In addition to core storage, CMS also connects to a Runtime MongoDB instance for operational data. Configure using these variables:
 
-* `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables Runtime MongoDB usage
+* `SPRING_DATA_MONGODB_RUNTIME_ENABLED`: Enables Runtime MongoDB integration.
 	* **Default Value:** `true`
 * `RUNTIME_DB_USERNAME`: `app-runtime`
 * `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to the Runtime MongoDB instance (`app-runtime`)  
@@ -76,8 +78,6 @@ The CMS service also requires connection to a Runtime MongoDB instance for manag
 * `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
   * **Possible Values:** `mongodb`, `cosmosdb`
   * **Default Value:** `mongodb`
-
-
 
 ### Configuring Redis
 
@@ -87,23 +87,23 @@ The service can use the [**Redis component**](./setup-guides-overview#redis-conf
 
 The following values should be set with the corresponding Redis-related values:
 
-* `SPRING_REDIS_HOST` - environment variable used to configure the hostname or IP address of a Redis server when using Spring Data Redis
-* `SPRING_REDIS_PASSWORD` - environment variable is used to store the password used to authenticate with a Redis server, it is used to secure access to the Redis server and should be kept confidential
-* `REDIS_TTL` - environment variable is used to specify the maximum time-to-live (TTL) for a key in Redis, it is used to set a limit on how long a key can exist before it is automatically expired (Redis will delete the key after the specified TTL has expired)
+* `SPRING_REDIS_HOST`: Hostname or IP address of the Redis server.
+* `SPRING_REDIS_PASSWORD`: Authentication password for the Redis server.
+* `REDIS_TTL`: Used to specify the maximum time-to-live (TTL) for a key in Redis, it is used to set a limit on how long a key can exist before it is automatically expired (Redis will delete the key after the specified TTL has expired).
 
 All the data produced by the service will be stored in Redis under a specific key. The name of the key can be configured using the environment variable:
 
-### Configuring Kafka <a href="#63673403-7b21-440b-a173-211fd5c9a86e" id="63673403-7b21-440b-a173-211fd5c9a86e"></a>
+### Configuring Kafka 
 
 To configure the Kafka server, you need to set the following environment variables:
 
-* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - address of the Kafka server, it should be in the format "host:port"
-* `SPRING_KAFKA_CONSUMER_GROUP_ID` - a group of consumers
-* `KAFKA_CONSUMER_THREADS` - the number of Kafka consumer threads
-* `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` - the interval between retries after `AuthorizationException` is thrown by `KafkaConsumer`
-* `KAFKA_TOPIC_AUDIT_OUT` - the topic key for receiving audit logs
+* `SPRING_KAFKA_BOOTSTRAP_SERVERS`: Address of the Kafka server (host:port).
+* `SPRING_KAFKA_CONSUMER_GROUP_ID`: Defines the Kafka consumer group.
+* `KAFKA_CONSUMER_THREADS`: Number of Kafka consumer threads.
+* `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL`: Retry interval after an authorization exception.
+* `KAFKA_TOPIC_AUDIT_OUT`: Topic for audit logs.
 
-#### Request content
+#### Request content topics
 
 | Environment Variable            | Default FLOWX.AI value (Customizable)                              |
 | ------------------------------- | ------------------------------------------------------------------ |
@@ -124,18 +124,32 @@ It is important to note that all the actions that start with a configured patter
 
 To control the log levels, the following environment variables can be set:
 
-* `LOGGING_LEVEL_ROOT` - the log level for the root spring boot microservice logs
-* `LOGGING_LEVEL_APP` - the log level for app-level logs
-* `LOGGING_LEVEL_MONGO_DRIVER` - the log level for mongo driver
+* `LOGGING_LEVEL_ROOT`: Log level for the root service logs.
+* `LOGGING_LEVEL_APP`: Log level for application-specific logs.
+* `LOGGING_LEVEL_MONGO_DRIVER`: Log level for the MongoDB driver.
 
 ### Configuring file storage
 
-* `APPLICATION_FILE_STORAGE_S3_SERVER_URL` - environment variable used to store the URL of the S3 server that is used to store files for the application.
-* `APPLICATION_FILE_STORAGE_S3_BUCKET_NAME` - environment variable used to store the name of the S3 bucket that is used to store files for the application
-* `APPLICATION_FILE_STORAGE_S3_ROOT_DIRECTORY` - environment variable used to store the root directory within the S3 bucket where the files for the application are stored
-* `APPLICATION_FILE_STORAGE_S3_CREATE_BUCKET` - environment variable used to indicate whether the S3 bucket should be created if it does not already exist, it can be set to true or false
-* `APPLICATION_FILE_STORAGE_S3_PUBLIC_URL` - the public URL of the S3 solution, it specifies the URL that can be used to access the files stored
+* `APPLICATION_FILE_STORAGE_S3_SERVER_URL`: URL of the S3 server for file storage.
+* `APPLICATION_FILE_STORAGE_S3_BUCKET_NAME`: S3 bucket name for file storage.
+* `APPLICATION_FILE_STORAGE_S3_ROOT_DIRECTORY`: Root directory in the S3 bucket.
+* `APPLICATION_FILE_STORAGE_S3_CREATE_BUCKET`: Indicates if the bucket should be auto-created (`true`/`false`).
+* `APPLICATION_FILE_STORAGE_S3_PUBLIC_URL`: Public URL for accessing files.
 
+#### Private storage configuration
+
+Private CMS to securely store uploaded documents and AI-generated documents, ensuring they are accessible only via authenticated endpoints. This CMS will support AI services and workflows while maintaining strict access controls.
+
+<Info>
+Private CMS ensures secure file storage by keeping documents hidden from the Media Library and accessible only through authenticated endpoints with access token permissions. Files can be retrieved using tags (e.g., ai_document, ref:UUID_doc) and are excluded from application builds as they aren't needed at runtime.
+</Info>
+
+
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_SERVER_URL`: This environment variable specifies the URL of the S3 server used for private file storage.
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_BUCKET_NAME`: This environment variable specifies the name of the S3 bucket dedicated to private file storage.
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_CREATE_BUCKET`: This environment variable indicates whether the private S3 bucket should be created if it does not already exist. It can be set to true or false.
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_ACCESS_KEY`: This environment variable holds the access key used to authenticate to the S3 server for private file storage.
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_SECRET_KEY`: This environment variable holds the secret key used to authenticate to the S3 server for private file storage.
 
 ### Configuring the maximum file size for uploads
 
