@@ -5,6 +5,11 @@ description: Generic parameters are variables or settings that are used to contr
 
 Through the **FlowX Designer**, you can create, edit, import, or export these generic parameters. You can also assign the relevant environment(s) to these parameters, ensuring they are applied exactly where they are needed.
 
+
+<Info>
+**Important Note on Variable Precedence**: If a process variable and a generic parameter share the same name, the process variable takes precedence at runtime. If the process variable is `null` or `undefined`, the generic parameter's value is used as a fallback. To avoid unintended behavior, ensure distinct naming conventions for process variables and generic parameters.
+</Info>
+
 Generic parameters can be defined and used in many scenarios. Here are a few examples of useful generic parameters:
 
 | Parameter       | Description                                                                                                                                                                                                            |
@@ -42,6 +47,14 @@ For example, if you want to set a `baseURL` generic parameter (the URL will be d
 
 ## Using generic parameters
 
+### Key Considerations
+
+1. Variable Precedence:
+ - Process variables with the same name as a generic parameter will override the generic parameter at runtime.
+ - If the process variable is null or undefined, the generic parameter's value is used as a fallback.
+2. Naming Best Practices:
+- To prevent unintentional behavior, use distinct names for process variables and generic parameters.
+
 ### Use case
 
 Imagine that you need to create a process in which you need to upload an image or a document. We will define a generic parameter called `envfilePath` that will represent the path where the document/image will be uploaded. 
@@ -50,10 +63,10 @@ Imagine that you need to create a process in which you need to upload an image o
 
 The minimum requirement to build an upload doc/image process:
 
-* a start node
-* a task node
-* a user task node
-* an end node
+* A start node.
+* A task node.
+* A user task node.
+* An end node.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/generic_params_proc.png)
