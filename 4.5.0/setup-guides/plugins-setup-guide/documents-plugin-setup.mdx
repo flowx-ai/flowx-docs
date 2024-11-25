@@ -31,7 +31,7 @@ documentdb:
     enabled: true
     service:
       annotations:
-        prometheus.io/port: {{phrometeus port}}
+        prometheus.io/port: {{prometheus port}}
         prometheus.io/scrape: "true"
       type: ClusterIP
     serviceMonitor:

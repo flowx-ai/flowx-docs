@@ -1814,7 +1814,25 @@
       "pages": [
         "release-notes/overview",
         
+        {
+          "group": "v4.5.3 - November",
+          "icon": "wrench",
+          "pages": [
+            "release-notes/v4.5.3-november-2024/v4.5.3-november-2024",
+            "release-notes/v4.5.3-november-2024/deployment-guidelines-v4.5.3",
+            {
+              "group": "Migrating from v4.1.x",
+              "pages": [
+                "release-notes/v4.5.3-november-2024/migrating-from-v4.1.x-to-v4.5.3/renderers",
+                "release-notes/v4.5.3-november-2024/migrating-from-v4.1.x-to-v4.5.3/process-configuration",
+                "release-notes/v4.5.3-november-2024/migrating-from-v4.1.x-to-v4.5.3/migrating-from-v4.1.x"
 
+              ]
+            }
+
+
+          ]
+        },
         
      {
           "group": "v4.5.1 - November",
