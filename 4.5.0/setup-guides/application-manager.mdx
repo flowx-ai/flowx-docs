@@ -11,10 +11,11 @@ The Aplication manager is microservice that manages applications and also acts a
 
 Before you start setting up the Application Manager service, ensure the following infrastructure components are in place:
 
-* **PostgreSQL** - version 13 or higher for storing application data (could vary based on your preferred relational database)
-* **MongoDB** - version 4.4 or higher for managing runtime builds
-* **Redis** - version 6.0 or higher
-* **Kafka** - version 2.8 or higher for messaging and event-driven communication between services
+* **PostgreSQL**: Version 13 or higher for storing application data (based on your preferred relational database).
+* **MongoDB**: Version 4.4 or higher for managing runtime builds.
+* **Redis**: Version 6.0 or higher for caching needs.
+* **Kafka**: Version 2.8 or higher for messaging and event-driven communication between services.
+
 
 <Info>
 Ensure that the database for storing application data is properly set up and configured before starting the service.
@@ -22,12 +23,12 @@ Ensure that the database for storing application data is properly set up and con
 
 ## Dependencies
 
-The Application Manager relies on several other FlowX services and components:
+he Application Manager relies on other FlowX services and components to function properly:
 
-* [**Database instance**](#database-configuration) - To store application details, manifests, and configurations
-* [**Authorization & Access Management**](#configuring-authorization-and-access-roles)
-* [**Kafka Event Bus**](#configuring-kafka)
-* [**Proxy Mechanism**](#configuring-resource-proxy) - Ensure resource endpoints are accessible through the application-proxy.
+* [**Database instance**](#database-configuration): For storing application details, manifests, and configurations.
+* [**Authorization & Access Management**](#configuring-authorization-and-access-roles): For securing access to resources and managing roles.
+* [**Kafka Event Bus**](#configuring-kafka): For enabling event-driven operations.
+* [**Proxy Mechanism**](#configuring-resource-proxy): To forward resource-related requests to appropriate services.
 
 ## Configuration
 
