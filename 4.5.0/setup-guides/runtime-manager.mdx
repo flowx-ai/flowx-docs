@@ -70,9 +70,12 @@ To securely integrate with Kafka, configure the following OAuth credentials:
 
 Runtime Handler uses OAuth2 for secure access control. Set up the OAuth2 configurations with the following environment variables:
 
-* `SECURITY_OAUTH2_BASE_SERVER_URL` - URL for the OAuth2 authorization server
-* `SECURITY_OAUTH2_REALM` - Realm for OAuth2 authentication
-* `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - Client ID for the Runtime Handler’s OAuth2 client
+
+* `SECURITY_OAUTH2_BASE_SERVER_URL` - Base URL for the OAuth 2.0 Authorization Server
+* `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - Unique identifier for the client application registered with the OAuth 2.0 server
+* `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - Secret key for authenticating requests made by the authorization client
+* `SECURITY_OAUTH2_REALM` - The realm name for OAuth2 authentication
+
 
 ### Redis configuration (optional)
 
