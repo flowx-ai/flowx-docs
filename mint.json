@@ -2157,5 +2157,22 @@
       "measurementId": "G-CGW0FVK9YM"
     }
   },
-  "theme": "prism"
+  "theme": "prism",
+
+
+ "redirects": [
+  {
+    "source": "/link/4.5/task-management-overview",
+    "destination": "/4.5.0/docs/platform-deep-dive/core-extensions/task-management/task-management-overview"
+  },
+  {
+    "source": "/link/4.5/data-search",
+    "destination": "/4.5.0/docs/platform-deep-dive/core-extensions/search-data-service#flowx-ai-data-search"
+  },
+  {
+    "source": "/link/4.5/expiry-time",
+    "destination": "/4.5.0/docs/building-blocks/process/process-definition#general"
+  }
+]
+
 }
