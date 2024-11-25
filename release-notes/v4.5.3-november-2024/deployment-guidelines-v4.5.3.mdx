@@ -87,17 +87,46 @@ For optimal performance and reliability, our internal QA process validates new F
 In the unlikely event that you encounter any compatibility issues with FlowX.AI, please open a support ticket [**here**](https://flowxai.zendesk.com/), and our dedicated team will address and resolve any identified bugs following our standard support process.
 </Info>
 
+<Check>
+**Update default application**: If you have already updated to **v4.5.0** or **v4.5.1**, ensure that you create at least one new version of the default_application(where all the process definitions from previous versions are migrated). This step verifies that your default application remains up to date with the latest changes:
 
-
-
-
-### Update default application
-
-If you have already updated to **4.5.0** or **4.5.1**, ensure that you create at least one new version of the `default_application`(where all the process definitions from previous versions are migrated). This step verifies that your default application remains up to date with the latest changes:
-
-1. Open the `default_application` in the UI.
-2. Check for a **new version** (either draft or committed).
-3. Ensure that there is a new version compared to the **committed version** that was automatically created during the migration from Release 4.5.0.
+1. Open the default_application in the UI.
+2. Check for a new version (either draft or committed).
+3. Ensure that there is a new version compared to the committed version that was automatically created during the migration from Release 4.5.0.
 4. Save or commit a new version if necessary.
 
 This step ensures your application configurations are aligned with the latest migration requirements.
+</Check>
+
+
+
+## New environment variables
+
+### Runtime database integration
+
+Both Notifications and Documents services now seamlessly connect to the runtime database.
+
+Add the following environment variables:
+
+- `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables Runtime MongoDB usage (default value: `true`)
+- `RUNTIME_DB_USERNAME`: `app-runtime`
+- `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to the Runtime MongoDB instance - `app-runtime`
+- `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
+  - **Possible Values:** `mongodb`, `cosmosdb`
+  - **Default Value:** `mongodb`
+
+### Data-sync service enhancements
+
+Two new migrations added to the data-sync service.
+
+Requires connectivity with Notifications and Documents databases for proper operation:
+
+- `NOTIFICATIONPLUGIN_MONGO_USERNAME`: `mongodb-username` -> Represents the username for authenticating to the MongoDB database used by the Notifications Plugin.
+- `NOTIFICATIONPLUGIN_MONGO_PASSWORD`: `mongodb-password` -> Represents the password associated with the `NOTIFICATIONPLUGIN_MONGO_USERNAME` for database access.
+
+- `DOCUMENTPLUGIN_MONGO_USERNAME`: `mongodb-username` -> Represents the username for authenticating to the MongoDB database used by the Documents Plugin.
+- `DOCUMENTPLUGIN_MONGO_PASSWORD`: `mongodb-password` -> Represents the password associated with the `DOCUMENTPLUGIN_MONGO_USERNAME` for database access.
+
+
+- `FLOWX_DATASOURCE_DOCUMENTPLUGIN_URI`: Specifies the connection details for the MongoDB database used by the Documents Plugin.
+- `FLOWX_DATASOURCE_NOTIFICATIONPLUGIN_URI`: Specifies the connection details for the MongoDB database used by the Notifications Plugin.

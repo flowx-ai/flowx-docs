@@ -1,6 +1,6 @@
 ---
 title: FlowX.AI 4.5.3 Release
-description: FlowX.AI 4.5.3 brings easier branch merging with better conflict detection, simple resolution tools, and flexible options for unresolved conflicts. This update also includes performance improvements, fixes for key bugs, and enhancements to make the platform more reliable and user-friendly.
+description: FlowX.AI 4.5.3 introduces advanced branch merging capabilities, enhanced table customization, plugin integration improvements, significant performance optimizations, and essential bug fixes. This release provides a robust, user-friendly experience with improved operational clarity and efficiency.
 ---
 
 ## What's new? 🆕
@@ -54,7 +54,6 @@ Conflicts can now be resolved directly at the resource level with an intuitive i
 </Frame>
 
 
-
 #### Flexible merge overrides
 
 Proceed with merges even if some conflicts are unresolved, using the Merge Anyway option.
@@ -65,6 +64,53 @@ Proceed with merges even if some conflicts are unresolved, using the Merge Anywa
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Confirm%20Merging%20without%20checking%20all.png)
 </Frame>
+
+---
+
+### Plugin updates
+
+#### Notifications & Documents plugins
+
+Notifications and Documents plugins have been integrated as **application resources**.
+
+<Info>
+**Deployment changes**: Added **Runtime Database Integration** and **Data-Sync Service Enhancements**
+
+See the [**Deployment guidelines**](deployment-guidelines-v4.5.3#new-environment-variables) for more details.
+</Info>
+
+---
+### Rendering updates
+
+#### Table enhancements
+
+The table component has been enhanced with several new customization options to provide greater control over its appearance and functionality:
+
+- **Min-Max Cell Width**: Define precise minimum and maximum widths for table cells to ensure optimal layout and readability.
+- **Header Text Alignment**: Customize the alignment of header text for better visual consistency across tables.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2017.03.34.png)
+</Frame>
+
+- **Padding and Spacing**: Fine-tune padding and spacing properties for both rows and columns to improve table design and usability.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2017.05.46.png)
+</Frame>
+
+
+- **"No Data" Message Customization**: Introduced the ability to set a custom system message (through `sys_table_empty` system substitution tag) for tables when no data is available, offering a more user-friendly experience.
+ 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2017.14.19.png)
+</Frame>
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2017.15.55.png)
+</Frame>
+
 
 
 ---
@@ -122,3 +168,5 @@ Proceed with merges even if some conflicts are unresolved, using the Merge Anywa
 For deployment guidelines, refer to:
  
 <Card title="Deployment guidelines v4.5.3" href="./deployment-guidelines-v4.5.3" icon="link"/>
+
+<Card title="Migrating from v4.1.x to v4.5.3" href="./migrating-from-v4.1.x-to-v4.5.3/" icon="link"/>
