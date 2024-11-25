@@ -22,6 +22,19 @@ The Integration Designer service requires the following components to be set up 
 
 ## Configuration
 
+### Config profile
+
+- `CONFIG_PROFILE` - This environment variable must be set explicitly and exactly to ensure that no unintended profiles are loaded by mistake. The value of this variable should represent a minimal configuration state, relying only on defaults specified in the `application.properties` file of the application.
+
+
+Example:
+
+```yaml
+- name: CONFIG_PROFILE
+  value: k8stemplate_v2,kafka-auth
+```
+
+
 ### Database configuration
 
 Integration Designer uses both PostgreSQL and MongoDB for managing advancing data and integration information. Configure these database connections with the following environment variables:
@@ -30,17 +43,21 @@ Integration Designer uses both PostgreSQL and MongoDB for managing advancing dat
 
 * `ADVANCING_DATASOURCE_URL` - Database URL for the advancing data source in PostgreSQL  
 * `ADVANCING_DATASOURCE_USERNAME` - Username for the advancing data source in PostgreSQL
-
+* `ADVANCING_DATASOURCE_PASSWORD` - The password for the advancing data source in PostgreSQL.  
+  * **Details**: Must match the credentials configured in the PostgreSQL database.
+* `ADVANCING_DATASOURCE_DRIVER_CLASS_NAME` - The database driver class name for the advancing data source  
+  - **Details**: Required to ensure proper database connectivity. This value can be overridden for other databases, such as Oracle.  
+    - **For PostgreSQL**: `org.postgresql.Driver`  
+    - **For Oracle**: `oracle.jdbc.OracleDriver`
 
 #### MongoDB (Integration data and runtime data)
 
 Integration Designer requires two MongoDB databases for managing integration-specific data and runtime data. The `integration-designer` database is dedicated to Integration Designer, while the shared `app-runtime` database supports multiple services.
 
+- **Integration Designer Database** (`integration-designer`): Stores data specific to Integration Designer, such as integration configurations, metadata, and other operational data.
+- **Shared Runtime Database** (`app-runtime`): Shared across multiple services, this database manages runtime data essential for integration and data flow execution.
 
-* **Integration Designer Database** (`integration-designer`) - Stores data specific to Integration Designer, such as integration configurations and metadata.
-* **Shared Runtime Database** (`app-runtime`) - Used across multiple services for runtime data.
-
-Set up these MongoDB connections with the following environment variables:
+To connect these MongoDB databases, configure the following environment variables:
 
 * `SPRING_DATA_MONGODB_URI`- URI for connecting to the Integration Designer MongoDB instance  
     * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
@@ -48,6 +65,13 @@ Set up these MongoDB connections with the following environment variables:
 * `SPRING_DATA_MONGODB_STORAGE` -  Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
   * **Possible Values:** `mongodb`, `cosmosdb`
   * **Default Value:** `mongodb`
+
+<Info>
+Integration Designer requires a runtime connection to function correctly. Starting the service without a configured and active runtime MongoDB connection is not supported.
+</Info> 
+
+Enable Runtime MongoDB:
+
 * `SPRING_DATA_MONGODB_RUNTIME_ENABLED` - Enables runtime MongoDB usage
 	* **Default Value:** `true`
 * `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to MongoDB for Runtime MongoDB (`app-runtime`)

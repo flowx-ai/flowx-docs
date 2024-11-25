@@ -16,25 +16,53 @@ This guide details the essential environment variables required to configure and
 
 ## Required environment variables
 
+### Config profile
+
+- `CONFIG_PROFILE` - This environment variable must be set explicitly and exactly to ensure that no unintended profiles are loaded by mistake. The value of this variable should represent a minimal configuration state, relying only on defaults specified in the `application.properties` file of the application.
+
+
+Example:
+
+```yaml
+- name: CONFIG_PROFILE
+  value: k8stemplate_v2,kafka-auth
+```
+
 ### MongoDB connections
 
-#### CMS database
+#### CMS MongoDB
 
 - `FLOWX_DATASOURCE_CMS_URI` - MongoDB URI for CMS database.
 - `CMS_MONGO_USERNAME` - Username for MongoDB CMS database.
+- `CMS_MONGO_PASSWORD` - Password for the CMS MongoDB database.
 - `CMS_MONGO_DATABASE` - Database name for CMS.
 
-#### Scheduler database
+#### Scheduler MongoDB
 
 - `FLOWX_DATASOURCE_SCHEDULER_URI` - MongoDB URI for Scheduler database.
 - `SCHEDULER_MONGO_USERNAME` - Username for MongoDB Scheduler database.
+- `SCHEDULER_MONGO_PASSWORD` - Password for the Scheduler MongoDB database.
 - `SCHEDULER_MONGO_DATABASE` - Database name for Scheduler.
 
-#### Task Manager database
+#### Task Manager MongoDB
 
 - `FLOWX_DATASOURCE_TASKMANAGER_URI` - MongoDB URI for Task Manager database.
 - `TASKMANAGER_MONGO_USERNAME` - Username for MongoDB Task Manager database.
+- `TASKMANAGER_MONGO_PASSWORD` - Password for the Task Manager MongoDB database.
 - `TASKMANAGER_MONGO_DATABASE` - Database name for Task Manager.
+
+#### Document plugin MongoDB
+
+- `DOCUMENTPLUGIN_MONGO_DATABASE` - MongoDB database name for the Document Plugin.
+- `DOCUMENTPLUGIN_MONGO_USERNAME` - MongoDB username for the Document Plugin.
+- `DOCUMENTPLUGIN_MONGO_PASSWORD` - Password for the MongoDB Document Plugin database.
+
+#### Notification plugin MongoDB
+
+- `FLOWX_DATASOURCE_NOTIFICATIONPLUGIN_URI` - MongoDB URI for the Notification Plugin.
+- `NOTIFICATIONPLUGIN_MONGO_USERNAME` - MongoDB username for the Notification Plugin.
+- `NOTIFICATIONPLUGIN_MONGO_PASSWORD` - Password for the MongoDB Notification Plugin database.
+
 
 ### PostgreSQL connections
 
@@ -42,11 +70,28 @@ This guide details the essential environment variables required to configure and
 
 - `FLOWX_DATASOURCE_ENGINE_URL` - PostgreSQL URL for Process Engine database.
 - `FLOWX_DATASOURCE_ENGINE_USERNAME` - Username for PostgreSQL Process Engine database.
+- `FLOWX_DATASOURCE_ENGINE_DRIVERCLASSNAME` - Driver class name for the Process Engine PostgreSQL database.
 
 #### Application Manager database
 
 - `FLOWX_DATASOURCE_APPMANAGER_URL` - PostgreSQL URL for Application Manager database.
 - `FLOWX_DATASOURCE_APPMANAGER_USERNAME` - Username for PostgreSQL Application Manager database.
+- `FLOWX_DATASOURCE_APPMANAGER_PASSWORD` - Password for the Application Manager PostgreSQL database.
+- `FLOWX_DATASOURCE_APPMANAGER_DRIVERCLASSNAME` 
+    - **Details**: Required to ensure proper database connectivity. This value can be overridden for other databases, such as Oracle.
+        - **For PostgreSQL**: `org.postgresql.Driver`
+        - **For Oracle**: `oracle.jdbc.OracleDriver`
+
+
+### Spring JPA Variables
+
+`SPRING_JPA_DATABASE` - The database type for Spring JPA (e.g., oracle).
+`SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULTSCHEMA` - The default schema for Hibernate in Spring JPA.
+
+### Logging
+
+- `LOGGING_CONFIG_FILE` - Configuration file for logging.
+
 
 ## Deployment
 

@@ -86,8 +86,9 @@ The Application Manager requires MongoDB to store runtime build information. Use
 
 If caching is required, configure Redis using the following environment variables:
 
-* `SPRING_REDIS_HOST` - Hostname or IP address of the Redis server
-* `SPRING_REDIS_PASSWORD` - Password for authenticating with the Redis server
+* `SPRING_DATA_REDIS_HOST` - Hostname or IP address of the Redis server
+* `SPRING_DATA_REDIS_PASSWORD` - Password for authenticating with the Redis server
+* `SPRING_DATA_REDIS_PORT` - Hostname of the Redis server. This specifies where the Redis server is running and should be accessible from the application.
 
 ### Configuring Kafka
 

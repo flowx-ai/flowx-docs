@@ -33,7 +33,7 @@ Process UI Actions (marked `ACTION`) describe how a [**Button**](../ui-designer/
 
 For guidance on adding and configuring node actions, refer to:
 
-<Card title="Adding an action to a node" href="../../flowx-designer/managing-a-process-flow/adding-an-action-to-a-node">
+<Card title="Adding an action to a node" href="../../flowx-designer/managing-a-process-flow/adding-an-action-to-a-node" icon ="file">
 </Card>
 
 ### Example: configuring a manual action (save data)
@@ -42,40 +42,42 @@ For guidance on adding and configuring node actions, refer to:
 1. **Add an Action**: Attach an action to a node.  
 2. **Select the Action Type**: Choose **Save Data**, for instance.  
 3. **Action Type**: Set it to **manual**.  
-4. **Keys**: Configure the keys for specific data handling:
-   - Keys act as a prefix for the data returned by the UI Action.
-   - Example: To send only an email field from a form, configure the key as `application.client.email`.  
-   - Keys also enforce backend validation, ensuring only prefixed data is persisted.
 
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_action_key.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-11-22%20at%2014.55.32.png)
+</Frame>
 
 Once the node action is ready, the corresponding UI action can be defined.
 
 <Check>
-Both UI actions and [node actions](../actions/actions) must be configured on the same node.
+Both UI actions and [node actions](../actions/actions) must be configured on the same user task node.
 </Check>
 
 ### Example: configuring a UI action
 
-Below are the available configurations for defining a UI action:
 
-* [**Event**](#events)
-* [**Type**](#action-types)
-* **Node Action Name** - dropdown with available actions for this node. If the dropdown is empty please add a manual action that is required before we create the UI Action
-* **Use a different name for UI action**
-* **UI action name** - **this becomes** important when the action is used in a [**Custom component**](./ui-component-types/root-components/custom) as it will be used to trigger the action. For UI actions added on a generated button component this name is just descriptive
-* **Custom body** - this is the default response in JSON format that will be merged with any extra parameters added explicitly when executing the action, by a web application (from a [custom component](./ui-component-types/root-components/custom))
-* **Forms to validate** - select from the dropdown what element will be validated (you can also select the children)
-* **Dismiss process** - if the UI Actions is added on a subprocess and this parameter is true, triggering this UI action will dismiss the subprocess view (useful for modals subprocess)
-* **Show loader?** - a loader will be displayed if this option is true until a web-socket event will be received (new screen or data)
+Below are the available configurations for defining a UI Action:
 
+- **Event**: [Learn about Events](#events).  
+- **Action Type**: [Explore Action Types](#action-types).  
+- **Node Action Name**: Select the desired action from a dropdown (ensure a manual action is added first).  
+- **Use a different name for UI action**: Define a unique name for the UI action. This name is essential for triggering the action in a [**Custom Component**](./ui-component-types/root-components/custom).  
+- **Add custom keys**: Add custom keys that are not included in the data model
+- **Exclude keys**:
+- **Add custom body**: Provide a default JSON response. This response is merged with any additional parameters specified during execution.  
+- **Add form to submit**: Choose elements to validate (including their children).  
 
 <Frame>
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/ui_actions_multiple_configs.png)
-
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-11-22%20at%2015.47.48.png)
 </Frame>
+
+- **Hide Subprocess Navigation**: 
+- **Show loader**: Displays a loader until a SSE event is received, indicating new data or a new screen.
+
+<Frame>
+![UI Action Configuration Options](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-11-22%20at%2015.00.34.png)
+</Frame>
+
 
 ## UI actions elements
 
