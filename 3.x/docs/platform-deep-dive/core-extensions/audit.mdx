@@ -65,7 +65,6 @@ description: The Audit log service provides a centralized location for all audit
 <li>Unassign</li>
 <li>Hold</li>
 <li>Unhold</li>
-
     </ul>
   </Accordion>
 </AccordionGroup>
@@ -80,17 +79,44 @@ description: The Audit log service provides a centralized location for all audit
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/audit_log_new.png)
 
-## Filtering
+## Search and Filtering
 
-Users can filter audit records by event date and by selecting specific options for User, Subject, and Subject Identifier.
+The Audit log service provides comprehensive search and filtering capabilities to help users quickly locate specific events. Users can combine multiple search criteria to narrow down results effectively.
 
-* Filter by event date 
+### Date Range Filtering
+
+* Filter events by specifying a date range using the calendar picker
+* Supports both start and end date selection
+* Time granularity down to the minute
+* Quick date range presets available (Today, Last 7 days, Last 30 days, etc.)
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/audit_filter_by_event.png)
 
-* **User** - single selection, type at least 4 characters
-* **Subject** - single selection
-* **Subject identifier** - exact match
+### User Search
+* Search by username or system identifier
+* Requires minimum 4 characters for search
+* Auto-complete suggestions appear as you type
+* Single selection only
+* Case-insensitive search
+
+### Subject Filtering
+* Single selection from predefined list of subjects
+* Hierarchical filtering - selecting a subject updates available options in Subject Identifier
+* Clear filter option available
+* See the "Possible values" accordion above for complete list
+
+### Subject Identifier Search
+* Exact match search for specific identifiers
+* Context-sensitive based on selected Subject
+* Supports alphanumeric values
+* Clear search option available
+
+### Search Tips
+* Filters can be used individually or combined
+* Results update automatically as filters are applied
+* Clear all filters button available to reset search
+* Search preferences are preserved during the session
+* Export filtered results available for further analysis
 
 ## Audit log details
 

@@ -132,6 +132,23 @@ Grafana integrates with tracing backends such as Tempo (for tracing) and Loki (f
 
 * **View Trace Trees**: Grafana provides an intuitive UI for viewing the hierarchy and relationships between spans, making it easier to understand the flow of a request through the system.
 * **Filter and Search**: Use Grafana to filter and search spans based on custom attributes like `fx.processInstanceUuid`, `fx.nodeName`, `fx.actionName`, and others. This helps in pinpointing specific operations or issues within a trace.
+
+### Advanced Search and Filtering Capabilities
+
+* **Query Language**: Utilize Grafana's query language to create complex search conditions combining multiple attributes
+* **Search Strategies**:
+  * **Process-based**: Search by `fx.processName` to track specific business processes
+  * **Instance-based**: Use `fx.processInstanceUuid` to follow a specific process instance
+  * **Action-based**: Filter by `fx.actionName` to monitor specific actions
+  * **Node-based**: Search by `fx.nodeName` or `fx.nodeId` to analyze particular workflow steps
+* **Time-based Search**: Combine attribute filters with time ranges to narrow down specific incidents
+* **Error Analysis**: Filter by error status and combine with other attributes to identify patterns in failures
+* **Custom Dashboards**: Create saved searches and custom dashboards for frequently used queries
+
+<Tip>
+For optimal search performance, index the most frequently used search attributes in your tracing backend.
+</Tip>
+
 * **Error Analysis**: Identify spans with errors and visualize the stack trace or error message, aiding in quick troubleshooting.
 
 <Frame>
@@ -146,3 +163,5 @@ Resources:
 
 <Card title="OpenTelemetry Docs" href="https://opentelemetry.io/docs/" icon="link">
 </Card>
+</newContent>
+</invoke>

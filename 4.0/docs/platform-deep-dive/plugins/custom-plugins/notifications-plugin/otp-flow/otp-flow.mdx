@@ -1,22 +1,21 @@
 ---
-title: Handling OTP
-description: The notifications plugin can also be used for handling the one time password (OTP) generation and validation flow.
+title: Handling OTP (One Time Password)
+description: Learn how to implement One Time Password (OTP) generation and validation using the notifications plugin, including configuration and step-by-step flow.
 ---
 
-The flow is made of two steps, the OTP generation and the OTP validation.
+The OTP (One Time Password) flow consists of two main steps: OTP generation and OTP validation. This guide will help you understand and implement secure one-time password functionality in your application.
 
 ### OTP Configuration
 
-The desired character size and expiration time of the generated one-time-passwords can also be configured using the following environment variables:
+You can customize the OTP behavior by configuring the following environment variables:
 
-* `FLOWX_OTP_LENGTH`
-* `FLOWX_OTP_EXPIRE_TIME_IN_SECONDS`
+* `FLOWX_OTP_LENGTH` - Define the number of characters in the generated OTP
+* `FLOWX_OTP_EXPIRE_TIME_IN_SECONDS` - Set the time duration (in seconds) before the OTP expires
 
-Let's go through the examples for both steps:
+Let's explore the implementation steps in detail:
 
-<Card title = "Generate OTP" href ="generate-otp" icon = "link">
+<Card title="Generate OTP" href="generate-otp" icon="link">
 </Card>
 
-
-<Card title = "Validate OTP" href ="validate-otp" icon = "link">
+<Card title="Validate OTP" href="validate-otp" icon="link">
 </Card>

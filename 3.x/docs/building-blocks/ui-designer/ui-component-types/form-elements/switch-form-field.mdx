@@ -1,23 +1,23 @@
 ---
-title: Switch
-description: A switch, a toggle switch, is another form element that can be utilized to create an intuitive user interface. The switch allows users to select a response by toggling it between two states. Based on the selection made by the user, the corresponding Boolean value of either true or false will be recorded and stored in the process instance values for future reference.
+title: Switch Form Field
+description: A switch (also known as a toggle switch or toggle button) is a form element that creates an intuitive user interface component. It allows users to toggle between two states - ON/OFF, true/false, or enabled/disabled. When users interact with the switch, it stores a Boolean value (true or false) in the process instance values. Commonly used for enabling/disabling features, settings, or preferences in forms.
 ---
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/switch_form_field.gif)
 
-## Configuring the switch element
+## Configuring the Switch Element
 
-### Switch settings
+### Switch Settings
 
 The available configuration options for this form element are:
 
-- [**General**](#general)
-- [**Properties**](#properties)
-- [**Datasource**](#datasource)
-- [**Validators**](#validators)
-- [**Expressions**](#expressions)
-- [**UI actions**](#ui-actions)
-- [**Switch styling**](#switch-styling)
+- [**General Settings**](#general)
+- [**Properties Configuration**](#properties)
+- [**Datasource Options**](#datasource)
+- [**Validators Settings**](#validators)
+- [**Expressions Configuration**](#expressions)
+- [**UI Actions**](#ui-actions)
+- [**Switch Styling Options**](#switch-styling)
 
 
 #### General
@@ -26,7 +26,7 @@ The available configuration options for this form element are:
 
 #### Properties
 
-* **Label** - The label of the Switch
+* **Label** - The label text displayed for the Switch component
 
 <Info>
 The Label field supports Markdown syntax, enabling you to customize the text appearance with ease. To explore the Markdown syntax and its various formatting options, click [**here**](https://www.markdownguide.org/cheat-sheet/).
@@ -34,15 +34,15 @@ The Label field supports Markdown syntax, enabling you to customize the text app
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/label_attributed.png)
 </Info>
 
-* **Helpertext** - additional information about the switch element (can be hidden inside an infopoint)
+* **Helpertext** - additional information or hint text about the switch element (can be hidden inside an infopoint)
 
 #### Datasource
 
-* **Default Value** - the default value of the switch form field (it can be switched on or switched off)
+* **Default Value** - sets the initial state of the switch form field (ON/OFF, true/false)
 
 #### Validators
 
-The following validators can be added to a switch element: `requiredTrue` and `custom` (more details [here](../../validators)).
+The following validators can be added to a switch element: `requiredTrue` and `custom` validators (more details [here](../../validators)).
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/switch_details.png)
 
@@ -51,7 +51,7 @@ The following validators can be added to a switch element: `requiredTrue` and `c
 * **Hide** - JavaScript expression used to hide the Switch element when it returns a truthy value
 * **Disabled** - JavaScript expression used to disable the Switch element when it returns a truthy value
 
-#### UI actions
+#### UI Actions
 
 UI actions can be added to the switch element to define its behavior and interactions.
 
@@ -62,14 +62,15 @@ UI actions can be added to the switch element to define its behavior and interac
 For more details on how to configure a UI action, click [**here**](../../ui-actions).
 </Tip>
 
-### Switch styling
+### Switch Styling
 
-The label of the switch can be positioned either as `start` or `end`.
+The label of the switch can be positioned in two ways:
+* `start` - label appears before the switch
+* `end` - label appears after the switch
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/switch_styling.gif)
 
 <Tip>
-For more valid CSS properties, click [**here**](../../#styling).
+For more valid CSS properties and styling options, click [**here**](../../#styling).
 </Tip>
-
 

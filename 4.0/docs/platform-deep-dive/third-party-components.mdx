@@ -46,18 +46,11 @@ Compatibility Matrix:
 | 4.0.0                     | Elasticsearch            | 7.17.x                    |
 | 4.0.0                     | minio                    | 2024-02-26T09-33-48Z      |
 
-
-
-
-
-
 ### Third-party components supported/tested versions
 
 | FLOWX.AI Platform version | Component name | Supported/tested versions |
 | ------------------------- | -------------- | ------------------------- |
 | 4.0.0                     | OracleDB       | 21C/ 21-XE                |
-
-
 
 ### Summary
 
@@ -103,9 +96,7 @@ It is also be used as a Pub/Sub messaging solution, allowing messages to be pass
 
 It is used by FLOWX.AI for caching the process definitions-related data.
 
-
 [Intro to Redis](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis)
-
 
 [Redis documentation](https://redis.io/docs/)
 
@@ -117,19 +108,31 @@ FLOWX utilizes the Nginx engine as a load balancer and for routing the web traff
 
 The FLOWX.AI Designer SPA will use the backend service to manage the platform via REST calls, will use API calls to manage specific content for the plugins, and will use REST and SSE calls to connect to the engine.
 
-
 [Intro to NGINX](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-nginx)
-
 
 [NGINX documentation](https://nginx.org/en/docs/)
 
 #### EFK (Elastic Search, Fluentd, Kibana)
 
-Elasticsearch is a distributed, RESTful search and analytics engine capable of addressing a growing number of use cases.
+Elasticsearch is a distributed, RESTful search and analytics engine capable of addressing a growing number of use cases. It provides a distributed, multitenant-capable full-text search engine with an HTTP web interface and schema-free JSON documents.
 
-As the heart of the Elastic Stack, it centrally stores your data for lightning-fast search, fine‑tuned relevancy, and powerful analytics that scale with ease.
+Key search features utilized in FLOWX.AI include:
 
-Used by FLOWX.AI in the core component and optionally to allow searching for business process transaction data.
+- Full-text search capabilities across all business process data
+- Real-time search with near-instantaneous data availability
+- Advanced query capabilities including fuzzy matching, wildcards, and regular expressions
+- Aggregations and analytics on search results
+- Relevance scoring and result ranking
+- Support for structured and unstructured data searching
+
+As the heart of the Elastic Stack, it centrally stores your data for lightning-fast search, fine‑tuned relevancy, and powerful analytics that scale with ease. The platform leverages these capabilities to provide:
+
+- Quick access to historical process data
+- Efficient searching through business process transaction logs
+- Real-time monitoring and analytics of process execution
+- Advanced filtering and data exploration capabilities
+
+Used by FLOWX.AI in the core component and optionally to allow searching for business process transaction data with high performance and scalability.
 
 [Elastic stack documentation](https://www.elastic.co/elastic-stack/)
 
@@ -146,7 +149,6 @@ FLOWX.AI uses [Min.IO](http://min.io/) as a cloud storage solution.
 [MIN.IO documentation](https://min.io/)
 
 [Docker available here](https://quay.io/repository/minio/minio?tab=tags&tag=RELEASE.2022-05-26T05-48-41Z)
-
 
 #### Oracle DB
 

@@ -2,6 +2,7 @@
 title: FlowX.AI Data Search
 description: The Data Search service is a microservice that enables data searches within other processes. It facilitates the creation of processes capable of conducting searches and retrieving data by utilizing Kafka actions in tandem with Elasticsearch mechanisms.
 ---
+
 <Tip>
 Data Search service leverages Elasticsearch to execute searches based on indexed keys, using existing mechanisms.
 </Tip>
@@ -12,6 +13,18 @@ Data Search service leverages Elasticsearch to execute searches based on indexed
 
 - Search for data within other processes
 - Display results indicating where the search key was found in other processes
+- Filter search results based on process status, date ranges, and specific process definitions
+- Perform complex data queries across multiple process instances
+
+### Search Capabilities
+
+The Data Search service supports the following search features:
+
+* **Exact Match Search**: Find precise matches for specific values
+* **Date Range Filtering**: Filter results based on process start dates
+* **Process Status Filtering**: Filter by process states (STARTED, FINISHED, ONHOLD, etc.)
+* **Multi-Process Search**: Search across multiple process definitions simultaneously
+* **Result Limiting**: Automatically limits large result sets (maximum 50 results)
 
 For our example, two process definitions are necessary:
 
@@ -100,7 +113,7 @@ output.put("resultsNumber", 0);
 ```
 
 <Tip>
-For displaying results in the UI, you can also consider utilizing [**Collections**](../../building-blocks/ui-designer/ui-component-types/collection/) UI element.
+For displaying results in the UI, you can also consider utilizing [**Collections**](../../building-blocks/ui-designer/ui-component-types/collection/) UI element to show search results in a paginated table format.
 </Tip>
 </Step>
 
@@ -123,11 +136,11 @@ The Kafka topic for the search service requests (defined at `KAFKA_TOPIC_DATA_SE
 	"processStartDateAfter": "YYY-MM-DD:THH:MM:SS", //optional, standard ISO 8601 date format
 	"processStartDateBefore": "YYY-MM-DD:THH:MM:SS", //optional, standard ISO 8601 date format
 	"processDefinitionNames": [ "processDef1", "processDef2"],
-	"states": ["STARTED", "FINISHED, ONHOLD"] //optional, depending if you want to filter process instances based on their status, if the parameter is ommited, the process will display all the statuses
+	"states": ["STARTED", "FINISHED", "ONHOLD"] //optional, depending if you want to filter process instances based on their status
 }
 ```
 
-* **searchKey** - represents the process key used to search data stored in a process
+* **searchKey** - represents the process key used to search data stored in a process. This should match the exact path to the data you want to search for.
 
 <Warning>
 Indexing this key within the process is crucial for the Data Search service to effectively locate it. To enable indexing, navigate to your desired process definition and access **Process Settings → Task Management → Search indexing**.
@@ -137,17 +150,18 @@ Indexing this key within the process is crucial for the Data Search service to e
 ❗️ Keys are indexed automatically when the process status changes (e.g., created, started, finished, failed, terminated, expired), when swimlanes are altered, or when stages are modified. To ensure immediate indexing, select the 'Update in Task Management' option either in the **node configuration** or within **Process Settings → General** tab.
 </Warning>
 
-* **value** - the dynamic process key added on our input element that will store and send the data entered by a user to the front end
+* **value** - the search term to look for in the specified searchKey
+* **processStartDateAfter/Before** - optional date filters in ISO 8601 format
+* **processDefinitionNames** - array of process definition names to search within
+* **states** - optional array of process states to filter by (e.g., "STARTED", "FINISHED", "ONHOLD")
+
+<Info>
+Check the Understanding the [Process Status Data](../../building-blocks/process/process-instance) section for more examples of possible states.
+</Info>
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/searchValue.png)
 </Frame>
-
-* **states** - `["STARTED", "FINISHED, ONHOLD" "..."]` - depending if you want to filter process instances based on their status, if the parameter is ommited, the process will display all the statuses
-
-<Info>
-Check the Understanding the [Process Status Data](../../building-blocks/process/process-instance) section for more example of possible states.
-</Info>
 
 </Accordion>
 
@@ -172,23 +186,21 @@ Example (dummy values extracted from a process):
 </Info>
 </Step>
 <Step title ="Performing the search">
-A custom microservice (a core extension) will receive this event and search the value in the Elasticsearch.
+A custom microservice (a core extension) will receive this event and search the value in Elasticsearch.
 </Step>
 <Step title ="Receiving the response">
 It will respond to the engine via a Kafka topic (defined at `KAFKA_TOPIC_DATA_SEARCH_OUT` env variable in your deployment). Add the topic in the **Node config** of the User task where you previously added the Kafka Send Action.
 
 <Frame>
-
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/search_result_topic.png)
-
 </Frame>
 
 </Step>
 </Steps>
 
-### Response
+### Search Response Format
 
-The response's body message will look like this:
+The service returns responses in the following formats:
 
 ####  If there is no result:
 
@@ -196,40 +208,38 @@ The response's body message will look like this:
 {
 	"result": [],
 	"searchKey": "application.client.name.identificationData.lastName",
-	"tooManyResults": "false",
+	"tooManyResults": false,
 	"searchValue": "random"
-
 }
 ```
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/noResults.png)
 </Frame>
 
-Example (dummy values extracted from a process):
-
 <Tip>
 To access the view of your process variables, tokens and subprocesses go to **FLOWX.AI Designer > Active process > Process Instances**. Here you will find the response.
 </Tip>
 
-    
-####  If there is a list of results:
+####  If there are results:
 
 ```json
 {
-
-	"searchKey": "application.client.identificationData.personalIdentificationNumber"
+	"searchKey": "application.client.identificationData.personalIdentificationNumber",
 	"result":[{
 			"processInstanceUUID": "UUID",
 			"status": "FINISHED",
 			"processStartDate": date,
-			"data" : {"all data in elastic for that process"}
+			"data": {"all data in elastic for that process"}
 	}],
 	"tooManyResults": true|false
 }
 ```
 
 <Info>
-**NOTE**: Up to 50 results will be received if `tooManyResults` is true.
+**NOTE**: 
+- The service returns up to 50 results maximum
+- When `tooManyResults` is true, it indicates there are more matching results available
+- The `data` field contains all indexed information for the matching process
 </Info>
 
 Example with dummy values extracted from a process:
@@ -238,8 +248,15 @@ Example with dummy values extracted from a process:
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/search_data_response.png)
 </Frame>
 
+### Best Practices for Search Implementation
 
-#### Developer
+1. **Index Planning**: Carefully plan which fields need to be searchable and index only necessary data
+2. **Performance Optimization**: Use date filters and process status filters to narrow down search scope
+3. **Error Handling**: Always check for the `tooManyResults` flag and implement appropriate UI feedback
+4. **User Experience**: Implement proper loading states and error messages in the UI
+5. **Security**: Ensure proper access controls are in place for searchable data
+
+#### Developer Setup
 
 <Warning>
 Enabling Elasticsearch indexing **requires** activating the configuration in the **FlowX Engine**. Check the [**indexing section**](../../../setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/) for more details.

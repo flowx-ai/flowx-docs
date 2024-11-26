@@ -3,51 +3,77 @@ title: Business flow example
 description: We will explore an example in which we integrate a customer search in a business flow.
 ---
 
-Follow the next steps to use the user personal number to perform a search query in the customer management plugin.
+Follow these steps to implement a customer search functionality using the customer management plugin.
 
-1. First make sure the details about customers are indexed in the search engine (for example, Elasticsearch).
-2. Open **FlowX Designer** and create a **process definition**.
-3. Add a [**Send Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-send-task) node.
-4. Configure the [**Send Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-send-task) node by adding the following elements:
-* Kafka topic - defined on the `KAFKA_TOPIC_CUSTOMER_SEARCH_IN` environment variable
-* Message body (example of identifiers for an indexed customers):
+## Prerequisites
+* Ensure customer details are properly indexed in your search engine (e.g., Elasticsearch)
+* Verify you have the necessary environment variables configured:
+  * `KAFKA_TOPIC_CUSTOMER_SEARCH_IN` - for search requests
+  * `KAFKA_TOPIC_CUSTOMER_SEARCH_OUT` - for search responses
+
+## Implementation Steps
+
+1. Open **FlowX Designer** and create a **process definition**.
+
+2. Add a [**Send Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-send-task) node.
+
+3. Configure the [**Send Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-send-task) node:
+   * Set the Kafka topic to the value of `KAFKA_TOPIC_CUSTOMER_SEARCH_IN`
+   * Configure the message body with search parameters. You can search using various identifiers:
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/crm_params.png)
 
 <Check>
-For more examples of keys, check [**Using the customer management plugin**](./customer-management-overview#key-examples).
+For more examples of search keys and their formats, refer to [**Using the customer management plugin**](./customer-management-overview#key-examples).
 </Check>
 
-5. Add a [**Receive Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-receive-task).
-6. Configure the topic on which you want to receive the response from the CRM, on the value of `KAFKA_TOPIC_CUSTOMER_SEARCH_OUT` environment variable.
+4. Add a [**Receive Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-receive-task).
+
+5. Configure the receive message task:
+   * Set the topic to the value of `KAFKA_TOPIC_CUSTOMER_SEARCH_OUT`
+   * This node will handle the search response from the CRM system
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/crm_response.png)
 
-Response example:
+## Search Response Format
+
+The search operation returns a JSON response with the following structure:
 
 ```json
+{
+    "searchResults": {
+        "customers": [{
+            "id": "ID3456",
+            "firstName": "Jane",
+            "lastName": "Doe",
+            "birthDate": "27.02.1980",
+            "cui": "1820227103840_84",
+            "companyName": "",
+            "clientCategory": "PF_INTL",
+            "clientType": "PF",
+            "idSeries": "RT",
+            "idNumber": "879948",
+            "idDocType": "CI",
+            "idExpiryDate": "27.02.2023",
+            "legalForm": "",
+            "listId": "4691602",
+            "mobilePhone": "0711111111",
+            "attributes": null,
+            "type": "PF"
+        }],
+        "hasMore": false,
+        "error": null
+    }
+}
+```
 
-"searchResults" : {
-    "customers" : [ {
-      "id" : "ID3456",
-      "firstName" : "Jane Doe",
-      "lastName" : "Doe",
-      "birthDate" : "27.02.1980",
-      "cui" : "1820227103840_84",
-      "companyName" : "",
-      "clientCategory" : "PF_INTL",
-      "clientType" : "PF",
-      "idSeries" : "RT",
-      "idNumber" : "879948",
-      "idDocType" : "CI",
-      "idExpiryDate" : "27.02.2023",
-      "legalForm" : "",
-      "listId" : "4691602",
-      "mobilePhone" : "0711111111",
-      "attributes" : null,
-      "type" : "PF"}],
-    "hasMore" : false,
-    "error" : null
-  }
+### Response Fields Explanation
+* `customers`: Array of matching customer records
+* `hasMore`: Boolean indicating if there are additional results available
+* `error`: Contains error information if the search encounters issues (null if successful)
 
-  ```
+## Best Practices
+* Always validate the search parameters before sending
+* Handle potential empty results or error responses in your flow
+* Consider implementing pagination if you expect large result sets
+* Include error handling logic to manage timeouts or service unavailability

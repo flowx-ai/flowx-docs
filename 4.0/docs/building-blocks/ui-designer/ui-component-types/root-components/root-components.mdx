@@ -1,62 +1,66 @@
 ---
-title: Root Components in UI Design
-description: Root components serve as the foundation for structuring user interfaces, providing the framework for arranging and configuring different types of components.
+title: Root Components in UI Design | Container, Card, and Custom Components
+description: Learn about root components in UI design - including containers, cards, and custom components. Discover how these fundamental UI elements serve as the foundation for structuring user interfaces, organizing layouts, and creating hierarchical component structures.
 ---
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/root_components_new.gif)
 
+# Understanding Root Components
 
-Root components play a crucial role in defining the layout and hierarchy of elements within an application. Here's an overview of key root components and their functionalities:
+Root components are fundamental building blocks that define the layout and hierarchy of elements within an application. These base-level components serve as containers and organizational elements for your user interface design.
 
+## Available Root Component Types
 
-### Container
+### Container Component
 
-The Container component is a versatile element used to group and configure the layout for multiple components of any type. It provides a flexible structure for organizing content within a UI.
+The Container component serves as a foundational wrapper element used to group and configure the layout for multiple components of any type. It provides a flexible structure for organizing content and creating responsive layouts within your UI.
 
 Learn more about [Container components](./container).
 
-### Custom
+### Custom Component
 
-Custom components are Angular components developed within the container application and dynamically passed to the SDK at runtime. These components are identified by their unique names and enable developers to extend the functionality of the UI.
+Custom components are specialized Angular components that are developed within the container application and dynamically passed to the SDK at runtime. These components, identified by unique names, enable developers to extend and customize UI functionality according to specific needs.
 
 Explore [Custom components](./custom) for advanced customization options.
 
-### Card
+### Card Component
 
-The Card component functions similarly to a Container component but also offers the capability to function as an accordion, providing additional flexibility in UI design.
+The Card component shares functionality with Container components while offering additional features such as accordion behavior, providing enhanced flexibility in UI design and content organization.
 
 Discover more about [Card components](./card).
 
-A card or a container can hold a hierarchical component structure as this example:
+## Component Hierarchy Structure
+
+Cards and containers can maintain a hierarchical component structure as shown in this example:
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/root_comp_str.png)
 </Frame>
 
-Available children for **Card** and **Container** are:
+## Supported Child Components
 
+Cards and Containers can include the following child components:
 
-1. [**Form**](../form-elements/) - Used to group and align form field elements (inputs, radios, checkboxes, etc.).
+1. [**Form**](../form-elements/) - Groups and aligns form field elements (inputs, radios, checkboxes, etc.)
 
 <Info>
-For more information about the form elements, please refer to the [**Form elements**](../form-elements/) section.
+For detailed information about form elements, please refer to the [**Form elements**](../form-elements/) section.
 </Info>
 
-2. [**Image**](../image) - Allows you to configure an image in the document.
-3. **Text** - A simple text can be configured via this component; basic configuration is available.
-4. **Link** - Used to configure a hyperlink that opens in a new tab.
-5. [**Button**](../buttons) - Multiple options are available for configuration, with the most important part being the possibility to add actions.
-6. [**File Upload**](../buttons) - A specific type of button that allows you to select a file.
-7. [**Custom**](./custom) - Custom components.
-8. [**Indicators**](../indicators) - Message UI elements to display different types of messages.
+2. [**Image**](../image) - Configures and displays images within the interface
+3. **Text** - Implements configurable text elements with basic styling options
+4. **Link** - Creates hyperlinks that open in new tabs
+5. [**Button**](../buttons) - Provides multiple configuration options with action capabilities
+6. [**File Upload**](../buttons) - Specialized button component for file selection and uploading
+7. [**Custom**](./custom) - Implementation of custom component functionality
+8. [**Indicators**](../indicators) - Message UI elements for displaying various types of notifications and alerts
 
-Learn more:
+## Quick Navigation
 
 <CardGroup cols={3}>
-<Card title ="Card" href="./card" icon="file"></Card>
+<Card title="Card" href="./card" icon="file"></Card>
 <Card title="Container" href="./container" icon="file"></Card>
 <Card title="Custom" href="./custom" icon="file"></Card>
-    
 </CardGroup>
-
-
+</fileContent>
+</invoke>

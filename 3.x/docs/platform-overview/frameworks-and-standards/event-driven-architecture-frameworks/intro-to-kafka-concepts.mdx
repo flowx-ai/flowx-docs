@@ -1,24 +1,25 @@
 ---
-title: "Intro to Kafka concepts"
-description: "Apache Kafka is an open-source distributed event streaming platform that can handle a high volume of data and enables you to pass messages from one end-point to another."
+title: "Introduction to Apache Kafka Concepts"
+description: "Apache Kafka is an open-source distributed event streaming platform that can handle a high volume of data and enables you to pass messages from one end-point to another. Learn about Kafka producers, consumers, topics, and event streaming fundamentals."
+keywords: "apache kafka, kafka streaming, event streaming, kafka topics, kafka producer, kafka consumer, kafka architecture, message broker, event-driven architecture"
 ---
 
 Kafka is a unified platform for handling all the real-time data feeds. Kafka supports low latency message delivery and gives a guarantee for fault tolerance in the presence of machine failures. It can handle many diverse consumers. Kafka is very fast, and performs 2 million writes/sec. Kafka persists all data to the disk, which essentially means that all the writes go to the page cache of the OS (RAM). This makes it very efficient to transfer data from a page cache to a network socket.
 
-### Benefits of using Kafka
+### Benefits of using Apache Kafka
 
 * **Reliability** − Kafka is distributed, partitioned, replicated, and fault-tolerant
 * **Scalability** − Kafka messaging system scales easily without downtime
 * **Durability** − Kafka uses Distributed commit log which means messages persist on disk as fast as possible
 * **Performance** − Kafka has high throughput for both publishing and subscribing messages. It maintains a stable performance even though many TB of messages are stored.
 
-## Key Kafka concepts
+## Core Apache Kafka Concepts
 
-### Events
+### Events and Messages
 
-Kafka encourages you to see the world as sequences of events, which it models as key-value pairs. The key and the value have some kind of structure, usually represented in your language’s type system, but fundamentally they can be anything. Events are immutable, as it is (sometimes tragically) impossible to change the past.
+Kafka encourages you to see the world as sequences of events, which it models as key-value pairs. The key and the value have some kind of structure, usually represented in your language's type system, but fundamentally they can be anything. Events are immutable, as it is (sometimes tragically) impossible to change the past.
 
-### Topics
+### Kafka Topics and Partitions
 
 Because the world is filled with so many events, Kafka gives us a means to organize them and keep them in order: topics. A topic is an ordered log of events. When an external system writes an event to Kafka, it is appended to the end of a topic.
 
@@ -27,26 +28,22 @@ In FLOWX.AI, Kafka handles all communication between the [FlowX Engine](../../..
 <Card title="FlowX Engine setup guide" href="../../../../setup-guides/flowx-engine-setup-guide/engine-setup" icon="gears">
 </Card>
 
+### Kafka Producer (Message Publisher)
 
-### Producer
+A producer is an external application that writes messages to a Kafka cluster, communicating with the cluster using Kafka's network protocol.
 
-A producer is an external application that writes messages to a Kafka cluster, communicating with the cluster using Kafka’s network protocol.
-
-### Consumer
+### Kafka Consumer (Message Subscriber)
 
 The consumer is an external application that reads messages from Kafka topics and does some work with them, like filtering, aggregating, or enriching them with other information sources.
-
 
 <Card title="How to create a Kafka producer" href="../../../platform-deep-dive/integrations/creating-a-kafka-producer" icon= "link">
 </Card>
 
-
 <Card title="How to create a Kafka consumer" href="../../../platform-deep-dive/integrations/creating-a-kafka-consumer" icon ="link">
 </Card>
 
-
-## In-depth docs
+## In-depth Kafka Documentation
 <CardGroup>
-<Card icon = "link" title ="Kafka documentation" href = "https://kafka.apache.org/intro"></Card>
+<Card icon = "link" title ="Apache Kafka documentation" href = "https://kafka.apache.org/intro"></Card>
 <Card icon = "link" title = "How Kafka works" href = "https://www.confluent.io/blog/apache-kafka-intro-how-kafka-works/"></Card>
 </CardGroup>

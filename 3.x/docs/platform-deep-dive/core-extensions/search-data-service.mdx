@@ -3,7 +3,7 @@ title: Search data
 description: The Search data service is a microservice that enables data searches within other processes. It facilitates the creation of processes capable of conducting searches and retrieving data by utilizing [Kafka send/ Kafka receive](../../building-blocks/node/message-send-received-task-node) actions in tandem with Elasticsearch mechanisms.
 ---
 <Tip>
-Search data service leverages Elasticsearch to execute searches based on indexed keys, using existing mechanisms.
+Search data service leverages Elasticsearch to execute searches based on indexed keys, using existing mechanisms. It supports various search capabilities including exact matches, partial matches, and wildcard searches.
 </Tip>
 
 ## Using the Search data service
@@ -12,6 +12,8 @@ Search data service leverages Elasticsearch to execute searches based on indexed
 
 - Search for data within other processes
 - Display results indicating where the search key was found in other processes
+- Perform advanced searches using wildcards and partial matching
+- Filter search results based on process status and date ranges
 
 For our example, two process definitions are necessary:
 
@@ -26,6 +28,31 @@ For our example, two process definitions are necessary:
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/search_populate_data.png)
 </Frame>
+
+## Search Capabilities
+
+### Supported Search Features
+- **Exact Match**: Search for precise values
+- **Partial Match**: Find results containing part of the search term
+- **Wildcard Search**: Use * for multiple characters or ? for single character
+- **Date Range**: Filter results by process start date
+- **Status Filter**: Filter by process status (STARTED, FINISHED, etc.)
+
+### Search Best Practices
+1. **Index Optimization**
+   - Only index fields that need to be searchable
+   - Use meaningful key names for better search organization
+   - Regularly review and update indexed fields
+
+2. **Search Performance**
+   - Use specific search keys when possible
+   - Implement date ranges to narrow down results
+   - Consider pagination for large result sets
+
+3. **Error Handling**
+   - Implement proper error handling for "no results" scenarios
+   - Handle "too many results" cases appropriately
+   - Validate search inputs before sending
 
 ## Add data process example
 
@@ -137,13 +164,16 @@ Indexing this key within the process is crucial for the search data service to e
 ❗️ Keys are indexed automatically when the process status changes (e.g., created, started, finished, failed, terminated, expired), when swimlanes are altered, or when stages are modified. To ensure immediate indexing, select the 'Update in Task Management' option either in the **node configuration** or within **Process Settings → General** tab.
 </Warning>
 
-* **value** - the dynamic process key added on our input element that will store and send the data entered by a user to the front end
+* **value** - the dynamic process key added on our input element that will store and send the data entered by a user to the front end. Supports:
+  - Exact values: "John"
+  - Wildcards: "Jo*" (matches John, Joseph, etc.)
+  - Partial matches: "oh" (matches John, Johnson, etc.)
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/searchValue.png)
 </Frame>
 
-* **states** - `["STARTED", "FINISHED, ONHOLD" "..."]` - depending if you want to filter process instances based on their status, if the parameter is ommited, the process will display all the statuses
+* **states** - `["STARTED", "FINISHED, ONHOLD" "..."]` - depending if you want to filter process instances based on their status, if the parameter is omitted, the process will display all the statuses
 
 <Info>
 Check the Understanding the [Process Status Data](../../building-blocks/process/process-instance) section for more example of possible states.
@@ -198,7 +228,6 @@ The response's body message will look like this:
 	"searchKey": "application.client.name.identificationData.lastName",
 	"tooManyResults": "false",
 	"searchValue": "random"
-
 }
 ```
 <Frame>
@@ -216,7 +245,6 @@ To access the view of your process variables, tokens and subprocesses go to **FL
 
 ```json
 {
-
 	"searchKey": "application.client.identificationData.personalIdentificationNumber"
 	"result":[{
 			"processInstanceUUID": "UUID",
@@ -229,7 +257,7 @@ To access the view of your process variables, tokens and subprocesses go to **FL
 ```
 
 <Info>
-**NOTE**: Up to 50 results will be received if `tooManyResults` is true.
+**NOTE**: Up to 50 results will be received if `tooManyResults` is true. Consider implementing pagination or refining your search criteria if you consistently get too many results.
 </Info>
 
 Example with dummy values extracted from a process:
@@ -238,6 +266,24 @@ Example with dummy values extracted from a process:
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/search_data_response.png)
 </Frame>
 
+## Troubleshooting
+
+### Common Issues and Solutions
+
+1. **No Results Found**
+   - Verify the search key is properly indexed
+   - Check if the search value matches the expected format
+   - Ensure the process definition names are correct
+
+2. **Too Many Results**
+   - Add date range filters
+   - Use more specific search terms
+   - Add status filters
+
+3. **Search Performance Issues**
+   - Review indexed fields
+   - Optimize search queries
+   - Implement caching if needed
 
 #### Developer
 

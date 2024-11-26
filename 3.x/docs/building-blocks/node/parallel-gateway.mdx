@@ -1,6 +1,8 @@
 ---
-title: "Parallel gateway"
-description: When you have multiple operations that can be executed concurrently, the Parallel Gateway becomes a valuable tool. This type of node creates a parallel section within the **process**, particularly useful for tasks that can run independently without waiting for each other. It's essential to close each parallel section with another Parallel Gateway node.
+title: "Parallel Gateway"
+description: "Learn how to use Parallel Gateways to execute multiple operations concurrently in your process flow. This node type enables simultaneous execution of multiple paths, perfect for parallel processing, concurrent tasks, and multi-branch workflows. Each parallel section must be closed with another Parallel Gateway node."
+tags: ["parallel gateway", "concurrent processing", "workflow", "process flow", "multi-branch", "simultaneous execution"]
+keywords: ["parallel processing", "concurrent tasks", "process flow", "multiple paths", "workflow branches", "simultaneous execution", "gateway node"]
 ---
 
 ## Configuring parallel paths
@@ -28,6 +30,3 @@ Now, we await the second flow, which requires user input.
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/manager_flow.gif)
 
 After the tokens from the parallel paths have completed their execution, a third token initiates from the closing parallel gateway.
-
-
-

@@ -1,78 +1,85 @@
 ---
-title: Text area
-description: A text area is a form element used to capture multi-line input from users in a conversational interface. The text area component is typically used for longer inputs such as descriptions, comments, or feedback, providing users with more space to type their responses. 
+title: Text Area Form Component
+description: Learn how to use and configure the Text Area form element - a multi-line input component for collecting long-form text, comments, feedback, and descriptions in your forms. Discover configuration options, validation rules, styling properties, and best practices for implementing text areas in your UI.
 ---
 
-![Text area](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/text_area.png)
+![Text area form component](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/text_area.png)
 
-It is an important tool for creating intuitive and effective conversational interfaces that can collect and process large amounts of user input.
+A text area is a multi-line input field that allows users to enter longer pieces of text in forms and conversational interfaces. It's commonly used for:
+- Comments and feedback
+- Descriptions and detailed explanations
+- Multi-line messages
+- Notes and observations
+- User responses requiring extended text input
 
-## Configuring the text area element
+## Configuring the Text Area Component
 
-### Text area settings
+### Text Area Configuration Options
 
-The text area offers the following configuration options:
+Configure your text area component using these available settings:
 
-- [**General**](#general)
-- [**Properties**](#properties)
-- [**Datasource**](#datasource)
-- [**Validators**](#validators)
-- [**Expressions**](#expressions)
-- [**UI actions**](#ui-actions)
-- [**Text area styling**](#text-area-styling)
+- [**General Settings**](#general)
+- [**Properties Configuration**](#properties)
+- [**Datasource Settings**](#datasource)
+- [**Input Validators**](#validators)
+- [**Conditional Expressions**](#expressions)
+- [**UI Actions & Events**](#ui-actions)
+- [**Styling Options**](#text-area-styling)
 
 #### General
    
-* **Process data key** - creates the binding between form element and process data, so it can be later used in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration)
+* **Process data key** - creates the binding between form element and process data, enabling integration with [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action), and [integrations](../../../node/message-send-received-task-node#from-integration)
 
 #### Properties
 
-* **Label** - the label of the text area
-* **Placeholder** - the placeholder text that appears in the text area
-* **Has clear** - content clear property
-* **Helpertext** - additional information about the text area field (can be hidden inside an infopoint)
+* **Label** - display text above the text area
+* **Placeholder** - hint text shown inside the empty text area
+* **Has clear** - option to add a clear content button
+* **Helpertext** - supplementary information about the field (can be displayed in an infopoint)
 
 #### Datasource
 
-The default value for the element can be configured here, this will autofill the text field when you will run the process.
+Configure default values to pre-populate the text area when the process initializes.
 
 #### Validators
 
-There are multiple validators can be added to a text area element (more details [here](../../validators)).
+Implement various validation rules for the text area input. See [validation options](../../validators) for detailed configuration.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/text_area_props.png)
+![Text area properties configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/text_area_props.png)
 
 #### Expressions  
 
-The text area's behavior can be defined using JavaScript expressions for hiding or disabling the element. The following properties can be configured for expressions:
+Control the text area's behavior using JavaScript expressions:
    
-* **Hide** - JavaScript expression used to hide the text area when it returns a truthy value
-* **Disabled** - JavaScript expression used to disable the text area when it returns a truthy value
+* **Hide** - JavaScript expression to control visibility
+* **Disabled** - JavaScript expression to manage the enabled/disabled state
 
 <Info>
-It's important to make sure that disabled fields have the same expression configured under the path expressions → hide.
+Important: For consistent behavior, disabled fields should have matching expressions configured in expressions → hide.
 </Info>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/text_area_props2.png)
+![Text area expressions configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/text_area_props2.png)
 
-#### UI actions
+#### UI Actions
 
-UI actions can be added to the text area field to define its behavior and interactions.
+Configure interactive behaviors and event handling:
 
-* **Event** - possible value: `CHANGE`
-* **Action Type** - select the action type
+* **Event** - supported event: `CHANGE`
+* **Action Type** - specify the desired action behavior
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/text_area_props1.png)
+![Text area UI actions configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/text_area_props1.png)
 
 <Tip>
-For more details on how to configure a UI action, click [**here**](../../ui-actions).
+Learn more about UI action configuration in our [detailed guide](../../ui-actions).
 </Tip>
 
-### Text area styling
+### Text Area Styling
 
-The ability to style the text area element using CSS properties is relevant because it allows you to customize the appearance of the text area to match the overall design of the website or application.
+Customize the appearance of your text area using CSS properties to match your application's design system.
 
-<Card title="UI Designer styling" href="../../#styling">
+<Card title="UI Designer Styling Guide" href="../../#styling">
 </Card>
 
 
+</fileContent>
+</invoke>

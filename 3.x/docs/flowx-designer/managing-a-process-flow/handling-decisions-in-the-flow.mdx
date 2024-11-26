@@ -1,53 +1,64 @@
 ---
 title: Handling decisions in the flow
-description: To add business decisions in the flow and use them to pick between a flow branch or another, we can use [exclusive gateways](../../building-blocks/node/exclusive-gateway-node).
+description: Learn how to implement conditional logic and business decisions in your process flows using exclusive gateways. Create branching paths, configure decision rules, and manage workflow routing based on conditions like credit scores, user inputs, or business criteria.
 ---
 
 <Frame>
 
-![Exclusive Gateway](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/gateway_exclusive.png#center)
+![Exclusive Gateway Node Example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/gateway_exclusive.png#center)
 
 </Frame>
 
-### Steps for creating a flow with exclusive branches
+### How to Create Conditional Branches Using Exclusive Gateways
 
-To create flow with exclusive branches:
+Learn how to create a process flow with conditional branching using exclusive gateways. This guide will show you how to implement business decisions and route your workflow based on specific conditions.
+
+### Step-by-Step Guide for Creating Conditional Branches
 
 <Steps>
 <Step>
-Open **FlowX Designer** and go to the **Definitions** tab.
+Open **FlowX Designer** and navigate to the **Definitions** tab.
 </Step>
 <Step>
-Click on the **New process** button, using the **breadcrumbs** from the top-right corner.
+Create a new process by clicking the **New process** button in the top-right breadcrumbs.
 </Step>
 <Step>
-Add a **start node** and an **exclusive gateway node**.
+Begin by adding a **start node** followed by an **exclusive gateway node** (also known as a decision node).
 </Step>
 <Step>
-Add two different **task nodes** and link them after the **exclusive** **gateway node**.
+Create two different **task nodes** and connect them after the **exclusive gateway node** to create your conditional paths.
 </Step>
 <Step>
-Add a new **exclusive gateway** to merge the two flow branches back into one branch.
+Add a second **exclusive gateway** to reunite the two flow branches back into a single path.
 </Step>
 <Step>
-Add a **new rule** to a node to add a **business decision**, for example:
+Configure the business decision by adding a **new rule** to the node. For example:
 
-* select a **scripting language** from the dropdown
-* `input.get("application.client.creditScore") >= 700` ← proceed to node for premium credit card
-* `input.get("application.client.creditScore") < 700` ← proceed to node for standard credit card
+* Choose a **scripting language** from the available options
+* Example conditions:
+  * `input.get("application.client.creditScore") >= 700` → route to premium credit card flow
+  * `input.get("application.client.creditScore") < 700` → route to standard credit card flow
 </Step>
 <Step>
-Add a **closing exclusive gateway** to continue the flow.
+Add a **closing exclusive gateway** to merge the paths and continue the process flow.
 </Step>
 <Step>
-Add and **end node**.
+Complete the flow with an **end node**.
 </Step>
 </Steps>
 
-For [business rules](../../building-blocks/actions/business-rule-action/business-rule-action), you need to check certain values from the process and pick an outgoing node in case the condition is met. The gateway node must be connected to the next nodes before configuring the rule.
+### Configuring Decision Rules
 
-![Visual Guide Exclusive Gateway](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/visual_guide_exclusive_gateway.gif)
+For implementing [business rules](../../building-blocks/actions/business-rule-action/business-rule-action), you'll need to:
+1. Define conditions based on process values
+2. Specify which outgoing path to take when conditions are met
+3. Ensure the gateway node is properly connected to subsequent nodes before setting up rules
 
-<Card title="Exclusive Gateway Node" href="../../building-blocks/node/exclusive-gateway-node">
+![Step-by-Step Visual Guide for Exclusive Gateway Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/visual_guide_exclusive_gateway.gif)
+
+<Card title="Learn More About Exclusive Gateway Nodes" href="../../building-blocks/node/exclusive-gateway-node">
+Read the complete documentation about exclusive gateway nodes and their configuration options
 </Card>
 
+</fileContent>
+</invoke>

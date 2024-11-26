@@ -5,14 +5,18 @@ description: Customer management plugin uses a search engine (for example, Elast
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/crm-plugin.svg)
 
-The plugin listens for incoming requests on a Kafka topic and sends the reply to the Engine on an outgoing topic.
+The Customer Management plugin provides powerful search capabilities to find and retrieve customer information from your database. It listens for incoming requests on a Kafka topic and sends the reply to the Engine on an outgoing topic.
 
-[Kafka topics for Customer Management](#kafka-topics-for-customer-management)
+## Search Capabilities
 
+The plugin leverages Elasticsearch to provide:
+- Partial text matching
+- Case-insensitive search
+- Multi-field search combinations
+- Up to 10 results per query
+- Normalized text handling through custom analyzers
 
-## Kafka topics for customer management
-
-### Customer Search
+## Kafka Topics for Customer Management
 
 <Info>
 The kafka topics used for the Customer Management plugin can be defined/overwritten using the following environment variables (that can be found in the deployment of the service):
@@ -20,9 +24,9 @@ The kafka topics used for the Customer Management plugin can be defined/overwrit
 * `KAFKA_TOPIC_CUSTOMER_SEARCH_OUT` - used to get the response from the customer management plugin to the Engine.
 </Info>
 
-The request sent to the plugin can use any key that was previously configured in the Elasticsearch index where the customers are saved.
+### Search Configuration
 
-Example of an Elasticsearch index:
+The search functionality is built on an Elasticsearch index with specific field mappings. You can search using any configured field in the index. Here's the complete index configuration:
 
 ```json
 {
@@ -127,54 +131,58 @@ Example of an Elasticsearch index:
     }
   }
 }
-
 ```
 
-With this index configuration we can search for customers using any key:
+## Search Examples
 
-## Key examples
+Here are common search patterns you can use:
 
-### Example 1 - using only the "ClientUniqueIdentifier" key:
+### 1. Search by Unique Identifier
+Best for exact matches when you know the customer's unique ID:
 
-``` json
+```json
 {
-"ClientUniqueIdentifier": "1900101223344"
+  "ClientUniqueIdentifier": "1900101223344"
 }
 ```
 
-### Example 2 - using "FirstName" and "LastName" keys:
+### 2. Search by Name
+Useful for finding customers when you have their name details:
 
-``` json
+```json
 {
-"FirstName": "TestFirstName",
-"LastName": "Test Last Name"
+  "FirstName": "TestFirstName",
+  "LastName": "Test Last Name"
 }
 ```
 
-### Example 3 - using "FirstName", "DateOfBirth" and "LegalForm" keys:
+### 3. Complex Search
+Combine multiple fields for more precise results:
 
-``` json
+```json
 {
-"FirstName": "TestFirstName",
-"DateOfBirth": "01.01.1990",
-"LegalForm": "PF"
+  "FirstName": "TestFirstName",
+  "DateOfBirth": "01.01.1990",
+  "LegalForm": "PF"
 }
 ```
 
-## Keys description
+## Response Format
 
-* **customers** - list of customers found in the customer management, in the used Elasticsearch index, maximum 10 results
-* **hasMore** - boolean, true if number of results are bigger than 10, false if the number of results are equal or smaller than 10
-* **error** - error description if the request returned an error
+The search response includes:
+
+* **customers**: Array of matching customers (maximum 10 results)
+* **hasMore**: Boolean indicating if there are more than 10 matches
+* **error**: Error description if the request failed
+
+### Example Response
 
 Topic name example:
-
 ```
 ro.flowx.updates.sandbox.customer.management.response
 ```
 
-Sent body example:
-
+Response body example:
 ```json
 "searchResults" : {
     "customers" : [ {
@@ -199,3 +207,11 @@ Sent body example:
     "error" : null
   }
 ```
+
+## Search Best Practices
+
+1. **Start Specific**: Begin with unique identifiers when available
+2. **Combine Fields**: Use multiple fields to narrow down results
+3. **Date Format**: Always use the format "dd.MM.yyyy" for date fields
+4. **Case Sensitivity**: Searches are case-insensitive due to the lowercase normalizer
+5. **Results Limit**: Remember that results are limited to 10 entries per query

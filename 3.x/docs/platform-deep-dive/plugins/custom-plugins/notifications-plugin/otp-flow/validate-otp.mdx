@@ -1,6 +1,12 @@
 ---
 title: Validate OTP
+description: Learn how to validate One-Time Passwords (OTP) using Kafka topics, including request/response formats and implementation steps in FlowX.ai
+keywords: [OTP validation, one-time password, Kafka topics, OTP verification, validation flow, SMS verification, email verification]
 ---
+
+# Validate OTP (One-Time Password)
+
+This guide explains how to validate One-Time Passwords (OTP) using the FlowX.ai platform's notification plugin. Learn about required Kafka topics, request/response formats, and implementation steps for OTP validation in your business flows.
 
 ## Define needed Kafka topics
 
@@ -47,7 +53,7 @@ Values expected in the reply body:
 
 Example:
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/otp_validate_audit.png)
+![OTP Validation Audit Log](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/otp_validate_audit.png)
 
 ## Example: validate an OTP from a business flow
 
@@ -59,7 +65,7 @@ Similar to the generation of the OTP you can validate the OTP that was generated
 
 <Frame>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/validate_otp_temp.png)
+![OTP Validation Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/validate_otp_temp.png)
 
 </Frame>
 
@@ -68,6 +74,6 @@ Similar to the generation of the OTP you can validate the OTP that was generated
 
 <Frame>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/validate_otp3.png)
+![OTP Validation Process Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/validate_otp3.png)
 
 </Frame>

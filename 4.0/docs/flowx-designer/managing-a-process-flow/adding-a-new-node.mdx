@@ -1,6 +1,6 @@
 ---
-title: Adding a new node
-description: Once you create a new process definition, you can start configuring it by adding new nodes.
+title: Adding a new node to a process flow
+description: Learn how to add and configure new BPMN nodes in your process definition. Step-by-step guide for creating Start Events, End Events, Service Tasks, User Tasks, Gateways, and Message Tasks in FlowX Designer.
 ---
 You can choose between a series of available node types below. For an overview of what each node represents, see [BPMN 2.0 basic concepts](../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn):
 
@@ -11,28 +11,28 @@ A BPMN (Business Process Model and Notation) node is a visual representation of 
 </Card>
 
 <CardGroup>
-<Card title="Start Event" href="../../building-blocks/node/start-end-node" icon= "circle" iconType="light">
+<Card title="Start Event - Begin Your Process" href="../../building-blocks/node/start-end-node" icon= "circle" iconType="light">
 </Card>
-<Card title="End Event" href="../../building-blocks/node/start-end-node" icon= "circle" iconType="regular">
+<Card title="End Event - Conclude Your Process" href="../../building-blocks/node/start-end-node" icon= "circle" iconType="regular">
 </Card>
-<Card title="Service Task" href="../../building-blocks/node/task-node" icon ="gear">
+<Card title="Service Task - Automated Actions" href="../../building-blocks/node/task-node" icon ="gear">
 </Card>
-<Card title="User Task" href="../../building-blocks/node/user-task-node" icon ="user">
+<Card title="User Task - Human Activities" href="../../building-blocks/node/user-task-node" icon ="user">
 </Card>
-<Card title="Parallel Gateway" href="../../building-blocks/node/parallel-gateway" icon="rhombus">
+<Card title="Parallel Gateway - Multiple Paths" href="../../building-blocks/node/parallel-gateway" icon="rhombus">
 </Card>
-<Card title="Exclusive Gateway" href="../../building-blocks/node/exclusive-gateway-node" icon="rhombus">
+<Card title="Exclusive Gateway - Decision Points" href="../../building-blocks/node/exclusive-gateway-node" icon="rhombus">
 </Card>
-<Card title="Send Message Task" href="../../building-blocks/node/message-send-received-task-node" icon = "rectangle">
+<Card title="Send Message Task - Outbound Communication" href="../../building-blocks/node/message-send-received-task-node" icon = "rectangle">
 </Card>
-<Card title="Receive Message Task" href="../../building-blocks/node/message-send-received-task-node" icon = "rectangle">
+<Card title="Receive Message Task - Inbound Communication" href="../../building-blocks/node/message-send-received-task-node" icon = "rectangle">
 </Card>
 </CardGroup>
 
 
-### Steps for creating a new node
+### How to Create and Add a New Node to Your Process
 
-To create a new node on an existing process:
+Follow these steps to add a new node to an existing process:
 
 <Steps>
 
@@ -46,7 +46,7 @@ Select your **process definition** or create a new one.
 Make sure you are in edit mode.
 </Step>
 <Step>
-Drag and drop one or more **node** elements.
+Drag and drop one or more **node** elements onto your process canvas.
 </Step>
 <Step>
 To connect the node that you just created:
@@ -56,14 +56,18 @@ To connect the node that you just created:
 </Steps>
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/mapf_add_new_node.gif)
+![Adding a new node to process flow](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/mapf_add_new_node.gif)
 </Frame>
 
-Depending on the type of the **node**, you can define some node details, and a set of values (stages, data stream topics, key name) and you can also add various [actions](../../building-blocks/actions/actions) to it.
+Depending on the type of the **node**, you can define:
+* Node details and properties
+* Set values (stages, data stream topics, key name)
+* Add various [actions](../../building-blocks/actions/actions) to customize node behavior
 
-<Card title="BPMN nodes" href="../../building-blocks/node" icon ="file">
+<Card title="Learn More About BPMN Nodes" href="../../building-blocks/node" icon ="file">
 </Card>
 
 <Check>
 Now, check the next section to learn how to add an action to a node.
-</Check>
+</Check></fileContent>
+</invoke>

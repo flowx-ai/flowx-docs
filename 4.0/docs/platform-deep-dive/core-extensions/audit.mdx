@@ -65,11 +65,9 @@ description: The Audit service provides a centralized location for all audit eve
 <li>Unassign</li>
 <li>Hold</li>
 <li>Unhold</li>
-
     </ul>
   </Accordion>
 </AccordionGroup>
-
 
 * **Subject identifier** - the name related to the subject, there are different types of identifiers based on the selected subject
 
@@ -80,17 +78,56 @@ description: The Audit service provides a centralized location for all audit eve
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/audit_log_new.png)
 
-## Filtering
+## Search and Filtering
 
-Users can filter audit records by event date and by selecting specific options for User, Subject, and Subject Identifier.
+The Audit service provides comprehensive search and filtering capabilities to help users quickly locate specific audit events.
 
-* Filter by event date 
+### Date Range Filtering
+
+* Filter events by selecting a specific date range using the date picker
+* Pre-defined quick filters available: Today, Last 7 days, Last 30 days
+* Custom date range selection with start and end dates
+* Time precision up to minutes and seconds
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/audit_filter_by_event.png)
 
-* **User** - single selection, type at least 4 characters
-* **Subject** - single selection
-* **Subject identifier** - exact match
+### Advanced Search Options
+
+* **User Search**:
+  * Single selection field
+  * Requires minimum 4 characters for search
+  * Auto-complete suggestions as you type
+  * Matches partial usernames and system identifiers
+  * Case-insensitive search
+
+* **Subject Search**:
+  * Single selection from predefined list
+  * Quick filtering through type-ahead functionality
+  * Hierarchical categorization of subjects
+  * Clear visual indicators for selected values
+
+* **Subject Identifier Search**:
+  * Exact match search
+  * Supports copying and pasting identifiers
+  * Clear button to reset the search
+  * Validation for proper identifier format
+
+### Search Results
+
+* Results update in real-time as filters are applied
+* Clear all filters option available
+* Results are paginated for better performance
+* Sort capability by timestamp (ascending/descending)
+* Export filtered results functionality
+* Counter showing total matching results
+
+### Search Tips
+
+* Combine multiple filters for more precise results
+* Use the date range filter first to narrow down the time period
+* Clear individual filters by clicking the 'x' button
+* Save commonly used filter combinations for quick access
+* Export filtered results for offline analysis
 
 ## Audit log details
 
