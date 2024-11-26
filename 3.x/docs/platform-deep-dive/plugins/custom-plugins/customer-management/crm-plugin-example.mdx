@@ -3,51 +3,88 @@ title: Business flow example
 description: We will explore an example in which we integrate a customer search in a business flow.
 ---
 
-Follow the next steps to use the user personal number to perform a search query in the customer management plugin.
+Follow these steps to implement customer search functionality using the customer management plugin.
 
-1. First make sure the details about customers are indexed in the search engine (for example, elasticSearch).
-2. Open **FlowX Designer** and create a **process definition**.
-3. Add a [**Send Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-send-task) node.
-4. Configure the [**Send Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-send-task) node by adding the following elements:
+## Prerequisites
+
+1. Ensure customer details are properly indexed in the search engine (for example, elasticSearch):
+   * All required fields are indexed
+   * Search indices are optimized for performance
+   * Data is up to date
+
+## Implementation Steps
+
+1. Open **FlowX Designer** and create a **process definition**.
+2. Add a [**Send Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-send-task) node.
+3. Configure the [**Send Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-send-task) node with the following elements:
 * Kafka topic - defined on the `KAFKA_TOPIC_CUSTOMER_SEARCH_IN` environment variable
-* Message body (example of identifiers for an indexed customers):
+* Message body (example of search parameters):
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/crm_params.png)
 
 <Check>
-For more examples of keys, check [**Using the customer management plugin**](./customer-management-overview#key-examples).
+For more examples of search keys and parameters, check [**Using the customer management plugin**](./customer-management-overview#key-examples).
 </Check>
 
-5. Add a [**Receive Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-receive-task).
-6. Configure the topic on which you want to receive the response from the CRM, on the value of `KAFKA_TOPIC_CUSTOMER_SEARCH_OUT` environment variable.
+### Search Parameters Best Practices
+
+* Use partial matching for name fields to improve search accuracy
+* Include multiple identifiers when available (CUI, ID number, phone)
+* Consider using wildcards for flexible matching
+* Implement pagination parameters for large result sets
+
+4. Add a [**Receive Message Task**](../../../../building-blocks/node/message-send-received-task-node#message-receive-task).
+5. Configure the response topic using the `KAFKA_TOPIC_CUSTOMER_SEARCH_OUT` environment variable.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/crm_response.png)
 
-Response example:
+## Response Structure
+
+The search response follows this format:
 
 ```json
+{
+    "searchResults" : {
+        "customers" : [ {
+          "id" : "ID3456",
+          "firstName" : "Jane Doe",
+          "lastName" : "Doe",
+          "birthDate" : "27.02.1980",
+          "cui" : "1820227103840_84",
+          "companyName" : "",
+          "clientCategory" : "PF_INTL",
+          "clientType" : "PF",
+          "idSeries" : "RT",
+          "idNumber" : "879948",
+          "idDocType" : "CI",
+          "idExpiryDate" : "27.02.2023",
+          "legalForm" : "",
+          "listId" : "4691602",
+          "mobilePhone" : "0711111111",
+          "attributes" : null,
+          "type" : "PF"
+        }],
+        "hasMore" : false,
+        "error" : null
+    }
+}
+```
 
-"searchResults" : {
-    "customers" : [ {
-      "id" : "ID3456",
-      "firstName" : "Jane Doe",
-      "lastName" : "Doe",
-      "birthDate" : "27.02.1980",
-      "cui" : "1820227103840_84",
-      "companyName" : "",
-      "clientCategory" : "PF_INTL",
-      "clientType" : "PF",
-      "idSeries" : "RT",
-      "idNumber" : "879948",
-      "idDocType" : "CI",
-      "idExpiryDate" : "27.02.2023",
-      "legalForm" : "",
-      "listId" : "4691602",
-      "mobilePhone" : "0711111111",
-      "attributes" : null,
-      "type" : "PF"}],
-    "hasMore" : false,
-    "error" : null
-  }
+### Response Fields Explanation
 
-  ```
+* `customers`: Array of customer records matching the search criteria
+* `hasMore`: Indicates if there are additional results available (for pagination)
+* `error`: Contains error information if the search fails
+
+### Error Handling
+
+The plugin may return errors in the following cases:
+* Invalid search parameters
+* Search service unavailable
+* Timeout during search operation
+* Insufficient permissions
+
+For paginated results, use the following approach:
+1. Check the `hasMore` field in the response
+2. If `true`, send another search request with updated pagination parameters
+3. Continue until all results are retrieved or the desired number of records is found

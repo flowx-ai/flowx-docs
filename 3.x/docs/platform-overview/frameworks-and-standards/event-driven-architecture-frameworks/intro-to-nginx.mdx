@@ -1,9 +1,20 @@
 ---
 title: "Intro to NGINX"
 description: "[NGINX](https://www.nginx.com/) is a free, open-source, high-performance web server with a rich feature set, simple configuration, and low resource consumption that can also function as a reverse proxy, load balancer, mail proxy, HTTP cache, and many other things."
+keywords: ["nginx", "web server", "reverse proxy", "load balancer", "kubernetes", "ingress controller", "k8s"]
 ---
 
-### How NGINX is working?
+## Introduction to NGINX
+
+NGINX is a versatile web server that offers:
+- High-performance web serving
+- Reverse proxy capabilities
+- Load balancing
+- Mail proxy functionality
+- HTTP caching
+- Kubernetes integration
+
+### How NGINX Works
 
 NGINX allows you to hide a server application's complexity from a front-end application. It uses an event-driven, asynchronous approach to create a new process for each web request, with requests handled in a single thread.
 
@@ -13,7 +24,10 @@ NGINX allows you to hide a server application's complexity from a front-end appl
 
 Ingress allows you to route requests to services based on the host or path of the request, centralizing a number of services into a single entry point.
 
-The [ingress resource](https://www.nginx.com/products/nginx-ingress-controller/nginx-ingress-resources/) simplifies the configuration of **SSL/TLS** **termination**, **HTTP load-balancing**, and **layer routing**.
+The [ingress resource](https://www.nginx.com/products/nginx-ingress-controller/nginx-ingress-resources/) simplifies the configuration of:
+- **SSL/TLS termination**
+- **HTTP load-balancing**
+- **Layer routing**
 
 For more information, check the following section:
 
@@ -21,24 +35,24 @@ For more information, check the following section:
 
 #### Integrating with FLOWX Designer
 
-FLOWX Designer is using NGINX ingress controller for the following actions:
+FLOWX Designer uses the NGINX ingress controller for the following purposes:
 
-1. For routing calls to plugins
-2. For routing calls to the [FlowX Engine](../../../platform-deep-dive/core-components/flowx-engine):
+1. **Plugin Routing**: Routing calls to plugins
+2. **FLOWX Engine Integration**: For routing calls to the [FlowX Engine](../../../platform-deep-dive/core-components/flowx-engine):
+   - Viewing current instances of processes running in the FLOWX engine
+   - Testing process definitions from the FLOWX Designer - route the API calls and SSE communications to the FLOWX engine backend
+   - Accessing REST API of the backend microservice
+3. **SPA Configuration**: Configuring the Single Page Application (SPA) - FLOWX Designer SPA will use the backend service to manage the platform via REST calls
 
-* Viewing current instances of processes running in the FLOWX engine
-* Testing process definitions from the FLOWX Designer - route the API calls and SSE communications to the FLOWX engine backend
-* Accessing REST API of the backend microservice
-
-3. For configuring the Single Page Application (SPA) - FLOWX Designer SPA will use the backend service to manage the platform via REST calls
-
-In the following section, you can find a suggested NGINX setup, the one used by FLOWX.AI:
+For detailed setup instructions, refer to our recommended NGINX configuration:
 
 <Card title="Designer setup guide" href="../../../../setup-guides/designer-setup-guide" icon ="gears">
 </Card>
 
 ### Installing NGINX Open Source
 
-For more information on how to install NGINX Open Source, check the following guide:
+For comprehensive installation instructions for NGINX Open Source, consult the official guide:
 
 <Card title ="NGINX Admin Guide" icon ="link" href="https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source?_ga=2.31029759.1179818521.1651763502-1509066026.1651763502"></Card>
+</fileContent>
+</invoke>

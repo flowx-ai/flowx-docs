@@ -139,7 +139,26 @@ The following environment variables could be set in order to control log levels:
 * `LOGGING_LEVEL_APP` - app level logs
 * `LOGGING_LEVEL_MONGO_DRIVER` - MongoDB driver logs
 
-### Filtering
+### Search and Filtering Configuration
 
-* `FLOWX_ALLOW_USERNAME_SEARCH_PARTIAL` - filter possible assignees by partial names (default: true)
+The task management plugin provides several configuration options to customize search and filtering behavior:
 
+* `FLOWX_ALLOW_USERNAME_SEARCH_PARTIAL` - Enables or disables filtering possible assignees by partial names (default: true)
+* `FLOWX_SEARCH_MIN_CHARS` - Minimum number of characters required to initiate a search (default: 3)
+* `FLOWX_SEARCH_MAX_RESULTS` - Maximum number of results to return in a search query (default: 50)
+* `FLOWX_SEARCH_CASE_SENSITIVE` - Determines if searches are case-sensitive (default: false)
+* `FLOWX_SEARCH_INCLUDE_INACTIVE` - Controls whether inactive users are included in search results (default: false)
+
+These search parameters can be adjusted to optimize the search experience based on your specific needs. The search functionality supports:
+
+* Partial name matching
+* Username search
+* Role-based filtering
+* Department/group filtering
+* Combined search criteria
+
+For optimal performance, it's recommended to:
+* Set appropriate minimum character limits for searches
+* Configure reasonable result size limits
+* Index frequently searched fields in MongoDB
+* Utilize Redis caching for frequently accessed search results

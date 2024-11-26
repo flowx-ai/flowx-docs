@@ -9,7 +9,6 @@ The plugin listens for incoming requests on a Kafka topic and sends the reply to
 
 [Kafka topics for Customer Management](#kafka-topics-for-customer-management)
 
-
 ## Kafka topics for customer management
 
 ### Customer Search
@@ -20,9 +19,20 @@ The kafka topics used for the Customer Management plugin can be defined/overwrit
 * `KAFKA_TOPIC_CUSTOMER_SEARCH_OUT` - used to get the response from the customer management plugin to the Engine.
 </Info>
 
-The request sent to the plugin can use any key that was previously configured in the elasticsearch index where the customers are saved.
+## Search Capabilities
 
-Example of an elastic search index:
+The Customer Management plugin provides powerful search functionality through Elasticsearch. You can perform searches using:
+
+* **Exact Match**: Perfect for unique identifiers like CIF or ClientUniqueIdentifier
+* **Partial Match**: Useful for names and text fields
+* **Date Range**: Available for all date fields
+* **Combined Search**: Multiple criteria can be used together for more precise results
+
+### Search Configuration
+
+The request sent to the plugin can use any key that was previously configured in the elasticsearch index where the customers are saved. The search is optimized using custom analyzers and normalizers for improved matching.
+
+Example of an elastic search index configuration:
 
 ```json
 {
@@ -127,33 +137,35 @@ Example of an elastic search index:
     }
   }
 }
-
 ```
 
-With this index configuration we can search for customers using any key:
+## Search Examples
 
-## Key examples
+Below are various examples demonstrating different search patterns:
 
-### Example 1 - using only the "ClientUniqueIdentifier" key:
+### Example 1 - Simple Search by Unique Identifier
+Perfect for exact matches when you know the specific identifier:
 
-``` json
+```json
 {
 "ClientUniqueIdentifier": "1900101223344"
 }
 ```
 
-### Example 2 - using "FirstName" and "LastName" keys:
+### Example 2 - Combined Name Search
+Useful for finding customers by their full name:
 
-``` json
+```json
 {
 "FirstName": "TestFirstName",
 "LastName": "Test Last Name"
 }
 ```
 
-### Example 3 - using "FirstName", "DateOfBirth" and "LegalForm" keys:
+### Example 3 - Multi-criteria Search
+Combines multiple fields for more precise results:
 
-``` json
+```json
 {
 "FirstName": "TestFirstName",
 "DateOfBirth": "01.01.1990",
@@ -161,11 +173,40 @@ With this index configuration we can search for customers using any key:
 }
 ```
 
-## Keys description
+### Example 4 - Partial Name Match
+The search supports partial matches for text fields:
 
-* **customers** - list of customers found in the customer management, in the used elasticsearch index, maximum 10 results
-* **hasMore** - boolean, true if number of results are bigger than 10, false if the number of results are equal or smaller than 10
-* **error** - error description if the request returned an error
+```json
+{
+"FirstName": "Test",
+"CompanyName": "Corp"
+}
+```
+
+## Response Structure
+
+The search response includes the following key elements:
+
+* **customers** - Array of matching customer records (maximum 10 results)
+* **hasMore** - Boolean indicator (true if more than 10 results exist)
+* **error** - Error description if the request failed
+
+### Response Fields Description:
+* **id** - Unique customer identifier
+* **firstName** - Customer's first name
+* **lastName** - Customer's last name
+* **birthDate** - Date of birth (format: dd.MM.yyyy)
+* **cui** - Unique identification code
+* **companyName** - Name of the company (for business customers)
+* **clientCategory** - Customer category (e.g., PF, PJ)
+* **clientType** - Type of client
+* **idSeries**, **idNumber**, **idDocType** - ID document details
+* **idExpiryDate** - ID document expiry date
+* **legalForm** - Legal form of the entity
+* **listId** - Internal list identifier
+* **mobilePhone** - Contact number
+* **attributes** - Additional customer attributes
+* **type** - Customer type classification
 
 Topic name example:
 
@@ -173,7 +214,7 @@ Topic name example:
 ro.flowx.updates.sandbox.customer.management.response
 ```
 
-Sent body example:
+Example response:
 
 ```json
 "searchResults" : {

@@ -31,6 +31,25 @@ The solution includes an index template that gets created with the settings from
 
 Once an index is created, you cannot update its number of shards and replicas. However, you can update the settings from the index template at runtime in Elasticsearch, and new indices will be created with the updated settings. Note that the mapping should not be altered as it is required by the application.
 
+## Search optimization guidelines
+
+To optimize search performance in your Elasticsearch deployment, consider the following recommendations:
+
+* Use a search-optimized mapping configuration:
+    - Enable field data caching for frequently searched fields
+    - Use keyword fields for exact matches instead of text fields where appropriate
+    - Consider using custom analyzers for specific search requirements
+
+* Implement efficient search patterns:
+    - Use filter context instead of query context when exact matches are needed
+    - Leverage the scroll API for deep pagination scenarios
+    - Implement search result caching for frequently accessed queries
+
+* Monitor and optimize search performance:
+    - Track slow search queries using Elasticsearch's slow log
+    - Use the Profile API to analyze search performance
+    - Consider implementing search result aggregations for better performance
+
 ## Recommendations for resource management
 
 To manage functional indexing operations and resources efficiently, consider the following recommendations:

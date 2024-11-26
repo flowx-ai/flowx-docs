@@ -1,6 +1,6 @@
 ---
-title: "Overview"
-description: Timer event nodes are a powerful feature in BPMN that allow you to introduce time-based behavior into your processes. These nodes enable you to trigger specific actions or events at predefined time intervals, durations, or cycles. With timer event nodes, you can design processes that respond to time-related conditions, ensuring smoother workflow execution and enhanced automation."
+title: "Timer Events Overview"
+description: "Learn about BPMN Timer Events: Timer Start Events, Timer Intermediate Events, and Timer Boundary Events. Discover how to use time-based triggers, scheduling, cron expressions, and time intervals in your business processes. Configure time-based automation with dates, durations, and cycles in BPMN workflows."
 ---
 
 There are three primary types of timer event nodes:
@@ -14,13 +14,15 @@ There are three primary types of timer event nodes:
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/timer_events.png)
 
-## Timers
+## Understanding Timer Events
 
 Timers introduce the ability to trigger events at specific time intervals. They can be configured in three different ways: as a date, a duration, or a cycle. These configurations can use static values or dynamic/computed values.
 
+### Date Timer Configuration
 - **Date**: Events triggered on a specific date and time.
   - Format: ISO 8601 (e.g., `2019-10-01T12:00:00Z` or `2019-10-02T08:09:40+02:00`)
 
+### Duration Timer Configuration
 - **Time Duration**: Events triggered after a specified duration.
   - Format: ISO 8601 duration expression (`P(n)Y(n)M(n)DT(n)H(n)M(n)S`)
     - P: Duration designator
@@ -41,6 +43,7 @@ Examples:
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/timer_events_duration_date.gif)
 
+### Cycle Timer Configuration
 - **Time Cycle** (available for Timer Start Event): Events triggered at repeating intervals.
   - Option 1: ISO 8601 repeating intervals format (`R`)
     - Examples:
@@ -57,9 +60,13 @@ Examples:
 Important: Only Spring cron expressions are permissible for configuration. Refer to the [**official documentation**](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/support/CronExpression.html) for detailed information on configuring Spring Cron expressions.
 </Warning>
 
+## Managing Timer Events
+
 Scheduled timer events are clearly indicated within the process definition list, as illustrated in the following example:
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/process_with_scheduled_timer.png)
+
+### Activating and Suspending Timers
 
 To manage timers efficiently, you have the option to activate or suspend them through the convenient quick actions menu located in the process page header:
 
@@ -69,7 +76,7 @@ More information about timer expressions you can find in the below section:
 
 [Timer expressions](./timer-expressions)
 
-## Configuration
+## Timer Event Configuration Options
 
 For each node type, the following timer types can be configured:
 
@@ -84,6 +91,8 @@ For each node type, the following timer types can be configured:
 <Warning>
 A process definition version should have a single Timer Start Event.
 </Warning>
+
+## Additional Timer Event Resources
 
 For comprehensive details on each timer event node in this section, please refer to the corresponding documentation:
 
@@ -102,6 +111,3 @@ For comprehensive details on each timer event node in this section, please refer
 </Card>
 
 </CardGroup>
-
-
-

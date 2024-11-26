@@ -1,5 +1,7 @@
 ---
-title: Timer expressions
+title: Timer expressions - Cron and ISO 8601 formats in FlowX.AI
+description: Learn how to use timer expressions, cron patterns, and ISO 8601 duration formats in FlowX.AI components
+keywords: [timer expressions, cron expressions, ISO 8601, scheduling, process expiry, response timeout, timer delay, Spring cron]
 ---
 
 When working with FlowX.AI components, there are multiple scenarios in which timer expressions are needed.
@@ -14,21 +16,23 @@ There are two timer expressions formats supported:
 A cron expression is a string made up of **six mandatory subexpressions (fields) that each specifies an aspect of the schedule** (for example, `* * * * * *`). These fields, separated by white space, can contain any of the allowed values with various combinations of the allowed characters for that field.
 
 <Info>
-A field may be an asterisk (`*`), which always stands for “first-last”. For the day-of-the-month or day-of-the-week fields, a question mark (`?`) may be used instead of an asterisk.
+A field may be an asterisk (`*`), which always stands for "first-last". For the day-of-month or day-of-the-week fields, a question mark (`?`) may be used instead of an asterisk.
 </Info>
 
 <Warning>
 Important: Only Spring cron expressions are permissible for configuration. Refer to the [**official documentation**](https://docs.spring.io/spring-framework/reference/integration/scheduling.html#scheduling-cron-expression) for detailed information on configuring Spring Cron expressions.
 </Warning>
 
-Subexpressions:
+#### Cron Expression Format
 
-1. Seconds
-2. Minutes
-3. Hours
-4. Day-of-Month
-5. Month
-6. Day-of-Week
+Required subexpressions in order:
+
+1. Seconds (0-59)
+2. Minutes (0-59)
+3. Hours (0-23)
+4. Day-of-Month (1-31)
+5. Month (1-12 or JAN-DEC)
+6. Day-of-Week (1-7 or SUN-SAT)
 7. Year (optional field)
 
 An example of a complete cron-expression is the string `0 0 12 ? * FRI` - which means **every Friday at 12:00:00 PM**.
@@ -37,13 +41,13 @@ More details:
 
 [Scheduling cron expressions](https://docs.spring.io/spring-framework/docs/current/reference/html/integration.html#scheduling-cron-expression)
 
-#### Cron Expressions are used in the following example:
+#### Common Use Cases for Cron Expressions
 
 * [**Process definition**](../../../building-blocks/process/process-definition) - **Expiry time** - a user can set up a `expiryTime` function on a process, for example, a delay of 30s will be set up like:
 
 <Frame>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/timer_process_settings.png)
+![Process expiry time configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/timer_process_settings.png)
 
 </Frame>
 
@@ -57,26 +61,26 @@ More details:
 
 [ISO 8601 duration format](https://www.digi.com/resources/documentation/digidocs//90001488-13/reference/r_iso_8601_duration_format.htm)
 
-#### ISO 8601 format is used in the following examples:
+#### ISO 8601 Supported Formats
+
+| Format accepted      | Value ranges                                 | Example |
+| -------------------- | -------------------------------------------- | ------- |
+| Year (Y)             | YYYY, four-digit, abbreviatted to two-digit  | 2024    |
+| Month (M)            | MM, 01 to 12                                 | 01-12   |
+| Week (W)             | WW, 01 to 53                                 | W01-W53 |
+| Day (D)              | D, day of the week, 1 to 7                   | 1-7     |
+| Hour (h)             | hh, 00 to 23, 24:00:00 as the end time       | 00-23   |
+| Minute (m)           | mm, 00 to 59                                 | 00-59   |
+| Second (s)           | ss, 00 to 59                                 | 00-59   |
+| Decimal fraction (f) | Fractions of seconds, any degree of accuracy | .000    |
+
+#### Common Use Cases for ISO 8601
 
 * **Node config** - **Response Timeout** - can be triggered if, for example, a topic that you define and add in the **Data stream topics** tab does not respect the pattern
 
-ISO 8601 dates and times:
-
-| Format accepted      | Value ranges                                 |
-| -------------------- | -------------------------------------------- |
-| Year (Y)             | YYYY, four-digit, abbreviatted to two-digit  |
-| Month (M)            | MM, 01 to 12                                 |
-| Week (W)             | WW, 01 to 53                                 |
-| Day (D)              | D, day of the week, 1 to 7                   |
-| Hour (h)             | hh, 00 to 23, 24:00:00 as the end time       |
-| Minute (m)           | mm, 00 to 59                                 |
-| Second (s)           | ss, 00 to 59                                 |
-| Decimal fraction (f) | Fractions of seconds, any degree of accuracy |
-
 <Frame>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/timer_response_timeout.png)
+![Response timeout configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/timer_response_timeout.png)
 
 </Frame>
 
@@ -84,6 +88,6 @@ ISO 8601 dates and times:
 
 <Frame>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/timer_action_edit.png)
+![Action timer configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/frameworks-and-standards/timer_action_edit.png)
 
 </Frame>

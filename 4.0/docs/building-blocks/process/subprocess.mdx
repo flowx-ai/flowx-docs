@@ -1,71 +1,81 @@
 ---
 title: Subprocess management
-description: Learn how to configure, start, and execute subprocesses efficiently within your process flow.
+description: Learn how to configure, start, and execute subprocesses efficiently within your process flow. Includes guidance on synchronous and asynchronous subprocess execution, parameter inheritance, and subprocess configuration.
+keywords: subprocess, child process, process flow, parameter inheritance, synchronous subprocess, asynchronous subprocess, subprocess configuration, subprocess execution, FlowX Designer, Start Subprocess, Call Activity, Embedded Subprocess
 ---
 
-Subprocesses are smaller process flows triggered by actions in the main process. They can inherit some process parameter values from the parent process and communicate with front-end apps using the same connection details as their parent process.
+# Subprocess Management
 
+Subprocesses (also known as child processes) are smaller process flows triggered by actions in the main process. They can inherit some process parameter values from the parent process and communicate with front-end apps using the same connection details as their parent process.
 
 ## Overview
 
 Subprocesses can be started in two modes:
 
-* **Asynchronous**: Execute alongside the parent process without delaying it.
-* **Synchronous**: The parent process waits until subprocesses are finished before advancing.
+* **Asynchronous**: Execute alongside the parent process without delaying it (parallel execution)
+* **Synchronous**: The parent process waits until subprocesses are finished before advancing (sequential execution)
 
-## Configuring & starting subprocesses
+## Configuring & Starting Subprocesses
 
-Design subprocesses within the FlowX Designer, mirroring the main process structure.
+There are three primary methods to design and implement subprocesses within the FlowX Designer:
 
 <Steps>
 <Step title ="Start Subprocess Action">
-*  Within user tasks or task nodes.
+*  Implement within user tasks or task nodes
+*  Ideal for triggering child processes from task-based activities
 </Step>
-<Step title="Call Activity node">
-*  Custom node type in the main process.
+<Step title="Call Activity Node">
+*  Custom node type in the main process
+*  Useful for modular process design and reusability
 </Step>
-<Step title ="Start Embedded Subprocess node">
-* Using the corresponding node.
+<Step title ="Start Embedded Subprocess Node">
+*  Using the corresponding node
+*  Best for contained, closely-coupled subprocess operations
 </Step>
 </Steps>
 
-### Parameter inheritance
+### Parameter Inheritance
 
 <Info>
-Available for **Start Subprocess** action and **Call Activity** node.
+Parameter inheritance functionality is available for **Start Subprocess** action and **Call Activity** node.
 </Info>
 
-By default, subprocesses inherit all parent process parameter values. Configure inheritance by:
+By default, subprocesses inherit all parent process parameter values. You can configure inheritance using two methods:
 
-* **Copy from Current State**: Select keys to copy.
-* **Exclude from Current State**: Specify keys to ignore.
+* **Copy from Current State**: Select specific keys to copy from parent to subprocess
+* **Exclude from Current State**: Specify keys to exclude from inheritance
 
-Sub-processes can also have an [**Append Params to Parent Process**](../actions/append-params-to-parent-process) action  configured inside their process definitions which will append their results to the parent process parameter values.
+Sub-processes can also have an [**Append Params to Parent Process**](../actions/append-params-to-parent-process) action configured inside their process definitions which will append their results to the parent process parameter values.
 
 <Card title ="Append Params to Parent Process" href ="../actions/append-params-to-parent-process" icon ="file">
 </Card>
 
-## Executing subprocesses
+## Executing Subprocesses
 
-Define subprocess execution mode:
+Define subprocess execution mode through the `startedAsync` parameter:
 
-* **Asynchronous/Synchronous**: Set the `startedAsync` parameter accordingly.
+* **Asynchronous**: Set `startedAsync: true` for parallel execution
+* **Synchronous**: Set `startedAsync: false` for sequential execution
 
 In synchronous mode, subprocesses notify completion to the parent process. The parent process then resumes its flow and handles subprocess data.
 
-## Additional resources
+## Additional Resources
 
 For detailed guidance on configuring and running subprocesses:
 
 <CardGroup>
 
-<Card title="Call activity node" href="../node/call-subprocess-tasks/call-activity-node" icon ="link">
+<Card title="Call Activity Node" href="../node/call-subprocess-tasks/call-activity-node" icon ="link">
+Learn more about implementing and configuring Call Activity nodes
 </Card>
 
-<Card title="Start a subprocess action" href="../actions/start-subprocess-action" icon="link">
+<Card title="Start a Subprocess Action" href="../actions/start-subprocess-action" icon="link">
+Detailed guide on implementing Start Subprocess actions
 </Card>
 
-<Card title="Start embedded subprocess" href="../node/call-subprocess-tasks/start-embedded-subprocess" icon="link">
+<Card title="Start Embedded Subprocess" href="../node/call-subprocess-tasks/start-embedded-subprocess" icon="link">
+Implementation guide for embedded subprocesses
 </Card>
 
-</CardGroup>
+</CardGroup></fileContent>
+</invoke>

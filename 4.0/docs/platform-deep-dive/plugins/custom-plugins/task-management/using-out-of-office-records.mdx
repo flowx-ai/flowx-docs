@@ -58,10 +58,29 @@ If you choose to delete an out-of-office record, the user is eligible to receive
 3.  Click **Yes, proceed** if you want to delete the record, click **Cancel** if you want to abort the deletion.
 
 <Info>
-If the out-of-office period contains days selected in the past, the user cannot delete the record, the following message is displayed: _“You can’t delete this record because it already affected allocations in the past. Try to shorten the period, if it didn’t end.”_
+If the out-of-office period contains days selected in the past, the user cannot delete the record, the following message is displayed: _"You can't delete this record because it already affected allocations in the past. Try to shorten the period, if it didn't end."_
 </Info>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/cant_delete_ooo.png)
+
+## Searching out-of-office records
+
+To search through out-of-office records, you can use the search bar located at the top of the records list. The search functionality allows you to:
+
+1. Search by user information:
+   * First name
+   * Last name
+   * Username
+2. Search by date range:
+   * Use the date picker to filter records within a specific time period
+3. Search by status:
+   * Current out-of-office
+   * Future out-of-office
+   * Past out-of-office
+
+<Info>
+The search is performed in real-time as you type, and results are updated automatically. You can combine multiple search criteria to narrow down your results.
+</Info>
 
 ## Viewing out-of-office records
 
@@ -76,5 +95,5 @@ The out-of-office records list contains the following elements:
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/view_ooo.png)
 
 <Info>
-The list is sorted in reverse chronological order by “edited at” `dateTime` (newest added on top).
+The list is sorted in reverse chronological order by "edited at" `dateTime` (newest added on top).
 </Info>

@@ -60,7 +60,6 @@
       "version": "v4.5.0",
       "url": "4.5.0/sdks"
     },
-
     {
       "name": "Setup guides",
       "version": "v3.x",
@@ -88,7 +87,6 @@
   ],
   "anchors": [],
   "navigation": [
-
     {
       "group": "Getting Started",
       "version": "v4.5.0",
@@ -129,14 +127,11 @@
         "4.5.0/docs/platform-overview/flowx-architecture"
       ]
     },
-
     {
       "group": "FlowX.AI Designer",
       "version": "v4.5.0",
       "pages": [
         "4.5.0/docs/flowx-designer/overview",
-
-
         {
           "group": "Design Assets",
           "icon": "pen",
@@ -144,11 +139,8 @@
             "4.5.0/docs/flowx-designer/design-assets/themes",
             "4.5.0/docs/flowx-designer/design-assets/font-files",
             "4.5.0/docs/flowx-designer/design-assets/system-assets"
-
           ]
         },
-
-    
         {
           "group": "Managing a process flow",
           "version": "v4.5.0",
@@ -167,54 +159,37 @@
         }
       ]
     },
-    
-    
     {
       "group": "Building projects",
       "version": "v4.5.0",
       "pages": [
         "4.5.0/docs/projects/resources",
-
-
         {
           "group": "Configuration",
           "icon": "box",
           "pages": [
-                "4.5.0/docs/projects/managing-applications/application",
-                "4.5.0/docs/projects/managing-applications/libraries"
-              ]
-            },
-
-
-
-            {
-              "group": "Runtime",
-              "icon": "play",
-              "pages": [
-                "4.5.0/docs/projects/runtime/builds",
-                "4.5.0/docs/projects/runtime/active-policy",
-                "4.5.0/docs/projects/runtime/configuration-parameters-overrides",
-
-                {
-                  "group": "Active process",
-                  "pages": [
-                    "4.5.0/docs/projects/runtime/active-process/process-instance",
-                    "4.5.0/docs/projects/runtime/active-process/failed-process-start"
-    
-    
-                  ]
-                }
-
-
-              ]
-            }
-
+            "4.5.0/docs/projects/managing-applications/application",
+            "4.5.0/docs/projects/managing-applications/libraries"
           ]
         },
-
-
-    
-
+        {
+          "group": "Runtime",
+          "icon": "play",
+          "pages": [
+            "4.5.0/docs/projects/runtime/builds",
+            "4.5.0/docs/projects/runtime/active-policy",
+            "4.5.0/docs/projects/runtime/configuration-parameters-overrides",
+            {
+              "group": "Active process",
+              "pages": [
+                "4.5.0/docs/projects/runtime/active-process/process-instance",
+                "4.5.0/docs/projects/runtime/active-process/failed-process-start"
+              ]
+            }
+          ]
+        }
+      ]
+    },
     {
       "group": "Building blocks",
       "version": "v4.5.0",
@@ -297,7 +272,6 @@
             "4.5.0/docs/building-blocks/actions/append-params-to-parent-process",
             "4.5.0/docs/building-blocks/actions/kafka-send-action",
             "4.5.0/docs/building-blocks/actions/start-integration-workflow"
-
           ]
         },
         {
@@ -379,7 +353,6 @@
                 "4.5.0/docs/platform-deep-dive/core-extensions/content-management/media-library"
               ]
             },
-
             {
               "group": "Task management",
               "version": "v4.5.0",
@@ -391,7 +364,6 @@
                 "4.5.0/docs/platform-deep-dive/core-extensions/task-management/using-stages"
               ]
             },
-
             "4.5.0/docs/platform-deep-dive/core-extensions/generic-parameters",
             "4.5.0/docs/platform-deep-dive/core-extensions/license-engine",
             "4.5.0/docs/platform-deep-dive/core-extensions/audit",
@@ -440,7 +412,6 @@
                 }
               ]
             },
-
             "4.5.0/docs/platform-deep-dive/plugins/languages",
             "4.5.0/docs/platform-deep-dive/plugins/custom-plugins/ocr-plugin",
             {
@@ -549,7 +520,6 @@
         "4.5.0/setup-guides/search-data-service-setup-guide",
         "4.5.0/setup-guides/license-engine-setup",
         "4.5.0/setup-guides/data-sync"
-
       ]
     },
     {
@@ -604,7 +574,6 @@
         "4.5.0/setup-guides/plugins-access-rights/configuring-access-rights-for-task-management"
       ]
     },
-
     {
       "group": "Getting Started",
       "version": "v4.1.x",
@@ -831,7 +800,6 @@
                 "4.1.x/docs/platform-deep-dive/core-extensions/content-management/themes"
               ]
             },
-
             "4.1.x/docs/platform-deep-dive/core-extensions/generic-parameters",
             "4.1.x/docs/platform-deep-dive/core-extensions/license-engine",
             "4.1.x/docs/platform-deep-dive/core-extensions/audit",
@@ -1051,7 +1019,6 @@
         "4.1.x/setup-guides/plugins-access-rights/configuring-access-rights-for-task-management"
       ]
     },
-
     {
       "group": "Getting Started",
       "version": "v4.0",
@@ -1457,7 +1424,7 @@
         "4.0/setup-guides/plugins-setup-guide/notifications-plugin-setup",
         "4.0/setup-guides/plugins-setup-guide/task-management-plugin-setup",
         "4.0/setup-guides/plugins-setup-guide/ocr-plugin-setup",
-        "4.0/setup-guides/plugins-setup-guide/reporting-setup" 
+        "4.0/setup-guides/plugins-setup-guide/reporting-setup"
       ]
     },
     {
@@ -1494,7 +1461,6 @@
       "version": "v3.x",
       "pages": [
         "3.x/docs/introduction",
-        "3.x/docs/getting-started/building-your-first-proc",
         "3.x/docs/getting-started/learn-more"
       ]
     },
@@ -1813,7 +1779,6 @@
       "group": "Release Notes",
       "pages": [
         "release-notes/overview",
-        
         {
           "group": "v4.5.3 - November",
           "icon": "wrench",
@@ -1826,15 +1791,11 @@
                 "release-notes/v4.5.3-november-2024/migrating-from-v4.1.x-to-v4.5.3/renderers",
                 "release-notes/v4.5.3-november-2024/migrating-from-v4.1.x-to-v4.5.3/process-configuration",
                 "release-notes/v4.5.3-november-2024/migrating-from-v4.1.x-to-v4.5.3/migrating-from-v4.1.x"
-
               ]
             }
-
-
           ]
         },
-        
-     {
+        {
           "group": "v4.5.1 - November",
           "icon": "wrench",
           "pages": [
@@ -1846,14 +1807,10 @@
                 "release-notes/v4.5.1-november-2024/migrating-from-v4.1.x-to-v4.5.1/renderers",
                 "release-notes/v4.5.1-november-2024/migrating-from-v4.1.x-to-v4.5.1/process-configuration",
                 "release-notes/v4.5.1-november-2024/migrating-from-v4.1.x-to-v4.5.1/migrating-from-v4.1.x"
-
               ]
             }
-
-
           ]
         },
-
         {
           "group": "v4.5.0 - October",
           "icon": "rocket",
@@ -1866,11 +1823,8 @@
                 "release-notes/v4.5.0-october-2024/migrating-from-v4.1.x-to-v4.5.0/renderers",
                 "release-notes/v4.5.0-october-2024/migrating-from-v4.1.x-to-v4.5.0/process-configuration",
                 "release-notes/v4.5.0-october-2024/migrating-from-v4.1.x-to-v4.5.0/migrating-from-v4.1.x"
-
               ]
             }
-
-
           ]
         },
         {
@@ -1881,7 +1835,6 @@
             "release-notes/v4.1.5-september-2024/migrating-from-previous-to-v4.1.5"
           ]
         },
-
         {
           "group": "v4.1.4 - September",
           "pages": [
@@ -1939,7 +1892,6 @@
             }
           ]
         },
-
         {
           "group": "v3.x.x",
           "pages": [
@@ -2035,8 +1987,7 @@
               ]
             }
           ]
-        }        
-        
+        }
       ]
     },
     {
@@ -2158,21 +2109,18 @@
     }
   },
   "theme": "prism",
-
-
- "redirects": [
-  {
-    "source": "/link/4.5/task-management-overview",
-    "destination": "/4.5.0/docs/platform-deep-dive/core-extensions/task-management/task-management-overview"
-  },
-  {
-    "source": "/link/4.5/data-search",
-    "destination": "/4.5.0/docs/platform-deep-dive/core-extensions/search-data-service#flowx-ai-data-search"
-  },
-  {
-    "source": "/link/4.5/expiry-time",
-    "destination": "/4.5.0/docs/building-blocks/process/process-definition#general"
-  }
-]
-
+  "redirects": [
+    {
+      "source": "/link/4.5/task-management-overview",
+      "destination": "/4.5.0/docs/platform-deep-dive/core-extensions/task-management/task-management-overview"
+    },
+    {
+      "source": "/link/4.5/data-search",
+      "destination": "/4.5.0/docs/platform-deep-dive/core-extensions/search-data-service#flowx-ai-data-search"
+    },
+    {
+      "source": "/link/4.5/expiry-time",
+      "destination": "/4.5.0/docs/building-blocks/process/process-definition#general"
+    }
+  ]
 }

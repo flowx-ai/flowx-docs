@@ -1,16 +1,17 @@
 ---
-title: Supported scripts
+title: Supported Scripts and Scripting Languages
 icon: file-code
-description: "Scripts are used to define and run actions but also properties inside nodes. For now, the following script languages are supported."
+description: "Complete guide to supported scripting languages in FLOWX.AI - Python, DMN, MVEL, Groovy, and JavaScript (Nashorn). Includes versions, engines, implementation details, and usage guidelines for each scripting language."
+keywords: "python scripting, dmn scripting, mvel scripting, groovy scripting, javascript nashorn, jython, scripting engines, flowx scripts, ecmascript"
 ---
 
 <CardGroup>
 
-<Card title = "Python" icon = "python" href= "#python"></Card>
-<Card title = "DMN" icon = "code" href= "#dmn"></Card>
-<Card title = "MVEL" icon = "code" href= "#mvel"></Card>
-<Card title = "Groovy" icon = "code" href= "#groovy"></Card>
-<Card title = "JavaScript (Nashorn)" icon = "code" href= "#nashorn-engine-javascript"></Card>
+<Card title = "Python" icon = "python" href= "#python" description="Python 2.7 via Jython implementation"></Card>
+<Card title = "DMN" icon = "code" href= "#dmn" description="Decision Model and Notation 1.3"></Card>
+<Card title = "MVEL" icon = "code" href= "#mvel" description="MVEL2 expression language"></Card>
+<Card title = "Groovy" icon = "code" href= "#groovy" description="Groovy 3.0.21 with JSR-223"></Card>
+<Card title = "JavaScript (Nashorn)" icon = "code" href= "#nashorn-engine-javascript" description="ECMAScript 5.1 via Nashorn"></Card>
 </CardGroup>
 
 
@@ -23,7 +24,7 @@ description: "Scripts are used to define and run actions but also properties ins
 | JavaScript         | ECMAScript 5.1   | Nashorn                             | 15.4                     |
 
 
-## Python
+## Python (Jython Implementation)
 
 **Jython** is an implementation of the high-level, dynamic, object-oriented language [Python](http://www.python.org/) seamlessly integrated with the [Java](http://www.javasoft.com/) platform. Jython is an open-source solution.
 
@@ -43,15 +44,19 @@ description: "Scripts are used to define and run actions but also properties ins
 
 <Card title ="Jython FAQs" href="https://wiki.python.org/jython/JythonFaq" icon ="link"></Card>
 
-## DMN
+## DMN (Decision Model and Notation)
 
-Decision Model and Notation (DMN) is a standard for Business Decision Management.
+Decision Model and Notation (DMN) is a standard for Business Decision Management, enabling standardized modeling of business decisions.
 
 FLOWX uses [BPMN.io](https://bpmn.io/) (based on **camunda-engine-dmn** version **7.20.0**) which is built on [DMN 1.3](https://www.omg.org/spec/DMN/1.3/PDF) standards.
 
 ### Properties
 
-**camunda-engine-dmn** supports [DMN 1.3](https://www.omg.org/spec/DMN/1.3/PDF), including Decision Tables, Decision Literal Expressions, Decision Requirements Graphs, and the Friendly Enough Expression Language (FEEL)
+**camunda-engine-dmn** supports [DMN 1.3](https://www.omg.org/spec/DMN/1.3/PDF), including:
+- Decision Tables
+- Decision Literal Expressions
+- Decision Requirements Graphs
+- Friendly Enough Expression Language (FEEL)
 
 ### Useful links:
 
@@ -63,7 +68,7 @@ FLOWX uses [BPMN.io](https://bpmn.io/) (based on **camunda-engine-dmn** version 
 
 <Card title ="DMN Business rule action" href= "/4.0/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn"></Card>
 
-## MVEL
+## MVEL (MVFLEX Expression Language)
 
 MVEL is a powerful expression language for Java-based applications. It provides a plethora of features and is suited for everything from the smallest property binding and extraction, to full-blown scripts.
 
@@ -79,9 +84,9 @@ MVEL is a powerful expression language for Java-based applications. It provides 
 
 <Card title = "Intro to MVEL" href="/4.0/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel"></Card>
 
-## Groovy
+## Groovy (Java-Compatible Scripting)
 
-Groovy is a multi-faceted language for the Java platform. The language can be used to combine Java modules, extend existing Java applications and write new applications
+Groovy is a multi-faceted language for the Java platform. The language can be used to combine Java modules, extend existing Java applications and write new applications.
 
 We use and recommend **Groovy 3.0.21** version, using **groovy-jsr223** engine.
 
@@ -104,9 +109,15 @@ We use and recommend **Groovy 3.0.21** version, using **groovy-jsr223** engine.
 
 ## Nashorn Engine (JavaScript)
 
-Nashorn engine is an open source implementation of the [ECMAScript Edition 5.1 Language Specification](https://es5.github.io/). It also implements many new features introduced in ECMAScript 6 including template strings; `let`, `const`, and block scope; iterators and `for..of` loops; `Map`, `Set`, `WeakMap`, and `WeakSet` data types; symbols; and binary and octal literals. It is written in Java and runs on the Java Virtual Machine.
+Nashorn engine is an open source implementation of the [ECMAScript Edition 5.1 Language Specification](https://es5.github.io/). It also implements many new features introduced in ECMAScript 6 including:
+- Template strings
+- `let`, `const`, and block scope
+- Iterators and `for..of` loops
+- `Map`, `Set`, `WeakMap`, and `WeakSet` data types
+- Symbols
+- Binary and octal literals
 
-Latest version of **Nashorn** is **15.4**, available from [Maven Central](https://search.maven.org/artifact/org.openjdk.nashorn/nashorn-core/15.4/jar). You can check the [changelog](https://github.com/openjdk/nashorn/blob/main/CHANGELOG.md) to see what's new.
+Latest version of **Nashorn** is **15.4**, available from [Maven Central](https://search.maven.org/artifact/org.openjdk.nashorn/nashorn-core/15.4/jar).
 
 ### Useful links
 

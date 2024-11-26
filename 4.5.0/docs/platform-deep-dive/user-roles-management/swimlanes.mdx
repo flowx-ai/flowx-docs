@@ -1,27 +1,40 @@
 ---
-title: Swimlanes
-description: Swimlanes provide a way of grouping process nodes by process participants.
+title: Swimlanes - Role-Based Process Access Control
+description: Swimlanes provide role-based access control (RBAC) for process nodes, allowing you to restrict and manage user permissions across different process stages. Learn how to use swimlanes to group process nodes by user roles and process participants.
 ---
 
-Using swimlanes we can make sure only certain user roles have access to certain process nodes.
+# Understanding Swimlanes and Role-Based Access
 
+Swimlanes are a crucial feature for implementing role-based access control within processes. They enable you to group process nodes and restrict access based on user roles, ensuring that only authorized participants can interact with specific parts of a process.
 
-In certain scenarios, it is necessary to restrict access to specific process [**nodes**](../../building-blocks/node/) based on user roles. This can be achieved by organizing nodes into different swimlanes. 
+## Key Features of Swimlanes
 
-Each swimlane can be configured to grant access only to users with specific roles defined in the chosen identity provider platform.
+* **Role-Based Access Control**: Configure swimlanes to grant access only to users with specific roles defined in your identity provider platform
+* **Process Node Grouping**: Organize related process [**nodes**](../../building-blocks/node/) into logical groups based on user responsibilities
+* **Dynamic Access Management**: Control who can initiate, view, and perform actions on process instances
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/multiple_swimlanes.png)
+![Multiple swimlanes example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/multiple_swimlanes.png)
 
-Depending on the type of node added within a swimlane, only users with the corresponding swimlane roles will have the ability to initiate process instances, view process instances, and perform actions on them.
+## Managing Swimlane Permissions
 
-[Scopes and roles for managing processes](../../../setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes)
+The type of node placed within a swimlane determines what actions authorized users can perform. Users must have the corresponding swimlane roles to:
+- Initiate process instances
+- View process instances
+- Perform actions on process instances
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/swimlanes_permissions.gif)
+For detailed information about process management permissions, see [Scopes and roles for managing processes](../../../setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes).
 
-When creating a new process definition, a default swimlane will automatically be added.
+![Swimlane permissions demonstration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/swimlanes_permissions.gif)
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/swimlanes_default.gif)
+## Working with Swimlanes
 
-As the token moves from one node to the next, it may transition between swimlanes. If a user interacting with the process instance no longer has access to the new swimlane, they will observe the process in read-only mode and will be unable to interact with it until the token returns to a swimlane they have access to.
+### Default Swimlane
+When you create a new process definition, the system automatically adds a default swimlane to get you started.
 
-Users will receive notifications when they can no longer interact with the process or when they can resume actions on it.
+![Default swimlane creation](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/swimlanes_default.gif)
+
+### Token Movement Between Swimlanes
+As a process token moves between nodes in different swimlanes:
+* Users without access to the new swimlane will see the process in read-only mode
+* Access is automatically restored when the token returns to a swimlane where the user has permissions
+* Users receive notifications about changes in their ability to interact with the process

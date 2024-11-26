@@ -7,14 +7,15 @@ icon: cube
 ### Open-source
 
 * [Keycloak](#keycloak)
-* [Kafka](#kafka) / [ZooKeeper](#zookeeper)
+* [Kafka](#kafka)
+* [ZooKeeper](#zookeeper)
 * [Jaeger](#jaeger)
 * [AKHQ](#akhq)
-* [PostgreSQL](#postrgresql)
+* [PostgreSQL](#postgresql)
 * [MongoDB](#mongodb)
 * [Redis](#redis)
 * [NGINX](#nginx)
-* [EFK (Elastic Search, Fluentd, Kibana)](#efk-kibana-fluentd-elastic-search)
+* [EFK (Elastic Search, Fluentd, Kibana)](#efk)
 * [S3 (MinIO)](#s3-minio)
 
 ### Not open-source 
@@ -52,14 +53,11 @@ Compatibility Matrix:
 | 3.4.x                     | Kibana                       | 7.17                         |
 | 3.4.x                     | S3 (Min.IO) / minio-operator | 2021-02-14T04-01-33Z / 4.5.4 |
 
-
-
 ### Third-party components supported/tested versions
 
 | FlowX.AI Platform version | Component name | Supported/tested versions |
 | ------------------------- | -------------- | ------------------------- |
 | 3.4.x                     | OracleDB       | 12C / 18-XE               |
-
 
 <Info>
 Since Kafka version 2.8, the self-managed (Kraft) mode is available alongside ZooKeeper. It was released as a preview feature in version 3.0. Finally, with several improvements, it has been declared production ready in version 3.3.1. Kafka may deprecate ZooKeeper in version 3.4. 
@@ -67,13 +65,13 @@ Since Kafka version 2.8, the self-managed (Kraft) mode is available alongside Zo
 
 ### Summary
 
-#### Keycloak
+#### Keycloak {#keycloak}
 
 Keycloak is an open-source software product to allow single sign-on with Identity and Access Management aimed at modern applications and services.
 
 [Keycloak documentation](https://www.keycloak.org/documentation)
 
-#### **Kafka**
+#### Kafka {#kafka}
 
 Apache Kafka is an open-source distributed event streaming platform that can handle a high volume of data and enables you to pass messages from one end-point to another.
 
@@ -85,31 +83,31 @@ Kafka is very fast and performs 2 million writes/sec. Kafka persists all data to
 
 [Kafka documentation](https://kafka.apache.org/documentation/)
 
-#### ZooKeeper
+#### ZooKeeper {#zookeeper}
 
 ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services. All of these kinds of services are used in some form or another by distributed applications.
 
 [Zookeeper documentation](https://zookeeper.apache.org/documentation.html)
 
-#### Jaeger
+#### Jaeger {#jaeger}
 
 Jaeger is a popular open-source distributed tracing tool that is used to monitor and troubleshoot applications based on microservices architecture.
 
 [Jaeger documentation](https://www.jaegertracing.io/docs/1.36/)
 
-#### AKHQ
+#### AKHQ {#akhq}
 
 AKHQ is a tool used by FLOWX.AI to manage and display the data inside the Apache Kafka cluster.
 
 [AKHQ documentation](https://akhq.io/docs/#installation)
 
-#### PostrgreSQL
+#### PostgreSQL {#postgresql}
 
 PostgreSQL, also known as Postgres, is a free and open-source relational database management system emphasizing extensibility and SQL compliance.
 
 [PostgreSQL documentation](https://www.postgresql.org/docs/)
 
-#### MongoDB
+#### MongoDB {#mongodb}
 
 MongoDB is a source-available cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional [schemas](https://en.wikipedia.org/wiki/Database\_schema).
 
@@ -117,7 +115,7 @@ Used by FLOWX.AI to store business process data and configuration information on
 
 [MongoDB documentation](https://www.mongodb.com/docs/)
 
-#### Redis
+#### Redis {#redis}
 
 Redis is a fast, open-source, in-memory key-value data store that is commonly used as a cache to store frequently accessed data in memory so that applications can be responsive to users.
 
@@ -127,13 +125,11 @@ It is also be used as a Pub/Sub messaging solution, allowing messages to be pass
 
 It is used by FLOWX.AI for caching the process definitions-related data.
 
-
 [Intro to Redis](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis)
-
 
 [Redis documentation](https://redis.io/docs/)
 
-#### NGINX
+#### NGINX {#nginx}
 
 Nginx Is a web server that can also be used as a reverse proxy, load balancer, mail proxy and HTTP cache.
 
@@ -141,17 +137,15 @@ FLOWX utilizes the Nginx engine as a load balancer and for routing the web traff
 
 The FLOWX.AI Designer SPA will use the backend service to manage the platform via REST calls, will use API calls to manage specific content for the plugins, and will use REST and SSE calls to connect to the engine.
 
-
 [Intro to NGINX](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-nginx)
-
 
 [NGINX documentation](https://nginx.org/en/docs/)
 
-#### EFK (Kibana, fluentd, Elastic Search)
+#### EFK (Kibana, fluentd, Elastic Search) {#efk}
 
 Elasticsearch is a distributed, RESTful search and analytics engine capable of addressing a growing number of use cases.
 
-As the heart of the Elastic Stack, it centrally stores your data for lightning-fast search, fine‑tuned relevancy, and powerful analytics that scale with ease.
+As the heart of the Elastic Stack, it centrally stores your data for lightning‑fast search, fine‑tuned relevancy, and powerful analytics that scale with ease.
 
 Used by FLOWX.AI in the core component and optionally to allow searching for business process transaction data.
 
@@ -159,11 +153,11 @@ Used by FLOWX.AI in the core component and optionally to allow searching for bus
 
 [Fluentd documentation](https://docs.fluentd.org/)
 
-#### Kafka Connect Elasticsearch Service Sink
+#### Kafka Connect Elasticsearch Service Sink {#kafka-connect-elasticsearch}
 
 The Kafka Connect Elasticsearch Service Sink connector moves data from Apache Kafka® to Elasticsearch. It writes data from a topic in Kafka to an index in Elasticsearch. All data for a topic have the same type in Elasticsearch. This allows an independent evolution of schemas for data from different topics. This simplifies the schema evolution because Elasticsearch has one enforcement on mappings; that is, all fields with the same name in the same index must have the same mapping type.
 
-#### S3 (MinIO)
+#### S3 (MinIO) {#s3-minio}
 
 FLOWX.AI uses [Min.IO](http://min.io/) as a cloud storage solution.
 
@@ -171,14 +165,13 @@ FLOWX.AI uses [Min.IO](http://min.io/) as a cloud storage solution.
 
 [Docker available here](https://quay.io/repository/minio/minio?tab=tags&tag=RELEASE.2022-05-26T05-48-41Z)
 
-
-#### Oracle DB
+#### Oracle DB {#oracledb}
 
 Oracle Database is a relational database management system (RDBMS).
 
 [Oracle DB documentation](https://www.oracle.com/database/technologies/)
 
-#### Superset
+#### Superset {#superset}
 
 Apache Superset is a business intelligence web application. It helps users to explore and visualize their data, from simple pie charts to detailed dashboards.
 

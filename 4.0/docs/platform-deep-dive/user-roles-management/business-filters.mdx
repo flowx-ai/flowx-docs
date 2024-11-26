@@ -1,14 +1,54 @@
 ---
 title: Business filters
 description: An optional attribute, from the authorization token, that can be set in order to restrict access to process instances based on a business specific value (ex. bank branch name).
+keywords: [access control, authorization, business filters, process access, user permissions, branch filtering, data segregation]
 ---
 
-Using business filters we can make sure only the allowed users, with the same attribute, can access a [**process instance**](../../building-blocks/process/process-instance).
+# Business Filters for Access Control
 
-In some cases it might be necessary to restrict access to process nodes based on certain [**business rules**](../../building-blocks/actions/business-rule-action/business-rule-action), for example only users from a specific bank branch can view the process instances started from that branch. This can be done by using business filters.
+Business filters provide a powerful way to restrict access to [**process instances**](../../building-blocks/process/process-instance) based on specific business attributes. This feature ensures that only authorized users with matching attributes can access and interact with specific process instances.
 
-Before they can be used in the process definition the business filter attributes need to be set in the identity management platform. They have to be configured as a list of filters and should be made available on the authorization token. Application users will also have to be assigned this value.
+## Overview
 
-When this filter needs to be applied, the process definition should include nodes with actions that will store the current business filter value to a custom `task.businessFilters` key on process parameters.
+Business filters are commonly used to implement data segregation and access control based on organizational structures, such as:
+- Bank branch locations
+- Department divisions
+- Geographic regions
+- Business units
+- Customer segments
 
-If this value is set in the process instance parameters, only users that have the correct business filter attribute will be able to interact with that process instance.
+## How Business Filters Work
+
+1. **Configuration**: Business filter attributes must be configured in the identity management platform as a list of filters.
+2. **Authorization**: These filters are made available through the authorization token.
+3. **User Assignment**: Application users are assigned specific filter values matching their business context.
+4. **Process Implementation**: The process definition includes nodes with actions that store the current business filter value using the custom `task.businessFilters` key in process parameters.
+
+## Access Control Enforcement
+
+When business filters are set in the process instance parameters, the system automatically enforces access control:
+- Only users with matching business filter attributes can view and interact with the process instance
+- Users without matching attributes will not have access to the process instance
+- This filtering happens automatically at the platform level
+
+## Integration with Business Rules
+
+Business filters can be combined with [**business rules**](../../building-blocks/actions/business-rule-action/business-rule-action) to create sophisticated access control patterns. For example:
+- Restricting process access to specific branch users
+- Limiting visibility of customer data to regional teams
+- Enforcing departmental boundaries in multi-step processes
+
+## Example Implementation
+
+```javascript
+// Example of setting a business filter in a process action
+{
+  "task.businessFilters": {
+    "branchId": "BRANCH-001",
+    "region": "NORTH"
+  }
+}
+```
+
+By implementing business filters, organizations can ensure secure and controlled access to their process instances while maintaining proper data segregation based on business requirements.</fileContent>
+</invoke>
