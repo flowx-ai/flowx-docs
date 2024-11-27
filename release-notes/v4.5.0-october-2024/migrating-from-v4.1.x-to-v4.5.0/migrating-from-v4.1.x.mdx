@@ -11,14 +11,12 @@ In version 4.5.0, the CMS setup includes a more comprehensive MongoDB configurat
 
 - **Runtime MongoDB Instance**: A dedicated MongoDB instance for managing runtime data.
   - **New Environment Variables**:
-    - `SPRING_DATA_MONGODB_RUNTIME_ENABLED`: Enables runtime MongoDB usage. Default is `true`.
     - `RUNTIME_DB_USERNAME`: Username for runtime MongoDB access.
     - `SPRING_DATA_MONGODB_RUNTIME_URI`: Connection URI for the runtime MongoDB instance.
     - `SPRING_DATA_MONGODB_STORAGE`: Specifies storage type for Azure environments (`mongodb` or `cosmosdb`). Default is `mongodb`.
   - **Transaction Settings for Mongock Library**:
     - `MONGOCK_TRANSACTIONENABLED`: Controls MongoDB transaction support with Mongock, defaulting to `false` due to compatibility concerns with MongoDB 5.
 
----
 
 ### Private storage configuration
 
@@ -37,6 +35,8 @@ Private CMS ensures secure file storage by keeping documents hidden from the Med
 
 <Card title="CMS setup guide" href="../../../4.5.0/setup-guides/cms-setup" icon ="file">
 </Card>
+
+---
 
 ## Admin setup
 
@@ -59,8 +59,6 @@ Version 4.5.0 introduces a new MongoDB setup in the Admin service for managing d
 The Engine configuration now includes additional setup for a runtime MongoDB instance to manage runtime builds:
 - **Runtime MongoDB for Engine**:
   - **New Environment Variables**:
-    - `SPRING_DATA_MONGODB_RUNTIME_ENABLED`: Enables runtime MongoDB access. Default is `true`.
     - `SPRING_DATA_MONGODB_RUNTIME_URI`: URI for connecting to the runtime MongoDB.
     - `DB_USERNAME`: Set to `app-runtime` for runtime data access.
 
----

@@ -70,8 +70,6 @@ The CMS requires MongoDB for taxonomy and content storage. Configure MongoDB wit
 
 In addition to core storage, CMS also connects to a Runtime MongoDB instance for operational data. Configure using these variables:
 
-* `SPRING_DATA_MONGODB_RUNTIME_ENABLED`: Enables Runtime MongoDB integration.
-	* **Default Value:** `true`
 * `RUNTIME_DB_USERNAME`: `app-runtime`
 * `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to the Runtime MongoDB instance (`app-runtime`)  
     * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
