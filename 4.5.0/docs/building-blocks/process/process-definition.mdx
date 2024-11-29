@@ -198,10 +198,38 @@ When you create a new swimlane, it comes with two default permissions assigned b
 <Card title="Configuring access rights for processes" href="../../../setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes">
 </Card>
 
-### Task Management
+### Task management
 
-The Task Management plugin offers a business-oriented view of the process you defined in the Designer and allows for interactions at the assignment level. It also includes a generic parameter pointing to the application URL where the FlowX.AI process is loaded and uses process keys to search data stored in the process.
+* **Use process in task management**
+    * The Use Process in Task Management option enables the integration of a process definition with the Task Manager system. 
+    * By activating this feature, the process becomes available for managing tasks within Task Management, allowing data, tasks, and status updates to flow between the process and the Task Manager.
+* **Application url** 
+    * The Application URL is the endpoint or link that directs users to the specific application instance where a process is executed. It serves as a reference point for accessing and managing tasks associated with a process directly from the Task Manager.
+    * Follows a standard format, e.g., `{baseURL}/appId/buildId/processes/resourceId/instance`.
+    * Can be dynamically defined using configuration parameters (e.g., `${genericParameter}`) or set at the process data level using business rules.
+* **Keys to send to Task Manager**
+    * The Keys to Send to Task Manager configuration specifies the data fields (keys) from a process definition that are sent to the Task Manager for indexing and display. 
+    * These keys are used to customize task-related views, filters, and parameters, making them accessible for tracking, filtering, and managing tasks effectively.
+
+<Tip>
+Important:
+
+* Keys must exist in the process data model.
+* Keys need re-indexing if their type or structure is updated in the data model.
+</Tip>
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_task_mngmnt.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-11-28%20at%2015.58.02.png)
 </Frame>
+
+### Data Search
+
+The **Search indexing** tab allows you to configure process data keys used for indexing data stored in a process. These keys facilitate efficient searching and filtering of process instances based on the indexed data.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-11-28%20at%2017.36.31.png)
+</Frame>
+
+<Tip>
+Process Data Keys: These are paths or fields in the process definition that store relevant data. For example, customerDetails.fullName might correspond to a field capturing the full name of a customer.
+</Tip>
