@@ -34,10 +34,10 @@ Node configuration is done by accessing the **Node Config** tab. You have the fo
 </Frame>
 
 <Info>
-When encountering a step with `canGoBack` switched to false, all steps found behind it will become unavailable.
+When encountering a step with `canGoBack` switched to false, all steps found before it will become unavailable.
 </Info>
 
-* [**Swimlane**](../../platform-deep-dive/user-roles-management/swimlanes) - choose a swimlane (if there are multiple swimlanes on the process) to make sure only certain user roles have access to certain process nodes- if there are no multiple swimlanes, the value is **Default**
+* [**Swimlane**](../../platform-deep-dive/user-roles-management/swimlanes) - choose a swimlane (if there are multiple swimlanes on the process) to make sure only certain user roles have access to certain process nodes - if there are no multiple swimlanes, the value is **Default**
 * [**Stage** ](../../platform-deep-dive/plugins/custom-plugins/task-management/using-stages)- assign a stage to the node
 
 #### Response Timeout
@@ -58,7 +58,7 @@ When encountering a step with `canGoBack` switched to false, all steps found beh
 A naming pattern must be defined on the [process engine configuration](../../../setup-guides/flowx-engine-setup-guide/engine-setup#configuring-kafka) to use the defined topics. It is important to know that all the events that start with a configured pattern will be consumed by the Engine. For example, `KAFKA_TOPIC_PATTERN` is the topic name pattern where the Engine listens for incoming Kafka events.
 </Warning>
 
-* **Key Name** - will hold the result received from the external system, if the key already exists in the process values, it will be overwritten
+* **Key Name** - will hold the result received from the external system; if the key already exists in the process values, it will be overwritten
 
 #### Task Management
 
