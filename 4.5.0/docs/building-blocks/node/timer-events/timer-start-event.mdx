@@ -1,17 +1,15 @@
 ---
-title: "Timer start event (interrupting)"
-description: "A Timer Start Event initiates a process instance based on a specified time or schedule."
+title: Timer start event (interrupting)
+description: A Timer Start Event initiates a process instance based on a specified time or schedule.
 ---
 
 <Frame>
-
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/timer_start_interrupting.png#center)
-
 </Frame>
 
-<Warning>
-Please note that a process definition version can accommodate only one Timer Start Event.
-</Warning>
+<Info>
+Please note that a process definition version can accommodate only one **Timer Start Event**.
+</Info>
 
 <Warning>
 If a process definition contains versions with Start Timer Event nodes, only for the published version will generate a scheduler.
@@ -25,11 +23,11 @@ Depending on the node type, the following timer types can be configured:
 | ----------------- | ---- | -------- | ----- |
 | Timer Start Event | Yes  | No       | Yes   |
 
-<Warning>
+<Check>
 Starting a process via registered timers requires sending a process start message to Kafka, necessitating a service account and authentication. For detailed guidance, refer to:
 
 [**Service Accounts**](../../../../setup-guides/access-management/configuring-an-iam-solution#scheduler-service-account)
-</Warning>
+</Check>
 
 ### Timer type values
 
@@ -44,19 +42,27 @@ Specifies an exact date and time for triggering the event. You can use ISO 8601 
 
 In this scenario, the Timer Start Event is used to trigger an employee onboarding process at a specific date and time.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/employee_onboarding_reminder.png)
+</Frame>
 
 * Start Event (Timer Start Event) - New Hire Start Date
   - Timer Definition: 2023-09-01T09:00:00Z (ISO 8601 format) → This means the process will initiate automatically at the specified date and time.
   - This event serves as the trigger for the entire process.
   - Transition → Employee Onboarding Notification
+
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/start_timer_date.png)
+</Frame>
+
 * Employee Onboarding Notification
   - Notify new employee about onboarding requirements by sending an email notification with a template called "Important Onboarding Information"
   - Actions: The HR team or automated system sends out necessary email information/documents, and instructions to the new employee.
   - After the notification is sent, the process transitions to the Complete Onboarding node.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/onboarding_notification.png)
+</Frame>
 
 * Complete Onboarding
   - Employee onboarding completed

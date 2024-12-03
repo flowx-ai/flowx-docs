@@ -63,9 +63,11 @@ To draw a sequence from an error event node and link it to other nodes, simply f
 
 <Info>
 When crafting a condition, use a predefined key as illustrated below:
+
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/scenario_input.gif)
 </Frame>
+
 For instance, in the example provided, we've taken a process key defined on a switch UI element and constructed a user-defined condition like this: `input.application.switch == true`.
 </Info>
 
@@ -93,7 +95,9 @@ So, when you put it all together, the statement is checking if the value of the 
 In this scenario we will create a process to throw an error if an email address is not valid.
 </Check>
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/error_execution.png)
+</Frame>
 
 #### Example configuration
 
@@ -107,11 +111,14 @@ input.application.client.contactData.email.emailAddress  !=  "john.doe@email.com
 <Info>
 The expression checks if the email address configured in `application.client.contactData.email.emailAddress` key is not equal to "john.doe@email.com." If they are not the same, it evaluates to true, indicating a mismatch.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_val_v1.png)
+</Frame>
 
 </Info>
 
 3. **Flow Control:** Depending on the outcome of the validation process, users will be directed to different flows, which may involve displaying error modals as appropriate.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/error_email.gif)
-
+</Frame>

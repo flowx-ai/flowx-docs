@@ -35,8 +35,9 @@ It is mandatory that in order to use this type of node together with task manage
 
 ### Throw process
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/throw_for_start.png)
-
+</Frame>
 
 #### Configuring the throw intermediate event
 
@@ -52,12 +53,15 @@ It is mandatory that in order to use this type of node together with task manage
 ```
 * **Stage** - Assign a stage to the node if needed.
 
-
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/throw_for_start_config.png)
+</Frame>
 
 ### Start with catch process
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/start_catch_message_proc.png)
+</Frame>
 
 #### Configuring the message catch start event
 
@@ -65,8 +69,12 @@ It is mandatory that in order to use this type of node together with task manage
 Remember, it's mandatory to have a service account defined in your identity solution to have the necessary rights to start a process using the message catch start event. Refer to our documentation on how to create service accounts using Keycloak, [**here**](../../../../setup-guides/access-management/configuring-an-iam-solution#process-engine-service-account).
 </Info>
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/catch_start_event_config.png)
+</Frame>
 
 After running the throw process, the process containing the start catch message event will be triggered. The data is also sent:
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/start_catch_event_response.png)
+</Frame>
