@@ -1,13 +1,15 @@
 ---
-title: "Message catch boundary events"
-description: "Boundary events are integral components linked to **user tasks** within a process flow. Specifically, Message Catch Boundary Events are triggered by incoming messages and can be configured as either interrupting or non-interrupting based on your requirements."
+title: Message catch boundary events
+description: Boundary events are integral components linked to user tasks within a process flow. Specifically, Message Catch Boundary Events are triggered by incoming messages and can be configured as either interrupting or non-interrupting based on your requirements.
 ---
 
 **Why is it important?** It empowers processes to actively listen for and capture designated messages during the execution of associated user tasks. 
 
 When an event is received, it progresses through the sequence from the intermediate **node**. Multiple intermediate boundary events can exist on the same user task, but only one can be activated at a time.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/message_catch_boundary_multiple.png)
+</Frame>
 
 Message Catch Boundary Events can be categorized by their behavior, resulting in two main classifications:
 
@@ -17,9 +19,7 @@ Message Catch Boundary Events can be categorized by their behavior, resulting in
 ## Message catch interrupting event
 
 <Frame>
-
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/message_catch_interrupting_event.png#center)
-
 </Frame>
 
 In the case of an Interrupting Message Catch Boundary Event triggered by a received message, it immediately interrupts the ongoing task. The associated task concludes, and the **process flow** advances based on the received message. 
@@ -35,11 +35,9 @@ In the case of an Interrupting Message Catch Boundary Event triggered by a recei
 
 ## Message catch non-interrupting event
 
-<div className = "image-scaled">
-
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/%20message_catch_non_interrupting.png#center)
-
-</div>
+</Frame>
 
 Contrastingly, a Non-Interrupting Message Catch Boundary Event continues to listen for messages during the execution of the associated task without immediate interruption. The task persists in its execution even upon receiving messages. Multiple non-interrupting events can be activated concurrently while the task is still active, allowing the task to continue until its natural completion.
 
@@ -89,10 +87,11 @@ This received data becomes available within the process instance, facilitating f
 </Info>
 
 
-
 ## Illustrating boundary events (interrupting and non-interrupting)
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/boundary_multiple.png)
+</Frame>
 
 **Business Scenario:**
 
