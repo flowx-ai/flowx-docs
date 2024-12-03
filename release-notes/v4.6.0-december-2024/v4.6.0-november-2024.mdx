@@ -1,115 +1,9 @@
 ---
-title: FlowX.AI 4.5.3 Release
-description: FlowX.AI 4.5.3 introduces advanced branch merging capabilities, enhanced table customization, plugin integration improvements, significant performance optimizations, and essential bug fixes. This release provides a robust, user-friendly experience with improved operational clarity and efficiency.
+title: FlowX.AI 4.6.0 Release
 ---
 
 ## What's new? 🆕
 
-The Merge Conflicts feature now delivers an elevated collaboration experience for managing branch versions. This update focuses on improving conflict detection, resolution efficiency, and seamless merging workflows.
-
-### Key enhancements to merge conflicts
-
-The 4.5.3 release introduces robust enhancements to merge conflict handling, focusing on user experience and operational clarity. Key updates include:
-
-#### Merging without conflicts
-
-Easily merge secondary branches into main or other branches when no conflicts are detected. The updated merge modal offers:
-
-* A clean interface with streamlined branch selection.
-* A mandatory, validated commit message field (max 50 characters).
-* Real-time feedback for successful merges and branching graph updates.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Pre-merge.png)
-</Frame>
-
-#### Advanced conflict detection
-
-A new Conflicts Detected Modal lists all resources with conflicting changes. Key highlights include:
-
-* Clear grouping by resource type (e.g., Processes, Enumerations, Media Library).
-* Scrollable lists and clickable entries to resolve specific conflicts.
-* A detailed overview of source and target branch differences for full context.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%281%29.png)
-</Frame>
-
-#### Resource-Level conflict resolution
-
-Conflicts can now be resolved directly at the resource level with an intuitive interface:
-
-* **JSON Comparisons**: Differences highlighted with color-coded visuals (source: yellow, target: blue).
-
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-20%20at%2016.23.03.png)
-</Frame>
-
-* **Navigation Support**: Jump between differences for efficient resolution.
-* **Progress Tracking**: Mark resources as “Reviewed” or “Seen” to monitor resolution status.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%282%29.png)
-</Frame>
-
-
-#### Flexible merge overrides
-
-Proceed with merges even if some conflicts are unresolved, using the Merge Anyway option.
-
-* A confirmation modal outlines how unresolved conflicts will be handled (e.g., prioritizing source branch changes).
-* Provides flexibility while maintaining control over merge outcomes.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Confirm%20Merging%20without%20checking%20all.png)
-</Frame>
-
----
-
-### Plugin updates
-
-#### Notifications & Documents plugins
-
-Notifications and Documents plugins have been integrated as **application resources**.
-
-<Info>
-**Deployment changes**: Added **Runtime Database Integration** and **Data-Sync Service Enhancements**
-
-See the [**Deployment guidelines**](deployment-guidelines-v4.5.3#new-environment-variables) for more details.
-</Info>
-
----
-### Rendering updates
-
-#### Table enhancements
-
-The table component has been enhanced with several new customization options to provide greater control over its appearance and functionality:
-
-- **Min-Max Cell Width**: Define precise minimum and maximum widths for table cells to ensure optimal layout and readability.
-- **Header Text Alignment**: Customize the alignment of header text for better visual consistency across tables.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2017.03.34.png)
-</Frame>
-
-- **Padding and Spacing**: Fine-tune padding and spacing properties for both rows and columns to improve table design and usability.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2017.05.46.png)
-</Frame>
-
-
-- **"No Data" Message Customization**: Introduced the ability to set a custom system message (through `sys_table_empty` system substitution tag) for tables when no data is available, offering a more user-friendly experience.
- 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2017.14.19.png)
-</Frame>
-
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2017.15.55.png)
-</Frame>
 
 
 
@@ -129,39 +23,10 @@ The table component has been enhanced with several new customization options to 
 
 ## Changes  🔧
 
-### Enhanced merge experience
-
-- Polished resource-specific conflict handling for better error feedback.  
-- Improved clarity and guidance in merge modals and resolution interfaces.  
-
-### Export and runtime improvements
-
-- Enhanced allocation rule export capabilities.  
-- Added retry token support in process instance views for better runtime resilience.  
-
 ---
 
 ## Known issues 
 
-We’re aware of a few quirks during merge conflicts and are working to fix them. Here’s a quick rundown:
-
-1. **Nodes and Resources**: Some nodes aren’t returned when creating WIP versions:
-    - When creating a new WIP version after merging branches, some nodes are not returned, resulting in incomplete swimlanes. This issue occurs particularly when new nodes are added to both custom and default swimlanes across branches before merging. It may lead to missing nodes in the final version, affecting process completeness.
-2. **Enumerations**:  
-   - **Duplicate content values can be created during Merging**: Merging branches with enumeration updates can result in duplicate content values or child enums with the same code. This occurs when identical names are added to the same enum in different branches, bypassing backend validation. Instead of flagging a conflict, the merge proceeds, creating duplicate entries. This issue disrupts the expected uniqueness constraint for enumeration values.
-   - **Enum content values might not save correctly in some cases**: In specific scenarios involving transformations of content values into child enums across branches, content values added in one branch may not appear after merging. Despite accepting changes from the branch where the content value was added, the merged version omits it, leading to incomplete or inconsistent enumeration data. 
-3. **Swim Lanes**: 
-   - **Branches with deleted swim lanes cannot be merged**: Branches with swim lanes deleted in separate versions cannot be merged successfully. An API error occurs when attempting to merge, even after accepting all changes from one branch. This issue arises when swim lanes with nodes are deleted in parallel branches, disrupting the merge process and resulting in a 500 Internal Server Error.
-4. **Error When Merging Branches with Identical Resource Names Across All Resource Types**: 
-    - Merging branches that include newly created resources (e.g., views, stages, processes) with identical names results in a 500 Internal Server Error. Although backend validation prevents duplicate names during normal creation, this check is bypassed during merging. The error occurs due to a unique constraint violation when attempting to insert resources with the same name, disrupting the merge process for all resource types.
-5. **Conflict Detection Gaps**:  
-   - **New substitution tags with the same name on different branches aren’t flagged**: Merging branches that include new substitution tags with identical names on different branches does not trigger a conflict. Instead, both tags are retained, resulting in duplicate substitution tags with the same name but different values. This issue bypasses expected conflict detection and can lead to inconsistencies in substitution tag usage.    
-   - **Adding values to deleted data model keys does not raise conflicts**: When values are added to a data model key in one branch and the same key is deleted in another, merging does not generate a conflict. Instead, the added values from the first branch are silently lost in the merged version. This issue bypasses expected conflict detection, leading to data loss and inconsistencies in the resulting data model.
-6. **Media Library**
-   - **Branches with media library assets sometimes fail to merge into the main branch**: Merging branches with media library assets can result in a 500 Internal Server Error when changes to the same asset occur across multiple branches. This issue typically arises when one branch is merged into another, and then the combined branch is merged into the main branch. The failure occurs due to null parameter handling during the merge process, preventing the merge from completing successfully.
-7. **UI/UX**:  
-   - **Unnecessary scrollbars appear in the merge modal for single items**: The merge conflict modal displays unnecessary scrollbars when only a single item is present in the list. This occurs in scenarios where media library assets with long keys are involved, creating a layout issue that affects the user interface. While functionality is not impacted, this visual inconsistency can reduce the overall user experience during conflict resolution.
-   - **Fields like `originalCreationTimestamp` and `flowxUuid` are incorrectly flagged as conflicts**: The merge conflict modal displays unnecessary scrollbars when only a single item is present in the list. This occurs in scenarios where media library assets with long keys are involved, creating a layout issue that affects the user interface. While functionality is not impacted, this visual inconsistency can reduce the overall user experience during conflict resolution.  
 
 ---
 
@@ -169,6 +34,6 @@ We’re aware of a few quirks during merge conflicts and are working to fix them
 
 For deployment guidelines, refer to:
  
-<Card title="Deployment guidelines v4.5.3" href="./deployment-guidelines-v4.5.3" icon="link"/>
+<Card title="Deployment guidelines v4.6.0" href="./deployment-guidelines-v4.6.0" icon="link"/>
 
-<Card title="Migrating from v4.1.x to v4.5.3" href="./migrating-from-v4.1.x-to-v4.5.3/" icon="link"/>
+<Card title="Migrating from v4.1.x to v4.6.0" href="./migrating-from-v4.1.x-to-v4.6.0/" icon="link"/>

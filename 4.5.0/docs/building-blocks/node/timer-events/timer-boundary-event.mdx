@@ -7,6 +7,21 @@ A Timer Boundary Event is a type of event in Business Process Model and Notation
 Timer Boundary Events are utilized to incorporate time-related conditions into processes, enabling actions to be taken at specified time intervals, deadlines, or specific dates. This capability is especially valuable for scenarios where time-sensitive actions or notifications need to be integrated seamlessly within process flows.
 
 
+### Compatibility matrix for Timer Events
+
+**Timer Events** can be applied to various contexts within BPMN processes. The table below outlines their compatibility with different node types:
+
+| **Node Type**                 | **Timer Event - Interrupting** | **Timer Event - Non-Interrupting** |
+| ----------------------------- | ------------------------------ | ---------------------------------- |
+| **User Task**                 | Yes                            | Yes                                |
+| **Service Task**              | Yes                            | Yes                                |
+| **Send Message Task**         | Yes                            | Yes                                |
+| **Receive Message Task**      | Yes                            | Yes                                |
+| **Start Embedded Subprocess** | No                             | No                                 |
+| **Call Activity**             | Yes                            | Yes                                |
+
+
+
 ## Timer boundary event - interrupting
 
 A Timer Boundary Event is an event attached to a specific activity (task or subprocess) that is triggered when a specified time duration or date is reached. It can interrupt the ongoing activity and initiate a transition.
@@ -16,6 +31,7 @@ A Timer Boundary Event is an event attached to a specific activity (task or subp
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/timer_boundary_event_interrupting.svg#center)
 
 </Frame>
+
 
 ### Configuration
 
@@ -59,3 +75,4 @@ For Timer Boundary Events - Non-Interrupting, the following values can be config
 * When the token enters the parent activity, a scheduler is set, and it waits for the timer event to be triggered.
 * If the timer is a cycle, it is rescheduled for the specified number of repetitions.
 * The scheduler is canceled if the token leaves the activity before it is triggered.
+

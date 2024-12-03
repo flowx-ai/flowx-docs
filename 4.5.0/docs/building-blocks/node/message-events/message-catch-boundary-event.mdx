@@ -50,6 +50,21 @@ Contrastingly, a Non-Interrupting Message Catch Boundary Event continues to list
 - **Example:**
   - A user task continues its execution while simultaneously capturing and processing non-critical messages.
 
+
+## Compatibility matrix for Message Events
+
+**Message Events** can be used in various contexts within BPMN processes. The following table outlines their compatibility with the following nodes:
+
+| **Node Type**                 | **Message Catch Event - Interrupting** | **Message Catch Event - Non-Interrupting** |
+| ----------------------------- | -------------------------------------- | ------------------------------------------ |
+| **User Task**                 | Yes                                    | Yes                                        |
+| **Service Task**              | Yes                                    | Yes                                        |
+| **Send Message Task**         | No                                     | No                                         |
+| **Receive Message Task**      | Yes                                    | Yes                                        |
+| **Start Embedded Subprocess** | Yes                                    | Yes                                        |
+| **Call Activity**             | Yes                                    | Yes                                        |
+
+
 ## Configuring a message catch interrupting/non-interrupting event
 
 #### General config
@@ -72,6 +87,7 @@ The correlation key associates incoming messages with specific process instances
 <Info>
 This received data becomes available within the process instance, facilitating further processing or decision-making.
 </Info>
+
 
 
 ## Illustrating boundary events (interrupting and non-interrupting)

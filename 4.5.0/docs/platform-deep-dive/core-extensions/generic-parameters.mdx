@@ -21,10 +21,20 @@ Configuration Parameters are defined per **application version**, ensuring consi
 - **Precedence Behavior** (process variables override):
   - If a process variable and a configuration parameter share the same name, the process variable's value takes precedence during runtime.
   - If the process variable is null or undefined, the configuration parameter's value is used as a fallback.
+  - Process variables override configuration parameters unless the process variable is `null` or undefined, in which case the configuration parameter is used.
+- **Subprocess Behavior**:  
+  - When a value is passed to a subprocess, the subprocess uses the resolved value (process variable or configuration parameter) from the parent process.
+  - If a new value is defined within the subprocess, it is appended back to the parent process.
 
 <Tip> 
 To avoid conflicts, use distinct names for process variables and generic parameters whenever possible.
 </Tip>
+
+<Info>
+**Exception in Business Rules**:  
+In business rules, values are taken directly from the map of configuration parameters without applying the above fallback logic.
+</Info>
+
 
 For details on configuring runtime overrides, see:
 
@@ -170,7 +180,7 @@ To add a new configuration parameter:
 * **Avoid Shared Names**:
   * Do not use the same name for configuration parameters and process variables to prevent unintentional overrides.
 * **Fallback Logic Awareness**:
-  * Understand that null or undefined process variables will default to the corresponding configuration parameter's value during runtime.
+  * Understand that `null` or `undefined` process variables will default to the corresponding configuration parameter's value during runtime.
 * **Subprocess Behavior**:
   * Variables in subprocesses are appended back to parent processes with their current state. Plan naming conventions and data flows accordingly.
 

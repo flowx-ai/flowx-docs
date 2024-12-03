@@ -235,13 +235,11 @@ The suggested topic pattern naming convention is the following:
 
 ### Topics related to the Task Management plugin
 
-| Default parameter (env var)              | Description                                                               | Default FlowX.AI value (can be overwritten)      |
-| ---------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------ |
-| `KAFKA_TOPIC_TASK_OUT`                   | Kafka topic used for sending notifications to the plugin                  | `ai.flowx.dev.plugin.tasks.trigger.save.task.v1` |
-| `KAFKA_TOPIC_PROCESS_OPERATIONS_IN`      | Kafka topic used for receiving calls from the task management plugin with | `ai.flowx.dev.core.trigger.operations.v1`        |
-|                                          | information regarding operations performed                                |                                                  |
-| `KAFKA_TOPIC_PROCESS_OPERATIONS_BULK_IN` | Kafka topic where operations can be performed in bulk, allowing multiple  | `ai.flowx.core.trigger.operations.bulk.v1`       |
-|                                          | operations to be sent at once                                             |                                                  |
+| Default parameter (env var)              | Description                                                                                                          | Default FlowX.AI value (can be overwritten)      |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| `KAFKA_TOPIC_TASK_OUT`                   | Kafka topic used for sending notifications to the plugin                                                             | `ai.flowx.dev.plugin.tasks.trigger.save.task.v1` |
+| `KAFKA_TOPIC_PROCESS_OPERATIONS_IN`      | Kafka topic used for receiving calls from the task management plugin with information regarding operations performed | `ai.flowx.dev.core.trigger.operations.v1`        |
+| `KAFKA_TOPIC_PROCESS_OPERATIONS_BULK_IN` | Kafka topic where operations can be performed in bulk, allowing multiple operations to be sent at once               | `ai.flowx.core.trigger.operations.bulk.v1`       |
 
 
 #### OPERATIONS_IN request example
