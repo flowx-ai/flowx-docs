@@ -14,7 +14,22 @@ description: Error Events expand the capabilities of process modeling and error 
 </Frame>
 
 
-### Key Characteristics
+## Compatibility matrix for Error Events
+
+**Error Events** are used to handle error scenarios within BPMN processes. The following table outlines their compatibility with different node types:
+
+| **Node Type**            | **Error Boundary Event** |
+| ------------------------ | ------------------------ |
+| **User Task**            | Yes                      |
+| **Service Task**         | Yes                      |
+| **Send Message Task**    | Yes                      |
+| **Receive Message Task** | Yes                      |
+| **Subprocess**           | Yes                      |
+| **Call Activity**        | Yes                      |
+
+
+
+## Key characteristics
 
 1. **Boundary of an Activity node or Subprocess:**
    - Error Events can only be used on the boundary of an activity, including subprocesses nodes. They cannot be placed in the normal flow of the process.
@@ -29,7 +44,7 @@ description: Error Events expand the capabilities of process modeling and error 
     - An error catch event can be linked to a subprocess, with the error source residing within the subprocess itself, denoted by the presence of an error end event, signifying an abnormal termination of the subprocess.
 
 
-### Configuring an Error Intermediate boundary event
+## Configuring an Error Intermediate boundary event
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/error_scenario.png)
@@ -40,7 +55,6 @@ description: Error Events expand the capabilities of process modeling and error 
     - MVEL
     - JavaScript
     - Python
-    - Groovy
 
 
 <Info>
@@ -71,7 +85,7 @@ If the "priority" field is set to "null," the system will randomly select one of
 So, when you put it all together, the statement is checking if the value of the "input.application.switch" is equal to the string "true." If the value of "input.application.switch" is indeed "true" (as a string), the condition is considered true. If the value is anything other than "true," the condition is false and the error is triggered.
 </Info>
 
-#### Use Case: Handling Errors during User Task Execution
+### Use case: handling errors during User Task execution
 
 **Description:** This use case pertains to a page dedicated to collecting client contact data. Specifically, it deals with scenarios where users are given the opportunity to verify their email addresses and phone numbers.
 
@@ -81,7 +95,7 @@ In this scenario we will create a process to throw an error if an email address 
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/error_execution.png)
 
-##### Example configuration:
+#### Example configuration
 
 1. **Error Boundary Event:** We will set an error boundary event associated with a user task.
 
