@@ -27,14 +27,14 @@ Global Resources are elements designed to be **reused across multiple applicatio
    - **System Assets**: Common media elements stored in the media library (e.g., images, icons) for theme customization.
    - **Fonts**: Font families that can be reused to maintain branding across different applications.
 2. **Plugins**
-    - **Languages**:
+    - **Languages**: Language packs or configurations that support multilingual capabilities across applications.
     - **Notification and Document Templates**: Managed at the global level, although they may be versioned for future releases.
-    - **Out of office**:
+    - **Out of office**:  Configurations or settings that manage out-of-office statuses across the platform.
 3. **General settings**
-    - **Users**:
-    - **Roles**:
-    - **Groups**:
-    - **Audit Log**:
+    - **Users**: User accounts and profiles that can be accessed across multiple applications.
+    - **Roles**: Defined roles that determine user permissions and access levels.
+    - **Groups**: User groupings that facilitate collective management and permissions.
+    - **Audit Log**: Logs that track changes and activities within the platform for security and compliance purposes.
 4. **Libraries**: Organized resource containers including **enumerations**, **substitution tags**, and **CMS components** for multi-application use.
 
 ### Promotion of Global Resources
@@ -56,7 +56,7 @@ Application Resources are resources specific to a particular **business use case
 
 ### Examples of Application Resources
 
-1. **Processes**:
+1. **Processes**: Defined BPMN workflows specific to the application's business logic.
 2. **CMS Components**: Custom CMS enumerations, substitution tags, and media items unique to the application.
 3. **Task Management**:
     - **Views**: Configurable interfaces to display task-related data based on process definitions.
@@ -75,14 +75,3 @@ Application Resources are resources specific to a particular **business use case
 - **Promotion Workflow**: Only **builds** (not commits) are eligible for promotion to upper environments. Builds are exported from the development environment and imported into target environments via the Designer UI.
 - **Design Asset Handling**: During import, any referenced design assets are created if absent but are not updated, ensuring consistency in upper environments.
 - **Configuration Parameters Overrides**: Upper environment values replace development defaults, and these can be managed through environment variables, enabling flexibility without direct development environment access.
-
----
-
-## Summary Table
-
-| Resource Type             | Reusability          | Dependency Management   | Promotion Method                   | Configuration Management             |
-| ------------------------- | -------------------- | ----------------------- | ---------------------------------- | ------------------------------------ |
-| **Global Resources**      | Multi-application    | No dependencies allowed | Libraries imported via Designer UI | Generic parameters managed centrally |
-| **Application Resources** | Application-specific | Can depend on libraries | Builds promoted via Designer UI    | Environment-specific overrides       |
-
----
