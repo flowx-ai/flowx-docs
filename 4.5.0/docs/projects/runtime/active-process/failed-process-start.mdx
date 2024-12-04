@@ -43,14 +43,18 @@ When you click **view** button, a detailed exception will be displayed.
 
 <CardGroup>
 
-<Card title="Actions" href="../actions/actions">
+<Card title="Actions" href="../../../building-blocks/actions/actions">
 </Card>
-<Card title="Node" href="../node/node">
+
+<Card title="Node" href="../../../building-blocks/node/node">
 </Card>
-<Card title="Subprocess" href="./subprocess">
+
+<Card title="Subprocess" href="../../../building-blocks/process/subprocess">
 </Card>
-<Card title="Process Definition" href="./process-definition">
+
+<Card title="Process Definition" href="../../../building-blocks/process/process-definition">
 </Card>
+
 
 </CardGroup>
 
@@ -62,7 +66,7 @@ Based on the exception type, there are multiple causes that could make a process
 | :----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Business Rule Evaluation | When executing action rules fails for any reason.                                                                                                                                                                   |
 | Condition Evaluation     | When executing action conditions.                                                                                                                                                                                   |
-| Engine                   | <p></p><p>When the connection with the database fails</p><p>when the connection with [Redis](../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis) fails</p><p></p> |
+| Engine                   | <p></p><p>When the connection with the database fails</p><p>when the connection with [Redis](../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis) fails</p><p></p> |
 | Definition               | Misconfigurations: process def name, subprocess parent process id value, start node condition missing.                                                                                                              |
 | Node                     | When an outgoing node can’t be found (missing sequence etc).                                                                                                                                                        |
 | Gateway Evaluation       | <p>When the token can’t pass a gateway for any reason, possible causes:</p><ul><li>Missing sequence/node</li><li>Failed node rule</li></ul>                                                                         |

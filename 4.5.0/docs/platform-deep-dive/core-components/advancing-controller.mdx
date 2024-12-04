@@ -14,7 +14,7 @@ A database trigger is a function that is automatically executed whenever specifi
 
 The Advancing Controller service is responsible for managing and optimizing the advancement process in the PostgreSQL or OracleDB databases. It ensures efficient workload distribution, performs cleanup tasks, and monitors the status of worker pods. 
 
-If a worker pod fails, the service reassigns its work to other pods to prevent [**process instances**](../../building-blocks/process/process-instance) from getting stuck. 
+If a worker pod fails, the service reassigns its work to other pods to prevent [**process instances**](../../projects/runtime/active-process/process-instance) from getting stuck. 
 
 <Check>
 It is essential to have the Advancing Controller service running alongside the FlowX Engine for uninterrupted instance advancement.

@@ -29,7 +29,9 @@ Multiple options are available for this type of action and can be configured via
 
 * **Allow BACK on this action** - back in process is a functionality that allows you to go back in a business process and redo a series of previous actions in the process. For more details, check [Moving a token backwards in a process](../../flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process) section.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/websocket_action_edit.png)
+</Frame>
 
 ### Parameters
 
@@ -75,11 +77,13 @@ If you are defining this action on a [**Call activity node**](../node/call-subpr
 **Data to send** option is configurable only when the action **trigger type** is **Manual**.
 </Warning>
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/websocket_data_to_send.gif)
+</Frame>
 
 ### Send update data example
 
-To send the latest value from the [process instance](../process/process-instance) data found at `application.client.firstName` key, to the frontend app, you can do the following:
+To send the latest value from the [process instance](../../projects/runtime/active-process/process-instance) data found at `application.client.firstName` key, to the frontend app, you can do the following:
 
 1. Add a **Send data to user interface**.
 2. Set the **Message Type** to **Default** (this is default value for `data`).
@@ -87,4 +91,6 @@ To send the latest value from the [process instance](../process/process-instance
    * `{ "name": "${application.client.firstName}" }`
 4. Choose the **Target Process**.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/websocket_send_update_data.gif)
+</Frame>

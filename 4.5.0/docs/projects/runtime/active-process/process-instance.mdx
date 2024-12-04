@@ -20,8 +20,9 @@ The **FlowX.AI Engine** is responsible for executing the steps in the process de
 
 Kafka events are used for communication between FLOWX.AI components such as the engine and integrations/plugins. Each event type is associated with a Kafka topic to track and orchestrate the messages sent on Kafka. The engine updates the UI by sending messages through sockets.
 
-<Card title= "More about Kafka" href="../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts">
+<Card title= "More about Kafka" href="../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts">
 </Card>
+
 
 ## Checking the Process Status
 
@@ -66,10 +67,11 @@ Understanding the various elements within process status data is crucial. Here's
 </Frame>
 
 <Info>
-For more information about token status details, [here](../token).
+For more information about token status details, [here](../../../building-blocks/token).
 </Info>
 
-* **Subprocesses**: Displayed only if the current process instance generated a [subprocess](./subprocess) instance.
+
+* **Subprocesses**: Displayed only if the current process instance generated a [subprocess](../../../building-blocks/process/subprocess) instance.
 * **Exceptions**: Errors that let you know where the process is blocked, with a direct link to the node where the process is breaking for easy editing.
 
 <Frame>
@@ -86,14 +88,15 @@ For more information on token status details and exceptions, check the following
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_status_audit.png)
 </Frame>
 
-<Card title="Audit" href="../../platform-deep-dive/core-extensions/audit">
+<Card title="Audit" href="../../../platform-deep-dive/core-extensions/audit">
 </Card>
+
 
 ### Color coding
 
 In the **Process Status** view, some nodes are highlighted with different colors to easily identify any failures:
 
-* **Green**: Nodes highlighted with green mark the nodes passed by the [token](../token).
+* **Green**: Nodes highlighted with green mark the nodes passed by the [token](../../../building-blocks/token).
 * **Red**: The node highlighted with red marks the node where the token is stuck (process failure).
 
 <Frame>
@@ -102,7 +105,7 @@ In the **Process Status** view, some nodes are highlighted with different colors
 
 ## Starting a new process instance
 
-To start a new process instance, a request must be made to the [FlowX.AI Engine](../../platform-deep-dive/core-components/flowx-engine). This is handled by the web/mobile application. The current user must have the appropriate role/permission to start a new process instance.
+To start a new process instance, a request must be made to the [FlowX.AI Engine](../../../platform-deep-dive/core-components/flowx-engine). This is handled by the web/mobile application. The current user must have the appropriate role/permission to start a new process instance.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_instance_diagram.png)
@@ -110,10 +113,11 @@ To start a new process instance, a request must be made to the [FlowX.AI Engine]
 
 To be able to start a new process instance, the current user needs to have the appropriate role/permissions:
 
-<Card title="Configuring access roles for processes" href="../../../setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes">
+<Card title="Configuring access roles for processes" href="../../../../setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes">
 </Card>
 
-When starting a new process instance, we can also set it to [inherit some values from a previous process instance](../../platform-deep-dive/core-components/flowx-engine#orchestration).
+
+When starting a new process instance, we can also set it to [inherit some values from a previous process instance](../../../platform-deep-dive/core-components/flowx-engine#orchestration).
 
 ## Troubleshooting possible errors
 

@@ -6,9 +6,7 @@ description: This node represents an interaction with the user. It is used to di
 ## Configuring a user task node
 
 <Frame>
-
 ![User Task Node](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/user_task_node.png#center)
-
 </Frame>
 
 User task nodes allow you to define and configure UI templates and possible [actions](../actions/actions) for a certain template config node (ex: [button components](../ui-designer/ui-component-types/buttons)).
@@ -17,7 +15,7 @@ User task nodes allow you to define and configure UI templates and possible [act
 
 * **Node name** - the name of the node
 * **Can go back** - setting this to true will allow users to return to this step after completing it. When encountering a step with `canGoBack` false, all steps found behind it will become unavailable.
-* [**Stage** ](../../platform-deep-dive/plugins/custom-plugins/task-management/using-stages)- assign a stage to the node
+* [**Stage**](../../platform-deep-dive/core-extensions/task-management/using-stages)- assign a stage to the node
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/node_config_new.png)
@@ -39,7 +37,7 @@ A naming pattern must be defined on the [process engine configuration](../../../
 
 #### Task Management
 
-* **Update task management** - force [Task Management](../../platform-deep-dive/plugins/custom-plugins/task-management/) plugin to update information about this process after this node
+* **Update task management** - force [Task Management](../../platform-deep-dive/core-extensions/task-management/task-management-overview) plugin to update information about this process after this node
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/node/user_task_node_task_mngmnt.png)
