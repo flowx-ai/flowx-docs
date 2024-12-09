@@ -4,58 +4,31 @@ description: "The core of the platform is the process definition, which is the b
 ---
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/process_definitions.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-11-29%20at%2014.48.39.png)
 </Frame>
 
 Once a process is defined and set as published on the platform, it can be executed, monitored, and optimized. When a business process is started, a new process instance is created based on the process definition.
 
 <CardGroup>
-<Card title="Process instance" href="./process-instance" icon="file">
+<Card title="Process instance" href="../../projects/runtime/active-process/process-instance" icon="file">
 </Card>
+
 
 <Card title="Failed process start" href="/4.0/docs/building-blocks/process/process-instance#exceptions" icon="file">
 </Card>
 </CardGroup>
 
 
-## History
-
-In the **History** tab, you will find a record of all the modifications and events that have occurred in the process.
-
-* **Versions** - provides information on who edited the process, when it was modified, and the version number and status
-* **Audit log** - provides a detailed record of events and changes
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_audit.gif)
-</Frame>
-
-### Versions
-
-In the **Versions** tab you will find the following details:
-
-* Last edited on - the last time when the process was modified
-* Last edited by - the last person who modified a process
-* Version - version number
-* Status - can be either **Published** or **Draft** 
-
-
-* View process - clicking on the eye icon will redirect you to the process definition 
-
-More details available in the following section:
-
-<Card title="Versioning" href="./versioning">
-</Card>
-
 ### Audit log
 
-In the **Audit log** tab you will find the following items:
+In the top-right contextual menu you will find the **Audit** feature containing the following information:
 
 * Timestamp 
 * User 
+* Application version
 * Subject 
 * Event 
 * Subject Identifier 
-* Version
 * Status 
 
 <Info>
@@ -152,7 +125,7 @@ By default, new processes are set to **Web Only**. This ensures that they are in
 </Info>
 
 * **Use process in reporting**: When enabled, this setting includes the process in reporting.
-* **Use process in task management**: Enabling this option creates tasks that are displayed in the Task Manager plugin. For more details, refer to the [**Task Management**](../../platform-deep-dive/plugins/custom-plugins/task-management/task-management-overview) section.
+* **Use process in task management**: Enabling this option creates tasks that are displayed in the Task Manager plugin. For more details, refer to the [**Task Management**](../../platform-deep-dive/core-extensions/task-management/task-management-overview) section.
 * **General data**: Refers to customizable data that can be both set and received in a response context.
 * **Expiry time**: A user can set up an expiryTime expression on a process definition to specify an expiry date. 
 

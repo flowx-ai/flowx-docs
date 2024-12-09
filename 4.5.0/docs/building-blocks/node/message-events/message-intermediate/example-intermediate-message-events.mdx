@@ -1,6 +1,6 @@
 ---
 title: Intermediate message events in business processes
-description: "Business processes often involve dynamic communication and coordination between different stages or departments. Intermediate Message Events play an important role in orchestrating information exchange, ensuring effective synchronization, and enhancing the overall efficiency of these processes."
+description: Business processes often involve dynamic communication and coordination between different stages or departments. Intermediate Message Events play an important role in orchestrating information exchange, ensuring effective synchronization, and enhancing the overall efficiency of these processes.
 ---
 
 
@@ -14,7 +14,9 @@ description: "Business processes often involve dynamic communication and coordin
 
 In the following example, we'll explore a credit card request process that encompasses the initiation of a customer's request, verification based on income rules, approval or rejection pathways, and communication between the client and back office. 
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/throw_catch_intermediate_process.png)
+</Frame>
 
 #### Activities
 
@@ -112,17 +114,23 @@ To implement the illustrated BPMN process for the credit card request, follow th
 We will use the value from `application.income` key added on the slider UI element to create an MVEL business rule in the next step.
 </Tip>
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/user_task1_interm.gif)
+</Frame>
 
 * **User Task 2** - *approve_credit_card_request*
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/user_task2_interm.gif)
+</Frame>
 
 In this screen, we configured a modal to display the approval.
 
 * **User Task 3** - *reject_credit_card_request*
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/user_task3_interm.gif)
+</Frame>
 
 </Step>
 <Step>
@@ -132,11 +140,14 @@ In this screen, we configured a modal to display the approval.
 In our example, we used an MVEL rule to determine eligibility based on the income of the user. We used the `application.income` key configured in the first user task to create the rule.
 </Tip>
 
+<Frame>
 ![MVEL Example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/mvel_example_gateway.png)
+</Frame>
 
 Also, add Parallel gateways to open/close parallel paths.
-
+<Frame>
 ![Parallel](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/parallel_open_close.gif)
+</Frame>
 </Step>
 <Step>
 **Set Message Events**: Configure the Message Throw and Message Catch Intermediate Events in the "Default" and "Backoffice" swimlanes, respectively. Ensure that the Message Catch Intermediate Event in the "Backoffice" swimlane is set up to wait for the specific message thrown by the Message Throw event. This facilitates communication between different stages of the process.
@@ -147,7 +158,9 @@ Also, add Parallel gateways to open/close parallel paths.
 <Step>
 **Configure Send Message Task**: Set up the Send Message Task in the "Backoffice" swimlane to send a rejection letter as a notification to the user. 
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/sending_a_notification.png)
+</Frame>
 
 Define the content of the rejection letter, the method of notification, and any additional details required for a seamless user experience. More details on how to configure a notification can be found in the following section:
 
@@ -205,9 +218,7 @@ A correlation key is a key that can have the same value across multiple instance
 In the end, this is what we have:
 
 <Frame>
-
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/message_throw_config.png)
-
 </Frame>
 
 ### Message catch intermediate event
@@ -215,9 +226,7 @@ In the end, this is what we have:
 A Message Catch Intermediate Event is a type of event in a process that waits for a specific message before continuing with the process flow. It enables the process to synchronize and control the flow based on the arrival of specific messages, ensuring proper coordination between process instances.
 
 <Frame>
-
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/message_catch_intrmdt.png)
-
 </Frame>
 
 #### General Configuration
@@ -229,9 +238,7 @@ A Message Catch Intermediate Event is a type of event in a process that waits fo
 * **Stage** - Assign a stage to the node.
 
 <Frame>
-
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/message_catch_intrmdt_cfg.png)
-
 </Frame>
 
 ### Testing the final result
@@ -242,14 +249,14 @@ After configuring the BPMN process and setting up all the nodes, it is crucial t
 We will test the path where the user gets rejected.
 </Info>
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/testing_the_proc_interm.gif)
+</Frame>
 
 In the end, the user will receive this notification via email:
 
 <Frame>
-
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/notification_received.png)
-
 </Frame>
 
 ## Interprocess communication with throw and catch events
@@ -308,28 +315,33 @@ graph TD
 
 ### Configuring the parent process (throw event)
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/throw_and_catch_subpr.png)
-
+</Frame>
 
 <Steps>
 <Step>
-Open **FLOWX.AI Designer** and create a new process.
+**Open **FlowX.AI Designer** and create a new process**.
 </Step>
 <Step>
-Add a User Task for user input:
+**Add a User Task for user input**.
 
 - Within the designer interface, add a "User Task" element to collect user input. Configure the user task to capture the necessary information that will be sent along with the message.
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/user_task_loan_subrp.gif)
+</Frame>
 </Step>
 <Step>
-Integrate a [**Call activity**](../../../node/call-subprocess-tasks/call-activity-node.mdx) node:
+**Integrate a [**Call activity**](../../../node/call-subprocess-tasks/call-activity-node.mdx) node**.
 
 - Add a "Subprocess Run Node" and configure it:
 
   * **Start Async** - Enable this option. When subprocesses are initiated in sync mode, they notify the parent process upon completion. The parent process then manages the reception of process data from the child and resumes its flow accordingly
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/subprocess_run_node_cfg.png)
+</Frame>
 
 - Add and configure the "Start Subprocess" action:
 
@@ -338,8 +350,9 @@ Integrate a [**Call activity**](../../../node/call-subprocess-tasks/call-activit
     * **Branch** - Choose the desired branch from the dropdown menu.
     * **Version** - Indicate the type of version to be utilized within the subprocess.
 
-
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/throw_subprocess_configuration.png)
+</Frame>
 
 For a more comprehensive guide on configuring the "Start Subprocess" action, refer to the following section:
 
@@ -348,7 +361,7 @@ For a more comprehensive guide on configuring the "Start Subprocess" action, ref
 </Step>
 <Step>
 
-Insert a Throw Event for Message Initiation:
+**Insert a Throw Event for Message Initiation**.
 
 - Add a "Throw Event" to the canvas, indicating the initiation of a message.
 - Configure the throw message intermediate event node:
@@ -367,19 +380,26 @@ Insert a Throw Event for Message Initiation:
   }
 }
 ```
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/throw_in_anthr_proc.png)
+</Frame>
+
 </Step>
 </Steps>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/throw_in_anthr_proc.png)
+
 
 ### Configuring the subprocess (catch event)
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/catch_from_anthr_proc.png)
+</Frame>
 
 <Steps>
-<Step>
+<Step title ="Insert an Intermediate Message Catch event">
 
-Insert an Intermediate Message Catch event and configure it:
+Configure the node:
 
 * **Correlate with throwing events** - Utilize the same correlation settings added for the associated throw message event.
 * **Correlation Key** - Set the correlation key to the parent process instance ID, identified as `parentProcessInstanceId`.
@@ -390,9 +410,9 @@ Insert an Intermediate Message Catch event and configure it:
 </Frame>
 
 </Step>
-<Step>
+<Step title="Integrate a Service Task">
 
-Integrate and Fine-Tune a Service Task for Additional Verification.
+* Integrate and Fine-Tune a Service Task for Additional Verification.
 
 * Incorporate a service task to execute the additional verification process. Tailor the configuration to align with your preferred method of conducting supplementary checks.
 </Step>

@@ -197,13 +197,12 @@ The suggested topic pattern naming convention is the following:
 
 ### Topics related to the Task Management plugin
 
-| Default parameter (env var)              | Description                                                               | Default FlowX.AI value (can be overwritten)      |
-| ---------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------ |
-| `KAFKA_TOPIC_TASK_OUT`                   | Kafka topic used for sending notifications to the plugin                  | `ai.flowx.dev.plugin.tasks.trigger.save.task.v1` |
-| `KAFKA_TOPIC_PROCESS_OPERATIONS_IN`      | Kafka topic used for receiving calls from the task management plugin with | `ai.flowx.dev.core.trigger.operations.v1`        |
-|                                          | information regarding operations performed                                |                                                  |
-| `KAFKA_TOPIC_PROCESS_OPERATIONS_BULK_IN` | Kafka topic where operations can be performed in bulk, allowing multiple  | `ai.flowx.core.trigger.operations.bulk.v1`       |
-|                                          | operations to be sent at once                                             |                                                  |
+| Default parameter (env var)              | Description                                                                                                          | Default FlowX.AI value (can be overwritten)      |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| `KAFKA_TOPIC_TASK_OUT`                   | Kafka topic used for sending notifications to the plugin                                                             | `ai.flowx.dev.plugin.tasks.trigger.save.task.v1` |
+| `KAFKA_TOPIC_PROCESS_OPERATIONS_IN`      | Kafka topic used for receiving calls from the task management plugin with information regarding operations performed | `ai.flowx.dev.core.trigger.operations.v1`        |
+| `KAFKA_TOPIC_PROCESS_OPERATIONS_BULK_IN` | Kafka topic where operations can be performed in bulk, allowing multiple operations to be sent at once               | `ai.flowx.core.trigger.operations.bulk.v1`       |
+
 
 
 #### OPERATIONS_IN request example
@@ -314,9 +313,9 @@ Task manager operations could be the following: assignment, unassignment, hold, 
 
 ### Topics related to ES indexing
 
-| Environment variable          | Default FlowX.AI value (can be overwritten) |
-| ----------------------------- | ------------------------------------------- |
-| KAFKA_TOPIC_PROCESS_INDEX_OUT | ai.flowx.dev.core.index.process.v1          |
+| Environment variable            | Default FlowX.AI value (can be overwritten) |
+| ------------------------------- | ------------------------------------------- |
+| `KAFKA_TOPIC_PROCESS_INDEX_OUT` | ai.flowx.dev.core.index.process.v1          |
 
 ### Processes that can be started by sending messages to a Kafka topic
 
@@ -329,50 +328,50 @@ Task manager operations could be the following: assignment, unassignment, hold, 
 
 ### Topics related to Message Events
 
-| Environment variable                | Default FLOWX.AI value (can be overwritten)          |
-| ----------------------------------- | ---------------------------------------------------- |
-| KAFKA_TOPIC_PROCESS_EVENT_MESSAGE   | ai.flowx.dev.core.message.event.process.v1           |
-| KAFKA_TOPIC_PROCESS_START_FOR_EVENT | ai.flowx.dev.core.trigger.start-for-event.process.v1 |
+| Environment variable                  | Default FLOWX.AI value (can be overwritten)          |
+| ------------------------------------- | ---------------------------------------------------- |
+| `KAFKA_TOPIC_PROCESS_EVENT_MESSAGE`   | ai.flowx.dev.core.message.event.process.v1           |
+| `KAFKA_TOPIC_PROCESS_START_FOR_EVENT` | ai.flowx.dev.core.trigger.start-for-event.process.v1 |
 
 ### Topics related to Events-gateway microservice
 
-| Environment variable                     | Description                                               | Default FlowX.AI value (can be overwritten)          |
-| ---------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------- |
-| KAFKA_TOPIC_EVENTSGATEWAY_OUT_MESSAGE    | Outgoing messages from process-engine to events-gateway   | ai.flowx.eventsgateway.engine.commands.message.v1    |
-| KAFKA_TOPIC_EVENTSGATEWAY_OUT_DISCONNECT | Disconnect commands from process-engine to events-gateway | ai.flowx.eventsgateway.engine.commands.disconnect.v1 |
-| KAFKA_TOPIC_EVENTSGATEWAY_OUT_CONNECT    | Connect commands from process-engine to events-gateway    | ai.flowx.eventsgateway.engine.commands.connect.v1    |
+| Environment variable                       | Description                                               | Default FlowX.AI value (can be overwritten)          |
+| ------------------------------------------ | --------------------------------------------------------- | ---------------------------------------------------- |
+| `KAFKA_TOPIC_EVENTSGATEWAY_OUT_MESSAGE`    | Outgoing messages from process-engine to events-gateway   | ai.flowx.eventsgateway.engine.commands.message.v1    |
+| `KAFKA_TOPIC_EVENTSGATEWAY_OUT_DISCONNECT` | Disconnect commands from process-engine to events-gateway | ai.flowx.eventsgateway.engine.commands.disconnect.v1 |
+| `KAFKA_TOPIC_EVENTSGATEWAY_OUT_CONNECT`    | Connect commands from process-engine to events-gateway    | ai.flowx.eventsgateway.engine.commands.connect.v1    |
 
 
 ## Configuring file upload size
 
 The maximum file size allowed for uploads can be set by using the following environment variables:
 
-| Environment variable                      | Description                              | Default FlowX.AI value (can be overwritten) |
-| ----------------------------------------- | ---------------------------------------- | ------------------------------------------- |
-| SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE    | Maximum file size allowed for uploads    | `50MB`                                      |
-| SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE | Maximum request size allowed for uploads | `50MB`                                      |
+| Environment variable                        | Description                              | Default FlowX.AI value (can be overwritten) |
+| ------------------------------------------- | ---------------------------------------- | ------------------------------------------- |
+| `SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE`    | Maximum file size allowed for uploads    | `50MB`                                      |
+| `SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE` | Maximum request size allowed for uploads | `50MB`                                      |
 
 
 ## Connecting the Advancing controller
 
 To use advancing controller, the following env vars are needed for `process-engine` to connect to Advancing Postgres DB:
 
-| Environment variable          | Description                                                                                                          | 
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------- | 
-| ADVANCING_DATASOURCE_JDBC_URL | Specifies the connection URL for a JDBC data source, including the server, port, database name, and other parameters |          
-| ADVANCING_DATASOURCE_USERNAME | Used to authenticate the user's access to the data source                                                            |                      
-| ADVANCING_DATASOURCE_PASSWORD | Sets the password for a data source connection                                                                       |   
+| Environment variable            | Description                                                                                                          |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `ADVANCING_DATASOURCE_JDBC_URL` | Specifies the connection URL for a JDBC data source, including the server, port, database name, and other parameters |
+| `ADVANCING_DATASOURCE_USERNAME` | Used to authenticate the user's access to the data source                                                            |
+| `ADVANCING_DATASOURCE_PASSWORD` | Sets the password for a data source connection                                                                       |
 
 ### Configuring the Advancing controller
 
-| Environment variable                         | Description                                                                                                                                                                                                                                        | Default FlowX.AI value (can be overwritten)         |
-| -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| ADVANCING_TYPE                               | Specifies the type of advancing mechanism to be used. The advancing can be done either through Kafka or through the database (parallel)                                                                                                            | `PARALLEL` (possible values #enum: KAFKA, PARALLEL) |
-| ADVANCING_THREADS                            | Number of parallel threads to be used                                                                                                                                                                                                              | `20`                                                |
-| ADVANCING_PICKING_BATCH_SIZE                 | Number of tasks to pick in each batch                                                                                                                                                                                                              | `10`                                                |
-| ADVANCING_PICKING_PAUSE_MILLIS               | Pause duration between picking batches, in milliseconds. After picking a batch of tasks, the system will wait for 100 milliseconds before picking the next batch. This can help in controlling the rate of task intake and processing              | `100`                                               |
-| ADVANCING_COOLDOWN_AFTER_SECONDS             | Cooldown period after processing a batch, in seconds. The system will wait for 120 seconds after completing a batch before starting the next cycle. This can be useful for preventing system overload and managing resource usage                  | `120`                                               |
-| ADVANCING_SCHEDULER_HEARTBEAT_CRONEXPRESSION | A cron expression that defines the schedule for the heartbeat. The scheduler's heartbeat will trigger every 2 seconds. This frequent heartbeat can be used to ensure the system is functioning correctly and tasks are being processed as expected | `"*/2 * * * * ?"`                                   |
+| Environment variable                           | Description                                                                                                                                                                                                                                        | Default FlowX.AI value (can be overwritten)         |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| `ADVANCING_TYPE`                               | Specifies the type of advancing mechanism to be used. The advancing can be done either through Kafka or through the database (parallel)                                                                                                            | `PARALLEL` (possible values #enum: KAFKA, PARALLEL) |
+| `ADVANCING_THREADS`                            | Number of parallel threads to be used                                                                                                                                                                                                              | `20`                                                |
+| `ADVANCING_PICKING_BATCH_SIZE`                 | Number of tasks to pick in each batch                                                                                                                                                                                                              | `10`                                                |
+| `ADVANCING_PICKING_PAUSE_MILLIS`               | Pause duration between picking batches, in milliseconds. After picking a batch of tasks, the system will wait for 100 milliseconds before picking the next batch. This can help in controlling the rate of task intake and processing              | `100`                                               |
+| `ADVANCING_COOLDOWN_AFTER_SECONDS`             | Cooldown period after processing a batch, in seconds. The system will wait for 120 seconds after completing a batch before starting the next cycle. This can be useful for preventing system overload and managing resource usage                  | `120`                                               |
+| `ADVANCING_SCHEDULER_HEARTBEAT_CRONEXPRESSION` | A cron expression that defines the schedule for the heartbeat. The scheduler's heartbeat will trigger every 2 seconds. This frequent heartbeat can be used to ensure the system is functioning correctly and tasks are being processed as expected | `"*/2 * * * * ?"`                                   |
 
 <Card title="Advancing controller setup" href="../advancing-controller-setup-guide" icon ="gears">
 </Card>
