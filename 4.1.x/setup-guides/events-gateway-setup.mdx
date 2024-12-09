@@ -112,6 +112,18 @@ By default, Redis is standalone, so the configuration with `redis-replicas` is o
 
 In the context of Spring Boot and Redis Sentinel integration, the `spring.redis.sentinel.nodes` property is used to specify the list of Redis Sentinel nodes that the Spring application should connect to. These nodes are responsible for monitoring and managing Redis instances.
 
+
+### Events
+
+This configuration helps manage how event data is stored and accessed in Redis.
+
+| Configuration Parameter        | Default | Description                                                                                           |
+| ------------------------------ | ------- | ----------------------------------------------------------------------------------------------------- |
+| `EVENTS_REDIS_FREQUENCYMILLIS` | 200     | Time interval (in milliseconds) between Redis queries by the events gateway to check for new messages |
+| `EVENTS_REDIS_TTLHOURS`        | 4       | Sets the time-to-live for events in Redis to 4 hours                                                  |
+
+
+
 ### Configuring logging
 
 The following environment variables could be set in order to control log levels:

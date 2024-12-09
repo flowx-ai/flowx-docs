@@ -181,7 +181,8 @@
           "icon": "box",
           "pages": [
                 "4.5.0/docs/projects/managing-applications/application",
-                "4.5.0/docs/projects/managing-applications/libraries"
+                "4.5.0/docs/projects/managing-applications/libraries",
+                "4.5.0/docs/projects/managing-applications/versioning"
               ]
             },
 
@@ -227,7 +228,6 @@
             "4.5.0/docs/building-blocks/process/process-definition",
             "4.5.0/docs/building-blocks/process/data-model",
             "4.5.0/docs/building-blocks/process/subprocess",
-            "4.5.0/docs/building-blocks/process/versioning",
             "4.5.0/docs/building-blocks/process/navigation-areas"
           ]
         },
