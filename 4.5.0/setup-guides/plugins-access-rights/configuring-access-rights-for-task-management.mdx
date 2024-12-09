@@ -38,6 +38,16 @@ Available scopes:
 * edit - users are able to create and edit out-of-office records
 * admin - users are able to delete out-of-office records
 
+
+5. **manage-views** - for managing views
+
+Available scopes:
+
+* read - users are able to access views
+* edit - users are able to edit views
+* import - users are able to import views
+
+
 The Task management plugin is preconfigured with the following default users roles for each of the access scopes mentioned above:
 
 * manage-tasks
@@ -83,6 +93,17 @@ The Task management plugin is preconfigured with the following default users rol
     * ROLE_TASK_MANAGER_OOO_ADMIN
   * admin:
     * ROLE_TASK_MANAGER_OOO_ADMIN
+* manage-views
+  * read:
+    * ROLE_TASK_MANAGER_VIEWS_READ
+    * ROLE_TASK_MANAGER_VIEWS_IMPORT
+    * ROLE_TASK_MANAGER_VIEWS_EDIT
+    * ROLE_TASK_MANAGER_VIEWS_ADMIN
+  * edit:
+    * ROLE_TASK_MANAGER_VIEWS_EDIT
+    * ROLE_TASK_MANAGER_VIEWS_ADMIN
+  * admin: 
+    * ROLE_TASK_MANAGER_VIEWS_ADMIN
 
 <Info>
 These roles need to be defined in the chosen identity provider solution.
