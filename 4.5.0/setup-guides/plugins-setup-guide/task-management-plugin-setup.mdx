@@ -7,8 +7,8 @@ icon: list-check
 It has the following dependencies:
 
 * a [MongoDB](https://www.mongodb.com/2) database
-* needs to be able to connect to the DB used by the engine
-* needs to be able to connect to the Kafka instance used by the engine
+* the database used by the engine
+* the Kafka instance used by the engine
 * a [Redis](https://redis.io/) instance for caching
 
 The plugin comes with most of the needed configuration properties filled in, but there are a few that need to be set up using some custom environment variables.
@@ -135,7 +135,7 @@ The Engine is listening for messages on topics with names of a certain pattern, 
 
 The following environment variables could be set in order to control log levels:
 
-* `LOGGING_LEVEL_ROOT` - root spring boot microservice logs
+* `LOGGING_LEVEL_ROOT` - root Spring Boot microservice logs
 * `LOGGING_LEVEL_APP` - app level logs
 * `LOGGING_LEVEL_MONGO_DRIVER` - MongoDB driver logs
 
