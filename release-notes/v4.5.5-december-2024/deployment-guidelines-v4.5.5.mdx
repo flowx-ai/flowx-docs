@@ -3,15 +3,14 @@ title: Deployment guidelines v4.5.5
 ---
 
 <Info>
-Do not forget, after upgrading to a new platform version, always ensure that your installed component versions match the versions specified in the release notes. To verify this, navigate to **FlowX.AI Designer > Platform Status**.
+  Do not forget, after upgrading to a new platform version, always ensure that your installed component versions match the versions specified in the release notes. To verify this, navigate to **FlowX.AI Designer > Platform Status**.
 </Info>
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/release_platform_version_check.png)
+  ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/release_platform_version_check.png)
 </Frame>
 
-
-## Component versions   
+## Component versions
 
 | Component                     | 4.5.5      | 4.5.4  | 4.5.3  | 4.5.1  | 4.5.0  | 4.1.4    | 4.1.3    | 4.1.2    | 4.1.1  | 4.1    | 4.0       | 3.4.7      | 3.4.6     | 3.4.5     | 3.4.4     | 3.4.3   | 3.4.2  | 3.4.1  | 3.4.0  | 3.3.0   | 3.2.0  | 3.1.0  | 3.0.0  |
 | ----------------------------- | ---------- | ------ | ------ | ------ | ------ | -------- | -------- | -------- | ------ | ------ | --------- | ---------- | --------- | --------- | --------- | ------- | ------ | ------ | ------ | ------- | ------ | ------ | ------ |
@@ -41,14 +40,14 @@ Do not forget, after upgrading to a new platform version, always ensure that you
 | **audit-core**                | 5.1.1      | 5.1.1  | 5.0.3  | 5.0.3  | 5.0.3  | 4.0.5    | 4.0.4    | 4.0.4    | 4.0.4  | 4.0.3  | 3.1.4     | 2.2.0      | 2.2.0     | 2.2.0     | 2.2.0     | 2.2.0   | 2.1.3  | 2.1.3  | 2.1.0  | 1.0.6   | 1.0.5  | 1.0.4  | 1.0.1  |
 | **reporting-plugin**          | 0.1.12     | 0.1.12 | 0.1.12 | 0.1.12 | 0.1.12 | 0.1.6    | 0.1.6    | 0.1.6    | 0.1.6  | 0.1.6  | 0.1.5     | 0.1.2      | 0.1.2     | 0.1.2     | 0.1.2     | 0.1.2   | 0.1.2  | 0.1.2  | 0.1.2  | 0.0.40  | 0.0.40 | 0.0.40 | 0.0.39 |
 | **advancing-controller**      | 3.0.3      | 3.0.3  | 3.0.3  | 3.0.3  | 3.0.3  | 2.0.3    | 2.0.2    | 2.0.2    | 2.0.2  | 2.0.0  | 1.1.4     | 0.3.5-1    | 0.3.5     | 0.3.5     | 0.3.5     | 0.3.5   | 0.3.5  | 0.3.5  | 0.3.2  | 0.3.0   | 0.1.4  | 0.1.4  | 0.1.2  |
-| **integration-designer**      | 1.7.3      | 1.7.0  | 1.6.0  | 1.4.3  | 1.3.9  |          |          |          |        |        |           |            |           |           |           |         |        |        |        |         |        |        |        |
-| **application-manager**       | 1.14.1     | 1.11.0 | 1.7.1  | 1.4.6  | 1.3.7  | -        | -        | -        | -      | -      | -         | -          | -         | -         | -         | -       | -      | -      | -      | -       | -      | -      |        |
+| **integration-designer**      | **1.7.3**  | 1.7.0  | 1.6.0  | 1.4.3  | 1.3.9  |          |          |          |        |        |           |            |           |           |           |         |        |        |        |         |        |        |        |
+| **application-manager**       | **1.14.1** | 1.11.0 | 1.7.1  | 1.4.6  | 1.3.7  | -        | -        | -        | -      | -      | -         | -          | -         | -         | -         | -       | -      | -      | -      | -       | -      | -      |        |
 | **data-sync**                 | 1.5.0      | 1.5.0  | 1.5.0  | 1.3.6  | 1.3.5  | -        | -        | -        | -      | -      | -         | -          | -         | -         | -         | -       | -      | -      | -      | -       | -      | -      |        |
 | **iOS renderer**              | **4.0.3**  | 4.0.2  | 4.0.2  | 4.0.2  | 4.0.2  | 3.0.20   | 3.0.20   | 3.0.20   | 3.0.20 | 3.0.20 | 3.0.0     | 2.3.0      | 2.3.0     | 2.3.0     | 2.3.0     | 2.3.0   | 2.3.0  | 2.3.0  | 2.3.0  | 2.1.0   | 2.0.1  | 2.0.0  | 2.0.0  |
 | **Android renderer**          | **4.0.7**  | 4.0.0  | 4.0.0  | 4.0.0  | 4.0.0  | 3.0.23   | 3.0.23   | 3.0.23   | 3.0.23 | 3.0.23 | 3.0.0     | 2.1.4      | 2.1.4     | 2.1.4     | 2.1.4     | 2.1.4   | 2.1.4  | 2.1.4  | 2.1.4  | 2.0.1   | 2.0.1  | 2.0.1  | 2.0.1  |
 
 <Info>
-Note: The same container image and Helm chart are used for **Application Manager** and **Runtime Manager**.
+  Note: The same container image and Helm chart are used for **Application Manager** and **Runtime Manager**.
 </Info>
 
 ## AI Agents
@@ -61,8 +60,7 @@ Note: The same container image and Helm chart are used for **Application Manager
 | **di-platform**  | 1.0.32 | 1.0.29 | 1.0.20 | 1.0.4 | 1.0.0 | -     | -     | -     | -     | -   | -   | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     |       |
 | **ai-developer** | 1.2.0  | 1.1.3  | 1.0.10 | 1.0.7 | 1.0.0 | -     | -     | -     | -     | -   | -   | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     |       |
 
-
-### Third-party recommended component versions 
+### Third-party recommended component versions
 
 | FlowX.AI Platform Version | Component Name    | Recommended Versions |
 | ------------------------- | ----------------- | -------------------- |
@@ -76,25 +74,24 @@ Note: The same container image and Helm chart are used for **Application Manager
 | 4.5.5                     | Angular (Web SDK) | 17.x                 |
 | 4.5.5                     | React (Web SDK)   | 18.x                 |
 
-
 <Info>
-FlowX.AI supports the Recommended Versions of the prerequisite third-party components in the above table.
+  FlowX.AI supports the Recommended Versions of the prerequisite third-party components in the above table.
 
-For optimal performance and reliability, our internal QA process validates new FlowX.AI releases using the latest Recommended Versions. While exploring alternative versions that suit your company's specific requirements, we recommend referring to the table above for guidance.
+  For optimal performance and reliability, our internal QA process validates new FlowX.AI releases using the latest Recommended Versions. While exploring alternative versions that suit your company's specific requirements, we recommend referring to the table above for guidance.
 
-In the unlikely event that you encounter any compatibility issues with FlowX.AI, please open a support ticket [**here**](https://flowxai.zendesk.com/), and our dedicated team will address and resolve any identified bugs following our standard support process.
+  In the unlikely event that you encounter any compatibility issues with FlowX.AI, please open a support ticket [**here**](https://flowxai.zendesk.com/), and our dedicated team will address and resolve any identified bugs following our standard support process.
 </Info>
 
 <Check>
-**Update default application**: If you have already updated to **v4.5.0** or **v4.5.1**, ensure that you create at least one new version of the default_application(where all the process definitions from previous versions are migrated). This step verifies that your default application remains up to date with the latest changes:
+  **Update default application**: If you have already updated to **v4.5.0** or **v4.5.1**, ensure that you create at least one new version of the default\_application(where all the process definitions from previous versions are migrated). This step verifies that your default application remains up to date with the latest changes:
 
-1. Open the default_application in the UI.
-2. Check for a new version (either draft or committed).
-3. Ensure that there is a new version compared to the committed version that was automatically created during the migration from Release 4.5.0.
-4. Save or commit a new version if necessary.
+  1. Open the default\_application in the UI.
 
-This step ensures your application configurations are aligned with the latest migration requirements.
+  2. Check for a new version (either draft or committed).
+
+  3. Ensure that there is a new version compared to the committed version that was automatically created during the migration from Release 4.5.0.
+
+  4. Save or commit a new version if necessary.
+
+  This step ensures your application configurations are aligned with the latest migration requirements.
 </Check>
-
-
-
