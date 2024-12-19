@@ -163,9 +163,43 @@ We're excited to announce new releases for new Flowx packages to support web app
 
 * `@flowx/core-theme`
 
+<Warning>
+  We recommend upgrading to the **l**atest versions of all @flowx packages to take full advantage of these new features and improvements. Check the deployment guidelines for version details.
+</Warning>
+
 ***
 
-## Bug fixes 🐞
+### Projects updates
+
+#### Export/Import Builds with Binaries
+
+We’ve introduced flexible export/import options to accommodate diverse deployment scenarios, including fully isolated environments:
+
+* **With Binaries**: Packages now include all necessary binaries within the exported .zip file, enabling offline and on-premise usage where public URLs may not be accessible.
+
+* **Without Binaries**: Retains the existing metadata-only approach, referencing publicly accessible binaries to keep export packages lightweight.
+
+* **Dynamic Import Behavior**: The import process automatically adapts, either utilizing embedded binaries or fetching them from public URLs as needed.
+
+Whether you’re operating in an isolated on-premise setup or a fully connected environment, you can seamlessly manage builds without compromising on flexibility or compatibility.
+
+#### Application Runtime
+
+* Start processes via Kafka messages for improved integrations to offer more flexible process initialization.
+
+### Plugins
+
+* **Audit Logs for Task Management, Resources, and Templates (Docs & Notif)**:
+  Improved observability and traceability within the Task Management plugin. Audit logs now capture key events and changes across tasks, related resources, and template configurations (Documentation & Notifications), providing a clearer historical record and aiding in compliance and troubleshooting.
+
+* **All Tasks Displayed in Runtime Tab**:
+  Streamlined access to task-related information by displaying all tasks directly in the Runtime tab. This consolidation simplifies navigation and makes it easier to monitor and manage task execution and status in real-time.
+
+* **Number of Tasks Displayed Picker**:
+  Introduced a configurable picker to control how many tasks are displayed at once. Users can tailor the task view density to their preferences, enhancing the management experience and visibility.
+
+* **Removed Support for Unreferenced Enumerations**:
+  Enumerations not referenced by any resources are no longer supported. This change reduces clutter and ensures cleaner, more maintainable configurations within the plugin environment.
 
 ***
 
@@ -174,6 +208,10 @@ We're excited to announce new releases for new Flowx packages to support web app
 * **Web Renderer Caching**: Improved CMS resource caching using browser mechanisms keyed to the build ID.
 
 * **Process Designer**: Enhanced drop-node-on-sequence functionality.
+
+* **FlowX.AI Designer**: Applications are now marked and referred to as "Projects".
+
+* **FlowX.AI Designer**: Renamed “System assets” to Global Media Library, clarifying resource locations and responsibilities.
 
 ***
 
