@@ -1,13 +1,13 @@
 ---
 title: Libraries
-description: Libraries are specialized projects that serve as reusable containers for resources that can be shared across multiple applications. 
+description: Libraries are specialized projects that serve as reusable containers for resources that can be shared across multiple projects. 
 ---
 
 <Frame>
 ![FlowX.AI Designer](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/designer_new.png)
 </Frame>
 
-Unlike regular applications, which are intended for creating and managing specific workflows, libraries are designed to house common elements—like processes, enumerations, and media assets—that other applications may rely upon.
+Unlike regular projects, which are intended for creating and managing specific workflows, libraries are designed to house common elements—like processes, enumerations, and media assets—that other projects may rely upon.
 
 This makes libraries a cornerstone for establishing consistency and efficiency across various projects.
 
@@ -15,25 +15,25 @@ This makes libraries a cornerstone for establishing consistency and efficiency a
 
  * **Resource Sharing**:
 
-   - Libraries facilitate the reuse of resources like processes, enumerations, and media assets across different applications. This allows for a more modular design, where commonly used elements are stored centrally.
-   - Resources in a library can be included in other applications by setting the library as a dependency.
+   - Libraries facilitate the reuse of resources like processes, enumerations, and media assets across different projects. This allows for a more modular design, where commonly used elements are stored centrally.
+   - Resources in a library can be included in other projects by setting the library as a dependency.
 
  * **Dependencies**:
 
-   - An application can add a library as a dependency, meaning it will have access to the resources stored in that library.
-   - Dependencies are managed through builds; each application can choose a specific version (build) of a library to depend on. This ensures that updates in the library do not automatically impact all applications unless intended.
+   - A project can add a library as a dependency, meaning it will have access to the resources stored in that library.
+   - Dependencies are managed through builds; each project can choose a specific version (build) of a library to depend on. This ensures that updates in the library do not automatically impact all projects unless intended.
    
  * **Versioning**:
 
-   - Just like applications, libraries can be versioned. Each version of a library captures the state of its resources at a specific point in time.
-   - This versioning allows applications to lock dependencies to specific library versions, providing stability and predictability during runtime.
+   - Just like projects, libraries can be versioned. Each version of a library captures the state of its resources at a specific point in time.
+   - This versioning allows projects to lock dependencies to specific library versions, providing stability and predictability during runtime.
 
 
 #### Managing libraries
 
 1. **Creating a Library**:
 
-   - Libraries can be created similarly to applications. The creation process involves setting a name, defining the resources it will contain, and managing its configuration settings.
+   - Libraries can be created similarly to projects. The creation process involves setting a name, defining the resources it will contain, and managing its configuration settings.
    - Once created, resources can be added to the library incrementally, allowing for iterative development.
 
 <Frame>
@@ -43,21 +43,21 @@ This makes libraries a cornerstone for establishing consistency and efficiency a
 
 2. **Managing Library Resources**:
 
-   - Users can create, edit, delete, or version resources within the library. Resources include processes, enumerations, media files, and other elements that can be referenced by applications.
-   - A library can have multiple versions, each capturing the resource state. This allows backward compatibility with older application builds relying on specific library versions.
+   - Users can create, edit, delete, or version resources within the library. Resources include processes, enumerations, media files, and other elements that can be referenced by projects.
+   - A library can have multiple versions, each capturing the resource state. This allows backward compatibility with older project builds relying on specific library versions.
 
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/library_build.png)
 </Frame>
 
-3. **Adding Library Dependencies to Applications**:
+3. **Adding Library Dependencies to Projects**:
 
-   - In the application workspace, libraries can be set as dependencies under the **Dependencies** section.
-   - Users can select which build version of the library to reference. This allows applications to control how library changes affect them by choosing to update the dependency to newer library builds as needed.
+   - In the project workspace, libraries can be set as dependencies under the **Dependencies** section.
+   - Users can select which build version of the library to reference. This allows projects to control how library changes affect them by choosing to update the dependency to newer library builds as needed.
 
 <Info>
-Libraries can be added as a depedency only to Work-In-Progress (WIP) application versions.
+Libraries can be added as a dependency only to Work-In-Progress (WIP) project versions.
 </Info>
 
 <Frame>
@@ -74,8 +74,8 @@ Libraries can be added as a depedency only to Work-In-Progress (WIP) application
 
 #### Library build process
 
-- **Builds in Libraries** are tagged versions, allowing a snapshot of the current library resources to be used by applications. Each build in a library captures the state of all its resources.
-- Applications referencing a library can specify the exact build to use, ensuring that changes to the library do not inadvertently impact dependent applications.
+- **Builds in Libraries** are tagged versions, allowing a snapshot of the current library resources to be used by projects. Each build in a library captures the state of all its resources.
+- Projects referencing a library can specify the exact build to use, ensuring that changes to the library do not inadvertently impact dependent projects.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/library_build.gif)
@@ -87,44 +87,44 @@ Libraries can be added as a depedency only to Work-In-Progress (WIP) application
 
 1. **Centralized Resource Management**:
 
-   - Organizations that need to maintain a standard set of processes or other resources can use libraries to store these centrally. Each application can then use the same library resources, ensuring consistency.
+   - Organizations that need to maintain a standard set of processes or other resources can use libraries to store these centrally. Each project can then use the same library resources, ensuring consistency.
 
 2. **Version-Controlled Dependency Management**:
 
-   - By utilizing builds and versioning within libraries, applications can safely depend on specific versions, reducing the risk of unexpected behavior due to resource updates.
+   - By utilizing builds and versioning within libraries, projects can safely depend on specific versions, reducing the risk of unexpected behavior due to resource updates.
 
-3. **Streamlining Updates Across Applications**:
+3. **Streamlining Updates Across Projects**:
 
-   - When an update is required across multiple applications that rely on the same resources, it can be done by updating the library and releasing a new build. Each application can then choose to update to the new build when ready.
+   - When an update is required across multiple projects that rely on the same resources, it can be done by updating the library and releasing a new build. Each project can then choose to update to the new build when ready.
 
 
 
 
 ## Best practices
 
-- Use libraries for resources that need to be standardized across multiple applications.
+- Use libraries for resources that need to be standardized across multiple projects.
 - Carefully manage dependencies and choose specific builds to avoid unexpected runtime behavior.
 - Leverage versioning to maintain a clear history of resource changes, allowing rollbacks if necessary.
 
-Libraries thus play a crucial role in modularizing the development process, enabling reusable and maintainable components across different applications. This leads to improved project organization, reduced redundancy, and simplified resource management.
+Libraries thus play a crucial role in modularizing the development process, enabling reusable and maintainable components across different projects. This leads to improved project organization, reduced redundancy, and simplified resource management.
 
 ## FAQs
 
 <AccordionGroup>
-<Accordion title="How do I add a library as a dependency to an application?">
-**A:** In the application workspace, navigate to the **Dependencies** section. Select the library you want to add, choose the specific build version, and confirm. Once added, the resources from that library will be available for use within the application.
+<Accordion title="How do I add a library as a dependency to an project?">
+**A:** In the project workspace, navigate to the **Dependencies** section. Select the library you want to add, choose the specific build version, and confirm. Once added, the resources from that library will be available for use within the project.
 </Accordion>
 
 <Accordion title="What happens if a resource in a library is updated?">
-**A:** When a resource in a library is updated, dependent applications will not be affected unless the library build they reference is updated to a newer version. This allows applications to maintain stability by controlling when updates are adopted.
+**A:** When a resource in a library is updated, dependent projects will not be affected unless the library build they reference is updated to a newer version. This allows projects to maintain stability by controlling when updates are adopted.
 </Accordion>
 
-<Accordion title="Can I use multiple libraries as dependencies for a single application?">
-**A:** Yes, an application can depend on multiple libraries. Each library can be referenced by selecting the desired build version. However, ensure that dependencies are managed carefully to avoid conflicts or redundancy.
+<Accordion title="Can I use multiple libraries as dependencies for a single project?">
+**A:** Yes, a project can depend on multiple libraries. Each library can be referenced by selecting the desired build version. However, ensure that dependencies are managed carefully to avoid conflicts or redundancy.
 </Accordion>
 
 <Accordion title="What should I do if a newer library build is available?">
-**A:** Before switching to a newer library build, test it in a development or staging environment to ensure compatibility. If everything functions as expected, update the application’s dependency to the new build in the **Dependencies** section.
+**A:** Before switching to a newer library build, test it in a development or staging environment to ensure compatibility. If everything functions as expected, update the project’s dependency to the new build in the **Dependencies** section.
 </Accordion>
 
 </AccordionGroup>
