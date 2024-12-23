@@ -1,34 +1,34 @@
 ---
 title: Builds
-description: The Build feature allows for the creation of deployable packages of an application, encapsulating all its resources into a single unit.
+description: The Build feature allows for the creation of deployable packages of a project, encapsulating all its resources into a single unit.
 ---
 
- A build is a snapshot of a specific application version, packaged and prepared for deployment to a runtime environment. The concept of builds plays a crucial role in ensuring that the correct version of an application, with all its configurations and dependencies, runs consistently across different environments (e.g., Dev, UAT, Production).
+ A build is a snapshot of a specific project version, packaged and prepared for deployment to a runtime environment. The concept of builds plays a crucial role in ensuring that the correct version of a project, with all its configurations and dependencies, runs consistently across different environments (e.g., Dev, UAT, Production).
 
 
 #### Key concepts
 
-1. **Application Version vs. Build**
-   - **Application Version** is the editable snapshot of an application's state at a specific point in time. It contains all the resources (like processes, integrations, templates, etc.) and configurations grouped within the application.
-   - A **Build** is the deployable package of an application version. It is the compiled and immutable state that contains all the application resources transformed into executable components for the runtime environment.
+1. **Project Version vs. Build**
+   - **Project Version** is the editable snapshot of a project's state at a specific point in time. It contains all the resources (like processes, integrations, templates, etc.) and configurations grouped within the project.
+   - A **Build** is the deployable package of a project version. It is the compiled and immutable state that contains all the project resources transformed into executable components for the runtime environment.
 
 2. **Single Version Rule**
-   - A build can only represent a single version of an application. If you have multiple versions of an application, each one can have a unique build. This ensures that you can clearly manage which version of the application is running in a specific environment without conflicts.
+   - A build can only represent a single version of a project. If you have multiple versions of a project, each one can have a unique build. This ensures that you can clearly manage which version of the project is running in a specific environment without conflicts.
 
 3. **Consistency and Deployment**
-   - Builds ensure that when you deploy an application to a different environment (like moving from Dev to UAT), the exact configuration, processes, templates, integrations, and all associated resources remain consistent.
-   - Builds are immutable—once created, a build cannot be altered. Any updates require creating a new version of the application and generating a new build.
+   - Builds ensure that when you deploy a project to a different environment (like moving from Dev to UAT), the exact configuration, processes, templates, integrations, and all associated resources remain consistent.
+   - Builds are immutable—once created, a build cannot be altered. Any updates require creating a new version of the project and generating a new build.
 
 #### Creating a build
 
-1. **Develop the Application**
-   - First, work on the application in the Config mode. This involves creating processes, adding resources, and configuring integrations. Multiple versions of the application can be created and saved as drafts.
+1. **Develop the Project**
+   - First, work on the project in the Config mode. This involves creating processes, adding resources, and configuring integrations. Multiple versions of the project can be created and saved as drafts.
 
 2. **Submit Changes to Version**
-   - When the application is ready for deployment, submit the changes to create a specific version of the application. This step involves finalizing the current configuration, grouping all resources and changes, and marking them under a specific version ID.
+   - When the project is ready for deployment, submit the changes to create a specific version of the project. This step involves finalizing the current configuration, grouping all resources and changes, and marking them under a specific version ID.
 
 3. **Generate a Build**
-   - In the application settings, select the version you want to deploy and generate a build. This step compiles the selected application version into a package, converting all the resource definitions into executable components for the runtime environment.
+   - In the project settings, select the version you want to deploy and generate a build. This step compiles the selected project version into a package, converting all the resource definitions into executable components for the runtime environment.
    - You can specify build metadata such as version tags, which help identify and manage builds during deployment.
 
 4. **Publish the Build**
@@ -37,20 +37,20 @@ description: The Build feature allows for the creation of deployable packages of
 #### Key features
 
 1. **Immutability**
-   - Builds are immutable, ensuring that once a build is created, it reflects a fixed state of the application. This immutability prevents accidental changes and ensures consistency.
+   - Builds are immutable, ensuring that once a build is created, it reflects a fixed state of the project. This immutability prevents accidental changes and ensures consistency.
 
 2. **Checksum and Integrity**
    - Each build includes a checksum or identifier to verify its integrity. This ensures that the deployed build matches the expected configuration and no changes have been made post-build.
 
 3. **Runtime Dependency**
-   - The runtime environment relies on builds to determine the active application configuration. This means the runtime does not directly interact with the editable application versions but uses builds to maintain stability and reliability.
+   - The runtime environment relies on builds to determine the active project configuration. This means the runtime does not directly interact with the editable project versions but uses builds to maintain stability and reliability.
 
 4. **Version Control**
-   - Builds are version-controlled, and each build corresponds to a specific application version. This means you can trace exactly which application configuration is active in a particular environment at any time.
+   - Builds are version-controlled, and each build corresponds to a specific project version. This means you can trace exactly which project configuration is active in a particular environment at any time.
 
 #### Benefits
 
-- **Consistency Across Environments**: Builds ensure that the same version of an application runs in different environments, avoiding discrepancies between development and production.
+- **Consistency Across Environments**: Builds ensure that the same version of an project runs in different environments, avoiding discrepancies between development and production.
 - **Reduced Errors**: Immutable builds reduce the risk of runtime errors caused by unexpected changes.
 - **Simplified Rollbacks**: If an issue is detected with a current build, previous builds can be deployed seamlessly, providing an efficient rollback strategy.
 - **Streamlined Deployment**: Builds allow for a straightforward deployment process, reducing the complexity of transferring configurations and resources between environments.
@@ -58,12 +58,12 @@ description: The Build feature allows for the creation of deployable packages of
 #### Build management
 
 1. **Creating a Build**
-   - Go to the application settings.
-   - Select the application version you want to deploy.
+   - Go to the project settings.
+   - Select the project version you want to deploy.
    - Click the **Create Build** button and follow the prompts to configure build settings, including adding metadata or tags.
 
 2. **Viewing and Managing Builds**
-   - Access the list of builds for a specific application through the Builds section.
+   - Access the list of builds for a specific project through the Builds section.
    - Each build entry provides details like version number, creation date, creator, and status (e.g., Draft, Published).
 
 3. **Publishing a Build**
@@ -74,25 +74,25 @@ description: The Build feature allows for the creation of deployable packages of
 
 1. **Manifest and Metadata**
    - Each build contains a manifest that lists all the resources included, their version IDs, and their resource definitions.
-   - Metadata helps identify which application version the build is derived from, providing traceability.
+   - Metadata helps identify which project version the build is derived from, providing traceability.
 
 2. **Separation of Design and Runtime**
-   - Builds serve as a bridge between the design (config) view and the runtime view. The config view is where changes are made and managed, while the runtime view uses builds to execute stable, tested versions of applications.
+   - Builds serve as a bridge between the design (config) view and the runtime view. The config view is where changes are made and managed, while the runtime view uses builds to execute stable, tested versions of projects.
 
 3. **Storage**
-   - Builds are stored in a dedicated storage system to ensure they are separate from the editable application versions. This storage supports easy retrieval and deployment of builds.
+   - Builds are stored in a dedicated storage system to ensure they are separate from the editable project versions. This storage supports easy retrieval and deployment of builds.
 
 #### Example use case
 
-Imagine you have an application for customer onboarding with multiple processes, templates, and integrations. After completing development and final testing, you:
-- Submit changes to create **Version 1.0** of the application.
+Imagine you have a project for customer onboarding with multiple processes, templates, and integrations. After completing development and final testing, you:
+- Submit changes to create **Version 1.0** of the project.
 - Create a build for **Version 1.0**.
 - Deploy this build to the UAT environment for final stakeholder review.
-- If any adjustments are needed, you go back to the application, make changes, and submit them as **Version 1.1**.
+- If any adjustments are needed, you go back to the project, make changes, and submit them as **Version 1.1**.
 - Create a new build for **Version 1.1**, ensuring that the changes are encapsulated separately from the previous version.
 
 Once everything is approved, you can publish **Version 1.1 Build** to the Production environment, ensuring all environments are aligned without manual reconfiguration.
 
 #### Conclusion
 
-The Build feature is essential for managing applications across multiple environments. It provides a clear and organized pathway from development to deployment, ensuring consistency, integrity, and stability throughout the application's lifecycle.
+The Build feature is essential for managing projects across multiple environments. It provides a clear and organized pathway from development to deployment, ensuring consistency, integrity, and stability throughout the project's lifecycle.
