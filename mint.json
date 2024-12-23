@@ -1815,6 +1815,16 @@
         "release-notes/overview",
 
         {
+          "group": "v4.5.6 - December",
+          "icon": "sparkles",
+          "pages": [
+            "release-notes/v4.5.6-december-2024/v4.5.6-december-2024",
+            "release-notes/v4.5.6-december-2024/deployment-guidelines-v4.5.6"
+
+          ]
+        },
+
+        {
           "group": "v4.5.5 - December",
           "icon": "sparkles",
           "pages": [

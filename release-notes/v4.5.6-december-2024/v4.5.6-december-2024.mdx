@@ -1,0 +1,36 @@
+---
+title: FlowX.AI 4.5.6 Release Notes
+description: This internal release brings various enhancements and new features to improve functionality, usability, and performance across the platform.  
+---
+
+## **What's new?** 🆕
+
+
+***
+
+### Projects updates
+
+#### Export media library with binaries
+
+We’ve introduced flexible export options to accommodate diverse deployment scenarios, including fully isolated environments:
+
+* **With Binaries**: Packages now include all necessary binaries within the exported .zip file, enabling offline and on-premise usage where public URLs may not be accessible.
+
+* **Without Binaries**: Retains the existing metadata-only approach, referencing publicly accessible binaries to keep export packages lightweight.
+
+***
+
+
+## Bug fixes 🐞
+
+* Change Document and Notification Plugin REST endpoint: Updated to use substring search for consistency with other endpoints.
+* [Audit] Incorrect sent event: Resolved an issue where the Notification and Document templates audit recorded incorrect sent events.
+* [Audit] Wrong subject identifier: Fixed a bug where the template's data model event used the wrong subject identifier when deleting the last entry.
+
+*** 
+
+## Additional information
+
+For deployment guidelines, refer to:
+
+<Card title="Deployment guidelines v4.5.6" href="./deployment-guidelines-v4.5.6" icon="link" />
