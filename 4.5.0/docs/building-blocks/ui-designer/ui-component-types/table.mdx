@@ -184,7 +184,7 @@ The following generic settings are found in the Generic tab and apply to all pla
 
 - [**Source key**](#source-key)  
 - [**Columns**](#columns)  
-- [**Table body**]()
+- [**Table body**](#table-body)
 - [**Expressions**](#expressions)  
 - [**Table Styling**](#table-styling)  
 
@@ -234,12 +234,118 @@ Using the data key from a related element, apply JavaScript expressions to contr
 ></video>
 </Frame>
 
+
+## Feature highlights
+
+### Default sorting
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2024-12-23%2016.46.30.gif)
+</Frame>
+
+- **Enable default sorting** in table settings.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-23%20at%2016.49.37.png)
+</Frame>
+
+- Select the desired column and sort direction (ascending by default).
+
+<Check>
+Sortable option must be enabled for the selected column for default sorting to work.
+</Check>
+
+### Pagination & scrolling
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2024-12-23%2016.56.57.gif)
+</Frame>
+
+- **Pagination**: Define how many rows appear on each page.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-23%20at%2016.58.30.png)
+</Frame>
+
+
+- **Scrolling**: Disable pagination to allow continuous scrolling.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2024-12-23%2017.01.03.gif)
+</Frame>
+
+### Editable rows
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2024-12-23%2017.10.38.gif)
+</Frame>
+
+- Enable row editing in **cell-level → column settings**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-23%20at%2017.04.39.png)
+</Frame>
+
+- Editing can be triggered by double-click or the dedicated Edit button icon.
+
+<Check>
+Make sure each editable cell references a valid data model key to facilitate edit.
+</Check>
+
+- Edits are validated and saved row-by-row.
+
+### Deletable rows
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2024-12-23%2017.15.17.gif)
+</Frame>
+
+- Toggle **Deletable** in Table settings to enable row deletion.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-23%20at%2017.17.32.png)
+</Frame>
+
+<Tip>
+A delete icon will appear in the Actions column, removing the corresponding row from the data source.
+</Tip>
+
+### Filters
+
+- Mark columns as filterable to enable filtering icons.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-24%20at%2016.37.06.png)
+</Frame>
+
+- Filter type automatically matches the column data type (string, number, date, boolean, or currency).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-24%20at%2016.48.18.png)
+</Frame>
+
+<Tip>
+Filtering option is ideal for large data sets where quick column-based searches are necessary.
+</Tip>
+
+### Actions
+
+Configure cell-level or row-level actions to trigger logic such as:
+
+- **Save Data**
+- **Upload**
+- **Trigger Workflow**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_item_save_key.png)
+</Frame>
+
 ## Table styling
 
 ### Sizing
 
-- **Fit Width**: Expands to fill available width (default).
-- **Fit Height**: Automatically adjusts height to content (default).
+- **Fit Width**: By default, the Table stretches to occupy available width.
+- **Fit Height**: Grows automatically based on content height.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_sizing.png)
@@ -286,10 +392,10 @@ When configuring actions within a Table component, each action is bound to a uni
 </Frame>
 
 * **Supported Action Types** - Available actions include:
-    * Action: Initiates predefined actions within the cell.
-    * Start Process Inherit: Enables workflows inherited from process configurations to be triggered.
-    * Upload: Allows file or data uploads directly within a table cell.
-    * External: Used to create an action that will open a link in a new tab.
+    * **Action**: Initiates predefined actions within the cell.
+    * **Start Process Inherit**: Enables workflows inherited from process configurations to be triggered.
+    * **Upload**: Allows file or data uploads directly within a table cell.
+    * **External**: Used to create an action that will open a link in a new tab.
 
 ## FAQs
 
