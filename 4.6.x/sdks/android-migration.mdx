@@ -1,0 +1,12 @@
+## Android SDK migration guide
+
+### Changes regarding the implementation of Custom Components
+
+The support for classical **[Android View](https://developer.android.com/reference/android/view/View)** system has been dropped.<br/>
+A Custom Component can now be implemented only by using the **[Compose](https://developer.android.com/compose)** UI system.
+
+This means that the `CustomViewComponent` is now ignored in the internals of the SDK and has been marked as `@Deprecated`, in order to be completely removed in the next release.
+
+<Info>
+   There is no immediate need to update any of the existing components.
+</Info>
