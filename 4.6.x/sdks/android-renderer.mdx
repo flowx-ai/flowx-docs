@@ -84,24 +84,27 @@ fun init(
     customComponentsProvider: CustomComponentsProvider? = null,
     customStepperHeaderProvider: CustomStepperHeaderProvider? = null,
     analyticsCollector = null,
+    onNewProcessStarted = null,
 )
 ```
 
 #### Parameters
 
-| Name                          | Description                                                | Type                                                                 | Requirement                   |
-| ----------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------- | ----------------------------- |
-| `context`                     | Android application `Context`                              | `Context`                                                            | Mandatory                     |
-| `config`                      | SDK configuration parameters                               | `ai.flowx.android.sdk.process.model.SdkConfig`                       | Mandatory                     |
-| `accessTokenProvider`         | Functional interface provider for passing the access token | `ai.flowx.android.sdk.FlowxSdkApi.Companion.AccessTokenProvder?`     | Optional. Defaults to `null`. |
-| `customComponentsProvider`    | Provider for the `@Composable`/`View` custom components    | `ai.flowx.android.sdk.component.custom.CustomComponentsProvider?`    | Optional. Defaults to `null`. |
-| `customStepperHeaderProvider` | Provider for the `@Composable` custom stepper header view  | `ai.flowx.android.sdk.component.custom.CustomStepperHeaderProvider?` | Optional. Defaults to `null`. |
-| `analyticsCollector`          | Collector interface for SDK analytics events               | `ai.flowx.android.sdk.analytics.AnalyticsCollector`                  | Optional. Defaults to `null`. |
+| Name                          | Description                                                                                         | Type                                                                 | Requirement                   |
+| ----------------------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ----------------------------- |
+| `context`                     | Android application `Context`                                                                       | `Context`                                                            | Mandatory                     |
+| `config`                      | SDK configuration parameters                                                                        | `ai.flowx.android.sdk.process.model.SdkConfig`                       | Mandatory                     |
+| `accessTokenProvider`         | Functional interface provider for passing the access token                                          | `ai.flowx.android.sdk.FlowxSdkApi.Companion.AccessTokenProvder?`     | Optional. Defaults to `null`. |
+| `customComponentsProvider`    | Provider for the `@Composable`/`View` custom components                                             | `ai.flowx.android.sdk.component.custom.CustomComponentsProvider?`    | Optional. Defaults to `null`. |
+| `customStepperHeaderProvider` | Provider for the `@Composable` custom stepper header view                                           | `ai.flowx.android.sdk.component.custom.CustomStepperHeaderProvider?` | Optional. Defaults to `null`. |
+| `analyticsCollector`          | Collector interface for SDK analytics events                                                        | `ai.flowx.android.sdk.analytics.AnalyticsCollector`                  | Optional. Defaults to `null`. |
+| `onNewProcessStarted`         | Callback for when a new process was started as a consequence for executing a `START_PROJECT` action | `ai.flowx.android.sdk.NewProcessStartedHandler`                      | Optional. Defaults to `null`. |
 
 &bull; Providing the `access token` is explained in the [authentication](#authentication) section.<br/>
 &bull; The `custom components` implementation is explained in [its own section](#custom-components).<br/>
 &bull; The implementation for providing a `custom view for the header` of the [Stepper](../docs/building-blocks/process/navigation-areas#stepper) component is detailed in [its own section](#custom-header-view-for-the-stepper-component).<br/>
 &bull; Collecting analytics events from the SDK is explained in [its own section](#collecting-analytics-events).<br/>
+&bull; Handling the start of a new process while in a running process is explained in [its own section](#handling-start-of-a-new-process).<br/>
 
 #### Sample
 
@@ -129,6 +132,10 @@ class MyApplication : Application() {
             customStepperHeaderProvider = object : CustomStepperHeaderProvider {...},
             analyticsCollector = { event ->
                 Log.i("Analytics", "Event(type = ${event.type}, value = ${event.value})")
+            },
+            onNewProcessStarted = { processInstanceUuid ->
+                // Send a local broadcast message to notify the Activity currently displaying the running process.
+                // The Activity should handle the broadcast to reload and display the newly started process identified by `processInstanceUuid`.
             }
         )
     }
@@ -220,7 +227,7 @@ viewModelScope.launch {
         fallbackThemeJsonFileAssetsPath = "theme/a_fallback_theme.json",
     ) {
         // theme setup complete
-        // TODO specific logic
+        // do specific logic
     }
 }
 ```
@@ -748,6 +755,68 @@ The implementation can be passed as a lambda, like:
 analyticsCollector = { event ->
     // do whatever is needed (e.g. log the event)
     Log.i("Analytics", "Event(type = ${event.type}, value = ${event.value})")
+}
+```
+
+## Handling "Start of a new process"
+
+When an action of type `START_PROJECT` is executed, the `onNewProcessStarted` lambda provided in the `FlowxSdkApi.getInstance().init(...)` function is invoked.
+
+This callback provides the UUID of the newly started process, which can be used to resume the process by calling the `FlowxSdkApi.getInstance().continueProcess(...)` method.
+
+It is the responsibility of the container application's developer to implement the necessary logic for displaying the appropriate UI for the newly started process.
+
+#### Sample
+
+One way to handle this is to send a local broadcast message to notify the Activity currently displaying the running process.
+The Activity should handle the broadcast to reload and display the newly started process identified by `processInstanceUuid` (received in the broadcast intent).
+
+```kotlin
+FlowxSdkApi.getInstance().init(
+    ...
+    onNewProcessStarted = { processInstanceUuid ->
+        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(
+            Intent("some.intent.filter.indentifier").apply {
+                putExtra("processInstanceUuid", processInstanceUuid)
+                setPackage("your.application.package")
+            }
+        )
+    }
+    ...
+)
+
+class ProcessActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ...
+
+        setContent {
+            val yourBroadcastReceiver = remember {
+                YourBroadcastReceiver(handler = { processInstanceUuid -> /* do your own logic to refresh `ProcessContent()` */ })
+            }
+
+            val context = LocalContext.current
+            LifecycleStartEffect(true) {
+                LocalBroadcastManager.getInstance(context.applicationContext).registerReceiver(yourBroadcastReceiver, IntentFilter("some.intent.filter.indentifier"))
+                onStopOrDispose {
+                    runCatching {
+                        LocalBroadcastManager.getInstance(context.applicationContext).unregisterReceiver(yourBroadcastReceiver)
+                    }
+                }
+            }
+
+            ProcessContent()
+        }
+    }
+
+    @Composable
+    private fun ProcessContent(...) { ... }
+}
+
+class YourBroadcastReceiver(private val handler: (String) -> Unit) : BroadcastReceiver() {
+    override fun onReceive(context: Context?, intent: Intent?) {
+        intent?.extras?.getString("processInstanceUuid")?.let { processUuid -> handler.invoke(processUuid) }
+    }
 }
 ```
 
