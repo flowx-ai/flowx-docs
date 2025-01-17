@@ -1,0 +1,24 @@
+---
+title: FlowX.AI 4.5.7 Release Notes
+---
+
+## **What's new?** 🆕
+
+### New runtime manager service account
+
+As of **FlowX.AI 4.5.7**, we have introduced a **new runtime manager service account** in Keycloak. This account is required for several key operations including:
+
+1. **Export/Import of builds and application versions**  
+2. **Managing scheduled events when transitioning from one build to another**  
+3. **Performing requests from the application manager or runtime manager to other resource services**  
+
+<Info>
+If you encounter errors during export/import of builds or application versions, verify that the `flowx-runtime-manager-sa` service account exists in Keycloak and has the correct **service account roles** assigned. This same service account is leveraged across multiple modules to ensure secure and seamless communication with Keycloak.
+</Info>
+
+For configuration details, check the following docs section:
+
+<Card title="Runtime manager service account" href="../../4.5.0/setup-guides/access-management/configuring-an-iam-solution#runtime-manager-service-account" icon="file"/>
+
+
+<Card title="Deployment guidelines v4.5.7" href="./deployment-guidelines-v4.5.7" icon="link" />
