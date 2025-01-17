@@ -134,7 +134,7 @@ class MyApplication : Application() {
                 Log.i("Analytics", "Event(type = ${event.type}, value = ${event.value})")
             },
             onNewProcessStarted = { processInstanceUuid ->
-                // Send a local broadcast message to notify the Activity currently displaying the running process.
+                // Send a broadcast message to notify the Activity currently displaying the running process.
                 // The Activity should handle the broadcast to reload and display the newly started process identified by `processInstanceUuid`.
             }
         )
@@ -768,14 +768,14 @@ It is the responsibility of the container application's developer to implement t
 
 #### Sample
 
-One way to handle this is to send a local broadcast message to notify the Activity currently displaying the running process.
+One way to handle this is to send a broadcast message to notify the Activity currently displaying the running process.
 The Activity should handle the broadcast to reload and display the newly started process identified by `processInstanceUuid` (received in the broadcast intent).
 
 ```kotlin
 FlowxSdkApi.getInstance().init(
     ...
     onNewProcessStarted = { processInstanceUuid ->
-        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(
+        applicationContext.sendBroadcast(
             Intent("some.intent.filter.indentifier").apply {
                 putExtra("processInstanceUuid", processInstanceUuid)
                 setPackage("your.application.package")
@@ -797,10 +797,10 @@ class ProcessActivity : ComponentActivity() {
 
             val context = LocalContext.current
             LifecycleStartEffect(true) {
-                LocalBroadcastManager.getInstance(context.applicationContext).registerReceiver(yourBroadcastReceiver, IntentFilter("some.intent.filter.indentifier"))
+                ContextCompat.registerReceiver(context.applicationContext, yourBroadcastReceiver, IntentFilter("some.intent.filter.indentifier"), ContextCompat.RECEIVER_NOT_EXPORTED)
                 onStopOrDispose {
                     runCatching {
-                        LocalBroadcastManager.getInstance(context.applicationContext).unregisterReceiver(yourBroadcastReceiver)
+                        context.applicationContext.unregisterReceiver(yourBroadcastReceiver)
                     }
                 }
             }
