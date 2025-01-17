@@ -2212,11 +2212,6 @@
   },
 
   {
-    "source": "/link/4.5/sensitive-data",
-    "destination": "/4.5.0/docs/building-blocks/process/data-model#sensitive-data"
-  },
-
-  {
     "source": "/link/4.5/timer-events",
     "destination": "/4.5.0/docs/building-blocks/node/timer-events/timer-events#timers"
   },
