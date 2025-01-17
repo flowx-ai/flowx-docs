@@ -2194,7 +2194,7 @@
 
  "redirects": [
   {
-    "source": "/link/4.5/task-management-overview",
+    "source": "/link/4.5/task-manager-overview",
     "destination": "/4.5.0/docs/platform-deep-dive/core-extensions/task-management/task-management-overview"
   },
   {
