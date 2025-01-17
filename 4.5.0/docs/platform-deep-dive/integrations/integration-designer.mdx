@@ -72,7 +72,7 @@ Go to the **Systems** section in FlowX Designer at **Projects** -> **Your applic
 <Tip> 
 To dynamically adjust the base URL based on the upper environment (e.g., dev, QA, stage), you can use environment variables and configuration parameters. For example: `https://api.${environment}.example.com/v1`.
 
-Additionally, keep in mind that the priority for determining the configuration parameter (e.g., base URL) follows this order: first, input from the user/process; second, environment variables; and lastly, configuration parameters.
+Additionally, keep in mind that the priority for determining the configuration parameter (e.g., base URL) follows this order: first, input from the user/process; second, configuration parameters overrides (set directly on FlowX.AI designer or environment variables); and lastly, configuration parameters.
 </Tip>
 
 3. Set up authorization (Service Token, Bearer Token, or No Auth).

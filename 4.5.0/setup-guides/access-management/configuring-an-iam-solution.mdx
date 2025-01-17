@@ -854,4 +854,87 @@ For further details on configuring access rights and roles for the Integration D
 <Card title="Configuring Access Rights for Integration Designer" href="../access-management/configuring-access-rights-for-integration-designer" icon="file">
 </Card>
 
+
+### Runtime manager service account
+
+The runtime manager service account is used by both Application Manager and Runtime Manager services to connect with Keycloak and perform export/import operations for builds, application versions, or other resource-specific tasks.
+
+Steps to add a Runtime manager service account:
+
+<Steps>
+<Step title="Create the Client">
+Navigate to **Clients** and select **Create client**.
+
+Enter a **Client ID** for your new client.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-16%20at%2018.19.59.png)
+</Frame>
+</Step>
+
+<Step title="Configure Capability Config">
+- Enable **Client authentication** (access type).
+- Disable **Standard flow**.
+- Disable **Direct access grants**.
+- Enable **Service accounts roles**.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-16%20at%2018.24.21.png)
+</Frame>
+</Step>
+
+<Step title="Configure Additional Settings">
+After creating the client, scroll down in the **Settings** tab and configure additional settings - **Logout Settings**:
+
+- **Backchannel Logout Session Required**: Toggle OFF.
+
+- **Front Channel Logout**: Toggle OFF.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/admin-sa3.png)
+</Frame>
+</Step>
+
+<Step title="Assign Roles to Service Account">
+
+In the newly created client, navigate to the **Service accounts roles** tab.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/admin-sa5.png)
+</Frame>
+
+Click **Assign role** and in the Filter field, select **Filter by realm roles**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-16%20at%2018.30.01.png)
+</Frame>
+
+<Warning>
+Make sure the service account has the necessary roles assigned—this is crucial for features like export/import of builds, application versions, resource files, and for invoking scenarios such as moving scheduled events from one build to another.
+</Warning>
+
+Assign the necessary roles to the admin service account based on the required access scopes, the following roles are required:
+
+* `ROLE_TASK_MANAGER_HOOKS_IMPORT`
+* `ROLE_TASK_MANAGER_VIEWS_IMPORT`
+* `ROLE_DOCUMENT_TEMPLATES_IMPORT`
+* `ROLE_ADMIN_MANAGE_PROCESS_IMPORT`
+* `ROLE_INTEGRATION_SYSTEM_ADMIN`
+* `ROLE_TASK_MANAGER_PROCESS_ALLOCATION_SETTINGS_IMPORT`
+* `ROLE_CMS_CONTENT_IMPORT`
+* `ROLE_MEDIA_LIBRARY_ADMIN`
+* `ROLE_NOTIFICATION_TEMPLATES_IMPORT`
+* `ROLE_INTEGRATION_WORKFLOW_ADMIN`
+
+</Step>
+</Steps>
+
+
+For more detailed information on application manager/runtime manager access rights, refer to the following section:
+
+<Card title="Configuring access rights for app manager/runtime manager" href="../access-management/app-manager-access-rights" icon ="file">
+</Card>
+
+
 By following these steps, you will have a minimal Keycloak setup to manage users, roles, and applications efficiently. For more detailed configurations and advanced features, refer to the official Keycloak documentation.
