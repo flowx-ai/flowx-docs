@@ -1,0 +1,259 @@
+---
+title: FlowX.AI 4.6.0 Release Notes
+description: FlowX.AI 4.6.0 delivers powerful new features and enhancements, including advanced integration capabilities, robust conflict resolution tools, enhanced analytics tracking, and expanded customization options for UI elements and workflows. With improved export/import flexibility, upgraded plugin functionality, and critical performance optimizations, this release ensures a seamless, efficient, and highly customizable user experience across the platform.
+---
+
+## **What's new?** 🆕
+
+### Integration Designer v2.0
+
+* **Testing on Upper Environments:** Test endpoints and workflows in upper environments with customizable configurations and detailed runtime logs for smooth and accurate testing.
+
+* **System Enumeration Toggle:**  Manage system enumeration mapping with a new toggle.
+
+  * **ON:** Includes the system in the enumeration table and enables the Enum Mapper.
+
+  * **OFF:** Removes the system, disables related mappings, and clears existing data with a warning.
+
+* **Duplicate Workflow & Endpoint:** Streamline the creation of similar workflows or endpoints with the "Duplicate" option. Includes support for renaming, optional descriptions, and independent modifications. Success or error notifications ensure clarity.
+
+* **Testing on Committed Versions:** Test endpoints and workflows on committed versions with editable inputs, detailed logs, and response previews displayed in tailored modals.
+
+* **Enum Translation in Lists:** Expanded support for enum translation in lists of objects and arrays of enums, with simplified JSON path formatting for enhanced efficiency.
+
+* **Multiple Incoming Sequences:**  Workflow nodes now support multiple incoming sequences, enabling complex designs where conditions or actions converge.
+
+* **Rename Workflow Nodes:** Added in-place editing for workflow node names, ensuring unique and compliant naming through validations.
+
+* **Show System-Auth Details in Test Modal:** Introduced visibility for system-auth details directly in the test modal, improving debugging and configuration insights.
+
+* **Default Retry Values for REST Endpoints:** Updated default retry values for REST endpoints to enhance reliability and optimize configurations.
+
+* **Start/Call Subworkflow Node (Sync):** Added a new node that allows reusing predefined workflows (local or library) within parent workflows. Subworkflows complete before proceeding and halt the parent workflow on failure.
+
+* **Configurable Timeout & Retry Mechanisms:** Endpoint nodes now allow configurable timeouts (default: 10,000 ms) and retry mechanisms with exponential backoff, ensuring resilience during API interactions.
+
+* **Missing Sequence Alerts:**  Workflow nodes with unmapped branches now display a yellow warning icon, providing actionable guidance to resolve missing sequences.
+
+**Integration Designer setup**:
+
+* **New Configuration for Integration Designer**: A new configuration for handling integration topics is now available in the Integration Designer, allowing more granular control over integration flows and topic management.
+
+Check the deployment guidelines for more details:
+
+<Card title="Deployment guidelines" href="deployment-guidelines-v4.6.0#integration-designer" icon="link">
+</Card>
+
+
+---
+
+### Merge Conflict Resolution
+
+The Merge Conflicts feature delivers an enhanced collaboration experience for managing branch versions, focusing on improving conflict detection, resolution efficiency, and seamless merging workflows.
+
+#### Merging Without Conflicts
+
+Easily merge secondary branches into the main branch or other branches when no conflicts are detected. The updated merge modal includes:
+
+- A clean, streamlined interface for branch selection.
+- A mandatory, validated commit message field (max 50 characters).
+- Real-time feedback for successful merges and updates to the branching graph.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Pre-merge.png)  
+</Frame>  
+
+#### Advanced Conflict Detection
+
+The new **Conflicts Detected Modal** provides a detailed overview of conflicting changes, with features such as:
+
+- Clear grouping by resource type (e.g., Processes, Enumerations, Media Library).
+- Scrollable lists and clickable entries to resolve conflicts efficiently.
+- A comprehensive comparison of source and target branch differences for context.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%281%29.png)  
+</Frame>  
+
+#### Resource-Level Conflict Resolution
+
+Resolve conflicts directly at the resource level with an intuitive interface:
+
+- **JSON Comparisons:** Visualize differences with color-coded highlights (source: yellow, target: blue).
+- **Navigation Support:** Quickly jump between differences for efficient resolution.
+- **Progress Tracking:** Mark resources as “Reviewed” or “Seen” to monitor resolution progress.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-20%20at%2016.23.03.png)  
+</Frame>  
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%282%29.png)  
+</Frame>  
+
+#### Flexible Merge Overrides
+
+Handle unresolved conflicts with the **Merge Anyway** option, which provides flexibility while maintaining control over outcomes:
+
+- A confirmation modal explains how unresolved conflicts will be handled (e.g., prioritizing source branch changes).
+- Allows merging to continue even when some conflicts remain unresolved.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Confirm%20Merging%20without%20checking%20all.png)  
+</Frame>
+
+
+---
+
+### Table Enhancements
+
+#### Editing
+
+Added in-place editing and validations for table cells, along with support for row deletions.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2024-12-23%2017.10.38.gif)
+</Frame>
+
+#### Theme Admin for Table
+
+FlowX.AI 4.6.0 introduces new customization options for tables within the Theme Admin, allowing users to:
+
+- **Manage common properties:** Customize foundational attributes such as padding, spacing, background colors, and text styles.
+- **Table Header Customization:** Adjust vertical padding, background color, title text style, and color for headers to ensure a professional appearance.
+
+#### Enhanced Table Rendering
+
+- **Min-Max Cell Width:** Define precise minimum and maximum widths for table cells.
+- **Header Text Alignment:** Align header text for improved visual consistency.
+- **"No Data" Message Customization:** Set a custom message for empty tables using the `sys_table_empty` substitution tag.
+
+
+---
+
+
+### Analytics Integration for Container Apps
+
+Container apps now support tracking "Screen Displayed" and "Action Executed" events, configurable in the UI Designer to improve insights into user interactions.
+
+#### UI Designer Updates
+
+- **Analytics Screen Name:** Configurable under Root UI components (Cards and Containers) to enable tracking in analytics platforms like Google Analytics.
+
+<Tip>  
+  "Screen Displayed" events support user task-based reporting, such as when a user task screen is shown.  
+</Tip>
+
+<Frame>  
+  ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-11%20at%2016.01.58.png)  
+</Frame>  
+
+<Info>  
+  The configured values are stored in `flowxProps.analytics`, making them accessible for integration with analytics tools.  
+</Info>  
+
+- **Action Analytics:** Tracks user actions (e.g., button clicks) with tags set directly in the UI Action Form.
+
+<Info>  
+  Added analytics configuration in the **UX Section** for all UI action types.  
+</Info>  
+
+<Frame>  
+  ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-11%20at%2016.20.53.png)  
+</Frame>  
+
+<Info>  
+  Values are saved in `params.analytics` via the PATCH `/actions` request.  
+</Info>  
+
+#### Renderers Updates
+
+Renderers now expose a public API for triggering analytics events:
+
+- **Screen Events:** Triggered on user task display, using `flowxProps.analytics`.
+- **Action Events:** Triggered on action execution, using `params.analytics`.
+
+Dynamic values such as process store keys and replace tags are supported for more contextual tracking.
+
+
+---
+
+### UI Designer Enhancements
+
+#### Conditional Formatting for UI Elements
+
+Dynamically update styling and properties of UI elements based on conditions, reducing the need for multiple prototypes.
+
+#### Hide Expressions Enhancements
+
+Expanded hide expressions functionality to include:
+
+- Cards
+- Collection prototypes and children
+- Table cell children (e.g., texts, images, buttons, links)
+
+#### Grid Improvements
+
+Added drag-and-drop support for column and row spans in grid placeholders.
+
+---
+
+### Projects Updates
+
+#### Export and Import with Binaries
+
+Flexible export/import options for isolated environments:
+
+- **With Binaries:** Include necessary binaries for offline usage.
+- **Without Binaries:** Use metadata-only packages for lightweight exports.
+
+#### New Runtime Manager Service Account
+
+Introduced a `flowx-runtime-manager-sa` service account in Keycloak to manage:
+
+- Build export/import operations.
+- Scheduled events during build transitions.
+- Secure communication with resource services.
+
+---
+
+### Plugins Enhancements
+
+- **Audit Logs:** Expanded audit logging for task management, notifications, and document templates.
+- **Runtime Tab Updates:** Display all tasks in the Runtime tab for better task monitoring.
+- **Task Picker:** Introduced a configurable picker to control task display density.
+- **Enumeration Updates:** Removed support for unreferenced enumerations to streamline plugin environments.
+
+---
+
+### AI Agents Improvements
+
+- **AI Designer:** Enhanced data model keys.
+- **AI Analyst:** Added support for boundary events.
+- **AI Developer:** Improved business rule explanations.
+
+---
+
+## Bug Fixes 🐞
+
+- Resolved rendering and core engine bugs for improved stability.
+- Fixed issues with enum mapper loss and substitution tag conflicts.
+- Addressed errors during branch merges and enhanced conflict detection.
+- Corrected REST endpoint behaviors for Notification and Document plugins.
+- Improved swim lane node handling during merges.
+
+---
+
+## Changes 🔧
+
+- **Web Renderer Caching:** Improved resource caching with browser mechanisms keyed to build IDs.
+- **Process Designer:** Enhanced drag-and-drop functionality for node placement.
+- **New Angular SDK:** Released new FlowX packages, including `@flowx/core-sdk` and `@flowx/angular-sdk`.
+
+---
+
+## Additional Information
+
+For deployment guidelines and further details, refer to:
+
+<Card title="Deployment guidelines v4.6.0" href="./deployment-guidelines-v4.6.0" icon="link" />
