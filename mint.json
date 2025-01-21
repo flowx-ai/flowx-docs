@@ -1820,7 +1820,17 @@
           "icon": "sparkles",
           "pages": [
             "release-notes/v4.6.0-january-2025/v4.6.0-january-2025",
-            "release-notes/v4.6.0-january-2025/deployment-guidelines-v4.6.0"
+            "release-notes/v4.6.0-january-2025/deployment-guidelines-v4.6.0",
+
+            {
+              "group": "Migrating from v4.1.x",
+              "pages": [
+                "release-notes/v4.6.0-january-2025/migrating-from-v4.1.x-to-v4.6.0/renderers",
+                "release-notes/v4.6.0-january-2025/migrating-from-v4.1.x-to-v4.6.0/process-configuration",
+                "release-notes/v4.6.0-january-2025/migrating-from-v4.1.x-to-v4.6.0/migrating-from-v4.1.x"
+
+              ]
+            }
 
           ]
         },
