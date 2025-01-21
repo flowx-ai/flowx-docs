@@ -184,6 +184,24 @@ In version 4.5, significant updates have been introduced to the **Datepicker** c
 
 ---
 
+## Updates to expression evaluation
+
+**What Changed:**
+
+- A fix was implemented in the web expression evaluator regarding how string values are handled during process value replacement.
+- Previously, when evaluating dynamic and computed expressions, string variables required manual insertion of double quotes (`""`) because the system did not automatically add them.
+- With the recent fix, the system now **automatically adds the necessary quotes** for string replacements.
+
+**Impact:**
+
+- **Existing Expressions:** If your current dynamic or computed expressions include manually added quotes around string values, these might now result in redundant quotes or incorrect string formatting.
+- **Behavioral Shift:** The automatic quote addition alters how string values are processed, which might affect outputs if the expressions were structured with the expectation of manual quotes.
+
+**Action Required:**
+
+1. **Review Your Expressions:** Check any dynamic and computed expressions in your processes that currently include manual double quotes around string values.
+2. **Modify as Needed:** Remove unnecessary double quotes where the system now handles them automatically to prevent duplicate quoting or formatting issues.
+
 
 ## Post-migration recommendations
 
