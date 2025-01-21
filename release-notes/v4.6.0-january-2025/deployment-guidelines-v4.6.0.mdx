@@ -84,7 +84,7 @@ title: Deployment guidelines v4.6.0
 
 ## Configuration changes
 
-### Integration Designer
+### Integration Designer setup
 
 In the 4.6.0 release, a new configuration option has been added to the Integration Designer for enhanced Kafka topic management.
 
@@ -95,4 +95,32 @@ In the 4.6.0 release, a new configuration option has been added to the Integrati
 
 This update aims to streamline the development process by enabling faster setup of workflows with automatic Kafka topic creation in designated environments.
 
+
+### Application Manager setup
+
+The following updates have been introduced:
+
+1. **Kafka Consumer Groups and Threads**:
+   - Added environment variables for consumer groups:
+     - `KAFKA_CONSUMER_GROUP_ID_BUILD_CREATE: buildCreateGroup`
+     - `KAFKA_CONSUMER_GROUP_ID_BUILD_UPDATE: buildUpdateGroup`
+   - Configured threads:
+     - `KAFKA_CONSUMER_THREADS_BUILD_CREATE: 2`
+     - `KAFKA_CONSUMER_THREADS_BUILD_UPDATE: 4`
+
+
+2. **Kafka Payload Size Limit**:
+   - New configuration: `FLOWX_KAFKA_PAYLOAD_SIZE_LIMIT: 512000`.
+
+3. **Scheduler Enhancements**:
+   - Retry failed deployments every minute: 
+      - `FLOWX_SCHEDULER_RETRY_FAILED_DEPLOYMENTS_CRON: "0 * * * * *"`
+   - Enabled master election:
+     - `FLOWX_SCHEDULER_MASTER_ELECTION_ENABLED: true`
+     - `FLOWX_SCHEDULER_MASTER_ELECTION_CRON_EXPRESSION: "*/30 * * * * *"`
+
+4. **Kafka Topic Updates**:
+   - Build resource topics:
+     - **Create**: `${kafka.topic.naming.prefix}build${dot}create${kafka.topic.naming.suffix}`.
+     - **Update**: `${kafka.topic.naming.prefix}build${dot}update${kafka.topic.naming.suffix}`.
 

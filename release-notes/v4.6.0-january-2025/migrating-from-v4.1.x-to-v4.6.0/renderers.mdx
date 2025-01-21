@@ -1,0 +1,198 @@
+---
+title: Renderer SDKs
+description: This guide assists in migrating from FlowX v4.1.x to v4.5.0.
+---
+
+## Android SDK migration guide
+
+### Initialization config changes
+
+A new configuration parameter, named `locale` was added in order to improve formatting the dates, numbers and currencies.
+
+When the SDK initialization happens through the `FlowxSdkApi.getInstance().init(...)` method, the argument has to be set inside the `config: SdkConfig` parameter value:
+
+```kotlin
+FlowxSdkApi.getInstance().init(
+    ...
+    config = SdkConfig(
+        baseUrl = "URL to FlowX backend",
+        imageBaseUrl = "URL to FlowX CMS Media Library",
+        enginePath = "some_path",
+        language = "en",
+        locale = Locale.getDefault(), // e.g. Locale("en", "US"), Locale("fr", "CA")
+        validators = mapOf("exact_25_in_length" to { it.length == 25 }),
+        enableLog = false,
+    ),
+    ...
+)
+```
+
+### Changes when starting a Flowx process
+
+Two new parameters were added:
+
+| Name              | Description                                                                                        | Type                               | Requirement                                         |
+| ----------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------- |
+| `applicationUuid` | The uuid string of the application containing the process to be started                            | `String`                           | Mandatory                                           |
+| `onProcessEnded`  | Callback function where you can do additional processing when the started process ends             | `(() -> Unit)?`                    | Optional. It defaults to `null`.                    |
+
+```kotlin
+fun startProcess(
+    applicationUuid: String,
+    processName: String,
+    params: JSONObject = JSONObject(),
+    isModal: Boolean = false,
+    onProcessEnded: (() -> Unit)? = null,
+    closeModalFunc: ((processName: String) -> Unit)? = null,
+): @Composable () -> Unit
+```
+
+### Changes when resuming a Flowx process
+
+One new parameter was added:
+
+| Name             | Description                                                                                        | Type                               | Requirement                       |
+| ---------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------- |
+| `onProcessEnded` | Callback function where you can do additional processing when the continued process ends           | `(() -> Unit)?`                    | Optional. It defaults to `null`.  |
+
+```kotlin
+fun continueProcess(
+    processUuid: String,
+    isModal: Boolean = false,
+    onProcessEnded: (() -> Unit)? = null,
+    closeModalFunc: ((processName: String) -> Unit)? = null,
+): @Composable () -> Unit
+```
+
+### Public API changes
+
+The `changeLanguage` method has been updated and renamed to `changeLocaleSettings`, in order to accommodate the newly added `locale` config parameter:
+
+```kotlin
+fun changeLocaleSettings(locale: Locale, language: String)
+```
+
+### Library dependencies updates
+
+- **[Kotlin](https://kotlinlang.org/)**: 1.9.22 **&nearr;** **1.9.24**
+- **[Compose BOM](https://developer.android.com/jetpack/compose/bom/bom-mapping)**: 2024.02.00 **&nearr;** **2024.06.00**
+- **[Compose Compiler](https://developer.android.com/jetpack/androidx/releases/compose-compiler)**: 1.5.9 **&nearr;** **1.5.14**
+- **[Gson](https://github.com/google/gson)**: 2.10.1 **&nearr;** **2.11.0**
+
+
+---
+
+## iOS SDK migration guide
+
+### Initialization config changes
+
+A new configuration parameter, named `locale` was added in order to improve formatting the dates, numbers and currencies.
+
+The locale needs to be set on the `FXConfig.sharedInstance.configure` method
+
+```swift
+FXConfig.sharedInstance.configure { (config) in
+    config.locale = "en-US"
+    ...
+}
+```
+
+### Changes when starting a process
+
+Two new parameters were added on the 3 available start process methods:
+
+| Name              | Description                                                                                        | Type                               | Requirement                                         |
+| ----------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------- |
+| `applicationUuid` | The uuid string of the application containing the process to be started                            | `String`                           | Mandatory                                           |
+| `onProcessEnded`  | Callback function where you can do additional processing when the started process ends             | `(() -> Void)?`                    | Optional. It defaults to `nil`.                     |
+
+```swift
+func startProcess(applicationUuid: String, 
+                  name: String, 
+                  params: [String : Any]?, 
+                  isModal: Bool = false, 
+                  showLoader: Bool = false, 
+                  completion: ((UIViewController?) -> Void)?, 
+                  onProcessEnded: (() -> Void)? = nil)
+```
+
+### Changes when resuming a Flowx process
+
+One new parameter was added on the 3 available continue process methods:
+
+| Name             | Description                                                                                        | Type                               | Requirement                       |
+| ---------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------- |
+| `onProcessEnded` | Callback function where you can do additional processing when the started process ends             | `(() -> Void)?`                    | Optional. It defaults to `nil`.   |
+
+```swift
+func continueExistingProcess(uuid: String, 
+                             name: String, 
+                             isModal: Bool = false, 
+                             completion: ((UIViewController?) -> Void)? = nil, 
+                             onProcessEnded: (() -> Void)? = nil)
+```
+
+### Public API changes
+
+The `changeLanguage` method has been updated and renamed to `changeLocaleSettings`, in order to accommodate the newly added `locale` config parameter:
+
+```swift
+func changeLocaleSettings(locale: String?, language: String?)
+```
+
+---
+
+## Angular SDK migration guide
+
+### Renderer SDK component usage
+
+In the Angular SDK, the `<flx-process-renderer>` component has two new parameters have been introduced: appInfo and locale. These additions help support localization and application-specific configurations.
+* **appInfo**: Object containing an  appId key, which identifies the application.
+* **locale**: Provides region-specific settings for localization.
+
+Add the definitions for these properties in the class file of the component that uses the process renderer component:
+
+```typescript
+appInfo = { appId: 'your-app-id' },
+locale = 'en-US',
+```
+Use these parameters in the template as inputs for the `<flx-process-renderer>` component:
+
+```html
+<flx-process-renderer
+  ...
+  [locale]="locale"
+  [appInfo]="appId"
+/>
+```
+
+### Icon module update 
+
+The `withExtraIconSet` method has been replaced with `provideExtraIconSet`, which should now be used in the providers array.
+
+```typescript
+@NgModule({
+  imports: [
+    IconModule,  // Import the IconModule
+  ],
+  providers: [
+    // Use provideExtraIconSet to add your custom icon set
+    provideExtraIconSet({
+      customIcon1: 'path/to/custom-icon1.svg',
+      customIcon2: 'path/to/custom-icon2.svg',
+      // Add more icons as needed
+    })
+  ]
+})
+export class AppModule {}
+```
+
+### Additional libraries
+
+The following npm packages are now essential for handling date and input formatting:
+
+```npm
+npm i date-fns inputmask
+```
+* date-fns
+* inputmask
