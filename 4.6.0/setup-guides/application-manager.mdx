@@ -110,6 +110,7 @@ The Application Manager scheduler supports retrying failed deployments and maste
 * **Purpose**: Enables master election for improved scheduling coordination.
 
 
+
 ### Configuring Kafka
 
 The Application Manager uses Kafka for event-driven operations. Set up the Kafka configuration using the following environment variables:
@@ -124,18 +125,34 @@ The Application Manager uses Kafka for event-driven operations. Set up the Kafka
 Configure Kafka consumer groups and threads for efficient handling of build-related topics:
 
 - **Consumer Groups**:
-  - `kafka.consumer.group-id.build.create`: `buildCreateGroup`
-  - `kafka.consumer.group-id.build.update`: `buildUpdateGroup`
+  - Application Resource:
+       - `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_EXPORT: appResourceExportGroup`
+       - `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_IMPORT: appResourceImportGroup`
+     - Build Resource:
+       - `KAFKA_CONSUMER_GROUP_ID_BUILD_CREATE: buildCreateGroup`
+       - `KAFKA_CONSUMER_GROUP_ID_BUILD_UPDATE: buildUpdateGroup`
+       - `KAFKA_CONSUMER_GROUP_ID_BUILD_RESOURCE_EXPORT: buildResourceExportGroup`
+       - `KAFKA_CONSUMER_GROUP_ID_BUILD_RESOURCE_IMPORT: buildResourceImportGroup`
+     - Process:
+       - `KAFKA_CONSUMER_GROUP_ID_PROCESS_START: processStartGroup`
 
 - **Consumer Threads**:
-  - `kafka.consumer.threads.build.create`: `2`
-  - `kafka.consumer.threads.build.update`: `4`
+  - Application Resource:
+       - `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_EXPORT: 3`
+       - `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_IMPORT: 3`
+  - Build Resource:
+       - `KAFKA_CONSUMER_THREADS_BUILD_CREATE: 2`
+       - `KAFKA_CONSUMER_THREADS_BUILD_UPDATE: 4`
+       - `KAFKA_CONSUMER_THREADS_BUILD_RESOURCE_EXPORT: 3`
+       - `KAFKA_CONSUMER_THREADS_BUILD_RESOURCE_IMPORT: 3`
+
+
+#### Topic naming components
 
 The Application Manager uses a structured naming convention for Kafka topics, designed to support flexibility through pre-defined components in the topic structure. These components, while not directly configurable, allow optional modifications when the desired version cannot be obtained through `$package . $environment . $separator . $version`. 
 
 Each topic adheres to a consistent naming schema for streamlined communication across environments and versions.
 
-#### Topic naming components
 
 | Component     | Description                                        | Default Value                                                    |
 | ------------- | -------------------------------------------------- | ---------------------------------------------------------------- |
@@ -219,26 +236,26 @@ These Kafka topics use predefined naming conventions for ease of use. Optional a
 
 The Resource Proxy module forwards resource-related requests to appropriate services, handling CRUD operations on the manifest. It requires proper configuration of proxy endpoints:
 
-* **RESOURCE_PROXY_MANIFEST_URL** - URL for managing the application manifest
-* **RESOURCE_PROXY_TARGET_URL** - URL for forwarding resource-related requests to their respective services
+* `RESOURCE_PROXY_MANIFEST_URL` - URL for managing the application manifest
+* `RESOURCE_PROXY_TARGET_URL` - URL for forwarding resource-related requests to their respective services
 
 ### Configuring logging
 
 To control the logging levels for the Application Manager, use the following environment variables:
 
-* **LOGGING_LEVEL_ROOT** - Log level for the root service logs
-* **LOGGING_LEVEL_APP** - Log level for application-level logs
-* **LOGGING_LEVEL_DB** - Log level for database interactions
+* `LOGGING_LEVEL_ROOT` - Log level for the root service logs
+* `LOGGING_LEVEL_APP` - Log level for application-level logs
+* `LOGGING_LEVEL_DB` - Log level for database interactions
 
 
 ### Configuring file storage 
 
 If the Application Manager requires file storage for resources or builds, configure S3-compatible storage using the following environment variables:
 
-* **APPLICATION_FILE_STORAGE_S3_URL** - URL of the S3-compatible storage server
-* **APPLICATION_FILE_STORAGE_S3_BUCKET_NAME** - S3 bucket name for storing application files
-* **APPLICATION_FILE_STORAGE_S3_ACCESS_KEY** - Access key for S3 storage
-* **APPLICATION_FILE_STORAGE_S3_SECRET_KEY** - Secret key for S3 storage
+* `APPLICATION_FILE_STORAGE_S3_URL` - URL of the S3-compatible storage server
+* `APPLICATION_FILE_STORAGE_S3_BUCKET_NAME` - S3 bucket name for storing application files
+* `APPLICATION_FILE_STORAGE_S3_ACCESS_KEY` - Access key for S3 storage
+* `APPLICATION_FILE_STORAGE_S3_SECRET_KEY` - Secret key for S3 storage
 
 ### Data model overview
 
@@ -253,7 +270,7 @@ The Application Manager stores application data using a relational database sche
 
 To monitor the performance and health of the Application Manager, use tools like Prometheus or Grafana. Configure Prometheus metrics with the following environment variable:
 
-* **MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED** - Enables or disables Prometheus metrics export (default: false).
+* `MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED` - Enables or disables Prometheus metrics export (default: false).
 
 
 ### Ingress configuration
