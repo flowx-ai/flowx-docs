@@ -1,13 +1,13 @@
 ---
-title: Deployment changes for v4.5.0
-description: This document outlines the configuration and infrastructure changes introduced from v4.1.x to v4.5.0 for deploying the FlowX.AI platform.
+title: Deployment changes for v4.6.0
+description: This document outlines the configuration and infrastructure changes introduced from v4.1.x to v4.6.0 for deploying the FlowX.AI platform.
 ---
 
 ## CMS Setup
 
 ### MongoDB configuration
 
-In version 4.5.0, the CMS setup includes a more comprehensive MongoDB configuration, especially for runtime data handling:
+In version 4.6.0, the CMS setup includes a more comprehensive MongoDB configuration, especially for runtime data handling:
 
 - **Runtime MongoDB Instance**: A dedicated MongoDB instance for managing runtime data.
   - **New Environment Variables**:
@@ -33,7 +33,7 @@ Private CMS ensures secure file storage by keeping documents hidden from the Med
 * `APPLICATION_FILE_STORAGE_S3_PRIVATE_SECRET_KEY`: This environment variable holds the secret key used to authenticate to the S3 server for private file storage.
 
 
-<Card title="CMS setup guide" href="../../../4.5.0/setup-guides/cms-setup" icon ="file">
+<Card title="CMS setup guide" href="../../../4.6.0/setup-guides/cms-setup" icon ="file">
 </Card>
 
 ---
@@ -42,7 +42,7 @@ Private CMS ensures secure file storage by keeping documents hidden from the Med
 
 ### MongoDB configuration
 
-Version 4.5.0 introduces a new MongoDB setup in the Admin service for managing data model information:
+Version 4.6.0 introduces a new MongoDB setup in the Admin service for managing data model information:
 
 - **New MongoDB Data Model Configuration**:
   - **Environment Variables**:

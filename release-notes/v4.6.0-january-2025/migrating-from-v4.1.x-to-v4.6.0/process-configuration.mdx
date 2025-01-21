@@ -3,9 +3,9 @@ title: Configuration and migration guide
 description: This guide outlines changes in process and UI configuration from v4.1.x to 4.5.1 version.
 ---
 
-## Applications 
+## Projects
 
-The **Applications** feature in FlowX AI v4.5.0 is a new structure that organizes all dependencies and resources required for a project into a single deployable view. This enhancement simplifies configuration, deployment, and maintenance by layering applications on top of processes, offering a centralized workspace that encapsulates everything needed for project execution.
+The **Projects** feature in FlowX AI v4.6.0 is a new structure that organizes all dependencies and resources required for a project into a single deployable view. This enhancement simplifies configuration, deployment, and maintenance by layering projects on top of processes, offering a centralized workspace that encapsulates everything needed for project execution.
 
 <Frame>
 ![FlowX.AI Designer](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/designer_new.png)
@@ -21,43 +21,43 @@ Several key configuration changes impact how resources and dependencies are mana
 
 ### Consolidated resource management
 
-- **Change**: All resources that were previously managed individually within processes are now grouped within Applications. This includes content management elements, integrations, themes, task configurations, and permissions.
-- **Impact**: Resources like **enumerations**, **substitution tags**, and **generic parameters** are now managed within Applications, allowing centralized configuration and version control.
-- **Migration**: All process-related resources will be migrated automatically into a **default application**, ensuring continuity of functionality in the new framework. After migration, you should verify that all critical resources are correctly configured within this default application.
+- **Change**: All resources that were previously managed individually within processes are now grouped within Projects. This includes content management elements, integrations, themes, task configurations, and permissions.
+- **Impact**: Resources like **enumerations**, **substitution tags**, and **generic parameters** are now managed within Projects, allowing centralized configuration and version control.
+- **Migration**: All process-related resources will be migrated automatically into a **default project**, ensuring continuity of functionality in the new framework. After migration, you should verify that all critical resources are correctly configured within this default project.
 
 
-<Card title= "What are resources?" href="../../../4.5.0/docs/projects/resources" icon="page">
+<Card title= "What are resources?" href="../../../4.6.0/docs/projects/resources" icon="page">
 </Card>
 
 ### Enhanced version control and dependency management
 
-- **Impact**: Applications support **dependency management** through **Libraries** and enforce version-controlled resources. Setting up an application now requires careful dependency management and versioning to prevent unintended updates.
-- **Benefit**: Allows for modular, reusable resources and stable deployments across applications, reducing resource duplication and enhancing project compatibility.
+- **Impact**: Projects support **dependency management** through **Libraries** and enforce version-controlled resources. Setting up a project now requires careful dependency management and versioning to prevent unintended updates.
+- **Benefit**: Allows for modular, reusable resources and stable deployments across projects, reducing resource duplication and enhancing project compatibility.
 
 
 ### Migration checklist
 
 To ensure a smooth transition, complete the following steps:
 
-1. **Verify Process Migration**: Confirm that all existing process definitions have been correctly migrated into the default application.
-2. **Set Configuration Parameter Overrides**: Post-deployment, adjust environment-specific Configuration Parameters in the default application.
-3. **Update Task Views**: Replace the global "All Tasks" feature with application-specific Views in each application.
-4. **Transfer Processes and Dependencies Manually**: If moving a process from the default application to another application, manually transfer associated resources and re-check dependencies.
+1. **Verify Process Migration**: Confirm that all existing process definitions have been correctly migrated into the default project.
+2. **Set Configuration Parameter Overrides**: Post-deployment, adjust environment-specific Configuration Parameters in the default project.
+3. **Update Task Views**: Replace the global "All Tasks" feature with project-specific Views in each project.
+4. **Transfer Processes and Dependencies Manually**: If moving a process from the default project to another project, manually transfer associated resources and re-check dependencies.
 
 ---
 
 ## Generic parameters migration 
 
-* **Overview**: In version 4.5.0, global generic parameters (from versions prior to 4.5.0) have been migrated to application-level as Configuration Parameters, consolidating parameter management within specific applications for improved organization and control.
+* **Overview**: In version 4.6.0, global generic parameters (from versions prior to 4.6.0) have been migrated to project-level as Configuration Parameters, consolidating parameter management within specific projects for improved organization and control.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/Screenshot%202024-11-06%20at%2019.04.49.png)
 </Frame>
 
-* **Migration**: All generic parameters will be automatically migrated to Configuration Parameters section under a default application.
+* **Migration**: All generic parameters will be automatically migrated to Configuration Parameters section under a default project.
 * **Business Rules Unaffected**: There is no impact on existing business rules; they will continue to function as before without requiring updates.
-* **Process Export Considerations**: If you export a process from one application to another, ensure that you also transfer the associated configuration parameters. This step is crucial to maintain process functionality and consistency across applications.
-* **Important Note**: Only values of generic parameters associated with the specific environment, or where `env = null` (displayed as "all" in the interface in versions prior to 4.5.0), will be migrated. You must ensure that you have correctly set the values for generic parameters, paying attention to environment values (which are case-sensitive), and export these generic parameters before migration to avoid any potential data loss.
+* **Process Export Considerations**: If you export a process from one project to another, ensure that you also transfer the associated configuration parameters. This step is crucial to maintain process functionality and consistency across projects.
+* **Important Note**: Only values of generic parameters associated with the specific environment, or where `env = null` (displayed as "all" in the interface in versions prior to 4.6.0), will be migrated. You must ensure that you have correctly set the values for generic parameters, paying attention to environment values (which are case-sensitive), and export these generic parameters before migration to avoid any potential data loss.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-07%20at%2010.39.29.png)
@@ -77,9 +77,9 @@ To set configuration parameter overrides, navigate to **Your App -> Runtime -> C
 
 ## Task management 
 
-* "All Tasks" as a View: The global "All Tasks" feature is no longer standalone and will now function as a View in an application.
+* "All Tasks" as a View: The global "All Tasks" feature is no longer standalone and will now function as a View in a project.
 
-**v4.5.0:**
+**v4.6.0:**
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/views_task_manager.png)
@@ -98,16 +98,16 @@ Before starting the migration, complete the following steps:
 
 1. **Merge All Feature Branches**: Ensure all feature branches for processes are merged into the latest version on the main branch.
 2. **Remove Unnecessary Resources**: Delete any test processes or resources that are no longer needed.
-3. **Export Generic Parameters**: Export generic parameters as a backup to ensure they migrate accurately to application-specific Configuration Parameters.
+3. **Export Generic Parameters**: Export generic parameters as a backup to ensure they migrate accurately to project-specific Configuration Parameters.
 
 ### Migration steps
 
-During migration, resources will be transferred into a single **default application** with one committed version.
+During migration, resources will be transferred into a single **default project** with one committed version.
 
 - **Process Definitions**: Only the last committed process version on the main branch will migrate. If no committed version exists, the latest WIP version will be used.
-- **Enumerations, Substitution Tags, and Task Manager**: These resources will be migrated to the default application.
-- **Generic Parameters**: Migrated as **Configuration Parameters** within the default application, covering only values where `env = null` or that match the platform’s environment setting.
-- **Languages**: Language settings (available languages and default) will be moved to application settings. Languages remain globally available.
+- **Enumerations, Substitution Tags, and Task Manager**: These resources will be migrated to the default project.
+- **Generic Parameters**: Migrated as **Configuration Parameters** within the default project, covering only values where `env = null` or that match the platform’s environment setting.
+- **Languages**: Language settings (available languages and default) will be moved to project settings. Languages remain globally available.
 
 ### Resources excluded from migration
 
@@ -132,7 +132,7 @@ In version 4.5, significant updates have been introduced to the **Datepicker** c
 ### Key changes
 
 1. **Introduction of Date Types**:
-   - **Standard Date**: Stores and displays date values in ISO 8601 format, respecting the application's locale and timezone settings.
+   - **Standard Date**: Stores and displays date values in ISO 8601 format, respecting the project's locale and timezone settings.
    - **Legacy Date**: Retains previous formatting to ensure compatibility with existing business rules and processes.
 
 2. **Properties Updates**:
@@ -187,10 +187,10 @@ In version 4.5, significant updates have been introduced to the **Datepicker** c
 
 ## Post-migration recommendations
 
-For complex projects with multiple use cases, **do not use the default application for ongoing development or production builds**. Instead:
+For complex projects with multiple use cases, **do not use the default project for ongoing development or production builds**. Instead:
 
-1. **Create Branches within the Default Application**: Organize and streamline resources by creating branches. This enables a lightweight build focused on production.
-2. **Split the Default Application into Smaller Applications**: Use the import/export feature to separate the default application into individual applications by use case.
-   - **Note**: When importing processes into a new application, resource references may need to be manually reconfigured.
+1. **Create Branches within the Default Project**: Organize and streamline resources by creating branches. This enables a lightweight build focused on production.
+2. **Split the Default Project into Smaller Projects**: Use the import/export feature to separate the default project into individual projects by use case.
+   - **Note**: When importing processes into a new project, resource references may need to be manually reconfigured.
 
 ---
