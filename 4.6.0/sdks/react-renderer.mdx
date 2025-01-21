@@ -1,6 +1,6 @@
 ---
 title: React SDK
-icon: react 
+icon: react
 description: The FlowxProcessRenderer is a low code library designed to render UI configured via the Flowx Process Editor.
 ---
 
@@ -44,7 +44,7 @@ Make sure to replace `<version>` with the version corresponding to the platform 
 
 ## Initial setup
 
-Once installed, `FlxProcessRenderer` will be imported in the from the `@flowx/react-sdk` package. 
+Once installed, `FlxProcessRenderer` will be imported in the from the `@flowx/react-sdk` package.
 
 ### Theming
 
@@ -76,10 +76,9 @@ export function MyFlxContainer() {
         staticAssetsPath={...}
         locale="en-US"
         language="en"
-        appInfo={
-          appId: ...
+        projectInfo={
+            projectId: ...
         }
-        buildId={...}
       />
 }
 
@@ -109,10 +108,9 @@ export function MyFlxContainer() {
         staticAssetsPath={...}
         locale="en-US"
         language="en"
-        appInfo={{
-          appId: ...
+        projectInfo={{
+            projectId: ...
         }}
-        buildId={...}
       />
 }
 
@@ -134,8 +132,7 @@ The entry point of the library is the `<FlxProcessRenderer />` component. A list
     staticAssetsPath={assetsPath}
     locale={locale}
     language={language}
-    appInfo={appInfo}
-    buildId={buildId}
+    projectInfo={projectInfo}
     />
 ```
 
@@ -152,9 +149,7 @@ The entry point of the library is the `<FlxProcessRenderer />` component. A list
 | language         | Language used to localize the enumerations inside the application.                                                                                               | string  | false     | ro            | -                                                |
 | isDraft          | When true allows starting a process in draft state. \*Note that isDraft = true requires that processName be the **id** (number) of the process and NOT the name. | boolean | false     | false         | -                                                |
 | locale           | Defines the locale of the process, used to apply date, currency and number formatting to data model values                                                       | boolean | false     | ro-RO         | -                                                |
-| locale           | Defines the locale of the process, used to apply date, currency and number formatting to data model values                                                       | boolean | false     | ro-RO         | -                                                |
-| appInfo          | Defines which FlowX Application will be run inside the process renderer.                                                                                         | json    | true      | -             | `{ "appId": "111111-222222-333333-44444"}`       |
-| buildId          | Defines which FlowX Application build will be run inside the process renderer. Can be used for version controlling the processes.                                | json    | true      | -             | "111111-222222-333333-44444"                     |
+| projectInfo      | Defines which FlowX Project will be run inside the process renderer.                                                                                         | json    | true      | -             | `{ "projectId": "111111-222222-333333-44444"}`   |
 
 
 ## Starting a process
@@ -163,15 +158,15 @@ The entry point of the library is the `<FlxProcessRenderer />` component. A list
 
 * **Process Name**: You need to know the name of the process you want to start. This name is used to identify the process in the system.
 
-* **FlowX Application UUID**: You need the UUID of the FlowX Application that contains the process you want to start. This UUID is used to identify the application in the system.
+* **FlowX Project UUID**: You need the UUID of the FlowX Project that contains the process you want to start. This UUID is used to identify the project in the system.
 
 * **Locale**: You can specify the locale of the process to apply date, currency, and number formatting to data model values.
 
 * **Language**: You can specify the language used to localize the enumerations inside the application.
 
-### Getting the application UUID
+### Getting the project UUID
 
-The application UUID can be obtained from the FlowX Dashboard. Navigate to the Applications section and select the application you want to start a process in. The UUID can be copied from the application actions popover.
+The project UUID can be obtained from the FlowX Dashboard. Navigate to the Projects section and select the project you want to start a process in. The UUID can be copied from the project actions popover.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/react/copy_uuid_application.png)
 
@@ -194,8 +189,7 @@ export function MyFlxContainer() {
         locale="en-US"
         language="en"
         processName={processName}
-        appInfo={{ appId }}
-        buildId={buildId}
+        projectInfo={{ projectId }}
       />
 }
 ```
@@ -257,11 +251,11 @@ The properties that can be configured are as follows:
 
 * **Component Identifier**: You need a unique identifier for your custom component. This identifier is used for referencing the component within the application.
 
-### Creating a custom component 
+### Creating a custom component
 
 To create a Custom Component in React, follow these steps:
 
-1. Create a new React component. 
+1. Create a new React component.
 2. Implement the necessary HTML structure, TypeScript logic, and SCSS styling to define the appearance and behavior of your custom component.
 
 ### Importing the component
@@ -279,7 +273,7 @@ In your `<FlxProcessRenderer />` component, add the following property:
 
 ### Using the custom component
 
-Once your Custom Component is declared, you can use it for configuration within your application. 
+Once your Custom Component is declared, you can use it for configuration within your application.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/loader_component.gif)
 
@@ -332,7 +326,7 @@ The validators are then processed and piped through the popular [React Hook Form
 A validator must have the following type:
 
 ```typescript
-const customValidator = (...params: string[]) => (v: any) => boolean | Promise<boolean> 
+const customValidator = (...params: string[]) => (v: any) => boolean | Promise<boolean>
 ```
 
 <Warning>
