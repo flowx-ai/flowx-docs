@@ -1,57 +1,82 @@
 ---
 title: FlowX.AI 4.6.0 Release Notes
-description: FlowX.AI 4.6.0 delivers powerful new features and enhancements, including advanced integration capabilities, robust conflict resolution tools, enhanced analytics tracking, and expanded customization options for UI elements and workflows. With improved export/import flexibility, upgraded plugin functionality, and critical performance optimizations, this release ensures a seamless, efficient, and highly customizable user experience across the platform.
+description: Welcome to the FlowX.AI 4.6.0 release! 🚀 This update is packed with groundbreaking features, enhancements, and fixes to supercharge your workflow and provide a seamless development experience.
 ---
 
 ## **What's new?** 🆕
 
-### Integration Designer v2.0
 
-* **Testing on Upper Environments:** Test endpoints and workflows in upper environments with customizable configurations and detailed runtime logs for smooth and accurate testing.
+### Projects
 
-* **System Enumeration Toggle:**  Manage system enumeration mapping with a new toggle.
+The new Project concept introduces a streamlined approach to managing and deploying complex projects within FlowX. By grouping all related resources—such as processes, enumerations, integrations, and assets—into a single, organized workspace, projects provide a cohesive view for efficient development and deployment. 
 
-  * **ON:** Includes the system in the enumeration table and enables the Enum Mapper.
 
-  * **OFF:** Removes the system, disables related mappings, and clears existing data with a warning.
+<Frame>
+![FlowX.AI Designer](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/designer_new.png)
+</Frame>
 
-* **Duplicate Workflow & Endpoint:** Streamline the creation of similar workflows or endpoints with the "Duplicate" option. Includes support for renaming, optional descriptions, and independent modifications. Success or error notifications ensure clarity.
 
-* **Testing on Committed Versions:** Test endpoints and workflows on committed versions with editable inputs, detailed logs, and response previews displayed in tailored modals.
+This feature supports version control at the project level, allowing users to create and manage multiple versions and builds. Projects also facilitate resource sharing through dependencies, enabling the reuse of processes and configurations across projects. These enhancements make it easier to maintain project integrity, deploy updates seamlessly, and ensure consistency across environments. Here is a quick walkthrough demo:
 
-* **Enum Translation in Lists:** Expanded support for enum translation in lists of objects and arrays of enums, with simplified JSON path formatting for enhanced efficiency.
+<Frame>
+<video
+  controls
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/Application%204.5%20Feature%20Demo.mp4"
+></video>
+</Frame>
 
-* **Multiple Incoming Sequences:**  Workflow nodes now support multiple incoming sequences, enabling complex designs where conditions or actions converge.
-
-* **Rename Workflow Nodes:** Added in-place editing for workflow node names, ensuring unique and compliant naming through validations.
-
-* **Show System-Auth Details in Test Modal:** Introduced visibility for system-auth details directly in the test modal, improving debugging and configuration insights.
-
-* **Default Retry Values for REST Endpoints:** Updated default retry values for REST endpoints to enhance reliability and optimize configurations.
-
-* **Start/Call Subworkflow Node (Sync):** Added a new node that allows reusing predefined workflows (local or library) within parent workflows. Subworkflows complete before proceeding and halt the parent workflow on failure.
-
-* **Configurable Timeout & Retry Mechanisms:** Endpoint nodes now allow configurable timeouts (default: 10,000 ms) and retry mechanisms with exponential backoff, ensuring resilience during API interactions.
-
-* **Missing Sequence Alerts:**  Workflow nodes with unmapped branches now display a yellow warning icon, providing actionable guidance to resolve missing sequences.
-
-**Integration Designer setup**:
-
-* **New Configuration for Integration Designer**: A new configuration for handling integration topics is now available in the Integration Designer, allowing more granular control over integration flows and topic management.
-
-Check the deployment guidelines for more details:
-
-<Card title="Deployment guidelines" href="deployment-guidelines-v4.6.0#integration-designer" icon="link">
+<Card title="Projects" href="../../4.6.0/docs/projects/managing-applications/application" icon="file">
+For more details, check out this section
 </Card>
 
+#### Config vs build
+
+* Config mode is the environment where you set up, adjust, and manage your project's resources, processes, and configurations. It's the workspace where you fine-tune every aspect of the project before it's ready for deployment. Think of it as the design phase, where the focus is on setup, organization, and preparation.
+* Build mode is the stage where the configurations you've set up are packaged into a deployable form. This is the runtime-ready version of your project, containing everything needed for it to function in a production environment. A build includes a snapshot of the project’s state at a given point, ensuring stability and predictability when deployed.
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/config_vs_build.mp4"
+></video>
+</Frame>
+
+<CardGroup>
+<Card title="Configuration" href="../../4.6.0/docs/projects/managing-applications/application" icon="file">
+For more details, check out this section
+</Card>
+<Card title="Runtime" href="../../4.6.0/docs/projects/runtime/builds" icon="file">
+For more details, check out this section
+</Card>
+</CardGroup>
 
 ---
 
-### Merge Conflict Resolution
+### Integration Designer
+
+The Integration Designer simplifies the integration of FlowX with external systems using REST APIs. It offers a user-friendly graphical interface with intuitive drag-and-drop functionality for defining data models, orchestrating workflows, and configuring system endpoints.
+
+With Integration Designer, you can easily set up REST-based connections and define workflows, while enjoying flexible authorization options such as Service Token, Bearer, or No Auth.
+
+<Tip>
+**Did you know?**
+
+Unlike [Postman](https://www.postman.com/), which focuses on API testing, the Integration Designer automates workflows between systems. With drag-and-drop ease, it handles REST API connections, real-time processes, and error management, making integrations seamless and scalable.
+</Tip>
+
+<Card title="Integration Designer" href="../../4.6.0/docs/platform-deep-dive/integrations/integration-designer" icon="file">
+For more details, check out this section
+</Card>
+
+---
+
+### Merge conflicts 2.0
 
 The Merge Conflicts feature delivers an enhanced collaboration experience for managing branch versions, focusing on improving conflict detection, resolution efficiency, and seamless merging workflows.
 
-#### Merging Without Conflicts
+#### Merging without conflicts
 
 Easily merge secondary branches into the main branch or other branches when no conflicts are detected. The updated merge modal includes:
 
@@ -63,7 +88,7 @@ Easily merge secondary branches into the main branch or other branches when no c
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Pre-merge.png)  
 </Frame>  
 
-#### Advanced Conflict Detection
+#### Advanced conflict detection
 
 The new **Conflicts Detected Modal** provides a detailed overview of conflicting changes, with features such as:
 
@@ -75,7 +100,7 @@ The new **Conflicts Detected Modal** provides a detailed overview of conflicting
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%281%29.png)  
 </Frame>  
 
-#### Resource-Level Conflict Resolution
+#### Resource-level conflict resolution
 
 Resolve conflicts directly at the resource level with an intuitive interface:
 
@@ -91,7 +116,7 @@ Resolve conflicts directly at the resource level with an intuitive interface:
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%282%29.png)  
 </Frame>  
 
-#### Flexible Merge Overrides
+#### Flexible merge overrides
 
 Handle unresolved conflicts with the **Merge Anyway** option, which provides flexibility while maintaining control over outcomes:
 
@@ -102,41 +127,308 @@ Handle unresolved conflicts with the **Merge Anyway** option, which provides fle
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Confirm%20Merging%20without%20checking%20all.png)  
 </Frame>
 
+---
+
+### AI Agents
+
+
+FlowX AI Agents bring powerful automation and insight capabilities by harnessing a flexible, LLM-agnostic core, tailored to optimize your business processes and interactions. Built on a robust AI architecture, FlowX leverages interconnected language models adaptable across deployment options, from open-source models to private LLMs, ensuring secure, on-premise functionality that can integrate with any public LLM providers.
+
+<Frame>
+<video
+controls
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/AI%20Docs%20-%20Intro%20%281%29.mp4"
+></video>
+</Frame>
+
+Stay tuned for more.
 
 ---
 
-### Table Enhancements
+### Localization and Internationalization
 
-#### Editing
+We are introducing robust localization and internationalization features to enhance global usability and adaptability. Key updates include:
 
-Added in-place editing and validations for table cells, along with support for row deletions.
+<CardGroup>
+<Card title="Flexible Date, Time, Number, and Unit Formatting" icon="calendar">
+Enhanced formatting options for dates, times, numbers, and currencies with support for various international standards including short, medium, long, full, and custom formats.
+</Card>
+<Card title="Currency Customization" icon="money-bill-wave">
+Support for currency formatting with options to display values using ISO codes or symbols, adapting to user-selected locales and regional preferences.
+</Card>
+<Card title="Support for RTL Languages" icon="align-right">
+Implementation of right-to-left (RTL) layout direction, essential for Middle Eastern languages, ensuring correct rendering and usability.
+</Card>
+<Card title="Locale-Based Configurations" icon="map">
+Comprehensive settings for pluralization, capitalization, alignment, and sorting that adapt to regional requirements, helping cater to a diverse global user base.
+</Card>
+<Card title="Enhanced UI Component Formatting" icon="pencil">
+New options in the UI Designer to override general settings for text, messages, links, and form elements based on locale and region.
+</Card>
+<Card title="Document Localization" icon="globe">
+Static and dynamically generated legal documents can now be customized based on regional and locale settings, improving compliance and communication with local audiences.
+</Card>
+</CardGroup>
+
+<Card title= "Localization and internationalization" href="../../4.6.0/docs/building-blocks/ui-designer/localization-and-i18n" icon="file">
+For more details, check out this section
+</Card>
+
+
+---
+
+### Data model 2.0
+
+
+In this release, we've introduced Data Model 2.0, a major upgrade designed to simplify and enhance data handling. Key improvements include the introduction of reusable objects, a visual representation of complex data structures, and dynamic data binding, all aimed at creating a more reliable and intuitive experience. The new model ensures references are automatically updated when changes are made, streamlining data management across the platform.
+
+**Highlights**:
+
+* **New Root Element**: Provides a structural basis without impacting business logic, ensuring a clear and organized data structure.
+* **Enhanced Data Binding**: Expanded to more areas, with dynamic updates based on changes in the data model.
+* **Localization**: Added handling mechanism for locale-specific formatting, ensuring accurate data representation.
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/data_model.mp4"
+></video>
+</Frame>
+
+
+<Card title ="Data model" href= "../../4.6.0/docs/building-blocks/process/data-model" icon="file">
+For more details, check out this section
+</Card>
+---
+
+
+### Task management 2.0
+
+We've enhanced Task Management capabilities, making it easier to create, track, and manage tasks efficiently. The updated Task Management features include customizable views and advanced filtering and sorting options for task data. Additionally, users can now implement both low-code and full-code solutions for a tailored Task Management experience, ensuring maximum flexibility for different business needs.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/views_task_manager.png)
+</Frame>
+
+<Card title="Task Management" href="../../4.6.0/docs/platform-deep-dive/core-extensions/task-management/task-management-overview" icon="file">
+For more details, check out this section
+</Card>
+
+---
+
+### UI Designer
+
+#### Grid layout 
+
+We are excited to introduce the Grid Layout feature in this release, enhancing the flexibility and usability of the UI Designer for creating structured and responsive layouts. With the new Grid Layout, users can organize form elements, tables, and other components using a multi-column and row system, allowing for more complex, bidirectional designs compared to the previous flex-based layout.
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid-release.mp4"
+></video>
+</Frame>
+
+
+<Accordion title="This might happen after using it for the first time:">
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid-layout-first-time.jpg)
+</Frame>
+</Accordion>
+
+
+#### Table
+
+
+The Table component is a simple and flexible way to display data in web applications. It lets you customize columns, add pagination, sort and filter data, and apply your own styling. You can resize columns, scroll through data, and even add actions like editing or deleting rows directly in the table. It’s easy to set up, with default columns and rows generated automatically based on your data.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2024-12-23%2017.10.38.gif)
 </Frame>
 
-#### Theme Admin for Table
+<Card title="Table" href="../../4.6.0/docs/building-blocks/ui-designer/ui-component-types/table" icon="file">
+For more details, check out this section
+</Card>
 
-FlowX.AI 4.6.0 introduces new customization options for tables within the Theme Admin, allowing users to:
+#### FlowX.AI UI Designer new navigator
 
-- **Manage common properties:** Customize foundational attributes such as padding, spacing, background colors, and text styles.
-- **Table Header Customization:** Adjust vertical padding, background color, title text style, and color for headers to ensure a professional appearance.
+We are thrilled to introduce the new and improved **UI Designer Navigator**, a major update designed to streamline your UI design process.
 
-#### Enhanced Table Rendering
+<CardGroup>
+<Card title="Enhanced UI Layer Panel Design and Functionality" icon="layer-group">
+The UI layer panel has been redesigned for a more intuitive experience, making it easier to manage and navigate through your design elements.
+</Card>
+<Card title="Improved Drag and Drop Experience" icon="arrow-pointer"> 
+Dragging and dropping components in the preview is now smoother and more precise, allowing for faster and easier creation of UIs.
+</Card>
+<Card title= "Flexible Root Component Management" icon ="block-quote">
+You can now change the root component from a form group to a container or vice versa, offering greater flexibility when copying nodes or resolving configuration problems.
+</Card>
+<Card title="Clearer Component Hierarchy" icon="sitemap">
+It is now simpler to identify where you are placing a component within the hierarchy, thanks to the enhanced drag/reorder functionality in the right panel.
+</Card>
+</CardGroup>
 
-- **Min-Max Cell Width:** Define precise minimum and maximum widths for table cells.
-- **Header Text Alignment:** Align header text for improved visual consistency.
-- **"No Data" Message Customization:** Set a custom message for empty tables using the `sys_table_empty` substitution tag.
+<br></br>
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/new_navigator.mp4"
+></video>
+</Frame>
+
+
+#### Conditional formatting for UI elements
+
+Dynamically update styling and properties of UI elements based on conditions, reducing the need for multiple prototypes.
+
+#### Hide expressions enhancements
+
+Expanded hide expressions functionality to include:
+
+- Cards
+- Collection prototypes and children
+- Table cell children (e.g., texts, images, buttons, links)
+
+#### UI actions
+
+* Added a new UI action **Start new project instance**
+* Removed the **Start Process Inherit** UI action type.
+
+#### UI action form updates
+
+* Introduced **Functional** and **UX sections** for all action types, with a checkbox for **Add Analytics Name** in the UX section.
+* Simplified custom and exclude key management.
+
+<Frame>
+  ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-11%20at%2015.20.01.png)
+</Frame>
+
+---
+### Start new project instance action
+
+We’ve introduced the Start New Project Instance node action, enabling users to initiate a completely new process from within an ongoing one. This functionality is perfect for scenarios where isolated use cases are managed across different applications or environments. 
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/start_new_project_instance.png)
+</Frame>
+
+
+
+
+---
+### Custom components validation
+
+You are able to validate and retrieve data from a generated screen, including data from a custom form section. Additionally, you’ll have the ability to trigger and manage data directly within that section. This will be a major benefit for clients who have chosen to create custom components for the entire screen (for example, a form that isn’t supported natively by the platform).
+
+
 
 
 ---
 
+### Autocomputed data to send
 
-### Analytics Integration for Container Apps
+In previous platform versions, when creating your UI screens and working with data, you had to ensure that all the data stored in your process keys was saved in the process instance. This required adding an extra parameter called "Data to send" to the "Save Data" node action.
+
+
+**Older versions** vs **v4.6.0**:
+
+<Frame>
+<Frame><img height="200" alt="older versions" src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/4.x-aut.png"/> </Frame> <Frame> <img height="200" alt="v.4.6" src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/4.2-aut.png"/> </Frame>
+</Frame>
+
+
+Now, with the autocompute feature, this step is no longer necessary, as the data is automatically saved and sent on your process instance.
+
+
+<Tip>
+
+You no longer need to add "Save Data" node actions, but make sure to include "Forms to Validate" on the UI Actions. This helps ensure that data is submitted correctly and automatically activates any added validators where they exist.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/forms_to_validate.png)
+</Frame>
+</Tip>
+
+However, you still have the option to customize which keys are included or excluded as needed.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/include_exclude_keys.png)
+</Frame>
+
+
+---
+
+### Scripting UX improvements
+
+We're excited to announce significant improvements to our scripting UX. These enhancements focus on upgrading the code editors and introducing an advanced autocomplete feature. Configurators, both experienced and novice, will benefit from better visual feedback, support for interpolation syntax, and integrated help and examples. 
+
+The updates aim to streamline the configuration process, reduce errors, and make testing and troubleshooting more efficient.
+
+#### Autocomplete based on data model
+
+Autocomplete for attributes is now available, improving configuration efficiency by offering tailored suggestions based on data model attributes. These enhancements apply to various fields and editors, including JSON, code, and JavaScript editors, as well as input fields across different node configurations, UI components, and business rules.
+
+#### New test business rule editor
+
+<Frame>
+<video
+  controls
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/business_rule_test.mp4"
+></video>
+</Frame>
+
+#### New hide/disabled expressions editor
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/hide%3Adisable%20editor.png)
+</Frame>
+
+---
+### SDKs
+
+#### React SDK
+
+With the 4.6.0 release, we're excited to announce the launch of the FlowX React SDK! This new SDK empowers developers to seamlessly integrate FlowX.AI capabilities into React applications, making it easier than ever to build highly interactive, responsive, and dynamic user experiences.
+
+To get started, simply install the FlowX React SDK via npm and check our documentation for examples and best practices!
+
+<Card title="React SDK" icon="react" href="../../4.6.0/sdks/react-renderer">
+</Card>
+
+#### New Angular SDK
+
+We're excited to announce new releases for FlowX packages to support web applications:  
+
+* `@flowx/core-sdk`  
+* `@flowx/angular-sdk`  
+* `@flowx/angular-theme`  
+* `@flowx/angular-ui-toolkit`  
+* `@flowx/core-theme`  
+
+<Warning>  
+We recommend upgrading to the **latest** versions of all @flowx packages to take full advantage of these new features and improvements. Check the deployment guidelines for version details.  
+</Warning>
+
+---
+
+
+### Analytics integration for Container Apps
 
 Container apps now support tracking "Screen Displayed" and "Action Executed" events, configurable in the UI Designer to improve insights into user interactions.
 
-#### UI Designer Updates
+**UI Designer updates**
 
 - **Analytics Screen Name:** Configurable under Root UI components (Cards and Containers) to enable tracking in analytics platforms like Google Analytics.
 
@@ -166,7 +458,7 @@ Container apps now support tracking "Screen Displayed" and "Action Executed" eve
   Values are saved in `params.analytics` via the PATCH `/actions` request.  
 </Info>  
 
-#### Renderers Updates
+**Renderers updates**
 
 Renderers now expose a public API for triggering analytics events:
 
@@ -175,84 +467,23 @@ Renderers now expose a public API for triggering analytics events:
 
 Dynamic values such as process store keys and replace tags are supported for more contextual tracking.
 
+---
+
+### Plugin updates
+
+**Notifications** and **Documents** plugins have been integrated as **project resources**.
 
 ---
 
-### UI Designer Enhancements
-
-#### Conditional Formatting for UI Elements
-
-Dynamically update styling and properties of UI elements based on conditions, reducing the need for multiple prototypes.
-
-#### Hide Expressions Enhancements
-
-Expanded hide expressions functionality to include:
-
-- Cards
-- Collection prototypes and children
-- Table cell children (e.g., texts, images, buttons, links)
-
-#### Grid Improvements
-
-Added drag-and-drop support for column and row spans in grid placeholders.
-
----
-
-### Projects Updates
-
-#### Export and Import with Binaries
-
-Flexible export/import options for isolated environments:
-
-- **With Binaries:** Include necessary binaries for offline usage.
-- **Without Binaries:** Use metadata-only packages for lightweight exports.
-
-#### New Runtime Manager Service Account
-
-Introduced a `flowx-runtime-manager-sa` service account in Keycloak to manage:
-
-- Build export/import operations.
-- Scheduled events during build transitions.
-- Secure communication with resource services.
-
----
-
-### Plugins Enhancements
-
-- **Audit Logs:** Expanded audit logging for task management, notifications, and document templates.
-- **Runtime Tab Updates:** Display all tasks in the Runtime tab for better task monitoring.
-- **Task Picker:** Introduced a configurable picker to control task display density.
-- **Enumeration Updates:** Removed support for unreferenced enumerations to streamline plugin environments.
-
----
-
-### AI Agents Improvements
-
-- **AI Designer:** Enhanced data model keys.
-- **AI Analyst:** Added support for boundary events.
-- **AI Developer:** Improved business rule explanations.
-
----
-
-## Bug Fixes 🐞
-
-- Resolved rendering and core engine bugs for improved stability.
-- Fixed issues with enum mapper loss and substitution tag conflicts.
-- Addressed errors during branch merges and enhanced conflict detection.
-- Corrected REST endpoint behaviors for Notification and Document plugins.
-- Improved swim lane node handling during merges.
-
----
+## Bug fixes 🐞
 
 ## Changes 🔧
 
 - **Web Renderer Caching:** Improved resource caching with browser mechanisms keyed to build IDs.
 - **Process Designer:** Enhanced drag-and-drop functionality for node placement.
-- **New Angular SDK:** Released new FlowX packages, including `@flowx/core-sdk` and `@flowx/angular-sdk`.
-
 ---
 
-## Additional Information
+## Additional information
 
 For deployment guidelines and further details, refer to:
 

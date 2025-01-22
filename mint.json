@@ -297,7 +297,8 @@
             "4.6.0/docs/building-blocks/actions/start-subprocess-action",
             "4.6.0/docs/building-blocks/actions/append-params-to-parent-process",
             "4.6.0/docs/building-blocks/actions/kafka-send-action",
-            "4.6.0/docs/building-blocks/actions/start-integration-workflow"
+            "4.6.0/docs/building-blocks/actions/start-integration-workflow",
+            "4.6.0/docs/building-blocks/actions/start-new-project-instance"
 
           ]
         },
@@ -1835,96 +1836,6 @@
           ]
         },
 
-
-        {
-          "group": "v4.5.7 - January",
-          "icon": "wrench",
-          "pages": [
-            "release-notes/v4.5.7-january-2025/v4.5.7-january-2025",
-            "release-notes/v4.5.7-january-2025/deployment-guidelines-v4.5.7"
-
-          ]
-        },
-
-        {
-          "group": "v4.5.6 - December",
-          "icon": "wrench",
-          "pages": [
-            "release-notes/v4.5.6-december-2024/v4.5.6-december-2024",
-            "release-notes/v4.5.6-december-2024/deployment-guidelines-v4.5.6"
-
-          ]
-        },
-
-        {
-          "group": "v4.5.5 - December",
-          "icon": "wrench",
-          "pages": [
-            "release-notes/v4.5.5-december-2024/v4.5.5-december-2024",
-            "release-notes/v4.5.5-december-2024/deployment-guidelines-v4.5.5"
-
-          ]
-        },
-        
-        {
-          "group": "v4.5.3 - November",
-          "icon": "wrench",
-          "pages": [
-            "release-notes/v4.5.3-november-2024/v4.5.3-november-2024",
-            "release-notes/v4.5.3-november-2024/deployment-guidelines-v4.5.3",
-            {
-              "group": "Migrating from v4.1.x",
-              "pages": [
-                "release-notes/v4.5.3-november-2024/migrating-from-v4.1.x-to-v4.5.3/renderers",
-                "release-notes/v4.5.3-november-2024/migrating-from-v4.1.x-to-v4.5.3/process-configuration",
-                "release-notes/v4.5.3-november-2024/migrating-from-v4.1.x-to-v4.5.3/migrating-from-v4.1.x"
-
-              ]
-            }
-
-
-          ]
-        },
-        
-     {
-          "group": "v4.5.1 - November",
-          "icon": "wrench",
-          "pages": [
-            "release-notes/v4.5.1-november-2024/v4.5.1-november-2024",
-            "release-notes/v4.5.1-november-2024/deployment-guidelines-v4.5.1",
-            {
-              "group": "Migrating from v4.1.x",
-              "pages": [
-                "release-notes/v4.5.1-november-2024/migrating-from-v4.1.x-to-v4.5.1/renderers",
-                "release-notes/v4.5.1-november-2024/migrating-from-v4.1.x-to-v4.5.1/process-configuration",
-                "release-notes/v4.5.1-november-2024/migrating-from-v4.1.x-to-v4.5.1/migrating-from-v4.1.x"
-
-              ]
-            }
-
-
-          ]
-        },
-
-        {
-          "group": "v4.5.0 - October",
-          "icon": "rocket",
-          "pages": [
-            "release-notes/v4.5.0-october-2024/v4.5.0-october-2024",
-            "release-notes/v4.5.0-october-2024/deployment-guidelines-v4.5.0",
-            {
-              "group": "Migrating from v4.1.x",
-              "pages": [
-                "release-notes/v4.5.0-october-2024/migrating-from-v4.1.x-to-v4.5.0/renderers",
-                "release-notes/v4.5.0-october-2024/migrating-from-v4.1.x-to-v4.5.0/process-configuration",
-                "release-notes/v4.5.0-october-2024/migrating-from-v4.1.x-to-v4.5.0/migrating-from-v4.1.x"
-
-              ]
-            }
-
-
-          ]
-        },
         {
           "group": "v4.1.5 - September",
           "pages": [
