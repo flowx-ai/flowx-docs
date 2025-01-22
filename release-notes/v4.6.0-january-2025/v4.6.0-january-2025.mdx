@@ -321,10 +321,15 @@ We’ve introduced the Start New Project Instance node action, enabling users to
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/start_new_project_instance.png)
 </Frame>
 
+
+
+
 ---
 ### Custom components validation
 
 You are able to validate and retrieve data from a generated screen, including data from a custom form section. Additionally, you’ll have the ability to trigger and manage data directly within that section. This will be a major benefit for clients who have chosen to create custom components for the entire screen (for example, a form that isn’t supported natively by the platform).
+
+
 
 
 ---
@@ -423,7 +428,7 @@ We recommend upgrading to the **latest** versions of all @flowx packages to take
 
 Container apps now support tracking "Screen Displayed" and "Action Executed" events, configurable in the UI Designer to improve insights into user interactions.
 
-#### UI Designer updates
+**UI Designer updates**
 
 - **Analytics Screen Name:** Configurable under Root UI components (Cards and Containers) to enable tracking in analytics platforms like Google Analytics.
 
@@ -453,7 +458,7 @@ Container apps now support tracking "Screen Displayed" and "Action Executed" eve
   Values are saved in `params.analytics` via the PATCH `/actions` request.  
 </Info>  
 
-#### Renderers updates
+**Renderers updates**
 
 Renderers now expose a public API for triggering analytics events:
 
@@ -466,9 +471,8 @@ Dynamic values such as process store keys and replace tags are supported for mor
 
 ### Plugin updates
 
-#### Notifications & Documents plugins
+**Notifications** and **Documents** plugins have been integrated as **project resources**.
 
-Notifications and Documents plugins have been integrated as **project resources**.
 ---
 
 ## Bug fixes 🐞
