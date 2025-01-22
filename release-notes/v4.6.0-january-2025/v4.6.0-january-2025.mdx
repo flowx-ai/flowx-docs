@@ -71,6 +71,64 @@ For more details, check out this section
 </Card>
 
 ---
+
+### Merge conflicts 2.0
+
+The Merge Conflicts feature delivers an enhanced collaboration experience for managing branch versions, focusing on improving conflict detection, resolution efficiency, and seamless merging workflows.
+
+#### Merging without conflicts
+
+Easily merge secondary branches into the main branch or other branches when no conflicts are detected. The updated merge modal includes:
+
+- A clean, streamlined interface for branch selection.
+- A mandatory, validated commit message field (max 50 characters).
+- Real-time feedback for successful merges and updates to the branching graph.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Pre-merge.png)  
+</Frame>  
+
+#### Advanced conflict detection
+
+The new **Conflicts Detected Modal** provides a detailed overview of conflicting changes, with features such as:
+
+- Clear grouping by resource type (e.g., Processes, Enumerations, Media Library).
+- Scrollable lists and clickable entries to resolve conflicts efficiently.
+- A comprehensive comparison of source and target branch differences for context.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%281%29.png)  
+</Frame>  
+
+#### Resource-level conflict resolution
+
+Resolve conflicts directly at the resource level with an intuitive interface:
+
+- **JSON Comparisons:** Visualize differences with color-coded highlights (source: yellow, target: blue).
+- **Navigation Support:** Quickly jump between differences for efficient resolution.
+- **Progress Tracking:** Mark resources as “Reviewed” or “Seen” to monitor resolution progress.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-20%20at%2016.23.03.png)  
+</Frame>  
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%282%29.png)  
+</Frame>  
+
+#### Flexible merge overrides
+
+Handle unresolved conflicts with the **Merge Anyway** option, which provides flexibility while maintaining control over outcomes:
+
+- A confirmation modal explains how unresolved conflicts will be handled (e.g., prioritizing source branch changes).
+- Allows merging to continue even when some conflicts remain unresolved.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Confirm%20Merging%20without%20checking%20all.png)  
+</Frame>
+
+---
+
 ### AI Agents
 
 
@@ -196,7 +254,7 @@ The Table component is a simple and flexible way to display data in web applicat
 For more details, check out this section
 </Card>
 
-####  FlowX.AI UI Designer new navigator
+#### FlowX.AI UI Designer new navigator
 
 We are thrilled to introduce the new and improved **UI Designer Navigator**, a major update designed to streamline your UI design process.
 
@@ -250,6 +308,11 @@ Expanded hide expressions functionality to include:
 <Frame>
   ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-11%20at%2015.20.01.png)
 </Frame>
+
+---
+### Custom components validation
+
+You are able to validate and retrieve data from a generated screen, including data from a custom form section. Additionally, you’ll have the ability to trigger and manage data directly within that section. This will be a major benefit for clients who have chosen to create custom components for the entire screen (for example, a form that isn’t supported natively by the platform).
 
 
 ---
@@ -343,63 +406,6 @@ We recommend upgrading to the **latest** versions of all @flowx packages to take
 
 ---
 
-### Merge conflicts 2.0
-
-The Merge Conflicts feature delivers an enhanced collaboration experience for managing branch versions, focusing on improving conflict detection, resolution efficiency, and seamless merging workflows.
-
-#### Merging without conflicts
-
-Easily merge secondary branches into the main branch or other branches when no conflicts are detected. The updated merge modal includes:
-
-- A clean, streamlined interface for branch selection.
-- A mandatory, validated commit message field (max 50 characters).
-- Real-time feedback for successful merges and updates to the branching graph.
-
-<Frame>  
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Pre-merge.png)  
-</Frame>  
-
-#### Advanced conflict detection
-
-The new **Conflicts Detected Modal** provides a detailed overview of conflicting changes, with features such as:
-
-- Clear grouping by resource type (e.g., Processes, Enumerations, Media Library).
-- Scrollable lists and clickable entries to resolve conflicts efficiently.
-- A comprehensive comparison of source and target branch differences for context.
-
-<Frame>  
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%281%29.png)  
-</Frame>  
-
-#### Resource-level conflict resolution
-
-Resolve conflicts directly at the resource level with an intuitive interface:
-
-- **JSON Comparisons:** Visualize differences with color-coded highlights (source: yellow, target: blue).
-- **Navigation Support:** Quickly jump between differences for efficient resolution.
-- **Progress Tracking:** Mark resources as “Reviewed” or “Seen” to monitor resolution progress.
-
-<Frame>  
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-20%20at%2016.23.03.png)  
-</Frame>  
-
-<Frame>  
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%282%29.png)  
-</Frame>  
-
-#### Flexible merge overrides
-
-Handle unresolved conflicts with the **Merge Anyway** option, which provides flexibility while maintaining control over outcomes:
-
-- A confirmation modal explains how unresolved conflicts will be handled (e.g., prioritizing source branch changes).
-- Allows merging to continue even when some conflicts remain unresolved.
-
-<Frame>  
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Confirm%20Merging%20without%20checking%20all.png)  
-</Frame>
-
----
-
 
 ### Analytics integration for Container Apps
 
@@ -444,7 +450,14 @@ Renderers now expose a public API for triggering analytics events:
 
 Dynamic values such as process store keys and replace tags are supported for more contextual tracking.
 
+---
 
+### Plugin updates
+
+#### Notifications & Documents plugins
+
+Notifications and Documents plugins have been integrated as **project resources**.
+---
 
 ## Bug fixes 🐞
 
