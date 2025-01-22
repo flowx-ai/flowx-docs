@@ -103,11 +103,11 @@ Two new parameters were added on the 3 available start process methods:
 
 | Name              | Description                                                                                        | Type                               | Requirement                                         |
 | ----------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------- |
-| `applicationUuid` | The uuid string of the application containing the process to be started                            | `String`                           | Mandatory                                           |
+| `projectId`       | The uuid string of the project containing the process to be started                                | `String`                           | Mandatory                                           |
 | `onProcessEnded`  | Callback function where you can do additional processing when the started process ends             | `(() -> Void)?`                    | Optional. It defaults to `nil`.                     |
 
 ```swift
-func startProcess(applicationUuid: String, 
+func startProcess(projectId: String, 
                   name: String, 
                   params: [String : Any]?, 
                   isModal: Bool = false, 

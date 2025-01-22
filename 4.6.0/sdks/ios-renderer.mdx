@@ -295,7 +295,7 @@ The controller to be presented will be provided inside the `completion` closure 
 <Tip>Use this method when you want the process to be rendered inside a controller themed using the FlowX Theme defined in the FlowX Designer.</Tip>
 
 ```swift
-public func startProcess(applicationUuid: String,
+public func startProcess(projectId: String,
                          name: String,
                          params: [String: Any]?,
                          isModal: Bool = false,
@@ -303,7 +303,7 @@ public func startProcess(applicationUuid: String,
                          completion: ((UIViewController?) -> Void)?,
                          onProcessEnded: (() -> Void)? = nil)
 ```
-- `applicationUuid` - the uuid of the application
+- `projectId` - the uuid of the project
 
 - `name` - the name of the process
 
@@ -325,7 +325,7 @@ If you use this method, make sure that the process does not use a tab controller
 
 ```swift
 public func startProcess(navigationController: UINavigationController,
-                         applicationUuid: String,
+                         projectId: String,
                          name: String,
                          params: [String: Any]?,
                          isModal: Bool = false,
@@ -335,7 +335,7 @@ public func startProcess(navigationController: UINavigationController,
 
 - `navigationController` - the instance of UINavigationController which will hold the process navigation stack
 
-- `applicationUuid` - the uuid of the application
+- `projectId` - the uuid of the project
 
 - `name` - the name of the process
 
@@ -356,7 +356,7 @@ public func startProcess(navigationController: UINavigationController,
 
 ```swift
 public func startProcess(tabBarController: UITabBarController,
-                         applicationUuid: String,
+                         projectId: String,
                          name: String,
                          params: [String: Any]?,
                          isModal: Bool = false,
@@ -366,7 +366,7 @@ public func startProcess(tabBarController: UITabBarController,
 
 - `tabBarController` - the instance of UITabBarController which will hold the process navigation
 
-- `applicationUuid` - the uuid of the application
+- `projectId` - the uuid of the project
 
 - `name` - the name of the process
 
@@ -381,7 +381,7 @@ public func startProcess(tabBarController: UITabBarController,
 #### Sample
 
 ```swift
-FlowX.sharedInstance.startProcess(applicationUuid: applicationUuid,
+FlowX.sharedInstance.startProcess(projectId: projectId,
                                   name: processName,
                                   params: [:],
                                   isModal: true,
@@ -399,7 +399,7 @@ or
 
 ```swift
 FlowX.sharedInstance.startProcess(navigationController: processNavigationController,
-                                  applicationUuid: applicationUuid,
+                                  projectId: projectId,
                                   name: processName,
                                   params: startParams,
                                   isModal: true
@@ -412,7 +412,7 @@ or
 
 ```swift
 FlowX.sharedInstance.startProcess(tabBarController: processTabController,
-                                  applicationUuid: applicationUuid,
+                                  projectId: projectId,
                                   name: processName,
                                   params: startParams,
                                   isModal: true
@@ -578,6 +578,9 @@ public protocol FXDataSource: AnyObject {
     
     func viewForStepperHeader(stepViewModel: StepViewModel) -> AnyView?
 
+    func track(event: TrackEvent)
+ 
+    func newProcessStarted(processInstanceUuid: String)
 }
 ```
 
@@ -615,6 +618,22 @@ The container app is responsible with dismissing the UI and calling the stop pro
 * `func viewForStepperHeader(stepViewModel: StepViewModel) -> AnyView?`
 
 This method is used for providing a custom SwiftUI view for the stepper navigation header.
+
+* `func track(event: TrackEvent)`
+
+This method is used for collecting analytics events from the SDK. The parameter is a `TrackEvent` enum, which can represent a screen or an action.
+
+```swift
+public enum TrackEvent {
+    case screen(String)
+    case action(String)
+}
+```
+
+* `func newProcessStarted(processInstanceUuid: String)`
+
+This method is used for handling the start of another main process. The parameter is the uuid of the process instance. The container app is responsible for dismissing the navigation of the current process and displaying the new process navigation.
+
 
 #### Sample 
 
@@ -673,6 +692,14 @@ class MyFXDataSource: FXDataSource {
 
     func viewForStepperHeader(stepViewModel: StepViewModel) -> AnyView? {
         return AnyView(CustomStepperHeaderView(stepViewModel: stepViewModel))
+    }
+
+    func track(event: TrackEvent) {
+        //TODO: track event using the desired analytics tool.
+    }
+ 
+    func newProcessStarted(processInstanceUuid: String) {
+        //TODO present new process instance navigation
     }
 
 }
@@ -771,11 +798,13 @@ override var intrinsicContentSize: CGSize {
 Custom SwiftUI components can be provided as type-erased views.
 
 `FXCustomComponentViewModel` is a class implementing the `ObservableObject` protocol. It is used for managing the state of custom SwiftUI views.
-It has two published properties, for data and actions. 
+It has two published properties, for data and actions. It also includes a `saveData` dictionary and a `validate` closure used for submitting and validating data from the custom components.
 
 ```swift
     @Published public var data: Any?
     @Published public var actions: [ProcessActionModel] = []
+    public var saveData: [String: Any]?
+    public var validate: (() -> Bool)?
 ```
 
 Example
@@ -790,6 +819,40 @@ struct SampleView: View {
     }
 }
 ```
+
+### Validating SwiftUI Custom Components
+
+A SwiftUI Custom Component can validate and submit data from a custom component, when executing an action from a FlowX.AI UI Component.
+
+
+* `public var saveData: [String: Any]?`
+Used for setting data to be submitted from the custom component.
+
+* `public var validate: (() -> Bool)?`
+Used for validating the custom component data before executing the action.
+
+#### Sample
+
+```swift
+struct MyCustomView: View {
+
+    @ObservedObject var viewModel: FXCustomComponentViewModel
+
+    var body: some View {
+        VStack {
+            ...
+        }
+        .onAppear {
+            viewModel.saveData = ["customKey": "customValue"]
+            viewModel.validate = {
+                return true
+            }
+        }
+        .frame(height: 200)
+    }
+}
+```
+
 
 ### Custom header view for Stepper navigation
 
