@@ -155,16 +155,168 @@ func changeLocaleSettings(locale: String?, language: String?)
 
 ## Angular SDK migration guide
 
+### Upgrading to the new SDK libraries
+
+The Angular SDK node packages have been updated and will use the latest versions Angular (version 19), thus all container apps that want to use the new SDKs should first update the Angular version of the container apps. 
+
+In the following we cover the migration guide for a container app from Angular v17 to v19 and the new SDKs.
+
+#### 0. Remove old packages and their explicit dependencies (required dependency packages for new sdks are bundled in the libraries so we don't need )
+
+* remove material-moment-adapter unless its not used in custom components (usually together with material datepicker)
+
+```bash
+npm uninstall @angular/material-moment-adapter
+```
+
+* remove old SDKs
+```bash
+npm uninstall @flowx/ui-sdk @flowx/ui-theme @flowx/ui-toolkit 
+```
+
+* in `angular.json` remove references to old stylesheets:
+
+```bash
+"./node_modules/@flowx/ui-sdk/src/assets/scss/style.scss"
+"./node_modules/paperflow-web-components/src/assets/scss"
+"./node_modules/@flowx/ui-sdk/src/assets/scss"
+```
+
+* remove old SDKs explicit dependencies. Please check before removing that packages are not used in the container app or custom components.
+```bash
+npm uninstall date-fns event-source-polyfill inputmask ng2-pdfjs-viewer vanillajs-datepicker @ngneat/input-mask deepmerge-ts marked-mangle
+```
+
+* remove deprecated Angular Flex library (the new sdks don't use it anymore and the package has been deprecated by the Angular team) unless it is not used in container app or custom components
+```bash
+npm uninstall @angular/flex-layout
+```
+
+#### 1. Update container app to Angular 18
+
+* Make sure to have the Angular CLI installed at version 18 (check with `ng --version`)
+```bash
+npm i -g @angular/cli@18
+```
+
+* Run the Angular update for version 18
+```bash
+ng update @angular/core@18 @angular/cli@18
+```
+
+* Update Angular CDK or Angular Material 
+
+```bash
+ng update @angular/cdk@18
+```
+
+or, if the container app uses Angular material, run:
+
+```bash
+ng update @angular/material@18
+```
+
+* Optionally, if your project uses other angular packages (eg. Ngrx) please run migrations to v18 for each of them. You can find details on the libraries documentation pages.
+
+* Angular has changed the default build path in the `dist` folder, it now uses a `browser` folder for the build output. In order to place the output of the build comand directy in the `dist/[APP_NAME]` folder, add the following change in `angular.json`:
+
+```json
+{
+  ...
+  "architect": {
+    ...
+    "build": {
+      ...
+      "options": {
+        ...
+        "outputPath": {
+          "base": "dist/flowx-demo-app",
+          "browser": "" <-- add this line
+        },
+      }
+    }
+  }
+}
+
+```
+
+#### 2. Install the new SDKs
+
+!!!TODO!!! update to latest 4.6 versions
+
+```bash
+npm i @flowx/core-sdk@5.53.4 @flowx/core-theme@5.53.4 @flowx/angular-sdk@5.53.4 @flowx/angular-theme@5.53.4 @flowx/angular-ui-toolkit@5.53.4 
+```
+
+* Install a type dependency for the SSE library:
+
+```bash
+npm i --save-dev @types/event-source-polyfill
+```
+
+* run through all the migration steps in the [New SDK Api changes](#new-sdk-api-changes) section below.
+
+#### 3. Update container app to Angular 19
+
+* Make sure to have the Angular CLI installed at version 19 (check with `ng --version`)
+```bash
+npm i -g @angular/cli@19
+```
+
+* Run the Angular update for version 19
+```bash
+ng update @angular/core@19 @angular/cli@19
+```
+
+* Update Angular CDK or Angular Material 
+
+```bash
+ng update @angular/cdk@19
+```
+
+or, if the container app uses Angular material, run:
+
+```bash
+ng update @angular/material@19
+```
+
+* Optionally, if your project uses other angular packages (eg. Ngrx) please run migrations to v19 for each of them. You can find details on the libraries documentation pages.
+
+
+**_NOTE:_**  Each migration requires a 'clean' repository state. Make sure to commit all changes before starting the next migration step.
+
+
+#### Add ing overrides for libraries that have a dependency on Angular version < 19
+
+* For some libraries, the required angular version might not be up to date or compatible with the new Angular version. In this case, you can add an override in the `package.json` file to force the library to use the new Angular version. For example, the `ng2-pdfjs-viewer`:
+
+```json
+{
+  ...
+  "overrides": {
+    "ng2-pdfjs-viewer": {
+      "@angular/common": "^19.0.0",
+      "@angular/core": "^19.0.0",
+      "ng-packagr": "^19.0.0"
+    }
+  }
+}
+```
+
 ### Renderer SDK component usage
 
-In the Angular SDK, the `<flx-process-renderer>` component has two new parameters have been introduced: appInfo and locale. These additions help support localization and application-specific configurations.
-* **appInfo**: Object containing an  appId key, which identifies the application.
-* **locale**: Provides region-specific settings for localization.
+In the Angular SDK, the `<flx-process-renderer>` component has two new parameters have been introduced: `projectInfo` and `locale`. These additions help support localization and project-specific configurations.
+
+| Name              | Description                                                                                        | Type                               | Requirement                                         |
+| ----------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------- |
+| `projectInfo`     | Object containing an `projectId` key, which identifies the project of the process to be started    | `{projectId: string}`              | Mandatory                                           |
+| `locale`          | Provides region-specific settings for localization.                                                | `string`                           | Mandatory                                           |
+
 
 Add the definitions for these properties in the class file of the component that uses the process renderer component:
 
 ```typescript
-appInfo = { appId: 'your-app-id' },
+projectInfo = { projectId: 'your-project-id' },
 locale = 'en-US',
 ```
 Use these parameters in the template as inputs for the `<flx-process-renderer>` component:
@@ -172,10 +324,37 @@ Use these parameters in the template as inputs for the `<flx-process-renderer>` 
 ```html
 <flx-process-renderer
   ...
+  [projectInfo]="projectInfo"
   [locale]="locale"
-  [appInfo]="appId"
 />
 ```
+
+### New SDK Api changes
+
+#### API Changes
+
+Process Renderer:
+
+- OLD: `FlxProcessModule.forRoot({...})`
+- NEW: `FlxProcessModule.withConfig({...})`
+
+
+#### Import path updates
+
+- `@flowx/ui-sdk`  → `@flowx/angular-sdk` (or `@flowx/core-sdk` in a few cases)
+- `@flowx/ui-theme` → `@flowx/angular-theme`
+- `@flowx/ui-toolkit` → `@flowx/angular-ui-toolkit`
+
+- OLD: `import {FlxLocalizationModule} from '@flowx/ui-sdk';` 
+- NEW: `import {FlxLocalizePipe} from '@flowx/angular-sdk';`
+
+You can also remove the `FlxLocalizationModule` from any `imports` arrays in modules, and import the `FlxLocalizePipe` instead
+
+- OLD: `import {FlxTaskManagementModule} from '@flowx/ui-sdk';`
+- NEW: `import {FlxTasksManagementComponent} from '@flowx/angular-sdk';`
+
+- OLD: `import {ClientStoreInterface} from '@flowx/ui-sdk';`
+- NEW: `import {ClientStoreInterface} from '@flowx/core-sdk';`
 
 ### Icon module update 
 
@@ -197,13 +376,3 @@ The `withExtraIconSet` method has been replaced with `provideExtraIconSet`, whic
 })
 export class AppModule {}
 ```
-
-### Additional libraries
-
-The following npm packages are now essential for handling date and input formatting:
-
-```npm
-npm i date-fns inputmask
-```
-* date-fns
-* inputmask
