@@ -438,13 +438,13 @@ interface CustomComposable {
     fun populateUi(actions: Map<String, CustomComponentAction>)
 
     /**
-     * This will be called when executing an action, when the platform needs to know if the specified/marked components are valid.
+     * This will be called when executing an action from a FlowX.AI UI Component, when the platform needs to know if the specified/marked components are valid.
      * Defaults to `true`.
      */
     fun validate(): Boolean = true
 
     /**
-     * This will be called when executing an action, on computing the data to be sent as body on the network request.
+     * This will be called when executing an action from a FlowX.AI UI Component, on computing the data to be sent as body on the network request.
      * Returning `null` (i.e. default) means it does not contribute with any data to be sent.
      */
     fun saveData(): JSONObject? = null
