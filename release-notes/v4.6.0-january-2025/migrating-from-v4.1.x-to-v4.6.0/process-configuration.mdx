@@ -202,6 +202,21 @@ In version 4.5, significant updates have been introduced to the **Datepicker** c
 1. **Review Your Expressions:** Check any dynamic and computed expressions in your processes that currently include manual double quotes around string values.
 2. **Modify as Needed:** Remove unnecessary double quotes where the system now handles them automatically to prevent duplicate quoting or formatting issues.
 
+---
+## Export/import enumerations (CSV)
+
+In the transition from version 4.1.x to 4.6.0, the following columns have been removed from the enum CSV export format:
+  
+  - description.application
+  - description.draft
+  - contentValue.childContentDescription.application
+  - contentValue.childContentDescription.draft
+  - contentValue.childContentDescription.type
+
+
+Existing CSV export/import processes should be updated to remove references to these columns to ensure compatibility with the 4.6.0 release.
+
+---
 
 ## Post-migration recommendations
 

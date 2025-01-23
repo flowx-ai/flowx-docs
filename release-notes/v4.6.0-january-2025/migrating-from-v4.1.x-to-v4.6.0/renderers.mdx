@@ -329,32 +329,33 @@ Use these parameters in the template as inputs for the `<flx-process-renderer>` 
 />
 ```
 
-### New SDK Api changes
+### New SDK API changes
 
 #### API Changes
 
 Process Renderer:
 
-- OLD: `FlxProcessModule.forRoot({...})`
-- NEW: `FlxProcessModule.withConfig({...})`
+| Category                   | Old Approach                                                                      | New Approach                                                                     |
+| -------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **Process Renderer**       | `FlxProcessModule.forRoot({...})`                                                 | `FlxProcessModule.withConfig({...})`                                             |
 
 
 #### Import path updates
 
-- `@flowx/ui-sdk`  → `@flowx/angular-sdk` (or `@flowx/core-sdk` in a few cases)
-- `@flowx/ui-theme` → `@flowx/angular-theme`
-- `@flowx/ui-toolkit` → `@flowx/angular-ui-toolkit`
+| Category                   | Old Approach                                                                      | New Approach                                                                     |
+| -------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **Import Paths**           | `@flowx/ui-sdk`                                                                   | `@flowx/angular-sdk` (or `@flowx/core-sdk`)                                      |
+|                            | `@flowx/ui-theme`                                                                 | `@flowx/angular-theme`                                                           |
+|                            | `@flowx/ui-toolkit`                                                               | `@flowx/angular-ui-toolkit`                                                      |
+| **Localization Module**    | `import {FlxLocalizationModule} from '@flowx/ui-sdk';`  Include in module imports | `import {FlxLocalizePipe} from '@flowx/angular-sdk';` Remove from module imports |
+| **Task Management**        | `import {FlxTaskManagementModule} from '@flowx/ui-sdk';`                          | `import {FlxTasksManagementComponent} from '@flowx/angular-sdk';`                |
+| **Client Store Interface** | `import {ClientStoreInterface} from '@flowx/ui-sdk';`                             | `import {ClientStoreInterface} from '@flowx/core-sdk';`                          |
 
-- OLD: `import {FlxLocalizationModule} from '@flowx/ui-sdk';` 
-- NEW: `import {FlxLocalizePipe} from '@flowx/angular-sdk';`
-
+<Info>
 You can also remove the `FlxLocalizationModule` from any `imports` arrays in modules, and import the `FlxLocalizePipe` instead
+</Info>
 
-- OLD: `import {FlxTaskManagementModule} from '@flowx/ui-sdk';`
-- NEW: `import {FlxTasksManagementComponent} from '@flowx/angular-sdk';`
 
-- OLD: `import {ClientStoreInterface} from '@flowx/ui-sdk';`
-- NEW: `import {ClientStoreInterface} from '@flowx/core-sdk';`
 
 ### Icon module update 
 
