@@ -23,7 +23,7 @@ In version 4.6.0, the CMS setup includes a more comprehensive MongoDB configurat
 Private CMS to securely store uploaded documents and AI-generated documents, ensuring they are accessible only via authenticated endpoints. This CMS will support AI services and workflows while maintaining strict access controls.
 
 <Info>
-Private CMS ensures secure file storage by keeping documents hidden from the Media Library and accessible only through authenticated endpoints with access token permissions. Files can be retrieved using tags (e.g., ai_document, ref:UUID_doc) and are excluded from application builds as they aren't needed at runtime.
+Private CMS ensures secure file storage by keeping documents hidden from the Media Library and accessible only through authenticated endpoints with access token permissions. Files can be retrieved using tags (e.g., ai_document, ref:UUID_doc) and are excluded from project builds as they aren't needed at runtime.
 </Info>
 
 * `APPLICATION_FILE_STORAGE_S3_PRIVATE_SERVER_URL`: This environment variable specifies the URL of the S3 server used for private file storage.
