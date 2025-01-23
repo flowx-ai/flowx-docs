@@ -148,16 +148,35 @@ Customize the appearance by overriding style options coming from your default th
 
 ## Validating elements
 
-To ensure the validation of all form elements within a card upon executing a Save Data action such as "Submit" or "Continue," follow these steps:
+To ensure the validation of all form elements and custom components within a card upon executing a Save Data action such as **Submit** or **Continue**, follow these steps:
 
-1. When adding a UI action to a button inside a card, locate the dropdown menu labeled **Add form to validate**.
-2. From the dropdown menu, select the specific form or individual form elements that you wish to validate.
-3. By choosing the appropriate form or elements from this dropdown, you can ensure comprehensive validation of your form data, enhancing the integrity and reliability of your user interactions.
+1. When adding a UI action to a button inside a card, locate the dropdown menu labeled **Add forms to submit**.
+2. From the dropdown menu, select the specific forms, individual form elements, or custom components you wish to validate.
+3. If you select custom components, ensure they are properly configured to handle validation and data saving responsibilities.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/forms_to_validate.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-23%20at%2013.26.20.png)
+</Frame>
 
-***
+---
 
-<Accordion title ="Provide feedback on this page">
-Use our [**feedback form**](https://www.cognitoforms.com/FlowXAi1/FeedbackForm) if you would like to provide feedback on this page. You could also [**raise issues/requests**](https://flowxai.canny.io/documentation-feedback).
-</Accordion>
+### Custom component validation
+
+UI actions enable validation and data management for custom components alongside form elements. This provides flexibility if you want to design custom components for entire screens, such as custom forms not natively supported by the platform.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-23%20at%2013.37.15.png)
+</Frame>
+
+#### Key features
+
+- **Validation API**: The renderer provides a public API for validating custom components before triggering an action.
+- **Custom Component Responsibilities**:
+  - Validate custom forms and return a boolean (`true` for valid, `false` for invalid).
+  - Display validation errors in the UI for invalid data.
+  - Populate a `saveData` property with the structured data to be submitted.
+- **Configurator Responsibilities**:
+  - Select custom components in the **Add forms to submit** dropdown when configuring a UI action.
+  - Set the custom key to store the data submitted by the custom component.
+
+By including custom components in the validation process, you can now validate and retrieve data from custom form sections, ensuring comprehensive and reliable form submission.

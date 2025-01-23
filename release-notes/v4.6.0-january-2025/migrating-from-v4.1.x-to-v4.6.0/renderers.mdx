@@ -1,0 +1,381 @@
+---
+title: Renderer SDKs
+description: This guide assists in migrating from FlowX v4.1.x to v4.6.0.
+---
+
+## Android SDK migration guide
+
+### Initialization config changes
+
+A new configuration parameter, named `locale` was added in order to improve formatting the dates, numbers and currencies.
+
+When the SDK initialization happens through the `FlowxSdkApi.getInstance().init(...)` method, the argument has to be set inside the `config: SdkConfig` parameter value:
+
+```kotlin
+FlowxSdkApi.getInstance().init(
+    ...
+    config = SdkConfig(
+        baseUrl = "URL to FlowX backend",
+        imageBaseUrl = "URL to FlowX CMS Media Library",
+        enginePath = "some_path",
+        language = "en",
+        locale = Locale.getDefault(), // e.g. Locale("en", "US"), Locale("fr", "CA")
+        validators = mapOf("exact_25_in_length" to { it.length == 25 }),
+        enableLog = false,
+    ),
+    ...
+)
+```
+
+### Changes when starting a Flowx process
+
+Two new parameters were added:
+
+| Name             | Description                                                                            | Type                               | Requirement                                         |
+| ---------------- | ---------------------------------------------------------------------------------------| ---------------------------------- | --------------------------------------------------- |
+| `projectId`      | The id of the project containing the process to be started                             | `String`                           | Mandatory                                           |
+| `onProcessEnded` | Callback function where you can do additional processing when the started process ends | `(() -> Unit)?`                    | Optional. It defaults to `null`.                    |
+
+```kotlin
+fun startProcess(
+    projectId: String,
+    processName: String,
+    params: JSONObject = JSONObject(),
+    isModal: Boolean = false,
+    onProcessEnded: (() -> Unit)? = null,
+    closeModalFunc: ((processName: String) -> Unit)? = null,
+): @Composable () -> Unit
+```
+
+### Changes when resuming a Flowx process
+
+One new parameter was added:
+
+| Name             | Description                                                                                        | Type                               | Requirement                       |
+| ---------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------- |
+| `onProcessEnded` | Callback function where you can do additional processing when the continued process ends           | `(() -> Unit)?`                    | Optional. It defaults to `null`.  |
+
+```kotlin
+fun continueProcess(
+    processUuid: String,
+    isModal: Boolean = false,
+    onProcessEnded: (() -> Unit)? = null,
+    closeModalFunc: ((processName: String) -> Unit)? = null,
+): @Composable () -> Unit
+```
+
+### Changes regarding the implementation of Custom Components
+
+The support for classical **[Android View](https://developer.android.com/reference/android/view/View)** system has been dropped.<br/>
+A Custom Component can now be implemented only by using the **[Compose](https://developer.android.com/compose)** UI system.
+
+This means that the `CustomViewComponent` is now ignored in the internals of the SDK and has been marked as `@Deprecated`, in order to be completely removed in the next release.
+
+<Info>
+   There is no immediate need to update any of the existing components.
+</Info>
+
+### Public API changes
+
+The `changeLanguage` method has been updated and renamed to `changeLocaleSettings`, in order to accommodate the newly added `locale` config parameter:
+
+```kotlin
+fun changeLocaleSettings(locale: Locale, language: String)
+```
+
+### Library dependencies updates
+
+- **[Kotlin](https://kotlinlang.org/)**: 1.9.22 **&nearr;** **1.9.24**
+- **[Compose BOM](https://developer.android.com/jetpack/compose/bom/bom-mapping)**: 2024.02.00 **&nearr;** **2024.06.00**
+- **[Compose Compiler](https://developer.android.com/jetpack/androidx/releases/compose-compiler)**: 1.5.9 **&nearr;** **1.5.14**
+- **[Gson](https://github.com/google/gson)**: 2.10.1 **&nearr;** **2.11.0**
+
+
+---
+
+## iOS SDK migration guide
+
+### Initialization config changes
+
+A new configuration parameter, named `locale` was added in order to improve formatting the dates, numbers and currencies.
+
+The locale needs to be set on the `FXConfig.sharedInstance.configure` method
+
+```swift
+FXConfig.sharedInstance.configure { (config) in
+    config.locale = "en-US"
+    ...
+}
+```
+
+### Changes when starting a process
+
+Two new parameters were added on the 3 available start process methods:
+
+| Name              | Description                                                                                        | Type                               | Requirement                                         |
+| ----------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------- |
+| `projectId`       | The uuid string of the project containing the process to be started                                | `String`                           | Mandatory                                           |
+| `onProcessEnded`  | Callback function where you can do additional processing when the started process ends             | `(() -> Void)?`                    | Optional. It defaults to `nil`.                     |
+
+```swift
+func startProcess(projectId: String, 
+                  name: String, 
+                  params: [String : Any]?, 
+                  isModal: Bool = false, 
+                  showLoader: Bool = false, 
+                  completion: ((UIViewController?) -> Void)?, 
+                  onProcessEnded: (() -> Void)? = nil)
+```
+
+### Changes when resuming a Flowx process
+
+One new parameter was added on the 3 available continue process methods:
+
+| Name             | Description                                                                                        | Type                               | Requirement                       |
+| ---------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------- |
+| `onProcessEnded` | Callback function where you can do additional processing when the started process ends             | `(() -> Void)?`                    | Optional. It defaults to `nil`.   |
+
+```swift
+func continueExistingProcess(uuid: String, 
+                             name: String, 
+                             isModal: Bool = false, 
+                             completion: ((UIViewController?) -> Void)? = nil, 
+                             onProcessEnded: (() -> Void)? = nil)
+```
+
+### Public API changes
+
+The `changeLanguage` method has been updated and renamed to `changeLocaleSettings`, in order to accommodate the newly added `locale` config parameter:
+
+```swift
+func changeLocaleSettings(locale: String?, language: String?)
+```
+
+---
+
+## Angular SDK migration guide
+
+### Upgrading to the new SDK libraries
+
+The Angular SDK node packages have been updated and will use the latest versions Angular (version 19), thus all container apps that want to use the new SDKs should first update the Angular version of the container apps. 
+
+In the following we cover the migration guide for a container app from Angular v17 to v19 and the new SDKs.
+
+#### 0. Remove old packages and their explicit dependencies (required dependency packages for new sdks are bundled in the libraries so we don't need )
+
+* remove material-moment-adapter unless its not used in custom components (usually together with material datepicker)
+
+```bash
+npm uninstall @angular/material-moment-adapter
+```
+
+* remove old SDKs
+```bash
+npm uninstall @flowx/ui-sdk @flowx/ui-theme @flowx/ui-toolkit 
+```
+
+* in `angular.json` remove references to old stylesheets:
+
+```bash
+"./node_modules/@flowx/ui-sdk/src/assets/scss/style.scss"
+"./node_modules/paperflow-web-components/src/assets/scss"
+"./node_modules/@flowx/ui-sdk/src/assets/scss"
+```
+
+* remove old SDKs explicit dependencies. Please check before removing that packages are not used in the container app or custom components.
+```bash
+npm uninstall date-fns event-source-polyfill inputmask ng2-pdfjs-viewer vanillajs-datepicker @ngneat/input-mask deepmerge-ts marked-mangle
+```
+
+* remove deprecated Angular Flex library (the new sdks don't use it anymore and the package has been deprecated by the Angular team) unless it is not used in container app or custom components
+```bash
+npm uninstall @angular/flex-layout
+```
+
+#### 1. Update container app to Angular 18
+
+* Make sure to have the Angular CLI installed at version 18 (check with `ng --version`)
+```bash
+npm i -g @angular/cli@18
+```
+
+* Run the Angular update for version 18
+```bash
+ng update @angular/core@18 @angular/cli@18
+```
+
+* Update Angular CDK or Angular Material 
+
+```bash
+ng update @angular/cdk@18
+```
+
+or, if the container app uses Angular material, run:
+
+```bash
+ng update @angular/material@18
+```
+
+* Optionally, if your project uses other angular packages (eg. Ngrx) please run migrations to v18 for each of them. You can find details on the libraries documentation pages.
+
+* Angular has changed the default build path in the `dist` folder, it now uses a `browser` folder for the build output. In order to place the output of the build comand directy in the `dist/[APP_NAME]` folder, add the following change in `angular.json`:
+
+```json
+{
+  ...
+  "architect": {
+    ...
+    "build": {
+      ...
+      "options": {
+        ...
+        "outputPath": {
+          "base": "dist/flowx-demo-app",
+          "browser": "" <-- add this line
+        },
+      }
+    }
+  }
+}
+
+```
+
+#### 2. Install the new SDKs
+
+<Warning>
+TO DO: Update to latest 4.6 versions.
+</Warning>
+
+```bash
+npm i @flowx/core-sdk@5.53.4 @flowx/core-theme@5.53.4 @flowx/angular-sdk@5.53.4 @flowx/angular-theme@5.53.4 @flowx/angular-ui-toolkit@5.53.4 
+```
+
+* Install a type dependency for the SSE library:
+
+```bash
+npm i --save-dev @types/event-source-polyfill
+```
+
+* run through all the migration steps in the [New SDK Api changes](#new-sdk-api-changes) section below.
+
+#### 3. Update container app to Angular 19
+
+* Make sure to have the Angular CLI installed at version 19 (check with `ng --version`)
+```bash
+npm i -g @angular/cli@19
+```
+
+* Run the Angular update for version 19
+```bash
+ng update @angular/core@19 @angular/cli@19
+```
+
+* Update Angular CDK or Angular Material 
+
+```bash
+ng update @angular/cdk@19
+```
+
+or, if the container app uses Angular material, run:
+
+```bash
+ng update @angular/material@19
+```
+
+* Optionally, if your project uses other angular packages (eg. Ngrx) please run migrations to v19 for each of them. You can find details on the libraries documentation pages.
+
+
+**_NOTE:_**  Each migration requires a 'clean' repository state. Make sure to commit all changes before starting the next migration step.
+
+
+#### Add ing overrides for libraries that have a dependency on Angular version < 19
+
+* For some libraries, the required angular version might not be up to date or compatible with the new Angular version. In this case, you can add an override in the `package.json` file to force the library to use the new Angular version. For example, the `ng2-pdfjs-viewer`:
+
+```json
+{
+  ...
+  "overrides": {
+    "ng2-pdfjs-viewer": {
+      "@angular/common": "^19.0.0",
+      "@angular/core": "^19.0.0",
+      "ng-packagr": "^19.0.0"
+    }
+  }
+}
+```
+
+### Renderer SDK component usage
+
+In the Angular SDK, the `<flx-process-renderer>` component has two new parameters have been introduced: `projectInfo` and `locale`. These additions help support localization and project-specific configurations.
+
+| Name              | Description                                                                                        | Type                               | Requirement                                         |
+| ----------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------- |
+| `projectInfo`     | Object containing an `projectId` key, which identifies the project of the process to be started    | `{projectId: string}`              | Mandatory                                           |
+| `locale`          | Provides region-specific settings for localization.                                                | `string`                           | Mandatory                                           |
+
+
+Add the definitions for these properties in the class file of the component that uses the process renderer component:
+
+```typescript
+projectInfo = { projectId: 'your-project-id' },
+locale = 'en-US',
+```
+Use these parameters in the template as inputs for the `<flx-process-renderer>` component:
+
+```html
+<flx-process-renderer
+  ...
+  [projectInfo]="projectInfo"
+  [locale]="locale"
+/>
+```
+
+### New SDK API changes
+
+#### API Changes
+
+Process Renderer:
+
+| Category                   | Old Approach                                                                      | New Approach                                                                     |
+| -------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **Process Renderer**       | `FlxProcessModule.forRoot({...})`                                                 | `FlxProcessModule.withConfig({...})`                                             |
+
+
+#### Import path updates
+
+| Category                   | Old Approach                                                                      | New Approach                                                                     |
+| -------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **Import Paths**           | `@flowx/ui-sdk`                                                                   | `@flowx/angular-sdk` (or `@flowx/core-sdk`)                                      |
+|                            | `@flowx/ui-theme`                                                                 | `@flowx/angular-theme`                                                           |
+|                            | `@flowx/ui-toolkit`                                                               | `@flowx/angular-ui-toolkit`                                                      |
+| **Localization Module**    | `import {FlxLocalizationModule} from '@flowx/ui-sdk';`  Include in module imports | `import {FlxLocalizePipe} from '@flowx/angular-sdk';` Remove from module imports |
+| **Task Management**        | `import {FlxTaskManagementModule} from '@flowx/ui-sdk';`                          | `import {FlxTasksManagementComponent} from '@flowx/angular-sdk';`                |
+| **Client Store Interface** | `import {ClientStoreInterface} from '@flowx/ui-sdk';`                             | `import {ClientStoreInterface} from '@flowx/core-sdk';`                          |
+
+<Info>
+You can also remove the `FlxLocalizationModule` from any `imports` arrays in modules, and import the `FlxLocalizePipe` instead
+</Info>
+
+
+
+### Icon module update 
+
+The `withExtraIconSet` method has been replaced with `provideExtraIconSet`, which should now be used in the providers array.
+
+```typescript
+@NgModule({
+  imports: [
+    IconModule,  // Import the IconModule
+  ],
+  providers: [
+    // Use provideExtraIconSet to add your custom icon set
+    provideExtraIconSet({
+      customIcon1: 'path/to/custom-icon1.svg',
+      customIcon2: 'path/to/custom-icon2.svg',
+      // Add more icons as needed
+    })
+  ]
+})
+export class AppModule {}
+```

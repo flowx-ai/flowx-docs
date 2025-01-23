@@ -4,8 +4,11 @@ description: The Application Manager is a backend microservice for managing Flow
 icon: computer
 ---
 
-The Aplication manager is microservice that manages applications and also acts as a proxy for front-end requests related to resources.
+The Application manager is microservice that manages applications and also acts as a proxy for front-end requests related to resources.
 
+<Info>
+The **Application Manager** and [**Runtime Manager**](./runtime-manager) share the same container image and Helm chart. Refer to the **Deployment Guidelines** in the release notes to ensure compatibility and verify the correct version.
+</Info>
 
 ## Infrastructure prerequisites
 
@@ -23,7 +26,7 @@ Ensure that the database for storing application data is properly set up and con
 
 ## Dependencies
 
-he Application Manager relies on other FlowX services and components to function properly:
+The Application Manager relies on other FlowX services and components to function properly:
 
 * [**Database instance**](#database-configuration): For storing application details, manifests, and configurations.
 * [**Authorization & Access Management**](#configuring-authorization-and-access-roles): For securing access to resources and managing roles.
@@ -68,10 +71,6 @@ Configure the data sources for PostgreSQL and MongoDB as follows:
 * `SPRING_DATASOURCE_DRIVER_CLASS_NAME` - Driver class for PostgreSQL  
 
 
-<Info>
-Note: The same container image and Helm chart are used for both [**Application Manager**](./runtime-manager) and Runtime Manager. Be sure to review the [**deployment guidelines**](../../release-notes/v4.5.1-november-2024/deployment-guidelines-v4.5.1#component-versions) in the release notes to verify compatibility and check the correct version.
-</Info>
-
 #### Configuring MongoDB (runtime database - additional data)
 
 The Application Manager requires MongoDB to store runtime build information. Use the following environment variables for configuration:
@@ -91,6 +90,27 @@ If caching is required, configure Redis using the following environment variable
 * `SPRING_DATA_REDIS_PASSWORD` - Password for authenticating with the Redis server.
 * `SPRING_DATA_REDIS_PORT` - Hostname of the Redis server. This specifies where the Redis server is running and should be accessible from the application.
 
+
+### Configuring scheduler
+
+The Application Manager scheduler supports retrying failed deployments and master election:
+
+#### Retry failed deployments
+
+* **Configuration**:  
+  * `FLOWX_SCHEDULER_RETRY_FAILED_DEPLOYMENTS_CRON: "0 * * * * *"`
+* **Purpose**: Configures a cron job to retry updating builds in the runtime database every minute when previous attempts have failed.
+
+#### Master election
+
+* **Configuration**:  
+  * `FLOWX_SCHEDULER_MASTER_ELECTION_ENABLED: true`
+  * `FLOWX_SCHEDULER_MASTER_ELECTION_CRON_EXPRESSION: "*/30 * * * * *"`
+  * `FLOWX_SCHEDULER_MASTER_ELECTION_PROVIDER: redis`
+* **Purpose**: Enables master election for improved scheduling coordination.
+
+
+
 ### Configuring Kafka
 
 The Application Manager uses Kafka for event-driven operations. Set up the Kafka configuration using the following environment variables:
@@ -98,12 +118,45 @@ The Application Manager uses Kafka for event-driven operations. Set up the Kafka
 * `SPRING_KAFKA_BOOTSTRAP_SERVERS` - Address of the Kafka server, formatted as "host"
 * `SPRING_KAFKA_CONSUMER_GROUP_ID` - Consumer group ID for Kafka topics
 * `KAFKA_CONSUMER_THREADS` - Number of Kafka consumer threads
+* `FLOWX_KAFKA_PAYLOAD_SIZE_LIMIT` - Maximum payload size for Kafka messages (default: `512000`).
+
+#### Kafka consumer configuration
+
+Configure Kafka consumer groups and threads for efficient handling of build-related topics:
+
+- **Consumer Groups**:
+  - Application Resource:
+       - `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_EXPORT: appResourceExportGroup`
+       - `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_IMPORT: appResourceImportGroup`
+     - Build Resource:
+       - `KAFKA_CONSUMER_GROUP_ID_BUILD_CREATE: buildCreateGroup`
+       - `KAFKA_CONSUMER_GROUP_ID_BUILD_UPDATE: buildUpdateGroup`
+       - `KAFKA_CONSUMER_GROUP_ID_BUILD_RESOURCE_EXPORT: buildResourceExportGroup`
+       - `KAFKA_CONSUMER_GROUP_ID_BUILD_RESOURCE_IMPORT: buildResourceImportGroup`
+     - Process:
+       - `KAFKA_CONSUMER_GROUP_ID_PROCESS_START: processStartGroup`
+     - Merge:
+       - `KAFKA_CONSUMER_GROUP_ID_APPLICATION_MERGE: appMergeItemGroup`
+
+- **Consumer Threads**:
+  - Application Resource:
+       - `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_EXPORT: 3`
+       - `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_IMPORT: 3`
+  - Build Resource:
+       - `KAFKA_CONSUMER_THREADS_BUILD_CREATE: 2`
+       - `KAFKA_CONSUMER_THREADS_BUILD_UPDATE: 4`
+       - `KAFKA_CONSUMER_THREADS_BUILD_RESOURCE_EXPORT: 3`
+       - `KAFKA_CONSUMER_THREADS_BUILD_RESOURCE_IMPORT: 3`
+  - Merge:
+       - `KAFKA_CONSUMER_THREADS_APPLICATION_MERGE: 3`
+
+
+#### Topic naming components
 
 The Application Manager uses a structured naming convention for Kafka topics, designed to support flexibility through pre-defined components in the topic structure. These components, while not directly configurable, allow optional modifications when the desired version cannot be obtained through `$package . $environment . $separator . $version`. 
 
 Each topic adheres to a consistent naming schema for streamlined communication across environments and versions.
 
-#### Topic naming components
 
 | Component     | Description                                        | Default Value                                                    |
 | ------------- | -------------------------------------------------- | ---------------------------------------------------------------- |
@@ -119,11 +172,13 @@ Each topic adheres to a consistent naming schema for streamlined communication a
 #### Application resource topics
 
 - **Resource Export**
+  -**Environment variable: `KAFKA_TOPIC_APPLICATION_RESOURCE_EXPORT`
   - **Pattern:** `${kafka.topic.naming.prefix}application${separator2}version${separator}export${kafka.topic.naming.suffix}`
   - **Purpose:** For exporting application resources.
   - **Example:** `ai.flowx.application-version.export.v1`
 
 - **Resource Import**
+  - **Environment variable**: `KAFKA_TOPIC_APPLICATION_RESOURCE_IMPORT`
   - **Pattern:** `${kafka.topic.naming.prefix}application${separator2}version${separator}import${kafka.topic.naming.suffix}`
   - **Purpose:** For importing application resources.
   - **Example:** `ai.flowx.application-version.import.v1`
@@ -131,29 +186,56 @@ Each topic adheres to a consistent naming schema for streamlined communication a
 #### Build resource topics
 
 - **Build Export**
+  - **Environment variable**: `KAFKA_TOPIC_BUILD_RESOURCE_EXPORT`  
   - **Pattern:** `${kafka.topic.naming.prefix}build${separator}export${kafka.topic.naming.suffix}`
   - **Purpose:** For exporting build resources.
   - **Example:** `ai.flowx.build.export.v1`
 
 - **Build Import**
+  - **Environment variable**: `KAFKA_TOPIC_BUILD_RESOURCE_IMPORT`
   - **Pattern:** `${kafka.topic.naming.prefix}build${separator}import${kafka.topic.naming.suffix}`
   - **Purpose:** For importing build resources.
   - **Example:** `ai.flowx.build.import.v1`
 
+
+- **Resource Create**:
+  - **Environment variable**: `KAFKA_TOPIC_BUILD_RESOURCE_CREATE`
+  - **Pattern**: `${kafka.topic.naming.prefix}build${dot}create${kafka.topic.naming.suffix}`
+  - **Purpose**: Handles creation of build resources.
+  - **Example**: `ai.flowx.build.create.v1`
+
+
+- **Resource Update**:
+  - **Environment variable**: `KAFKA_TOPIC_BUILD_RESOURCE_UPDATE`
+  - **Pattern**: `${kafka.topic.naming.prefix}build${dot}update${kafka.topic.naming.suffix}`
+  - **Purpose**: Handles updating of build resources.
+  - **Example**: `ai.flowx.build.update.v1`
+  
+#### Start timer events
+
+- **Timer Events Updates**:
+  - **Environment variable**: `KAFKA_TOPIC_START_TIMER_EVENTS_UPDATES`
+  - **Pattern**: `${kafka.topic.naming.prefix}build${dot}start${dash}timer${dash}events${dot}updates${dot}in${kafka.topic.naming.suffix}`
+  - **Purpose**: Sends updates from the admin to the application manager about start timer events, specifically if they have been edited or deleted.
+  - **Example**: `ai.flowx.build.start-timer-events.updates.in.v1`
+
 #### Process topics
 
 - **Start for Event**
+  - **Environment variable**: `KAFKA_TOPIC_PROCESS_START_FOR_EVENT`
   - **Pattern:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}start${separator2}for${separator2}event${separator}process${kafka.topic.naming.suffix}`
   - **Purpose:** For triggering process start events.
   - **Example:** `ai.flowx.core.trigger.start-for-event.process.v1`
 
 - **Scheduled Timer Events**
   - **Set Timer Schedule**
+    - **Environment variable**: `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_SET`
     - **Pattern:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}set${separator}timer${separator2}event${separator2}schedule${kafka.topic.naming.suffix}`
     - **Purpose:** For setting scheduled timer events.
     - **Example:** `ai.flowx.core.trigger.set.timer-event-schedule.v1`
     
   - **Stop Timer Schedule**
+    - **Environment variable**: `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_STOP`
     - **Pattern:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}stop${separator}timer${separator2}event${separator2}schedule${kafka.topic.naming.suffix}`
     - **Purpose:** For stopping scheduled timer events.
     - **Example:** `ai.flowx.core.trigger.stop.timer-event-schedule.v1`
@@ -161,9 +243,16 @@ Each topic adheres to a consistent naming schema for streamlined communication a
 #### Audit topics
 
 - **Audit Output**
+  - **Environment variable**: `KAFKA_TOPIC_AUDIT_OUTPUT`
   - **Pattern:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}save${separator}audit${kafka.topic.naming.suffix}`
   - **Purpose:** For sending audit-related events.
   - **Example:** `ai.flowx.core.trigger.save.audit.v1`
+
+#### Merge topics
+  - **Environment variable**: `KAFKA_TOPIC_MERGE`
+  - **Pattern:** `${kafka.topic.naming.prefix}application${dash}version${dot}merge${kafka.topic.naming.suffix}`
+  - **Purpose:** For sending merge-related messages, including commands to initiate resource merges and notifications for the completion of individual resource merges or the overall merge process. The merge is performed in parallel across all resources.
+  - **Example:** `ai.flowx.application-version.merge.v1`
 
 
 <Info>
@@ -174,26 +263,26 @@ These Kafka topics use predefined naming conventions for ease of use. Optional a
 
 The Resource Proxy module forwards resource-related requests to appropriate services, handling CRUD operations on the manifest. It requires proper configuration of proxy endpoints:
 
-* **RESOURCE_PROXY_MANIFEST_URL** - URL for managing the application manifest
-* **RESOURCE_PROXY_TARGET_URL** - URL for forwarding resource-related requests to their respective services
+* `RESOURCE_PROXY_MANIFEST_URL` - URL for managing the application manifest
+* `RESOURCE_PROXY_TARGET_URL` - URL for forwarding resource-related requests to their respective services
 
 ### Configuring logging
 
 To control the logging levels for the Application Manager, use the following environment variables:
 
-* **LOGGING_LEVEL_ROOT** - Log level for the root service logs
-* **LOGGING_LEVEL_APP** - Log level for application-level logs
-* **LOGGING_LEVEL_DB** - Log level for database interactions
+* `LOGGING_LEVEL_ROOT` - Log level for the root service logs
+* `LOGGING_LEVEL_APP` - Log level for application-level logs
+* `LOGGING_LEVEL_DB` - Log level for database interactions
 
 
 ### Configuring file storage 
 
 If the Application Manager requires file storage for resources or builds, configure S3-compatible storage using the following environment variables:
 
-* **APPLICATION_FILE_STORAGE_S3_URL** - URL of the S3-compatible storage server
-* **APPLICATION_FILE_STORAGE_S3_BUCKET_NAME** - S3 bucket name for storing application files
-* **APPLICATION_FILE_STORAGE_S3_ACCESS_KEY** - Access key for S3 storage
-* **APPLICATION_FILE_STORAGE_S3_SECRET_KEY** - Secret key for S3 storage
+* `APPLICATION_FILE_STORAGE_S3_URL` - URL of the S3-compatible storage server
+* `APPLICATION_FILE_STORAGE_S3_BUCKET_NAME` - S3 bucket name for storing application files
+* `APPLICATION_FILE_STORAGE_S3_ACCESS_KEY` - Access key for S3 storage
+* `APPLICATION_FILE_STORAGE_S3_SECRET_KEY` - Secret key for S3 storage
 
 ### Data model overview
 
@@ -208,7 +297,7 @@ The Application Manager stores application data using a relational database sche
 
 To monitor the performance and health of the Application Manager, use tools like Prometheus or Grafana. Configure Prometheus metrics with the following environment variable:
 
-* **MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED** - Enables or disables Prometheus metrics export (default: false).
+* `MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED` - Enables or disables Prometheus metrics export (default: false).
 
 
 ### Ingress configuration

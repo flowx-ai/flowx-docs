@@ -38,7 +38,7 @@ dependencyResolutionManagement {
 ```kotlin
 dependencies {
     ...
-    implementation("ai.flowx.android:android-sdk:4.0.0")
+    implementation("ai.flowx.android:android-sdk:4.0.9")
     ...
 }
 ```
@@ -65,8 +65,8 @@ The SDK library is managed through the `FlowxSdkApi` singleton instance, which e
 | `init`                       | Initializes the FlowX SDK. Must be called in your application's `onCreate()`                                       | `fun init(context: Context, config: SdkConfig, accessTokenProvider: FlowxSdkApi.Companion.AccessTokenProvider? = null, customComponentsProvider: CustomComponentsProvider? = null, customStepperHeaderProvider: CustomStepperHeaderProvider? = null)` |
 | `setAccessTokenProvider`     | Updates the access token provider (i.e. a functional interface) inside the renderer                                | `fun setAccessTokenProvider(accessTokenProvider: FlowxSdkApi.Companion.AccessTokenProvider)`                                                                                                                                                          |
 | `setupTheme`                 | Sets up the theme to be used when rendering a process                                                              | `fun setupTheme(themeUuid: String, fallbackThemeJsonFileAssetsPath: String? = null, @MainThread onCompletion: () -> Unit)`                                                                                                                            |
-| `changeLocaleSettings`       | Changes the current locale settings (i.e. locale and language)                                                     | `fun changeLocaleSettings(locale: Locale, language: String)`                                                                                                                                                                                                                |
-| `startProcess`               | Starts a FlowX process instance, by returning a `@Composable` function where the process is rendered.              | `fun startProcess(processName: String, params: JSONObject = JSONObject(), isModal: Boolean = false, closeModalFunc: ((processName: String) -> Unit)? = null): @Composable () -> Unit`                                                                 |
+| `changeLocaleSettings`       | Changes the current locale settings (i.e. locale and language)                                                     | `fun changeLocaleSettings(locale: Locale, language: String)`                                                                                                                                                                                          |
+| `startProcess`               | Starts a FlowX process instance, by returning a `@Composable` function where the process is rendered.              | `fun startProcess(projectId: String, processName: String, params: JSONObject = JSONObject(), isModal: Boolean = false, closeModalFunc: ((processName: String) -> Unit)? = null): @Composable () -> Unit`                                              |
 | `continueProcess`            | Continues an existing FlowX process instance, by returning a `@Composable` function where the process is rendered. | `fun continueProcess(processUuid: String, isModal: Boolean = false, closeModalFunc: ((processName: String) -> Unit)? = null): @Composable () -> Unit`                                                                                                 |
 | `executeAction`              | Runs an action from a custom component                                                                             | `fun executeAction(action: CustomComponentAction, params: JSONObject? = null)`                                                                                                                                                                        |
 | `getMediaResourceUrl`        | Extracts a media item URL needed to populate the UI of a custom component                                          | `fun getMediaResourceUrl(key: String): String?`                                                                                                                                                                                                       |
@@ -83,22 +83,28 @@ fun init(
     accessTokenProvider: AccessTokenProvider? = null,
     customComponentsProvider: CustomComponentsProvider? = null,
     customStepperHeaderProvider: CustomStepperHeaderProvider? = null,
+    analyticsCollector = null,
+    onNewProcessStarted = null,
 )
 ```
 
 #### Parameters
 
-| Name                          | Description                                                | Type                                                                 | Requirement                   |
-| ----------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------- | ----------------------------- |
-| `context`                     | Android application `Context`                              | `Context`                                                            | Mandatory                     |
-| `config`                      | SDK configuration parameters                               | `ai.flowx.android.sdk.process.model.SdkConfig`                       | Mandatory                     |
-| `accessTokenProvider`         | Functional interface provider for passing the access token | `ai.flowx.android.sdk.FlowxSdkApi.Companion.AccessTokenProvder?`     | Optional. Defaults to `null`. |
-| `customComponentsProvider`    | Provider for the `@Composable`/`View` custom components    | `ai.flowx.android.sdk.component.custom.CustomComponentsProvider?`    | Optional. Defaults to `null`. |
-| `customStepperHeaderProvider` | Provider for the `@Composable` custom stepper header view  | `ai.flowx.android.sdk.component.custom.CustomStepperHeaderProvider?` | Optional. Defaults to `null`. |
+| Name                          | Description                                                                                         | Type                                                                 | Requirement                   |
+| ----------------------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ----------------------------- |
+| `context`                     | Android application `Context`                                                                       | `Context`                                                            | Mandatory                     |
+| `config`                      | SDK configuration parameters                                                                        | `ai.flowx.android.sdk.process.model.SdkConfig`                       | Mandatory                     |
+| `accessTokenProvider`         | Functional interface provider for passing the access token                                          | `ai.flowx.android.sdk.FlowxSdkApi.Companion.AccessTokenProvder?`     | Optional. Defaults to `null`. |
+| `customComponentsProvider`    | Provider for the `@Composable`/`View` custom components                                             | `ai.flowx.android.sdk.component.custom.CustomComponentsProvider?`    | Optional. Defaults to `null`. |
+| `customStepperHeaderProvider` | Provider for the `@Composable` custom stepper header view                                           | `ai.flowx.android.sdk.component.custom.CustomStepperHeaderProvider?` | Optional. Defaults to `null`. |
+| `analyticsCollector`          | Collector interface for SDK analytics events                                                        | `ai.flowx.android.sdk.analytics.AnalyticsCollector`                  | Optional. Defaults to `null`. |
+| `onNewProcessStarted`         | Callback for when a new process was started as a consequence for executing a `START_PROJECT` action | `ai.flowx.android.sdk.NewProcessStartedHandler`                      | Optional. Defaults to `null`. |
 
 &bull; Providing the `access token` is explained in the [authentication](#authentication) section.<br/>
 &bull; The `custom components` implementation is explained in [its own section](#custom-components).<br/>
-&bull; The implementation for providing a `custom view for the header` of the [Stepper](../docs/building-blocks/process/navigation-areas#stepper) component is detailed in [its own section](#custom-header-view-for-the-stepper-component).
+&bull; The implementation for providing a `custom view for the header` of the [Stepper](../docs/building-blocks/process/navigation-areas#stepper) component is detailed in [its own section](#custom-header-view-for-the-stepper-component).<br/>
+&bull; Collecting analytics events from the SDK is explained in [its own section](#collecting-analytics-events).<br/>
+&bull; Handling the start of a new process while in a running process is explained in [its own section](#handling-start-of-a-new-process).<br/>
 
 #### Sample
 
@@ -124,6 +130,13 @@ class MyApplication : Application() {
             accessTokenProvider = null, // null by default; can be set later, depending on the existing authentication logic
             customComponentsProvider = object : CustomComponentsProvider {...},
             customStepperHeaderProvider = object : CustomStepperHeaderProvider {...},
+            analyticsCollector = { event ->
+                Log.i("Analytics", "Event(type = ${event.type}, value = ${event.value})")
+            },
+            onNewProcessStarted = { processInstanceUuid ->
+                // Send a broadcast message to notify the Activity currently displaying the running process.
+                // The Activity should handle the broadcast to reload and display the newly started process identified by `processInstanceUuid`.
+            }
         )
     }
 }
@@ -214,7 +227,7 @@ viewModelScope.launch {
         fallbackThemeJsonFileAssetsPath = "theme/a_fallback_theme.json",
     ) {
         // theme setup complete
-        // TODO specific logic
+        // do specific logic
     }
 }
 ```
@@ -259,7 +272,7 @@ After performing all the above steps and all the prerequisites are fulfilled, a 
 
 ```kotlin
 fun startProcess(
-    applicationUuid: String,
+    projectId: String,
     processName: String,
     params: JSONObject = JSONObject(),
     isModal: Boolean = false,
@@ -270,14 +283,14 @@ fun startProcess(
 
 #### Parameters
 
-| Name              | Description                                                                                        | Type                               | Requirement                                         |
-| ----------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------- |
-| `applicationUuid` | The uuid string of the application containing the process to be started                            | `String`                           | Mandatory                                           |
-| `processName`     | The name of the process                                                                            | `String`                           | Mandatory                                           |
-| `params`          | The starting params for the process, if any                                                        | `JSONObject`                       | Optional. If omitted, if defaults to `JSONObject()` |
-| `isModal`         | Flag indicating whether the process can be closed at anytime by tapping the top-right close button | `Boolean`                          | Optional. It defaults to `false`.                   |
-| `onProcessEnded`  | Lambda function where you can do additional processing when the started process ends               | `(() -> Unit)?`                    | Optional. It defaults to `null`.                    |
-| `closeModalFunc`  | Lambda function where you should handle closing the process when `isModal` flag is `true`          | `((processName: String) -> Unit)?` | Optional. It defaults to `null`.                    |
+| Name             | Description                                                                                        | Type                               | Requirement                                         |
+| ---------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------- |
+| `projectId`      | The id of the project containing the process to be started                                         | `String`                           | Mandatory                                           |
+| `processName`    | The name of the process                                                                            | `String`                           | Mandatory                                           |
+| `params`         | The starting params for the process, if any                                                        | `JSONObject`                       | Optional. If omitted, if defaults to `JSONObject()` |
+| `isModal`        | Flag indicating whether the process can be closed at anytime by tapping the top-right close button | `Boolean`                          | Optional. It defaults to `false`.                   |
+| `onProcessEnded` | Lambda function where you can do additional processing when the started process ends               | `(() -> Unit)?`                    | Optional. It defaults to `null`.                    |
+| `closeModalFunc` | Lambda function where you should handle closing the process when `isModal` flag is `true`          | `((processName: String) -> Unit)?` | Optional. It defaults to `null`.                    |
 
 <Tip>
     The returned **[@Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable)** function must be included in its own **[Activity](https://developer.android.com/reference/android/app/Activity)**, which is part of (controlled and maintained by) the container application.<br/><br/>
@@ -293,7 +306,7 @@ class ProcessActivity : ComponentActivity() {
         ...
         setContent {
             FlowxSdkApi.getInstance().startProcess(
-                applicationUuid = "your application uuid",
+                projectId = "your project id",
                 processName = "your process name",
                 params: JSONObject = JSONObject(),
                 isModal = true,
@@ -365,21 +378,18 @@ class ProcessActivity : ComponentActivity() {
 
 ## Custom components
 
-The container application should decide which custom component view to provide using the `componentIdentifier` configured in the UI designer.<br/>
-A custom component receives `data` to populate the view and `actions` available to execute, as described below.
+The container application should decide which custom component view to provide using the `componentIdentifier` configured in the UI designer.
+
+A custom component receives `data` to populate the view and `actions` available to execute, as described below.<br/>
+It can also be validated and provide data back into the process when executing an action.
 
 To handle custom components, an *implementation* of the `CustomComponentsProvider` interface should be passed as a parameter when initializing the SDK:
 
 ```kotlin
 interface CustomComponentsProvider {
     fun provideCustomComposableComponent(): CustomComposableComponent?
-    fun provideCustomViewComponent(): CustomViewComponent?
 }
 ```
-
-There are two methods to provide a custom component:
-1. by implementing the [CustomComposableComponent](#customcomposablecomponent) interface
-2. by implementing the [CustomViewComponent](#customviewcomponent) interface
 
 #### Sample
 
@@ -388,15 +398,12 @@ class CustomComponentsProviderImpl : CustomComponentsProvider {
     override fun provideCustomComposableComponent(): CustomComposableComponent? {
         return object : CustomComposableComponent {...}
     }
-    override fun provideCustomViewComponent(): CustomViewComponent? {
-        return object : CustomViewComponent {...}
-    }
 }
 ```
 
 ### CustomComposableComponent
 
-To provide the custom component as a [@Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable) function, you have to implement the `CustomComposableComponent` interface:
+The implementation for providing a custom component is based on creating and binding a user defined [@Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable) function, through the `CustomComposable` interface:
 
 ```kotlin
 interface CustomComposableComponent {
@@ -408,9 +415,8 @@ The returned `CustomComposable` object is an interface defined like this:
 
 ```kotlin
 interface CustomComposable {
-    // `true` for the custom components that are implemented and can be handled
-    // `false` otherwise
-    val isDefined: Boolean
+    @Deprecated(message = "Will be removed in future releases")
+    val isDefined: Boolean // always MUST return `true`
 
     // `@Composable` definitions for the custom components that can be handled
     val composable: @Composable () -> Unit
@@ -430,6 +436,18 @@ interface CustomComposable {
      * @param actions that need to be attached to the custom component (e.g. onClick events)
      */
     fun populateUi(actions: Map<String, CustomComponentAction>)
+
+    /**
+     * This will be called when executing an action from a FlowX.AI UI Component, when the platform needs to know if the specified/marked components are valid.
+     * Defaults to `true`.
+     */
+    fun validate(): Boolean = true
+
+    /**
+     * This will be called when executing an action from a FlowX.AI UI Component, on computing the data to be sent as body on the network request.
+     * Returning `null` (i.e. default) means it does not contribute with any data to be sent.
+     */
+    fun saveData(): JSONObject? = null
 }
 ```
 
@@ -444,117 +462,147 @@ interface CustomComposable {
     The appropriate way to check and cast the data accordingly to the needs must belong to the implementation details of the custom component.
 </Tip>
 
+<Tip>
+   Both validation and providing data back into process are optional, and, based on the needs, it may be included in the implementation or not.
+</Tip>
+
 #### Sample
 
+Among multiple existing custom components, there may be one that:
+- allows the input of a value representing an `age`
+- the value should be validated (e.g. to be at least 35 years old)
+- the value will be passed back into the process
+
 ```kotlin
-override fun provideCustomComposableComponent(): CustomComposableComponent? {
-    return object : CustomComposableComponent {
-        override fun provideCustomComposable(componentIdentifier: String) = object : CustomComposable {
-            override val isDefined: Boolean = when (componentIdentifier) {
-                "some custom component identifier" -> true
-                "other custom component identifier" -> true
-                else -> false
-            }
-
-            override val composable: @Composable () -> Unit = {
+class CustomComponentsProviderImpl : CustomComponentsProvider {
+    override fun provideCustomComposableComponent(): CustomComposableComponent? {
+        return object : CustomComposableComponent {
+            override fun provideCustomComposable(componentIdentifier: String): CustomComposable? =
                 when (componentIdentifier) {
-                    "some custom component identifier" -> { /* add some @Composable implementation */ }
-                    "other custom component identifier" -> { /* add other @Composable implementation */ }
+                    "other-custom-component-identifier" -> OtherCustomComposable().invoke()
+                    "age" -> AgeCustomComposable().invoke()
+                    else -> null
                 }
-            }
-
-            override fun populateUi(data: Any?) {
-                // extract the necessary data to be used for displaying the custom components
-            }
-
-            override fun populateUi(actions: Map<String, CustomComponentAction>) {
-                // extract the available actions that may be executed from the custom components
-            }
         }
     }
 }
-```
 
-### CustomViewComponent
+private class AgeCustomComposable() {
+    operator fun invoke(): CustomComposable = object : CustomComposable {
+        val data: MutableStateFlow<Any?> = MutableStateFlow(null)
+        var actions: Map<String, CustomComponentAction> = emptyMap()
 
-To provide the custom component as a classical Android [View](https://developer.android.com/reference/android/view/View) function, you have to implement the `CustomViewComponent` interface:
+        private val viewModel: AgeViewModel by lazy {
+            AgeViewModel(data = data,actions = actions)
+        }
 
-```kotlin
-interface CustomViewComponent {
-    fun provideCustomView(componentIdentifier: String): CustomView
+        override val isDefined: Boolean = true // always MUST return `true`
+
+        override val composable: @Composable () -> Unit =
+            @Composable { Age(viewModel = viewModel) }
+
+        override fun populateUi(data: Any?) {
+            this.data.value = data
+        }
+
+        override fun populateUi(actions: Map<String, CustomComponentAction>) {
+            this.actions = actions
+        }
+
+        override fun validate(): Boolean = viewModel.isValid()
+
+        override fun saveData(): JSONObject? = viewModel.buildDataToSave()
+    }
 }
-```
 
-The returned `CustomView` object is an interface defined like this:
+@Composable
+private fun Age(
+    viewModel: AgeViewModel = viewModel<AgeViewModel>()
+) {
+    val age by viewModel.ageFlow.collectAsState()
+    val error by viewModel.errorFlow.collectAsState()
+    val isError by remember(error) { mutableStateOf(error.isNotBlank()) }
 
-```kotlin
-interface CustomView {
+    Column {
+        OutlinedTextField(
+            value = age,
+            onValueChange = { viewModel.updateAge(it) },
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text("Age") },
+        )
 
-    // `true` for the custom components that are implemented and can be handled
-    // `false` otherwise
-    val isDefined: Boolean
-
-    /**
-     * returns the `View`s for the custom components that can be handled
-     */
-    fun getView(context: Context): View
-
-    /**
-     * Called when the data is available for the custom component
-     * (i.e. when the User Task that contains the custom component is displayed)
-     *
-     * @param data used to populate the custom component
-     */
-    fun populateUi(data: Any?)
-
-    /**
-     * Called when the actions are available for the custom component
-     * (i.e. when the User Task that contains the custom component is displayed)
-     *
-     * @param actions that need to be attached to the custom component (e.g. onClick events)
-     */
-    fun populateUi(actions: Map<String, CustomComponentAction>)
+        if (isError) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = error,
+                style = TextStyle(fontSize = 12.sp),
+                color = Color.Red,
+                textAlign = TextAlign.Start,
+            )
+        }
+    }
 }
-```
 
-<Tip>
-    The value for the `data` parameter received in the `populateUi(data: Any?)` could be:<br/>
-    - `Boolean`
-    - `String`
-    - `java.lang.Number`
-    - `org.json.JSONObject`
-    - `org.json.JSONArray`
+class AgeViewModel(
+    private val data: MutableStateFlow<Any?> = MutableStateFlow(null),
+    private val actions: Map<String, CustomComponentAction> = emptyMap(),
+) : ViewModel() {
+    private val _ageFlow = MutableStateFlow("")
+    val ageFlow: StateFlow<String> = _ageFlow.asStateFlow()
 
-    The appropriate way to check and cast the data accordingly to the needs must belong to the implementation details of the custom component.
-</Tip>
+    private val _error = MutableStateFlow("")
+    val errorFlow: StateFlow<String> = _error.asStateFlow()
 
-#### Sample
+    fun updateAge(text: String) {
+        _ageFlow.value = text
+    }
 
-```kotlin
-override fun provideCustomViewComponent(): CustomViewComponent? {
-    return object : CustomViewComponent {
-        override fun provideCustomView(componentIdentifier: String) = object : CustomView {
-            override val isDefined: Boolean = when (componentIdentifier) {
-                "some custom component identifier" -> true
-                "other custom component identifier" -> true
-                else -> false
-            }
+    fun isValid(): Boolean = ageFlow.value.toIntOrNull().let {
+        when {
+            it == null -> false.also { _error.update { "Unrecognized format" } }
+            it < 35 -> false.also { _error.update { "You have to be at least 35 years old" } }
+            else -> true.also { _error.update { "" } }
+        }
+    }
 
-            override fun getView(context: Context): View {
-                return when (componentIdentifier) {
-                    "some custom component identifier" -> { /* return some View */ }
-                    "other custom component identifier" -> { /* return other View */ }
+    fun buildDataToSave(): JSONObject? = ageFlow.value.takeUnless { it.isBlank() }
+        ?.let {
+            JSONObject(
+            """
+            {
+                "app": {
+                    "age": "$it"
                 }
             }
+            """.trimIndent()
+        )
+    }
+}
 
-            override fun populateUi(data: Any?) {
-                // extract the necessary data to be used for displaying the custom components
-            }
+class OtherCustomComposable() {
+    operator fun invoke(): CustomComposable = object : CustomComposable {
+        // deprecated property: will be removed in future releases.
+        override val isDefined: Boolean = true // always MUST return `true`
 
-            override fun populateUi(actions: Map<String, CustomComponentAction>) {
-                // extract the available actions that may be executed from the custom components
-            }
+        override val composable: @Composable () -> Unit = @Composable {
+            /* add some @Composable implementation */
         }
+
+        override fun populateUi(data: Any?) {
+            // extract the necessary data to be used for displaying the custom components
+        }
+
+        override fun populateUi(actions: Map<String, CustomComponentAction>) {
+            // extract the available actions that may be executed from the custom components
+        }
+
+        // Optional override, defaults to `true`.
+        // Here one can pass validation logic from viewModel (e.g. by calling `viewModel.isValid()`)
+        override fun validate(): Boolean = true
+
+        // Optional override, defaults to `null`.
+        // Here one can pass data to save from viewModel (e.g. by calling `viewModel.getDataToSave()`)
+        override fun saveData(): JSONObject? = null
     }
 }
 ```
@@ -617,8 +665,6 @@ interface CustomStepperHeaderProvider {
 }
 ```
 
-As opposed to the [Custom components](#custom-compoments), the only supported way is by providing the view as a [@Composable](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable) function.
-
 #### Sample
 
 ```kotlin
@@ -680,6 +726,96 @@ override fun provideComposableStepperHeader(): ComposableStepperHeader? {
             get() = @Composable { data ->
                 /* add some @Composable implementation which displays `data` */
             }
+    }
+}
+```
+
+## Collecting analytics events
+
+To be able to collect analytics events from the SDK, an implementation for the `AnalyticsCollector` functional interface may be provided when initializing the SDK:
+
+```kotlin
+fun interface AnalyticsCollector {
+    fun onEvent(event: Event)
+}
+```
+where the `Event` looks like this:
+```kotlin
+interface Event {
+    val type: String
+    val value: String
+}
+```
+
+#### Sample
+
+The implementation can be passed as a lambda, like:
+
+```kotlin
+analyticsCollector = { event ->
+    // do whatever is needed (e.g. log the event)
+    Log.i("Analytics", "Event(type = ${event.type}, value = ${event.value})")
+}
+```
+
+## Handling "Start of a new process"
+
+When an action of type `START_PROJECT` is executed, the `onNewProcessStarted` lambda provided in the `FlowxSdkApi.getInstance().init(...)` function is invoked.
+
+This callback provides the UUID of the newly started process, which can be used to resume the process by calling the `FlowxSdkApi.getInstance().continueProcess(...)` method.
+
+It is the responsibility of the container application's developer to implement the necessary logic for displaying the appropriate UI for the newly started process.
+
+#### Sample
+
+One way to handle this is to send a broadcast message to notify the Activity currently displaying the running process.
+The Activity should handle the broadcast to reload and display the newly started process identified by `processInstanceUuid` (received in the broadcast intent).
+
+```kotlin
+FlowxSdkApi.getInstance().init(
+    ...
+    onNewProcessStarted = { processInstanceUuid ->
+        applicationContext.sendBroadcast(
+            Intent("some.intent.filter.indentifier").apply {
+                putExtra("processInstanceUuid", processInstanceUuid)
+                setPackage("your.application.package")
+            }
+        )
+    }
+    ...
+)
+
+class ProcessActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ...
+
+        setContent {
+            val yourBroadcastReceiver = remember {
+                YourBroadcastReceiver(handler = { processInstanceUuid -> /* do your own logic to refresh `ProcessContent()` */ })
+            }
+
+            val context = LocalContext.current
+            LifecycleStartEffect(true) {
+                ContextCompat.registerReceiver(context.applicationContext, yourBroadcastReceiver, IntentFilter("some.intent.filter.indentifier"), ContextCompat.RECEIVER_NOT_EXPORTED)
+                onStopOrDispose {
+                    runCatching {
+                        context.applicationContext.unregisterReceiver(yourBroadcastReceiver)
+                    }
+                }
+            }
+
+            ProcessContent()
+        }
+    }
+
+    @Composable
+    private fun ProcessContent(...) { ... }
+}
+
+class YourBroadcastReceiver(private val handler: (String) -> Unit) : BroadcastReceiver() {
+    override fun onReceive(context: Context?, intent: Intent?) {
+        intent?.extras?.getString("processInstanceUuid")?.let { processUuid -> handler.invoke(processUuid) }
     }
 }
 ```

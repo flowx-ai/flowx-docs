@@ -1,0 +1,537 @@
+---
+title: FlowX.AI 4.6.0 Release Notes
+description: Welcome, FlowX fam! The 4.6.0 update is here, and it’s packed with features designed to save you time, boost efficiency, and maybe even make you chuckle. Let’s dive into the details, feature by glorious feature. 🎉
+---
+
+## **What's new?** 🆕
+
+
+### Projects: Order out of chaos
+
+The new Project concept introduces a streamlined approach to managing and deploying complex projects within FlowX. By grouping all related resources—such as processes, enumerations, integrations, and assets—into a single, organized workspace, projects provide a cohesive view for efficient development and deployment. 
+
+
+<Frame>
+![FlowX.AI Designer](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-23%20at%2017.33.16.png)
+</Frame>
+
+
+💼 **Key Benefits**:
+
+* **Unified Workspace**: Group related processes, integrations, assets, and configurations into one tidy space.
+* **Version Control**: Manage multiple builds and versions effortlessly. Rollbacks? No sweat.
+* **Resource Sharing**: Reuse processes and configurations across projects like a boss.
+
+<Check>
+**Why you’ll love it**: It’s like going from a messy desk to an organized digital office.
+</Check>
+
+🎥 **Quick Demo**: (Who needs text when you have visuals?)
+
+
+<Frame>
+<video
+  controls
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/Application%204.5%20Feature%20Demo.mp4"
+></video>
+</Frame>
+
+<Card title="Projects" href="../../4.6.0/docs/projects/managing-applications/application" icon="file">
+For more details, check out this section
+</Card>
+
+#### 🛠 Config vs Build Mode
+
+**Config Mode**: Tinker, tweak, and perfect.
+    * Config mode is the environment where you set up, adjust, and manage your project's resources, processes, and configurations. It's the workspace where you fine-tune every aspect of the project before it's ready for deployment. Think of it as the design phase, where the focus is on setup, organization, and preparation.
+
+**Build Mode**: Lock it, load it, deploy it.
+    * Build mode is the stage where the configurations you've set up are packaged into a deployable form. This is the runtime-ready version of your project, containing everything needed for it to function in a production environment. A build includes a snapshot of the project’s state at a given point, ensuring stability and predictability when deployed.
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/config_vs_build.mp4"
+></video>
+</Frame>
+
+<CardGroup>
+<Card title="Configuration" href="../../4.6.0/docs/projects/managing-applications/application" icon="file">
+For more details, check out this section
+</Card>
+<Card title="Runtime" href="../../4.6.0/docs/projects/runtime/builds" icon="file">
+For more details, check out this section
+</Card>
+</CardGroup>
+
+---
+
+### Integration Designer: Connect like a pro
+
+It’s like a dating app for your systems: drag, drop, connect, and let the workflows flow.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/intg_designer.png)
+</Frame>
+
+API integration just got easier! Integration Designer simplifies connecting FlowX with external systems using REST APIs.
+
+✨ **The magic of it**:
+
+* **Drag-and-Drop Interface**: Map data, define workflows, and configure endpoints like a breeze.
+* **Flexible Authorization**: Use Service Tokens, Bearer tokens, or go authentication-free.
+* **Error Management**: Built-in tools ensure your integrations don’t ghost you.
+
+<Tip>
+**Fun Fact**: Integration Designer doesn’t just test APIs (we love you, [Postman](https://www.postman.com/)❤️). It automates workflows, saving you tons of time.
+</Tip>
+
+<Card title="Integration Designer" href="../../4.6.0/docs/platform-deep-dive/integrations/integration-designer" icon="file">
+For more details, check out this section
+</Card>
+
+---
+
+### Merge Conflicts 2.0: Merge without the drama
+
+Merging branches? We've overhauled the process to make it faster, smarter, and far less painful.  
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Pre-merge.png)  
+</Frame>  
+
+🧩 **What’s New**: 
+
+- **Advanced Conflict Detection**: Pinpoint issues by resource type (Processes, Enumerations, Media, etc.).  
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%281%29.png)  
+</Frame> 
+
+- **Resource-Level Resolution**: Resolve conflicts directly in the UI with:  
+  - JSON comparisons (color-coded for clarity!).  
+  - Navigation tools to jump between differences.  
+  - Progress tracking for reviewed items.  
+
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-20%20at%2016.23.03.png)  
+</Frame>  
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%282%29.png)  
+</Frame>  
+
+
+Handle unresolved conflicts with the **Merge Anyway** option, which provides flexibility while maintaining control over outcomes:
+
+<Tip>
+**Pro Tip**: Use the “Merge Anyway” option if you need to override unresolved conflicts (but use it wisely!).
+</Tip>
+
+- A confirmation modal explains how unresolved conflicts will be handled (e.g., prioritizing source branch changes).
+- Allows merging to continue even when some conflicts remain unresolved.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Confirm%20Merging%20without%20checking%20all.png)  
+</Frame>
+
+<Card title="Merge conflicts" href="../../4.6.0/docs/projects/managing-applications/versioning.mdx#managing-conflicts" icon = "page">
+</Card>
+
+---
+
+### AI Agents: Smart, adaptable, always ready to help
+
+
+FlowX AI Agents bring automation to your fingertips, powered by a flexible, LLM-agnostic core.  
+
+🤖 **Why It’s Cool**:  
+
+- Works with both open-source and private language models.  
+- Secure, on-premise deployments available.  
+- Automates business processes and interactions.
+
+🎥 Check out a quick demo:
+
+<Frame>
+<video
+controls
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/AI%20Docs%20-%20Intro%20%281%29.mp4"
+></video>
+</Frame>
+
+Stay tuned for more.
+
+---
+
+### Localization and Internationalization
+
+FlowX is now more global-friendly with enhanced localization features.  
+
+<CardGroup>
+<Card title="Flexible Date, Time, Number, and Unit Formatting" icon="calendar">
+Enhanced formatting options for dates, times, numbers, and currencies with support for various international standards including short, medium, long, full, and custom formats.
+</Card>
+<Card title="Currency Customization" icon="money-bill-wave">
+Support for currency formatting with options to display values using ISO codes or symbols, adapting to user-selected locales and regional preferences.
+</Card>
+<Card title="Support for RTL Languages" icon="align-right">
+Implementation of right-to-left (RTL) layout direction, essential for Middle Eastern languages, ensuring correct rendering and usability.
+</Card>
+<Card title="Locale-Based Configurations" icon="map">
+Comprehensive settings for pluralization, capitalization, alignment, and sorting that adapt to regional requirements, helping cater to a diverse global user base.
+</Card>
+<Card title="Enhanced UI Component Formatting" icon="pencil">
+New options in the UI Designer to override general settings for text, messages, links, and form elements based on locale and region.
+</Card>
+<Card title="Document Localization" icon="globe">
+Static and dynamically generated legal documents can now be customized based on regional and locale settings, improving compliance and communication with local audiences.
+</Card>
+</CardGroup>
+
+<Card title= "Localization and internationalization" href="../../4.6.0/docs/building-blocks/ui-designer/localization-and-i18n" icon="file">
+For more details, check out this section
+</Card>
+
+
+---
+
+### Data Model 2.0: Data handling, but make it fashion
+
+In this release, we've introduced Data Model 2.0, a major upgrade designed to simplify and enhance data handling. Key improvements include the introduction of reusable objects, a visual representation of complex data structures, and dynamic data binding, all aimed at creating a more reliable and intuitive experience. The new model ensures references are automatically updated when changes are made, streamlining data management across the platform.
+
+**Highlights**:
+
+* **New Root Element**: Provides a structural basis without impacting business logic, ensuring a clear and organized data structure.
+* **Enhanced Data Binding**: Expanded to more areas, with dynamic updates based on changes in the data model.
+* **Localization**: Added handling mechanism for locale-specific formatting, ensuring accurate data representation.
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/data_model.mp4"
+></video>
+</Frame>
+
+
+<Card title ="Data model" href= "../../4.6.0/docs/building-blocks/process/data-model" icon="file">
+For more details, check out this section
+</Card>
+---
+
+
+### Task management 2.0
+
+We've enhanced Task Management capabilities, making it easier to create, track, and manage tasks efficiently. The updated Task Management features include customizable views and advanced filtering and sorting options for task data. Additionally, users can now implement both low-code and full-code solutions for a tailored Task Management experience, ensuring maximum flexibility for different business needs.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/views_task_manager.png)
+</Frame>
+
+<Card title="Task Management" href="../../4.6.0/docs/platform-deep-dive/core-extensions/task-management/task-management-overview" icon="file">
+For more details, check out this section
+</Card>
+
+---
+
+### UI Designer
+
+#### Grid layout 
+
+We are excited to introduce the Grid Layout feature in this release, enhancing the flexibility and usability of the UI Designer for creating structured and responsive layouts. With the new Grid Layout, users can organize form elements, tables, and other components using a multi-column and row system, allowing for more complex, bidirectional designs compared to the previous flex-based layout.
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid-release.mp4"
+></video>
+</Frame>
+
+
+<Accordion title="This might happen after using it for the first time:">
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/grid-layout-first-time.jpg)
+</Frame>
+</Accordion>
+
+
+#### Table
+
+
+The Table component is a simple and flexible way to display data in web applications. It lets you customize columns, add pagination, sort and filter data, and apply your own styling. You can resize columns, scroll through data, and even add actions like editing or deleting rows directly in the table. It’s easy to set up, with default columns and rows generated automatically based on your data.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2024-12-23%2017.10.38.gif)
+</Frame>
+
+<Card title="Table" href="../../4.6.0/docs/building-blocks/ui-designer/ui-component-types/table" icon="file">
+For more details, check out this section
+</Card>
+
+#### FlowX.AI UI Designer new navigator
+
+We are thrilled to introduce the new and improved **UI Designer Navigator**, a major update designed to streamline your UI design process.
+
+<CardGroup>
+<Card title="Enhanced UI Layer Panel Design and Functionality" icon="layer-group">
+The UI layer panel has been redesigned for a more intuitive experience, making it easier to manage and navigate through your design elements.
+</Card>
+<Card title="Improved Drag and Drop Experience" icon="arrow-pointer"> 
+Dragging and dropping components in the preview is now smoother and more precise, allowing for faster and easier creation of UIs.
+</Card>
+<Card title= "Flexible Root Component Management" icon ="block-quote">
+You can now change the root component from a form group to a container or vice versa, offering greater flexibility when copying nodes or resolving configuration problems.
+</Card>
+<Card title="Clearer Component Hierarchy" icon="sitemap">
+It is now simpler to identify where you are placing a component within the hierarchy, thanks to the enhanced drag/reorder functionality in the right panel.
+</Card>
+</CardGroup>
+
+<br></br>
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/new_navigator.mp4"
+></video>
+</Frame>
+
+
+#### Conditional formatting for UI elements
+
+Dynamically update styling and properties of UI elements based on conditions, reducing the need for multiple prototypes.
+
+#### Hide expressions enhancements
+
+Expanded hide expressions functionality to include:
+
+- Cards
+- Collection prototypes and children
+- Table cell children (e.g., texts, images, buttons, links)
+
+#### UI actions
+
+* Added a new UI action **Start new project instance**
+* Removed the **Start Process Inherit** UI action type.
+
+#### UI action form updates
+
+* Introduced **Functional** and **UX sections** for all action types, with a checkbox for **Add Analytics Name** in the UX section.
+* Simplified custom and exclude key management.
+
+<Frame>
+  ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-11%20at%2015.20.01.png)
+</Frame>
+
+---
+### Start new project instance action
+
+We’ve introduced the Start New Project Instance node action, enabling users to initiate a completely new process from within an ongoing one. This functionality is perfect for scenarios where isolated use cases are managed across different projects or environments. 
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/start_new_project_instance.png)
+</Frame>
+
+
+<Card title="Start new project instance action" href="../../4.6.0/docs/building-blocks/actions/start-new-project-instance" icon="page">
+</Card>
+
+---
+### Custom components validation
+
+You are able to validate and retrieve data from a generated screen, including data from a custom form section. Additionally, you’ll have the ability to trigger and manage data directly within that section. This will be a major benefit for clients who have chosen to create custom components for the entire screen (for example, a form that isn’t supported natively by the platform).
+
+<Card title="Validating elements" href= "../../4.6.0/docs/building-blocks/ui-designer/ui-component-types/root-components/card#validating-elements" icon ="file">
+</Card>
+
+
+---
+
+### Autocomputed data to send
+
+In previous platform versions, when creating your UI screens and working with data, you had to ensure that all the data stored in your process keys was saved in the process instance. This required adding an extra parameter called "Data to send" to the "Save Data" node action.
+
+
+**Older versions** vs **v4.6.0**:
+
+<Frame>
+<Frame><img height="200" alt="older versions" src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/4.x-aut.png"/> </Frame> <Frame> <img height="200" alt="v.4.6" src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/4.2-aut.png"/> </Frame>
+</Frame>
+
+
+Now, with the autocompute feature, this step is no longer necessary, as the data is automatically saved and sent on your process instance.
+
+
+<Tip>
+
+You no longer need to add "Save Data" node actions, but make sure to include "Forms to Validate" on the UI Actions. This helps ensure that data is submitted correctly and automatically activates any added validators where they exist.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/forms_to_validate.png)
+</Frame>
+</Tip>
+
+However, you still have the option to customize which keys are included or excluded as needed.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/include_exclude_keys.png)
+</Frame>
+
+
+---
+
+### **Scripting UX Improvements**: *Write code like a wizard*  
+
+- **Autocomplete**: Get tailored suggestions based on your data model.  
+- **New Editors**: JSON and hide/disable expressions editors now include examples, syntax help, and better visual feedback.  
+
+
+<Frame>
+<video
+  controls
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/entra/business_rule_test.mp4"
+></video>
+</Frame>
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/hide%3Adisable%20editor.png)
+</Frame>
+
+---
+### React & Angular SDKs
+
+Dev friends, we heard you. FlowX now integrates smoothly into your React and Angular apps. It’s like peanut butter and jelly, but make it code.
+
+
+#### React SDK
+
+With the 4.6.0 release, we're excited to announce the launch of the FlowX React SDK! This new SDK empowers developers to seamlessly integrate FlowX.AI capabilities into React applications, making it easier than ever to build highly interactive, responsive, and dynamic user experiences.
+
+To get started, simply install the FlowX React SDK via npm and check our documentation for examples and best practices!
+
+<Card title="React SDK" icon="react" href="../../4.6.0/sdks/react-renderer">
+</Card>
+
+#### New Angular SDK
+
+We're excited to announce new releases for FlowX packages to support web applications:  
+
+* `@flowx/core-sdk`  
+* `@flowx/angular-sdk`  
+* `@flowx/angular-theme`  
+* `@flowx/angular-ui-toolkit`  
+* `@flowx/core-theme`  
+
+<Warning>  
+We recommend upgrading to the **latest** versions of all @flowx packages to take full advantage of these new features and improvements. Check the deployment guidelines for version details.  
+</Warning>
+
+<Card title ="Angular SDK migration guide" href="migrating-from-v4.1.x-to-v4.6.0/renderers#angular-sdk-migration-guide" icon="file">
+</Card>
+---
+
+
+### Analytics integration for Container Apps
+
+Container apps now support tracking "Screen Displayed" and "Action Executed" events, configurable in the UI Designer to improve insights into user interactions.
+
+**UI Designer updates**
+
+- **Analytics Screen Name:** Configurable under Root UI components (Cards and Containers) to enable tracking in analytics platforms like Google Analytics.
+
+<Tip>  
+  "Screen Displayed" events support user task-based reporting, such as when a user task screen is shown.  
+</Tip>
+
+<Frame>  
+  ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-11%20at%2016.01.58.png)  
+</Frame>  
+
+<Info>  
+  The configured values are stored in `flowxProps.analytics`, making them accessible for integration with analytics tools.  
+</Info>  
+
+- **Action Analytics:** Tracks user actions (e.g., button clicks) with tags set directly in the UI Action Form.
+
+<Info>  
+  Added analytics configuration in the **UX Section** for all UI action types.  
+</Info>  
+
+<Frame>  
+  ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-11%20at%2016.20.53.png)  
+</Frame>  
+
+<Info>  
+  Values are saved in `params.analytics` via the PATCH `/actions` request.  
+</Info>  
+
+**Renderers updates**
+
+Renderers now expose a public API for triggering analytics events:
+
+- **Screen Events:** Triggered on user task display, using `flowxProps.analytics`.
+- **Action Events:** Triggered on action execution, using `params.analytics`.
+
+Dynamic values such as process store keys and replace tags are supported for more contextual tracking.
+
+---
+
+### Plugin updates
+
+**Notifications** and **Documents** plugins have been integrated as **project resources**.
+
+---
+
+## Bug fixes 🐞
+
+### Rendering
+
+* **Default Value Initialization for UI Elements**: Resolved an issue where certain UI elements were initialized with incorrect default values.
+
+* **Improved Security for Hidden Fields**: Fixed a vulnerability where hidden fields could be accessed through browser developer tools.
+
+*  **Form Validation Reset on UI Dismissal**: Addressed an issue where form validation errors persisted after the UI was closed.
+
+* **Keybinding Issues on Windows**: Fixed a bug where pressing specific keys triggered unintended operations in the designer.
+
+* **Input Field Validation for Number Type**: Corrected the validation logic for number input fields to ensure consistent behavior.
+
+* **Improved Datepicker Popup Positioning**: Resolved an issue where the datepicker popup overlapped the associated input field.
+
+* **Manual Date Entry in Datepicker**: Fixed an issue where manually entering a date after selecting one from the datepicker caused errors.
+
+* **Enhanced Update Mechanism for Custom Components**: Improved the reliability of updates for custom components to reflect changes consistently.
+
+## Changes 🔧
+
+- **Web Renderer Caching:** Improved resource caching with browser mechanisms keyed to build IDs.
+- **Process Designer:** Enhanced drag-and-drop functionality for node placement.
+---
+
+## Additional information
+
+For deployment guidelines and further details, refer to:
+
+<Card title="Deployment guidelines v4.6.0" href="./deployment-guidelines-v4.6.0" icon="link" />
+
+Migrating from v4.1.x:
+
+<Card title = "Migrating from v4.1.x to v4.6.0" href = "./migrating-from-v4.1.x-to-v4.6.0/migrating-from-v4.1.x" icon = "link" />
+
+<Card title = "Changes in process configuration" href = "./migrating-from-v4.1.x-to-v4.6.0/process-configuration" icon = "link"/>
+
+<Card title = "Renderer SDKs" href = "./migrating-from-v4.1.x-to-v4.6.0/renderers" icon = "link"/>

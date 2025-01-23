@@ -1,0 +1,64 @@
+---
+title: Deployment changes for v4.6.0
+description: This document outlines the configuration and infrastructure changes introduced from v4.1.x to v4.6.0 for deploying the FlowX.AI platform.
+---
+
+## CMS Setup
+
+### MongoDB configuration
+
+In version 4.6.0, the CMS setup includes a more comprehensive MongoDB configuration, especially for runtime data handling:
+
+- **Runtime MongoDB Instance**: A dedicated MongoDB instance for managing runtime data.
+  - **New Environment Variables**:
+    - `RUNTIME_DB_USERNAME`: Username for runtime MongoDB access.
+    - `SPRING_DATA_MONGODB_RUNTIME_URI`: Connection URI for the runtime MongoDB instance.
+    - `SPRING_DATA_MONGODB_STORAGE`: Specifies storage type for Azure environments (`mongodb` or `cosmosdb`). Default is `mongodb`.
+  - **Transaction Settings for Mongock Library**:
+    - `MONGOCK_TRANSACTIONENABLED`: Controls MongoDB transaction support with Mongock, defaulting to `false` due to compatibility concerns with MongoDB 5.
+
+
+### Private storage configuration
+
+Private CMS to securely store uploaded documents and AI-generated documents, ensuring they are accessible only via authenticated endpoints. This CMS will support AI services and workflows while maintaining strict access controls.
+
+<Info>
+Private CMS ensures secure file storage by keeping documents hidden from the Media Library and accessible only through authenticated endpoints with access token permissions. Files can be retrieved using tags (e.g., ai_document, ref:UUID_doc) and are excluded from project builds as they aren't needed at runtime.
+</Info>
+
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_SERVER_URL`: This environment variable specifies the URL of the S3 server used for private file storage.
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_BUCKET_NAME`: This environment variable specifies the name of the S3 bucket dedicated to private file storage.
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_CREATE_BUCKET`: This environment variable indicates whether the private S3 bucket should be created if it does not already exist. It can be set to true or false.
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_ACCESS_KEY`: This environment variable holds the access key used to authenticate to the S3 server for private file storage.
+* `APPLICATION_FILE_STORAGE_S3_PRIVATE_SECRET_KEY`: This environment variable holds the secret key used to authenticate to the S3 server for private file storage.
+
+
+<Card title="CMS setup guide" href="../../../4.6.0/setup-guides/cms-setup" icon ="file">
+</Card>
+
+---
+
+## Admin setup
+
+### MongoDB configuration
+
+Version 4.6.0 introduces a new MongoDB setup in the Admin service for managing data model information:
+
+- **New MongoDB Data Model Configuration**:
+  - **Environment Variables**:
+    - `SPRING_DATA_MONGODB_URI`: URI for connecting to the MongoDB data model instance.
+    - `DB_USERNAME`: Set to `data-model` for data model access.
+    - `SPRING_DATA_MONGODB_STORAGE`: Specifies storage type for Azure environments (`mongodb` or `cosmosdb`).
+
+---
+
+## Engine setup
+
+### MongoDB configuration
+
+The Engine configuration now includes additional setup for a runtime MongoDB instance to manage runtime builds:
+- **Runtime MongoDB for Engine**:
+  - **New Environment Variables**:
+    - `SPRING_DATA_MONGODB_RUNTIME_URI`: URI for connecting to the runtime MongoDB.
+    - `DB_USERNAME`: Set to `app-runtime` for runtime data access.
+
