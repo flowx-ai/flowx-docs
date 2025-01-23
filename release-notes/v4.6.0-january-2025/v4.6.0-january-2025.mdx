@@ -1,12 +1,12 @@
 ---
 title: FlowX.AI 4.6.0 Release Notes
-description: Welcome to the FlowX.AI 4.6.0 release! 🚀 This update is packed with groundbreaking features, enhancements, and fixes to supercharge your workflow and provide a seamless development experience.
+description: Welcome, FlowX fam! The 4.6.0 update is here, and it’s packed with features designed to save you time, boost efficiency, and maybe even make you chuckle. Let’s dive into the details, feature by glorious feature. 🎉
 ---
 
 ## **What's new?** 🆕
 
 
-### Projects
+### Projects: Order out of chaos
 
 The new Project concept introduces a streamlined approach to managing and deploying complex projects within FlowX. By grouping all related resources—such as processes, enumerations, integrations, and assets—into a single, organized workspace, projects provide a cohesive view for efficient development and deployment. 
 
@@ -16,7 +16,18 @@ The new Project concept introduces a streamlined approach to managing and deploy
 </Frame>
 
 
-This feature supports version control at the project level, allowing users to create and manage multiple versions and builds. Projects also facilitate resource sharing through dependencies, enabling the reuse of processes and configurations across projects. These enhancements make it easier to maintain project integrity, deploy updates seamlessly, and ensure consistency across environments. Here is a quick walkthrough demo:
+💼 **Key Benefits**:
+
+* **Unified Workspace**: Group related processes, integrations, assets, and configurations into one tidy space.
+* **Version Control**: Manage multiple builds and versions effortlessly. Rollbacks? No sweat.
+* **Resource Sharing**: Reuse processes and configurations across projects like a boss.
+
+<Check>
+**Why you’ll love it**: It’s like going from a messy desk to an organized digital office.
+</Check>
+
+🎥 **Quick Demo**: (Who needs text when you have visuals?)
+
 
 <Frame>
 <video
@@ -29,10 +40,13 @@ This feature supports version control at the project level, allowing users to cr
 For more details, check out this section
 </Card>
 
-#### Config vs build
+#### 🛠 Config vs Build Mode
 
-* Config mode is the environment where you set up, adjust, and manage your project's resources, processes, and configurations. It's the workspace where you fine-tune every aspect of the project before it's ready for deployment. Think of it as the design phase, where the focus is on setup, organization, and preparation.
-* Build mode is the stage where the configurations you've set up are packaged into a deployable form. This is the runtime-ready version of your project, containing everything needed for it to function in a production environment. A build includes a snapshot of the project’s state at a given point, ensuring stability and predictability when deployed.
+**Config Mode**: Tinker, tweak, and perfect.
+    * Config mode is the environment where you set up, adjust, and manage your project's resources, processes, and configurations. It's the workspace where you fine-tune every aspect of the project before it's ready for deployment. Think of it as the design phase, where the focus is on setup, organization, and preparation.
+
+**Build Mode**: Lock it, load it, deploy it.
+    * Build mode is the stage where the configurations you've set up are packaged into a deployable form. This is the runtime-ready version of your project, containing everything needed for it to function in a production environment. A build includes a snapshot of the project’s state at a given point, ensuring stability and predictability when deployed.
 
 <Frame>
 <video
@@ -54,16 +68,20 @@ For more details, check out this section
 
 ---
 
-### Integration Designer
+### Integration Designer: Connect like a pro
 
-The Integration Designer simplifies the integration of FlowX with external systems using REST APIs. It offers a user-friendly graphical interface with intuitive drag-and-drop functionality for defining data models, orchestrating workflows, and configuring system endpoints.
+It’s like a dating app for your systems: drag, drop, connect, and let the workflows flow.
 
-With Integration Designer, you can easily set up REST-based connections and define workflows, while enjoying flexible authorization options such as Service Token, Bearer, or No Auth.
+API integration just got easier! Integration Designer simplifies connecting FlowX with external systems using REST APIs.
+
+✨ **The magic of it**:
+
+* **Drag-and-Drop Interface**: Map data, define workflows, and configure endpoints like a breeze.
+* **Flexible Authorization**: Use Service Tokens, Bearer tokens, or go authentication-free.
+* **Error Management**: Built-in tools ensure your integrations don’t ghost you.
 
 <Tip>
-**Did you know?**
-
-Unlike [Postman](https://www.postman.com/), which focuses on API testing, the Integration Designer automates workflows between systems. With drag-and-drop ease, it handles REST API connections, real-time processes, and error management, making integrations seamless and scalable.
+**Fun Fact**: Integration Designer doesn’t just test APIs (we love you, [Postman](https://www.postman.com/)❤️). It automates workflows, saving you tons of time.
 </Tip>
 
 <Card title="Integration Designer" href="../../4.6.0/docs/platform-deep-dive/integrations/integration-designer" icon="file">
@@ -72,41 +90,27 @@ For more details, check out this section
 
 ---
 
-### Merge conflicts 2.0
+### Merge Conflicts 2.0: Merge without the drama
 
-The Merge Conflicts feature delivers an enhanced collaboration experience for managing branch versions, focusing on improving conflict detection, resolution efficiency, and seamless merging workflows.
-
-#### Merging without conflicts
-
-Easily merge secondary branches into the main branch or other branches when no conflicts are detected. The updated merge modal includes:
-
-- A clean, streamlined interface for branch selection.
-- A mandatory, validated commit message field (max 50 characters).
-- Real-time feedback for successful merges and updates to the branching graph.
+Merging branches? We've overhauled the process to make it faster, smarter, and far less painful.  
 
 <Frame>  
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Pre-merge.png)  
 </Frame>  
 
-#### Advanced conflict detection
+🧩 **What’s New**: 
 
-The new **Conflicts Detected Modal** provides a detailed overview of conflicting changes, with features such as:
-
-- Clear grouping by resource type (e.g., Processes, Enumerations, Media Library).
-- Scrollable lists and clickable entries to resolve conflicts efficiently.
-- A comprehensive comparison of source and target branch differences for context.
+- **Advanced Conflict Detection**: Pinpoint issues by resource type (Processes, Enumerations, Media, etc.).  
 
 <Frame>  
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%281%29.png)  
-</Frame>  
+</Frame> 
 
-#### Resource-level conflict resolution
+- **Resource-Level Resolution**: Resolve conflicts directly in the UI with:  
+  - JSON comparisons (color-coded for clarity!).  
+  - Navigation tools to jump between differences.  
+  - Progress tracking for reviewed items.  
 
-Resolve conflicts directly at the resource level with an intuitive interface:
-
-- **JSON Comparisons:** Visualize differences with color-coded highlights (source: yellow, target: blue).
-- **Navigation Support:** Quickly jump between differences for efficient resolution.
-- **Progress Tracking:** Mark resources as “Reviewed” or “Seen” to monitor resolution progress.
 
 <Frame>  
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-20%20at%2016.23.03.png)  
@@ -116,9 +120,13 @@ Resolve conflicts directly at the resource level with an intuitive interface:
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%282%29.png)  
 </Frame>  
 
-#### Flexible merge overrides
 
 Handle unresolved conflicts with the **Merge Anyway** option, which provides flexibility while maintaining control over outcomes:
+
+<Tip>
+**Pro Tip**: Use the “Merge Anyway” option if you need to override unresolved conflicts (but use it wisely!).
+ feedback for successful merges and updates to the branching graph.
+</Tip>
 
 - A confirmation modal explains how unresolved conflicts will be handled (e.g., prioritizing source branch changes).
 - Allows merging to continue even when some conflicts remain unresolved.
@@ -127,12 +135,23 @@ Handle unresolved conflicts with the **Merge Anyway** option, which provides fle
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Confirm%20Merging%20without%20checking%20all.png)  
 </Frame>
 
+<Card title="Merge conflicts" href="../../4.6.0/docs/projects/managing-applications/versioning.mdx#managing-conflicts" icon = "page">
+</Card>
+
 ---
 
-### AI Agents
+### AI Agents: Smart, adaptable, always ready to help
 
 
-FlowX AI Agents bring powerful automation and insight capabilities by harnessing a flexible, LLM-agnostic core, tailored to optimize your business processes and interactions. Built on a robust AI architecture, FlowX leverages interconnected language models adaptable across deployment options, from open-source models to private LLMs, ensuring secure, on-premise functionality that can integrate with any public LLM providers.
+FlowX AI Agents bring automation to your fingertips, powered by a flexible, LLM-agnostic core.  
+
+🤖 **Why It’s Cool**:  
+
+- Works with both open-source and private language models.  
+- Secure, on-premise deployments available.  
+- Automates business processes and interactions.
+
+🎥 Check out a quick demo:
 
 <Frame>
 <video
@@ -147,7 +166,7 @@ Stay tuned for more.
 
 ### Localization and Internationalization
 
-We are introducing robust localization and internationalization features to enhance global usability and adaptability. Key updates include:
+FlowX is now more global-friendly with enhanced localization features.  
 
 <CardGroup>
 <Card title="Flexible Date, Time, Number, and Unit Formatting" icon="calendar">
@@ -177,8 +196,7 @@ For more details, check out this section
 
 ---
 
-### Data model 2.0
-
+### Data Model 2.0: Data handling, but make it fashion
 
 In this release, we've introduced Data Model 2.0, a major upgrade designed to simplify and enhance data handling. Key improvements include the introduction of reusable objects, a visual representation of complex data structures, and dynamic data binding, all aimed at creating a more reliable and intuitive experience. The new model ensures references are automatically updated when changes are made, streamlining data management across the platform.
 
@@ -322,14 +340,16 @@ We’ve introduced the Start New Project Instance node action, enabling users to
 </Frame>
 
 
-
+<Card title="Start new project instance action" href="../../4.6.0/docs/building-blocks/actions/start-new-project-instance" icon="page">
+</Card>
 
 ---
 ### Custom components validation
 
 You are able to validate and retrieve data from a generated screen, including data from a custom form section. Additionally, you’ll have the ability to trigger and manage data directly within that section. This will be a major benefit for clients who have chosen to create custom components for the entire screen (for example, a form that isn’t supported natively by the platform).
 
-
+<Card title="Validating elements" href= "../../4.6.0/docs/building-blocks/ui-designer/ui-component-types/root-components/card#validating-elements" icon ="file">
+</Card>
 
 
 ---
@@ -367,17 +387,11 @@ However, you still have the option to customize which keys are included or exclu
 
 ---
 
-### Scripting UX improvements
+### **Scripting UX Improvements**: *Write code like a wizard*  
 
-We're excited to announce significant improvements to our scripting UX. These enhancements focus on upgrading the code editors and introducing an advanced autocomplete feature. Configurators, both experienced and novice, will benefit from better visual feedback, support for interpolation syntax, and integrated help and examples. 
+- **Autocomplete**: Get tailored suggestions based on your data model.  
+- **New Editors**: JSON and hide/disable expressions editors now include examples, syntax help, and better visual feedback.  
 
-The updates aim to streamline the configuration process, reduce errors, and make testing and troubleshooting more efficient.
-
-#### Autocomplete based on data model
-
-Autocomplete for attributes is now available, improving configuration efficiency by offering tailored suggestions based on data model attributes. These enhancements apply to various fields and editors, including JSON, code, and JavaScript editors, as well as input fields across different node configurations, UI components, and business rules.
-
-#### New test business rule editor
 
 <Frame>
 <video
@@ -389,14 +403,16 @@ Autocomplete for attributes is now available, improving configuration efficiency
 ></video>
 </Frame>
 
-#### New hide/disabled expressions editor
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/hide%3Adisable%20editor.png)
 </Frame>
 
 ---
-### SDKs
+### React & Angular SDKs
+
+Dev friends, we heard you. FlowX now integrates smoothly into your React and Angular apps. It’s like peanut butter and jelly, but make it code.
+
 
 #### React SDK
 
@@ -421,6 +437,8 @@ We're excited to announce new releases for FlowX packages to support web applica
 We recommend upgrading to the **latest** versions of all @flowx packages to take full advantage of these new features and improvements. Check the deployment guidelines for version details.  
 </Warning>
 
+<Card title ="Angular SDK migration guide" href="migrating-from-v4.1.x-to-v4.6.0/renderers#angular-sdk-migration-guide" icon="file">
+</Card>
 ---
 
 
@@ -477,6 +495,24 @@ Dynamic values such as process store keys and replace tags are supported for mor
 
 ## Bug fixes 🐞
 
+### Rendering
+
+* **Default Value Initialization for UI Elements**: Resolved an issue where certain UI elements were initialized with incorrect default values.
+
+* **Improved Security for Hidden Fields**: Fixed a vulnerability where hidden fields could be accessed through browser developer tools.
+
+*  **Form Validation Reset on UI Dismissal**: Addressed an issue where form validation errors persisted after the UI was closed.
+
+* **Keybinding Issues on Windows**: Fixed a bug where pressing specific keys triggered unintended operations in the designer.
+
+* **Input Field Validation for Number Type**: Corrected the validation logic for number input fields to ensure consistent behavior.
+
+* **Improved Datepicker Popup Positioning**: Resolved an issue where the datepicker popup overlapped the associated input field.
+
+* **Manual Date Entry in Datepicker**: Fixed an issue where manually entering a date after selecting one from the datepicker caused errors.
+
+* **Enhanced Update Mechanism for Custom Components**: Improved the reliability of updates for custom components to reflect changes consistently.
+
 ## Changes 🔧
 
 - **Web Renderer Caching:** Improved resource caching with browser mechanisms keyed to build IDs.
@@ -488,3 +524,11 @@ Dynamic values such as process store keys and replace tags are supported for mor
 For deployment guidelines and further details, refer to:
 
 <Card title="Deployment guidelines v4.6.0" href="./deployment-guidelines-v4.6.0" icon="link" />
+
+Migrating from v4.1.x:
+
+<Card title = "Migrating from v4.1.x to v4.6.0" href = "./migrating-from-v4.1.x-to-v4.6.0/migrating-from-v4.1.x" icon = "link" />
+
+<Card title = "Changes in process configuration" href = "./migrating-from-v4.1.x-to-v4.6.0/process-configuration" icon = "link"/>
+
+<Card title = "Renderer SDKs" href = "./migrating-from-v4.1.x-to-v4.6.0/renderers" icon = "link"/>

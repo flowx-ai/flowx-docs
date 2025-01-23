@@ -8,7 +8,7 @@ description: With versioning, you can easily track your project's evolution.
 Project version is the editable snapshot of a project’s state at a specific point in time. It contains all the resources (like processes, integrations, templates, etc.) and configurations grouped within the project.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/versioning.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-22%20at%2019.09.53.png)
 </Frame>
 
 1. **Overview:**
@@ -31,7 +31,7 @@ Project version is the editable snapshot of a project’s state at a specific po
 
 ## Branching and committing
 
-"Branching Modal" feature provides more visibility and control over the process definitions. The process definition header includes details about the current version, such as its state (work in progress or submitted changes) and branch name.
+"Branching Modal" feature provides more visibility and control over the project evolution. The branching header includes details about the current version, such as its state (work in progress or submitted changes) and branch name.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/process_definition_header.png)
@@ -49,7 +49,7 @@ The Work-in-Progress (WIP) Versioning feature enhances the version control capab
 
 You can initiate a new work-in-progress version while keeping the submitted version intact. A work-in-progress version is automatically created under the following circumstances:
 
-* **New Process Definition**: When you create a new process definition, a corresponding work-in-progress version is initiated. This ensures that ongoing changes are tracked separately from the submitted version.
+* **New Project**: When you create a new project, a corresponding work-in-progress version is initiated. This ensures that ongoing changes are tracked separately from the submitted version.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/wip_process_definition.png)
@@ -134,6 +134,58 @@ The system displays both the version to be merged and the current version on a s
 Not all changes are considered conflicts, changes in node positions are not treated as conflicts. Primary causes lie in identifying differences within business rules, expressions, and other scripts.
 </Info>
 
+#### Merging without conflicts
+
+Easily merge secondary branches into the main branch or other branches when no conflicts are detected. The updated merge modal includes:
+
+- A clean, streamlined interface for branch selection.
+- A mandatory, validated commit message field (max 50 characters).
+- Real-time feedback for successful merges and updates to the branching graph.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Pre-merge.png)  
+</Frame>  
+
+#### Advanced conflict detection
+
+The new **Conflicts Detected Modal** provides a detailed overview of conflicting changes, with features such as:
+
+- Clear grouping by resource type (e.g., Processes, Enumerations, Media Library).
+- Scrollable lists and clickable entries to resolve conflicts efficiently.
+- A comprehensive comparison of source and target branch differences for context.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%281%29.png)  
+</Frame>  
+
+#### Resource-level conflict resolution
+
+Resolve conflicts directly at the resource level with an intuitive interface:
+
+- **JSON Comparisons:** Visualize differences with color-coded highlights (source: yellow, target: blue).
+- **Navigation Support:** Quickly jump between differences for efficient resolution.
+- **Progress Tracking:** Mark resources as “Reviewed” or “Seen” to monitor resolution progress.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-20%20at%2016.23.03.png)  
+</Frame>  
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Merge%20Modal%20%282%29.png)  
+</Frame>  
+
+#### Flexible merge overrides
+
+Handle unresolved conflicts with the **Merge Anyway** option, which provides flexibility while maintaining control over outcomes:
+
+- A confirmation modal explains how unresolved conflicts will be handled (e.g., prioritizing source branch changes).
+- Allows merging to continue even when some conflicts remain unresolved.
+
+<Frame>  
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Confirm%20Merging%20without%20checking%20all.png)  
+</Frame>
+
+
 ### Setting published version
 
 You can specify which version will run by default from a container app.
@@ -208,38 +260,6 @@ More details on how to use the audit log, you can find in the following section:
 
 [FlowX.AI Audit](/4.0/docs/platform-deep-dive/core-extensions/audit)
 
-### Favorites
-
-My Favorites feature allows you to mark processes as favorites. This is a convenient way to identify and prioritize processes that are important to, streamlining your workflow. With the addition of the favorite process feature, we have included a dedicated tab within the process definition list.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/my_favorites.gif)
-</Frame>
-
-The "Open Audit View" provides you with a detailed audit log of actions related to work-in-progress (WIP) versions of a process. The primary goal is to ensure transparency and accountability for actions taken before the commit or save process. 
-
-<Info>
-In **Favorites** tab, the **Branch** tag will always display the most recently modified branch.
-</Info>
-
-
-<Info>
-In **My Favorites** tab, the **Branch** tag will always display the most recently modified branch.
-</Info>
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/my_favorites_tab.png)
-</Frame>
-
-#### Adding a process to favorites
-
-To add a process to the "Favorites" tab, simply follow these steps:
-
-1. Launch **FlowX.AI Designer**.
-2. Either open an existing process definition or create a new one.
-3. In the top-right corner, click on the breadcrumbs menu and select **Add to favorites**.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/fav_add.png)
 
 
 ### Clone process version
