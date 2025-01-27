@@ -207,9 +207,10 @@ The entry point of the library is the `<flx-process-renderer></flx-process-rende
 | legacyHttpVersion | Set this to `true` only for HTTP versions < 2 in order for SSE to work properly. Can be omitted otherwise.                                                                             | boolean | false     | false         | -                                                |
 | projectInfo       | Information about the project that contains the process that is being run.                                                                                                             | object  | true      | -             | `{ projectId: '1234-5678-9012' }`                |
 | locale            | Locale used to localize the application.                                                                                                                                               | string  | false     | en-US         | 'en-US'                                          |
+| cache             | Caching of static resources                                                                                                                                                            | boolean | false     | true          | -                                                |
 
 
-#### Data and actions
+### Data and actions
 
 Custom components will be hydrated with data through the $data input observable which must be defined in the custom component class.
 
@@ -221,8 +222,8 @@ Custom components will be hydrated with data through the $data input observable 
   styleUrls: ['./custom-component.component.scss'],
 })
 export class CustomComponentComponent  {
-  @Input() data$: Observable<any>;
-  }
+  data$ = input<Observable<any> | null>(null)
+}
 ```
 
 Component actions are always found under `data` -> `actionsFn` key.
@@ -283,9 +284,111 @@ export class FlxCustomValidationComponent implements OnInit {
     })
   }
 }
+
 ```
 
-#### Interacting with the process
+### Custom Interceptors
+
+* Starting from the FlowX SDKs version 4.6, the Angular `HttpClientModule` is no longer use internally to make HTTP requests. Thus, we have a new mechanism that allows you to create custom interceptors for handling HTTP requests. 
+
+#### Request Interceptors
+
+* Here is an example that illustrates how to create an interceptor that adds a custom header to all outgoing requests:
+
+```typescript
+// Import the necessary types
+import { FLX_REQUEST_INTERCEPTORS_CONFIG } from '@flowx/angular-sdk'
+import { HttpRequestInterceptor } from '@flowx/core-sdk'
+
+// create the interceptor factory function
+
+const customHeaderInterceptor: HttpRequestInterceptor[] = [
+  {
+    onFulfilled: (response) => {
+      response.headers['custom-header'] = 'custom-value'
+      return response
+    },
+  }
+]
+
+// Add the interceptor to the providers array in the main app module
+
+{
+  provide: FLX_REQUEST_INTERCEPTORS_CONFIG,
+  useValue: customHeaderInterceptor,
+}
+```
+
+#### Response Interceptors
+
+* Here is an example that illustrates how to create an interceptor that shows a message when a response errors out:
+
+```typescript
+import { FLX_RESPONSE_INTERCEPTORS_CONFIG } from '@flowx/angular-sdk'
+import { HttpResponseInterceptor } from '@flowx/core-sdk'
+
+const customHErrorInterceptor: HttpResponseInterceptor[] = [
+  {
+    onRejected: (response) => {
+      if (response.status !== 200) {
+        console.error('Something went wrong, we should handle this!', response.message)
+      }
+      return response
+    }
+  }
+]
+
+// Add the interceptor to the providers array in the main app module
+{
+  provide: FLX_RESPONSE_INTERCEPTORS_CONFIG,
+  useValue: customHErrorInterceptor,
+}
+```
+
+#### Interceptors that use Dependency injection
+
+* If you need to use a service in your interceptor, you can use provider factories coupled with the `deps` property to inject the service into the interceptor:
+
+```typescript
+// the interceptor factory function that receives the custom service as an argument through dependency injection:
+const interceptor: (custom: any) => HttpRequestInterceptor[] = (customService: CustomService) => [{
+  onFulfilled: (response) => {
+    // do something with the custom service
+    // interceptor logic
+    return response
+  }
+}]
+
+// Add the interceptor to the providers array in the main app module
+{  
+  provide: FLX_REQUEST_INTERCEPTORS_CONFIG,
+  useFactory: (customService: CustomService) => [
+    interceptorFactory(customService), 
+  ],
+  deps: [CustomService], // provider factory dependencies
+}
+```
+
+### Custom Nomenclator service
+
+The SDK allows you to create a custom nomenclator service that can be used to fetch enumeration data from an external source. These custom nomenclator services should implement the `NomenclatorServiceInterface`.
+
+* Here is an example of how to create a custom nomenclator service that uses the `HttpClient` to fetch data from an external API:
+
+```typescript
+
+// Add the interceptor to the providers array in the main app module
+{
+  provide: FLX_NOMENCLATOR_CONFIG,
+  useFactory: (http: HttpClient) => ({ 
+    get: (name: string) => lastValueFrom(http.get(`https://some-external-api.com?name=${name}`)),
+  }),
+  deps: [HttpClient],
+},
+
+```
+
+### Interacting with the process
 
 Data from the process is communicated via **Server Send Event** protocol under the following keys:
 
@@ -295,7 +398,7 @@ Data from the process is communicated via **Server Send Event** protocol under t
 | ProcessMetadata | updates about process metadata, ex: progress update, data about how to render components |         |   |
 | RunAction       |                       instructs the UI to perform the given action                       |         |   |
 
-#### Task management component
+### Task management component
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/renderer_task_mngment.png)
 
@@ -319,75 +422,28 @@ export class MyModule {}
 Then in the template:
 
 ```xml
-<flx-task-management 
-  [apiUrl]="baseApiUrl"
-  [authToken]="authToken" 
-  [title]="'Tasks'">
-</flx-task-management>
+<flx-task-management
+    [authToken]="accessToken"
+    [apiUrl]="baseUrl"
+    [appId]="appId"
+    [viewDefinitionId]="viewId"
+  ></flx-task-management>
 ```
 
 **Parameters**:
 
-| Name            | Description                            | Type   | Default    | Mandatory | Example                      |
-| --------------- | -------------------------------------- | ------ | ---------- | --------- | ---------------------------- |
-| apiUrl          | Endpoint where the tasks are available | string | -          | true      | https://yourDomain.dev/tasks |
-| authToken       | Authorization token                    | string | -          | true      |                              |
-| title           | Table header value                     | string | Activities | false     | Tasks                        |
-| pollingInterval | Interval for polling task updates      | number | 5000 ms    | false     | 10000                        |
+| Name             | Description                            | Type   | Default    | Mandatory | Example                      |
+| ---------------- | -------------------------------------- | ------ | ---------- | --------- | ---------------------------- |
+| apiUrl           | Endpoint where the tasks are available | string | -          | true      | https://yourDomain.dev/tasks |
+| authToken        | Authorization token                    | string | -          | true      |                              |
+| appId            | The application id                     | string | -          | true      |                              |
+| viewDefinitionId |                                        | string | -          | true      |                              |
+| title            | Table header value                     | string | Activities | false     | Tasks                        |
+| pollingInterval  | Interval for polling task updates      | number | 5000 ms    | false     | 10000                        |
 
 
-For basic styling to work the following configuration is needed in the angular.json file:
-
-```bash
-"stylePreprocessorOptions": {
-  "includePaths": [
-    "./node_modules/@flowx/ui-sdk/src/assets/scss"
-  ...
-},
-```
-
-### Development
-
-If you want to start the designer app and the flx-process-renderer library in development mode (no need to recompile the lib for every change) run the following command:
-
-```bash
-npm run start:designer
-```
-
-When modifying the library source code and testing it inside the designer app use the following command which rebuilds the libraries, recreates the link between the library and the designer app and recompiles the designer app:
-
-`./start_with_build_lib.sh`
-
-<Tip>
-Remember to test the final version of the code by building and bundling the renderer library to check that everything works e2e.
-</Tip>
-
-Trying to use this lib with npm link from another app will most probably fail. If (when) that happens, there are two alternatives that you can use:
-
-1. Use the build-and-sync.sh script, that builds the lib, removes the current build from the client app **node_modules** and copies they newly build lib to the node_modules dir of the client app:
-
-```
-./build-and-sync.sh ${path to the client app root}
-
-# example (the client app is demo-web):
-./build-and-sync.sh ../../demo-web
-```
 
 
-NOTE: This method uses under the hood the build-and-sync.sh script from the first version and the chokidar-cli library to detect file changes.
-
-2. Use the build-and-sync:watch npm script, that builds the library and copies it to the client app's **node_module** directory every time a file changes:
-
-```bash
-npm run build-and-sync:watch --target-path=${path to the client app root}
-
-# example (the client app is demo-web):
-npm run build-and-sync:watch --target-path=../../demo-web
-```
-
-### Running the tests
-
-`ng test`
 
 #### Coding style tests
 
