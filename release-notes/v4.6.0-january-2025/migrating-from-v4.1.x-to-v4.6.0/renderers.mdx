@@ -323,7 +323,7 @@ For some libraries, the required angular version might not be up to date or comp
 </Warning>
 
 ```bash
-npm install @flowx/core-sdk@5.62.1 @flowx/core-theme@5.62.1 @flowx/angular-sdk@5.62.1 @flowx/angular-theme@5.62.1 @flowx/angular-ui-toolkit@5.62.1 
+npm install @flowx/core-sdk@5.63.0 @flowx/core-theme@5.63.0 @flowx/angular-sdk@5.63.0 @flowx/angular-theme@5.63.0 @flowx/angular-ui-toolkit@5.62.1 
 ```
 
 * Install a type dependency for the SSE library:
@@ -421,11 +421,16 @@ The `withExtraIconSet` method has been replaced with `provideExtraIconSet`, whic
 export class AppModule {}
 ```
 
-### Custom Interceptors & Custom Nomenclator
+### Custom Interceptors
 
-Please refer to the respective sections of the renderer documentation for the new API changes.
+The new FlowX SDKs do not depend on Angular's `HttpClient` to make API calls, so existing interceptors must be adapted to a new format, for Request Interceptos (eg. custom headers) and Response Interceptors (eg. error handling)
+
+For an overview of implementation details, please refer to the respective sections of the renderer documentation for the new API changes.
 
 <CardGroup>
 <Card title = "Custom Interceptors" href="../../../4.6.0/sdks/angular-renderer#custom-interceptors" icon="page"/>
-<Card title = "Custom Nomenclator" href="../../../4.6.0/sdks/angular-renderer#custom-nomenclator-service" icon="page"/>
 </CardGroup>
+
+
+
+

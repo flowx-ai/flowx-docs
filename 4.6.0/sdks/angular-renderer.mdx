@@ -34,13 +34,13 @@ To install the npm libraries provided by FLOWX you will need to obtain access to
 </Check>
 
 <Info>
-The library uses Angular version **@angular\~18**, **npm v10.8.0** and **node v18.20*.4*.
+The library uses Angular version **@angular\~19**, **npm v10.8.0** and **node v18.20*.4*.
 </Info>
 
 <Check>
 If you are using an older version of Angular (for example, v16), please consult the following link for update instructions: 
 
-[**Update Angular from v16.0 to v17.0**](https://angular.dev/update-guide?v=16.0-17.0&l=1)
+[**Update Angular from v16.0 to v19.0**](https://angular.dev/update-guide?v=16.0-17.0&l=1)
 </Check>
 
 ## Installing the library
@@ -49,11 +49,11 @@ Use the following command to install the **renderer** library and its required d
 
 ```bash
 npm install \
-  @flowx/core-sdk@5.53.4 \
-  @flowx/core-theme@5.53.4 \
-  @flowx/angular-sdk@5.53.4 \
-  @flowx/angular-theme@5.53.4 \
-  @flowx/angular-ui-toolkit@5.53.4 \
+  @flowx/core-sdk@5.63.0 \
+  @flowx/core-theme@5.63.0 \
+  @flowx/angular-sdk@5.63.0 \
+  @flowx/angular-theme@5.63.0 \
+  @flowx/angular-ui-toolkit@5.63.0 \
   @angular/cdk@19 \
   ng2-pdfjs-viewer@18.0.0 \
   @types/event-source-polyfill
@@ -367,25 +367,6 @@ const interceptor: (custom: any) => HttpRequestInterceptor[] = (customService: C
   ],
   deps: [CustomService], // provider factory dependencies
 }
-```
-
-### Custom Nomenclator service
-
-The SDK allows you to create a custom nomenclator service that can be used to fetch enumeration data from an external source. These custom nomenclator services should implement the `NomenclatorServiceInterface`.
-
-* Here is an example of how to create a custom nomenclator service that uses the `HttpClient` to fetch data from an external API:
-
-```typescript
-
-// Add the interceptor to the providers array in the main app module
-{
-  provide: FLX_NOMENCLATOR_CONFIG,
-  useFactory: (http: HttpClient) => ({ 
-    get: (name: string) => lastValueFrom(http.get(`https://some-external-api.com?name=${name}`)),
-  }),
-  deps: [HttpClient],
-},
-
 ```
 
 ### Interacting with the process
