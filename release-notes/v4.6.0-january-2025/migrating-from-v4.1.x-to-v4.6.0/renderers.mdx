@@ -7,9 +7,9 @@ description: This guide assists in migrating from FlowX v4.1.x to v4.6.0.
 
 ### Initialization config changes
 
-A new configuration parameter, named `locale` was added in order to improve formatting the dates, numbers and currencies.
+A new configuration parameter named `locale` was added in order to improve formatting the dates, numbers and currencies.
 
-When the SDK initialization happens through the `FlowxSdkApi.getInstance().init(...)` method, the argument has to be set inside the `config: SdkConfig` parameter value:
+When the SDK initialization happens through the `FlowxSdkApi.getInstance().init(...)` method, the argument must be included inside the `config: SdkConfig` parameter value:
 
 ```kotlin
 FlowxSdkApi.getInstance().init(
@@ -161,7 +161,8 @@ The Angular SDK node packages have been updated and will use the latest versions
 
 In the following we cover the migration guide for a container app from Angular v17 to v19 and the new SDKs.
 
-#### 0. Remove old packages and their explicit dependencies (required dependency packages for new sdks are bundled in the libraries so we don't need )
+<Steps>
+<Step title = "Remove old packages and their explicit dependencies (required dependency packages for new sdks are bundled in the libraries so we don't need)">
 
 * remove `material-moment-adapter` unless its not used in custom components (usually together with material datepicker) and also the `moment` package (unless used elsewhere in the project )
 
@@ -192,8 +193,9 @@ npm uninstall date-fns event-source-polyfill inputmask ng2-pdfjs-viewer vanillaj
 ```bash
 npm uninstall @angular/flex-layout
 ```
+</Step>
 
-#### 1. Update container app to Angular 18
+<Step title="Update container app to Angular 18">
 
 * Make sure to have the Angular CLI installed at version 18 (check with `ng --version`)
 ```bash
@@ -240,8 +242,9 @@ ng update @angular/material@18
 }
 
 ```
+</Step>
 
-#### 2. Update container app to Angular 19
+<Step title= "Update container app to Angular 19">
 
 * Make sure to have the Angular CLI installed at version 19 (check with `ng --version`)
 ```bash
@@ -279,9 +282,12 @@ ng update @angular/material@19
   }
 }
 ```
-#### 3. Install the new FlowX SDK packages:
 
-##### Adding overrides for libraries that have a dependency on Angular version < 19
+</Step>
+
+<Step title ="Install the new FlowX SDK packages">
+
+**Adding overrides for libraries that have a dependency on Angular version < 19**
 
 For some libraries, the required angular version might not be up to date or compatible with the new Angular version. In this case, you can add an override in the `package.json` file to force the library to use the new Angular version. 
 
@@ -300,10 +306,10 @@ For some libraries, the required angular version might not be up to date or comp
 }
 ```
 
-##### Install new packages
+**Install new packages**:
 
 <Warning>
-TO DO: Update to latest 4.6 versions.
+**ACTION REQUIRED**: Update to the latest version 4.6 to ensure optimal performance and compatibility.
 </Warning>
 
 ```bash
@@ -319,11 +325,16 @@ npm install --save-dev @types/event-source-polyfill
 * run through all the migration steps in the [New SDK Api changes](#new-sdk-api-changes) section below.
 
 
-**_NOTES:_**  
-* Each migration requires a 'clean' repository state. Make sure to commit all changes before starting the next migration step. 
-* After each Angular update it is recommended you restart your editor or TS Server, to use the new TS version since some import errors might appear.
+<Info>
+Each migration requires a 'clean' repository state. Make sure to commit all changes before starting the next migration step. 
+</Info>
 
+<Check>
+After each Angular update it is recommended you restart your editor or TS Server, to use the new TS version since some import errors might appear.
+</Check>
 
+</Step>
+</Steps>
 
 ### New SDK API changes
 
@@ -353,7 +364,7 @@ Use these parameters in the template as inputs for the `<flx-process-renderer>` 
 />
 ```
 
-#### API Changes
+#### API changes
 
 Process Renderer:
 
@@ -404,3 +415,7 @@ export class AppModule {}
 
 Please refer to the respective sections of the renderer documentation for the new API changes.
 
+<CardGroup>
+<Card title = "Custom Interceptors" href="../../../4.6.0/sdks/angular-renderer#custom-interceptors" icon="page"/>
+<Card title = "Custom Nomenclator" href="../../../4.6.0/sdks/angular-renderer#custom-nomenclator-service" icon="page"/>
+</CardGroup>
