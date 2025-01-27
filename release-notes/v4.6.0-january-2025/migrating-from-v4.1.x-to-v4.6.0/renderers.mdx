@@ -143,6 +143,16 @@ func continueExistingProcess(uuid: String,
                              onProcessEnded: (() -> Void)? = nil)
 ```
 
+### Updated FXDataSource protocol
+
+A new method has been added to the `FXDataSource` protocol. Update conformance to protocol by adding the implementation of the new func.
+
+```swift
+func newProcessStarted(processInstanceUuid: String) {
+    
+}
+```
+
 ### Public API changes
 
 The `changeLanguage` method has been updated and renamed to `changeLocaleSettings`, in order to accommodate the newly added `locale` config parameter:
