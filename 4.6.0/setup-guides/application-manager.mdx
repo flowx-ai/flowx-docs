@@ -277,12 +277,27 @@ To control the logging levels for the Application Manager, use the following env
 
 ### Configuring file storage 
 
+<Info>
+S3 is used in the Application Manager for:
+
+- Storing imported and exported resources.
+- Storing application versions and builds that are imported or exported.
+</Info>
+
+
 If the Application Manager requires file storage for resources or builds, configure S3-compatible storage using the following environment variables:
 
-* `APPLICATION_FILE_STORAGE_S3_URL` - URL of the S3-compatible storage server
-* `APPLICATION_FILE_STORAGE_S3_BUCKET_NAME` - S3 bucket name for storing application files
-* `APPLICATION_FILE_STORAGE_S3_ACCESS_KEY` - Access key for S3 storage
-* `APPLICATION_FILE_STORAGE_S3_SECRET_KEY` - Secret key for S3 storage
+* `APPLICATION_FILE_STORAGE_TYPE`: Type of storage to use. Set this to `s3` to enable S3-compatible file storage.
+* `APPLICATION_FILE_STORAGE_DELETION_STRATEGY`: Strategy for handling file deletion. Options include:
+  * `delete`: Files are permanently deleted. (`DEFAULT`)
+  * `disabled`: File deletion is disabled.
+  * `deleteBypassingGovernanceRetention`: Files are deleted, bypassing governance retention settings.
+* `APPLICATION_FILE_STORAGE_S3_ENABLED`: Set to `true` to enable S3-compatible storage.
+* `APPLICATION_FILE_STORAGE_S3_SERVER_URL`: URL of the S3-compatible storage server.
+* `APPLICATION_FILE_STORAGE_S3_ENCRYPTION_ENABLED`: Set to true to enable server-side encryption for stored files. Default: false.
+* `APPLICATION_FILE_STORAGE_S3_ACCESS_KEY`: Access key for the S3 storage. 
+* `APPLICATION_FILE_STORAGE_S3_SECRET_KEY`: Secret key for the S3 storage.
+* `APPLICATION_FILE_STORAGE_S3_BUCKET_PREFIX`: Prefix for S3 bucket names. Default: `"applications-bucket"`.
 
 ### Data model overview
 
