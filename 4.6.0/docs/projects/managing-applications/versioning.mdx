@@ -1,71 +1,181 @@
 ---
 title: Versioning
-description: With versioning, you can easily track your project's evolution. 
+description: Easily track and manage your project's evolution with comprehensive versioning features.
 ---
+
+Versioning enables you to manage changes, track progress, and collaborate effectively by capturing snapshots of your project's state at any point in time. The versioning system ensures that resources are grouped and tracked as part of the project, providing a comprehensive and structured approach to development.
 
 ## Project version
 
-Project version is the editable snapshot of a project’s state at a specific point in time. It contains all the resources (like processes, integrations, templates, etc.) and configurations grouped within the project.
+A **Project Version** is an editable snapshot of your project at a specific moment. It contains all resources (e.g., processes, integrations, templates) and configurations grouped under the project.
+
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-22%20at%2019.09.53.png)
 </Frame>
 
-1. **Overview:**
-   - The tab provides a summary of all accessible process definitions in the current environment.
+The tab above provides a summary of all accessible project versions and branches available in the current environment.
 
-2. **Streamlined Data Display:**
-   - Information displayed in the list is retrieved from both the published version and work in progress.
+<Info>
+Resources within a project (e.g., processes, integrations, templates) are versioned as part of the project, not individually.
+</Info>
 
-3. **Key Information Included:**
-   - View details like process definition name, published version branch name, and published version state with the following convention: 
+<Info>
+Certain resources are considered **global** and are not included in project-specific versioning. These resources are shared across projects and environments to maintain consistency and simplify their management. Examples of such global resources include:
+- **Themes**: Predefined design themes used across multiple projects.
+- **Fonts**: A library of fonts accessible globally.
+- **Global Media Files**: Shared media assets.
+- **Out of Office Settings**: Configurations for user availability and auto-responses that are managed at the platform level.
+</Info>
 
-        - Work in progress - dotted
-        - Submitted - full
-        - Main branch - blue 
-        - Secondary branch - yellow
+---
 
-4. **Actions:**
-   - Interact with each process definition through actions such as opening the BPMN tab in edit mode, starting instances, and displaying branching options.
-   - Contextual menu actions offer options to edit, open settings, view data modal, and delete process definitions.
+## Interface overview
 
-## Branching and committing
+### Left panel: version details
 
-"Branching Modal" feature provides more visibility and control over the project evolution. The branching header includes details about the current version, such as its state (work in progress or submitted changes) and branch name.
+- **State**: Displays the current state of the version (e.g., `draft`, `committed`).
+- **Branch**: Indicates the currently selected branch (e.g., `main`).
+- **Last Saved By**: Shows the username of the person who last saved changes (e.g., "JS").
+- **Last Saved At**: Displays the timestamp of the most recent save (e.g., "23 Jan 2025 at 10:11 AM").
+- **ID**: A unique identifier for the version, with a copy button for convenience.
+
+### Center panel: branch and commit graph
+
+The graph visually organizes the project’s versioning structure, showing relationships between branches and commits.
+
+- **Graph View**:
+  - Provides a visual representation of branches and commits.
+  - **Main Branch** (blue): The main development branch.
+  - **Secondary Branches** (yellow): Feature or development branches such as `branch3`, `branch4`, and `secondary_branch`.
+  - **Markers**:
+    - **Dotted Circles**: Represent draft versions.
+    - **Solid Circles**: Represent submitted versions.
+
+
+### Right panel: submit messages
+
+- Displays a chronological list of commit messages for the selected branch.
+- **Details**:
+  - Commit messages (e.g., `v1`, `commit_secondary_branch`) are aligned with their respective branches.
+  - Each commit shows:
+    - The user responsible (e.g., "JS").
+    - The state of the commit (e.g., `draft`, `commited`).
+
+
+### Top bar: global controls
+
+- **Project Name**: Displays the current project name (`Docs_customer_onboarding`).
+- **Branch Selector**: Dropdown to navigate between branches.
+- **State Indicator**: Highlights the state of the current branch (e.g., `draft` for `main`).
+- **Submit Changes to Version**: Button for submitting draft changes globally.
+- **Config/Runtime Tabs**:
+  - **Config**: Likely for managing version configuration.
+  - **Runtime**: Likely for runtime options or monitoring.
+
+---
+
+## Core versioning operations
+
+The table below summarizes key versioning operations and their functions:
+
+| Operation           | Description                                                                              |
+| ------------------- | ---------------------------------------------------------------------------------------- |
+| **Create Project**  | Creates a project and its initial draft version.                                         |
+| **Create Resource** | Adds a new resource in draft status to the current project version.                      |
+| **Edit Resource**   | Creates a deep copy of a resource for editing if the original is COMMITTED.              |
+| **Commit Project**  | Updates the statuses of the project, its manifest, and resources to COMMITTED.           |
+| **Discard draft**   | Deletes draft resources and the draft project version.                                   |
+| **Start New draft** | Creates a new draft version by copying the last COMMITTED project version.               |
+| **Create Branch**   | Creates a new branch and a corresponding draft project version from the selected commit. |
+
+### Detailed steps for operations
+
+<Steps>
+<Step title="Create Project">
+- A new project is created in draft (WIP) state.
+- An initial draft project version is automatically generated.
+</Step>
+<Step title="Create Resource">
+- Adds a resource in draft status to the current project version.
+- Updates the project manifest to include:
+  - **UUID** of the new resource.
+  - `last_change_time`: Set to the current timestamp.
+  - `last_committed_time`: Null (since the resource is WIP).
+</Step>
+<Step title="Edit Resource">
+- **Scenario A**: Editing a draft Resource
+  - No new resource version is created.
+  - Updates the project manifest:
+    - `last_change_time`: Current timestamp.
+
+- **Scenario B**: Editing a `COMMITTED` Resource
+  - A deep copy of the `COMMITTED` resource is created as draft.
+  - Updates the project manifest:
+    - Links to the new draft resource.
+    - `last_change_time`: Current timestamp.
+</Step>
+<Step title="Commit Project">
+- Commits the current draft project version:
+  1. **draft Resources**:
+     - Status: Updated to `COMMITTED`.
+     - `last_change_time` and `last_committed_time`: Set to the current timestamp.
+  2. **Project Version**:
+     - Status: Updated to `COMMITTED`.
+</Step>
+<Step title = "Discard Draft">
+- Deletes draft resources and the draft project version.
+- Available only when there are changes after the last commit.
+</Step>
+<Step title="Start New Draft">
+- Creates a new draft project version by copying:
+  - The last `COMMITTED` project version.
+  - Its manifest, linking to `COMMITTED` resources.
+</Step>
+<Step title="Create Branch">
+- Creates a new branch and draft project version:
+  - Copies the selected `COMMITTED` project version.
+  - Updates the manifest to reference existing `COMMITTED` resources.
+</Step>
+</Steps>
+
+---
+
+## Lifecycle of a project version
+
+1. **Create Project**: Automatically starts with a draft (work-in-progress) project version.
+2. **Modify Resources**: Draft (WIP) resources can be edited directly, while `COMMITTED` resources are cloned into draft (WIP) before editing.
+3. **Commit Changes**: Promotes the project version and its resources to `COMMITTED` status.
+4. **Start New WIP**: Allows iterative development by creating a new draft version.
+5. **Create Branch**: Enables parallel development with isolated draft versions.
+
+---
+
+## Starting a new version (draft)
+
+You can initiate a new draft (work-in-progress) version while keeping the submitted version intact. A draft version is automatically created under the following circumstances:
+
+* **New Project**: When you create a new project, a corresponding draft version is initiated. This ensures that ongoing changes are tracked separately from the submitted version.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/process_definition_header.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2025-01-28%2013.35.54.gif)
 </Frame>
 
-A "publish icon" will be displayed if the current version is set as published. You can access the branching modal using a button, and it can also be closed from the right corner close button.
+* **New Branch Creation**: The creation of a new branch in the system also triggers the creation of a draft version (from a committed version only). This streamlines the process of branching and development, allowing for parallel progress without impacting the main submitted version.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/branching_modal.gif)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-28%20at%2013.39.50.png)
 </Frame>
 
-### Starting a new version (work-in-progress)
-
-The Work-in-Progress (WIP) Versioning feature enhances the version control capabilities by allowing you to manage ongoing updates without interfering with already submitted versions.
-
-You can initiate a new work-in-progress version while keeping the submitted version intact. A work-in-progress version is automatically created under the following circumstances:
-
-* **New Project**: When you create a new project, a corresponding work-in-progress version is initiated. This ensures that ongoing changes are tracked separately from the submitted version.
+* **Manual Draft Version Creation**: You have the flexibility to initiate a new draft version manually. This is particularly useful when building upon the latest version available on a branch.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/wip_process_definition.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2025-01-28%2013.47.04.gif)
 </Frame>
 
-* **New Branch Creation**: The creation of a new branch in the system also triggers the creation of a work-in-progress version. This streamlines the process of branching and development, allowing for parallel progress without impacting the main submitted version.
+---
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/wip_new_branch.png)
-</Frame>
-
-* **Manual WIP Version Creation**: Users also have the flexibility to initiate a new work-in-progress version manually. This is particularly useful when building upon the latest version available on a branch.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/manual_wip.gif)
-</Frame>
+## Advanced features
 
 ### Submitting changes
 
@@ -83,7 +193,7 @@ You have the flexibility to modify submit messages after changes are submitted. 
 
 ### Creating a new branch
 
-Using versioning you can work on a stable copy of the process definition, isolated from ongoing updates by other users. You can create a new branch starting from a specific submit point.
+Using versioning you can work on a stable copy of the project, isolated from ongoing updates by other users. You can create a new branch starting from a specific submit point.
 The initiation of new branches is achieved using the dedicated action located in the left menu of the chosen submit point (used as the starting point for the branch).
 
 <Warning>
@@ -97,17 +207,11 @@ You can incorporate updates made on a secondary branch into the main branch or a
 * You can merge the latest version from a secondary branch into either its direct or indirect parent branch.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/merge_child.gif)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2025-01-28%2015.42.30.gif)
 </Frame>
 
-* Versions from the Side Menu can be merged, streamlining the process.
 * Upon triggering the merge action, a modal window appears, giving the possibility to make the following selection:
-   * **Branch**: Displays the branches to which the current branch is a child (direct or indirect), if branches contain WIP, they are graded out and they cannot be merged.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/merge_not_possible.png)
-</Frame>
-
+   * **Branch**: Displays the branches to which the current branch is a child (direct or indirect).
    * **Message**: A string of maximum 50 characters (limited to letters), numbers and the following characters: [] () . _ - /.
 
 <Frame>
@@ -118,17 +222,17 @@ The graph representation is updated to display the new version on the selected p
 
 ### Managing conflicts
 
-The Conflict Resolution and Version Comparison feature provides a mechanism to identify and address conflicts between two process versions that, if merged, could potentially disrupt the integrity of the process definition. 
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/conflict.png)
-</Frame>
+The Conflict Resolution and Version Comparison feature provides a mechanism to identify and address conflicts between two process versions that, if merged, could potentially disrupt the integrity of a project. 
 
 The system displays both the version to be merged and the current version on a single screen, providing a clear visual representation of the differences. Conflicts and variations between the two versions are highlighted, enabling users to readily identify areas requiring attention.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/merge_conflict.gif)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2025-01-28%2015.54.48.gif)
 </Frame>
+
+<Tip>
+Unless specified otherwise, changes from the source branch will be prioritized.
+</Tip>
 
 <Info>
 Not all changes are considered conflicts, changes in node positions are not treated as conflicts. Primary causes lie in identifying differences within business rules, expressions, and other scripts.
@@ -185,68 +289,31 @@ Handle unresolved conflicts with the **Merge Anyway** option, which provides fle
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Confirm%20Merging%20without%20checking%20all.png)  
 </Frame>
 
-
-### Setting published version
-
-You can specify which version will run by default from a container app.
-
-When a process is created, the default published version settings are as follows:
-
-* **Branch**: Main
-* **Version**: Work in progress on the Main branch.
-
-<Frame>
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/main_wip.png)
-
-</Frame>
-
-You can change the branch and version used as the default by the container app. 
-
-<Frame>
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/set_publish_info.gif)
-
-</Frame>
-
-This is done through the following settings:
-
-* Branch: A dropdown menu displaying available branches (both opened and merged).
-* Version: The type of version that should be used:
-   
-   * **Latest Work in Progress**
-      * Displayed if the selected branch is not merged into another branch.
-      * This configuration is used when there is a work-in-progress (WIP) version on the selected branch or when there is no WIP version on the selected branch due to either work in progress being submitted or the branch being merged.
-      * In such cases, the latest available configuration on the selected branch is used as the default.
-
-   * **Latest Submitted Work**
-      * Displayed if the selected branch contains submitted versions.
-      * This configuration is used when there is submitted work on the selected branch, and the current branch has been submitted on another branch (latest submitted work on the selected branch is not the merged version).
-
-   * **Custom Version**
-      * Displayed if the selected branch contains submitted versions.
-      * Users can select from a dropdown menu containing submitted versions on the selected branch.
-      * Each option in the dropdown includes:
-         * Submit message
-         * Submit date and time
-         * Submit author
-
-<Info>
-Options are ordered reverse chronologically by submit datetime.
-</Info>
-
 ### Read-only state
 
-The Read-Only State feature allows you to access and view submitted versions of your process definitions while safeguarding the configuration from unintended modifications. By recognizing the visual indicators of the read-only state, you can confidently work within a controlled environment, ensuring the integrity of process definitions.
+The Read-Only State feature allows you to access and view submitted versions of your projects while safeguarding the configuration from unintended modifications. By recognizing the visual indicators of the read-only state, you can confidently work within a controlled environment, ensuring the integrity of project's process definitions.
 
 <Frame>
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/versioning_read_only.png)
-
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-28%20at%2011.54.39.png)
 </Frame>
 
+---
+## Builds
 
-### Audit view
+* You can create multiple versions of a project committed before creating a build. You can create a build for any of the committed app versions; 
+* Once you create a build, you can't edit the contents of the build (enumerations, substitution tags, integrations). You'll need to create a new app version. 
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/merge_conflicts.mp4"
+></video>
+</Frame>
+
+---
+## Audit view
 
 The "Open Audit View" provides you with a detailed audit log of actions related to work-in-progress (WIP) versions of a process. The primary goal is to ensure transparency and accountability for actions taken before the commit or save process. 
 
@@ -255,31 +322,4 @@ You can quickly access and review the history of WIP versions, facilitating effi
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/versioning_audit_log.gif)
 </Frame>
-
-More details on how to use the audit log, you can find in the following section:
-
-[FlowX.AI Audit](/4.0/docs/platform-deep-dive/core-extensions/audit)
-
-
-
-### Clone process version
-
-The "**Copy  version as new process**" feature enables users to duplicate an existing process version as a new process definition. This functionality proves beneficial when initiating work on a use case closely resembling an existing process or when undertaking significant modifications to an existing process definition.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/2024-03-20%2009.54.39.gif)
-
-#### Process creation
-
-After copying the version and creating a new process definition, the following will happen:
-
-* A new process definition  with a work-in-progress (WIP) version is created.
-* The WIP version is populated with the copied process definition.
-* The newly created process is then showcased in the Process Designer's "Definitions" tab, and the copied process definition becomes accessible.
-
-### Exporting and importing process definitions versions
-
-For detailed instructions on exporting and importing process definition versions, please refer to the following section:
-
-<Card title="Export/ import a process definition version" href ="/4.0/docs/flowx-designer/managing-a-process-flow/export-import-a-process-definition" icon = "link">
-</Card>
 
