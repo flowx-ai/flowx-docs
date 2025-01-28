@@ -1,49 +1,66 @@
 ---
 title: Versioning
-description: With versioning, you can easily track your project's evolution. 
+description: Easily track and manage your project's evolution with comprehensive versioning features.
 ---
+
+Versioning enables you to manage changes, track progress, and collaborate effectively by capturing snapshots of your project's state at any point in time.
+
 
 ## Project version
 
-Project version is the editable snapshot of a project’s state at a specific point in time. It contains all the resources (like processes, integrations, templates, etc.) and configurations grouped within the project.
+A **Project Version** is an editable snapshot of your project at a specific moment. It contains all resources (e.g., processes, integrations, templates) and configurations grouped under the project.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-22%20at%2019.09.53.png)
 </Frame>
 
-1. **Overview:**
-   - The tab provides a summary of all accessible process definitions in the current environment.
+The tab above provides a summary of all accessible project versions and branches available in the current environment.
 
-2. **Streamlined Data Display:**
-   - Information displayed in the list is retrieved from both the published version and work in progress.
 
-3. **Key Information Included:**
-   - View details like process definition name, published version branch name, and published version state with the following convention: 
+### Left panel: version details
 
-        - Work in progress - dotted
-        - Submitted - full
-        - Main branch - blue 
-        - Secondary branch - yellow
+- **State**: Displays the current state of the version (e.g., `draft`, `committed`).
+- **Branch**: Indicates the currently selected branch (e.g., `main`).
+- **Last Saved By**: Shows the username of the person who last saved changes (e.g., "JS").
+- **Last Saved At**: Displays the timestamp of the most recent save (e.g., "23 Jan 2025 at 10:11 AM").
+- **ID**: A unique identifier for the version, with a copy button for convenience.
 
-4. **Actions:**
-   - Interact with each process definition through actions such as opening the BPMN tab in edit mode, starting instances, and displaying branching options.
-   - Contextual menu actions offer options to edit, open settings, view data modal, and delete process definitions.
+### Center panel: branch and commit graph
 
-## Branching and committing
+The graph visually organizes the project’s versioning structure, showing relationships between branches and commits.
 
-"Branching Modal" feature provides more visibility and control over the project evolution. The branching header includes details about the current version, such as its state (work in progress or submitted changes) and branch name.
+- **Graph View**:
+  - Provides a visual representation of branches and commits.
+  - **Main Branch** (blue): The main development branch.
+  - **Secondary Branches** (yellow): Feature or development branches such as `branch3`, `branch4`, and `secondary_branch`.
+  - **Markers**:
+    - **Dotted Circles**: Represent draft versions.
+    - **Solid Circles**: Represent submitted versions.
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/process_definition_header.png)
-</Frame>
 
-A "publish icon" will be displayed if the current version is set as published. You can access the branching modal using a button, and it can also be closed from the right corner close button.
+### Right panel: submit messages
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/branching_modal.gif)
-</Frame>
+- Displays a chronological list of commit messages for the selected branch.
+- **Details**:
+  - Commit messages (e.g., `v1`, `commit_secondary_branch`) are aligned with their respective branches.
+  - Each commit shows:
+    - The user responsible (e.g., "JS").
+    - The state of the commit (e.g., `draft`, `commited`).
 
-### Starting a new version (work-in-progress)
+
+### Top bar: global controls
+
+- **Project Name**: Displays the current project name (`Docs_customer_onboarding`).
+- **Branch Selector**: Dropdown to navigate between branches.
+- **State Indicator**: Highlights the state of the current branch (e.g., `draft` for `main`).
+- **Submit Changes to Version**: Button for submitting draft changes globally.
+- **Config/Runtime Tabs**:
+  - **Config**: Likely for managing version configuration.
+  - **Runtime**: Likely for runtime options or monitoring.
+
+
+
+## Starting a new version (work-in-progress)
 
 The Work-in-Progress (WIP) Versioning feature enhances the version control capabilities by allowing you to manage ongoing updates without interfering with already submitted versions.
 
