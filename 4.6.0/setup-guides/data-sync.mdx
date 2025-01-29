@@ -33,6 +33,7 @@ Example:
 #### CMS MongoDB
 
 - `FLOWX_DATASOURCE_CMS_URI` - MongoDB URI for CMS database.
+  - **Example**: `"mongodb://${CMS_MONGO_USERNAME}:${CMS_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${CMS_MONGO_DATABASE}"`
 - `CMS_MONGO_USERNAME` - Username for MongoDB CMS database.
 - `CMS_MONGO_PASSWORD` - Password for the CMS MongoDB database.
 - `CMS_MONGO_DATABASE` - Database name for CMS.
@@ -40,6 +41,7 @@ Example:
 #### Scheduler MongoDB
 
 - `FLOWX_DATASOURCE_SCHEDULER_URI` - MongoDB URI for Scheduler database.
+  - **Example**: `"mongodb://${SCHEDULER_MONGO_USERNAME}:${SCHEDULER_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${SCHEDULER_MONGO_DATABASE}"`
 - `SCHEDULER_MONGO_USERNAME` - Username for MongoDB Scheduler database.
 - `SCHEDULER_MONGO_PASSWORD` - Password for the Scheduler MongoDB database.
 - `SCHEDULER_MONGO_DATABASE` - Database name for Scheduler.
@@ -47,12 +49,15 @@ Example:
 #### Task Manager MongoDB
 
 - `FLOWX_DATASOURCE_TASKMANAGER_URI` - MongoDB URI for Task Manager database.
+  - **Example**: `"mongodb://${TASKMANAGER_MONGO_USERNAME}:${TASKMANAGER_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${TASKMANAGER_MONGO_DATABASE}"`
 - `TASKMANAGER_MONGO_USERNAME` - Username for MongoDB Task Manager database.
 - `TASKMANAGER_MONGO_PASSWORD` - Password for the Task Manager MongoDB database.
 - `TASKMANAGER_MONGO_DATABASE` - Database name for Task Manager.
 
 #### Document plugin MongoDB
 
+- `FLOWX_DATASOURCE_DOCUMENTPLUGIN_URI` - MongoDB URI for Document Plugin database.
+  - **Example**: `"mongodb://${DOCUMENTPLUGIN_MONGO_USERNAME}:${DOCUMENTPLUGIN_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${DOCUMENTPLUGIN_MONGO_DATABASE}"`
 - `DOCUMENTPLUGIN_MONGO_DATABASE` - MongoDB database name for the Document Plugin.
 - `DOCUMENTPLUGIN_MONGO_USERNAME` - MongoDB username for the Document Plugin.
 - `DOCUMENTPLUGIN_MONGO_PASSWORD` - Password for the MongoDB Document Plugin database.
@@ -60,9 +65,10 @@ Example:
 #### Notification plugin MongoDB
 
 - `FLOWX_DATASOURCE_NOTIFICATIONPLUGIN_URI` - MongoDB URI for the Notification Plugin.
+  - **Example**: `"mongodb://${NOTIFICATIONPLUGIN_MONGO_USERNAME}:${NOTIFICATIONPLUGIN_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${NOTIFICATIONPLUGIN_MONGO_DATABASE}"`
 - `NOTIFICATIONPLUGIN_MONGO_USERNAME` - MongoDB username for the Notification Plugin.
 - `NOTIFICATIONPLUGIN_MONGO_PASSWORD` - Password for the MongoDB Notification Plugin database.
-
+- `NOTIFICATIONPLUGIN_MONGO_DATABASE` - MongoDB database name for the Notification Plugin.
 
 ### PostgreSQL connections
 

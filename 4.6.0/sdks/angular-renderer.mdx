@@ -381,48 +381,44 @@ Data from the process is communicated via **Server Send Event** protocol under t
 
 ### Task management component
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/renderer_task_mngment.png)
 
-The `flx-task-management` component is found in the `FlxTaskManagementModule`. In order to have access to it, import the module where needed:
+The `flx-task-manager` component is available in the `FlxTaskManagementComponent`. To use it, import the required module in your Angular project:
 
 ```bash
-import {FlxProcessModule} from '@flowx/ui-sdk';
-@NgModule({
-  declarations: [
-    ...,
-  ],
-  imports: [
-    ...,
-    FlxTaskManagementModule
-  ],
-  
-})
-export class MyModule {}
+import { FlxTasksManagementComponent } from '@flowx/angular-sdk';
 ```
 
-Then in the template:
+#### Usage
+
+Include the component in your template:
 
 ```xml
 <flx-task-management
-    [authToken]="accessToken"
-    [apiUrl]="baseUrl"
-    [appId]="appId"
-    [viewDefinitionId]="viewId"
+      [apiUrl]="apiUrl"
+      [authToken]="accessToken"
+      [appId]="appId()"
+      [language]="language()"
+      [themeId]="themeId()"
+      [staticAssetsPath]="staticUrl"
+      [viewDefinitionId]="viewDefinitionId()"
+      [locale]="locale()"
+      [buildId]="buildId()"
   ></flx-task-management>
 ```
 
 **Parameters**:
 
-| Name             | Description                            | Type   | Default    | Mandatory | Example                      |
-| ---------------- | -------------------------------------- | ------ | ---------- | --------- | ---------------------------- |
-| apiUrl           | Endpoint where the tasks are available | string | -          | true      | https://yourDomain.dev/tasks |
-| authToken        | Authorization token                    | string | -          | true      |                              |
-| appId            | The application id                     | string | -          | true      |                              |
-| viewDefinitionId |                                        | string | -          | true      |                              |
-| title            | Table header value                     | string | Activities | false     | Tasks                        |
-| pollingInterval  | Interval for polling task updates      | number | 5000 ms    | false     | 10000                        |
-
-
+| Name               | Description                            | Type     | Mandatory | Example                        |
+| ------------------ | -------------------------------------- | -------- | --------- | ------------------------------ |
+| `apiUrl`           | Endpoint where the tasks are available | `string` | ✅        | `https://yourDomain.dev/tasks` |
+| `authToken`        | Authorization token                    | `string` | ✅        | (retrieved from local storage) |
+| `appId`            | The application ID                     | `string` | ✅        | (retrieved dynamically)        |
+| `viewDefinitionId` | The view configuration identifier      | `string` | ✅        | (retrieved dynamically)        |
+| `themeId`          | The theme identifier                   | `string` | ❌        | (retrieved dynamically)        |
+| `language`         | The selected language                  | `string` | ❌        | (retrieved dynamically)        |
+| `locale`           | The localization setting               | `string` | ❌        | (retrieved dynamically)        |
+| `buildId`          | The current build identifier           | `string` | ❌        | (retrieved dynamically)        |
+| `staticAssetsPath` | Path for static resources              | `string` | ❌        | (set via environment)          |
 
 
 
