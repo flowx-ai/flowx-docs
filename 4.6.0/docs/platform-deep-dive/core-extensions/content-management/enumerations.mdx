@@ -1,28 +1,52 @@
 ---
 title: Enumerations
-description: A collection of values that can be utilized as content in UI components or templates is managed using enumerations. Values can be defined for certain source systems or languages.
+description: Enumerations allow you to manage a collection of predefined values that can be used within UI components or templates. These values can be tailored for specific source systems or languages.
 ---
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/enumerations.png)
 
-On the main screen inside **Enumerations**, you have the following elements:
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-29%20at%2012.36.20.png)
+</Frame>
 
-* **Name** - the name of the enumeration
-* **Version** - the version of the enumeration
-* **Draft** - switch button used to control the status of an enumeration, could be **Draft** or **Published**
-* **Last Updated** - the last time an enumeration has been updated
-* **Open** - button used to access an enumeration to configure it/ add more values, etc.
-* **Delete** - button used to delete an enumeration
-* **New enumeration** - button used to create a new enumeration
-* **Breadcrumbs** - **Import/Export**
 
-For each entry (when you hit the **Open** button) inside an enumeration we have to define the following properties:
+## User interface overview  
 
-* **Code** - not displayed in the end-user interface, but used to assure value uniqueness
-* **Labels** - strings that are displayed in the end-user interface, according to the language set for the generated solution
-* **External source systems codes** - values that are set for each external system that might consume data from the process; these codes are further used by connectors, in other to send to an external system a value that it can validate
+On the **Enumerations** tab, you will find the following elements:
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/enumerations1.png)
+### Header
+
+- **New Enumeration** - Click this button to create a new enumeration.  
+- **Contextual Menu (three dots)** - Provides options for **Import** and **Export**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-29%20at%2012.53.55.png)
+</Frame>
+
+### Main table
+
+- **Name** - Displays the name of each enumeration.  
+- **Edited At** - Indicates the last update timestamp for each enumeration.  
+- **View Details** - Allows you to update the enumeration name.  
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-29%20at%2012.42.36.png)
+</Frame>
+
+
+---
+
+
+
+For each entry (when click an enumeration) inside an enumeration we have to define the following properties:
+
+1. **Code** - not displayed in the end-user interface, but used to assure value uniqueness
+2. **Labels** - strings that are displayed in the end-user interface, according to the language set for the generated solution
+3. **External source systems codes** - values that are set for each external system that might consume data from the process; these codes are further used by connectors, in other to send to an external system a value that it can validate
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-29%20at%2013.14.01.png)
+</Frame>
 
 ### Adding a new enumeration
 
