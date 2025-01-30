@@ -9,7 +9,7 @@ The **Table** component is available **only for Web**, built to deliver a consis
 
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_rn.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/table_overview.png)
 </Frame>
 
 <Info>
@@ -33,7 +33,7 @@ The **Table** component is available **only for Web**, built to deliver a consis
 
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_elements.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/table_actions_column.gif)
 </Frame>
 
 
@@ -50,7 +50,7 @@ When building a Table, you’ll primarily interact with:
 - **Cell-Specific Settings** (sorting, filtering, editing, validators)
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_config.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/table_settings.png)
 </Frame>
 
 <Tip>
@@ -208,9 +208,6 @@ The following generic settings are found in the Generic tab and apply to all pla
 - [**Expressions**](#expressions)  
 - [**Table Styling**](#table-styling)  
 
-<Frame>  
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_settings.png)  
-</Frame>
 
 #### Source key
 
@@ -218,6 +215,7 @@ The following generic settings are found in the Generic tab and apply to all pla
 - Similar to the Collection component.
 
 <Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/table_source_key.png)
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/Screenshot%202024-10-15%20at%2019.22.32.png)
 </Frame>
 
@@ -228,17 +226,21 @@ The following generic settings are found in the Generic tab and apply to all pla
 - Each column automatically includes a corresponding th (header cell) and td (body cell).
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_columns.gif)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/table_columns.png)
 </Frame>
 
 #### Table body
 
+- **Default Sorting**: Sortable option must be enabled for the selected column for default sorting to work.
+    - **Column**: Select the desired column.
+    - **Direction**: Set the sort direction (**Ascending** or **Descending**).
 - **Pagination**: Control how data is displayed by configuring pagination or enabling scrolling.
   - **Page Size**: Set the maximum number of entries displayed per page.
 - **Scrollable**: Disable pagination to enable continuous scrolling through data.
+- **Deletable Rows**: Enable row deletion.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_pagination.gif)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/table_body.png)
 </Frame>
 
 #### Hide condition
@@ -258,53 +260,57 @@ The following generic settings are found in the Generic tab and apply to all pla
 ></video>
 </Frame>
 
+---
 
 ## Feature highlights
 
 ### Default sorting
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2024-12-23%2016.46.30.gif)
-</Frame>
-
-- **Enable default sorting** in table settings.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-23%20at%2016.49.37.png)
-</Frame>
-
-- Select the desired column and sort direction (ascending by default).
+- **Enable default sorting** in table body settings.
+- **Select the desired column** and **sort direction** (ascending by default).
 
 <Check>
-Sortable option must be enabled for the selected column for default sorting to work.
+Sortable option must be enabled for the selected column at **cell level** for default sorting to work.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/cell_sorting.png)
+</Frame>
+
 </Check>
+
+<Frame>
+<video
+controls
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/table_def_sorting.mp4"
+></video>
+</Frame>
 
 ### Pagination & scrolling
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2024-12-23%2016.56.57.gif)
-</Frame>
+Define how many rows appear on each page using **Pagination** feature.
 
-- **Pagination**: Define how many rows appear on each page.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-23%20at%2016.58.30.png)
+<video
+ controls
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/table_pagination.mp4"
+></video>
 </Frame>
-
 
 - **Scrolling**: Disable pagination to allow continuous scrolling.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2024-12-23%2017.01.03.gif)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/disable_pagination.png)
 </Frame>
 
 ### Editable rows
+
+Enable row editing in **cell-level → column settings**.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2024-12-23%2017.10.38.gif)
 </Frame>
 
-- Enable row editing in **cell-level → column settings**.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-23%20at%2017.04.39.png)
@@ -320,11 +326,11 @@ Make sure each editable cell references a valid data model key to facilitate edi
 
 ### Deletable rows
 
+Toggle **Deletable** in Table settings to enable row deletion.
+
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2024-12-23%2017.15.17.gif)
 </Frame>
-
-- Toggle **Deletable** in Table settings to enable row deletion.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-23%20at%2017.17.32.png)
@@ -336,7 +342,7 @@ A delete icon will appear in the Actions column, removing the corresponding row 
 
 ### Filters
 
-- Mark columns as filterable to enable filtering icons.
+Mark columns as filterable to enable filtering icons.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-24%20at%2016.37.06.png)
@@ -351,21 +357,6 @@ A delete icon will appear in the Actions column, removing the corresponding row 
 <Tip>
 Filtering option is ideal for large data sets where quick column-based searches are necessary.
 </Tip>
-
-### Actions
-
-Configure cell-level or row-level actions to trigger logic such as:
-
-- **Save Data**
-- **Upload**
-- **Trigger Workflow**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_item_save_key.png)
-</Frame>
-
-- **Table Item Key**: Each cell action uses a unique key to identify the exact row/cell for storing or retrieving data changes.
-
 
 
 ## Table styling
@@ -408,6 +399,11 @@ Configure cell-level or row-level actions to trigger logic such as:
 
 This Table component enhances flexibility and offers a cohesive design, integrated with FlowX.AI’s theming framework for a consistent, web-optimized user experience.
 
+## Table UI action
+
+Append a saveData action to the table and configure the UI action’s custom keys with the same key used as source for the table, in order for the backend to take into consideration the updated array.
+
+See [**User Task configuration**](#user-task-configuration) section for more details.
 
 ## Actions in table cells
 
@@ -417,13 +413,12 @@ The key allows the action to target specific rows and store results or updates e
 * **Table Item Save Key**:
     * This key is essential for identifying the exact cell or row where an action should be executed and saved. 
     * It ensures that data within each cell remains distinct and correctly mapped to each table entry.
-
 * **Custom Key for Data Saving**: 
     * Important: To properly send the data from a selected cell/row to the backend, you must configure both a **Custom Key** (in your `SaveData` action) and a **Table Item Save Key** (in your column/cell configuration) using the same value.
     * Having only a `Table Item Save Key` is not sufficient to propagate the updated information. The matching **Custom Key** in the **SaveData** action tells the system which row/cell data to capture and transmit.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/application/table_item_save_key.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/table_item_save_key.png)
 </Frame>
 
 * **Supported Action Types** - Available actions include:
@@ -431,6 +426,55 @@ The key allows the action to target specific rows and store results or updates e
     * **Start Process Inherit**: Enables workflows inherited from process configurations to be triggered.
     * **Upload**: Allows file or data uploads directly within a table cell.
     * **External**: Used to create an action that will open a link in a new tab.
+
+
+## User Task configuration
+
+When configuring a screen in User Task containing table, you must configure the following node actions:
+
+<Steps>
+<Step title="Configure SaveData Action">
+- The `SaveData` action must be:
+  - **Manual**: Requires user initiation.
+  - **Optional**: Not mandatory for task completion.
+  - **Repeatable**: Can be executed multiple times.
+- **Execution Order Constraint**:
+  - The `SaveData` action can only be executed **before** mandatory actions.
+  - The UI is built by configurators to ensure the correct execution order of actions.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-30%20at%2014.58.14.png)
+</Frame>
+
+- Add an UI action to the table by assigning the previously created node action.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-30%20at%2015.01.16.png)
+</Frame>
+
+<Info>
+It is important to also add a custom key that is exactly the source key of the table so the platform will be able to know where to save the edits applied in the table.
+</Info>
+
+</Step>
+
+<Step title="Add Another Manual and Mandatory Action">
+- An additional **manual** and **mandatory** action should be included.
+- This ensures that the **token remains within the user task** where the table is rendered.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-30%20at%2014.58.26.png)
+</Frame>
+
+</Step>
+<Step title ="Add Another Action (Optional)">
+
+- You can add another node action if you want to assign an UI action to a table cell element (e.g, a text).
+- Assign the UI action to that particular element.
+- Make sure it is manual, optional and repeatable (can only be executed before mandatory actions).
+</Step>
+</Steps>
+
 
 ## FAQs
 
