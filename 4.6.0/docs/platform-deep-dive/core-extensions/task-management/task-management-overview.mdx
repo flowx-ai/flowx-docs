@@ -8,7 +8,7 @@ description: Task Management in FlowX.AI is a core functionality that allows use
 </Frame>
 
 
-Task Management also includes capabilities for user roles, customizable tables, and integration with the application through both low-code and full-code approaches, ensuring flexibility for various use cases.
+Task Management also includes capabilities for user roles, customizable tables, and integration with the project through both low-code and full-code approaches, ensuring flexibility for various use cases.
 
 ## Key features
 
@@ -31,7 +31,7 @@ Example of custom view:
 
 ### All tasks
 
-In the All Tasks section, you can view all tasks generated from any process definition marked as "to be used in task manager" within an application. This provides a centralized view of all relevant tasks, as long as you have the appropriate permissions.
+In the All Tasks section, you can view all tasks generated from any process definition marked as "to be used in task manager" within a project. This provides a centralized view of all relevant tasks, as long as you have the appropriate permissions.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-11%20at%2018.32.13.png)
@@ -145,7 +145,7 @@ For data from custom parameters to flow correctly, ensure that **Forms to Valida
 
 
 3. **Enabling Task Management Integration**:
-   - To ensure that data flows correctly into Task Management, enable the **Use process in task management** toggle in **Process Settings** within your **application** in **FlowX Designer**.
+   - To ensure that data flows correctly into Task Management, enable the **Use process in task management** toggle in **Process Settings** within your **project** in **FlowX Designer**.
    - Some actions may be restricted based on user roles and access rights, so confirm that your role allows necessary access.
 
 
@@ -160,7 +160,7 @@ For data from custom parameters to flow correctly, ensure that **Forms to Valida
 
 4. **Configuring Node-Specific Updates**:
    - To enable Task Manager to send targeted updates from specific parts of a process:
-      - In **FlowX Designer**, open the relevant **application** and then the desired **process definition** and click **Edit**.
+      - In **FlowX Designer**, open the relevant **project** and then the desired **process definition** and click **Edit**.
       - Select the node(s) where updates should be triggered and enable the **Update task management?** switch.
       - You can configure this action for multiple nodes, allowing flexibility in tracking and updating based on process flow.
 
@@ -264,7 +264,7 @@ The **Task Details** tab within **Task Manager** provides key process informatio
 * **Comments**: User comments.
 * **History**: Information such as task creation, creator, and status changes.
 * **Last Updated**: Displays the most recent timestamp of any changes made to a task.
-* **View Application**: Provides direct access to the application URL where the FlowX.AI process related to a specific task is running.
+* **View Application**: Provides direct access to the container application URL where the FlowX.AI process related to a specific task is running.
 
 
 <Frame>
@@ -277,7 +277,7 @@ The **Task Details** tab within **Task Manager** provides key process informatio
 To access the **Task Details** of a specific task in a Task Management view, follow these steps:
 
 1. **Navigate to the Task Management Interface**:
-   - Open the Task Management section within the application and select the desired **View** that contains the list of tasks.
+   - Open the Task Management section within the project and select the desired **View** that contains the list of tasks.
 
 2. **Locate the Task**:
    - In the selected view (e.g., All Tasks, Custom View), find the task you want to inspect. Use filters and sorting options if necessary to locate the task more efficiently.
@@ -422,6 +422,10 @@ When handling on-hold projects, document the reasons, inform the team, and plan 
 
 ### Viewing the application
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-30%20at%2017.08.21.png)
+</Frame>
+
 Container App URL represents an URL or a configuration parameter used to redirect users directly to a specific FlowX process instance.
 
 <Frame>
@@ -430,22 +434,26 @@ Container App URL represents an URL or a configuration parameter used to redirec
 
 #### Process settings level
 
-In the Process Definition settings, navigate to the **Task Management** tab and locate the **Application URL** field. Here, paste the application URL where the process is loaded, following this format:
+In the Process Definition settings, navigate to the **Task Management** tab and locate the **Container App URL** field. Here, paste the container application URL where the process is loaded, following this format:
 
 ```
-{baseURL}/appId/buildId/processes/resourceId/instance
+{container app url}/process
 ```
 
-Example:
+**Example**:
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-13%20at%2017.45.08.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-30%20at%2017.10.54.png)
+</Frame>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2025-01-30%2017.16.10.gif)
 </Frame>
 
 <Tip>
 You can also use a predefined generic parameter as the URL: `${genericParameter}`.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-13%20at%2017.07.36.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-30%20at%2017.13.56.png)
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-13%20at%2017.08.12.png)
 
