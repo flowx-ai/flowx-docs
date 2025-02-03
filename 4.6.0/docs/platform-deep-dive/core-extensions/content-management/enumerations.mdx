@@ -52,11 +52,13 @@ For each entry (when click an enumeration) inside an enumeration we have to defi
 
 To add a new enumeration, follow the next steps:
 
-1. Go to **FLOWX Designer** and select the **Content Management** tab.
-2. Select **Enumerations** from the list.
+1. Go to **FlowX Designer** and open your project.
+2. Select **Enumerations** from the **CMS** tab.
 3. Add a suggestive name for your enumeration and then click **Add**.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/adding_new_enum.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/create_new_enum.png)
+</Frame>
 
 ### Configuring an enumeration
 
@@ -64,29 +66,43 @@ After creating an enumeration, you can add values to it.
 
 To configure an enumeration value, follow the next steps:
 
-1. Go to FLOWX.AI Designer and select the **Content Management** tab.
-2. Select **Enumerations** from the list and open an enumeration.
-3. Click **New value** and fill in the necessary details:
    * **Code** - as mentioned above, this is not displayed in the end-user interface but is used to assure value uniqueness
    * **Labels** - set the value of the string for each language you would like to use
    * **Source Systems** - values that are set for each external system that might consume data from the process
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/enum_configuration.gif)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/enum_add_value.png)
+</Frame>
+
+<Info>
+The list of available source systems can be found at Projects -> Integrations -> Systems.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/systems.png)
+</Frame>
+
+</Info>
 
 ### Creating a child collection
 
-Enumerations can also be defined as a hierarchy - for each entry, we can define a list of children values (for example, name of the countries defined under the continents' enumeration values); hierarchies further enable cascading values in the end-user interface (for example, after selecting a continent in the first select [UI component](../../../building-blocks/ui-designer/ui-designer.mdx#ui-component-types), the second select component will contain only the children of this continent).
+Enumerations can also be defined as a hierarchy - for each entry, we can define a list of children values (for example, name of the states defined under the `US` enumeration values); hierarchies further enable cascading values in the end-user interface (for example, after selecting `US` enum in the first select [UI component](../../../building-blocks/ui-designer/ui-designer.mdx#ui-component-types), the second select component will contain only the children of this country enum -> states).
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/enum_child_collection.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/child_enum.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/child_enum_example.png)
+</Frame>
 
 ### Importing/exporting an enumeration
 
 You can use the import/export feature to import or export enumerations using the following formats:
 
-* JSON
+* ZIP
 * CSV
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/import_export_enum.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/export_import_enums.png)
+</Frame>
+
 
 ### Enumerations example
 
@@ -178,4 +194,6 @@ We have the following example for _**Activity Domain Companies**_:
 
 This is the output after adding all the lists/collections from above:
 
+<Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/enumerations_output.gif)
+</Frame>
