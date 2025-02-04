@@ -147,6 +147,17 @@ The Kafka topics for Integration Designer use a structured naming convention wit
 Replace placeholders with appropriate values for your environment before starting the service.
 </Info>
 
+### Configuring WebClient buffer size
+
+Integration Designer interacts with various APIs, some of which return large responses. To handle such cases efficiently, the FlowX WebClient buffer size must be configured to accommodate larger payloads, especially when working with legacy APIs that do not support pagination.
+
+* `FLOWX_WEBCLIENT_BUFFERSIZE` - Specifies the buffer size (in bytes) for the FlowX WebClient. Default value `1048576 (1MB)`
+
+
+<Info>
+If you encounter **truncated API responses** or **unexpected errors when fetching large payloads**, consider **increasing the buffer size** to at least **10MB** by setting `FLOWX_WEBCLIENT_BUFFERSIZE=10485760`. This ensures smooth handling of large API responses, particularly for legacy APIs without pagination support.
+</Info>
+
 ### Configuring authentication and access roles
 
 Integration Designer uses OAuth2 for secure access control. Set up OAuth2 configurations with these environment variables:
