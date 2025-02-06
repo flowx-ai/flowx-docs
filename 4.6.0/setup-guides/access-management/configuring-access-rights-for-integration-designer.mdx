@@ -15,6 +15,15 @@ Access authorizations in Integration Designer are provided with specified access
    * **edit** - allows users to edit integration systems.
    * **admin** - allows users to administer integration systems.
 
+<Info>
+The workflow_read role allows users to view and monitor integration workflows without making changes:
+
+* Can view all existing workflows and their details (canvas and sidebar).
+* Can access the log console, warnings, and audit logs for audit and troubleshooting.
+* Cannot create, update, or delete workflows.
+* Cannot run workflows or nodes individually.
+</Info>
+
 2. **Manage-workflows** - for configuring access to integration workflows.
 
    **Available scopes:**
@@ -24,6 +33,18 @@ Access authorizations in Integration Designer are provided with specified access
    * **read** - allows users to view all integration workflows.
    * **edit** - allows users to edit integration workflows.
    * **admin** - allows users to administer integration workflows.
+
+<Info>
+The workflow_read-restricted role provides view-only access to integration workflows with limited permissions:
+
+* Can view all workflows and their details (canvas and sidebar).
+* Cannot access the log console, audit logs, or warnings.
+* Cannot create, update, or delete workflows.
+* Cannot run workflows or nodes individually (cannot see running instances).
+* Can see instances and nodes, but logs, input, and output will show “unauthorized.”
+</Info>
+
+
 
 ### Default Roles for Integration Designer
 
