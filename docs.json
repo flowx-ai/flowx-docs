@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "maple",
   "name": "Docs",
   "colors": {
     "primary": "#fdb913",
@@ -244,7 +244,9 @@
                       "4.6.0/docs/building-blocks/ui-designer/validators",
                       "4.6.0/docs/building-blocks/ui-designer/dynamic-and-computed-values",
                       "4.6.0/docs/building-blocks/ui-designer/localization-and-i18n",
-                      "4.6.0/docs/building-blocks/ui-designer/layout-configuration"
+                      "4.6.0/docs/building-blocks/ui-designer/layout-configuration",
+                      "4.6.0/docs/building-blocks/ui-designer/conditional-styling"
+
                     ]
                   },
                   "4.6.0/docs/building-blocks/token",
@@ -2603,6 +2605,7 @@
       "measurementId": "G-CGW0FVK9YM"
     }
   },
+
   "redirects": [
     {
       "source": "/link/4.5/task-manager-overview",
