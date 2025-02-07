@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "maple",
+  "theme": "mint",
   "name": "Docs",
   "colors": {
     "primary": "#fdb913",
@@ -399,6 +399,19 @@
                 "group": "Release Notes",
                 "pages": [
                   "release-notes/overview",
+
+                  {
+                    "group": "v4.6.1 - February",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.6.1-february-2025/v4.6.1-february-2025",
+                      "release-notes/v4.6.1-february-2025/deployment-guidelines-v4.6.1",
+                      "release-notes/v4.6.1-february-2025/migrating-from-v4.1.x-to-v4.6.1"
+
+  
+
+                    ]
+                  },
                   {
                     "group": "v4.6.0 - January",
                     "icon": "sparkles",
