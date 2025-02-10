@@ -1,4 +1,60 @@
-One of the core principles of software development is DRY (Don't Repeat
-Yourself). This is a principle that apply to documentation as
-well. If you find yourself repeating the same content in multiple places, you
-should consider creating a custom snippet to keep your content in sync.
+One of the core principles of software development is DRY (Don't Repeat Yourself). This principle applies to documentation as well. If you find yourself repeating the same content in multiple places, you should consider creating a custom snippet to keep your content in sync.
+
+## What are Snippets?
+
+Snippets are reusable blocks of MDX content that can be imported and used across your documentation, similar to how you would use components in React. They help maintain consistency, reduce maintenance overhead, and make your documentation more maintainable.
+
+## Benefits of Using Snippets
+
+- **Consistency**: When you update a snippet, the change is reflected everywhere it's used
+- **Maintainability**: Single source of truth for commonly used content
+- **Efficiency**: Write once, use anywhere
+- **Version Control**: Easier to track changes to shared content
+- **Scalability**: Makes documentation easier to scale as your project grows
+
+## How to Create and Use Snippets
+
+### 1. Creating a Snippet
+
+Create a new `.mdx` file in your `snippets` directory. The content can be any valid MDX:
+
+```mdx
+// snippets/version-note.mdx
+<Note>
+  This feature is available in version 2.0 and above.
+</Note>
+```
+
+### 2. Using a Snippet
+
+Import and use the snippet in your documentation:
+
+```mdx
+import VersionNote from 'snippets/version-note.mdx';
+
+# Feature Documentation
+
+<VersionNote />
+
+Rest of your documentation...
+```
+
+## Best Practices
+
+1. **Keep Snippets Focused**: Each snippet should serve a single, clear purpose
+2. **Use Descriptive Names**: Name your snippets clearly to indicate their purpose
+3. **Document Usage**: Include comments in snippet files to explain their intended use
+4. **Organize Snippets**: Keep snippets organized in appropriate subdirectories
+5. **Review and Update**: Regularly review snippets to ensure they remain relevant
+
+## Common Use Cases
+
+- Warning messages
+- Version notifications
+- Repeated instructions
+- Standard disclaimers
+- API response examples
+- Common code patterns
+- Changelog entries
+
+By leveraging snippets effectively, you can create more maintainable and consistent documentation while saving time and reducing errors.

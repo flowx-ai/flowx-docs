@@ -1,0 +1,22 @@
+{/* 
+  This snippet demonstrates how to create a changelog entry using the Update component.
+  Usage:
+  <ChangelogUpdate 
+    date="2024-10-12" 
+    version="v0.1.1" 
+    description="Description of changes"
+  />
+*/}
+
+<Update 
+  label={props.date} 
+  description={`${props.version}`}
+>
+  {props.description}
+  
+  {props.children && (
+    <Frame>
+      {props.children}
+    </Frame>
+  )}
+</Update>
