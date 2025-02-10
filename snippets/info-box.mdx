@@ -1,0 +1,19 @@
+{/* 
+  This is a reusable info box component for displaying informational notes and tips consistently.
+  Usage: 
+  1. Import the snippet: import InfoBox from '@/snippets/info-box.mdx'
+  2. Use it in your content: <InfoBox>Your informational message here</InfoBox>
+*/}
+
+<div className="bg-blue-100 border-l-4 border-blue-500 p-4 mb-4 rounded-r-lg">
+  <div className="flex items-start">
+    <div className="flex-shrink-0">
+      <Icon icon="circle-info" className="h-5 w-5 text-blue-500" />
+    </div>
+    <div className="ml-3">
+      <div className="text-sm text-gray-800">
+        {props.children}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,95 @@
+export const ChangelogSection = ({ version, date, changes }) => (
+  <div className="mb-8">
+    <div className="flex items-center gap-2 mb-4">
+      <h3 className="text-xl font-bold m-0">Version {version}</h3>
+      <span className="text-gray-500">({date})</span>
+    </div>
+
+    {changes.added && changes.added.length > 0 && (
+      <>
+        <h4 className="text-lg font-semibold mt-4 mb-2">Added</h4>
+        <ul className="list-disc pl-6 mb-4">
+          {changes.added.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    {changes.changed && changes.changed.length > 0 && (
+      <>
+        <h4 className="text-lg font-semibold mt-4 mb-2">Changed</h4>
+        <ul className="list-disc pl-6 mb-4">
+          {changes.changed.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    {changes.fixed && changes.fixed.length > 0 && (
+      <>
+        <h4 className="text-lg font-semibold mt-4 mb-2">Fixed</h4>
+        <ul className="list-disc pl-6 mb-4">
+          {changes.fixed.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    {changes.deprecated && changes.deprecated.length > 0 && (
+      <>
+        <h4 className="text-lg font-semibold mt-4 mb-2">Deprecated</h4>
+        <ul className="list-disc pl-6 mb-4">
+          {changes.deprecated.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    {changes.breaking && changes.breaking.length > 0 && (
+      <>
+        <div className="mt-4">
+          <Warning>Breaking Changes</Warning>
+          <ul className="list-disc pl-6 mb-4 mt-2">
+            {changes.breaking.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </>
+    )}
+  </div>
+)
+
+{/* Example usage:
+import { ChangelogSection } from '../snippets/changelog.mdx';
+
+<ChangelogSection
+  version="1.2.0"
+  date="2024-01-15"
+  changes={{
+    added: [
+      "New feature A",
+      "New feature B"
+    ],
+    changed: [
+      "Updated component X",
+      "Modified behavior Y"
+    ],
+    fixed: [
+      "Bug fix 1",
+      "Bug fix 2"
+    ],
+    deprecated: [
+      "Old feature Z will be removed in v2.0"
+    ],
+    breaking: [
+      "Changed API endpoint structure",
+      "Removed legacy support"
+    ]
+  }}
+/>
+*/}

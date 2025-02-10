@@ -1,0 +1,148 @@
+---
+title: FlowX.AI Changelog
+description: Track all notable changes, improvements, and fixes across FlowX.AI versions.
+---
+
+This changelog documents all notable changes made to FlowX.AI. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## v4.5.5 (December 2024)
+
+### New Features 🆕
+
+#### Integration Designer
+- **Testing on Upper Environments**: Test endpoints and workflows in upper environments with customizable configurations
+- **System Enumeration Toggle**: New toggle for managing system enumeration mapping
+- **Duplicate Workflow & Endpoint**: New "Duplicate" option for creating similar workflows/endpoints
+- **Testing on Committed Versions**: Test endpoints and workflows on committed versions
+- **Multiple Incoming Sequences**: Workflow nodes now support multiple incoming sequences
+- **Start/Call Subworkflow Node (Sync)**: New node for reusing predefined workflows
+- **Configurable Timeout & Retry**: Enhanced endpoint nodes with configurable timeouts and retry mechanisms
+
+#### UI Designer
+- **UI Action Form Updates**: New Functional and UX sections for all action types
+- **Hide Expressions**: Standardized across all FlowX components
+- **Grid Improvements**: Enhanced placeholder design and drag-and-drop support
+- **Table UI Component**: Added in-place editing and validations
+- **Conditional Formatting**: New dynamic styling capabilities for UI elements
+
+#### Analytics Integration
+- New tracking support for "Screen Displayed" and "Action Executed" events
+- Analytics configuration in UI Designer for root components
+- Public API for triggering analytics events
+
+#### New Angular SDK
+Released new packages:
+- @flowx/core-sdk
+- @flowx/angular-sdk
+- @flowx/angular-theme
+- @flowx/angular-ui-toolkit
+- @flowx/core-theme
+
+### Changes 🔧
+- Web Renderer Caching improvements
+- Process Designer enhancements
+- Applications now referred to as "Projects"
+- "System assets" renamed to Global Media Library
+
+## v4.5.4 (December 2024)
+
+### New Features 🆕
+
+#### Integration Designer
+- Testing capabilities for upper environments
+- System enumeration toggle functionality
+- Duplicate workflow & endpoint feature
+- Testing support for committed versions
+- Enhanced enum translation in lists
+- Multiple incoming sequences support
+- Workflow node renaming
+- Configurable timeout & retry mechanisms
+
+#### Analytics Integration
+- Added support for container apps analytics
+- New tracking capabilities for screen and action events
+
+### Bug Fixes 🐞
+- Various improvements to web renderer caching
+- Enhanced Process Designer functionality
+
+## v4.5.3 (November 2024)
+
+### New Features 🆕
+
+#### Merge Conflicts Feature
+- Advanced conflict detection capabilities
+- Resource-level conflict resolution
+- Flexible merge overrides
+- Clear interface with streamlined branch selection
+- Color-coded JSON comparisons
+
+#### Plugin Updates
+- Notifications and Documents plugins integrated as application resources
+
+#### Table Enhancements
+- Min-Max Cell Width controls
+- Header Text Alignment options
+- Padding and Spacing customization
+- "No Data" Message Customization
+
+### Bug Fixes 🐞
+- Fixed rendering issues
+- Resolved substitution tag conflicts
+- Addressed enum mapper loss during merges
+- Improved conflict detection for swim lanes
+- Fixed workflow deletion issues
+
+### Known Issues ⚠️
+- Node return issues in WIP versions
+- Enumeration merge conflicts
+- Swim lane deletion merge conflicts
+- Media library merge issues
+- UI/UX scrollbar issues
+
+## v4.5.2 (November 2024)
+
+### New Features 🆕
+
+#### Table Enhancements
+- Min-Max Cell Width configuration
+- Header Text Alignment options
+- Padding and Spacing controls
+- Custom "No Data" messages
+
+#### Performance Improvements
+- Enhanced caching for Runtime Committed Builds
+- Improved MongoDB indexing
+- Better Data-Sync Support
+
+### Plugin Updates
+- Notifications and Documents plugins integrated as application resources
+
+## v4.5.1 (November 2024)
+
+### New Features 🆕
+
+#### Theme Admin for Table
+- New form for component style management
+- Common Properties controls
+- Table Header Customization options
+
+#### Preview Theme in UI Designer
+- Real-time theme change previews
+- Table component preview support
+
+#### Application Permissions
+- Extended and updated user permissions
+- More flexible access management
+
+#### Integration Designer
+- New configuration for integration topics
+- Enhanced topic management
+
+### Changes 🔧
+- Multiple UX refinements
+- Improved platform consistency
+
+<Card title="View Full Release Notes" href="/release-notes/overview" icon="book-open">
+For more detailed information about each release, check our complete release notes
+</Card>

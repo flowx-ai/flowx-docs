@@ -1,0 +1,76 @@
+<Frame>
+  <div className="rounded-lg border border-zinc-200 p-4">
+    <div className="flex items-center gap-4 mb-4">
+      <div className="flex items-center gap-2">
+        <code className="bg-primary-100 text-primary-900 px-2 py-1 rounded text-sm font-mono">{props.method}</code>
+        <code className="bg-zinc-100 px-2 py-1 rounded text-sm font-mono break-all">{props.url}</code>
+      </div>
+    </div>
+
+    {props.description && (
+      <div className="mb-4 text-zinc-600">
+        {props.description}
+      </div>
+    )}
+
+    <div className="space-y-4">
+      {props.parameters && (
+        <div>
+          <h4 className="font-semibold mb-2">Parameters</h4>
+          <div className="space-y-2">
+            {props.parameters.map((param) => (
+              <ParamField
+                key={param.name}
+                path={param.name}
+                type={param.type}
+                required={param.required}
+                default={param.default}
+              >
+                {param.description}
+              </ParamField>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {props.requestBody && (
+        <div>
+          <h4 className="font-semibold mb-2">Request Body</h4>
+          <CodeGroup>
+            {props.requestBody.examples.map((example) => (
+              ```json {example.name}
+              {example.content}
+              ```
+            ))}
+          </CodeGroup>
+        </div>
+      )}
+
+      {props.response && (
+        <div>
+          <h4 className="font-semibold mb-2">Response</h4>
+          <CodeGroup>
+            {props.response.examples.map((example) => (
+              ```json {example.name}
+              {example.content}
+              ```
+            ))}
+          </CodeGroup>
+          
+          <div className="mt-4 space-y-2">
+            {props.response.fields.map((field) => (
+              <ResponseField
+                key={field.name}
+                name={field.name}
+                type={field.type}
+                required={field.required}
+              >
+                {field.description}
+              </ResponseField>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</Frame>
