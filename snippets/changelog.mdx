@@ -1,0 +1,58 @@
+{/* 
+  This snippet creates a standardized changelog entry format.
+  Usage:
+  <Changelog version="1.0.0" date="2024-01-15">
+    <Update>
+      ...changelog content...
+    </Update>
+  </Changelog>
+*/}
+
+<AccordionGroup>
+  <Accordion title="🎉 New Features">
+    <ul className="mt-1 list-disc list-inside">
+      {/* Add your new features as list items */}
+      <li>Added new authentication methods</li>
+      <li>Introduced real-time data synchronization</li>
+    </ul>
+  </Accordion>
+
+  <Accordion title="✨ Improvements">
+    <ul className="mt-1 list-disc list-inside">
+      {/* Add your improvements as list items */}
+      <li>Enhanced performance of data fetching operations</li>
+      <li>Optimized database queries for better response times</li>
+    </ul>
+  </Accordion>
+
+  <Accordion title="🐛 Bug Fixes">
+    <ul className="mt-1 list-disc list-inside">
+      {/* Add your bug fixes as list items */}
+      <li>Fixed issue with user session timeout</li>
+      <li>Resolved data validation errors in form submissions</li>
+    </ul>
+  </Accordion>
+
+  <Accordion title="⚠️ Breaking Changes">
+    <Warning>
+      The following changes may require updates to your existing implementation
+    </Warning>
+    <ul className="mt-3 list-disc list-inside">
+      {/* Add your breaking changes as list items */}
+      <li>Deprecated legacy API endpoints (v1)</li>
+      <li>Changed authentication token format</li>
+    </ul>
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  For detailed migration guides and additional information about breaking changes, please refer to our [Migration Guide](/migration-guide).
+</Note>
+
+<Info>
+  All dates are in YYYY-MM-DD format and follow the UTC timezone.
+</Info>
+
+<Tip>
+  Subscribe to our [release notes](/release-notes) to stay updated with the latest changes.
+</Tip>

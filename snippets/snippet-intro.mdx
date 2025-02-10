@@ -1,4 +1,105 @@
-One of the core principles of software development is DRY (Don't Repeat
-Yourself). This is a principle that apply to documentation as
-well. If you find yourself repeating the same content in multiple places, you
-should consider creating a custom snippet to keep your content in sync.
+# Introduction to Snippets
+
+One of the core principles of software development is DRY (Don't Repeat Yourself). This principle applies to documentation as well. If you find yourself repeating the same content in multiple places, you should consider creating a custom snippet to keep your content in sync.
+
+## What are Snippets?
+
+Snippets are reusable blocks of MDX content that can be imported and used across your documentation, similar to how you would use React components. They help maintain consistency and reduce duplication in your documentation.
+
+## Creating Snippets
+
+Snippets are stored in the `snippets` directory of your documentation. To create a new snippet:
+
+1. Create a new `.mdx` file in the `snippets` folder
+2. Write your MDX content directly - no need for explicit function declarations
+3. The content will automatically be wrapped in a component
+
+<CodeGroup>
+```mdx snippets/warning-box.mdx
+<div className="bg-yellow-100 border-yellow-400 rounded-lg p-4">
+  <div className="flex">
+    <Icon icon="triangle-exclamation" className="text-yellow-400" />
+    <div className="ml-3">
+      This is a warning message.
+    </div>
+  </div>
+</div>
+```
+</CodeGroup>
+
+## Using Snippets
+
+To use a snippet in your documentation:
+
+1. Import the snippet at the top of your MDX file
+2. Use it like any other React component
+
+<CodeGroup>
+```mdx example-usage.mdx
+import WarningBox from 'snippets/warning-box.mdx';
+
+# My Documentation Page
+
+<WarningBox />
+```
+</CodeGroup>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Keep it Simple" icon="wand-magic-sparkles">
+    Snippets should be focused and serve a single purpose. Don't try to make them too complex.
+  </Card>
+  
+  <Card title="Meaningful Names" icon="signature">
+    Use clear, descriptive names for your snippet files that indicate their purpose.
+  </Card>
+  
+  <Card title="Consistent Structure" icon="layer-group">
+    Maintain a consistent structure in your snippets folder to make them easy to find and manage.
+  </Card>
+  
+  <Card title="Document Usage" icon="book">
+    Include comments or documentation about how to use the snippet and any required props.
+  </Card>
+</CardGroup>
+
+## Common Use Cases
+
+<AccordionGroup>
+  <Accordion title="Warning Messages" icon="triangle-exclamation">
+    Create standardized warning boxes for deprecation notices, version warnings, or important notes.
+  </Accordion>
+  
+  <Accordion title="API Examples" icon="code">
+    Reuse common API request/response examples across different endpoints.
+  </Accordion>
+  
+  <Accordion title="UI Components" icon="palette">
+    Maintain consistent UI elements like callouts, info boxes, or feature highlights.
+  </Accordion>
+  
+  <Accordion title="Version Notes" icon="code-branch">
+    Create reusable version compatibility notes or upgrade instructions.
+  </Accordion>
+</AccordionGroup>
+
+## Tips for Effective Snippet Usage
+
+<Tip>
+  Keep your snippets modular and focused on a single responsibility. This makes them more reusable and easier to maintain.
+</Tip>
+
+<Info>
+  Snippets can accept props just like regular React components, making them flexible and adaptable to different contexts.
+</Info>
+
+<Warning>
+  Avoid creating snippets for content that's likely to change frequently or needs to be highly customized for each use case.
+</Warning>
+
+By using snippets effectively, you can:
+- Maintain consistency across your documentation
+- Reduce the time spent updating repeated content
+- Ensure a unified voice and style
+- Make your documentation more maintainable

@@ -246,7 +246,6 @@
                       "4.6.0/docs/building-blocks/ui-designer/localization-and-i18n",
                       "4.6.0/docs/building-blocks/ui-designer/layout-configuration",
                       "4.6.0/docs/building-blocks/ui-designer/conditional-styling"
-
                     ]
                   },
                   "4.6.0/docs/building-blocks/token",
@@ -399,7 +398,6 @@
                 "group": "Release Notes",
                 "pages": [
                   "release-notes/overview",
-
                   {
                     "group": "v4.6.1 - February",
                     "icon": "wrench",
@@ -407,9 +405,6 @@
                       "release-notes/v4.6.1-february-2025/v4.6.1-february-2025",
                       "release-notes/v4.6.1-february-2025/deployment-guidelines-v4.6.1",
                       "release-notes/v4.6.1-february-2025/migrating-from-v4.1.x-to-v4.6.1"
-
-  
-
                     ]
                   },
                   {
@@ -2618,7 +2613,6 @@
       "measurementId": "G-CGW0FVK9YM"
     }
   },
-
   "redirects": [
     {
       "source": "/link/4.5/task-manager-overview",

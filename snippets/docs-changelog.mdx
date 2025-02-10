@@ -1,0 +1,110 @@
+{/* 
+  This snippet is used to document changes to the documentation in a consistent format.
+  Use it by importing and passing a version, date, and appropriate changes.
+*/}
+
+<Card>
+  <div className="flex items-center justify-between">
+    <div>
+      <h3 className="text-lg font-bold">Version {props.version}</h3>
+      <p className="text-sm text-gray-500">{props.date}</p>
+    </div>
+    {props.prerelease && (
+      <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">
+        Pre-release
+      </span>
+    )}
+  </div>
+
+  <div className="mt-4 space-y-6">
+    {props.added && props.added.length > 0 && (
+      <div>
+        <h4 className="font-medium text-green-600 mb-2">Added</h4>
+        <ul className="list-disc list-inside space-y-1">
+          {props.added.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {props.changed && props.changed.length > 0 && (
+      <div>
+        <h4 className="font-medium text-blue-600 mb-2">Changed</h4>
+        <ul className="list-disc list-inside space-y-1">
+          {props.changed.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {props.deprecated && props.deprecated.length > 0 && (
+      <div>
+        <h4 className="font-medium text-yellow-600 mb-2">Deprecated</h4>
+        <ul className="list-disc list-inside space-y-1">
+          {props.deprecated.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {props.removed && props.removed.length > 0 && (
+      <div>
+        <h4 className="font-medium text-red-600 mb-2">Removed</h4>
+        <ul className="list-disc list-inside space-y-1">
+          {props.removed.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {props.fixed && props.fixed.length > 0 && (
+      <div>
+        <h4 className="font-medium text-purple-600 mb-2">Fixed</h4>
+        <ul className="list-disc list-inside space-y-1">
+          {props.fixed.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+
+  {props.note && (
+    <Note className="mt-4">
+      {props.note}
+    </Note>
+  )}
+</Card>
+
+{/* Example usage:
+import DocsChangelog from 'snippets/docs-changelog.mdx';
+
+<DocsChangelog 
+  version="1.2.0"
+  date="2024-01-15"
+  prerelease={false}
+  added={[
+    "New API reference section",
+    "Interactive code examples"
+  ]}
+  changed={[
+    "Updated installation instructions",
+    "Reorganized sidebar navigation"
+  ]}
+  deprecated={[
+    "Old authentication examples (will be removed in 2.0.0)"
+  ]}
+  removed={[
+    "Legacy v0.x migration guide"
+  ]}
+  fixed={[
+    "Fixed broken links in tutorial section",
+    "Corrected code samples in quickstart guide"
+  ]}
+  note="This release focuses on improving the developer experience and documentation structure."
+/>
+*/}

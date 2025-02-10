@@ -1,0 +1,84 @@
+# Adding Snippets to Documentation
+
+Snippets are reusable MDX components that help maintain consistency and reduce duplication across your documentation. Here's how to create and use them:
+
+## Creating a Snippet
+
+1. Create a new `.mdx` file in the `snippets` directory
+2. Write your MDX content directly - no need for explicit exports or function declarations
+3. Import and use the snippet in other MDX files
+
+## Example
+
+Let's create a simple alert component as a snippet:
+
+```mdx snippets/alert.mdx
+<div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4 rounded">
+  {children}
+</div>
+```
+
+### Using the Snippet
+
+Import and use your snippet in any MDX documentation file:
+
+```mdx
+import Alert from 'snippets/alert.mdx';
+
+# My Documentation Page
+
+<Alert>
+  This is an important message that will be consistently styled across the docs.
+</Alert>
+```
+
+## Best Practices
+
+<Info>
+  Keep snippet files focused and single-purpose. Each snippet should do one thing well.
+</Info>
+
+<Tip>
+  Name your snippet files descriptively to make them easy to find and understand their purpose.
+</Tip>
+
+## Common Use Cases
+
+Snippets are great for:
+
+<CardGroup cols={2}>
+  <Card title="UI Components" icon="palette">
+    Alerts, callouts, warning boxes, and other styled elements
+  </Card>
+  <Card title="Repeated Content" icon="copy">
+    Common explanations, warnings, or notes that appear in multiple places
+  </Card>
+  <Card title="Version Notices" icon="code-branch">
+    Version-specific warnings or compatibility notices
+  </Card>
+  <Card title="API Examples" icon="code">
+    Consistent API usage examples across endpoints
+  </Card>
+</CardGroup>
+
+## Advanced Usage
+
+You can pass props to your snippets just like any other React component:
+
+```mdx snippets/status-badge.mdx
+<span className={`px-2 py-1 rounded-full text-sm ${props.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+  {props.children}
+</span>
+```
+
+Then use it with props:
+
+```mdx
+import StatusBadge from 'snippets/status-badge.mdx';
+
+<StatusBadge type="success">Active</StatusBadge>
+```
+
+<Note>
+  Remember that snippets are automatically wrapped in a component, so you can access props directly without defining them explicitly.
+</Note>
