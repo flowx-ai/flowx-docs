@@ -227,6 +227,16 @@ Each topic adheres to a consistent naming schema for streamlined communication a
   - **Purpose:** For triggering process start events.
   - **Example:** `ai.flowx.core.trigger.start-for-event.process.v1`
 
+- **Start by Name**
+  - **Environment variable**: `KAFKA_TOPIC_PROCESS_START_BY_NAME`
+  - **Pattern:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}start${separator2}by${separator2}name${separator}process${kafka.topic.naming.suffix}`
+  - **Purpose:** For triggering process start by name events.
+  - **Example:** `ai.flowx.core.trigger.start-by-name.process.v1`
+    - **Output Topic:** 
+    - **Environment variable**: `KAFKA_TOPIC_PROCESS_START_BY_NAME_OUT`
+    - **Pattern:** `${kafka.topic.naming.prefix}core${separator}trigger${separator}start${separator2}by${separator2}name${separator}process${separator}out${kafka.topic.naming.suffix}`
+    - **Example:** `ai.flowx.core.trigger.start-by-name.process.out.v1`
+
 - **Scheduled Timer Events**
   - **Set Timer Schedule**
     - **Environment variable**: `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_SET`

@@ -1,46 +1,88 @@
 ---
 title: Initiating processes
-description: Entering the realm of FlowxX unlocks a spectrum of possibilities for elevating processes and workflows. From automation to data-driven decision-making, several straightforward approaches pave the way for leveraging this platform efficiently. Let's delve into the ways to kickstart a process.
+description: Entering the realm of FlowX unlocks a spectrum of possibilities for elevating processes and workflows. From automation to data-driven decision-making, several straightforward approaches pave the way for leveraging this platform efficiently. Let's delve into the ways to kickstart a process.
 ---
 
-## Kafka event
+## Starting a process via Kafka
 
-To trigger a process using a Kafka Send Action:
+To trigger a process using a Kafka **Send Action**, follow these steps:
 
-1. Access FlowX Designer and navigate to the Processes tab, then select Definitions.
-2. Choose an existing process definition or create a new one.
-3. Integrate a Message Event Send node into your workflow.
-4. Attach a Kafka Send action to this node.
-5. Define the topic corresponding to the `KAFKA_TOPIC_PROCESS_START_IN` environment variable from your process-engine deployment.
+1. **Access Your Project**
+   - Open **FlowX Designer**.
+   - Navigate to **Projects** and select your project.
+   - Choose an existing process definition or create a new one.
+
+2. **Configure the Send Message Task**
+   - Add a **Send Message Task** to your workflow.
+   - Attach a **Kafka Send Action** to the **Send Message Task** node.
+
+3. **Define the Kafka Topic**
+   - Specify the topic linked to the `KAFKA_TOPIC_PROCESS_START_BY_NAME` environment variable (details [here](../../../setup-guides/application-manager#process-topics)).
+     This variable is shared between the **application-manager** and **runtime-manager** deployments.
+
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/topic_address.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/start_process_by_name_topic.png)
 </Frame>
 
 <Info>
-For clarification on the topic, in FLOWX.AI Designer visit **Platform status → Flowx Components → process-engine-mngt -> kafkaTopicHealthCheckIndicator → details → configuration → topic → process → start_in**:
+To check further what was sent on Kafka, you can use a tool like AKHQ to check the response sent on the topic defined at `KAFKA_TOPIC_PROCESS_START_BY_NAME_OUT` - details [here](../../../setup-guides/application-manager#process-topics).
 
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-02-11%20at%2017.33.58.png)
+</Frame>
+</Info>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/topic_start_process.png)
+<Info>
+To verify the topic in FlowX Designer, navigate to: **Platform status → FlowX Components → application-manager-mngt -> kafkaTopicHealthCheckIndicator → details → configuration → topic → process → start-by-name**:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/topic_kafka.png)
+</Frame>
 
 </Info>
 
-6. The body message must include the name of the process you intend to start with this action, structured as follows:
+4. **Add the Message Body**
+   - Include the message body with the necessary details (if applicable):
 
 ```json
-{"processName": "your_process_name"}
+{"test": "something"}
 ```
 
-7. Expand advanced configuration, you will see that a custom header is always set by default to `{"processInstanceId": ${processInstanceId}}`
-8. Also include your JWT key in the headers:
+5. Configure headers in Advanced Settings
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/jwt_start.png)
+* Expand Advanced Configuration in the Send Message Task settings.
+* By default, a custom header is set to:
+
+```json
+{"processInstanceId": "${processInstanceId}"}
+```
+<Info>
+This header is not required and can be ignored.
+</Info>
+
+* Add the following headers:
+    * `Fx-ProcessName` → The name of the process you want to start via Kafka.
+    * `Fx-AppId` → The ID of the project (application) where the process resides.
+    * `jwt` → Your JWT token for authentication.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/start_process_by_name_headers.png)
+</Frame>
 
 The headers section should resemble this structure:
 
 ```json
-{"processInstanceId": ${processInstanceId}, "jwt": "your_jwt"}
+{
+  "Fx-ProcessName": "test_kafka",
+  "Fx-AppId": "afcc6452-f50e-4d95-ae3b-6b35caed68bd",
+  "jwt": "your_jwt"
+}
 ```
+
+<Info>
+Without an active policy, the process may not start even if the Kafka message is correctly configured.
+</Info>
 
 ## Timer start event
 
