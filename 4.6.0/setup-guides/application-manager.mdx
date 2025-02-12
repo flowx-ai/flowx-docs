@@ -90,6 +90,13 @@ If caching is required, configure Redis using the following environment variable
 * `SPRING_DATA_REDIS_PASSWORD` - Password for authenticating with the Redis server.
 * `SPRING_DATA_REDIS_PORT` - Hostname of the Redis server. This specifies where the Redis server is running and should be accessible from the application.
 
+### Configuring Rest request size
+
+To control the size of REST requests handled by the Application Manager, use the following environment variable:
+
+* `FLOWX_RUNTIMEEXECUTIONPROXY_WEBCLIENT_MAXINMEMORYSIZE` - Specifies the maximum size (in bytes) of in-memory data for REST requests. This is particularly useful when dealing with large payloads to prevent excessive memory consumption.
+  * **Default Value:** `5242880` (5 MB)
+  * **Usage Example:** Set to `10485760` (10 MB) to allow larger in-memory request sizes.
 
 ### Configuring scheduler
 
