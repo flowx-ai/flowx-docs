@@ -1,57 +1,63 @@
 ---
 title: Start Process
-api: POST /rtm/api/runtime/app/{appId}/build/{buildId}/process-name/{processDefinitionName}/start
-description: This endpoint initiates a process based on the provided process definition name in the specified application runtime environment.
+api: POST {baseUrl}/rtm/api/runtime/app/{appId}/build/{buildId}/process-name/{processDefinitionName}/start
+description: This endpoint initiates a process in the application runtime environment using the specified `buildId` and `processDefinitionName`.
 ---
 
 
+## Base URL
+
+<ParamField path="baseUrl" type="string" example="https://admin.devmain.flowxai.dev">
+  The base URL for all API requests. This remains constant across all requests and should be prepended to the endpoint path.
+</ParamField>
+
 ## Path Parameters
 
-<ResponseField name="appId" type="string" required>
-  The ID of the application.
-</ResponseField>
+<ParamField path="appId" type="string" example="dbe0ab87-539b-4015-962d-6e73226b9e58">
+The ID of the application. 
+</ParamField>
 
-<ResponseField name="buildId" type="string" required>
-  The build ID for the runtime environment.
-</ResponseField>
+<ParamField path="buildId" type="string" example="7d5560be-3846-49fa-9c17-4059c54c7c5f"> 
+The build ID for the runtime environment. 
+</ParamField> 
 
-<ResponseField name="processDefinitionName" type="string" required>
-  The name of the process definition to start.
-</ResponseField>
+<ParamField path="processDefinitionName" type="string" example="[DOCS]customer_onboarding"> 
+The name of the process definition to start. 
+</ParamField>
 
 ## Headers
 
-<ResponseField name="Authorization" type="string" required={true}>
+<ParamField header="Authorization" type="string" required={true}>
   Bearer token required for authentication. Format: `Bearer <token>`.
-</ResponseField>
+</ParamField>
 
-<ResponseField name="Content-Type" type="string" required={true}>
+<ParamField header="Content-Type" type="string" required={true}>
   Indicates the media type of the request body. Must be set to `application/json`.
-</ResponseField>
+</ParamField>
 
-<ResponseField name="flowx-platform" type="string" required={true}>
+<ParamField header="flowx-platform" type="string" required={true}>
   Identifies the client platform (e.g., `web`).
-</ResponseField>
+</ParamField>
 
-<ResponseField name="Accept" type="string" required={false}>
+<ParamField header="Accept" type="string" required={false}>
   Specifies the media types that are acceptable for the response. Example: `application/json, text/plain, */*`.
-</ResponseField>
+</ParamField>
 
-<ResponseField name="Accept-Encoding" type="string" required={false}>
+<ParamField header="Accept-Encoding" type="string" required={false}>
   Indicates supported content encoding algorithms for the response. Example: `gzip, deflate, br, zstd`.
-</ResponseField>
+</ParamField>
 
-<ResponseField name="Accept-Language" type="string" required={false}>
+<ParamField header="Accept-Language" type="string" required={false}>
   Specifies language preferences for the response. Example: `en-GB,en-US;q=0.9,en;q=0.8`.
-</ResponseField>
+</ParamField>
 
-<ResponseField name="User-Agent" type="string" required={false}>
+<ParamField header="User-Agent" type="string" required={false}>
   Identifies the client software making the request (e.g., browser or tool).
-</ResponseField>
+</ParamField>
 
-<ResponseField name="Referer" type="string" required={false}>
+<ParamField header="Referer" type="string" required={false}>
   The address of the previous web page from which the request was made.
-</ResponseField>
+</ParamField>
 
 
 ## Request Body
@@ -68,38 +74,6 @@ This endpoint requires a JSON request body. The exact payload structure should c
 ```
 ## Response
 
-### Example Response (200 OK)
-
-
-```json
-{
-  "processDefinitionFlowxUuid": "66e74ea1-0775-42b4-b27e-a4a21ea78dfc",
-  "buildId": "7d5560be-3846-49fa-9c17-4059c54c7c5f",
-  "buildStatusAtStart": "COMMITTED",
-  "applicationId": "dbe0ab87-539b-4015-962d-6e73226b9e58",
-  "parentApplicationId": null,
-  "rootApplicationId": null,
-  "processDefinitionName": "{processDefinitionName}",
-  "tokens": [
-    {
-      "id": 2112691,
-      "currentProcessVersionId": 953018,
-      "currentContext": "main",
-      "currentNodeId": 1182790,
-      "state": "ACTIVE",
-      "statusCurrentNode": "ARRIVED",
-      "dateUpdated": "2025-02-12T10:32:27.035486632Z",
-      "uuid": "5ec67fb3-e7e5-4c35-b12a-f388e5079e86"
-    }
-  ],
-  "state": "STARTED",
-  "uuid": "24cb4216-83a4-4782-84cb-d702b54b9b7d",
-  "instanceMetadata": {
-    "processInstanceId": 2112617,
-    "processInstanceUuid": "24cb4216-83a4-4782-84cb-d702b54b9b7d"
-  }
-}
-```
 <ResponseField name="processDefinitionFlowxUuid" type="string" example="66e74ea1-0775-42b4-b27e-a4a21ea78dfc">
   The unique identifier of the process definition within FlowX.
 </ResponseField>
