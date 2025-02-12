@@ -133,6 +133,53 @@ The Kafka topics for Integration Designer use a structured naming convention wit
   * **Purpose:** Topic for outgoing workflow instance messages from the events gateway
   * **Example Value:** `ai.flowx.dev.eventsgateway.receive.workflowinstances.v1`
 
+<Info>
+Note: The `max.message.bytes` configuration should be updated for this topic to ensure compatibility with Integration Designer message sizes.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-02-12%20at%2018.48.05.png)
+</Frame>
+
+You can do that by using the following procedure:
+
+<Accordion title= "How to Update `max.message.bytes` Using AKHQ">
+
+1. **Access AKHQ:**
+   - Open the AKHQ web interface in your browser.
+   - Log in if authentication is required.
+
+2. **Navigate to the Topic:**
+   - Go to the **"Topics"** section.
+   - Search for the topic: `ai.flowx.dev.eventsgateway.receive.workflowinstances.v1`.
+
+3. **Edit Topic Configuration:**
+   - Click on the topic name to view its details.
+   - Go to the **"Configuration"** tab or section.
+   - Locate the `max.message.bytes` setting. If it’s not present, add it.
+
+4. **Update the Setting:**
+   - Enter the desired value for `max.message.bytes` (e.g., `10485760` for 10 MB).
+   - Save the changes.
+
+5. **Validation:**
+   - Confirm that the configuration has been successfully updated.
+   - Optionally, restart any relevant producers or consumers if required (though Kafka applies this setting dynamically in most cases).
+
+---
+
+**Alternative Method: Using Kafka CLI**
+
+If AKHQ is not available, you can update the topic configuration via the Kafka CLI:
+
+```bash
+kafka-configs.sh --bootstrap-server <broker-address> \
+  --entity-type topics --entity-name ai.flowx.dev.eventsgateway.receive.workflowinstances.v1 \
+  --alter --add-config max.message.bytes=10485760
+```
+</Accordion>
+
+</Info>
+
 * **Engine Pattern**  
   * **Pattern:** `${kafka.topic.naming.prefix}${kafka.topic.naming.engineReceivePattern}`
   * **Purpose:** Topic pattern for receiving messages by the engine service

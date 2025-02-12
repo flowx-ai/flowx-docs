@@ -1,0 +1,165 @@
+---
+title: "Get Build Info"
+api: GET {baseUrl}/rtm/api/runtime/app/{appId}/build/info
+description: This endpoint retrieves build information for a specific app.
+---
+
+## Base URL
+
+* Always prepend the endpoint with the correct Base URL.
+* For different environments (like staging or production), switch the base URL accordingly.
+
+## Authorization
+
+<ParamField header="Authorization" type="string" required={true} placeholder="Bearer <your_token>">
+  Bearer authentication header of the form Bearer `<token>`, where `<token>` is your auth token.
+</ParamField>
+
+## Request headers
+
+
+<ParamField header="flowx-platform" type="string" required={true} placeholder="web">
+  Identifies the client platform (e.g., `web`). Required by FlowX to handle platform-specific behavior.
+</ParamField>
+
+<ParamField header="Accept" type="string" placeholder="application/json, text/plain, */*">
+  Specifies the media types that are acceptable for the response. Defaults to accepting JSON and plain text responses.
+</ParamField>
+
+<ParamField header="Accept-Encoding" type="string" placeholder="gzip, deflate, br, zstd">
+  Indicates supported content encoding algorithms for the response.
+</ParamField>
+
+<ParamField header="Accept-Language" type="string" placeholder="en-GB,en-US;q=0.9,en;q=0.8">
+  Specifies language preferences for the response.
+</ParamField>
+
+
+## Path Parameters
+
+<ParamField path="appId" type="string" required placeholder="dbe0ab87-539b-4015-962d-6e73226b9e58">
+  The unique identifier of the application whose build information is being retrieved.
+</ParamField>
+
+
+<RequestExample> 
+```bash
+curl -X GET "{baseUrl}/rtm/api/runtime/app/{appId}/build/info" \
+  -H "Authorization: Bearer <your_token>" \
+  -H "flowx-platform: web"
+```
+</RequestExample>
+
+## Response Fields
+
+<ResponseField name="buildId" type="string" example="7d5560be-3846-49fa-9c17-4059c54c7c5f">
+  The unique identifier of the build.
+</ResponseField>
+
+<ResponseField name="applicationId" type="string" example="dbe0ab87-539b-4015-962d-6e73226b9e58">
+  The ID of the application associated with the build.
+</ResponseField>
+
+<ResponseField name="buildSettings" type="object">
+  Contains configuration settings related to the build.
+
+  <Expandable title="Properties">
+    <ResponseField name="applicationVersionId" type="string" example="7d5560be-3846-49fa-9c17-4059c54c7c5f">
+      The version ID of the application associated with the build.
+    </ResponseField>
+
+    <ResponseField name="platforms" type="string" example="OMNICHANNEL">
+      Indicates the supported platforms for the build (e.g., `OMNICHANNEL`).
+    </ResponseField>
+
+    <ResponseField name="themeId" type="string" example="12345678-1234-1234-1234-123456789012">
+      The ID of the theme applied to the build.
+    </ResponseField>
+
+    <ResponseField name="dateDisplayFormat" type="object">
+      Defines the format used for displaying dates.
+
+      <Expandable title="Properties">
+        <ResponseField name="format" type="string" example="short">
+          Specifies the date format style (e.g., `short`).
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="numberDisplayFormat" type="object">
+      Configuration for displaying numerical values, including decimal precision.
+
+      <Expandable title="Properties">
+        <ResponseField name="minDecimals" type="integer" example="1">
+          The minimum number of decimal places to display in numerical values.
+        </ResponseField>
+
+        <ResponseField name="maxDecimals" type="integer" example="2">
+          The maximum number of decimal places to display in numerical values.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="currencyDisplayFormat" type="object">
+      Defines the format used for displaying currency.
+
+      <Expandable title="Properties">
+        <ResponseField name="format" type="string" example="isoCode">
+          Specifies the format for displaying currency (e.g., `isoCode`).
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="defaultLanguageCode" type="string" example="en">
+      The default language code for the build (e.g., `en` for English).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+
+## Response Headers
+
+<ResponseField name="Access-Control-Allow-Credentials" type="boolean" example="true">
+  Indicates whether the response can be exposed when credentials are present. Example: `true`.
+</ResponseField>
+
+<ResponseField name="Access-Control-Allow-Headers" type="string" example="DNT, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Range, Authorization, flowx-platform">
+  Lists the allowed headers in the actual request.
+</ResponseField>
+
+<ResponseField name="Access-Control-Allow-Methods" type="string" example="GET, PUT, POST, DELETE, PATCH">
+  Specifies the allowed HTTP methods.
+</ResponseField>
+
+<ResponseField name="Access-Control-Allow-Origin" type="string" example="https://demo-angular.devmain.flowxai.dev">
+  Indicates the allowed origin for cross-origin requests.
+</ResponseField>
+
+<ResponseField name="Cache-Control" type="string" example="no-cache, no-store, max-age=0, must-revalidate">
+  Directives for caching mechanisms.
+</ResponseField>
+
+<ResponseField name ="Content-Encoding" type="string" example="gzip">
+  Specifies the encoding used to compress the response.
+</ResponseField>
+
+<ResponseField name ="Content-Type" type="string" example="application/json">
+  Indicates the media type of the response content.
+</ResponseField>
+
+<ResponseField name ="Strict-Transport-Security" type="string" example="max-age=31536000; includeSubDomains">
+  Enforces secure (HTTPS) connections to the server.
+</ResponseField>
+
+<ResponseField name ="Vary" type="string" example="Accept-Encoding">
+  Specifies that the response may vary based on the `Accept-Encoding` request header.
+</ResponseField>
+
+<ResponseField name ="X-Content-Type-Options" type="string" example="nosniff">
+  Prevents the browser from MIME-sniffing a response away from the declared `Content-Type`.
+</ResponseField>
+
+<ResponseField name ="X-XSS-Protection" type="string" example="0">
+  Controls the cross-site scripting (XSS) filter. Example: `0` (disabled).
+</ResponseField>
+

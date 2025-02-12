@@ -1,6 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
+  
   "name": "Docs",
   "colors": {
     "primary": "#fdb913",
@@ -374,14 +375,15 @@
                 "group": "API reference",
                 "pages": [
                   {
-                    "group": "FlowX.AI Engine",
+                    "group": "Start processes",
                     "pages": [
-                      "4.6.0/docs/api/flowx-engine-api/rest",
-                      "4.6.0/docs/api/flowx-engine-api/rest2",
-                      "4.6.0/docs/api/flowx-engine-api/rest3",
-                      "4.6.0/docs/api/flowx-engine-api/rest4"
+                      "4.6.0/docs/api/start-process/get-build-info",
+                      "4.6.0/docs/api/start-process/rest2",
+                      "4.6.0/docs/api/start-process/rest3"
                     ]
                   },
+                  "4.6.0/docs/api/rest",
+                  "4.6.0/docs/api/rest4",
                   "4.6.0/docs/api/add-misconfigurations",
                   "4.6.0/docs/api/list-buckets",
                   "4.6.0/docs/api/list-objects-in-buckets",
