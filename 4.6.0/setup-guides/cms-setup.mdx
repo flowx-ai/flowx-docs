@@ -59,8 +59,10 @@ For detailed role and access configuration, refer to:
 The CMS requires MongoDB for taxonomy and content storage. Configure MongoDB with the following variables:
 
 * `SPRING_DATA_MONGODB_URI`: URI for connecting to the CMS MongoDB instance.
-    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false`
 * `DB_USERNAME` : `cms-core`
+* `DB_NAME`: `cms-core`
+* `DB_PASSWORD`: DB password.
 * `MONGOCK_TRANSACTIONENABLED`: Enables or disables transactions in MongoDB for compatibility with the Mongock library. 
   * **Default Value:** `false` (Set it to `false` to support successful migrations).
   * **Note:** Set to `false` due to known issues with transactions in MongoDB version 5.
@@ -70,9 +72,12 @@ The CMS requires MongoDB for taxonomy and content storage. Configure MongoDB wit
 
 In addition to core storage, CMS also connects to a Runtime MongoDB instance for operational data. Configure using these variables:
 
-* `RUNTIME_DB_USERNAME`: `app-runtime`
+
 * `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to the Runtime MongoDB instance (`app-runtime`)  
-    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
+    * Format: `mongodb://${RUNTIME_DB_USERNAME}:${RUNTIME_DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${RUNTIME_DB_NAME}?retryWrites=false`
+* `RUNTIME_DB_USERNAME`: `app-runtime`
+* `RUNTIME_DB_NAME`: `app-runtime`
+* `RUNTIME_DB_PASSWORD`: DB password.
 * `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
   * **Possible Values:** `mongodb`, `cosmosdb`
   * **Default Value:** `mongodb`

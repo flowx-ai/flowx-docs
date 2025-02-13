@@ -57,8 +57,9 @@ FlowX.AI Engine utilizes environment variables for configuration. Below are the 
 The Process Engine requires to connect to Runtime MongoDB instance to access runtime build information. Use the following environment variables for configuration:
 
 * `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to MongoDB for Runtime DB (`app-runtime`)
-    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
-* `DB_USERNAME`: ` app-runtime`
+    * Format: `mongodb://${RUNTIME_DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false`
+* `RUNTIME_DB_USERNAME`: ` app-runtime`
+* `DB_NAME`: `app-runtime`
 
 ## Authorization & access roles
 

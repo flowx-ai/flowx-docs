@@ -1,7 +1,7 @@
 ---
 title: "Get Build Info"
-api: GET {baseUrl}/rtm/api/runtime/app/{appId}/build/info
-description: This endpoint retrieves build information for a specific app.
+api: GET https://admin.devmain.flowxai.dev/rtm/api/runtime/app/{appId}/build/info
+description: This endpoint retrieves information about the build of a specific project, as set by the Active policy.
 ---
 
 ## Base URL
@@ -9,17 +9,18 @@ description: This endpoint retrieves build information for a specific app.
 * Always prepend the endpoint with the correct Base URL.
 * For different environments (like staging or production), switch the base URL accordingly.
 
+
+
 ## Authorization
 
-<ParamField header="Authorization" type="string" required={true} placeholder="Bearer <your_token>">
+<ParamField header="Authorization" type="string" required={true} placeholder="Bearer <token>">
   Bearer authentication header of the form Bearer `<token>`, where `<token>` is your auth token.
 </ParamField>
 
 ## Request headers
 
-
-<ParamField header="flowx-platform" type="string" required={true} placeholder="web">
-  Identifies the client platform (e.g., `web`). Required by FlowX to handle platform-specific behavior.
+<ParamField header="Authorization" type="string" required={true}>
+  Bearer token required for authentication. Format: `Bearer <token>`.
 </ParamField>
 
 <ParamField header="Accept" type="string" placeholder="application/json, text/plain, */*">
@@ -44,9 +45,10 @@ description: This endpoint retrieves build information for a specific app.
 
 <RequestExample> 
 ```bash
-curl -X GET "{baseUrl}/rtm/api/runtime/app/{appId}/build/info" \
-  -H "Authorization: Bearer <your_token>" \
-  -H "flowx-platform: web"
+curl --request GET \
+  --url https://admin.devmain.flowxai.dev/rtm/api/runtime/app/{appId}/build/info \
+  --header "Authorization: Bearer <token>" \
+  --header "Flowx-Platform: web"
 ```
 </RequestExample>
 
@@ -123,7 +125,7 @@ curl -X GET "{baseUrl}/rtm/api/runtime/app/{appId}/build/info" \
   Indicates whether the response can be exposed when credentials are present. Example: `true`.
 </ResponseField>
 
-<ResponseField name="Access-Control-Allow-Headers" type="string" example="DNT, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Range, Authorization, flowx-platform">
+<ResponseField name="Access-Control-Allow-Headers" type="string" example="DNT, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Range, Authorization, Flowx-Platform">
   Lists the allowed headers in the actual request.
 </ResponseField>
 
@@ -135,9 +137,6 @@ curl -X GET "{baseUrl}/rtm/api/runtime/app/{appId}/build/info" \
   Indicates the allowed origin for cross-origin requests.
 </ResponseField>
 
-<ResponseField name="Cache-Control" type="string" example="no-cache, no-store, max-age=0, must-revalidate">
-  Directives for caching mechanisms.
-</ResponseField>
 
 <ResponseField name ="Content-Encoding" type="string" example="gzip">
   Specifies the encoding used to compress the response.

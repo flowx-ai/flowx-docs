@@ -47,8 +47,10 @@ The Runtime Manager uses the same PostgreSQL (to store application data) and Mon
 #### MongoDB (Runtime data)
 
 * `SPRING_DATA_MONGODB_URI` - URI for connecting to MongoDB for runtime data  (same as the one configured in `application-manager` setup)
-    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false`
 * `DB_USERNAME`: `app-runtime`
+* `DB_NAME`: `app-runtime`
+* `DB_PASSWORD`: DB password.
 
 ### Configuring Kafka
 
