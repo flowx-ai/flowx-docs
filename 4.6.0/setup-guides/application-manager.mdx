@@ -76,8 +76,10 @@ Configure the data sources for PostgreSQL and MongoDB as follows:
 The Application Manager requires MongoDB to store runtime build information. Use the following environment variables for configuration:
 
 * `SPRING_DATA_MONGODB_URI` - URI for connecting to the MongoDB instance  -> to connect to `app-runtime` database
-    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false`
 * `DB_USERNAME` : `app-runtime`
+* `DB_NAME`: `app-runtime`
+* `DB_PASSWORD`: DB password.
 * `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
   * **Possible Values:** `mongodb`, `cosmosdb`
   * **Default Value:** `mongodb`

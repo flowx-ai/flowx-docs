@@ -44,8 +44,10 @@ The database schema is managed by a [liquibase](https://www.liquibase.org/) scri
 The Admin microservice also connects to a MongoDB database instance for additional data management. Configure the MongoDB connection with the following environment variables:
 
 * `SPRING_DATA_MONGODB_URI` - URI for connecting to the Admin MongoDB instance
-    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false`
 * `DB_USERNAME`: `data-model`.
+* `DB_PASSWORD`: DB password.
+* `DB_NAME`: `data-model`.
 * `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
   * **Possible Values:** `mongodb`, `cosmosdb`
   * **Default Value:** `mongodb`

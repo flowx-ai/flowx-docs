@@ -60,8 +60,9 @@ Integration Designer requires two MongoDB databases for managing integration-spe
 To connect these MongoDB databases, configure the following environment variables:
 
 * `SPRING_DATA_MONGODB_URI`- URI for connecting to the Integration Designer MongoDB instance  
-    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>?retryWrites=false`
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false`
 * `DB_USERNAME`: `integration-designer`
+* `DB_NAME`: `integration-designer`
 * `SPRING_DATA_MONGODB_STORAGE` -  Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
   * **Possible Values:** `mongodb`, `cosmosdb`
   * **Default Value:** `mongodb`
@@ -73,9 +74,9 @@ Integration Designer requires a runtime connection to function correctly. Starti
 Enable Runtime MongoDB:
 
 * `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to MongoDB for Runtime MongoDB (`app-runtime`)
-    * **Format**: `SPRING_DATA_MONGODB_RUNTIME_URI` : `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/<database>??retryWrites=false`
+    * **Format**: `SPRING_DATA_MONGODB_RUNTIME_URI` : `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false`
 * `DB_USERNAME`: `app-runtime`
-
+* `DB_NAME`: `app-runtime`
 ### Configuring Kafka
 
 To configure Kafka for Integration Designer, set the following environment variables. This configuration includes naming patterns, consumer group settings, and retry intervals for authentication exceptions.

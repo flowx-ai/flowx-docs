@@ -1,27 +1,27 @@
 ---
 title: Start Process
-api: POST {baseUrl}/rtm/api/runtime/app/{appId}/build/{buildId}/process-name/{processDefinitionName}/start
+api: POST https://admin.devmain.flowxai.dev/rtm/api/runtime/app/{appId}/build/{buildId}/process-name/{processDefinitionName}/start
 description: This endpoint initiates a process in the application runtime environment using the specified `buildId` and `processDefinitionName`.
 ---
 
 
 ## Base URL
 
-<ParamField path="baseUrl" type="string" example="https://admin.devmain.flowxai.dev">
-  The base URL for all API requests. This remains constant across all requests and should be prepended to the endpoint path.
-</ParamField>
+* Always prepend the endpoint with the correct Base URL.
+* For different environments (like staging or production), switch the base URL accordingly.
+
 
 ## Path Parameters
 
-<ParamField path="appId" type="string" example="dbe0ab87-539b-4015-962d-6e73226b9e58">
+<ParamField path="appId" type="string" example="dbe0ab87-539b-4015-962d-6e73226b9e58" required>
 The ID of the application. 
 </ParamField>
 
-<ParamField path="buildId" type="string" example="7d5560be-3846-49fa-9c17-4059c54c7c5f"> 
+<ParamField path="buildId" type="string" example="7d5560be-3846-49fa-9c17-4059c54c7c5f" required> 
 The build ID for the runtime environment. 
 </ParamField> 
 
-<ParamField path="processDefinitionName" type="string" example="[DOCS]customer_onboarding"> 
+<ParamField path="processDefinitionName" type="string" example="[DOCS]customer_onboarding" required> 
 The name of the process definition to start. 
 </ParamField>
 
@@ -63,6 +63,13 @@ The name of the process definition to start.
 ## Request Body
 
 This endpoint requires a JSON request body. The exact payload structure should conform to the process definition schema associated with `{processDefinitionName}`.
+
+<ParamField body="key1" type="string" required> 
+Description of what key1 represents 
+</ParamField> 
+<ParamField body="key2" type="string" required>
+Description of what key2 represents 
+</ParamField> 
 
 ### Example Request Body
 
@@ -140,10 +147,6 @@ This endpoint requires a JSON request body. The exact payload structure should c
   Indicates the allowed origin for cross-origin requests. Example: `https://demo-angular.devmain.flowxai.dev`.
 </ResponseField>
 
-<ResponseField name="Cache-Control" type="string" example="no-cache, no-store, max-age=0, must-revalidate">
-  Directives for caching mechanisms. Example: `no-cache, no-store, max-age=0, must-revalidate`.
-</ResponseField>
-
 <ResponseField name="Content-Encoding" type="string" example="gzip">
   Specifies the encoding used to compress the response. Example: `gzip`.
 </ResponseField>
@@ -171,7 +174,7 @@ This endpoint requires a JSON request body. The exact payload structure should c
 <RequestExample>
 ```bash
 curl -X POST "https://admin.devmain.flowxai.dev/rtm/api/runtime/app/{appId}/build/{buildId}/process-name/{processDefinitionName}/start" \
-  -H "Authorization: Bearer <your_token> \                # Required
+  -H "Authorization: Bearer <token>" \                    # Required
   -H "Content-Type: application/json" \                   # Required
   -H "flowx-platform: web" \                              # Required
   -H "Accept: application/json, text/plain, */*" \        # Optional
