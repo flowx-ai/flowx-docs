@@ -1,7 +1,7 @@
 ---
 title: "Get Build Info"
 api: GET {baseUrl}/rtm/api/runtime/app/{appId}/build/info
-description: This endpoint retrieves build information for a specific app.
+description: This endpoint retrieves information about the build of a specific project, as set by the Active policy.
 ---
 
 ## Base URL
@@ -17,9 +17,8 @@ description: This endpoint retrieves build information for a specific app.
 
 ## Request headers
 
-
-<ParamField header="flowx-platform" type="string" required={true} placeholder="web">
-  Identifies the client platform (e.g., `web`). Required by FlowX to handle platform-specific behavior.
+<ParamField header="Authorization" type="string" required={true}>
+  Bearer token required for authentication. Format: `Bearer <token>`.
 </ParamField>
 
 <ParamField header="Accept" type="string" placeholder="application/json, text/plain, */*">
@@ -44,7 +43,7 @@ description: This endpoint retrieves build information for a specific app.
 
 <RequestExample> 
 ```bash
-curl -X GET "{baseUrl}/rtm/api/runtime/app/{appId}/build/info" \
+curl -X GET "{baseUrl}/api/runtime/app/{appId}/build/info" \
   -H "Authorization: Bearer <your_token>" \
   -H "flowx-platform: web"
 ```
