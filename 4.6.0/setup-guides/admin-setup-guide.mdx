@@ -45,9 +45,9 @@ The Admin microservice also connects to a MongoDB database instance for addition
 
 * `SPRING_DATA_MONGODB_URI` - URI for connecting to the Admin MongoDB instance
     * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false`
-* `DB_USERNAME`: `data-model`.
+* `DB_USERNAME`: `admin`.
 * `DB_PASSWORD`: DB password.
-* `DB_NAME`: `data-model`.
+* `DB_NAME`: `admin`.
 * `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
   * **Possible Values:** `mongodb`, `cosmosdb`
   * **Default Value:** `mongodb`
