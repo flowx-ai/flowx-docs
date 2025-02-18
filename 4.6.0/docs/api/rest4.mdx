@@ -1,16 +1,49 @@
 ---
-title: Execute action
-api: POST {ENGINE_URL}/api/process/{PROCESS_INSTANCE_ID}/token/{TOKEN_INSTANCE_ID}/action/{ACTION_NAME}/execute
+title: "Execute action"
+api: POST https://admin.devmain.flowxai.dev/onboarding/api/runtime/process/{processUuid}/token/{tokenUuid}/ui-action/{uiActionFlowxUuid}/context/main/execute
+description: This endpoint executes an action within a specific process runtime.
 ---
 
-<ParamField path="ACTION_NAME" type="string" required>
-  The name of the action to run.
+## Base URL
+
+* Always prepend the endpoint with the correct Base URL.
+* For different environments (like staging or production), switch the base URL accordingly.
+
+
+## Request Headers
+
+<ParamField header="Authorization" type="string" required={true}>
+  Bearer token required for authentication. Format: `Bearer <token>`.
 </ParamField>
 
-<ParamField path="TOKEN_INSTANCE_ID" type="integer" required>
-  The token instance ID.
+## Path Parameters
+
+<ParamField path="processUuid" type="string" required placeholder="123e4567-e89b-12d3-a456-426614174000">
+  The unique identifier of the process instance.
 </ParamField>
 
-<ParamField path="PROCESS_INSTANCE_ID" type="integer" required>
-  The process instance ID.
+<ParamField path="tokenUuid" type="string" required placeholder="987e6543-e21b-34d5-b678-526614175999">
+  The unique identifier of the runtime token.
 </ParamField>
+
+<ParamField path="uiActionFlowxUuid" type="string" required placeholder="456e1234-e78b-56d9-c234-726615176888">
+  The unique identifier of the UI action to execute.
+</ParamField>
+
+## Response fields
+
+<ResponseField name="tokenUuid" type="string" example="513c5426-b9dd-41be-ba66-c36fdb8dda6c"> 
+The unique identifier of the token associated with the process. 
+</ResponseField> 
+<ResponseField name="currentNodeId" type="integer" example="1182789"> 
+The ID of the current node in the process execution flow. 
+</ResponseField> 
+<ResponseField name="templatesSequence" type="null"> 
+Reserved for future use. Currently always `null`. 
+</ResponseField> 
+<ResponseField name="backAction" type="boolean" example="false"> 
+Indicates whether a back action is triggered. Default is `false`. 
+</ResponseField> 
+<ResponseField name="resetToken" type="boolean" example="false"> 
+Indicates whether the token should be reset. Default is `false`. 
+</ResponseField>
