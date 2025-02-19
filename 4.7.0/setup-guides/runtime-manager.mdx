@@ -1,0 +1,125 @@
+---
+title: Runtime manager setup
+description: This guide provides a step-by-step process for setting up and configuring the Runtime Manager module, including database, Kafka, and OAuth2 authentication settings to manage runtime and build configurations.
+icon: database
+---
+
+
+<Info>
+The [**Application Manager**](./application-manager) and **Runtime Manager** share the same container image and Helm chart. Refer to the **Deployment Guidelines** in the release notes to ensure compatibility and verify the correct version.
+</Info>
+
+## Infrastructure prerequisites
+
+The Runtime Manager service requires the following components to be set up before it can be started:
+
+* **PostgreSQL** - version 13 or higher for managing application data
+* **MongoDB** - version 4.4 or higher for managing runtime data
+* **Redis** - version 6.0 or higher (if required)
+* **Kafka** - version 2.8 or higher for event-driven communication between services
+* **OAuth2 Authentication** - Ensure a compatible OAuth2 authorization server is configured.
+
+## Dependencies
+
+* [**Database configuration**](#database-configuration)
+* [**Kafka configuration**](#configuring-kafka)
+* [**Authentication & access roles**](#configuring-authentication-and-access-roles)
+* [**Logging**](./setup-guides-overview#logging)
+
+## Configuration
+
+### General environment variables
+
+The following environment variables provide essential configurations:
+
+* `LOGGING_CONFIG_FILE` - Path to the logging configuration file for customized logging levels.
+* `SPRING_APPLICATION_NAME` - Sets the application name.  
+  * **Default Value:** `application-manager` -> must be changed to `runtime-manager`.
+
+### Database configuration
+
+The Runtime Manager uses the same PostgreSQL (to store application data) and MongoDB (to manage runtime data) as [**application-manager**](application-manager). Configure these database connections with the following environment variables:
+
+#### PostgreSQL (Application data)
+
+* `SPRING_DATASOURCE_URL` - Database URL for the PostgreSQL data source  (same as the one configured in `application-manager` setup)
+
+#### MongoDB (Runtime data)
+
+* `SPRING_DATA_MONGODB_URI` - URI for connecting to MongoDB for runtime data  (same as the one configured in `application-manager` setup)
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false`
+* `DB_USERNAME`: `app-runtime`
+* `DB_NAME`: `app-runtime`
+* `DB_PASSWORD`: DB password.
+
+### Configuring Kafka
+
+Kafka is used for event-driven operations within the Runtime Handler. Set up the Kafka configuration using the following environment variables:
+
+* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - Address of the Kafka server in the format `host:port`
+* `KAFKA_TOPIC_NAMING_ENVIRONMENT` - Environment-specific suffix for Kafka topics
+
+#### Kafka OAuth Authentication
+
+To securely integrate with Kafka, configure the following OAuth credentials:
+
+* `KAFKA_OAUTH_CLIENT_ID` - OAuth Client ID for Kafka
+* `KAFKA_OAUTH_CLIENT_SECRET` - OAuth Client Secret for Kafka
+* `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` - OAuth Token Endpoint URI for obtaining Kafka tokens  
+  * **Format:** `https://<auth-server>/auth/realms/<realm>/protocol/openid-connect/token`
+
+### Configuring authentication and access roles
+
+Runtime Handler uses OAuth2 for secure access control. Set up the OAuth2 configurations with the following environment variables:
+
+
+* `SECURITY_OAUTH2_BASE_SERVER_URL` - Base URL for the OAuth 2.0 Authorization Server
+* `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - Unique identifier for the client application registered with the OAuth 2.0 server
+* `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - Secret key for authenticating requests made by the authorization client
+* `SECURITY_OAUTH2_REALM` - The realm name for OAuth2 authentication
+
+
+### Redis configuration (optional)
+
+If Redis is required for caching, set the following environment variable:
+
+* `SPRING_REDIS_HOST` - Hostname or IP address of the Redis server
+
+### Configuring file storage
+
+For file storage needs, configure the S3-compatible storage with the following environment variable:
+
+* `APPLICATION_FILE_STORAGE_S3_SERVER_URL` - URL of the S3-compatible storage server for storing application files.
+
+### Ingress configuration
+
+
+For exposing the Runtime manager service, configure public, admin and adminInstances ingress settings:
+
+```yaml
+ingress:
+  enabled: true
+  public:
+    enabled: true
+    hostname: "{{ .Values.flowx.ingress.public }}"
+    path: /rtm/api/runtime(/|$)(.*)
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /api/runtime/$2
+      nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,platform,Flowx-Platform
+  admin:
+    enabled: true
+    hostname: "{{ .Values.flowx.ingress.admin }}"
+    path: /rtm/api/build-mgmt(/|$)(.*)
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /api/build-mgmt/$2
+      nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,platform,Flowx-Platform
+  adminInstances:
+    enabled: true
+    hostname: "{{ .Values.flowx.ingress.admin }}"
+    path: /rtm/api/runtime(/|$)(.*)
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /api/runtime/$2
+      nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,platform,Flowx-Platform
+```
+
+> **Note:** Replace placeholders in environment variables with the appropriate values for your environment before starting the service.

@@ -1,0 +1,61 @@
+---
+title: FlowX.AI 4.7.0 Release Notes
+---
+
+## **What's new?** 🆕
+
+### Merge conflicts
+
+* Improvement: merged version is now selected after a successful merge in versioning modal.
+
+
+## Bug fixes 🐞
+
+### Merge conflicts
+
+### Rendering
+
+### Integration Designer
+
+## Known issues 😢
+
+We’re aware of a few quirks during merge conflicts and are working to fix them. Here’s a quick rundown:
+
+<AccordionGroup>
+<Accordion title="Processes">
+* After a merge, sequences without a connection to an end node may appear on the canvas in cases of conflicts related to deleted nodes in one of the versions. This may occur because the merge mechanism does not detect that a sequence needs to be deleted if, in the final version, the node remains deleted.
+* Navigation areas – After a merge, inconsistencies in the navigation areas hierarchy calculated during merging may result in navigation areas being hidden in the final merged version.
+* No merge conflict detected if a user task node is deleted in the source branch and its UI is modified in the destination branch.
+* Nodes may end up having two different outgoing sequences in certain scenarios: When a node is not connected to another node, and both the source and target branches define different sequences to different nodes, the merged version may contain both sequences. In particular, this may cause inconsistencies for boundary nodes, which cannot have multiple outgoing sequences.
+* Gateway nodes may lose some of their configurations during merging when conflicts arise.
+* Conflicts arising from moving nodes to different swimlanes in both the source and target branches are not detected correctly and result in a merge error.
+</Accordion>
+<Accordion title="Enumerations">
+* **Duplicate content values can be created during merging**: Merging branches with enumeration updates can result in duplicate content values or child enums with the same code. This occurs when identical names are added to the same enum in different branches, bypassing backend validation. Instead of flagging a conflict, the merge proceeds, creating duplicate entries. This issue disrupts the expected uniqueness constraint for enumeration values.
+* **Enum content values might not save correctly in some cases**: In specific scenarios involving transformations of content values into child enums across branches, content values added in one branch may not appear after merging. Despite accepting changes from the branch where the content value was added, the merged version omits it, leading to incomplete or inconsistent enumeration data.
+</Accordion>
+<Accordion title="Conflict Detection Gaps">
+* **Adding values to deleted data model keys does not raise conflicts**: When values are added to a data model key in one branch and the same key is deleted in another, merging does not generate a conflict. Instead, the added values from the first branch are silently lost in the merged version. This issue bypasses expected conflict detection, leading to data loss and inconsistencies in the resulting data model.
+</Accordion>
+<Accordion title = "Media Library">
+* Branches with media library assets sometimes fail to merge into the main branch: Merging branches with media library assets can result in a 500 Internal Server Error when changes to the same asset occur across multiple branches. This issue typically arises when one branch is merged into another, and then the combined branch is merged into the main branch. The failure occurs due to null parameter handling during the merge process, preventing the merge from completing successfully.
+</Accordion>
+<Accordion title ="UI/UX">
+* After a successful merge, the merged version is not selected in the versioning modal.
+* Some entries in the merge conflicts tree may show numbers instead of specific identifiers (e.g. forms);
+* **Unnecessary scrollbars appear in the merge modal for single items**: The merge conflict modal displays unnecessary scrollbars when only a single item is present in the list. This occurs in scenarios where media library assets with long keys are involved, creating a layout issue that affects the user interface. While functionality is not impacted, this visual inconsistency can reduce the overall user experience during conflict resolution.
+* **Fields like `originalCreationTimestamp` and `flowxUuid` are incorrectly flagged as conflicts**: The merge conflict modal displays unnecessary scrollbars when only a single item is present in the list. This occurs in scenarios where media library assets with long keys are involved, creating a layout issue that affects the user interface. While functionality is not impacted, this visual inconsistency can reduce the overall user experience during conflict resolution.
+</Accordion>
+</AccordionGroup>
+
+## Additional information
+
+For deployment guidelines and further details, refer to:
+
+<Card title="Deployment guidelines v4.7.0" href="./deployment-guidelines-v4.7.0" icon="link" />
+
+Migrating from v4.6.0:
+
+<Card title = "Migrating from previous versions" href = "./migrating-from-v4.1.x-to-v4.6.1" icon = "link" />
+
+

@@ -1,0 +1,160 @@
+---
+title: FlowX Admin setup
+description: The FlowX.AI Admin microservice manages process-related entities and provides the REST API used by the FlowX.AI Designer. The processes defined here will be handled by the FlowX.AI Engine. The Admin microservice uses most of the same resources as the FlowX.AI Engine.
+icon: terminal
+---
+
+
+## Infrastructure prerequisites
+
+Before setting up the Admin microservice, ensure the following components are properly set up:
+
+- **Database Instance**: The Admin microservice connects to the same database as the FlowX.AI Engine.
+
+
+## Dependencies
+
+Ensure the following dependencies are met:
+
+- **[Database](#database-configuration)**: Properly configured database instance.
+- **[Datasource](#datasource-configuration)**: Configuration details for connecting to the database where also the FlowX.Ai Engine is connected.
+- **Kafka cluster**: If you intend to use the [**FlowX.AI Audit**](../../4.0/docs/platform-deep-dive/core-extensions/audit) functionality, ensure that the backend microservice can connect to the Kafka cluster. When connected to Kafka, it sends details about all database transactions to a configured Kafka topic.
+
+## Datasource configuration
+
+To store process definitions the Admin microservice connects to the same Postgres / Oracle database as the Engine. Make sure to set the needed database connection details.
+
+The following configuration details need to be added using environment variables:
+
+* `SPRING_DATASOURCE_URL`: This environment variable is used to specify the URL of the database that the Admin microservice and Engine connect to. The URL typically includes the necessary information to connect to the database server, such as the host, port, and database name. It follows the format of the database's JDBC URL, which is specific to the type of database being used (e.g., PostgreSQL or Oracle).
+* `SPRING_DATASOURCE_USERNAME`: This environment variable sets the username that the Admin microservice and Engine used to authenticate themselves when connecting to the database. The username is used to identify the user account that has access to the specified database.
+* `SPRING_DATASOURCE_PASSWORD`: This environment variable specifies the password associated with the username provided in the `SPRING_DATASOURCE_USERNAME` variable. The password is used to authenticate the user and grant access to the database.
+
+<Warning>
+You will need to make sure that the user, password, connection link and db name are configured correctly, otherwise, you will receive errors at start time.
+</Warning>
+
+<Info>
+The database schema is managed by a [liquibase](https://www.liquibase.org/) script provided with the Engine.
+</Info>
+
+
+### MongoDB configuration
+
+The Admin microservice also connects to a MongoDB database instance for additional data management. Configure the MongoDB connection with the following environment variables:
+
+* `SPRING_DATA_MONGODB_URI` - URI for connecting to the Admin MongoDB instance
+    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false`
+* `DB_USERNAME`: `admin`.
+* `DB_PASSWORD`: DB password.
+* `DB_NAME`: `admin`.
+* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
+  * **Possible Values:** `mongodb`, `cosmosdb`
+  * **Default Value:** `mongodb`
+
+<Info>
+Ensure that the MongoDB configuration is compatible with the same database requirements as the FlowX.AI Engine, especially if sharing database instances.
+</Info>
+
+
+## Kafka configuration
+
+**Kafka** is used for saving audit logs, using scheduled timer events, managing platform component versions, and sending updates for start timer events. Both producers and consumers may need to be configured depending on the application's functionality. The environment variables that need to be set are:
+
+### General configuration
+
+- `KAFKA_BOOTSTRAP_SERVERS` - the Kafka bootstrap servers URL  
+  - **Default**: `localhost:9092`
+- `KAFKA_SECURITY_PROTOCOL` - protocol used for Kafka communication  
+  - **Default**: `"PLAINTEXT"`
+- `KAFKA_MESSAGE_MAX_BYTES` - maximum size for Kafka messages  
+  - **Default**: `52428800` (50MB)
+
+### Topic environment variables
+
+#### Audit topics
+
+- **Audit Output**:
+  - **Environment variable**: `KAFKA_TOPIC_AUDIT_OUT`
+  - **Pattern**: `${kafka.topic.naming.prefix}core${dot}trigger${dot}save${dot}audit${kafka.topic.naming.suffix}`
+  - **Purpose**: For sending audit-related events.
+  - **Example**: `ai.flowx.core.trigger.save.audit.v1`
+
+#### Platform topics
+
+- **Components Versions Caching**:
+  - **Environment variable**: `KAFKA_TOPIC_PLATFORM_COMPONENTS_VERSIONS_IN`
+  - **Pattern**: `${kafka.topic.naming.prefix}core${dot}trigger${dot}platform${dot}versions${dot}caching${kafka.topic.naming.suffix}`
+  - **Purpose**: For caching platform component versions.
+  - **Example**: `ai.flowx.core.trigger.platform.versions.caching.v1`
+
+#### Events Gateway topics
+
+- **Commands Message Output**:
+  - **Environment variable**: `KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE`
+  - **Pattern**: `${kafka.topic.naming.prefix}eventsgateway${dot}process${dot}commands${dot}message${kafka.topic.naming.suffix}`
+  - **Purpose**: For sending process command messages through the events gateway.
+  - **Example**: `ai.flowx.eventsgateway.process.commands.message.v1`
+
+#### Build topics
+
+- **Start Timer Events Updates**:
+  - **Environment variable**: `KAFKA_TOPIC_BUILD_START_TIMER_EVENTS_OUT_UPDATES`
+  - **Pattern**: `${kafka.topic.naming.prefix}build${dot}start${dash}timer${dash}events${dot}updates${dot}in${kafka.topic.naming.suffix}`
+  - **Purpose**: Sends updates from the admin to the application manager about start timer events, specifically if they have been edited or deleted.
+  - **Example**: `ai.flowx.build.start-timer-events.updates.in.v1`
+
+
+## Redis configuration
+
+The following values should be set with the corresponding Redis-related values:
+
+* `SPRING_REDIS_HOST`
+* `SPRING_REDIS_PASSWORD`
+
+## Logging
+
+The following environment variables could be set in order to control log levels:
+
+* `LOGGING_LEVEL_ROOT` - root Spring Boot microservice logs
+* `LOGGING_LEVEL_APP` - app level logs
+
+## Authorization & access roles
+
+The following variables need to be set in order to connect to the identity management platform:
+
+* `SECURITY_OAUTH2_BASE_SERVER_URL`
+* `SECURITY_OAUTH2_CLIENT_CLIENT_ID`
+* `SECURITY_OAUTH2_REALM`
+
+A specific service account should be configured in the OpenID provider to allow the Admin microservice to access realm-specific data. It can be configured using the following environment variables:
+
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID` - the openid service account username
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` - the openid service account client secret
+
+Configuration needed to clear the offline sessions of a user session from the identity provider solution:
+
+* `FLOWX_AUTHENTICATE_CLIENTID` 
+
+<Card title="Configuring access rights for admin" href="./access-management/configuring-access-rights-for-admin">
+</Card>
+
+## Elasticsearch
+
+* `SPRING_ELASTICSEARCH_REST_URIS`
+* `SPRING_ELASTICSEARCH_REST_DISABLESSL`
+* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME` 
+* `SPRING_ELASTICSEARCH_REST_USERNAME`
+* `SPRING_ELASTICSEARCH_REST_PASSWORD`
+
+
+## Undo/redo actions
+
+```yaml
+flowx:
+  undo-redo:
+    ttl: 6000000  # Redis TTL for undoable actions by user+nodeid (in seconds)
+    cleanup:
+      cronExpression: "0 2 * * * *"  # Every day at 2am
+      days: 2  # Items marked as deleted will be permanently removed if older than this number of days
+```
