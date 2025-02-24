@@ -278,7 +278,6 @@
                           "4.7.0/docs/platform-deep-dive/core-extensions/content-management/content-management",
                           "4.7.0/docs/platform-deep-dive/core-extensions/content-management/enumerations",
                           "4.7.0/docs/platform-deep-dive/core-extensions/content-management/substitution-tags",
-                          "4.7.0/docs/platform-deep-dive/core-extensions/content-management/source-systems",
                           "4.7.0/docs/platform-deep-dive/core-extensions/content-management/media-library"
                         ]
                       },
@@ -986,7 +985,6 @@
                           "4.6.0/docs/platform-deep-dive/core-extensions/content-management/content-management",
                           "4.6.0/docs/platform-deep-dive/core-extensions/content-management/enumerations",
                           "4.6.0/docs/platform-deep-dive/core-extensions/content-management/substitution-tags",
-                          "4.6.0/docs/platform-deep-dive/core-extensions/content-management/source-systems",
                           "4.6.0/docs/platform-deep-dive/core-extensions/content-management/media-library"
                         ]
                       },
