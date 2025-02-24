@@ -6,7 +6,9 @@ description: The FlowX Designer offers various options to configure the Kafka Se
 - [Action Edit](#action-edit)
 - [Parameters](#parameters)
 
+<Frame>
 ![Kafka Send Action Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/kafka_send_action_confg.gif)
+</Frame>
 
 ### Action Edit
 
@@ -36,9 +38,82 @@ For detailed information on **Integrations management**, refer to [<u>**this lin
 - **Message** - Contains the message payload to be dispatched.
 - **Advanced Configuration (Headers)** - Represents a JSON value sent within the Kafka message headers.
 
+<Frame>
 ![Parameters](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/message_send_parameters.png)
+</Frame>
 
-## Kafka Send Action Scenarios
+
+## Dynamic kafka topics
+
+You can use dynamic topic names for Kafka Send and Kafka Receive actions in FlowX processes by leveraging Configuration Parameters. This enables flexibility when working with Kafka topics across different environments or use cases.
+
+Steps to Create Dynamic Kafka Topics:
+
+<Steps>
+<Step title="Define Configuration Parameters for Kafka Topics">
+
+Navigate to **Projects → Your Project → Configuration Parameters** in FlowX Designer.
+
+Add or update configuration keys for Kafka topics.
+
+Example:
+
+    * Key: `kafka_send_2`
+    * Value: `ai.flowx.plugin.document.trigger`
+    * Key: `kafka_receive`
+    * Value: `ai.flowx.engine.receive.plugin.document`
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-02-24%20at%2017.47.57.png)
+</Frame>
+
+
+This allows referencing these parameters dynamically in your Kafka actions.
+</Step>
+
+<Step title="Use Configuration Parameters in Kafka Send Action">
+
+Open the process where you want to configure the Kafka Send Action.
+
+Go to Node Config > Actions.
+
+Select Kafka Send Action as the action type.
+
+Under Parameters, locate the Topics field.
+
+Use a dynamic reference to concatenate a parameter with another value:
+
+`${kafka_send_2}.${topic2}`
+
+Here:
+
+* `${kafka_send_2}` dynamically pulls the value from Configuration Parameters.
+* `${topic2}` can be another dynamic input set within the process.
+</Step>
+
+<Step title="Configure the Kafka Message Payload">
+
+Define the JSON structure for the message payload.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-02-24%20at%2018.03.36.png)
+</Frame>
+
+Ensure that all required fields align with the expected schema of the consuming system.
+</Step>
+
+<Step title="Validate and Test the Configuration">
+
+Start the process and check whether messages are correctly sent to the Kafka topic.
+
+If needed, modify the configuration parameters to change the topic dynamically.
+</Step>
+</Steps>
+
+
+
+## Kafka send action scenarios
 
 The Kafka Send action serves as a versatile tool that facilitates seamless communication across various systems and plugins, enabling efficient data transfer, robust document management, notifications, and process initiation.
 
@@ -60,6 +135,6 @@ This action finds application in numerous scenarios while configuring processes:
     - **Task Management Plugin:**
         - Bulk operations update - Find an example [here](../../platform-deep-dive/core-extensions/task-management/task-management-overview#bulk-updates).
 - **Requesting Process Data for Forwarding or Processing** - For example, Data Search [here](../../platform-deep-dive/core-extensions/search-data-service).
-- **Initiating Processes** - Starting a process via Kafka or using hooks. Find examples [here](../../flowx-designer/managing-a-process-flow/starting-a-process).
+- **Initiating Processes** - Starting a process via Kafka. Find examples [here](../../flowx-designer/managing-a-process-flow/starting-a-process).
 
 The Kafka Send action stands as a versatile facilitator, enabling smooth operations in communication, document management, notifications, and process initiation across diverse systems and plugins.
