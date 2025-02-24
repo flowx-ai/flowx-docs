@@ -6,9 +6,10 @@ description: FlowX.AI 4.7.0 is here to keep your projects vibing, your merges dr
 ## What's new? 🆕
 
 ✅ Copy resources across projects  
-✅ Resource usage       
+✅ Duplicate resources (in the same project/library)
+✅ Resources usage tracking      
 ✅ Smarter merge conflict detection & resolution  
-✅ Enhanced configuration overrides for better flexibility  
+✅ Libraries can now define configuration parameters 
 
 
 ## Projects
@@ -164,7 +165,7 @@ Merge conflicts are never fun, but at least now they’re **easier to handle**.
   🖥️ Resize the merge conflict tree for better visibility and navigation.  
   </Card> 
   <Card title="New Conflict Type" icon="code-branch">
-📢 A new conflict detection system for parent changes/deletions in both branches is under review.
+📢 A new conflict detection system for parent changes/deletions in both branches.
 </Card>   
 </CardGroup>  
 
@@ -248,10 +249,6 @@ We’re aware of a few quirks and are actively working on fixes.
 - 🛠️ **Some content values may disappear** after merging.  
 </Accordion>  
 
-<Accordion title="Conflict Detection Gaps">  
-- 🛠️ **Adding values to a deleted data model key does not raise a conflict**, causing silent data loss.  
-</Accordion>  
-
 <Accordion title="Media Library">  
 - 🛠️ **Merging branches with media assets may fail**, triggering a 500 error.  
 </Accordion>  
@@ -269,5 +266,5 @@ We’re aware of a few quirks and are actively working on fixes.
 ## **Additional information**  
 
 📌 [Deployment Guidelines v4.7.0](./deployment-guidelines-v4.7.0)  
-📌 [Migration Guide (from v4.6.0)](./migrating-from-v4.1.x-to-v4.6.1)  
+📌 [Migration Guide (from v4.6.0)](./migrating-from-v4.1.x-to-v4.7.0)  
 

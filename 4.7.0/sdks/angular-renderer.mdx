@@ -49,15 +49,21 @@ Use the following command to install the **renderer** library and its required d
 
 ```bash
 npm install \
-  @flowx/core-sdk@.80.6 \
-  @flowx/core-theme@.80.6 \
-  @flowx/angular-sdk@.80.6 \
-  @flowx/angular-theme@.80.6 \
-  @flowx/angular-ui-toolkit@.80.6 \
+  @flowx/core-sdk@<version>\
+  @flowx/core-theme@<version> \
+  @flowx/angular-sdk@<version> \
+  @flowx/angular-theme@<version> \
+  @flowx/angular-ui-toolkit@<version> \
   @angular/cdk@19 \
   ng2-pdfjs-viewer@18.0.0 \
   @types/event-source-polyfill
 ```
+
+<Warning>
+Replace `<version>` with the correct version corresponding to your platform version.
+
+To find the right version, navigate to: **Release Notes → Choose your platform version → Deployment guidelines → Component versions**.
+</Warning>
 
 A few configurations are needed in the projects `angular.json`:
 

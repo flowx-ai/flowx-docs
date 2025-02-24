@@ -54,8 +54,8 @@ title: Deployment guidelines v4.7.0
 | **integration-designer**      | **2.3.2**  | 2.0.4  | 2.0.1  |          |          |          |        |        |            |           |           |           |           |         |        |        |        |         |        |        |        |
 | **application-manager**       | **2.6.0**  | 2.0.25 | 2.0.18 | -        | -        | -        | -      | -      | -          | -         | -         | -         | -         | -       | -      | -      | -      | -       | -      | -      |        |
 | **data-sync**                 | **2.1.0**  | 2.0.2  | 2.0.2  | -        | -        | -        | -      | -      | -          | -         | -         | -         | -         | -       | -      | -      | -      | -       | -      | -      |        |
-| **iOS renderer**              | 4.0.4      | 4.0.4  | 4.0.3  | 3.0.20   | 3.0.20   | 3.0.20   | 3.0.20 | 3.0.20 | 3.0.0      | 2.3.0     | 2.3.0     | 2.3.0     | 2.3.0     | 2.3.0   | 2.3.0  | 2.3.0  | 2.3.0  | 2.1.0   | 2.0.1  | 2.0.0  | 2.0.0  |
-| **Android renderer**          | 4.0.11     | 4.0.11 | 4.0.9  | 3.0.23   | 3.0.23   | 3.0.23   | 3.0.23 | 3.0.23 | 3.0.0      | 2.1.4     | 2.1.4     | 2.1.4     | 2.1.4     | 2.1.4   | 2.1.4  | 2.1.4  | 2.1.4  | 2.0.1   | 2.0.1  | 2.0.1  | 2.0.1  |
+| **iOS renderer**              | **4.0.5**  | 4.0.4  | 4.0.3  | 3.0.20   | 3.0.20   | 3.0.20   | 3.0.20 | 3.0.20 | 3.0.0      | 2.3.0     | 2.3.0     | 2.3.0     | 2.3.0     | 2.3.0   | 2.3.0  | 2.3.0  | 2.3.0  | 2.1.0   | 2.0.1  | 2.0.0  | 2.0.0  |
+| **Android renderer**          | **4.0.12** | 4.0.11 | 4.0.9  | 3.0.23   | 3.0.23   | 3.0.23   | 3.0.23 | 3.0.23 | 3.0.0      | 2.1.4     | 2.1.4     | 2.1.4     | 2.1.4     | 2.1.4   | 2.1.4  | 2.1.4  | 2.1.4  | 2.0.1   | 2.0.1  | 2.0.1  | 2.0.1  |
 
 <Info>
   Note: The same container image and Helm chart are used for **Application Manager** and **Runtime Manager**.
@@ -71,18 +71,17 @@ title: Deployment guidelines v4.7.0
 | **di-platform**  | **1.2.31**  | 1.2.27 | 1.2.24 | -     | -     | -     | -     | -   | -   | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     |       |
 | **ai-developer** | **1.7.0**   | 1.6.5  | 1.5.5  | -     | -     | -     | -     | -   | -   | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     |       |
 
-### Third-party recommended component versions
+## Third-party recommended component versions
 
 | FlowX.AI Version | 3rd Party Dependency | Recommended Supported Version |
 | ---------------- | -------------------- | ----------------------------- |
-| 4.7.0            | Keycloak             | 26.x                          |
+| 4.7.0            | Keycloak             | 22.x, 26.x                    |
 | 4.7.0            | Kafka                | 3.2.x                         |
 | 4.7.0            | PostgreSQL           | 16.2.x                        |
-| 4.7.0            | OracleDB             | 23ai                          |
+| 4.7.0            | OracleDB             | 21c, 23ai                     |
 | 4.7.0            | MongoDB              | 7.0.x                         |
 | 4.7.0            | Redis                | 7.2.x                         |
 | 4.7.0            | Elasticsearch        | 7.17.x                        |
-| 4.7.0            | minio                | 2024-02-26T09-33-48Z          |
 | 4.7.0            | Angular (Web SDK)    | 19.x                          |
 | 4.7.0            | React (Web SDK)      | 18.x                          |
 
@@ -93,3 +92,16 @@ title: Deployment guidelines v4.7.0
 
   In the unlikely event that you encounter any compatibility issues with FlowX.AI, please open a support ticket [**here**](https://flowxai.zendesk.com/), and our dedicated team will address and resolve any identified bugs following our standard support process.
 </Info>
+
+### Deprecation notice 
+
+<Warning>
+Starting FlowX 5.0, the following versions of 3rd Party Dependencies will no longer be supported:
+
+* Keycloak versions older than 26
+* Kafka versions older than 3.9
+* Redis versions older than 7.4
+</Warning>
+
+
+
