@@ -3,22 +3,23 @@ title: Deployment guidelines v4.7.0
 ---
 
 <Info>
-Do not forget, after upgrading to a new platform version, always ensure that your installed component versions match the versions specified in the release notes. To verify this, navigate to **FlowX.AI Designer > Platform Status**.
+  Do not forget, after upgrading to a new platform version, always ensure that your installed component versions match the versions specified in the release notes. To verify this, navigate to **FlowX.AI Designer > Platform Status**.
 </Info>
 
-<Frame>  
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/platform_status.png)
+<Frame>
+  ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/platform_status.png)
 </Frame>
 
-<Warning> 
-After upgrading to the 4.7.0 FlowX.AI release, you cannot import old process definitions or resources from versions older than 4.6.0.
+<Warning>
+  After upgrading to the 4.7.0 FlowX.AI release, you cannot import old process definitions or resources from versions older than 4.6.0.
 
-In version 4.7, the import-export functionality for application-version is no longer backward compatible.
+  In version 4.7, the import-export functionality for application-version is no longer backward compatible.
 
-* Zip files exported from version 4.7 cannot be imported into earlier FlowX versions.
-* Similarly, zip files from earlier versions cannot be imported into 4.7.
+  * Zip files exported from version 4.7 cannot be imported into earlier FlowX versions.
 
-Note: Zip files for builds and specific resources remain unaffected.
+  * Similarly, zip files from earlier versions cannot be imported into 4.7.
+
+  Note: Zip files for builds and specific resources remain unaffected.
 </Warning>
 
 ## Component versions
@@ -65,13 +66,12 @@ Note: Zip files for builds and specific resources remain unaffected.
 | Component        | 4.7.0       | 4.6.1  | 4.6.0  | 4.1.4 | 4.1.3 | 4.1.2 | 4.1.1 | 4.1 | 4.0 | 3.4.7 | 3.4.6 | 3.4.5 | 3.4.4 | 3.4.3 | 3.4.2 | 3.4.1 | 3.4.0 | 3.3.0 | 3.2.0 | 3.1.0 | 3.0.0 |
 | ---------------- | ----------- | ------ | ------ | ----- | ----- | ----- | ----- | --- | --- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
 | **ai-designer**  | **1.9.21**  | 1.9.16 | 1.9.10 | -     | -     | -     | -     | -   | -   | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     |       |
-| **ai-assistant** | **1.7.0**   | 1.6.15 | 1.6.9  | -     | -     | -     | -     | -   | -   | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     |       |
+| **ai-assistant** | **1.7.2**   | 1.6.15 | 1.6.9  | -     | -     | -     | -     | -   | -   | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     |       |
 | **ai-analyst**   | **1.10.13** | 1.10.6 | 1.10.3 | -     | -     | -     | -     | -   | -   | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     |       |
 | **di-platform**  | **1.2.31**  | 1.2.27 | 1.2.24 | -     | -     | -     | -     | -   | -   | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     |       |
 | **ai-developer** | **1.7.0**   | 1.6.5  | 1.5.5  | -     | -     | -     | -     | -   | -   | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     | -     |       |
 
 ## Third-party recommended component versions
-
 
 | FlowX.AI Version | 3rd Party Dependency | Recommended Supported Version |
 | ---------------- | -------------------- | ----------------------------- |
@@ -84,7 +84,6 @@ Note: Zip files for builds and specific resources remain unaffected.
 | 4.7.0            | Elasticsearch        | 7.17.x                        |
 | 4.7.0            | Angular (Web SDK)    | 19.x                          |
 | 4.7.0            | React (Web SDK)      | 18.x                          |
-
 
 <Info>
   FlowX.AI supports the Recommended Versions of the prerequisite third-party components in the above table.
