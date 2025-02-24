@@ -28,16 +28,11 @@ For optimal performance and reliability, our internal QA process validates new r
 While exploring alternative versions that suit your company's specific requirements, we recommend referring to the compatibility matrix for guidance.
 
 In the unlikely event that you encounter any compatibility issues with FlowX.AI, please open a support ticket [**here**](https://support.flowx.ai/), and our dedicated team will address and resolve any identified bugs following our standard support process.
-
-Compatibility Matrix:
-
-* FlowX Platform: Recommended and tested versions
-* Third-Party Components: Supported versions based on specific requirements and client preferences
 </Info>
 
 | FlowX.AI Version | 3rd Party Dependency     | Recommended Supported Version |
 | ---------------- | ------------------------ | ----------------------------- |
-| 4.7.0            | Keycloak                 | 26.x                          |
+| 4.7.0            | Keycloak                 | 22.x, 26.x                    |
 | 4.7.0            | Kafka                    | 3.2.x                         |
 | 4.7.0            | PostgreSQL               | 16.2.x                        |
 | 4.7.0            | MongoDB                  | 7.0.x                         |
@@ -51,7 +46,18 @@ Compatibility Matrix:
 
 | FlowX.AI Version | 3rd Party Dependency | Recommended Supported Version |
 | ---------------- | -------------------- | ----------------------------- |
-| 4.7.0            | OracleDB             | 23ai                          |
+| 4.7.0            | OracleDB             | 21c, 23ai                     |
+
+
+### Deprecation notice 
+
+<Warning>
+Starting FlowX 5.0, the following versions of 3rd Party Dependencies will no longer be supported:
+
+* Keycloak versions older than 26
+* Kafka versions older than 3.9
+* Redis versions older than 7.4
+</Warning>
 
 
 ### Summary

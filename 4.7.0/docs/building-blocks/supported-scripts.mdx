@@ -16,78 +16,22 @@ description: "Scripts are used to define and run actions but also properties ins
 
 </CardGroup>
 
-| Scripting Language | Language Version | Scripting Engine                    | Scripting Engine Version |
-| ------------------ | ---------------- | ----------------------------------- | ------------------------ |
-| Python             | 2.7.0            | Jython                              | 2.7.3                    |
-| DMN                | 1.3              | camunda.engine.dmn                  | 7.20.0                   |
-| MVEL               | 2                | org.mvel.mvel2                      | 2.5.2.Final              |
-| Groovy             | 3.0.21           | org.codehaus.groovy » groovy-jsr223 | 3.0.21                   |
-| JavaScript         | ECMAScript 5.1   | Nashorn                             | 15.4                     |
+| Scripting Language | Language Version | Scripting Engine                         | Scripting Engine Version |
+| ------------------ | ---------------- | ---------------------------------------- | ------------------------ |
+| Python             | 2.7.0            | org.python » jython-standalone           | 2.7.4                    |
+| DMN                | 1.3              | org.camunda.bpm.dmn » camunda-engine-dmn | 7.20.0                   |
+| MVEL               | 2                | org.mvel » mvel2                         | 2.5.2.Final              |
+| Groovy             | 3.0.21           | org.codehaus.groovy » groovy-jsr223      | 3.0.21                   |
+| JavaScript         | ECMAScript 5.1   | org.openjdk.nashorn » nashorn-core               | 15.4                     |
 
 ## Integration designer scripting
 
 | Scripting Language | Language Version | Scripting Engine | Scripting Engine Version |
 | ------------------ | ---------------- | ---------------- | ------------------------ |
-| Python             | 3.10             | GraalPy          | 3.10.8                   |
-| JavaScript         | ES 2019+         | GraalJS          | GraalVM 23.0.1+          |
+| Python             | 3.11.7           | GraalPy          | GraalVM 24.1.2           |
+| JavaScript         | ES 2019+         | GraalJS          | GraalVM 24.1.2           |
 
 ---
-
-## GraalVM CE Native 23.0.1
-
-**GraalVM CE Native 23.0.1** is the community edition of GraalVM with support for multiple languages and AOT (ahead-of-time) compilation to native images. This allows Java and polyglot applications to start quickly and use fewer resources, making it ideal for serverless, CLI, and microservice applications.
-
-### Supported Languages and Versions
-
-- **Java**: JDK 17 base, providing the complete Java language specification and libraries.
-- **JavaScript**: GraalJS runtime, with a minimum supported version of **ECMAScript 5** and full compatibility up to **ECMAScript 2022**.
-- **Python**: GraalPy, compatible with **Python 3.10** syntax and libraries, enabling seamless integration with Java.
-
-### Properties
-
-- Offers fast startup and low memory usage through Native Image compilation.
-- Provides polyglot capabilities, enabling interoperability between languages.
-- Available on Linux, macOS, and Windows for a range of deployment environments.
-
-### Useful Links
-
-<Card title="GraalVM Documentation" href="https://www.graalvm.org/docs/" icon="link"></Card>
-<Card title="GraalVM 23.0.1 Release Notes" href="https://www.graalvm.org/release-notes/" icon="link"></Card>
-
----
-
-## GraalPy
-
-GraalPy is a Python 3.10-compatible runtime built on **GraalVM**. It allows developers to embed Python into Java applications, providing high-performance execution and interoperability with Java. **GraalPy** supports Python’s standard library and is optimized for environments where Java and Python integration is essential, such as in data processing and AI applications.
-
-### Properties
-
-- Supports **Python 3.10** with most core libraries.
-- Enables seamless interoperability with Java classes and functions.
-- Offers performance benefits via GraalVM's Just-In-Time (JIT) compiler for optimized execution.
-
-### Useful links:
-
-<Card title="GraalPy Documentation" href="https://docs.oracle.com/en/graalvm/graalpy" icon="link"></Card>
-
-## GraalJS
-
-GraalJS is the JavaScript runtime within GraalVM that supports **ECMAScript 2022**, bringing modern JavaScript features to the JVM. GraalJS offers full Java interoperability, enabling JavaScript code to interact with Java classes directly. It is compatible with **GraalVM 23.0.1** and later, and it supports both JavaScript and Node.js applications, making it ideal for polyglot projects.
-
-### Properties
-
-- Implements **ECMAScript 2022** for modern JavaScript syntax and features.
-- Provides full interoperability with Java, allowing seamless integration of JavaScript and Java code.
-- Runs Node.js applications with support for the npm ecosystem.
-
-### Useful links:
-
-<Card title="GraalJS Documentation" href="https://www.graalvm.org/reference-manual/graaljs/" icon="link"></Card>
-
----
-
-This documentation provides an overview of GraalVM CE Native 23.0.1’s language support and specific runtime details for each supported language.
-
 
 ## Jython
 
@@ -101,7 +45,7 @@ This documentation provides an overview of GraalVM CE Native 23.0.1’s language
 * Supports **Python 2.7** most common python libs can be imported, ex: math, time, etc.
 * Java libs can also be imported: [details here ](https://www.tutorialspoint.com/jython/jython_importing_java_libraries.htm)
 
-### Useful links:
+### Useful links
 
 <Card title = "Python 2.7 documentation" href= "https://docs.python.org/2.7/" icon ="link"></Card>
 
@@ -119,7 +63,7 @@ FLOWX uses [BPMN.io](https://bpmn.io/) (based on **camunda-engine-dmn** version 
 
 **camunda-engine-dmn** supports [DMN 1.3](https://www.omg.org/spec/DMN/1.3/PDF), including Decision Tables, Decision Literal Expressions, Decision Requirements Graphs, and the Friendly Enough Expression Language (FEEL)
 
-### Useful links:
+### Useful links
 
 <Card title ="Decision Model and Notation (DMN)" href ="https://www.omg.org/dmn/" icon ="link"></Card>
 
