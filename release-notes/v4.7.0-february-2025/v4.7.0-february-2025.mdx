@@ -132,13 +132,21 @@ Monitoring your resources has never been simpler and more efficient. Stay on top
 
 ---
 
-### Configuration parameters
+### Configuration parameters overrides
 
 🔹 **Libraries can now define configuration parameters** to help test processes or workflows that use those parameters.  
 
 🔹 However, **libraries do not support overrides**.  
 - **Overrides for library config parameters must be done within a project** where the library is added as a dependency.  
 - **Overrides cannot be added in libraries directly.**  
+
+<Frame>
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/lib_ov.mp4"
+></video>
+</Frame>
 
 💡 **What this means:**  
 - Libraries provide **default values** for configuration parameters.  
@@ -228,35 +236,6 @@ In version 4.7, the import-export functionality for application-version is no lo
 Zip files for builds and specific resources remain unaffected.
 </Info>
 
-
-## **Known issues** 😅  
-
-We’re aware of a few quirks and are actively working on fixes.  
-
-<AccordionGroup>  
-
-<Accordion title="Processes">  
-- 🛠️ **Orphaned sequences** may appear after merging if nodes are deleted but sequences are left behind.  
-- 🛠️ **Navigation hierarchy issues** can cause some navigation areas to be hidden.  
-- 🛠️ **Undetected conflicts** when a user task is deleted in one branch but modified in another.  
-</Accordion>  
-
-<Accordion title="Enumerations">  
-- 🛠️ **Duplicate enumeration values** can appear due to missing conflict validation.  
-- 🛠️ **Some content values may disappear** after merging.  
-</Accordion>  
-
-<Accordion title="Media Library">  
-- 🛠️ **Merging branches with media assets may fail**, triggering a 500 error.  
-</Accordion>  
-
-<Accordion title="UI/UX">  
-- 🛠️ **Merged version is not auto-selected** in the versioning modal.  
-- 🛠️ **Merge conflict tree may show numbers instead of names**.  
-- 🛠️ **Unnecessary scrollbars** appear in the merge modal.  
-</Accordion>  
-
-</AccordionGroup>  
 
 ---
 
