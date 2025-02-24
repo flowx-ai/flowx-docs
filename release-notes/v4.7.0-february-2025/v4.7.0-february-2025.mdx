@@ -9,7 +9,8 @@ description: FlowX.AI 4.7.0 is here to keep your projects vibing, your merges dr
 ✅ Duplicate resources (in the same project/library)        
 ✅ Resources usage tracking      
 ✅ Smarter merge conflict detection & resolution  
-✅ Libraries can now define configuration parameters 
+✅ Libraries can now define configuration parameters            
+✅ Dynamic kafka topics using configuration parameters
 
 
 ## Projects
@@ -224,6 +225,25 @@ ngOnInit() {
 ---
 
 ## Changes
+
+### Dynamic kafka topics 
+
+FlowX 4.7.0 introduces **Dynamic Kafka Topics**, enabling more flexible and configurable messaging across processes.  
+
+🔹 **What’s new?**  
+- Use **Configuration Parameters** to dynamically assign Kafka topics in **Kafka Send** and **Kafka Receive** actions.  
+- Concatenate predefined parameters with process variables for **on-the-fly topic selection**.  
+- Reduce hardcoded values and **simplify environment-specific configurations**.  
+
+💡 **Why it matters:**  
+- Makes **Kafka integrations more scalable** across different deployments.  
+- Supports **multi-topic messaging** for different use cases without manual updates.  
+- Ensures better **reusability and maintainability** in process configurations.  
+
+
+📌 Check the [Kafka Send Action](../../4.7.0/docs/building-blocks/actions/kafka-send-action#dynamic-kafka-topics) section for setup details.  
+
+---
 
 ### Export/import compatibility
 
