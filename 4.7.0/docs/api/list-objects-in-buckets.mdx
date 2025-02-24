@@ -1,0 +1,23 @@
+---
+title: List objects in a bucket
+api: GET {{documentURL}}/internal/storage/buckets/{BUCKET_NAME}
+---
+
+This endpoint retrieves a list of objects stored within a specific bucket. Replace `{BUCKET_NAME}` with the actual name of the desired bucket
+
+<ParamField path="documentURL" type="string">
+  The base URL of the document.
+</ParamField>
+<ParamField path="internal" type="string">
+  A segment of the path that specifies it is an internal call.
+</ParamField>
+<ParamField path="storage" type="string">
+  A segment of the path referring to storage resources.
+</ParamField>
+<ParamField path="buckets" type="string">
+  The particular resource in the storage being accessed.
+</ParamField>
+
+<ParamField path="BUCKET_NAME" type="string" required>
+  The unique identifier for the storage bucket.
+</ParamField>

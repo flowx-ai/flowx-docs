@@ -1,0 +1,134 @@
+---
+title: Process instance
+description: A process instance is a specific execution of a business process that is defined on the FlowX.AI platform. Once a process definition is added to the platform, it can be executed, monitored, and optimized by creating an instance of the definition.
+---
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/proc_inst.png)
+</Frame>
+
+## Overview
+
+Once the desired processes are defined in the platform, they are ready to be used. Each time a process needs to be used, for example each time a customer wants to request a new credit card, a new instance of the specified process definition is started in the platform. Think of the process definition as a blueprint for a house, and of the process instance as each house of that type being built.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/process_instance_fin.png)
+</Frame>
+
+
+The **FlowX.AI Engine** is responsible for executing the steps in the process definition and handling all the business logic. The token represents the current position in the process and moves from one node to the next based on the sequences and rules defined in the exclusive gateways. In the case of parallel gateways, child tokens are created and eventually merged back into the parent token.
+
+Kafka events are used for communication between FLOWX.AI components such as the engine and integrations/plugins. Each event type is associated with a Kafka topic to track and orchestrate the messages sent on Kafka. The engine updates the UI by sending messages through sockets.
+
+<Card title= "More about Kafka" href="../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts">
+</Card>
+
+
+## Checking the Process Status
+
+To check the status of a process or troubleshoot a failed process, follow these steps:
+
+1. Open **FlowX.AI Designer**.
+2. Go to **Processes → Active Process → Process instances**.
+3. Click **Process status** icon.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_status.png)
+</Frame>
+
+## Understanding the Process Status data
+
+Understanding the various elements within process status data is crucial. Here's what each component entails:
+
+* The **Status** field indicates the state of the process instance, offering distinct values:
+
+| Status         | Indicates the state of the process instance. Offers distinct values:                                                                        |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **CREATED**    | Visible if there's an error during process creation. Displays as `STARTED` if there were no errors during creation.                                                  |
+| **STARTED**    | Indicates the current running status of the process.                                                                                        |
+| **DISMISSED**  | Available for processes with subprocesses, seen when a user halts a subprocess.                                                             |
+| **EXPIRED**    | This status appears when the defined "expiryTime" expression in the process definition elapses since the process was initiated (`STARTED`). |
+| **FINISHED**   | Signifies successful completion of the process execution.                                                                                   |
+| **TERMINATED** | Implies a termination request has been sent to the instance.                                                                                |
+| **ON HOLD**    | Marks a state where the process is no longer editable.                                                                                      |
+| **FAILED**     | Occurs if a CronJob triggers at a specific hour, and the instance isn't finished by then.                                                   |
+
+* **Active process instance**: The UUID of the process instance, with a copy action available.
+* **Variables**: Displayed as an expanded JSON.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/process_variables_new.png)
+</Frame>
+
+* **Tokens**: A token represents the state within the process instance and describe the current position in the process flow.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_tokens.png)
+</Frame>
+
+<Info>
+For more information about token status details, [here](../../../building-blocks/token).
+</Info>
+
+
+* **Subprocesses**: Displayed only if the current process instance generated a [subprocess](../../../building-blocks/process/subprocess) instance.
+* **Exceptions**: Errors that let you know where the process is blocked, with a direct link to the node where the process is breaking for easy editing.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_exceptions.png)
+</Frame>
+
+<Info>
+For more information on token status details and exceptions, check the following section:
+</Info>
+
+* **Audit Log**: The audit log displays events registered for process instances, tokens, tasks, and exceptions in reverse chronological order by timestamp.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_status_audit.png)
+</Frame>
+
+<Card title="Audit" href="../../../platform-deep-dive/core-extensions/audit">
+</Card>
+
+
+### Color coding
+
+In the **Process Status** view, some nodes are highlighted with different colors to easily identify any failures:
+
+* **Green**: Nodes highlighted with green mark the nodes passed by the [token](../../../building-blocks/token).
+* **Red**: The node highlighted with red marks the node where the token is stuck (process failure).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/color_coding.gif)
+</Frame>
+
+## Starting a new process instance
+
+To start a new process instance, a request must be made to the [FlowX.AI Engine](../../../platform-deep-dive/core-components/flowx-engine). This is handled by the web/mobile application. The current user must have the appropriate role/permission to start a new process instance.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/process/process_instance_diagram.png)
+</Frame>
+
+To be able to start a new process instance, the current user needs to have the appropriate role/permissions:
+
+<Card title="Configuring access roles for processes" href="../../../../setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes">
+</Card>
+
+
+When starting a new process instance, we can also set it to [inherit some values from a previous process instance](../../../platform-deep-dive/core-components/flowx-engine#orchestration).
+
+## Troubleshooting possible errors
+
+If everything is configured correctly, the new process instance should be visible in the UI and added to the database. However, if you encounter issues, here are some common error messages and their possible solutions:
+Possible errors include:
+
+| Error Message                                                      | Description                                                                                      |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| *"Process definition not found."*                                  | The process definition with the requested name was not set as published.                         |
+| *"Start node for process definition not found."*                   | The start node was not properly configured.                                                      |
+| *"Multiple start nodes found, but start condition not specified."* | Multiple start nodes were defined, but the start condition to choose the start node was not set. |
+| *"Some mandatory params are missing."*                             | Some parameters set as mandatory were not included in the start request.                         |
+| `HTTP code 403 - Forbidden`                                        | The current user does not have the process access role for starting that process.                |
+| `HTTP code 401 - Unauthorized`                                     | The current user is not logged in.                                                               |

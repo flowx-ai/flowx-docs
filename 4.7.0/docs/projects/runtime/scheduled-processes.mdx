@@ -1,0 +1,99 @@
+---
+title: Scheduled processes
+description: Automate the initiation of process instances using predefined timer settings. Scheduled Processes trigger workflows on specific dates, times, or intervals without manual intervention.
+---
+
+## Overview
+
+The **Scheduled Processes** feature automatically triggers process instances using Timer Start Events. You can activate/deactivate timers at project level and manage them from the **Runtime** tab—no redeployment needed. This feature is especially useful in upper environments, where you might need to pause or resume cron jobs without modifying the project build.
+
+<Card title="Timer Start Event" href="../../building-blocks/node/timer-events/timer-start-event" icon="file">
+Check this section for more details about Timer Start Events and how to configure them.
+</Card>
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/scheduled_processes.png)
+</Frame>
+
+## Key components
+
+### 1. List of scheduled processes
+
+The **Scheduled Processes** tab displays all timers that trigger process instances. Each row in the list shows:
+
+- **Process Name:** The process linked to the timer.
+- **Swimlane Name:** In multi-swimlane processes, each swimlane may have its own timer.
+- **Timer Name:** The name of the timer node.
+- **Timer Type:**  
+  - **Date-based:** Triggers at a specific date and time.  
+  - **Cycle-based:** Repeats at defined intervals (for example, every 10 seconds).
+- **Location:** The execution environment (e.g., **Local**).
+
+From this interface, you can view timer details or activate/deactivate timers as needed.
+
+
+### 2. Timer Events schedule 
+
+To view a timer’s configuration, click the **View** icon next to the scheduled timer in the list.
+
+<Frame>
+  ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/timer_events_schedule.png)
+</Frame>
+
+### 3. Activating and deactivating timers
+
+
+Manage timer activation directly from the UI:
+
+<Frame>
+  ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/activate_scheduled_processes.gif)
+</Frame>
+
+- **Activate:** Click the activate button in the Scheduled Processes tab.
+- **Deactivate:** Click the same button to suspend the timer.
+
+<Warning>
+You cannot edit timer configurations in the **Runtime** tab. To modify settings, update the process definition and redeploy.
+</Warning>
+
+---
+
+## Use cases 
+
+
+<Steps>
+<Step title="Employee Onboarding reminder">
+
+A Timer Start Event can be scheduled to **automatically trigger** an onboarding process at a predefined time.  
+
+**Example**: Process starts on **January 28, 2025, at 12:14 PM**, sending onboarding notifications.  
+
+</Step>
+
+<Step title="Recurring Data processing jobs">
+
+A Cycle timer can execute a job **every 10 seconds for 60 repetitions**, ensuring periodic execution.  
+
+</Step>
+
+
+<Step title="Scheduled Report generation">
+
+A cycle timer with a cron expression can generate a report at **1 AM every day**.  
+
+</Step>
+</Steps>
+
+---
+
+## Additional notes
+
+- **Runtime Timer Control:**  
+  Manage timers in the **Runtime** tab without changing the application build. Previously, timer activation was controlled by a checkbox in the **Start Timer node**, which is now read-only after deployment.
+
+- **Timers in Multi-Swimlane Processes:**  
+  Each swimlane can have its own timer. The **Scheduled Processes** tab displays each timer separately for clear management.
+
+- **Exporting and Importing Builds:**  
+  Timer activation settings are not editable during build export/import. All timer management occurs in the **Runtime** tab.

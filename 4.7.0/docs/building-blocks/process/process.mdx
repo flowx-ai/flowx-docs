@@ -1,0 +1,89 @@
+---
+title: Process Designer
+description: The Process Designer workspace is tailored for creating and editing business processes, featuring a menu with all the essential elements needed to design a process.
+---
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/process_designer_411.png)
+</Frame>
+
+When you encounter a process definition menu, it encompasses the following essential elements:
+
+<AccordionGroup>
+  <Accordion title="1. Process definition name">
+    <p><strong>Awesome Process</strong>: This serves as the name of the process definition, providing a clear identifier for the workflow.</p>
+  </Accordion>
+  <Accordion title="2. Version - main (Work In Progress)">
+    <p>This section displays both the version branch name and the current state of the published version. It offers insights into the active development state of the workflow.</p>
+  </Accordion>
+  <Accordion title="3. Branching Icon">
+    <p>When selected, this icon opens up additional options to enhance visibility and control over the various process definitions and their branches.</p>
+  </Accordion>
+  <Accordion title="4. Submit Changes">
+    <p>To commit alterations to the workflow, you can employ this designated action found within the version menu. Triggering the submission action prompts the appearance of a modal window, inviting you to provide a commit message for context.</p>
+  </Accordion>
+  <Accordion title="5. Autosaved">
+    <p>This reassuring notification indicates that any modifications made to the workflow have been automatically saved, eliminating the need for manual user intervention. It ensures the safety of your work.</p>
+  </Accordion>
+  <Accordion title="6. Lock Icon">
+    <p>Utilize this icon to switch the current work mode from "Edit mode" to "Readonly." It empowers you to control the accessibility and editing permissions for the workflow.</p>
+  </Accordion>
+  <Accordion title="7. Warnings">
+    <p>The Misconfigurations Warnings represent a proactive alert system that ensures process configurations align with selected platforms. Dynamic platform-specific settings provide users with alerts guiding optimal navigation and UI design, integrated into the frontend interface to empower informed decision-making and enhance process configuration.</p>
+  </Accordion>
+  <Accordion title="8. Node details">
+    <p>In the Node details tab, you can set the configuration details for a node.</p>
+  </Accordion>
+</AccordionGroup>
+
+We have designed FlowX.AI components to closely resemble their BPMN counterparts for ease of use. 
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/smth_nodes.png)
+</Frame>
+
+Check the following section for more details about BMPN nodes and how to use them:
+
+<Card title="BPMN nodes" href="../node/node" icon ="link">
+</Card>
+
+In the following sections, we will provide more details on how to use the Process Designer and its components.
+
+
+## Process definition
+
+The process is the core building block of the platform. Think of it as a representation of your business use case, for example making a request for a new credit card, placing an online food order, registering your new car or creating an online fundraiser supporting your cause.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/prs_def.png)
+</Frame>
+
+A process is nothing more than a series of steps that need to be followed in order to get to the desired outcome: getting a new credit card, gathering online donations from friends or having your lunch brought to you. These steps involve a series of actions, whether automated or handled by a human, that allows you to complete your chosen business objective.
+
+<Card title="Process definition" href="./process-definition" icon ="link">
+</Card>
+
+## Process instance
+
+Once the desired processes are defined in the platform, they are ready to be used. Each time a process needs to be used, for example, each time a customer wants to request a new credit card, a new instance of the specified process definition is started in the platform. Think of the process definition as a blueprint for a house, and of the process instance as each house of that type that is being built.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/prs_instance.png)
+</Frame>
+
+From this point on, the platform takes care of following the process flow, handling the necessary actions, storing and interpreting the resulting data.
+
+<CardGroup>
+
+<Card title= "Process Instance" href="./process-instance" icon ="link">
+</Card>
+
+[](../../projects/runtime/active-process/process-instance)
+
+<Card title="Exceptions" href="/4.0/docs/building-blocks/process/process-instance#exceptions" icon ="link">
+</Card>
+
+</CardGroup>
+
+
+

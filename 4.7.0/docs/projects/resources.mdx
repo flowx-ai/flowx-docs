@@ -1,0 +1,255 @@
+---
+title: Resources
+icon: building-wheat
+description: Overview of Global and project resources, including their usage, dependencies, promotion, and configuration within the platform.
+---
+
+## Overview
+
+Resources are categorized into **Global Resources** and **Project Resources**. Each type of resource has unique characteristics that determine its usage, dependencies, and how it’s promoted between environments. Understanding these differences is crucial for efficient application development, management, and deployment.
+
+---
+
+## Global resources
+
+Global Resources are elements designed to be **reused across multiple projects** or business contexts. These resources are often organized within **libraries**, enabling consistency and efficiency by providing a central repository of shared components.
+
+### Key characteristics of global resources
+
+- **Reusability**: Global Resources are created with the intention of reuse. They include common design elements, themes, fonts, and other assets that can be referenced by multiple projects.
+- **Dependency Rules**: Libraries, which store Global Resources, **cannot have dependencies** on other libraries or projects. This ensures that Global Resources remain standalone, maximizing their adaptability across various business cases.
+- **Project Independence**: These resources are not project-specific, making them versatile for broad use cases. Projects can reference libraries without requiring modifications to the core resources.
+  
+### Examples of global resources
+
+1. **Design Assets**
+   - **Themes**: Standardized themes provide a consistent look and feel across projects.
+   - **System Assets**: Common media elements stored in the media library (e.g., images, icons) for theme customization.
+   - **Fonts**: Font families that can be reused to maintain branding across different projects.
+2. **Plugins**
+    - **Languages**: Language packs or configurations that support multilingual capabilities across projects.
+    - **Notification and Document Templates**: Managed at the global level, although they may be versioned for future releases.
+    - **Out of office**:  Configurations or settings that manage out-of-office statuses across the platform.
+3. **General settings**
+    - **Users**: User accounts and profiles that can be accessed across multiple projects.
+    - **Roles**: Defined roles that determine user permissions and access levels.
+    - **Groups**: User groupings that facilitate collective management and permissions.
+    - **Audit Log**: Logs that track changes and activities within the platform for security and compliance purposes.
+4. **Libraries**: Organized resource containers including **enumerations**, **substitution tags**, and **CMS components** for multi-project use.
+
+### Promotion of global resources
+
+- **Promotion Workflow**: Global Resources within libraries are promoted separately from projects. They are typically **imported into the Designer UI** in target environments as part of their own libraries.
+- **Configuration Management**: When libraries are promoted, existing configurations, such as **generic parameters**, are replaced by project-level configurations in the target environment.
+
+---
+
+## Project
+
+Project Resources are resources specific to a particular **business use case**. Unlike Global Resources, these resources are confined to the context of the project they belong to, allowing for tailored configurations and dependencies on one or more libraries.
+
+### Key characteristics of project
+
+- **Business Specificity**: Project resources are tailored to a specific project, addressing unique business requirements.
+- **Dependencies on Libraries**: Projects can reference libraries to access Global Resources, allowing for customization and adaptability.
+- **Configurability**: Project-specific configurations are defined at the development stage, and values can be updated as needed in upper environments through environment variables or direct parameter overrides.
+
+### Examples of project resources
+
+1. **Processes**: Defined BPMN workflows specific to the project's business logic.
+2. **CMS Components**: Custom CMS enumerations, substitution tags, and media items unique to the project.
+3. **Task Management**:
+    - **Views**: Configurable interfaces to display task-related data based on process definitions.
+    - **Hooks**: Users with task management permissions can create hooks to trigger specific process instances, such as sending notifications when events occur.
+    - **Stages**: Stages that allow task progression through different statuses.
+    - **Allocation rules**: Define how tasks are assigned to users or teams.
+4. **Integration Designer**:
+    - **Systems**: A system is a collection of resources—endpoints, authentication, and variables—used to define and run integration workflows.
+    - **Workflows**: A workflow defines a series of tasks and processes to automate system integrations. Within the Integration Designer, workflows can be configured using different components to ensure efficient data exchange and process orchestration.
+6. **Configuration Parameters**: Project-specific rendering settings like `applicationUuid`, `locale`, `language`, and `process parameters`.
+7. **Project Builds**: Builds represent finalized versions of the project, including all associated metadata and linked library versions.
+8. **Project Settings**: Configure various aspects of a project like platform type, default theme, formatting, etc.
+
+### Promotion of project resources
+
+- **Promotion Workflow**: Only **builds** (not commits) are eligible for promotion to upper environments. Builds are exported from the development environment and imported into target environments via the Designer UI.
+- **Design Asset Handling**: During import, any referenced design assets are created if absent but are not updated, ensuring consistency in upper environments.
+- **Configuration Parameters Overrides**: Upper environment values replace development defaults, and these can be managed through environment variables, enabling flexibility without direct development environment access.
+
+---
+
+# Resources usage
+
+Track and monitor where resources are used across processes, enumerations, and media assets to ensure smooth project management.
+
+
+The **Resource Usage Tracking** feature provides real-time visibility into where and how resources are being used, preventing unintended changes and ensuring system stability.  
+
+Key characteristics
+
+- **View dependencies before making updates or deletions**  
+- **Understand how resources interact across projectss**  
+- **Ensure smooth transitions when modifying critical elements**  
+
+Each resource type now includes a **Usage Overview modal**, which dynamically updates whenever references change. Users can quickly see where a resource is being used before making modifications.  
+
+## Process usage
+
+### View process usage  
+
+1. **Accessing Usage Overview**  
+   - In the **Process List**, an **icon** on each row opens the Usage Overview modal.  
+   - Hovering over the icon displays a tooltip: *“Usage Overview”*.  
+
+2. **Usage Modal Details**  
+   - **Title**: `"<Process Name>" Process Usage Overview`  
+   - Displays grouped references by resource type:
+     - **Resource Type**: Process, UI Template, Workflow, etc.
+     - **Reference Type**: Start Embedded Subprocess, Task Type, etc.
+     - **Element**: Where the reference appears.
+     - **Context**: Additional details such as node configurations.
+
+   **Example Table:**
+   
+   | **Resource** | **Reference Type**                  | **Element**                                    | **Context**                                                     |
+   | ------------ | ----------------------------------- | ---------------------------------------------- | --------------------------------------------------------------- |
+   | Process      | Start Embedded Subprocess Node      | Subprocess Name                                | `<Node Name>` \ Node Config \ Subprocess Name                   |
+   | Process      | Task Type (User Task, Service Task) | Subprocess Start Action Type → Subprocess Name | `<Node Name>` \ Node Config \ `<Action Name>` \ Subprocess Name |
+
+3. **No References State**  
+   - If a process has no dependencies, the modal displays a **TBD empty state** per UX guidelines.
+
+### Deleting a process with references 
+
+- If a process is referenced elsewhere, a **confirmation modal** warns users before deletion.
+- The modal lists all affected references.
+
+---
+
+## Enumeration usage
+
+### View enumeration usage 
+
+1. **Accessing Usage Overview**  
+   - In the **Enumeration List**, each enumeration has a **Usage Overview icon**.  
+   - Clicking the icon opens a modal displaying where the enumeration is referenced.  
+
+2. **Usage Modal Details**  
+   - **Title**: `"<Enum Name>" Usage Overview`  
+   - Lists all instances where the enumeration is used:
+     - **Resource**: UI Designer, Data Model, Workflow, etc.
+     - **Reference Type**: Dropdown Component, Field Type, etc.
+     - **Context**: Path to the specific configuration.
+
+   **Example Table:**
+   
+   | **Resource** | **Reference Type** | **Context**                           |
+   | ------------ | ------------------ | ------------------------------------- |
+   | UI Designer  | Dropdown Component | `<Component Name>` \ Component Config |
+   | Data Model   | Field Type         | `<Field Name>` \ Schema Config        |
+   | Systems      | Enumeration Mapper | `<System Name>` \ Mapper Config       |
+
+3. **Deleting an Enumeration with References**  
+   - A **confirmation modal** warns users before deletion.
+   - Users must acknowledge the impact before proceeding.
+
+---
+
+## Media library usage 
+
+### View media library item usage
+
+1. **Accessing Usage Overview**  
+   - In the **Media Library List**, each media file has a **Usage Overview icon**.  
+   - Clicking the icon opens a modal displaying where the media file is used.  
+
+2. **Usage Modal Details**  
+   - **Title**: `"<Media Library Item Key>" Item Usage Overview`  
+   - Displays grouped references:
+     - **Resource**: UI Template, Process, etc.
+     - **Reference Type**: Image, File Preview, etc.
+     - **Context**: Where the media file is used.
+
+   **Example Table:**
+   
+   | **Resource** | **Reference Type** | **Element**  | **Context**                              |
+   | ------------ | ------------------ | ------------ | ---------------------------------------- |
+   | Process      | UI Template        | Image        | `<Node Name>` \ Image \ TBD              |
+   | Process      | UI Template        | File Preview | `<Node Name>` \ File Preview \ `<Title>` |
+
+3. **Deleting a Media File with References**  
+   - A **confirmation modal** warns users before deletion.
+   - The user can proceed after acknowledging the impact.
+
+---
+
+# Managing dependencies & tracking changes
+
+- **Dynamic Updates**:  
+  - Reference lists update automatically as resources are added or removed.  
+  - When a **new resource version** is created, existing references are cloned into the new version.
+
+- **Dependency Check Before Deletion**:  
+  - Users receive a **confirmation hint** before deleting a resource, showing its references.  
+
+- **Flip Side: Resources Referencing Other Resources**  
+  - The **Usage Overview** modal also displays references **inside** a process, showing which resources it uses.
+
+
+
+## How to access Resource usage tracking
+
+### For any resource
+
+1. **Go to the relevant resource list** (Processes, Enumerations, Media Library).
+2. **Click the "Usage Overview" icon** next to the resource.
+3. **View the modal** to see all references and dependencies.
+4. **Take action accordingly** (update, modify, or delete).
+
+### Before deleting a resource
+
+- A confirmation modal appears if the resource has references.
+- Users must confirm deletion after reviewing the references.
+
+# Copy & duplicate resources 
+
+Managing resources across projects is now **faster and more efficient**. The **Copy to Another Project** feature ensures all dependencies stay intact, while the **Duplicate Resource** functionality allows users to quickly reuse existing resources within the same project or library version.  
+
+<Tabs>  
+<Tab title="Copy to Another Project">  
+
+1️⃣ **Select a destination** – Choose the target project or library.  
+2️⃣ **Pick a branch (if applicable)** – For WIP versions, select the target branch.  
+3️⃣ **Review dependencies** – The system displays referenced resources and validates dependencies.  
+4️⃣ **Resolve identifier conflicts** – If an identifier already exists in the destination, you'll be prompted to either:  
+   - **Keep both** (create a duplicate)  
+   - **Replace** (overwrite the existing resource)  
+   - **Use destination** (retain the existing resource without copying)  
+
+💡 **Handling conflicts:** The system automatically detects duplicate identifiers and provides a clear choice to avoid unintended overwrites.  
+
+</Tab>  
+
+<Tab title="Duplicate Resources">  
+
+The **Duplicate Resource** feature lets users create a copy of an existing resource within the same project or library version, streamlining workflows and ensuring quick reusability.  
+
+**You can duplicate:**  
+- **Processes**  
+- **Enumerations**  
+- **Media files (including Global media library files)**  
+- **Notification templates**  
+- **Document templates**  
+- **Views**  
+
+### 🔹 **How it works**  
+- **Duplicate options** are available from each resource’s three-dot menu (table row & secondary navigation).  
+- When selected, a **"Duplicate" modal** opens with a prefilled name: _Copy of [Resource Name]_ (which can be edited).  
+- **Cancel** to discard changes or **Duplicate** to create an exact copy in the same project/library version.  
+- **Success confirmation:** The system navigates to the newly created resource and displays a success message.  
+- **Error handling:** If a resource with the same name/key exists, users will be prompted to rename it before proceeding.  
+
+</Tab>  
+</Tabs>  
+
+
