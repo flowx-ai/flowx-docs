@@ -1,0 +1,273 @@
+---
+title: FlowX.AI 4.7.0 Release Notes
+description: FlowX.AI 4.7.0 is here to keep your projects vibing, your merges drama-free, and your configs under control—because struggling with your platform is *so* last season. 😎🔥
+---
+
+## What's new? 🆕
+
+✅ Copy resources across projects  
+✅ Resource usage       
+✅ Smarter merge conflict detection & resolution  
+✅ Enhanced configuration overrides for better flexibility  
+
+
+## Projects
+
+### Copy resources across projects
+
+Moving resources between projects is now **fast and seamless**. The new **Copy to Another Project** feature ensures all dependencies stay intact, eliminating the hassle of manual adjustments.  
+
+<Frame>
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/copy_resources.mp4"
+></video>
+</Frame>
+
+<Tabs>  
+<Tab title="How it works">  
+1️⃣ **Select a destination** – Choose the target project or library.  
+2️⃣ **Pick a branch (if applicable)** – For WIP versions, select the target branch.  
+3️⃣ **Review dependencies** – The system displays referenced resources and validates dependencies.  
+4️⃣ **Resolve identifier conflicts** – If an identifier already exists in the destination, you'll be prompted to either: 
+    - **Keep both** (create a duplicate) 
+    - **Replace** (overwrite the existing resource) 
+    - **Use destination** (retain the existing resource without copying)
+</Tab>  
+<Tab title="Why it’s better">  
+- **No broken references** – Everything stays connected.  
+- **Auto-add missing dependencies** – No manual setup required.  
+- **Works with WIP & committed versions (only from committed to WIP)** – Flexibility for your workflow.  
+</Tab>  
+</Tabs>  
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-02-24%20at%2011.48.33.png)
+</Frame>
+
+
+<Card title="Copy resources" href="../../4.7.0/docs/projects/resources#copy--duplicate-resources" icon="link">
+Check this section for more details.
+</Card>
+---
+### Duplicate resources
+
+<Tabs>  
+<Tab title="What you can duplicate">  
+The **Duplicate Resource** feature lets users create a copy of an existing resource within the same project or library version, streamlining workflows and ensuring quick reusability.  
+
+<Frame>
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/duplicate_resources.mp4"
+></video>
+</Frame>
+
+You can duplicate the following resources:
+
+- **Processes**  
+- **Enumerations**  
+- **Media files (including Global media library files)**  
+- **Notification templates**  
+- **Document templates**  
+- **Views**  
+</Tab>  
+
+<Tab title="How it works">  
+- **Duplicate options** are available from each resource’s three-dot menu (table row & secondary navigation).  
+- When selected, a **"Duplicate" modal** opens with a prefilled name: _Copy of [Resource Name]_ (which can be edited).  
+- **Cancel** to discard changes or **Duplicate** to create an exact copy in the same project/library version.  
+- **Success confirmation:** The system navigates to the newly created resource and displays a success message.  
+- **Error handling:** If a resource with the same name/key exists, users will be prompted to rename it before proceeding.  
+</Tab>  
+
+<Tab title="Why it’s useful">  
+💡 **Use cases:**  
+- Quickly iterate on existing resources.  
+- Reduce redundant manual setup.  
+- Maintain consistency within projects.  
+- Easily clone complex configurations for testing and modifications.  
+</Tab>  
+</Tabs>  
+
+
+<Card title="Duplicate resources" href="../../4.7.0/docs/projects/resources#copy--duplicate-resources" icon="link">
+Check this section for more details.
+</Card>
+---
+
+### Track where your resources are used
+
+Monitoring your resources has never been simpler and more efficient. Stay on top of where and how they’re being used.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2025-02-24%2011.47.16.gif)
+</Frame>
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-02-24%20at%2011.42.52.png)
+</Frame>
+
+<CardGroup columns="3">
+  <Card title="Process Usage" icon="chart-simple" href="#">  
+  Track where a process is referenced, with a clear **Usage Overview modal** that dynamically updates when references change.
+  </Card>  
+
+
+  <Card title="Enumeration Usage" icon="list" href="#">  
+  See where enumerations are used across **UI, Data Models, Systems, and Workflows** before making changes.  
+  </Card>  
+
+  <Card title="Media Library Usage" icon="image" href="#">  
+  Identify **which UI elements reference media assets** so you don’t accidentally break designs.  
+  </Card>  
+</CardGroup>  
+
+📌 **Before deleting a resource, a confirmation modal lists all affected references. No more surprises!**  
+
+<Card title="Duplicate resources" href="../../4.7.0/docs/projects/resources#resources-usage" icon="link">
+Check this section for more details.
+</Card>
+
+
+---
+
+### Configuration parameter overrides
+
+🔹 **Libraries can now define configuration parameters** to help test processes or workflows that use those parameters.  
+
+🔹 However, **libraries do not support overrides**.  
+- **Overrides for library config parameters must be done within a project** where the library is added as a dependency.  
+- **Overrides cannot be added in libraries directly.**  
+
+💡 **What this means:**  
+- Libraries provide **default values** for configuration parameters.  
+- Projects using those libraries **can override these values** as needed.  
+- This ensures **clear separation between library defaults and project-specific configurations** while maintaining flexibility.  
+
+<Tip>
+✨ **Overrides take precedence** over library values—so you stay in control.  
+</Tip>
+---
+
+### Merge conflict enhancements
+
+Merge conflicts are never fun, but at least now they’re **easier to handle**.  
+
+<CardGroup columns="3">
+  <Card title="Better Conflict Detection" icon="exclamation">  
+  🚨 Prevents merging if identical resource identifiers exist in both branches (e.g., same name, key, or code).  
+  </Card>  
+  <Card title="Resizable Merge Conflict Tree" icon="maximize">  
+  🖥️ Resize the merge conflict tree for better visibility and navigation.  
+  </Card> 
+  <Card title="New Conflict Type" icon="code-branch">
+📢 A new conflict detection system for parent changes/deletions in both branches is under review.
+</Card>   
+</CardGroup>  
+
+
+---
+## SDK changes
+
+### Expose Enumerations API in Angular SDK 
+
+Developers can now dynamically retrieve enumerations via the Angular SDK, making it easier to use enums in custom components like dropdowns.
+ 
+<Tip>
+How it Works?
+
+A new method in the Angular SDK allows direct access to enumerations, reducing manual imports and improving flexibility.  
+</Tip>
+
+<Accordion title="Example usage">
+
+* **Method details**:
+
+```typescript
+getEnumerations(enumName: string): { [key: string]: any }
+```
+
+* enumName (string) – The name of the enumeration to retrieve.
+* Returns: An object containing key-value pairs of the requested enumeration.
+
+
+Here's how you can use this method to populate a dropdown:
+
+```typescript
+export class CustomDropdownComponent {
+enums: { [key: string]: any } = {};
+constructor(private enumService: EnumerationService) {}
+
+ngOnInit() {
+  this.enums = this.enumService.getEnumerations('UserRoles');
+}}
+```
+
+</Accordion>
+
+---
+
+## **Bug fixes** 🐞  
+
+✔️ Improved **merge conflict detection and resolution**  
+✔️ Fixed **UI rendering issues**  
+
+---
+
+## Changes
+
+### Export/import compatibility
+
+In version 4.7, the import-export functionality for application-version is no longer backward compatible.
+
+* Zip files exported from version 4.7 cannot be imported into earlier FlowX versions.
+* Similarly, zip files from earlier versions cannot be imported into 4.7.
+
+<Info>
+Zip files for builds and specific resources remain unaffected.
+</Info>
+
+
+## **Known issues** 😅  
+
+We’re aware of a few quirks and are actively working on fixes.  
+
+<AccordionGroup>  
+
+<Accordion title="Processes">  
+- 🛠️ **Orphaned sequences** may appear after merging if nodes are deleted but sequences are left behind.  
+- 🛠️ **Navigation hierarchy issues** can cause some navigation areas to be hidden.  
+- 🛠️ **Undetected conflicts** when a user task is deleted in one branch but modified in another.  
+</Accordion>  
+
+<Accordion title="Enumerations">  
+- 🛠️ **Duplicate enumeration values** can appear due to missing conflict validation.  
+- 🛠️ **Some content values may disappear** after merging.  
+</Accordion>  
+
+<Accordion title="Conflict Detection Gaps">  
+- 🛠️ **Adding values to a deleted data model key does not raise a conflict**, causing silent data loss.  
+</Accordion>  
+
+<Accordion title="Media Library">  
+- 🛠️ **Merging branches with media assets may fail**, triggering a 500 error.  
+</Accordion>  
+
+<Accordion title="UI/UX">  
+- 🛠️ **Merged version is not auto-selected** in the versioning modal.  
+- 🛠️ **Merge conflict tree may show numbers instead of names**.  
+- 🛠️ **Unnecessary scrollbars** appear in the merge modal.  
+</Accordion>  
+
+</AccordionGroup>  
+
+---
+
+## **Additional information**  
+
+📌 [Deployment Guidelines v4.7.0](./deployment-guidelines-v4.7.0)  
+📌 [Migration Guide (from v4.6.0)](./migrating-from-v4.1.x-to-v4.6.1)  
+

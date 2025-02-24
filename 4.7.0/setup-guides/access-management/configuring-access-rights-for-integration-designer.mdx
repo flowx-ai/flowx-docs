@@ -1,0 +1,107 @@
+---
+title: Integration Designer access rights
+description: Granular access rights can be configured to restrict access to the Integration Designer.
+icon: lock-open
+---
+
+Access authorizations in Integration Designer are provided with specified access scopes for both system and workflow management:
+
+1. **Manage-systems** - for configuring access to integration systems.
+
+   **Available scopes:**
+
+   * **import** - allows users to import integration systems.
+   * **read** - allows users to view integration systems.
+   * **edit** - allows users to edit integration systems.
+   * **admin** - allows users to administer integration systems.
+
+<Info>
+The workflow_read role allows users to view and monitor integration workflows without making changes:
+
+* Can view all existing workflows and their details (canvas and sidebar).
+* Can access the log console, warnings, and audit logs for audit and troubleshooting.
+* Cannot create, update, or delete workflows.
+* Cannot run workflows or nodes individually.
+</Info>
+
+2. **Manage-workflows** - for configuring access to integration workflows.
+
+   **Available scopes:**
+
+   * **import** - allows users to import integration workflows.
+   * **read_restricted** - allows users to view restricted integration workflows.
+   * **read** - allows users to view all integration workflows.
+   * **edit** - allows users to edit integration workflows.
+   * **admin** - allows users to administer integration workflows.
+
+<Info>
+The workflow_read-restricted role provides view-only access to integration workflows with limited permissions:
+
+* Can view all workflows and their details (canvas and sidebar).
+* Cannot access the log console, audit logs, or warnings.
+* Cannot create, update, or delete workflows.
+* Cannot run workflows or nodes individually (cannot see running instances).
+* Can see instances and nodes, but logs, input, and output will show “unauthorized.”
+</Info>
+
+
+
+### Default Roles for Integration Designer
+
+The Integration Designer service is configured with the following default user roles for each access scope mentioned above:
+
+* **manage-systems**
+  * import:
+    * `ROLE_INTEGRATION_SYSTEM_IMPORT`
+    * `ROLE_INTEGRATION_SYSTEM_EDIT`
+    * `ROLE_INTEGRATION_SYSTEM_ADMIN`
+  * read:
+    * `ROLE_INTEGRATION_SYSTEM_READ`
+    * `ROLE_INTEGRATION_SYSTEM_EDIT`
+    * `ROLE_INTEGRATION_SYSTEM_ADMIN`
+  * edit:
+    * `ROLE_INTEGRATION_SYSTEM_EDIT`
+    * `ROLE_INTEGRATION_SYSTEM_ADMIN`
+  * admin:
+    * `ROLE_INTEGRATION_SYSTEM_ADMIN`
+
+* **manage-workflows**
+  * import:
+    * `ROLE_INTEGRATION_WORKFLOW_IMPORT`
+    * `ROLE_INTEGRATION_WORKFLOW_EDIT`
+    * `ROLE_INTEGRATION_WORKFLOW_ADMIN`
+  * read_restricted:
+    * `ROLE_INTEGRATION_WORKFLOW_READ_RESTRICTED`
+    * `ROLE_INTEGRATION_WORKFLOW_READ`
+    * `ROLE_INTEGRATION_WORKFLOW_EDIT`
+    * `ROLE_INTEGRATION_WORKFLOW_ADMIN`
+  * read:
+    * `ROLE_INTEGRATION_WORKFLOW_READ`
+    * `ROLE_INTEGRATION_WORKFLOW_EDIT`
+    * `ROLE_INTEGRATION_WORKFLOW_ADMIN`
+  * edit:
+    * `ROLE_INTEGRATION_WORKFLOW_EDIT`
+    * `ROLE_INTEGRATION_WORKFLOW_ADMIN`
+  * admin:
+    * `ROLE_INTEGRATION_WORKFLOW_ADMIN`
+
+> **Warning:** These roles must be defined in the selected identity provider, such as Keycloak, Red Hat Single Sign-On (RH-SSO), or another compatible identity provider.
+
+### Customizing Access Roles
+
+In cases where additional custom roles are required, you can configure them using environment variables. Multiple roles can be assigned to each access scope as needed.
+
+**Environment Variable Format:**
+
+To configure access for each role, use the following format:
+
+**`SECURITY_ACCESSAUTHORIZATIONS_AUTHORIZATIONNAME_SCOPES_SCOPENAME_ROLESALLOWED: NEEDED_ROLE_NAMES`**
+
+* **Possible values for `AUTHORIZATIONNAME`:** `MANAGE_SYSTEMS`, `MANAGE_WORKFLOWS`.
+* **Possible values for `SCOPENAME`:** `import`, `read`, `read_restricted`, `edit`, `admin`.
+
+For example, to configure a custom role with read access to manage systems, use:
+
+```plaintext
+SECURITY_ACCESSAUTHORIZATIONS_MANAGE_SYSTEMS_SCOPES_READ_ROLESALLOWED: ROLE_CUSTOM_SYSTEM_READ
+```

@@ -1,0 +1,21 @@
+---
+title: List buckets
+api: GET {{documentUrl}}/internal/storage/buckets
+description: The Documents Plugin provides the following REST API endpoints for interacting with the stored files.
+---
+
+This endpoint returns a list of available buckets.
+
+
+<ParamField path="documentURL" type="string">
+  The base URL of the document.
+</ParamField>
+<ParamField path="internal" type="string">
+  A segment of the path that specifies it is an internal call.
+</ParamField>
+<ParamField path="storage" type="string">
+  A segment of the path referring to storage resources.
+</ParamField>
+<ParamField path="buckets" type="string">
+  The particular resource in the storage being accessed.
+</ParamField>

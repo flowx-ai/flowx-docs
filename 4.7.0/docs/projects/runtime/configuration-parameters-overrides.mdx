@@ -1,0 +1,113 @@
+---
+title: Configuration parameters overrides
+description: The Configuration parameters overrides feature allows you to set environment-specific values for certain parameters within an application.
+---
+
+This features enables flexibility and customization, making it possible to tailor an application’s behavior and integration settings according to the needs of each environment (e.g., Dev, UAT, Production). By defining overrides, users can easily manage variables like API endpoints, authentication tokens, environment-specific URLs, and other settings without altering the core application configuration.
+
+
+#### Key concepts
+
+1. **Configuration Parameters**
+   - Configuration parameters are placeholders used throughout an application to store key settings and values. These parameters can include anything from URLs, API keys, and credentials to integration-specific details.
+   - Parameters can be defined at the application level and referenced throughout processes, business rules, integrations, and templates.
+
+2. **Environment Overrides**
+   - Overrides are specific values assigned to configuration parameters for a particular environment. This ensures that an application behaves appropriately for each environment without requiring changes to the application itself.
+   - Each environment (Development, UAT, Production) can have a unique set of overrides that replace the default parameter values when the application is deployed.
+
+3. **Variable Precedence**
+
+- Process Variables Override Configuration Parameters:
+   - If a process variable and a configuration parameter share the same name, the process variable takes precedence at runtime.
+   - If the process variable is null or undefined, the configuration parameter’s value is used as a fallback.
+- Best Practice: Avoid naming process variables the same as configuration parameters to prevent unexpected overrides or conflicts.
+
+
+4. **Centralized Management**
+   - Configuration parameters and their overrides are managed centrally within the application’s settings. This allows for quick adjustments and a clear overview of how each environment is configured.
+
+#### Workflow for managing Configuration parameter overrides
+
+1. **Defining Configuration Parameters**
+   - Go to the application settings and navigate to the **Configuration Parameters** section.
+   - Define parameters that will be used across the application, such as:
+     - **CRM URL**: Base URL for CRM integration.
+     - **API Key**: Secure key for external service authentication.
+     - **Environment URL**: Different base URLs for various environments (Dev, UAT, Production).
+
+2. **Setting Up Environment-Specific Overrides**
+   - Access the **Overrides** section for configuration parameters.
+   - For each environment (e.g., Dev, UAT), assign specific values to the defined parameters. For example:
+     - Dev Environment: `CRM_URL` → `https://dev.crm.example.com`
+     - UAT Environment: `CRM_URL` → `https://uat.crm.example.com`
+   - Save the environment-specific overrides. These values will take precedence over the default settings when deployed in that environment.
+
+3. **Applying Overrides at Runtime**
+   - When an application is deployed to a specific environment, the system automatically applies the relevant overrides.
+   - Overrides ensure that the configuration aligns with environment-specific requirements, like endpoint adjustments or security settings, without altering the core setup.
+
+#### Key features
+
+1. **Flexibility Across Environments**
+   - Easily adjust configuration parameters without changing the core application, ensuring that the application adapts to the target environment seamlessly.
+
+2. **Centralized Parameter Management**
+   - Configuration parameters and their environment-specific overrides are managed centrally within the application settings, providing a single source of truth.
+
+3. **Dynamic Integration Adaptation**
+   - Environment-specific overrides allow integrations to connect to different endpoints or use different credentials based on the environment, supporting a smoother development-to-production workflow.
+
+4. **Improved Security**
+   - Sensitive data, such as API keys or credentials, can be stored as environment-specific overrides, ensuring that development and testing environments do not share the same sensitive values as production.
+
+5. **Avoid Variable Naming Conflicts**
+   - Best Practice: Use distinct names for process variables and configuration parameters to avoid unintentional overrides. If process variables are undefined or null, they will default to the corresponding configuration parameter’s value.
+
+
+#### Benefits
+
+- **Simplified Deployment**: Overrides eliminate the need for manual configuration changes during deployment, streamlining the process and reducing the risk of errors.
+- **Environment Consistency**: Each environment can have its own tailored settings, ensuring consistent behavior and performance across all stages.
+- **Secure Configuration**: Overrides keep sensitive parameters isolated to the appropriate environments, enhancing security and minimizing the risk of exposure.
+- **Ease of Maintenance**: Centralized management of parameters and overrides simplifies adjustments when changes are needed, minimizing maintenance overhead.
+
+#### Managing Configuration parameters overrides
+
+1. **Creating a Parameter**
+   - In the application settings, navigate to the **Configuration Parameters** section.
+   - Define a new parameter by specifying its name, type, and default value.
+   - This parameter will be used as a placeholder throughout the application, referenced in processes, templates, and integrations.
+
+2. **Assigning Overrides**
+   - Access the **Overrides** tab for the configuration parameters.
+   - Choose the environment (e.g., Dev, UAT, Production) and assign a specific override value for each parameter.
+   - Confirm the changes to apply the overrides for the selected environment.
+
+3. **Viewing and Editing Overrides**
+   - From the application’s settings, you can review all environment-specific overrides in one place.
+   - Edit existing overrides or add new ones as needed to adapt to changes in environment requirements.
+
+#### Technical details
+
+1. **Parameter Resolution at Runtime**
+   - During runtime, the system retrieves the active configuration parameters for the application. If overrides are set for the environment, they replace the default values.
+   - This resolution ensures that the correct parameters are used, based on the environment in which the application is running.
+
+2. **Integration with Business Rules and Processes**
+   - Configuration parameters can be directly referenced in business rules and processes. Overrides ensure that these references point to the correct environment-specific values during execution.
+
+3. **Storage and Management**
+   - Configuration parameters and their overrides are stored centrally, and the values are retrieved dynamically during runtime. This centralized approach ensures that updates to parameters are automatically reflected in the application without needing a new build.
+
+#### Example use case
+
+Imagine you have an application that integrates with a third-party CRM system. You:
+- Define a `CRM_URL` parameter with a default value for the development environment.
+- Create overrides for UAT and Production environments with their respective URLs.
+- When the application is deployed to the UAT environment, the system automatically uses the UAT-specific CRM URL for all integration points without changing the application’s core configuration.
+- When it's time to deploy to Production, the system uses the production-specific overrides, ensuring that the application connects to the right CRM instance.
+
+#### Conclusion
+
+The Configuration parameters overrides empowers users to manage and tailor application behavior dynamically across environments. This flexibility enhances security, consistency, and control, ensuring that applications run smoothly and securely throughout the development and deployment lifecycle.

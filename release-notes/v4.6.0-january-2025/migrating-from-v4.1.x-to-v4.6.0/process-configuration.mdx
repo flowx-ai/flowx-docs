@@ -74,6 +74,30 @@ To set configuration parameter overrides, navigate to **Your App -> Runtime -> C
 </Frame>
 
 ---
+## Source systems migration
+
+* **Change**: Source systems have not been migrated automatically and need to be manually recreated.
+* **New Location**: In v4.6.0, source systems have been moved under Integration Designer.
+* Manual Migration Required:
+  1. Navigate to Integration Designer.
+  2. Recreate each source system manually with the same code as in the original configuration.
+  3. Ensure the "Enable enumeration value mapping" checkbox is enabled.
+* **Impact**: Failure to manually migrate source systems may result in broken integrations and missing data mappings.
+
+
+**v4.6.0**:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-02-24%20at%2009.53.30.png)
+</Frame>
+
+
+**< v.4.6.0**:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-02-24%20at%2010.09.12.png)
+</Frame>
+
 
 ## Task management 
 
