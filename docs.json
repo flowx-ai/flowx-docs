@@ -1,7 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  
   "name": "Docs",
   "colors": {
     "primary": "#fdb913",
@@ -11,7 +10,6 @@
   "favicon": "/favicon2.svg",
   "navigation": {
     "versions": [
-
       {
         "version": "v4.7.0",
         "default": true,
@@ -213,7 +211,8 @@
                           "4.7.0/docs/building-blocks/ui-designer/ui-component-types/root-components/root-components",
                           "4.7.0/docs/building-blocks/ui-designer/ui-component-types/root-components/container",
                           "4.7.0/docs/building-blocks/ui-designer/ui-component-types/root-components/card",
-                          "4.7.0/docs/building-blocks/ui-designer/ui-component-types/root-components/custom"
+                          "4.7.0/docs/building-blocks/ui-designer/ui-component-types/root-components/custom",
+                          "4.7.0/docs/building-blocks/ui-designer/ui-component-types/table"
                         ]
                       },
                       {
@@ -234,7 +233,11 @@
                           "4.7.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/switch-form-field",
                           "4.7.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/datepicker-form-field",
                           "4.7.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/slider",
-                          "4.7.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/segmented-button"
+                          "4.7.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/segmented-button",
+                          "4.7.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/input-form-field",
+                          "4.7.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/text-area",
+                          "4.7.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/select-form-field",
+                          "4.7.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/checkbox-form-field"
                         ]
                       },
                       "4.7.0/docs/building-blocks/ui-designer/ui-component-types/buttons",
@@ -249,7 +252,6 @@
                       "4.7.0/docs/building-blocks/ui-designer/localization-and-i18n",
                       "4.7.0/docs/building-blocks/ui-designer/layout-configuration",
                       "4.7.0/docs/building-blocks/ui-designer/conditional-styling"
-
                     ]
                   },
                   "4.7.0/docs/building-blocks/token",
@@ -394,10 +396,6 @@
               }
             ]
           },
-
-
-
-          
           {
             "tab": "Release notes",
             "groups": [
@@ -405,7 +403,6 @@
                 "group": "Release Notes",
                 "pages": [
                   "release-notes/overview",
-
                   {
                     "group": "v4.7.0 - February",
                     "icon": "sparkles",
@@ -413,12 +410,8 @@
                       "release-notes/v4.7.0-february-2025/v4.7.0-february-2025",
                       "release-notes/v4.7.0-february-2025/deployment-guidelines-v4.7.0",
                       "release-notes/v4.7.0-february-2025/migrating-from-v4.1.x-to-v4.7.0"
-
-  
-
                     ]
                   },
-
                   {
                     "group": "v4.6.1 - February",
                     "icon": "wrench",
@@ -426,9 +419,6 @@
                       "release-notes/v4.6.1-february-2025/v4.6.1-february-2025",
                       "release-notes/v4.6.1-february-2025/deployment-guidelines-v4.6.1",
                       "release-notes/v4.6.1-february-2025/migrating-from-v4.1.x-to-v4.6.1"
-
-  
-
                     ]
                   },
                   {
@@ -956,7 +946,6 @@
                       "4.6.0/docs/building-blocks/ui-designer/localization-and-i18n",
                       "4.6.0/docs/building-blocks/ui-designer/layout-configuration",
                       "4.6.0/docs/building-blocks/ui-designer/conditional-styling"
-
                     ]
                   },
                   "4.6.0/docs/building-blocks/token",
@@ -1101,10 +1090,6 @@
               }
             ]
           },
-
-
-
-          
           {
             "tab": "Release notes",
             "groups": [
@@ -1112,7 +1097,6 @@
                 "group": "Release Notes",
                 "pages": [
                   "release-notes/overview",
-
                   {
                     "group": "v4.7.0 - February",
                     "icon": "sparkles",
@@ -1120,12 +1104,8 @@
                       "release-notes/v4.7.0-february-2025/v4.7.0-february-2025",
                       "release-notes/v4.7.0-february-2025/deployment-guidelines-v4.7.0",
                       "release-notes/v4.7.0-february-2025/migrating-from-v4.1.x-to-v4.7.0"
-
-  
-
                     ]
                   },
-
                   {
                     "group": "v4.6.1 - February",
                     "icon": "wrench",
@@ -1133,9 +1113,6 @@
                       "release-notes/v4.6.1-february-2025/v4.6.1-february-2025",
                       "release-notes/v4.6.1-february-2025/deployment-guidelines-v4.6.1",
                       "release-notes/v4.6.1-february-2025/migrating-from-v4.1.x-to-v4.6.1"
-
-  
-
                     ]
                   },
                   {
@@ -1427,9 +1404,6 @@
           }
         ]
       },
-
-  
-
       {
         "version": "v4.1.x",
         "tabs": [
@@ -3347,7 +3321,6 @@
       "measurementId": "G-CGW0FVK9YM"
     }
   },
-
   "redirects": [
     {
       "source": "/link/4.5/task-manager-overview",

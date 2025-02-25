@@ -1,338 +1,202 @@
 ---
-title: Text area
-description: A text area is a form element used to capture multi-line input from users in a conversational interface. The text area component is typically used for longer inputs such as descriptions, comments, or feedback, providing users with more space to type their responses. 
+title: Text Area Form Field
+description: A text area is a multi-line input component that allows users to enter longer text content like descriptions, comments, or feedback. It provides more space than a standard input field and supports features like auto-resize and character limits.
 ---
 
-<Frame>
-![Text area](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/text_area41.png)
-</Frame>
-
-It is an important tool for creating intuitive and effective conversational interfaces that can collect and process large amounts of user input.
-
-## Configuring the text area element
-
-### Text area generic settings
-
-These settings added in the Generic tab are available and they apply to all platforms including Web, iOS, and Android:
-
-- [**Process data key**](#prcoess-data-key)
-- [**Properties**](#properties)
-- [**Datasource**](#datasource-configuration)
-- [**Validators**](#validators)
-- [**Expressions**](#expressions)
-- [**UI actions**](#ui-actions)
-- [**Text area styling**](#text-area-styling)
-
-#### Prcoess data key
-   
-Process data key creates the binding between form element and process data, so it can be later used in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration)
-
-#### Properties
-
-* **Label**: The visible label for the text area element.
-* **Placeholder**: Text that appears within the text area when it is empty.
-* **Has Clear**: Option to include a content clear mechanism.
-* **Helpertext**: Additional information about the text area field (can be hidden inside an infopoint).
-* **Update on Blur**: Update behavior triggered when the text area loses focus.
-
-#### Datasource configuration
-
-The default value for the element can be configured here, this will autofill the text field when you will run the process.
-
-#### Validators
-
-You can add multiple validators to a text area field. For more details, refer to [**Validators**](../../validators).
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/text_area_props.png)
-
-#### Hide/disable expressions
-
-The text area's behavior can be defined using JavaScript expressions for hiding or disabling the element. The following properties can be configured for expressions:
-   
-* **Hide condition**: A JavaScript expression used to hide the text area when it is evaluated to your desired result. 
-* **Disabled condition**: A JavaScript expression used to disable the text area when it returns a truthy value
+## Overview
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/hide_text_area.png)
+![Text area component example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/text_area41.png)
 </Frame>
+
+Text areas are ideal for collecting longer user input in forms and conversational interfaces. They provide a larger input space and can automatically expand to fit content.
 
 <Info>
-In the example above, we used a rule to hide a text area element if the value of the switch element above is false.
+Unlike single-line input fields, text areas are designed specifically for multi-paragraph content and preserve line breaks entered by users.
 </Info>
 
-#### Hide expression example
+## Configuration Options
 
-We will use the key defined on the switch element to create a JavaScript hide condition to hide the text area element:
+### Core Settings
+
+The text area component can be configured through several key settings:
+
+<AccordionGroup>
+<Accordion title="Process Data Key">
+The process data key creates a binding between the text area and your process data. This allows the entered text to be:
+
+- Used in [decision nodes](../../../node/exclusive-gateway-node)
+- Processed by [business rules](../../../actions/business-rule-action/business-rule-action)
+- Sent to [integrations](../../../node/message-send-received-task-node#from-integration)
+
+<Warning>
+Choose a descriptive and unique key name to avoid conflicts with other form elements.
+</Warning>
+</Accordion>
+
+<Accordion title="Basic Properties">
+Configure the following basic properties:
+
+- **Label**: Text label shown above the text area
+- **Placeholder**: Hint text shown when the field is empty
+- **Has Clear**: Adds a clear button to empty the field
+- **Helper Text**: Additional context shown below the field (can be hidden in an info point)
+- **Update on Blur**: Whether to update the value when focus leaves the field
+
+<Info>
+Helper text is useful for providing input guidelines or requirements to users.
+</Info>
+</Accordion>
+
+<Accordion title="Default Value">
+Set an initial value for the text area through the datasource configuration:
+
+1. Open the Datasource tab
+2. Enter the default text value
+3. Optionally enable "Computed Value" to use a JavaScript expression
+
+<Tip>
+Use computed values when the default text needs to be dynamically generated.
+</Tip>
+</Accordion>
+</AccordionGroup>
+
+### Validation Rules
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/hide_text_area1.png)
+![Validation configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/text_area_props.png)
 </Frame>
 
-* Rule used:
+Add validators to ensure text content meets your requirements:
+
+- Required field validation
+- Minimum/maximum length
+- Pattern matching
+- Custom validation rules
+
+<Info>
+See the [Validators documentation](../../validators) for detailed configuration options.
+</Info>
+
+### Dynamic Behavior
+
+#### Hide/Show Logic
+
+Control the text area's visibility using JavaScript expressions:
 
 ```javascript
+// Example: Hide text area if switch is off
 ${application.client.hasHouse} === false
 ```
 
-* Result:
-
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/text_area_result.gif)
+![Hide expression example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/hide_text_area1.png)
 </Frame>
 
-#### Disable example
+<Info>
+The hide expression is evaluated whenever referenced values change in your process data.
+</Info>
 
-For example, you can use a disabled condition to disable a text area element based on what values you have on other elements.
+#### Enable/Disable Logic
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/disable_text_area1.png)
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/disable_text_area2.png)
-</Frame>
-
-When you choose a specific value on the radio element (Contact via SMS), the text area is disabled based on the disabled condition.
-
-* Rule used:
+Disable the text area conditionally:
 
 ```javascript
+// Example: Disable when contact method is SMS
 ${application.client.contact} == "prfS"
 ```
 
-<Info>
-It's important to make sure that disabled fields have the same expression configured under the path expressions → hide.
-</Info>
+<Warning>
+Always configure the same expression under both the disabled condition and hide expression for consistent behavior.
+</Warning>
 
+### Event Handling
 
-#### UI actions
+Configure UI actions to respond to text area events:
 
-UI actions can be added to the text area field to define its behavior and interactions.
-
-* **Event**: Possible value - `CHANGE`.
-* **Action Type**: Select the type of the action to be performed.
-
-<Tip>
-For more details on how to configure a UI action, click [**here**](../../ui-actions).
-</Tip>
-
-
-### Text area settings overrides
-
-There are instances where you may need to tailor settings configured in the **Generic** settings tab. This proves especially beneficial when you wish to adjust these settings to appear differently across various platforms such as Web, Android, or iOS.
-
-Available override settings:
-
-* Properties:
-    * **Label**: Override the text area label.
-    * **Helper**: Override helper text/info point.
-    * **Placeholder**: Override the placeholder.
-* Expressions:
-    * **Hide**: Override the hide expression.
+- **Event Type**: Currently supports `CHANGE`
+- **Action Types**: Various actions like updating process data or triggering validators
 
 <Tip>
-Overrides can always be imported/pushed from one platform to another:
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importing_pushing_overrides.gif)
-
+See [UI Actions](../../ui-actions) for detailed configuration examples.
 </Tip>
 
+## Platform-Specific Settings
 
-### Text area styling
+### Override Options
+
+Customize text area behavior per platform (Web, iOS, Android):
+
+- **Label Text**: Override the default label
+- **Helper Text**: Platform-specific help text
+- **Placeholder**: Custom placeholder text
+- **Hide Expression**: Platform-specific visibility logic
+
+<Frame>
+![Platform overrides](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importing_pushing_overrides.gif)
+</Frame>
+
+<Tip>
+Use the import/push feature to copy overrides between platforms quickly.
+</Tip>
+
+## Styling Configuration
+
+### Sizing Options
 
 <Tabs>
 <Tab title="Web">
-<Tabs>
-<Tab title="Sizing">
+#### Width Control
+- **fill**: Expands to container width
+- **fixed**: Uses specified pixel width
+- **auto**: Sizes to content width
 
-#### Fit W (fit width)
+#### Height Control
+- **fixed**: Set exact height in pixels
+- **auto**: Grows with content
 
-Adjusting the size of components is crucial for a responsive design. Fit W (width) offers three options:
-
-* **fill**: Fills the available space.
-* **fixed**: Maintains a fixed width.
-* **auto**: Adjusts the width automatically based on content.
-
-#### H Type (height type)
-
-* **fixed**: Maintains a fixed height (pixels)
-* **auto**: Adjusts the height automatically based on the content.
-
-#### Rows 
-
-* **Min Rows**: Sets the minimum number of rows.
-* **Max Rows**: Sets the maximum number of rows.
-
+#### Row Configuration
+- **Min Rows**: Minimum visible rows
+- **Max Rows**: Maximum rows before scrolling
 </Tab>
-</Tabs>
+
+<Tab title="iOS">
+- Uses points (pt) for fixed height
+- Inherits most web styling options
 </Tab>
-<Tab title ="iOS">
 
-Similar styling considerations apply to iOS as for web. 
-
-* **fixed height**: Measured in dp - density-independent pixels.
-
-</Tab>
-<Tab title ="Android">
-
-Similar styling considerations apply to Android as for web.
-
-* **fixed height**: Measured in pt - points.
-
+<Tab title="Android">
+- Uses density-independent pixels (dp)
+- Inherits most web styling options
 </Tab>
 </Tabs>
 
-
-#### Text area style overrides options
-
-Theme overrides refer to the ability to modify or customize the appearance and behavior of UI components by overriding default theme settings. This can be applied at various levels, such as specific elements or entire sections, and can be platform-specific (Web, iOS, Android).
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_all.png)
-</Frame>
-
-Style options:
+### Theme Overrides
 
 <AccordionGroup>
-  <Accordion title="Common Properties">
-- Border radius **[TEXT]**
-- Border width **[TEXT]**
-- Text style **[FONT]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_common_props.png)
-</Frame>
-
+<Accordion title="Common Properties">
+- Border radius and width
+- Text styling
+- Colors and backgrounds
 </Accordion>
 
-  <Accordion title="Label">
-- Default state
-    - Text color **[COLOR]**
-- Disabled state
-    - Text color  **[COLOR]**
-- Text style **[FONT]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_label.png)
-</Frame>
-
+<Accordion title="State-Specific Styles">
+Configure unique styles for each state:
+- Empty
+- Active
+- Filled
+- Disabled
+- Error
+- Hover (Web only)
 </Accordion>
-
-  <Accordion title="Helper">
-- Text color **[COLOR]**
-- Text style **[FONT]**
-- Helper Tooltip
-    - Text style **[FONT]**
-    - Text color **[COLOR]**
-    - Background color **[COLOR]**
-    - Icon Color **[COLOR]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_helper.png)
-</Frame>
-
-</Accordion>
-
-<Accordion title="Error">
-
-- Text color **[COLOR]**
-- Text style **[FONT]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_error.png)
-</Frame>
-
-</Accordion>
-
-  <Accordion title="Empty State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Right icon color **[COLOR]**
-    - Left icon color **[COLOR]**
-    - Prefix/Suffix color **[COLOR]**
-    - Placeholder color **[COLOR]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_empty_state.png)
-</Frame>
-
-  </Accordion>
-
-  <Accordion title="Active State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Right icon color **[COLOR]**
-    - Left icon color **[COLOR]**
-    - Prefix/Suffix color **[COLOR]**
-    - Placeholder color **[COLOR]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_active_state.png)
-</Frame>
-
-  </Accordion>
-
-  <Accordion title="Filled State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Right icon color **[COLOR]**
-    - Left icon color **[COLOR]**
-    - Prefix/Suffix color **[COLOR]**
-    - Placeholder color **[COLOR]**
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_filled_state.png)
-</Frame>
-
-</Accordion>
-
- <Accordion title="Disabled State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Right icon color **[COLOR]**
-    - Left icon color **[COLOR]**
-    - Prefix/Suffix color **[COLOR]**
-    - Placeholder color **[COLOR]**
-
-<Frame> 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_disabled_state.png)
-</Frame>
-  </Accordion>
-
-  <Accordion title="Error State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Right icon color **[COLOR]**
-    - Left icon color **[COLOR]**
-    - Prefix/Suffix color **[COLOR]**
-    - Placeholder color **[COLOR]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_error_state.png)
-</Frame>
-
-  </Accordion>
-
-  <Accordion title="Hover State (only for Web configuration)">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Right icon color **[COLOR]**
-    - Left icon color **[COLOR]**
-    - Prefix/Suffix color **[COLOR]**
-    - Placeholder color **[COLOR]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_hover_state.png)
-</Frame>
-
-  </Accordion>
 </AccordionGroup>
 
+<Frame>
+![Style override options](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_all.png)
+</Frame>
 
 <Info>
-You can import or push the overrides from one platform to another without having to configure them multiple times.
+Theme overrides can be imported/pushed between platforms to maintain consistency:
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_push_import.gif)
-
+![Override sync](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_push_import.gif)
 </Info>

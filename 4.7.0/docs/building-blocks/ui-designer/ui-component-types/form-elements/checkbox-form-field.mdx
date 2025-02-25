@@ -1,295 +1,194 @@
 ---
-title: Checkbox
-description: A checkbox form field is an interactive element in a web form that provides users with multiple selectable options. It allows users to choose one or more options from a pre-determined set by simply checking the corresponding checkboxes.
+title: Checkbox Form Field
+description: A checkbox form field is an interactive UI element that enables users to make multiple selections from a set of options. Learn how to configure and style checkboxes in FlowX.
 ---
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_new.png)
-</Frame>
+## Overview
 
-This type of form field can be used to gather information such as interests, preferences, or approvals, and it provides a simple and intuitive way for users to interact with a form.
+Checkbox form fields are essential UI elements that allow users to select one or more options from a predefined set. They are commonly used for:
 
-## Configuring the Checkbox element
-
-### Checkbox generic settings
-
-The available configuration options for this form element are:
-
-- [**Process data key**](#process-data-key)
-- [**Properties**](#properties)
-- [**Datasource**](#datasource)
-- [**Validators**](#validators)
-- [**Expressions**](#expressions)
-- [**UI actions**](#ui-actions)
-- [**Checkbox styling**](#checkbox-styling)
-
-#### Process data key
-
-Process data key establishes the binding between the checkbox element and process data, enabling its later use in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration).
-
-#### Properties
-
-* **Label**: The visible label for the checkbox.
-* **Helpertext**: Additional information about the checkbox element, which can be optionally hidden within an infopoint.
+* Gathering user preferences
+* Accepting terms and conditions
+* Selecting multiple items from a list
+* Enabling/disabling features or options
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_props.png)
+![Checkbox form field example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_new.png)
 </Frame>
 
-#### Datasource configuration
+## Basic Configuration
 
-* **Default value**: The default value of the checkbox.
-* **Source Type**: The source can be Static, Enumeration, or Process Data.
-* **Add option** : Define label and value pairs here.
+### Process Data Integration
+
+#### Process Data Key
+The process data key creates a direct link between the checkbox element and your process data. This enables you to:
+
+* Store user selections in process variables
+* Use checkbox values in [decisions](../../../node/exclusive-gateway-node)
+* Leverage data in [business rules](../../../actions/business-rule-action/business-rule-action)
+* Pass values to [integrations](../../../node/message-send-received-task-node#from-integration)
+
+<Info>
+Choose descriptive process data keys that reflect the purpose of the checkbox field, making it easier to reference the data later in your process.
+</Info>
+
+### Core Properties
+
+#### Label Configuration
+* **Label Text**: The visible text that appears next to the checkbox
+* **Helper Text**: Additional context or instructions shown below the checkbox
+  * Can be displayed directly or within an information tooltip
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_datasource.png)
+![Checkbox properties configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_props.png)
 </Frame>
 
-#### Validators 
+### Data Source Settings
 
-The following validators can be added to a checkbox: `required` and `custom` (more details [here](../../validators)).
+Configure how the checkbox obtains and manages its data:
+
+* **Default Value**: Initial state of the checkbox (checked/unchecked)
+* **Source Type Options**:
+  * Static: Manually defined options
+  * Enumeration: Options from a predefined enumeration
+  * Process Data: Dynamic options from process variables
+* **Option Configuration**: Define label-value pairs for each checkbox option
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_validators.png)
+![Checkbox datasource configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_datasource.png)
 </Frame>
 
-#### Hide/disable expressions
+## Validation and Control
 
-The checkbox behavior can be defined using JavaScript expressions for hiding or disabling the element. The following properties can be configured for expressions:
-   
-* **Hide condition**: A JavaScript expression that hides the checkbox element when it evaluates to the specified result.
-* **Disabled condition**: A JavaScript expression that disables the checkbox when it returns a truthy value.
+### Validators
+Ensure data integrity with built-in validators:
 
-These expressions can be used with any form element. See the following example for details:
+* **Required**: Makes checkbox selection mandatory
+* **Custom**: Implement specialized validation logic
 
-<Card title="Input hide/disabled example" href="./input-form-field#hidedisable-expressions">
+<Frame>
+![Checkbox validation configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_validators.png)
+</Frame>
+
+<Card title="Learn More About Validators" href="../../validators" icon="book-open">
+Read our comprehensive guide on form validation
 </Card>
 
-<Info>
-It's important to make sure that disabled fields have the same expression configured under the path expressions → hide.
-</Info>
+### Dynamic Behavior Control
 
-#### UI actions
+#### Hide/Disable Expressions
+Control checkbox visibility and interaction using JavaScript expressions:
 
-UI actions can be added to the checkbox element to define its behavior and interactions.
+* **Hide Condition**: Expression that determines when to hide the checkbox
+* **Disable Condition**: Expression that controls when the checkbox should be disabled
 
-* **Event**: Possible value - `CHANGE`.
-* **Action Type**: Select the type of the action to be performed.
+<Warning>
+Always ensure that disabled fields have matching hide expressions configured to maintain consistency across platforms.
+</Warning>
 
-<Info>
-For more details on how to configure a UI action, click [**here**](../../ui-actions).
-</Info>
+### Interactive Behavior
 
-### Checkbox settings overrides
+#### UI Actions
+Define how the checkbox responds to user interaction:
 
-There are instances where you may need to tailor settings configured in the **Generic** settings tab. This proves especially beneficial when you wish to adjust these settings to appear differently across various platforms such as Web, Android, or iOS.
+* **Event Type**: Currently supports `CHANGE` event
+* **Action Types**: Various actions to execute when the checkbox state changes
 
-Available override settings:
+<Card title="UI Actions Documentation" href="../../ui-actions" icon="bolt">
+Explore all available UI action types and configurations
+</Card>
 
-* Properties:
-    * **Label**: Override the checkbox label.
-    * **Helper**: Override helper text/info point.
-* Expressions:
-    * **Hide**: Override the hide expression.
+## Platform-Specific Configuration
+
+### Settings Overrides
+Customize checkbox behavior for different platforms:
+
+* **Properties Overrides**:
+  * Label text modifications
+  * Helper text adjustments
+* **Expression Overrides**:
+  * Platform-specific hide conditions
 
 <Tip>
-Overrides can always be imported/pushed from one platform to another:
+Use the import/push feature to efficiently manage overrides across platforms:
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importing_pushing_overrides.gif)
-
+![Override management](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importing_pushing_overrides.gif)
 </Tip>
 
-### Checkbox styling
+## Visual Styling
+
+### Platform-Specific Styling
 
 <Tabs>
 <Tab title="Web">
-<Tabs>
-<Tab title ="Properties">
+#### Type Options
+* **Bordered**: Checkbox with visible borders
+* **Clear**: Minimal visual style
 
-* **Type**: Set the type of the checkbox. Possible values:
+#### Size Configuration
+* **Fill**: Expands to container width
+* **Fixed**: Maintains specific width
+* **Auto**: Adjusts based on content
 
-    * bordered
-    * clear
-
-
+#### Layout Settings
+* **Direction**: Horizontal or vertical arrangement
+* **Gap**: Space between elements
+* **Columns**: Number of columns in layout
 </Tab>
-<Tab title="Sizing">
 
-Adjusting the size of components is crucial for a responsive design. Fit W (width) offers three options:
-
-    * **fill**: Fills the available space.
-    * **fixed**: Maintains a fixed width.
-    * **auto**: Adjusts the width automatically based on content.
-
+<Tab title="iOS">
+Includes web styling options plus:
+* **Height**: Vertical size in points (pt)
 </Tab>
-<Tab title ="Layout">
 
-* **Direction**: Determines the orientation of the layout, which can be either horizontal or vertical.
-* **Gap**: Specifies the size of the space between rows and columns.
-* **Columns**: Indicates the number of columns in the layout.
-
-
-</Tab>
-</Tabs>
-</Tab>
-<Tab title ="iOS">
-
-Similar styling considerations apply to iOS as for web.
-
-However, for mobile applications, there's an additional sizing style property specific to select elements:
-
-* **Height** (pt - points): Determines the vertical size of the select element on the screen.
-
-</Tab>
-<Tab title ="Android">
-
-Similar styling considerations apply to Android as for web.
-
-However, for mobile applications, there's an additional sizing style property specific to select elements:
-
-* **Height** (dp - density-independent pixels): Determines the vertical size of the select element on the screen.
-
+<Tab title="Android">
+Includes web styling options plus:
+* **Height**: Vertical size in density-independent pixels (dp)
 </Tab>
 </Tabs>
 
-#### Checkbox style overrides options
+### Theme Overrides
 
-Theme overrides refer to the ability to modify or customize the appearance and behavior of UI components by overriding default theme settings. This can be applied at various levels, such as specific elements or entire sections, and can be platform-specific (Web, iOS, Android).
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov.png)
-</Frame>
-
-Style options:
+Customize the visual appearance with detailed style controls:
 
 <AccordionGroup>
-  <Accordion title="Common Properties">
-- Border radius **[TEXT]**
-- Border width  **[TEXT]**
-- Text style **[FONT]**
+<Accordion title="Common Properties">
+* Border radius
+* Border width
+* Text styling
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_common.png)
+![Common styling properties](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_common.png)
 </Frame>
-
 </Accordion>
 
-  <Accordion title="Label">
-- Default state
-    - Text color **[COLOR]**
-- Disabled state
-    - Text color  **[COLOR]**
-- Text style **[FONT]**
+<Accordion title="Label Styling">
+* Default state text color
+* Disabled state text color
+* Text style properties
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_label.png)
+![Label styling options](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_label.png)
 </Frame>
-
 </Accordion>
 
-  <Accordion title="Helper">
-- Text color **[COLOR]**
-- Text style **[FONT]**
-- Helper Tooltip
-    - Text style **[FONT]**
-    - Text color **[COLOR]**
-    - Background color **[COLOR]**
-    - Icon Color **[COLOR]**
+<Accordion title="State-Specific Styling">
+Configure appearances for:
+* Unselected state
+* Selected state
+* Disabled states
+* Hover states (Web only)
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_helper.png)
-</Frame>
-
+Each state supports:
+* Border color
+* Background color
+* Text color
+* Icon color
 </Accordion>
-
-<Accordion title="Error">
-
-- Text color **[COLOR]**
-- Text style **[FONT]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_error.png)
-</Frame>
-
-</Accordion>
-
-  <Accordion title="Unselected State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Icon color **[COLOR]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_unselected.png)
-</Frame>
-
-  </Accordion>
-
-  <Accordion title="Selected State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Icon color **[COLOR]**
-
-
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_selected.png)
-</Frame>
-
-  </Accordion>
-
-  <Accordion title="Disabled Unselected State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Icon color **[COLOR]**
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_disabled_unselected_state.png)
-</Frame>
-
-</Accordion>
-
- <Accordion title="Disabled Selected State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Icon color **[COLOR]**
-
-<Frame> 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_disabled_selected_state.png)
-</Frame>
-  </Accordion>
-
-  <Accordion title="Hover Unselected State (only for Web configuration)">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Icon color **[COLOR]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_hover_unselected_state.png)
-</Frame>
-
-  </Accordion>
-
-  <Accordion title="Hover Selected State (only for Web configuration)">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Icon color **[COLOR]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_hover_selected_state.png)
-</Frame>
-
-  </Accordion>
 </AccordionGroup>
 
-
 <Info>
-You can import or push the overrides from one platform to another without having to configure them multiple times.
+Efficiently manage style overrides across platforms using the import/push feature:
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_push_import.gif)
-
+![Style override management](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_push_import.gif)
 </Info>

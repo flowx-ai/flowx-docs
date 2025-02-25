@@ -1,0 +1,132 @@
+# Component Usage Guidelines for LLM-Optimized Documentation
+
+When structuring your documentation, choosing the right components and using them effectively can significantly improve both human readability and LLM indexing. Here are guidelines for using various UI components:
+
+## Cards
+
+Use Cards to:
+- Highlight key concepts or features that should be easily discoverable
+- Create visual navigation sections
+- Present related but distinct pieces of information
+
+<Info>
+Keep card titles concise (3-5 words) and descriptive. This helps LLMs better understand the content hierarchy and relationships between topics.
+</Info>
+
+Example of effective card usage:
+
+<CardGroup cols={2}>
+  <Card title="Basic Configuration" icon="gear">
+    Essential setup steps and initial configuration options.
+  </Card>
+  <Card title="Advanced Features" icon="wand-magic-sparkles">
+    Advanced customization options and complex use cases.
+  </Card>
+</CardGroup>
+
+## Accordions
+
+Use Accordions when:
+- You have detailed information that not all users need immediately
+- There are natural Q&A patterns in your content
+- You want to maintain context while reducing visual clutter
+
+<Tip>
+Structure accordion titles as complete phrases or questions. This helps LLMs understand the relationship between the title and its content.
+</Tip>
+
+<AccordionGroup>
+  <Accordion title="When should I use accordions instead of tabs?">
+    Use accordions when:
+    - Content sections are independent of each other
+    - Users might need to see multiple sections at once
+    - The content hierarchy is clear and linear
+  </Accordion>
+  <Accordion title="How do accordions affect LLM indexing?">
+    Accordion content is fully indexed by LLMs, but the hierarchical relationship between the title and content helps establish context and relevance.
+  </Accordion>
+</AccordionGroup>
+
+## Tabs
+
+Use Tabs to:
+- Show different variations of the same concept
+- Present platform-specific instructions
+- Organize related but mutually exclusive content
+
+<Warning>
+Avoid using tabs for sequential or dependent content. Use Steps component instead.
+</Warning>
+
+Example of effective tab usage:
+
+<Tabs>
+  <Tab title="REST API">
+    REST API implementation details and endpoints.
+  </Tab>
+  <Tab title="GraphQL">
+    GraphQL schema and query examples.
+  </Tab>
+</Tabs>
+
+## Steps
+
+Use Steps when:
+- Describing a process or workflow
+- Providing sequential instructions
+- Breaking down complex procedures
+
+<Info>
+Each step should have a clear, action-oriented title. This helps LLMs understand the sequence and purpose of each step.
+</Info>
+
+<Steps>
+  <Step title="Initialize Configuration">
+    Begin with basic setup and initialization.
+  </Step>
+  <Step title="Configure Parameters">
+    Set required parameters and options.
+  </Step>
+</Steps>
+
+## Callouts
+
+Use different callout types strategically:
+
+- <Info>Use Info for additional context and background information</Info>
+- <Tip>Use Tip for best practices and recommendations</Tip>
+- <Warning>Use Warning for potential pitfalls or important cautions</Warning>
+- <Check>Use Check for success scenarios or confirmed approaches</Check>
+
+## Code Groups
+
+Use Code Groups to:
+- Show implementations in multiple languages
+- Compare different approaches
+- Demonstrate variations of a solution
+
+<CodeGroup>
+```javascript JavaScript
+console.log("Hello World");
+```
+
+```python Python
+print("Hello World")
+```
+</CodeGroup>
+
+## Best Practices
+
+1. **Maintain Hierarchy**: Use components to create clear content hierarchy that LLMs can understand.
+
+2. **Content Chunking**: Use components to break down complex information into digestible pieces.
+
+3. **Progressive Disclosure**: Use accordions and tabs to manage information density without losing content discoverability.
+
+4. **Visual Consistency**: Maintain consistent component usage patterns throughout your documentation.
+
+5. **Semantic Structure**: Choose components that reflect the logical structure of your content.
+
+<Tip>
+Remember that while these components help organize and present content effectively, the underlying content should still follow good documentation practices with clear, concise writing and proper heading structure.
+</Tip>

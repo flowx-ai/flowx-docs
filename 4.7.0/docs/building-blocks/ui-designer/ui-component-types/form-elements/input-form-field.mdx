@@ -1,375 +1,200 @@
 ---
-title: Input
-description: An input field is a form element that enables users to input data with validations and can be hidden or disabled.
+title: Input Form Field
+description: Input form fields allow users to enter and validate data in your FlowX applications. Learn how to configure and customize input fields with validation, styling, and platform-specific settings.
 ---
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_element.png)
-</Frame>
+## Overview
 
-## Configuring the Input element
-
-### Input generic settings 
-
-These settings added in the Generic tab are available and they apply to all platforms including Web, iOS, and Android:
-
-- [**Process data key**](#process-data-key)
-- [**Properties**](#properties)
-- [**Datasource**](#datasource-configuration)
-- [**Validators**](#validators)
-- [**Expressions**](#expressions)
-- [**UI actions**](#ui-actions)
-- [**Input styling**](#input-styling)
+Input form fields are essential UI components that enable users to enter data in your applications. They support various data types, validation rules, and can be customized for different platforms.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_props.png)
+![Input Field Example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_element.png)
 </Frame>
 
-#### Process data key
-   
-Process data key establishes the binding between the input element and process data, enabling its later use in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration).
+## Basic Configuration
 
-#### Properties
+### Process Data Key
 
-* **Label**: The visible label for the input field.
-* **Placeholder**: Text that appears within the input field when it is empty.
-* **Type**: Defines the type of data the input field can accept, such as text, number, email, or password.
-* **Prefix**: Label appearing at the start of the input field.
-* **Suffix**: Label appearing at the end of the input field.
-* **Has Clear**: Option to include a content clear mechanism.
-* **Helpertext**: Additional information about the input field, which can be optionally hidden within an infopoint.
-* **Update on Blur**: Update behavior triggered when the input field loses focus.
+The process data key creates a binding between the input field and your process data. This enables you to:
 
-
-#### Datasource configuration
-
-The default value for the element can be configured here, this will autofill the input field when you will run the process.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_datasource1_new.png)
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_datasource2.png)
-</Frame>
-
-#### Computed datasource value
-
-To add a computed value, you have to explicitly check “Computed value” option (represented by the `f(x)` icon), which will transform the desired field into a JavaScript editor.
-
-Check the following example:
-
-<Card title="Computed values" href="../../dynamic-and-computed-values#computed-values" icon="link">
-</Card>
-
-#### Validators
-
-Incorporating validators into your inputs adds an extra layer of assurance to your data. (For further insights, refer to [this link](../../validators)).
-
-
-Witness the essential role of validators in action with this required validator example:
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Input_validat.gif)
-
-
-#### Hide/disable expressions
-
-Define the input field's behavior using JavaScript expressions to control its visibility or disablement. Configure the following properties for expressions:   
-
-* **Hide condition**: A JavaScript expression that hides the input field when it evaluates to the specified result.
-* **Disabled condition**: A JavaScript expression that disables the input field when it returns a truthy value.
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_hide.png)
-</Frame>
+- Reference the input value in [decisions](../../../node/exclusive-gateway-node)
+- Use the data in [business rules](../../../actions/business-rule-action/business-rule-action)
+- Pass values to [integrations](../../../node/message-send-received-task-node#from-integration)
 
 <Info>
-In the example above, we used a rule to hide an input field if another one has a null value (it is not filled). The "Mortgage" input field, which remains hidden until users fill in the "Income" field.
+Choose descriptive keys that reflect the data's purpose. For example, use `customer.firstName` instead of generic keys like `input1`.
 </Info>
 
-#### Hide expression example
+### Core Properties
 
-We will use the key defined on the "Income" input field to create the JavaScript hide condition to hide the "Mortgage" input field:
+Configure these essential input field properties:
+
+- **Label**: The text displayed above the input field
+- **Placeholder**: Helper text shown when the field is empty
+- **Type**: The input data type (text, number, email, password)
+- **Prefix**: Text or symbol displayed before the input
+- **Suffix**: Text or symbol displayed after the input
+- **Has Clear**: Enable a button to clear the field's content
+- **Helper Text**: Additional guidance, optionally shown in an info tooltip
+- **Update on Blur**: Whether to update the value when focus leaves the field
+
+<Tip>
+Use clear, concise labels and helpful placeholder text to guide users on what information to enter.
+</Tip>
+
+## Data Configuration
+
+### Default Values
+
+Set initial values for input fields using the datasource configuration:
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input.income.png)
+![Datasource Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_datasource1_new.png)
 </Frame>
 
-* Rule used:
+<Frame>
+![Default Value Settings](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_datasource2.png)
+</Frame>
 
+### Computed Values
+
+For dynamic default values:
+
+1. Enable the "Computed value" option (f(x) icon)
+2. Enter a JavaScript expression to calculate the value
+3. The value updates automatically based on your expression
+
+<Card title="Learn More About Computed Values" href="../../dynamic-and-computed-values#computed-values" icon="calculator">
+Read about creating dynamic computed values
+</Card>
+
+## Validation
+
+### Adding Validators
+
+Input validation ensures data quality and provides user feedback. Configure validators to:
+
+- Require field completion
+- Check data format (email, numbers, etc.)
+- Enforce length or value constraints
+- Implement custom validation rules
+
+<Frame>
+![Validator Example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Input_validat.gif)
+</Frame>
+
+<Card title="Validation Documentation" href="../../validators" icon="shield-check">
+Learn more about available validators and custom validation
+</Card>
+
+## Dynamic Behavior
+
+### Hide/Disable Expressions
+
+Control input field visibility and state using JavaScript expressions:
+
+#### Hide Conditions
 ```javascript
+// Example: Hide field if income is empty
 ${application.input.income} === null || ${application.input.income} === ""
 ```
-* Result:
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_hide_result.gif)
+![Hide Expression Result](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_hide_result.gif)
 </Frame>
 
-#### Disable example
-
-For example, you can use a disabled condition to disable an input element based on what values you have on a second input.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_disabled_condition.png)
-</Frame>
-
-When you type 'TEST' in the first input (Name) the second input (Test) will be disabled:
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/disabled_input.gif)
-</Frame>
-
-* Rule used:
-
+#### Disable Conditions
 ```javascript
+// Example: Disable when name equals 'TEST'
 ${application.input.name} == 'TEST'
 ```
 
-<Info>
-It's important to make sure that disabled fields have the same expression configured under the path expressions → hide.
-</Info>
+<Warning>
+Always configure the same hide expression under both expressions → hide and the disabled condition to maintain consistency.
+</Warning>
 
+## UI Actions
 
-#### UI actions
+Configure input behavior with UI actions:
 
-UI actions can be added to the Input Field to define its behavior and interactions.
-
-* **Event**: Possible value -`CHANGE`.
-* **Action Type**: Select the type of the action to be performed.
+1. Select the trigger event (currently supports `CHANGE`)
+2. Choose the action type
+3. Configure action parameters
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_ui_actions_new.gif)
+![UI Actions Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_ui_actions_new.gif)
 </Frame>
 
+<Card title="UI Actions Guide" href="../../ui-actions" icon="bolt">
+Detailed information about configuring UI actions
+</Card>
 
-### Input settings overrides
+## Platform-Specific Configuration
 
-There are instances where you may need to tailor settings configured in the **Generic** settings tab. This proves especially beneficial when you wish to adjust these settings to appear differently across various platforms such as Web, Android, or iOS.
+### Settings Overrides
 
-Available override settings:
+Customize input behavior per platform (Web, iOS, Android):
 
-* Properties:
-    * **Label**: Override the input label.
-    * **Helper**: Override helper text/info point.
-    * **Placeholder**: Override the placeholder.
-    * **Prefix**: Override the prefix.
-    * **Suffix**: Override the suffix.
-* Expressions:
-    * **Hide**: Override the hide expression.
+- **Properties**: Label, helper text, placeholder, prefix, suffix
+- **Expressions**: Hide conditions
+- **Styling**: Platform-specific appearance
 
 <Tip>
-Overrides can always be imported/pushed from one platform to another:
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importing_pushing_overrides.gif)
-
+Use the import/push feature to copy overrides between platforms:
+![Override Import/Push](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importing_pushing_overrides.gif)
 </Tip>
 
+## Styling Configuration
 
-<Info>
-For more details on how to configure a UI action, click [**here**](../../ui-actions).
-</Info>
+### Web Styling
 
-### Input styling
+Configure web-specific appearance:
 
-<Tabs>
-<Tab title="Web">
-<Tabs>
-<Tab title ="Icons">
+#### Icons
+- Left and right icons with customizable properties
+- Icon selection from Media Library
 
+#### Sizing
+- **Fill**: Expands to container width
+- **Fixed**: Maintains specific width
+- **Auto**: Adjusts to content
 
-* **Left Icon**: You can include an icon on the left side of the Input element. This icon can serve as a visual cue or symbol associated with the input field's purpose or content.
-* **Right Icon**: Same as left icon.
+### Mobile Styling
 
-#### Icons properties
- 
-* **Icon Key**: The key associated in the Media library, select the icon from the **Media Library**.
+Additional options for iOS and Android:
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/input_icons.png)
-</Frame>
+- **Height**: Platform-specific units (pt for iOS, dp for Android)
+- Platform-specific style overrides
 
-</Tab>
-<Tab title="Sizing">
+## Style Overrides
 
-Adjusting the size of components is crucial for a responsive design. Fit W (width) offers three options:
-
-    * **fill**: Fills the available space.
-    * **fixed**: Maintains a fixed width.
-    * **auto**: Adjusts the width automatically based on content.
-</Tab>
-</Tabs>
-</Tab>
-<Tab title ="iOS">
-
-Similar styling considerations apply to iOS as for web.
-
-However, for mobile applications, there's an additional sizing style property specific to input elements:
-
-* **Height** (pt - points): Determines the vertical size of the input box on the screen.
-
-</Tab>
-<Tab title ="Android">
-
-Similar styling considerations apply to Android as for web.
-
-However, for mobile applications, there's an additional sizing style property specific to input elements:
-
-* **Height** (dp - density-independent pixel): Determines the vertical size of the input box on the screen.
-
-</Tab>
-</Tabs>
-
-#### Input style overrides options
-
-Theme overrides refer to the ability to modify or customize the appearance and behavior of UI components by overriding default theme settings. This can be applied at various levels, such as specific elements or entire sections, and can be platform-specific (Web, iOS, Android).
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_all.png)
-</Frame>
-
-Style options:
+Customize component appearance with theme overrides:
 
 <AccordionGroup>
-  <Accordion title="Common Properties">
-- Border radius **[TEXT]**
-- Border width  **[TEXT]**
-- Text style **[FONT]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_common_props.png)
-</Frame>
-
+<Accordion title="Common Properties">
+- Border radius and width
+- Text styling
 </Accordion>
 
-  <Accordion title="Label">
-- Default state
-    - Text color **[COLOR]**
+<Accordion title="State-Specific Styling">
+Configure colors and styles for:
+- Empty state
+- Active state
+- Filled state
 - Disabled state
-    - Text color  **[COLOR]**
-- Text style **[FONT]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_label.png)
-</Frame>
-
+- Error state
+- Hover state (Web only)
 </Accordion>
 
-  <Accordion title="Helper">
-- Text color **[COLOR]**
-- Text style **[FONT]**
-- Helper Tooltip
-    - Text style **[FONT]**
-    - Text color **[COLOR]**
-    - Background color **[COLOR]**
-    - Icon Color **[COLOR]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_helper.png)
-</Frame>
-
+<Accordion title="Text Elements">
+Style options for:
+- Labels
+- Helper text
+- Error messages
+- Placeholders
 </Accordion>
-
-<Accordion title="Error">
-
-- Text color **[COLOR]**
-- Text style **[FONT]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_error.png)
-</Frame>
-
-</Accordion>
-
-  <Accordion title="Empty State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Right icon color **[COLOR]**
-    - Left icon color **[COLOR]**
-    - Prefix/Suffix color **[COLOR]**
-    - Placeholder color **[COLOR]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_empty_state.png)
-</Frame>
-
-  </Accordion>
-
-  <Accordion title="Active State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Right icon color **[COLOR]**
-    - Left icon color **[COLOR]**
-    - Prefix/Suffix color **[COLOR]**
-    - Placeholder color **[COLOR]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_active_state.png)
-</Frame>
-
-  </Accordion>
-
-  <Accordion title="Filled State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Right icon color **[COLOR]**
-    - Left icon color **[COLOR]**
-    - Prefix/Suffix color **[COLOR]**
-    - Placeholder color **[COLOR]**
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_filled_state.png)
-</Frame>
-
-</Accordion>
-
- <Accordion title="Disabled State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Right icon color **[COLOR]**
-    - Left icon color **[COLOR]**
-    - Prefix/Suffix color **[COLOR]**
-    - Placeholder color **[COLOR]**
-
-<Frame> 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_disabled_state.png)
-</Frame>
-  </Accordion>
-
-  <Accordion title="Error State">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Right icon color **[COLOR]**
-    - Left icon color **[COLOR]**
-    - Prefix/Suffix color **[COLOR]**
-    - Placeholder color **[COLOR]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_error_state.png)
-</Frame>
-
-  </Accordion>
-
-  <Accordion title="Hover State (only for Web configuration)">
-    - Border color **[COLOR]**
-    - Background color **[COLOR]**
-    - Text color **[COLOR]**
-    - Right icon color **[COLOR]**
-    - Left icon color **[COLOR]**
-    - Prefix/Suffix color **[COLOR]**
-    - Placeholder color **[COLOR]**
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_hover_state.png)
-</Frame>
-
-  </Accordion>
 </AccordionGroup>
 
-
 <Info>
-You can import or push the overrides from one platform to another without having to configure them multiple times.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_push_import.gif)
-
+Theme overrides can be imported between platforms to maintain consistency while allowing platform-specific customization.
 </Info>

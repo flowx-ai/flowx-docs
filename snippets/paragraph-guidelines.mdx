@@ -1,0 +1,91 @@
+# Paragraph Guidelines for LLM-Optimized Documentation
+
+<Note>
+  These guidelines help create documentation that is both reader-friendly and optimized for Large Language Model (LLM) indexing and understanding.
+</Note>
+
+## Length and Structure
+
+- Keep paragraphs between 3-5 sentences for optimal readability and LLM processing
+- Focus on a single main idea or concept per paragraph
+- Start with a clear topic sentence that introduces the paragraph's main point
+- Use transitional phrases between paragraphs to maintain logical flow
+
+## Content Organization
+
+<CardGroup cols={2}>
+  <Card title="Topic Focus" icon="bullseye">
+    Each paragraph should discuss one specific topic or idea. This helps LLMs better understand and index the content's structure.
+  </Card>
+  
+  <Card title="Information Density" icon="layer-group">
+    Balance information density - avoid both overly sparse and overly dense paragraphs. Aim for clear, concise explanations.
+  </Card>
+</CardGroup>
+
+## Formatting Best Practices
+
+<AccordionGroup>
+  <Accordion title="White Space Usage" icon="expand">
+    - Use appropriate spacing between paragraphs
+    - Break up walls of text with lists, code blocks, or components
+    - Consider using shorter paragraphs for complex technical concepts
+  </Accordion>
+
+  <Accordion title="Visual Hierarchy" icon="layer-group">
+    - Use proper heading levels to structure content
+    - Incorporate lists and bullet points for better scanability
+    - Leverage Mintlify components to highlight important information
+  </Accordion>
+</AccordionGroup>
+
+## Writing Style
+
+<Info>
+  Use clear, direct language that both human readers and LLMs can easily process. Avoid jargon unless necessary for technical accuracy.
+</Info>
+
+### Key Guidelines:
+- Start with the most important information
+- Use active voice where possible
+- Include relevant keywords naturally
+- Maintain consistent terminology throughout
+- Use concrete examples to illustrate complex concepts
+
+## Transitions and Flow
+
+Good paragraph transitions help both readers and LLMs understand relationships between ideas. Use transitional phrases like:
+- "Additionally..."
+- "In contrast..."
+- "For example..."
+- "As a result..."
+- "Furthermore..."
+
+<Tip>
+  When writing technical documentation, consider breaking down complex processes into smaller, focused paragraphs. This makes the content more digestible and helps LLMs better understand and index the information.
+</Tip>
+
+## Common Pitfalls to Avoid
+
+<Warning>
+  Watch out for these common issues that can make content harder to process:
+  - Overlong paragraphs (more than 6-7 sentences)
+  - Multiple topics in a single paragraph
+  - Lack of clear transitions
+  - Inconsistent terminology
+  - Buried key information
+</Warning>
+
+## Examples
+
+### Good Paragraph Structure
+```markdown
+The authentication process begins with token validation. The system first checks the token's signature against the stored public key. If the signature is valid, it then verifies the token's expiration time and claims. This structured approach ensures secure access while maintaining system performance.
+```
+
+### Poor Paragraph Structure
+```markdown
+Authentication is important and tokens need to be validated and there are several steps involved including checking signatures and expiration times and claims and the system needs to verify everything properly and security is critical for maintaining system integrity and there are many different aspects to consider when implementing authentication in your application which is why you need to follow best practices.
+```
+
+Remember that well-structured paragraphs benefit both human readers and automated systems, leading to better documentation overall.
