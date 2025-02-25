@@ -1,12 +1,19 @@
 ---
 title: Configuration parameters
-description: Configuration parameters allow applications to be dynamic, flexible, and environment-specific. They enable managing variables and values that change across deployment environments (e.g., Development, QA, Production), without requiring hardcoded updates. This feature is particularly valuable for managing sensitive information, environment-specific settings, and configurations for integrations.
+description: Configuration parameters allow projects to be dynamic, flexible, and environment-specific. They enable managing variables and values that change across deployment environments (e.g., Development, QA, Production), without requiring hardcoded updates. This feature is particularly valuable for managing sensitive information, environment-specific settings, and configurations for integrations.
 ---
 
 
 <Info>
-Configuration Parameters are defined per **application version**, ensuring consistency across builds while allowing for environment-specific overrides. These parameters can be used across various components, such as business rules, UI elements, integration designer, and gateways.
+Configuration Parameters are defined per **project version** or **library version**, ensuring consistency across builds while allowing for environment-specific overrides. These parameters can be used across various components, such as business rules, UI elements, integration designer, and gateways.
+
+Libraries can define configuration parameters to facilitate testing of processes or workflows that depend on them. However, unlike project-level configuration parameters, libraries do not support direct overrides.
+
+* Libraries provide default values for configuration parameters.
+* Projects using these libraries can override the provided values as required.
+
 </Info>
+
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-18%20at%2018.45.32.png)
@@ -49,7 +56,7 @@ Configuration parameters are defined as **key-value pairs** and support the foll
 
 ### Value
 
-A static value directly used by the application. Suitable for settings that do not change across environments.
+A static value directly used by the project. Suitable for settings that do not change across environments.
 
 - **Use Cases**:
   - Feature flags to toggle functionality (e.g., enabling/disabling insurance sales in a customer dashboard).
@@ -116,7 +123,7 @@ Used for sensitive data like passwords, API keys, or credentials. These values a
 
 ## Use cases for configuration parameters
 
-Configuration parameters simplify the management of environment-specific or dynamic settings across multiple application components:
+Configuration parameters simplify the management of environment-specific or dynamic settings across multiple project components:
 
 1. **Business Rules**:
    - Define dynamic logic based on parameters such as feature toggles or environment-specific conditions.
@@ -142,7 +149,7 @@ Configuration parameters simplify the management of environment-specific or dyna
 
 To add a new configuration parameter:
 
-1. Navigate to **Your Application** → **Configuration Parameters**.
+1. Navigate to **Your Project** → **Configuration Parameters**.
 2. Click **New Parameter** and provide the following:
    - **Key**: Name of the parameter.
    - **Type**: Select `value`, `environment variable`, or `secret environment variable`.
