@@ -1,131 +1,130 @@
 ---
-title: Media library
-description: The media library serves as a centralized hub for managing and organizing various types of media files, including images, GIFs, and more. It encompasses all the files that have been uploaded to the **processes**, providing a convenient location to view, organize, and upload new media files.
+title: Media Library
+description: The Media Library serves as a centralized hub for managing and organizing various types of media files, including images, GIFs, and more. It encompasses all files uploaded to the **processes**, providing a convenient location to view, organize, and upload new media files.
 ---
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/media_library.gif)
 
 <Tip>
-You can also upload an image directly to the Media Library on the spot when configuring a process using the [**UI Designer**](/4.0/docs/building-blocks/ui-designer/ui-designer). More information [**here**](/4.0/docs/building-blocks/ui-designer/ui-component-types/image).
+You can also upload an image directly to the Media Library when configuring a process using the [**UI Designer**](/4.0/docs/building-blocks/ui-designer/ui-designer). For more information, see [**Image Component**](/4.0/docs/building-blocks/ui-designer/ui-component-types/image).
 </Tip>
 
-## Uploading a new asset
+## Uploading a New Asset
 
-To upload an asset to the Media Library, follow the next steps:
+To upload an asset to the Media Library:
 
-1. Open **FlowX Designer**.
-2. Go to **Content Management** tab and select **Media Library**.
-3. Click **Add new item**, the following details will be displayed:
+1. Open **FlowX Designer**
+2. Navigate to the **Content Management** tab and select **Media Library**
+3. Click **Add new item** to display the following options:
     * **Upload item** - opens a local file browser
-    * **Key** - the key must be unique, you cannot change it afterwards
+    * **Key** - must be unique (cannot be changed after creation)
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/media_library_add_new.png)
 
-4. Click **Upload item** button and select a file from your local browser.
-5. Click **Upload item** button again to upload the asset.
+4. Click the **Upload item** button and select a file from your local browser
+5. Click **Upload item** again to complete the upload
 
 <Info>
-* **Supported image formats**: PNG, JPEG, JPG, GIF, SVG or WebP format, 1 MB maximum size.
-* **Supported files**: PDF documents, with a maximum file size limit of 10 MB.
+* **Supported image formats**: PNG, JPEG, JPG, GIF, SVG, or WebP format (1 MB maximum size)
+* **Supported files**: PDF documents (10 MB maximum size)
 </Info>
 
+## Displaying Assets
 
-## Displaying assets
+Users can preview all uploaded assets by accessing the **Media Library**.
 
-Users can preview all the uploaded assets just be accessing the **Media Library**.
+Available asset information includes:
 
-You have the following information about assets:
-
-* Preview (thumbnail 48x48)
+* Preview (48x48 thumbnail)
 * Key
 * Format ("-" for unknown format)
 * Size
-* Edited at 
-* Edited by
+* Last edited date 
+* Last edited by
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/media_library_preview.png)
 
-## Searching assets
+## Searching Assets
 
-You can search an asset by using its key (full or substring).
+You can search for an asset using its key (full or partial match).
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/search_asset.png)
 
-## Replacing assets
+## Replacing Assets
 
-You can replace an item on a specific key (this will not break references to process definitions).
+You can replace an item using its specific key without breaking references to process definitions.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/replace_asset.gif)
 
-## Referencing assets in UI Designer
+## Referencing Assets in UI Designer
 
-You have the following options when configuring image components using [UI Designer](../../../building-blocks/ui-designer/ui-designer):
+When configuring image components using [UI Designer](../../../building-blocks/ui-designer/ui-designer), you have the following options:
 
-* Source Location - here you must select **Media Library** as source location 
-* Image Key  
-    * **Option 1**: trigger a dropdown with images keys - you can type and filter options or can select from the initial list in dropdown 
-    * **Option 2**: open a popup with images thumbnails and keys then you can type and filter options or can select from the initial list
+* Source Location - select **Media Library** as the source location 
+* Image Key - choose from two selection methods:  
+    * **Option 1**: Use a dropdown with image keys - type to filter options or select from the initial list
+    * **Option 2**: Open a popup with image thumbnails and keys - type to filter options or select from the initial list
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/media_library_options.png)
 
 <Tip>
-More details on how to configure an image component using UI Designer - [**here**](/4.0/docs/building-blocks/ui-designer/ui-component-types/image).
+For detailed instructions on configuring an image component using UI Designer, see [**Image Component Configuration**](/4.0/docs/building-blocks/ui-designer/ui-component-types/image).
 </Tip>
 
 ## Icons
 
-The Icons feature allows you to personalize the icons used in UI elements. By uploading SVG files through the Media Library and marking them, you can choose icons from the available list in the UI Designer.
+The Icons feature allows you to customize icons used in UI elements. By uploading SVG files through the Media Library and marking them as icons, you can select them from the available list in the UI Designer.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/icons.png)
 
 <Info>
-When selecting icons in the UI Designer, only SVG files marked as icons in the Media Library will be displayed.
+When selecting icons in the UI Designer, only SVG files marked as icons in the Media Library will be available.
 </Info>
 
 <Info>
-To ensure optimal visual rendering and alignment within your UI elements, it is recommended to use icons with small sizes such as: 16px, 24px, 32px.
+For optimal visual rendering and alignment within UI elements, use icons with standard sizes: 16px, 24px, or 32px.
 
-Using icons specifically designed for these sizes helps maintain consistency and ensures a visually pleasing user interface. It is advisable to select icons from icon sets that provide these size options or to resize icons proportionally to fit within these dimensions.
+Using icons specifically designed for these sizes helps maintain consistency and ensures a visually pleasing user interface. Select icons from icon sets that provide these size options or resize icons proportionally to fit these dimensions.
+
 <Warning>
-Icons are displayed or rendered at their original, inherent size.
+Icons are displayed at their original, inherent size.
 </Warning>
 </Info>
 
 ### Customization
 
-Content-specific icons pertain to the content of UI elements, such as icons for [input fields](../../../building-blocks/ui-designer/ui-component-types/form-elements/input-form-field) or [send message buttons](../../../building-blocks/ui-designer/ui-component-types/buttons). These icons are readily accessible in the [UI Designer](../../../building-blocks/ui-designer/).
+Content-specific icons enhance UI elements such as [input fields](../../../building-blocks/ui-designer/ui-component-types/form-elements/input-form-field) or [send message buttons](../../../building-blocks/ui-designer/ui-component-types/buttons). These icons are readily available in the [UI Designer](../../../building-blocks/ui-designer/).
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/icon_add_ui.gif)
 
-More details on how to add icons on each element, check the sections below:
+For detailed instructions on adding icons to specific elements, refer to:
 
 <CardGroup cols={1}>
-<Card title="Input element" href="../../../building-blocks/ui-designer/ui-component-types/form-elements/input-form-field#input-styling" icon="file">
+<Card title="Input Element" href="../../../building-blocks/ui-designer/ui-component-types/form-elements/input-form-field#input-styling" icon="file">
 </Card>
 
-<Card title="Select element" href="../../../building-blocks/ui-designer/ui-component-types/form-elements/select-form-field#icons" icon="file">
+<Card title="Select Element" href="../../../building-blocks/ui-designer/ui-component-types/form-elements/select-form-field#icons" icon="file">
 </Card>
 
 <Card title="Buttons" href="../../../building-blocks/ui-designer/ui-component-types/buttons#icons" icon="file">
 </Card>
 </CardGroup>
 
+## Export/Import Media Assets
 
-## Export/import media assets
-
-The import/export feature allows you to import or export media assets, enabling easy transfer and management of supported types of media files.
+The import/export feature enables you to transfer and manage supported media files easily.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/media_library_export.png)
 
-### Import media assets
+### Import Media Assets
 
-Use this function to import media assets of various supported types. It provides a convenient way to bring in images, videos, or other media resources.
+Use this function to import various supported media assets, including images, videos, and other media resources.
 
-### Export all
+### Export All
 
-Use this function to export all media assets stored in your application or system. The exported data will be in JSON format, allowing for easy sharing, backup, or migration of the media assets.
+Export all media assets in JSON format for sharing, backup, or migration purposes.
 
-The exported JSON structure will resemble the following example:
+The exported JSON structure follows this format:
 
 ```json
 {
@@ -155,13 +154,15 @@ The exported JSON structure will resemble the following example:
 }
 ```
 
-* `images`- is an array that contains multiple objects, each representing an image
-* `exportVersion` - represents the version number of the exported data, it holds the image-related information
-* `key`- represents a unique identifier or name for the image, it helps identify and differentiate images within the context of the application
-* `application` - specifies the name or identifier of the application associated with the image, it indicates which application or system the image is related to
-* `filename` - the name of the file for the image, it represents the original filename of the image file
-* `format` - a string property that specifies the format or file extension of the image
-* `contentType` - the MIME type or content type of the image, it specifies the type of data contained within the image file
-* `size` - represents the size of the image file in bytes, it indicates the file's storage size on a disk or in a data storage system
-* `storagePath` - the URL or path to the location where the original image file is stored, it points to the location from where the image can be accessed or retrieved
-* `thumbnailStoragePath` - the URL or path to the location where a thumbnail version of the image is stored, it points to the location from where the thumbnail image can be accessed or retrieved
+JSON Structure Properties:
+
+* `images` - Array containing multiple image objects
+* `exportVersion` - Version number of the exported data
+* `key` - Unique identifier for the image
+* `application` - Name or identifier of the associated application
+* `filename` - Original filename of the image
+* `format` - File format or extension
+* `contentType` - MIME type of the image
+* `size` - File size in bytes
+* `storagePath` - URL to the original image file
+* `thumbnailStoragePath` - URL to the thumbnail version of the image

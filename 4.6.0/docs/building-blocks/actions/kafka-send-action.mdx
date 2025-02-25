@@ -1,6 +1,6 @@
 ---
-title: Kafka send action
-description: The FlowX Designer offers various options to configure the Kafka Send Action through the Actions tab at the node level.
+title: Kafka Send Action
+description: The FlowX Designer provides various options to configure the Kafka Send Action through the Actions tab at the node level.
 ---
 
 - [Action Edit](#action-edit)
@@ -10,56 +10,61 @@ description: The FlowX Designer offers various options to configure the Kafka Se
 
 ### Action Edit
 
-- **Name** - Used internally to distinguish between different [actions](../actions/actions) within the process. Establish a clear naming convention for easy identification.
-- **Order** - Sets the running order for multiple actions on the same node.
-- **Timer Expression** - Enables a delay, using [ISO 8601 duration format](../node/timer-events/timer-expressions#iso-8601) (e.g., `PT30S` for a 30-second delay).
-- **Action Type** - Designate as **Kafka Send Action** for sending messages to external systems.
-- **Trigger Type** - Always set to Automatic.
+- **Name** - Used internally to distinguish between different [actions](../actions/actions) within the process. We recommend establishing a clear naming convention for easy identification.
+- **Order** - Determines the execution order when multiple actions exist on the same node.
+- **Timer Expression** - Enables a delay using the [ISO 8601 duration format](../node/timer-events/timer-expressions#iso-8601). For example, `PT30S` creates a 30-second delay.
+- **Action Type** - Must be set to **Kafka Send Action** for sending messages to external systems.
+- **Trigger Type** - Always set to **Automatic**.
 
 <Info>
-The Kafka Send Action type is always **Automatic**. Typically, Kafka Send Actions automatically trigger when the process reaches this step.
+The Kafka Send Action type is always **Automatic**. These actions automatically trigger when the process reaches their designated step.
 </Info>
 
-- **Required Type** (Mandatory/Optional) - **Automatic** actions are typically set as **mandatory**. Manual actions can be either mandatory or optional.
-- **Repeatable** - Allows triggering the action multiple times if required.
-- **Autorun Children** - When activated, child actions (mandatory and automatic) execute immediately after the parent action concludes.
+- **Required Type** - Choose between **Mandatory** or **Optional**. **Automatic** actions are typically set as **Mandatory**, while manual actions can be either.
+- **Repeatable** - When enabled, allows the action to be triggered multiple times.
+- **Autorun Children** - When enabled, child actions (both mandatory and automatic) execute immediately after the parent action completes.
 
 ### Parameters
 
-You can add parameters via the **Custom** option or import predefined parameters from an integration.
+You can add parameters either through the **Custom** option or by importing predefined parameters from an integration.
 
 <Info>
-For detailed information on **Integrations management**, refer to [<u>**this link**</u>](../../platform-deep-dive/core-extensions/integration-management/).
+For detailed information about **Integrations Management**, please refer to [<u>**this documentation**</u>](../../platform-deep-dive/core-extensions/integration-management/).
 </Info>
 
-- **Topics** - Specifies the Kafka topics listened to by the external system for requests.
-- **Message** - Contains the message payload to be dispatched.
-- **Advanced Configuration (Headers)** - Represents a JSON value sent within the Kafka message headers.
+- **Topics** - Specifies the Kafka topics that the external system monitors for requests.
+- **Message** - Contains the message payload to be sent.
+- **Advanced Configuration (Headers)** - Represents a JSON object sent within the Kafka message headers.
 
 ![Parameters](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/3.5/message_send_parameters.png)
 
 ## Kafka Send Action Scenarios
 
-The Kafka Send action serves as a versatile tool that facilitates seamless communication across various systems and plugins, enabling efficient data transfer, robust document management, notifications, and process initiation.
+The Kafka Send Action serves as a versatile tool that enables seamless communication across various systems and plugins. It facilitates efficient data transfer, robust document management, notifications, and process initiation.
 
-This action finds application in numerous scenarios while configuring processes:
+This action can be applied in numerous scenarios when configuring processes:
 
-- **Communicating with External Services**
-- **Interacting with Connectors** - For example, integrating a connector in the FlowX.AI Designer [here](../../platform-deep-dive/integrations/building-a-connector#integrating-a-connector-in-flowxai-designer).
-- **Engaging with Plugins:**
+- **Communication with External Services**
+- **Interaction with Connectors** - For example, integrating a connector in the FlowX.AI Designer ([see example](../../platform-deep-dive/integrations/building-a-connector#integrating-a-connector-in-flowxai-designer))
+- **Plugin Integration:**
     - **Document Plugin:**
-        - Generating, uploading, converting, and splitting documents - Explore examples [here](../../platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin-overview).
-        - Updating/deleting documents - Find an example [here](../../platform-deep-dive/plugins/custom-plugins/documents-plugin/deleting-a-file)
-        - Optical Character Recognition (OCR) integration - View an example [here](../../platform-deep-dive/plugins/custom-plugins/ocr-plugin#scenario-for-flowxai-generated-documents).
+        - Generate, upload, convert, and split documents ([see examples](../../platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin-overview))
+        - Update or delete documents ([see example](../../platform-deep-dive/plugins/custom-plugins/documents-plugin/deleting-a-file))
+        - Optical Character Recognition (OCR) integration ([see example](../../platform-deep-dive/plugins/custom-plugins/ocr-plugin#scenario-for-flowxai-generated-documents))
     - **Notification Plugin:**
-        - Sending notifications - Example available [here](../../platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-a-notification) and emails with attachments [here](../../platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-an-email-with-attachments).
-        - One-Time Password (OTP) validation - Refer to this [example](../../platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-a-notification).
-        - Forwarding notifications to external systems - Explore this [example](../../platform-deep-dive/plugins/custom-plugins/notifications-plugin/forwarding-notifications-to-an-external-system).
+        - Send notifications ([see example](../../platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-a-notification))
+        - Send emails with attachments ([see example](../../platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-an-email-with-attachments))
+        - One-Time Password (OTP) validation ([see example](../../platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-a-notification))
+        - Forward notifications to external systems ([see example](../../platform-deep-dive/plugins/custom-plugins/notifications-plugin/forwarding-notifications-to-an-external-system))
     - **OCR Plugin**
     - **Customer Management Plugin**
     - **Task Management Plugin:**
-        - Bulk operations update - Find an example [here](../../platform-deep-dive/core-extensions/task-management/task-management-overview#bulk-updates).
-- **Requesting Process Data for Forwarding or Processing** - For example, Data Search [here](../../platform-deep-dive/core-extensions/search-data-service).
-- **Initiating Processes** - Starting a process via Kafka or using hooks. Find examples [here](../../flowx-designer/managing-a-process-flow/starting-a-process).
+        - Perform bulk operations updates ([see example](../../platform-deep-dive/core-extensions/task-management/task-management-overview#bulk-updates))
+- **Process Data Operations:**
+    - Request data for forwarding or processing
+    - Perform data searches ([see documentation](../../platform-deep-dive/core-extensions/search-data-service))
+- **Process Initiation:**
+    - Start processes via Kafka
+    - Utilize process hooks ([see examples](../../flowx-designer/managing-a-process-flow/starting-a-process))
 
-The Kafka Send action stands as a versatile facilitator, enabling smooth operations in communication, document management, notifications, and process initiation across diverse systems and plugins.
+The Kafka Send Action is a powerful tool that enables smooth operations across various aspects of your system, from basic communication to complex document management, notifications, and process control.

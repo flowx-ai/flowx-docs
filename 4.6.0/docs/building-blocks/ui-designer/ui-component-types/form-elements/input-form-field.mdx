@@ -1,91 +1,91 @@
 ---
 title: Input
-description: An input field is a form element that enables users to input data with validations and can be hidden or disabled.
+description: An Input field is a form element that enables users to input data with validations and can be hidden or disabled.
 ---
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_element.png)
 </Frame>
 
-## Configuring the Input element
+## Configuring the Input Element
 
-### Input generic settings 
+### Input Generic Settings 
 
-These settings added in the Generic tab are available and they apply to all platforms including Web, iOS, and Android:
+The following settings in the Generic tab are available across all platforms including Web, iOS, and Android:
 
-- [**Process data key**](#process-data-key)
+- [**Process Data Key**](#process-data-key)
 - [**Properties**](#properties)
 - [**Datasource**](#datasource-configuration)
 - [**Validators**](#validators)
 - [**Expressions**](#expressions)
-- [**UI actions**](#ui-actions)
-- [**Input styling**](#input-styling)
+- [**UI Actions**](#ui-actions)
+- [**Input Styling**](#input-styling)
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_props.png)
 </Frame>
 
-#### Process data key
+#### Process Data Key
    
-Process data key establishes the binding between the input element and process data, enabling its later use in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration).
+The Process Data Key establishes the binding between the Input element and process data, enabling its later use in [Decisions](../../../node/exclusive-gateway-node), [Business Rules](../../../actions/business-rule-action/business-rule-action), or [Integrations](../../../node/message-send-received-task-node#from-integration).
 
 #### Properties
 
-* **Label**: The visible label for the input field.
-* **Placeholder**: Text that appears within the input field when it is empty.
-* **Type**: Defines the type of data the input field can accept, such as text, number, email, or password.
-* **Prefix**: Label appearing at the start of the input field.
-* **Suffix**: Label appearing at the end of the input field.
-* **Has Clear**: Option to include a content clear mechanism.
-* **Helpertext**: Additional information about the input field, which can be optionally hidden within an infopoint.
-* **Update on Blur**: Update behavior triggered when the input field loses focus.
+* **Label**: The visible label for the Input field
+* **Placeholder**: Text that appears within the Input field when it is empty
+* **Type**: Defines the type of data the Input field can accept (text, number, email, or password)
+* **Prefix**: Label appearing at the start of the Input field
+* **Suffix**: Label appearing at the end of the Input field
+* **Has Clear**: Option to include a content clear mechanism
+* **Helper Text**: Additional information about the Input field, which can be optionally hidden within an info point
+* **Update on Blur**: Update behavior triggered when the Input field loses focus
 
 
-#### Datasource configuration
+#### Datasource Configuration
 
-The default value for the element can be configured here, this will autofill the input field when you will run the process.
+Configure the default value for the element here. This will autofill the Input field when you run the process.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_datasource1_new.png)
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_datasource2.png)
 </Frame>
 
-#### Computed datasource value
+#### Computed Datasource Value
 
-To add a computed value, you have to explicitly check “Computed value” option (represented by the `f(x)` icon), which will transform the desired field into a JavaScript editor.
+To add a computed value, explicitly check the "Computed value" option (represented by the `f(x)` icon). This transforms the desired field into a JavaScript editor.
 
-Check the following example:
+See the following example:
 
-<Card title="Computed values" href="../../dynamic-and-computed-values#computed-values" icon="link">
+<Card title="Computed Values" href="../../dynamic-and-computed-values#computed-values" icon="link">
 </Card>
 
 #### Validators
 
-Incorporating validators into your inputs adds an extra layer of assurance to your data. (For further insights, refer to [this link](../../validators)).
+Adding validators to your inputs provides an extra layer of data validation. For more information, refer to [Validators](../../validators).
 
-
-Witness the essential role of validators in action with this required validator example:
+See the essential role of validators in action with this required validator example:
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Input_validat.gif)
 
 
-#### Hide/disable expressions
+#### Hide/Disable Expressions
 
-Define the input field's behavior using JavaScript expressions to control its visibility or disablement. Configure the following properties for expressions:   
+Define the Input field's behavior using JavaScript expressions to control its visibility or disabled state. Configure the following properties:   
 
-* **Hide condition**: A JavaScript expression that hides the input field when it evaluates to the specified result.
-* **Disabled condition**: A JavaScript expression that disables the input field when it returns a truthy value.
+* **Hide Condition**: A JavaScript expression that hides the Input field when it evaluates to the specified result
+* **Disabled Condition**: A JavaScript expression that disables the Input field when it returns a truthy value
+
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_hide.png)
 </Frame>
 
 <Info>
-In the example above, we used a rule to hide an input field if another one has a null value (it is not filled). The "Mortgage" input field, which remains hidden until users fill in the "Income" field.
+In the example above, we used a rule to hide an Input field if another one has a null value (it is not filled). The "Mortgage" Input field remains hidden until users fill in the "Income" field.
 </Info>
 
-#### Hide expression example
+#### Hide Expression Example
 
-We will use the key defined on the "Income" input field to create the JavaScript hide condition to hide the "Mortgage" input field:
+We will use the key defined on the "Income" Input field to create the JavaScript hide condition for the "Mortgage" Input field:
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input.income.png)
@@ -102,15 +102,15 @@ ${application.input.income} === null || ${application.input.income} === ""
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_hide_result.gif)
 </Frame>
 
-#### Disable example
+#### Disable Example
 
-For example, you can use a disabled condition to disable an input element based on what values you have on a second input.
+You can use a disabled condition to disable an Input element based on values in a second Input.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_disabled_condition.png)
 </Frame>
 
-When you type 'TEST' in the first input (Name) the second input (Test) will be disabled:
+When you type 'TEST' in the first Input (Name), the second Input (Test) will be disabled:
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/disabled_input.gif)
@@ -123,39 +123,39 @@ ${application.input.name} == 'TEST'
 ```
 
 <Info>
-It's important to make sure that disabled fields have the same expression configured under the path expressions → hide.
+Ensure that disabled fields have the same expression configured under the path expressions → hide.
 </Info>
 
 
-#### UI actions
+#### UI Actions
 
-UI actions can be added to the Input Field to define its behavior and interactions.
+Add UI Actions to the Input Field to define its behavior and interactions:
 
-* **Event**: Possible value -`CHANGE`.
-* **Action Type**: Select the type of the action to be performed.
+* **Event**: Possible value - `CHANGE`
+* **Action Type**: Select the type of action to be performed
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/input_ui_actions_new.gif)
 </Frame>
 
 
-### Input settings overrides
+### Input Settings Overrides
 
-There are instances where you may need to tailor settings configured in the **Generic** settings tab. This proves especially beneficial when you wish to adjust these settings to appear differently across various platforms such as Web, Android, or iOS.
+There may be instances where you need to customize settings configured in the **Generic** settings tab. This is especially useful when you want settings to appear differently across various platforms (Web, Android, or iOS).
 
 Available override settings:
 
 * Properties:
-    * **Label**: Override the input label.
-    * **Helper**: Override helper text/info point.
-    * **Placeholder**: Override the placeholder.
-    * **Prefix**: Override the prefix.
-    * **Suffix**: Override the suffix.
+    * **Label**: Override the Input label
+    * **Helper**: Override helper text/info point
+    * **Placeholder**: Override the placeholder
+    * **Prefix**: Override the prefix
+    * **Suffix**: Override the suffix
 * Expressions:
-    * **Hide**: Override the hide expression.
+    * **Hide**: Override the hide expression
 
 <Tip>
-Overrides can always be imported/pushed from one platform to another:
+Overrides can be imported/pushed from one platform to another:
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importing_pushing_overrides.gif)
 
@@ -163,23 +163,23 @@ Overrides can always be imported/pushed from one platform to another:
 
 
 <Info>
-For more details on how to configure a UI action, click [**here**](../../ui-actions).
+For more details on configuring a UI Action, click [**here**](../../ui-actions).
 </Info>
 
-### Input styling
+### Input Styling
 
 <Tabs>
 <Tab title="Web">
 <Tabs>
-<Tab title ="Icons">
+<Tab title="Icons">
 
 
-* **Left Icon**: You can include an icon on the left side of the Input element. This icon can serve as a visual cue or symbol associated with the input field's purpose or content.
+* **Left Icon**: Include an icon on the left side of the Input element. This icon serves as a visual cue or symbol associated with the Input field's purpose or content.
 * **Right Icon**: Same as left icon.
 
-#### Icons properties
+#### Icons Properties
  
-* **Icon Key**: The key associated in the Media library, select the icon from the **Media Library**.
+* **Icon Key**: The key associated in the Media Library - select the icon from the **Media Library**.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/input_icons.png)
@@ -188,37 +188,37 @@ For more details on how to configure a UI action, click [**here**](../../ui-acti
 </Tab>
 <Tab title="Sizing">
 
-Adjusting the size of components is crucial for a responsive design. Fit W (width) offers three options:
+Adjusting the size of components is crucial for responsive design. Fit W (width) offers three options:
 
-    * **fill**: Fills the available space.
-    * **fixed**: Maintains a fixed width.
-    * **auto**: Adjusts the width automatically based on content.
+* **fill**: Fills the available space
+* **fixed**: Maintains a fixed width
+* **auto**: Adjusts the width automatically based on content
 </Tab>
 </Tabs>
 </Tab>
-<Tab title ="iOS">
+<Tab title="iOS">
 
-Similar styling considerations apply to iOS as for web.
+Similar styling considerations apply to iOS as for Web.
 
-However, for mobile applications, there's an additional sizing style property specific to input elements:
+However, for mobile applications, there's an additional sizing style property specific to Input elements:
 
-* **Height** (pt - points): Determines the vertical size of the input box on the screen.
+* **Height** (pt - points): Determines the vertical size of the Input box on the screen.
 
 </Tab>
-<Tab title ="Android">
+<Tab title="Android">
 
-Similar styling considerations apply to Android as for web.
+Similar styling considerations apply to Android as for Web.
 
-However, for mobile applications, there's an additional sizing style property specific to input elements:
+However, for mobile applications, there's an additional sizing style property specific to Input elements:
 
-* **Height** (dp - density-independent pixel): Determines the vertical size of the input box on the screen.
+* **Height** (dp - density-independent pixels): Determines the vertical size of the Input box on the screen.
 
 </Tab>
 </Tabs>
 
-#### Input style overrides options
+#### Input Style Override Options
 
-Theme overrides refer to the ability to modify or customize the appearance and behavior of UI components by overriding default theme settings. This can be applied at various levels, such as specific elements or entire sections, and can be platform-specific (Web, iOS, Android).
+Theme overrides allow you to modify or customize the appearance and behavior of UI components by overriding default theme settings. These can be applied at various levels, such as specific elements or entire sections, and can be platform-specific (Web, iOS, Android).
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/input_ov_all.png)
@@ -350,7 +350,7 @@ Style options:
 
   </Accordion>
 
-  <Accordion title="Hover State (only for Web configuration)">
+  <Accordion title="Hover State (Web Configuration Only)">
     - Border color **[COLOR]**
     - Background color **[COLOR]**
     - Text color **[COLOR]**
@@ -368,7 +368,7 @@ Style options:
 
 
 <Info>
-You can import or push the overrides from one platform to another without having to configure them multiple times.
+You can import or push overrides from one platform to another without configuring them multiple times.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_push_import.gif)
 

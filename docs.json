@@ -1,7 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  
   "name": "Docs",
   "colors": {
     "primary": "#fdb913",
@@ -11,7 +10,6 @@
   "favicon": "/favicon2.svg",
   "navigation": {
     "versions": [
-
       {
         "version": "v4.7.0",
         "default": true,
@@ -67,6 +65,7 @@
                     "pages": [
                       "4.7.0/docs/flowx-designer/design-assets/themes",
                       "4.7.0/docs/flowx-designer/design-assets/font-files",
+                      "4.7.0/docs/flowx-designer/design-assets/system-assets",
                       "4.7.0/docs/flowx-designer/design-assets/system-assets"
                     ]
                   },
@@ -130,6 +129,7 @@
                       "4.7.0/docs/building-blocks/process/process-definition",
                       "4.7.0/docs/building-blocks/process/data-model",
                       "4.7.0/docs/building-blocks/process/subprocess",
+                      "4.7.0/docs/building-blocks/process/navigation-areas",
                       "4.7.0/docs/building-blocks/process/navigation-areas"
                     ]
                   },
@@ -249,7 +249,6 @@
                       "4.7.0/docs/building-blocks/ui-designer/localization-and-i18n",
                       "4.7.0/docs/building-blocks/ui-designer/layout-configuration",
                       "4.7.0/docs/building-blocks/ui-designer/conditional-styling"
-
                     ]
                   },
                   "4.7.0/docs/building-blocks/token",
@@ -394,10 +393,6 @@
               }
             ]
           },
-
-
-
-          
           {
             "tab": "Release notes",
             "groups": [
@@ -405,7 +400,6 @@
                 "group": "Release Notes",
                 "pages": [
                   "release-notes/overview",
-
                   {
                     "group": "v4.7.0 - February",
                     "icon": "sparkles",
@@ -413,12 +407,8 @@
                       "release-notes/v4.7.0-february-2025/v4.7.0-february-2025",
                       "release-notes/v4.7.0-february-2025/deployment-guidelines-v4.7.0",
                       "release-notes/v4.7.0-february-2025/migrating-from-v4.1.x-to-v4.7.0"
-
-  
-
                     ]
                   },
-
                   {
                     "group": "v4.6.1 - February",
                     "icon": "wrench",
@@ -426,9 +416,6 @@
                       "release-notes/v4.6.1-february-2025/v4.6.1-february-2025",
                       "release-notes/v4.6.1-february-2025/deployment-guidelines-v4.6.1",
                       "release-notes/v4.6.1-february-2025/migrating-from-v4.1.x-to-v4.6.1"
-
-  
-
                     ]
                   },
                   {
@@ -693,7 +680,8 @@
                       "4.7.0/setup-guides/access-management/access-management-overview",
                       "4.7.0/setup-guides/access-management/configuring-an-iam-solution",
                       "4.7.0/setup-guides/access-management/configuring-an-iam-solution-entra",
-                      "4.7.0/setup-guides/access-management/default-roles"
+                      "4.7.0/setup-guides/access-management/default-roles",
+                      "4.7.0/setup-guides/access-management/configuring-access-rights-for-admin"
                     ]
                   },
                   "4.7.0/setup-guides/access-management/app-manager-access-rights",
@@ -837,7 +825,8 @@
                       "4.6.0/docs/building-blocks/process/process-definition",
                       "4.6.0/docs/building-blocks/process/data-model",
                       "4.6.0/docs/building-blocks/process/subprocess",
-                      "4.6.0/docs/building-blocks/process/navigation-areas"
+                      "4.6.0/docs/building-blocks/process/navigation-areas",
+                      "4.6.0/docs/building-blocks/process/process-definition"
                     ]
                   },
                   {
@@ -906,7 +895,8 @@
                       "4.6.0/docs/building-blocks/actions/append-params-to-parent-process",
                       "4.6.0/docs/building-blocks/actions/kafka-send-action",
                       "4.6.0/docs/building-blocks/actions/start-integration-workflow",
-                      "4.6.0/docs/building-blocks/actions/start-new-project-instance"
+                      "4.6.0/docs/building-blocks/actions/start-new-project-instance",
+                      "4.6.0/docs/building-blocks/actions/kafka-send-action"
                     ]
                   },
                   {
@@ -941,7 +931,8 @@
                           "4.6.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/switch-form-field",
                           "4.6.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/datepicker-form-field",
                           "4.6.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/slider",
-                          "4.6.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/segmented-button"
+                          "4.6.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/segmented-button",
+                          "4.6.0/docs/building-blocks/ui-designer/ui-component-types/form-elements/input-form-field"
                         ]
                       },
                       "4.6.0/docs/building-blocks/ui-designer/ui-component-types/buttons",
@@ -956,7 +947,6 @@
                       "4.6.0/docs/building-blocks/ui-designer/localization-and-i18n",
                       "4.6.0/docs/building-blocks/ui-designer/layout-configuration",
                       "4.6.0/docs/building-blocks/ui-designer/conditional-styling"
-
                     ]
                   },
                   "4.6.0/docs/building-blocks/token",
@@ -985,6 +975,7 @@
                           "4.6.0/docs/platform-deep-dive/core-extensions/content-management/content-management",
                           "4.6.0/docs/platform-deep-dive/core-extensions/content-management/enumerations",
                           "4.6.0/docs/platform-deep-dive/core-extensions/content-management/substitution-tags",
+                          "4.6.0/docs/platform-deep-dive/core-extensions/content-management/media-library",
                           "4.6.0/docs/platform-deep-dive/core-extensions/content-management/media-library"
                         ]
                       },
@@ -1101,10 +1092,6 @@
               }
             ]
           },
-
-
-
-          
           {
             "tab": "Release notes",
             "groups": [
@@ -1112,7 +1099,6 @@
                 "group": "Release Notes",
                 "pages": [
                   "release-notes/overview",
-
                   {
                     "group": "v4.7.0 - February",
                     "icon": "sparkles",
@@ -1120,12 +1106,8 @@
                       "release-notes/v4.7.0-february-2025/v4.7.0-february-2025",
                       "release-notes/v4.7.0-february-2025/deployment-guidelines-v4.7.0",
                       "release-notes/v4.7.0-february-2025/migrating-from-v4.1.x-to-v4.7.0"
-
-  
-
                     ]
                   },
-
                   {
                     "group": "v4.6.1 - February",
                     "icon": "wrench",
@@ -1133,9 +1115,6 @@
                       "release-notes/v4.6.1-february-2025/v4.6.1-february-2025",
                       "release-notes/v4.6.1-february-2025/deployment-guidelines-v4.6.1",
                       "release-notes/v4.6.1-february-2025/migrating-from-v4.1.x-to-v4.6.1"
-
-  
-
                     ]
                   },
                   {
@@ -1427,9 +1406,6 @@
           }
         ]
       },
-
-  
-
       {
         "version": "v4.1.x",
         "tabs": [
@@ -3347,7 +3323,6 @@
       "measurementId": "G-CGW0FVK9YM"
     }
   },
-
   "redirects": [
     {
       "source": "/link/4.5/task-manager-overview",
