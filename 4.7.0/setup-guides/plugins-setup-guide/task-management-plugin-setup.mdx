@@ -1,145 +1,156 @@
 ---
 title: Task management setup
-description: The plugin is available as a docker image.
+description: Configure and deploy the Task Management plugin.
 icon: list-check
 ---
 
-It has the following dependencies:
+The Task Management plugin is available as a Docker image and serves as a dedicated microservice within the FlowX platform ecosystem.
 
-* a [MongoDB](https://www.mongodb.com/2) database
-* the database used by the engine
-* the Kafka instance used by the engine
-* a [Redis](https://redis.io/) instance for caching
+## Dependencies
 
-The plugin comes with most of the needed configuration properties filled in, but there are a few that need to be set up using some custom environment variables.
+The plugin requires the following components:
 
-## Dependencies 
+* A [MongoDB](https://www.mongodb.com/) database for task storage
+* A connection to the RuntimeDB for operational data
+* Access to the database used by the FlowX Engine
+* Connection to the Kafka instance used by the FlowX Engine
+* A [Redis](https://redis.io/) instance for caching and performance optimization
 
-### MongoDB database
-
-Basic MongoDB configuration - helm values.yaml
-
-```yaml
-notification-mdb:
-    existingSecret: {{secretName}}
-    mongodbDatabase: {{TaskManagementDatabaseName}}
-    mongodbUsername: {{TaskManagementDatabaseUser}}
-    persistence:
-      enabled: true
-      mountPath: /bitnami/mongodb
-      size: 4Gi
-    replicaSet:
-      enabled: true
-      name: rs0
-      pdb:
-        enabled: true
-        minAvailable:
-          arbiter: 1
-          secondary: 1
-      replicas:
-        arbiter: 1
-        secondary: 1
-      useHostnames: true
-    serviceAccount:
-      create: false
-    usePassword: true
-```
-
-### Redis server
-
-The plugin can use the [Redis component](../../setup-guides/setup-guides-overview#redis-configuration) already deployed for the **FlowX Engine**.
+While many configuration properties come pre-configured, several environment variables must be explicitly set for proper functionality.
 
 ## Configuration 
 
 ## Authorization configuration & access roles
 
-The following variables need to be set in order to connect to the identity management platform:
+Configure the following variables to connect to your identity management platform:
 
-* `SECURITY_OAUTH2_BASE_SERVER_URL`
-* `SECURITY_OAUTH2_CLIENT_CLIENT_ID`
-* `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`
-* `SECURITY_OAUTH2_REALM`
- 
-A specific service account should be configured in the OpenID provider to allow the Task management microservice to access realm specific data. It can be configured using the following environment variables:
+* `SECURITY_OAUTH2_BASE_SERVER_URL` - Base URL of your OpenID Connect provider
+* `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - Client ID for authentication
+* `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - Client secret for authentication
+* `SECURITY_OAUTH2_REALM` - Security realm for the application
 
-### OpenID connect settings
+A dedicated service account must be configured in your OpenID provider to allow the Task Management microservice to access realm-specific data and perform operations:
 
-* `SECURITY_TYPE`: Indicates that OAuth 2.0 is the chosen security type, default value: `oauth2`.
-* `SECURITY_PATHAUTHORIZATIONS_0_PATH`: Defines a security path or endpoint pattern. In this case, it specifies that the security settings apply to all paths under the "/api/" path. The `**` is a wildcard that means it includes all subpaths under "/api/**".
-* `SECURITY_PATHAUTHORIZATIONS_0_ROLESALLOWED`: Specifies the roles allowed for accessing the specified path. In this case, the roles allowed are empty (""). This might imply that access to the "/api/**" paths is open to all users or that no specific roles are required for authorization.
-* `SECURITY_OAUTH2_BASE_SERVER_URL`: This setting specifies the base URL of the OpenID server, which is used for authentication and authorization.
-* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`: The task management service account is utilized to facilitate process initiation, enable the use of the task management plugin (requiring the `FLOWX_ROLE` and role mapper), and access data from Keycloak.
-* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET`: Along with the client ID, you must also specify the client secret associated with the service account for proper authentication.
+#### OpenID connect settings
 
-More details about the necessary service account, here:
+* `SECURITY_TYPE` - Indicates the security type (default: `oauth2`)
+* `SECURITY_PATHAUTHORIZATIONS_0_PATH` - Defines which endpoints are protected (e.g., `/api/**`)
+* `SECURITY_PATHAUTHORIZATIONS_0_ROLESALLOWED` - Roles permitted to access the defined paths
+* `SECURITY_OAUTH2_BASE_SERVER_URL` - Base URL of the OpenID server
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID` - Service account client ID used for process initiation and plugin access (requires `FLOWX_ROLE` and role mapper)
+* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` - Service account client secret
 
-<Card title="Task management service account" href="../access-management/configuring-an-iam-solution#task-management-service-account" icon ="file">
+For more detailed information about configuring the service account:
+
+<Card title="Task Management Service Account" href="../access-management/configuring-an-iam-solution#task-management-service-account" icon="file">
 </Card>
-
 
 ### FlowX Engine datasource configuration
 
-The service needs to retrieve the data for a process instance from the engine database. So it needs to have all the correct information to connect to the engine database.
+The service needs access to process instance data from the engine database. Configure these connection parameters:
 
-The following configuration details need to be added in configuration files or overwritten using environment variables:
-
-* `SPRING_DATASOURCE_URL`
-* `SPRING_DATASOURCE_USERNAME`
-* `SPRING_DATASOURCE_PASSWORD`
+* `SPRING_DATASOURCE_URL` - JDBC URL for the engine database
+* `SPRING_DATASOURCE_USERNAME` - Database username
+* `SPRING_DATASOURCE_PASSWORD` - Database password
 
 ### MongoDB configuration
 
-The only thing that needs to be configured is the DB access info, the rest will be handled by the plugin.
+Configure access to the primary MongoDB instance:
 
-* `SPRING_DATA_MONGODB_URI` - the uri for the mongodb database
+* `SPRING_DATA_MONGODB_URI` - Connection URI for MongoDB
 
-### Redis configuration
+<Info>
+Task Manager requires a runtime connection to function correctly. Starting the service without a configured and active runtime MongoDB connection is not supported.
+</Info>
 
-The following values should be set with the corresponding Redis related values.
+### Runtime MongoDB configuration
 
-* `SPRING_REDIS_HOST`
-* `SPRING_REDIS_PASSWORD`
-* `REDIS_TTL`
+Enable the Runtime MongoDB connection:
+
+* `SPRING_DATA_MONGODB_RUNTIME_URI` - URI for connecting to MongoDB Runtime (`app-runtime`)
+  * **Format**: `mongodb://${RUNTIME_DB_USERNAME}:${RUNTIME_DB_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${RUNTIME_DB_NAME}?retryWrites=false`
+* `RUNTIME_DB_USERNAME` - Username for runtime database (typically `app-runtime`)
+* `RUNTIME_DB_NAME` - Name of runtime database (typically `app-runtime`)
+* `RUNTIME_DB_PASSWORD` - Password for runtime database
+
+### Redis Configuration
+
+Configure the Redis cache with these parameters:
+
+* `SPRING_REDIS_HOST` - Redis server hostname or IP address
+* `SPRING_REDIS_PASSWORD` - Authentication password for Redis
+* `REDIS_TTL` - Time-to-live for cached items
 
 
 ## Kafka configuration
 
-The following Kafka related configurations can be set by using environment variables:
+Configure the Kafka integration using these environment variables:
 
-* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - address of the Kafka server
-* `SPRING_KAFKA_CONSUMER_GROUP_ID` - group of consumers
-* `KAFKA_CONSUMER_THREADS` - the number of Kafka consumer threads
-* `KAFKA_CONSUMER_EXCLUDE_USERS_THREADS` - 
-* `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` - the interval between retries after `AuthorizationException` is thrown by `KafkaConsumer`
-* `KAFKA_MESSAGE_MAX_BYTES` - this is the largest size of the message that can be received by the broker from a producer.
+* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - Address of the Kafka server(s)
+* `SPRING_KAFKA_CONSUMER_GROUP_ID` - Consumer group identifier
+* `KAFKA_CONSUMER_THREADS` - Number of Kafka consumer threads
+* `KAFKA_CONSUMER_EXCLUDE_USERS_THREADS` - Number of threads for processing user exclusion events
+* `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` - Time interval between retries after `AuthorizationException`
+* `KAFKA_MESSAGE_MAX_BYTES` - Maximum message size that can be received from producers
 
 ### Kafka topics
 
 Each action available in the service corresponds to a Kafka event. A separate Kafka topic must be configured for each use-case:
 
-* `KAFKA_TOPIC_PROCESS_START_OUT` - is used for running hooks, the engine receives a start process request for a hook on this topic, and it needs to be matched with the corresponding `...start_in` topic on the engine side
-* `KAFKA_TOPIC_PROCESS_OPERATIONS_OUT`- is used to update the engine on task manager operations such as assignment, unassignment, hold, unhold and terminate it is matched with the `...operations_in` topic on the engine side
-* `KAFKA_TOPIC_PROCESS_SCHEDULE_IN`- is used to receive a message from the task manager when it's time to run a hook (for hooks configured with SLA, for more details on how to configure a hook with SLA, click [here](/4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-hooks))
-* `KAFKA_TOPIC_PROCESS_SCHEDULE_OUT_SET`- sends a message to the scheduler to set hooks or exclude users from automatic assignment when they are assigned to [out of office feature](/4.0/docs/platform-deep-dive/plugins/custom-plugins/task-management/using-out-of-office-records), it needs to be matched with the configuration in the scheduler
-* `KAFKA_TOPIC_PROCESS_SCHEDULE_OUT_STOP`- ends a message to the scheduler to stop the schedule for the above actions. It needs to be matched with the configuration in the scheduler
-* `KAFKA_TOPIC_EXCLUDE_USERS_SCHEDULE_IN`- is used to receive a message from the scheduler when users need to be excluded
-* `KAFKA_TOPIC_TASK_IN`- used to receive a message from the engine to start a new task. It needs to be matched with the corresponding task_out topic on the engine side.
-* `KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE` - outgoing messages for Events Gateway
+
+* **Process Management**
+  * `KAFKA_TOPIC_PROCESS_START_OUT` - used for running hooks; the engine receives a start process request for a hook on this topic (must be matched with the corresponding start_in topic on the engine side)
+  * `KAFKA_TOPIC_PROCESS_OPERATIONS_OUT` - used to update the engine on task manager operations such as assignment, unassignment, hold, unhold and terminate (must be matched with the operations_in topic on the engine side)
+  * `KAFKA_TOPIC_PROCESS_OPERATIONS_BULK_OUT` - used for bulk operations on tasks, sending multiple operations at once to the engine
+* **Scheduling**
+  * `KAFKA_TOPIC_PROCESS_SCHEDULE_IN` - used to receive a message from the task manager when it's time to run a hook (for hooks configured with SLA)
+  * `KAFKA_TOPIC_PROCESS_SCHEDULE_OUT_SET` - sends a message to the scheduler to set hooks or exclude users from automatic assignment when they are assigned to out of office
+  * `KAFKA_TOPIC_PROCESS_SCHEDULE_OUT_STOP` - sends a message to the scheduler to stop the schedule for previously set actions
+* **User Management**
+  * `KAFKA_TOPIC_EXCLUDE_USERS_SCHEDULE_IN` - used to receive a message from the scheduler when users need to be excluded from assignments
+* **Task Operations**
+  * `KAFKA_TOPIC_TASK_IN` - used to receive a message from the engine to start a new task (must be matched with the corresponding task_out topic on the engine side)
+* **Events and Integration**
+  * `KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE` - outgoing messages for Events Gateway 
+  * `KAFKA_TOPIC_RESOURCES_USAGES_REFRESH`- used to trigger a refresh of resource usage information
 
 <Info>
-The Engine is listening for messages on topics with names of a certain pattern, make sure to use correct outgoing topic names when configuring the notifications plugin.
+The Engine listens for messages on topics with specific naming patterns. Ensure you use the correct outgoing topic names when configuring the Task Management plugin to maintain proper communication with the engine.
 </Info>
 
+## Logging configuration
 
-### Logging
 
-The following environment variables could be set in order to control log levels:
+Control logging verbosity with these environment variables:
 
-* `LOGGING_LEVEL_ROOT` - root Spring Boot microservice logs
-* `LOGGING_LEVEL_APP` - app level logs
+* `LOGGING_LEVEL_ROOT` - Root Spring Boot microservice logs
+* `LOGGING_LEVEL_APP` - Application-level logs
 * `LOGGING_LEVEL_MONGO_DRIVER` - MongoDB driver logs
 
-### Filtering
+### Filtering feature
 
-* `FLOWX_ALLOW_USERNAME_SEARCH_PARTIAL` - filter possible assignees by partial names (default: true)
+* `FLOWX_ALLOW_USERNAME_SEARCH_PARTIAL` - Enables filtering possible assignees by partial names (default: `true`)
 
+### Scheduled jobs
+
+The Task Management plugin includes scheduled maintenance jobs:
+
+* `SCHEDULER_USERSCACHESCLEANUP_CRONEXPRESSION` - Cron expression for user cache cleanup (default: `0 0 0 * *?` - every day at midnight)
+
+### Resource usage monitoring
+
+The plugin includes a resource usage monitoring feature that can be configured:
+
+* `FLOWX_LIB_RESOURCES_USAGES_ENABLED` - Enable resource usage tracking (default: `true`)
+* `FLOWX_LIB_RESOURCES_USAGES_REFRESH_LISTENER_ENABLED` - Enable refresh listener (default: `true`)
+* `FLOWX_LIB_RESOURCES_USAGES_REFRESH_LISTENER_COLLECTOR_THREAD_COUNT` - Number of threads for resource collection (default: `5`)
+* `FLOWX_LIB_RESOURCES_USAGES_REFRESH_LISTENER_COLLECTOR_MAX_BATCH_SIZE` - Maximum batch size for collection (default: `1000`)
+* `FLOWX_LIB_RESOURCES_USAGES_KAFKA_CONSUMER_GROUP_ID_RESOURCES_USAGES_REFRESH` - Consumer group for resource usage refresh events (default: `taskMgmtResourcesUsagesRefreshGroup`)
+* `FLOWX_LIB_RESOURCES_USAGES_KAFKA_CONSUMER_THREADS_RESOURCES_USAGES_REFRESH` - Number of threads for processing resource usage events (default: `3`)
+
+
+### Database Migration
+
+The Task Management plugin uses Mongock for MongoDB migrations:
+
+* `MONGOCK_CHANGE_LOGS_SCAN_PACKAGE` - Package to scan for database change logs
