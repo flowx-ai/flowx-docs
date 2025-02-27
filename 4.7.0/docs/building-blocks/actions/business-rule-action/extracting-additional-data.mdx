@@ -1,0 +1,258 @@
+---
+title: Extracting additional data in business rules
+description: Business rules in FlowX.AI allow you to extract and use key values dynamically. This is essential for handling user security details, configuration parameters, and business logic calculations. 
+---
+
+<Info>
+This guide is covering the following:
+
+✅ Retrieving security details dynamically          
+✅ Extracting specific user attributes          
+✅ Fetching configuration parameters            
+</Info>
+
+## Extracting security details
+
+Security details (`securityDetails`) store user-related data, including **email, username, roles, and permissions**. These values are stored in `additionalData.securityDetails` and can be accessed dynamically within a process.
+
+### Retrieve security details
+
+Use the following business rule to fetch and store security details:
+
+
+```JavaScript
+// Retrieve security details from additionalData
+securityDetails = additionalData.get("securityDetails");
+
+// Store the extracted security details
+output.put("securityDetails", securityDetails);
+```
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/image%20%2813%29.png)
+</Frame>
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-02-25%20at%2013.32.37.png)
+</Frame>
+
+Example output:
+
+```json
+{
+    "securityDetails": {
+        "Default": {
+            "owner": {
+                "username": "user@email.com",
+                "identifier": "f08b1452-7c4c-415c-ad6d-8bb2d2d14600",
+                "details": {
+                    "firstName": "John",
+                    "lastName": "Snow",
+                    "email": "user@email.com",
+                    "jwt": "your_jwt",
+                    "roles": [],
+                    "groups": [
+                        "/Users/Flowx_demo",
+                        "/superAdmin"
+                    ],
+                    "attributes": {}
+                }
+            }
+        }
+    }
+}
+```
+
+### Extract specific owner details
+
+To retrieve specific attributes, such as email, username, first name, and last name, use this script:
+
+
+```JavaScript
+// Retrieve security details
+securityDetails = additionalData.get("securityDetails");
+
+// Extract owner details from the Default swimlane
+email = securityDetails.Default.owner.details.email;username = securityDetails.Default.owner.username;
+firstName = securityDetails.Default.owner.details.firstName;lastName = securityDetails.Default.owner.details.lastName;
+
+// Store extracted details in the output
+output.put("email", email);
+output.put("username", username);
+output.put("firstName", firstName);
+output.put("lastName", lastName);
+```
+
+Extracted values: 
+
+- **Owner Email** (`securityDetails.Default.owner.details.email`)
+- **Username** (`securityDetails.Default.owner.username`)
+- **First Name** (`securityDetails.Default.owner.details.firstName`)
+- **Last Name** (`securityDetails.Default.owner.details.lastName`)
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/image%20%2814%29.png)
+</Frame>
+
+
+### Dynamic extraction by swimlane
+
+If your application uses multiple swimlanes, retrieve the owner details dynamically:
+
+```JavaScript
+// Get security details
+securityDetails = additionalData.get("securityDetails");
+
+// Extract owner details based on the swimlane
+ownerDetails = securityDetails.Default.owner.details;
+
+<Info>
+Default is the swimlane name in this example. Replace it with your swimlane name.
+</Info>
+
+// Store extracted values in the process instance
+output.put("email", ownerDetails.email);
+output.put("username", securityDetails.Default.owner.username);
+output.put("firstName", ownerDetails.firstName);
+output.put("lastName", ownerDetails.lastName);
+```
+
+Example output:
+
+```json
+{
+  "email": "user@email.com",
+  "username": "user@email.com",
+  "firstName": "John",
+  "lastName": "Snow"
+}
+```
+
+
+---
+
+## Extracting values from configuration parameters
+
+To make business rules flexible, store configuration values in project configuration parameters instead of hardcoding them.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/image%20%2816%29.png)
+</Frame>
+
+### Retrieve configuration parameters
+
+Use a business rule to fetch and store configuration parameter values dynamically:
+
+```JavaScript
+// Retrieve a configuration parameter (e.g., commission percentage)
+commissionPercentage = additionalData.applicationConfiguration.get("commissionPercentage");
+
+// Store the retrieved value in output in the process instance
+output.put("commissionPercentage", commissionPercentage);
+
+```
+
+### Example use case: commission calculation
+
+This example shows how to calculate a commission value dynamically using a configuration parameter.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-02-27%20at%2013.54.47.png)
+</Frame>
+
+
+#### Configuration parameters
+
+| **Parameter Name**     | **Description**                                 | **Example Value** |
+| ---------------------- | ----------------------------------------------- | ----------------- |
+| `commissionPercentage` | The percentage used to calculate the commission | `0.05` (5%)       |
+
+
+<Tip>
+Configuration parameters can be modified in:
+
+➡ FlowX.AI Designer → Your Project → Configuration Parameters
+</Tip>
+
+#### Process flow
+
+<Steps>
+  
+<Step title="User Inputs an Amount">
+
+In a User task we have an input UI element where the user provides an amount (`userInputAmount`).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-02-27%20at%2013.56.41.png)
+</Frame>
+
+</Step>
+
+<Step title="Retrieve Commission Percentage from Configuration">
+
+In the next node, a Service Task fetches the `commissionPercentage` from the configuration parameters.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-02-27%20at%2013.59.57.png)
+</Frame>
+
+
+Business rule used:
+
+```JavaScript
+// Retrieve user input
+amount = input.get("userInputAmount");
+
+// Retrieve a value from configuration
+commissionPercentage = additionalData.applicationConfiguration.get("commissionPercentage");
+
+
+// Apply the configuration value
+commissionValue = amount * commissionPercentage;
+
+// Store the calculated result in the process instance
+output.put("commissionValue", commissionValue);
+
+```
+
+</Step>
+
+
+<Step title="Calculate Commission">
+
+Formula used to calculate the commission:  
+
+
+$$
+\text{commissionValue} = \text{userInputAmount} \times \text{commissionPercentage}
+$$
+
+</Step>
+
+<Step title="Store and Output the Result">
+
+The computed `commissionValue` is stored for further processing.
+
+Final result:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/2025-02-27%2014.21.53.gif)
+</Frame>
+
+</Step>
+
+
+</Steps>
+
+
+
+<Tip>
+Why Use Configuration Parameters?
+
+
+✅ Keep business rules flexible by avoiding hardcoded values.           
+✅ Adapt calculations dynamically based on environment settings.            
+✅ Simplify updates by modifying values in the project configuration rather than editing business rules.            
+
+</Tip>

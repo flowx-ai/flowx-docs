@@ -121,17 +121,17 @@ The Kafka topic for the search service requests (defined at `KAFKA_TOPIC_DATA_SE
 
 ```json
 {
-	"searchKey": "application.client.identificationData.lastName",
-	"value": "12344",
-	"processStartDateAfter": "YYY-MM-DD:THH:MM:SS", //optional, standard ISO 8601 date format
-	"processStartDateBefore": "YYY-MM-DD:THH:MM:SS", //optional, standard ISO 8601 date format
-	"processDefinitionNames": [ "processDef1", "processDef2"],
-	"states": ["STARTED", "FINISHED, ONHOLD"], //optional, depending if you want to filter process instances based on their status, if the parameter is ommited, the process will display all the statuses
+  "searchKey": "application.client.identificationData.lastName",
+  "value": "12344",
+  "processStartDateAfter": "YYYY-MM-DDTHH:MM:SS", 
+  "processStartDateBefore": "YYYY-MM-DDTHH:MM:SS",
+  "processDefinitionNames": ["processDef1", "processDef2"],
+  "states": ["STARTED", "FINISHED", "ONHOLD"],
   "applicationIds": ["8dd20844-2dc5-4445-83a5-bbbcc82bed5f"]
 }
 ```
 
-* **searchKey** - represents the process key used to search data stored in a process
+* **searchKey** - Represents the process key used to search data stored in a process.
 
 <Warning>
 Indexing this key within the process is crucial for the Data Search service to effectively locate it. To enable indexing, navigate to your desired Application then choose the process definition and access **Process Settings → Data Search**.
@@ -141,22 +141,26 @@ Indexing this key within the process is crucial for the Data Search service to e
 ❗️ Keys are indexed automatically when the process status changes (e.g., created, started, finished, failed, terminated, expired), when swimlanes are altered, or when stages are modified. To ensure immediate indexing, select the 'Update in Task Management' option either in the **node configuration** or within **Process Settings → General** tab.
 </Warning>
 
-* **value** - the dynamic process key added on our input element that will store and send the data entered by a user to the front end
+* **value** -  The dynamic process key added on our input element that will store and send the data entered by a user to the front end.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/searchValue.png)
 </Frame>
 
-* **states** - `["STARTED", "FINISHED, ONHOLD" "..."]` - depending if you want to filter process instances based on their status, if the parameter is ommited, the process will display all the statuses
+* **states** - `["STARTED", "FINISHED", "ONHOLD", "..."]` - If omitted, the process will display all statuses.
 
 <Info>
 Check the Understanding the [Process Status Data](../../projects/runtime/active-process/process-instance) section for more example of possible states.
 </Info>
 
+* **applicationIds**: 
+  * If omitted, the search will be performed in the current application.
+  * If multiple application IDs are provided, the search will be executed across all specified applications.
+
 </Accordion>
 
 <Accordion title="Data to send">
-- **Data to send (key)**: Used for validating data sent from the frontend via an action (refer to **User Task** configuration section) 
+- **Data to send (key)**: Used for validating data sent from the frontend via an action (refer to **User Task** configuration section). 
 </Accordion>
 <Accordion title ="Advanced configuration (Headers)">
 - **Headers**: Mandatory - `{"processInstanceId": ${processInstanceId}}`
