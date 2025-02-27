@@ -61,23 +61,10 @@ For example, substitution tags can be used to localize the content inside an app
 You must first check and configure the FLOWX.AI Angular renderer to be able to replicate this example. Click [here](../../../../sdks/angular-renderer) for more information.
 </Info>
 
-The `flxLocalize` pipe is found in the `FlxLocalizationModule`.
+The `flxLocalize` pipe is found in the `FlxLocalizePipe`.
 
 ```typescript
-import { FlxLocalizationModule } from 'flowx-process-renderer';
-```
-
-```typescript
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-dummy-component',
-  template: ` <h3>{{ "stringToLocalize" | flxLocalize}}</h3>`,
-
-})
-export class DummyComponent{
- stringToLocalize: string = `@@localizedString`
-}
+import { FlxLocalizePipe } from '@flowx/angular-sdk';
 ```
 
 Strings that need to be localized must have the '**@@**' prefix which the **flxLocalize** pipe uses to extract and replace the string with a value found in the substitution tags enumeration.
