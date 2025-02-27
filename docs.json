@@ -192,7 +192,8 @@
                         "group": "Business rule actions",
                         "pages": [
                           "4.7.0/docs/building-blocks/actions/business-rule-action/business-rule-action",
-                          "4.7.0/docs/building-blocks/actions/business-rule-action/dmn-business-rule-action"
+                          "4.7.0/docs/building-blocks/actions/business-rule-action/dmn-business-rule-action",
+                          "4.7.0/docs/building-blocks/actions/business-rule-action/extracting-additional-data"
                         ]
                       },
                       "4.7.0/docs/building-blocks/actions/send-data-to-user-interface",
