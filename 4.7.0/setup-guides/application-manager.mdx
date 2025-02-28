@@ -4,10 +4,14 @@ description: The Application Manager is a backend microservice for managing Flow
 icon: computer
 ---
 
-The Application manager is microservice that manages applications and also acts as a proxy for front-end requests related to resources.
+The Application Manager is a backend microservice in FlowX.AI that:
 
-<Info>
-The **Application Manager** and [**Runtime Manager**](./runtime-manager) share the same container image and Helm chart. Refer to the **Deployment Guidelines** in the release notes to ensure compatibility and verify the correct version.
+✅ Manages FlowX applications, versions, manifests, and configurations.       
+✅ Acts as a proxy for front-end resource requests.
+
+
+<Info> 
+The **Application Manager** and [**Runtime Manager**](./runtime-manager) share the same container image and Helm chart. Check the **Deployment Guidelines** in the release notes for version compatibility. 
 </Info>
 
 ## Infrastructure prerequisites
@@ -91,6 +95,7 @@ If caching is required, configure Redis using the following environment variable
 * `SPRING_DATA_REDIS_HOST` - Hostname or IP address of the Redis server.
 * `SPRING_DATA_REDIS_PASSWORD` - Password for authenticating with the Redis server.
 * `SPRING_DATA_REDIS_PORT` - Hostname of the Redis server. This specifies where the Redis server is running and should be accessible from the application.
+* `SPRING_DATA_REDIS_STORAGE_TYPE` - Specifies the storage type for Redis.
 
 ### Configuring Rest request size
 
@@ -192,6 +197,36 @@ Each topic adheres to a consistent naming schema for streamlined communication a
   - **Purpose:** For importing application resources.
   - **Example:** `ai.flowx.application-version.import.v1`
 
+- **Resource Usages In/Out**
+  - **Environment variable:** `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_IN` / `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_OUT`
+  - **Pattern:** `${kafka.topic.naming.prefix}application${separator2}version${separator}resources${separator2}usages${separator}operations${separator}bulk${kafka.topic.naming.suffix}`
+  - **Purpose:** For handling resource usage operations in bulk.
+  - **Example:** `ai.flowx.application-version.resources-usages.operations.bulk.v1`
+
+- **Resource Usages Refresh**
+  - **Environment variable:** `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_REFRESH`
+  - **Pattern:** `${kafka.topic.naming.prefix}application${separator2}version${separator}resources${separator2}usages${separator}refresh${kafka.topic.naming.suffix}`
+  - **Purpose:** For refreshing resource usage information.
+  - **Example:** `ai.flowx.application-version.resources-usages.refresh.v1`
+
+- **Resource Element Usage Validation Response**
+  - **Environment variable:** `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_RESPONSE`
+  - **Pattern:** `${kafka.topic.naming.prefix}application${separator2}version${separator}resources${separator2}usages${separator}sub${separator2}res${separator2}validation${separator}response${kafka.topic.naming.suffix}`
+  - **Purpose:** For handling responses to resource element usage validation.
+  - **Example:** `ai.flowx.application-version.resources-usages.sub-res-validation.response.v1`
+
+- **Resource Element Usage Validation Out Integration**
+  - **Environment variable:** `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_OUT_INTEGRATION`
+  - **Pattern:** `${kafka.topic.naming.prefix}application${separator2}version${separator}resources${separator2}usages${separator}sub${separator2}res${separator2}validation${separator}request-integration${kafka.topic.naming.suffix}`
+  - **Purpose:** For sending resource element usage validation requests to integration services.
+  - **Example:** `ai.flowx.application-version.resources-usages.sub-res-validation.request-integration.v1`
+
+- **Resource Copy**
+  - **Environment variable:** `KAFKA_TOPIC_APPLICATION_RESOURCE_COPY`
+  - **Pattern:** `${kafka.topic.naming.prefix}application${separator2}version${separator}copy${separator2}resource${kafka.topic.naming.suffix}`
+  - **Purpose:** For copying resources between application versions.
+  - **Example:** `ai.flowx.application-version.copy-resource.v1`
+
 #### Build resource topics
 
 - **Build Export**
@@ -268,10 +303,20 @@ Each topic adheres to a consistent naming schema for streamlined communication a
   - **Example:** `ai.flowx.core.trigger.save.audit.v1`
 
 #### Merge topics
+
   - **Environment variable**: `KAFKA_TOPIC_MERGE`
   - **Pattern:** `${kafka.topic.naming.prefix}application${dash}version${dot}merge${kafka.topic.naming.suffix}`
   - **Purpose:** For sending merge-related messages, including commands to initiate resource merges and notifications for the completion of individual resource merges or the overall merge process. The merge is performed in parallel across all resources.
   - **Example:** `ai.flowx.application-version.merge.v1`
+
+#### Events Gateway topics
+
+- **Events Gateway Message**
+  - **Environment variable:** `KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE`
+  - **Pattern:** `${kafka.topic.naming.prefix}eventsgateway${dot}receive${dot}copyresource${kafka.topic.naming.suffix}`
+  - **Purpose:** For sending resource copy messages to the events gateway.
+  - **Example:** `ai.flowx.eventsgateway.receive.copyresource.v1`
+
 
 
 <Info>
@@ -284,6 +329,22 @@ The Resource Proxy module forwards resource-related requests to appropriate serv
 
 * `RESOURCE_PROXY_MANIFEST_URL` - URL for managing the application manifest
 * `RESOURCE_PROXY_TARGET_URL` - URL for forwarding resource-related requests to their respective services
+* `FLOWX_RESOURCE_PROXY_RETRY_GET_RESOURCE_TIMEOUT_MS` - Timeout for retrying resource retrieval (Default: 500ms)
+* `FLOWX_RESOURCE_PROXY_RETRY_GET_RESOURCE_MAX_COUNT` - Maximum number of retries for resource retrieval (Default: 10)
+* `FLOWX_RESOURCE_PROXY_RESOURCE_CLONING_BUFFER_SECONDS` - Buffer time for resource cloning operations (Default: 30s)
+
+#### Web Client Configuration
+
+Configure the web client behavior for resource proxying:
+
+* `FLOWX_RESOURCE_PROXY_WEB_CLIENT_RETRY_ATTEMPTS` - Number of retry attempts for web client (Default: 2)
+* `FLOWX_RESOURCE_PROXY_WEB_CLIENT_RETRY_BACKOFF` - Backoff time between retries in seconds (Default: 1)
+* `FLOWX_RESOURCE_PROXY_WEB_CLIENT_RESPONSE_TIMEOUT` - Timeout for web client responses in seconds (Default: 60)
+* `FLOWX_RESOURCE_PROXY_WEB_CLIENT_CONNECTION_TIMEOUT` - Timeout for web client connections in seconds (Default: 60)
+* `FLOWX_RESOURCE_PROXY_WEB_CLIENT_MAX_IN_MEMORY_SIZE` - Maximum size for in-memory data (Default: 5MB)
+* `FLOWX_RESOURCE_PROXY_WEB_CLIENT_MAX_IN_MEMORY_SIZE_EXPORT` - Maximum size for in-memory data during exports (Default: ~240MB)
+
+
 
 ### Configuring logging
 
