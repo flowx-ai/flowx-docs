@@ -3375,6 +3375,31 @@
     {
       "source": "/link/4.5/business-rule-action",
       "destination": "/4.6.0/docs/building-blocks/actions/business-rule-action/business-rule-action"
+    },
+
+    {
+      "source": "/link/4.7/task-manager-overview",
+      "destination": "/4.7.0/docs/platform-deep-dive/core-extensions/task-management/task-management-overview"
+    },
+    {
+      "source": "/link/4.7/data-search",
+      "destination": "/4.7.0/docs/platform-deep-dive/core-extensions/search-data-service#flowx-ai-data-search"
+    },
+    {
+      "source": "/link/4.7/expiry-time",
+      "destination": "/4.7.0/docs/building-blocks/process/process-definition#general"
+    },
+    {
+      "source": "/link/4.7/sensitive-data",
+      "destination": "/4.7.0/docs/building-blocks/process/data-model#sensitive-data"
+    },
+    {
+      "source": "/link/4.7/timer-events",
+      "destination": "/4.7.0/docs/building-blocks/node/timer-events/timer-events#timers"
+    },
+    {
+      "source": "/link/4.7/business-rule-action",
+      "destination": "/4.7.0/docs/building-blocks/actions/business-rule-action/business-rule-action"
     }
   ]
 }
