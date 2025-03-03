@@ -295,7 +295,6 @@
                         ]
                       },
                       "4.7.0/docs/platform-deep-dive/core-extensions/configuration-parameters",
-                      "4.7.0/docs/platform-deep-dive/core-extensions/license-engine",
                       "4.7.0/docs/platform-deep-dive/core-extensions/audit",
                       "4.7.0/docs/platform-deep-dive/core-extensions/scheduler",
                       "4.7.0/docs/platform-deep-dive/core-extensions/search-data-service"
@@ -664,7 +663,6 @@
                   "4.7.0/setup-guides/events-gateway-setup",
                   "4.7.0/setup-guides/audit-setup-guide",
                   "4.7.0/setup-guides/search-data-service-setup-guide",
-                  "4.7.0/setup-guides/license-engine-setup",
                   "4.7.0/setup-guides/data-sync"
                 ]
               },
