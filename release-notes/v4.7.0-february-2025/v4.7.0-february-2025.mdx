@@ -189,28 +189,58 @@ How it Works?
 A new method in the Angular SDK allows direct access to enumerations, reducing manual imports and improving flexibility.  
 </Tip>
 
+#### Usage
+
+The `getEnumeration()` function returns key-value pairs that can be used in components that need enumeration data:
+
+```typescript
+getEnumeration(enumName: string): { value: string; label: string }[]
+```
+* `enumName` (string) – The name of the enumeration to retrieve (e.g., 'UserRoles', 'cities')
+* Returns: An array of objects containing value-label pairs representing the requested enumeration
+
 <Accordion title="Example usage">
 
-* **Method details**:
+The enumeration service works seamlessly with Angular's resource API for reactive state management:
+
 
 ```typescript
-getEnumerations(enumName: string): { [key: string]: any }
-```
+import { Component, effect, model, resource } from '@angular/core';
+import { getEnumeration } from '@flowx/angular-sdk';
 
-* enumName (string) – The name of the enumeration to retrieve.
-* Returns: An object containing key-value pairs of the requested enumeration.
-
-
-Here's how you can use this method to populate a dropdown:
-
-```typescript
-export class CustomDropdownComponent {
-enums: { [key: string]: any } = {};
-constructor(private enumService: EnumerationService) {}
-
-ngOnInit() {
-  this.enums = this.enumService.getEnumerations('UserRoles');
-}}
+@Component({
+  selector: 'app-dynamic-enum-select',
+  template: `
+    <select>
+      @for (option of options.value(); track option.value) {
+        <option [value]="option.value">{{ option.label }}</option>
+      }
+    </select>
+    
+    <button (click)="enumName.set('cities')">Load Cities</button>
+    <button (click)="enumName.set('countries')">Load Countries</button>
+  `
+})
+export class DynamicEnumSelectComponent {
+  // Create a signal to track the currently selected enum
+  enumName = model<string>('UserRoles');
+  
+  // Use resource API to reactively load enumerations when enumName changes
+  options = resource({
+    request: this.enumName,
+    loader: ({ request: enumName }) => getEnumeration(enumName),
+  });
+  
+  constructor() {
+    effect(() => {
+      if (this.options.isLoading()) {
+        console.log(`Loading enumeration: ${this.enumName()}`);
+      } else {
+        console.log(`Loaded enumeration: ${this.enumName()}`, this.options.value());
+      }
+    });
+  }
+}
 ```
 
 </Accordion>
