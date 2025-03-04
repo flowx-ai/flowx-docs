@@ -55,7 +55,6 @@ npm install \
   @flowx/angular-theme@<version> \
   @flowx/angular-ui-toolkit@<version> \
   @angular/cdk@19 \
-  ng2-pdfjs-viewer@18.0.0 \
   @types/event-source-polyfill
 ```
 
@@ -81,11 +80,11 @@ A few configurations are needed in the projects `angular.json`:
 
 Once installed, `FlxProcessModule` will be imported in the `AppModule` as `FlxProcessModule.withConfig({})`. 
 
-You **MUST** also import the dependencies of `FlxProcessModule`: `HttpClientModule` from `@angular/common/http`.
+You **MUST** also import the dependencies of `FlxProcessModule`: `HttpClientModule` from `@angular/common/http`
 
 ### Theming
 
-Component theming is done through the `@flowx/ui-theme` library. The theme id is a required input for the renderer SDK component and is used to fetch the theme configuration. The id can be obtained from the admin panel in the themes section.
+Component theming is done through the `@flowx/angular-theme` library. The theme id is a required input for the renderer SDK component and is used to fetch the theme configuration. The id can be obtained from the admin panel in the themes section.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/2024-04-08%2013.45.10.gif)
@@ -141,16 +140,16 @@ The `withConfig()` call is required in the application module where the process 
 **Custom validators** will be referenced by name (`currentOrLastYear`) in the template config panel in the validators section of each generated form field.
 
 ```typescript
-// example with custom component and custom validator
+// example with custom component, custom services and custom validator
 FlxProcessModule.withConfig({
   components: {
-    YourCustomComponentIdenfier: CustomComponentInstance,
+    YourCustomComponentIdentifier: CustomComponent,
   },
   services: {
     NomenclatorService,
     LocalDataStoreService,
   },
-  validators: {currentOrLastYear },
+  validators: { currentOrLastYear },
 })
 
   // example of a custom validator that restricts data selection to 
@@ -190,7 +189,7 @@ The entry point of the library is the `<flx-process-renderer></flx-process-rende
   [debugLogs]="debugLogs"
   [keepState]="keepState"
   [language]="language"
-  [httpVersion]="httpVersion"
+  [legacyHttpVersion]="legacyHttpVersion"
   [projectInfo]="projectInfo"
   [locale]="locale"
 />
@@ -207,7 +206,7 @@ The entry point of the library is the `<flx-process-renderer></flx-process-rende
 | processName       | Identifies a process                                                                                                                                                                   | string  | true      | -             | client\_identification                           |
 | processStartData  | Data required to start the process                                                                                                                                                     | json    | true      | -             | `{ "firstName": "John", "lastName": "Smith"}`    |
 | debugLogs         | When set to true this will print WS messages in the console                                                                                                                            | boolean | false     | false         | -                                                |
-| language          | Language used to localize the application.                                                                                                                                             | string  | false     | ro-RO         | -                                                |
+| language          | Language used to localize the application.                                                                                                                                             | string  | false     | en            | -                                                |
 | keepState         | <p>By default all process data is reset when the process renderer component gets destroyed. Setting this to true will keep process data even if the viewport gets destroyed</p><p></p> | boolean | false     | false         | -                                                |
 | isDraft           | When true allows starting a process in draft state. \*Note that isDraft = true requires that processName be the **id** (number) of the process and NOT the name.                       | boolean | false     | false         | -                                                |
 | legacyHttpVersion | Set this to `true` only for HTTP versions < 2 in order for SSE to work properly. Can be omitted otherwise.                                                                             | boolean | false     | false         | -                                                |
@@ -239,10 +238,11 @@ Action names are configurable via the process editor.
 ```typescript
 # data object example
 data: {
-   actionsFn: {
+    actionsFn: {
       action_one: () => void;
-      action_two: () => void; }
-   }
+      action_two: () => void; 
+    }
+  }
 ```
 
 #### Custom component validation
@@ -374,6 +374,86 @@ const interceptor: (custom: any) => HttpRequestInterceptor[] = (customService: C
   deps: [CustomService], // provider factory dependencies
 }
 ```
+
+### Using custom icons 
+
+The SDK provides a mechanism for using custom icons. Providers for custom icons should be included in the main app module in order to be available for the whole application.
+
+```ts
+import { FlxIconModule } from '@flowx/angular-ui-toolkit'
+
+// create a custom dictionary of icons
+const customIconDictionary = {
+  'custom-icon': 'custom icon svg'
+}
+
+// add the custom icon dictionary to the providers array in the main app module. 
+providers: [
+  ...
+  importProvidersFrom(FlxIconModule), 
+  provideExtraIconSet(customIconDictionary),
+]
+```
+
+### Enumerations and translations
+
+The SDK library provides a mechanism for handling enumerations and translations. The api for the method that handles enumerations is provided by the `getEnumeration` method which is `Promise` based.
+
+<Warning>
+These methods should only be used in custom components and within a process context because internal requests depend on the presence of a running project details.
+</Warning>
+
+#### Custom enumerations
+
+```ts
+import {getEnumeration} from '@flowx/angular-sdk'
+
+// get an enumeration by name
+const enumeration = await getEnumeration('enumerationName')
+
+// get enumeration with a parent
+const enumeration = await getEnumeration('enumerationName', 'parentName')
+
+// get enumerations and cache the result for subsequent calls
+const enumerations = await getEnumerations('enumerationName', null, true)
+```
+
+#### Translations
+
+The SDK provides a `FlxLocalizePipe` that allows you to manage translations within your application. The pipe is standalone and can be used both in templates and in custom components.
+
+* Here is an example of how to use the pipe in a template:
+
+```ts
+// import the pipe in the module where you want to use it
+import { FlxLocalizePipe } from '@flowx/angular-sdk'
+
+imports: [
+  ...
+  FlxLocalizePipe
+]
+```
+
+```html
+<!-- use the pipe in the template of a custom component -->
+<span>{{ 'hello' | flxLocalize }}</span>
+```
+
+* Here is an example of how to use the pipe in a custom component:
+
+```ts
+const localize = new FlxLocalizePipe()
+const translatedText = localize.transform('@@substitution_tag')
+```
+
+### Caching 
+
+The SDK provides a caching mechanism for static resources. The cache is enabled by default and can be disabled by setting the `cache` input of the `flx-process-renderer` component to `false`. When turned on, the cache will store the static resources in the browser's cache storage. 
+
+In order to reset the cache, you can go to the `Application` (chrome) or `Storage` (firefox) tab in the browser Dev tools and either clear the cache or disable the cache for the current site. 
+
+@Dragos - insert Chrome and Firefox screenshots here
+
 
 ### Interacting with the process
 
