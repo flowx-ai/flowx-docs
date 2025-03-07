@@ -24,20 +24,55 @@ description: "Scripts are used to define and run actions but also properties ins
 | MVEL               | 2                    | org.mvel » mvel2                         | 2.5.2.Final              |
 | Groovy             | 3.0.21               | org.codehaus.groovy » groovy-jsr223      | 3.0.21                   |
 
+
+<Warning>
+**Looking ahead**: Python 2.7 support will be deprecated in FlowX.AI 5.0. We recommend migrating your Python scripts to Python 3 to take advantage of improved performance and modern language features.
+</Warning>
+
 <Info>
 Support for legacy Python 2.7 via Jython can be enabled with an environment variable.
 </Info>
 
-<Info>
-**New in v4.7.1**: Python has been upgraded from 2.7.0 (Jython) to 3.11.7 (GraalPy), and JavaScript has been upgraded from ECMAScript 5.1 (Nashorn) to ECMAScript 15 (GraalJS). These updates provide better performance and access to modern language features.
-</Info>
 
 ## Integration designer scripting
 
 | Scripting Language | Language Version     | Scripting Engine | Scripting Engine Version |
 | ------------------ | -------------------- | ---------------- | ------------------------ |
-| Python             | 3.11.7               | GraalPy          | GraalVM 24.1.2           |
 | JavaScript         | ECMAScript 15 (2024) | GraalJS          | GraalVM 24.1.2           |
+| Python             | 3.11.7               | GraalPy          | GraalVM 24.1.2           |
+
+---
+
+## JavaScript
+
+<Info>
+**New in v4.7.1**: JavaScript support has been upgraded from Nashorn (ECMAScript 5.1) to GraalJS (ECMAScript 15/2024), providing significantly improved performance and modern language features.
+</Info>
+
+JavaScript in FlowX.AI is powered by GraalJS, which fully supports ECMAScript 15 (2024) standards. This provides modern JavaScript capabilities for your business rules and integrations.
+
+### What is GraalJS?
+
+GraalJS is an ECMAScript compliant JavaScript implementation built on GraalVM. It supports the latest ECMAScript features and offers high performance through the GraalVM's JIT compiler.
+
+### Properties
+
+* Supports ECMAScript 15 (2024) features including modern syntax and APIs
+* Provides consistent scripting across business rules and integration designer
+* Runs in a secure sandboxed environment
+
+### Limitations
+
+JavaScript scripts run in a sandboxed environment. Here is a list of JavaScript features not available in the sandbox:
+* import.meta (ES2020)
+* top-level await (ES2022)
+* set operations (ES2024)
+* Array.fromAsync (ES2024)
+
+### Useful links
+
+<Card title="GraalJS Documentation" href="https://www.graalvm.org/javascript/" icon="link"></Card>
+<Card title="ECMAScript 2024 Language Specification" href="https://tc39.es/ecma262/" icon="link"></Card>
 
 ---
 
@@ -70,6 +105,34 @@ Available modules might provide limited access to system resources due to the ex
 <Card title="Python 3.11 Documentation" href="https://docs.python.org/3.11/" icon="link"></Card>
 <Card title="GraalPy Documentation" href="https://www.graalvm.org/python/" icon="link"></Card>
 
+---
+
+## Python 2.7 (Legacy)
+
+<Info>
+Python 2.7 support is considered legacy and is only enabled via environment variables. We recommend using Python 3 via GraalPy for all new development.
+</Info>
+
+**Jython** is an implementation of the high-level, dynamic, object-oriented language [Python](http://www.python.org/) seamlessly integrated with the [Java](http://www.javasoft.com/) platform. Jython is an open-source solution.
+
+<Card title ="Jython Book" href="https://jython.readthedocs.io/en/latest/" icon ="link">
+</Card>
+
+### Properties
+
+* Supports **Python 2.7** most common python libs can be imported, ex: math, time, etc.
+* Java libs can also be imported: [details here ](https://www.tutorialspoint.com/jython/jython_importing_java_libraries.htm)
+
+### Useful links
+
+<Card title = "Python 2.7 documentation" href= "https://docs.python.org/2.7/" icon ="link"></Card>
+
+<Card title = "Jython" href="https://www.jython.org/" icon = "link"></Card>
+
+<Card title ="Jython FAQs" href="https://wiki.python.org/jython/JythonFaq" icon ="link"></Card>
+
+---
+
 ## DMN
 
 Decision Model and Notation (DMN) is a standard for Business Decision Management.
@@ -90,6 +153,8 @@ FLOWX uses [BPMN.io](https://bpmn.io/) (based on **camunda-engine-dmn** version 
 
 <Card title ="DMN Business rule action" href= "/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn"></Card>
 
+---
+
 ## MVEL
 
 MVEL is a powerful expression language for Java-based applications. It provides a plethora of features and is suited for everything from the smallest property binding and extraction, to full-blown scripts.
@@ -105,6 +170,8 @@ MVEL is a powerful expression language for Java-based applications. It provides 
 ### More information
 
 <Card title = "Intro to MVEL" href="/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel"></Card>
+
+---
 
 ## Groovy
 
@@ -127,58 +194,3 @@ We use and recommend **Groovy 3.0.21** version, using **groovy-jsr223** engine.
 <Card title ="[Java] Class GroovyScriptEngineImpl" href ="https://docs.groovy-lang.org/latest/html/gapi/org/codehaus/groovy/jsr223/GroovyScriptEngineImpl.html" icon ="link"></Card>
 
 <Card title ="groovy-jsr223" href = "https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-jsr223" icon ="link"></Card>
-
-## JavaScript (GraalJS)
-
-<Info>
-**New in v4.7.1**: JavaScript support has been upgraded from Nashorn (ECMAScript 5.1) to GraalJS (ECMAScript 15/2024), providing significantly improved performance and modern language features.
-</Info>
-
-JavaScript in FlowX.AI is powered by GraalJS, which fully supports ECMAScript 15 (2024) standards. This provides modern JavaScript capabilities for your business rules and integrations.
-
-### What is GraalJS?
-
-GraalJS is an ECMAScript compliant JavaScript implementation built on GraalVM. It supports the latest ECMAScript features and offers high performance through the GraalVM's JIT compiler.
-
-### Properties
-
-* Supports ECMAScript 15 (2024) features including modern syntax and APIs
-* Provides consistent scripting across business rules and integration designer
-* Runs in a secure sandboxed environment
-
-### Limitations
-
-JavaScript scripts run in a sandboxed environment. Here is a list of JavaScript features not available in the sandbox:
-* import.meta (ES2020)
-* top-level await (ES2022)
-* set operations (ES2024)
-* Array.fromAsync (ES2024)
-
-### Useful links
-
-<Card title="GraalJS Documentation" href="https://www.graalvm.org/javascript/" icon="link"></Card>
-<Card title="ECMAScript 2024 Language Specification" href="https://tc39.es/ecma262/" icon="link"></Card>
-
-## Jython (Legacy)
-
-<Info>
-Jython support is considered legacy and is only enabled via environment variables. We recommend using Python 3 via GraalPy for all new development.
-</Info>
-
-**Jython** is an implementation of the high-level, dynamic, object-oriented language [Python](http://www.python.org/) seamlessly integrated with the [Java](http://www.javasoft.com/) platform. Jython is an open-source solution.
-
-<Card title ="Jython Book" href="https://jython.readthedocs.io/en/latest/" icon ="link">
-</Card>
-
-### Properties
-
-* Supports **Python 2.7** most common python libs can be imported, ex: math, time, etc.
-* Java libs can also be imported: [details here ](https://www.tutorialspoint.com/jython/jython_importing_java_libraries.htm)
-
-### Useful links
-
-<Card title = "Python 2.7 documentation" href= "https://docs.python.org/2.7/" icon ="link"></Card>
-
-<Card title = "Jython" href="https://www.jython.org/" icon = "link"></Card>
-
-<Card title ="Jython FAQs" href="https://wiki.python.org/jython/JythonFaq" icon ="link"></Card>
