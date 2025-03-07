@@ -1,0 +1,116 @@
+---
+title: FlowX.AI 4.7.1 Release Notes
+description: FlowX.AI 4.7.1 brings enhanced resource navigation, better error detection, and workflow improvements to make your development journey even smoother! 🚀
+---
+
+## What's new? 🆕
+
+✅ Enhanced resource usage tracking with direct navigation  
+✅ Upgraded JavaScript support to ECMAScript 15 (2024) in Business Rules  
+✅ Added Python 3 support with 3x performance improvement  
+✅ Major performance enhancements for both design time and runtime
+
+## Projects
+
+### Enhanced resource usage navigation
+
+We've significantly improved how you navigate between resources and their references with direct navigation capabilities. Now you can easily jump from the usage tracking panel to the exact location where a resource is referenced.
+
+<Frame>
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/redirect_usage.mp4"
+></video>
+</Frame>
+
+<Tabs>  
+<Tab title="How it works">  
+1️⃣ **Access resource usage** – View where a resource is being used through the usage panel.  
+2️⃣ **One-click navigation** – Use the new redirect button to jump directly to the referenced location.  
+3️⃣ **Missing resource detection** – Easily identify and fix missing resource references with clear indicators.  
+</Tab>  
+<Tab title="Why it's better">  
+- **Faster troubleshooting** – Directly navigate to problem areas without manual searching.  
+- **Improved productivity** – Less time spent hunting down references means more time building.  
+- **Better error prevention** – Quickly spot and fix missing resources before they cause issues.  
+</Tab>  
+</Tabs>  
+
+
+
+---
+
+## Enhanced scripting capabilities
+
+### ECMAScript 15 (2024) support for Business Rules
+
+FlowX.AI 4.7.1 brings the latest JavaScript features to your business rules with an upgrade to ECMAScript 15 (2024).
+
+<Tabs>  
+<Tab title="What's included">  
+- Access to the latest JavaScript language features
+- Modern syntax for cleaner, more maintainable rules
+- Enhanced tooling and IDE support
+</Tab>  
+<Tab title="Benefits">  
+- Write more concise and expressive business rules
+- Leverage modern JavaScript patterns and best practices
+- Improved developer experience with better IDE integration
+</Tab>  
+</Tabs>
+
+### Python 3 support for Business Rules
+
+We've upgraded our Python scripting capabilities to Python 3, delivering significant performance improvements while maintaining compatibility.
+
+<CardGroup columns="2">
+  <Card title="3x Faster Execution" icon="bolt">  
+  Python scripts now run at least 3 times faster than with Python 2.7.
+  </Card>  
+  <Card title="Modern Python Features" icon="code">  
+  Take advantage of Python 3's improved syntax, libraries, and security features.
+  </Card>  
+</CardGroup>
+
+
+More details about the scripting capabilities can be found in the [Supported scripting languages](../../4.7.x/docs/building-blocks/supported-scripts) section.
+
+---
+
+## Performance improvements 🚀
+
+We've made significant performance enhancements throughout the platform to make your development and runtime experience smoother and faster.
+
+### Design time improvements
+
+For large processes, you'll notice dramatic improvements:
+
+| Operation         | Improvement    |
+| ----------------- | -------------- |
+| Cloning a process | **5x faster**  |
+| Opening a process | **70x faster** |
+
+### Runtime enhancements
+
+Platform average response time has been **reduced by 20%** in our comprehensive benchmark*.
+
+<Info>
+*The benchmark simulates a typical business process with a combination of user and service tasks. It includes rules that automate decision-making, as well as events for time-sensitive actions and communication. The process also covers various system functions, ensuring the platform can efficiently manage complex workflows with both individual and parallel tasks.
+</Info>
+
+---
+
+## **Bug fixes** 🐞  
+
+* Fixed various minor issues to improve overall stability
+* Resolved some UI inconsistencies
+* Addresses performance optimizations
+* Fixed general usability issues
+---
+
+## **Additional information**  
+
+📌 [Deployment Guidelines v4.7.1](./deployment-guidelines-v4.7.1)  
+📌 [Migration Guide (from v4.7.0)](./migrating-from-v4.7.0-to-v4.7.1)  
+📌 [Supported scripting languages](../../4.7.x/docs/building-blocks/supported-scripts)
