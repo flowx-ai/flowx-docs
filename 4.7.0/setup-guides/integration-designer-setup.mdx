@@ -1,444 +1,210 @@
 ---
-title: Integration designer setup
-description: Complete guide for setting up and configuring the Integration Designer service, including database connections, Kafka settings, and authentication
-icon: arrow-progress
+title: Integration Designer setup
+description: This guide provides a comprehensive approach to configuring the Integration Designer service using environment variables, which offer more flexibility and security compared to configuration files.
+icon: pencil
 ---
 
-This guide explains how to set up and configure the Integration Designer service, which allows you to create and manage integrations between FlowX.AI and external systems through a visual interface.
+### Prerequisites
+
+Before deployment, ensure you have the following components available:
+
+| Component     | Version | Purpose                               |
+| ------------- | ------- | ------------------------------------- |
+| Kubernetes    | 1.19+   | Container orchestration               |
+| PostgreSQL    | 13+     | Advancing data source                 |
+| MongoDB       | 4.4+    | Integration configurations            |
+| Kafka         | 2.8+    | Event-driven communication            |
+| OAuth2 Server | -       | Authentication (Keycloak recommended) |
+
+### Core configuration environment variables
+
+#### Basic service configuration
+
+| Environment Variable | Description                   | Example Value               |
+| -------------------- | ----------------------------- | --------------------------- |
+| `CONFIG_PROFILE`     | Spring configuration profiles | `k8stemplate_v2,kafka-auth` |
+| `LOGGING_LEVEL_APP`  | Application logging level     | `INFO`                      |
+
+#### Database configuration
+
+##### PostgreSQL environment variables
+
+| Environment Variable                     | Description         | Example Value                                 | 
+| ---------------------------------------- | ------------------- | --------------------------------------------- | 
+| `ADVANCING_DATASOURCE_URL`               | PostgreSQL JDBC URL | `jdbc:postgresql://postgresql:5432/advancing` | 
+| `ADVANCING_DATASOURCE_USERNAME`          | Database username   | `flowx`                                       | 
+| `ADVANCING_DATASOURCE_PASSWORD`          | Database password   | `securePassword`                              | 
+| `ADVANCING_DATASOURCE_DRIVER_CLASS_NAME` | JDBC driver         | `org.postgresql.Driver`                       | 
+
+##### MongoDB environment variables
+
+| Environment Variable       | Description                      | Example Value                                                     | 
+| `MONGODB_URI`              | Integration Designer MongoDB URI | `mongodb://mongodb-0.mongodb-headless:27017/integration-designer` | 
+| `MONGODB_USERNAME`         | MongoDB username                 | `integration-designer`                                            | 
+| `MONGODB_PASSWORD`         | MongoDB password                 | `secureMongoPass`                                                 | 
+| `MONGODB_RUNTIME_URI`      | Runtime MongoDB URI              | `mongodb://mongodb-0.mongodb-headless:27017/app-runtime`          | 
+| `MONGODB_RUNTIME_USERNAME` | Runtime MongoDB username         | `app-runtime`                                                     | 
+| `MONGODB_RUNTIME_PASSWORD` | Runtime MongoDB password         | `secureRuntimePass`                                               | 
+
+### Kafka configuration environment variables
+
+#### Kafka connection and security variables
+
+| Environment Variable             | Description            | Example Value                   | 
+| -------------------------------- | ---------------------- | ------------------------------- | 
+| `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Kafka broker addresses | `localhost:9092`                | 
+| `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol      | `PLAINTEXT` or `SASL_PLAINTEXT` | 
+
+#### Kafka producer configuration
+
+| Environment Variable                     | Description            | Example Value                                                 | 
+| ---------------------------------------- | ---------------------- | ------------------------------------------------------------- | 
+| `KAFKA_MESSAGE_MAX_BYTES`                | Maximum message size   | `52428800` (50MB)                                             |
+| `SPRING_KAFKA_PRODUCER_KEY_SERIALIZER`   | Key serializer class   | `org.apache.kafka.common.serialization.StringSerializer`      |
+| `SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER` | Value serializer class | `org.springframework.kafka.support.serializer.JsonSerializer` | 
+
+#### Kafka consumer configuration
+
+| Environment Variable                                | Description                                | Example Value                                          | 
+| --------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------ | 
+| `KAFKA_CONSUMER_GROUP_ID_START_WORKFLOWS`           | Start workflows consumer group             | `start-workflows-group`                                | 
+| `KAFKA_CONSUMER_GROUP_ID_RES_ELEM_USAGE_VALIDATION` | Resource usage validation consumer group   | `integration-designer-res-elem-usage-validation-group` | 
+| `KAFKA_CONSUMER_THREADS_START_WORKFLOWS`            | Start workflows consumer threads           | `3`                                                    | 
+| `KAFKA_CONSUMER_THREADS_RES_ELEM_USAGE_VALIDATION`  | Resource usage validation consumer threads | `3`                                                    | 
+
+#### Kafka topic naming variables
+
+| Environment Variable             | Description             | Example Value | 
+| -------------------------------- | ----------------------- | ------------- | 
+| `KAFKA_TOPIC_NAMING_PACKAGE`     | Base package for topics | `ai.flowx.`   | 
+| `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Environment identifier  | `dev.`        | 
+| `KAFKA_TOPIC_NAMING_VERSION`     | Topic version           | `.v1`         | 
+| `KAFKA_TOPIC_NAMING_SEPARATOR`   | Topic name separator    | `.`           | 
+| `KAFKA_TOPIC_NAMING_SEPARATOR2`  | Alternative separator   | `-`           | 
+
+#### OAuth authentication variables (when using SASL_PLAINTEXT)
+
+| Environment Variable             | Description          | Example Value          | 
+| -------------------------------- | -------------------- | ---------------------- | 
+| `KAFKA_OAUTH_CLIENT_ID`          | OAuth client ID      | `kafka`                | 
+| `KAFKA_OAUTH_CLIENT_SECRET`      | OAuth client secret  | `kafka-secret`         | 
+| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint | `kafka.auth.localhost` | 
+
+#### Predefined Kafka topics
+
+| Environment Variable                                   | Description                             | Example Value                                                                                 | 
+| ------------------------------------------------------ | --------------------------------------- | --------------------------------------------------------------------------------------------- | 
+| `KAFKA_TOPIC_AUDIT_OUT`                                | Audit topic                             | `ai.flowx.dev.core.trigger.save.audit.v1`                                                     | 
+| `KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE`               | Events gateway workflow instances topic | `ai.flowx.dev.eventsgateway.receive.workflowinstances.v1`                                     | 
+| `KAFKA_TOPIC_APPLICATION_IN_RES_ELEM_USAGE_VALIDATION` | Resource usage validation topic         | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.request-integration.v1` | 
+| `KAFKA_TOPIC_RESOURCES_USAGES_REFRESH`                 | Resources usage refresh topic           | `ai.flowx.dev.application-version.resources-usages.refresh.v1`                                | 
+
+### Authentication configuration environment variables
+
+| Environment Variable                                  | Description                  | Example Value                       | 
+| ----------------------------------------------------- | ---------------------------- | ----------------------------------- |
+| `SECURITY_OAUTH2_BASE_SERVER_URL`                     | OAuth2 server base URL       | `https://keycloak.example.com/auth` | 
+| `SECURITY_OAUTH2_REALM`                               | Authentication realm         | `flowx`                             | 
+| `SECURITY_OAUTH2_CLIENT_ID`                           | Client ID                    | `flowx-platform-authorize`          | 
+| `SECURITY_OAUTH2_CLIENT_SECRET`                       | Client secret                | `platformClientSecret`              | 
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`     | Admin service account ID     | `integration-designer-admin`        | 
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` | Admin service account secret | `adminServiceSecret`                | 
+
+### Monitoring and health check environment variables
+
+| Environment Variable                           | Description                | Example Value                    | 
+| ---------------------------------------------- | -------------------------- | -------------------------------- | 
+| `MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE`    | Exposed actuator endpoints | `health,info,metrics,prometheus` | 
+| `MANAGEMENT_HEALTH_KUBERNETES_ENABLED`         | Kubernetes health check    | `true`                           | 
+| `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED` | Prometheus metrics         | `true`                           |
+
+### Resource usage monitoring 
+
+| Environment Variable                            | Description                    | Example Value | 
+| ----------------------------------------------- | ------------------------------ | ------------- | 
+| `LIB_RESOURCES_USAGES_ENABLED`                  | Enable resource usage tracking | `true`        | 
+| `LIB_RESOURCES_USAGES_REFRESH_LISTENER_ENABLED` | Enable refresh listener        | `true`        | 
+| `LIB_RESOURCES_USAGES_COLLECTOR_THREAD_COUNT`   | Collector thread count         | `5`           | 
+| `LIB_RESOURCES_USAGES_COLLECTOR_MAX_BATCH_SIZE` | Max batch size                 | `1000`        | 
 
 
-## Prerequisites
 
-Before deploying the Integration Designer service, ensure you have the following components:
+### Kafka topics configuration
 
-| Component | Version | Purpose |
-|-----------|---------|---------|
-| Kubernetes | 1.19+ | Container orchestration platform |
-| PostgreSQL | 13+ | Advancing data source storage |
-| MongoDB | 4.4+ | Integration configurations and runtime data |
-| Kafka | 2.8+ | Event-driven communication |
-| OAuth2 Server | - | Authentication and authorization (Keycloak recommended) |
+#### Topic naming convention
 
-<Info>
-Integration Designer requires two MongoDB databases:
-- **integration-designer**: Service-specific data
-- **app-runtime**: Shared runtime data used by multiple services
-</Info>
+Integration Designer uses a structured topic naming convention:
 
-
-## Configuration parameters
-
-### Core settings
-
-These settings control the basic operation of the Integration Designer service:
-
-| Parameter | Description | Default | Required |
-|-----------|-------------|---------|----------|
-| `configProfile` | Spring configuration profiles to activate | `k8stemplate_v2,kafka-auth` | Yes |
-| `webclient.bufferSize` | Buffer size for handling large API responses | `10485760` (10MB) | No |
-| `javaOpts` | JVM options | `--add-opens java.base/jdk.internal.misc=ALL-UNNAMED -Dio.netty.tryReflectionSetAccessible=true` | No |
-
-<Warning>
-Always set `configProfile` explicitly to ensure the correct configuration is loaded. The value should be `k8stemplate_v2,kafka-auth` unless you have specific requirements.
-</Warning>
-
-### Database configuration
-
-#### PostgreSQL settings
-
-PostgreSQL is used for the advancing data source:
-
-| Parameter | Description | Default | Required |
-|-----------|-------------|---------|----------|
-| `advancing.datasource.url` | JDBC URL | `jdbc:postgresql://postgresql:5432/advancing` | Yes |
-| `advancing.datasource.username` | Database username | `flowx` | Yes |
-| `advancing.datasource.password` | Database password | - | Yes |
-| `advancing.datasource.driverClassName` | JDBC driver class | `org.postgresql.Driver` | Yes |
-
-Example configuration:
-
-```yaml
-advancing:
-  datasource:
-    url: jdbc:postgresql://postgresql:5432/advancing
-    username: flowx
-    password: securePassword  # Replace with your actual password
-    driverClassName: org.postgresql.Driver
+```
+ai.flowx.{environment}.{service}.{action}.{detail}.v1
 ```
 
-<Tip>
-For Oracle databases, use `oracle.jdbc.OracleDriver` as the driver class name.
-</Tip>
-
-#### MongoDB settings
-
-Integration Designer requires two MongoDB databases:
-
-| Parameter | Description | Default | Required |
-|-----------|-------------|---------|----------|
-| `mongodb.uri` | URI template for MongoDB connections | `mongodb://${DB_USERNAME}:${DB_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${DB_NAME}?retryWrites=false` | Yes |
-| `mongodb.auth.username` | Integration Designer database username | `integration-designer` | Yes |
-| `mongodb.auth.password` | Integration Designer database password | - | Yes |
-| `mongodb.runtime.auth.username` | Runtime database username | `app-runtime` | Yes |
-| `mongodb.runtime.auth.password` | Runtime database password | - | Yes |
-| `mongodb.storage` | Storage type (for Azure) | `mongodb` | No |
-
-<Warning>
-Integration Designer requires a working runtime MongoDB connection to function properly. The service will not start without this connection.
-</Warning>
-
-Example configuration:
-
-```yaml
-mongodb:
-  auth:
-    username: integration-designer
-    password: securePassword1  # Replace with your actual password
-  runtime:
-    auth:
-      username: app-runtime
-      password: securePassword2  # Replace with your actual password
-```
-
-### Kafka configuration
-
-Kafka is used for event-driven communication between services:
-
-| Parameter | Description | Default | Required |
-|-----------|-------------|---------|----------|
-| `kafka.bootstrap.servers` | Kafka broker addresses | `kafka-flowx-kafka-bootstrap:9092` | Yes |
-| `kafka.topic.naming.environment` | Environment identifier for topics | `dev` | Yes |
-| `kafka.workflow.createTopics` | Auto-create workflow topics | `false` | No |
-| `kafka.consumer.groupIdStartWorkflows` | Consumer group ID | `start-workflows-group` | No |
-| `kafka.consumer.threadsStartWorkflows` | Number of consumer threads | `3` | No |
-| `kafka.oauth.clientId` | OAuth client ID for Kafka | - | For secure Kafka |
-| `kafka.oauth.clientSecret` | OAuth client secret for Kafka | - | For secure Kafka |
-| `kafka.oauth.tokenEndpointUri` | Token endpoint for Kafka OAuth | - | For secure Kafka |
-
-<Info>
-Set `kafka.workflow.createTopics` to `true` in development environments for automatic topic creation, but keep it `false` in production to prevent unintended topic creation.
-</Info>
-
-Example configuration:
-
-```yaml
-kafka:
-  bootstrap:
-    servers: kafka-flowx-kafka-bootstrap:9092
-  topic:
-    naming:
-      environment: dev
-  workflow:
-    createTopics: false  # Set to true for development
-  # For secure Kafka with OAuth
-  oauth:
-    clientId: flowx-service-client
-    clientSecret: serviceClientSecret
-    tokenEndpointUri: https://keycloak.example.com/auth/realms/kafka-authz/protocol/openid-connect/token
-```
-
-#### Required Kafka topics
-
-Integration Designer depends on specific Kafka topics:
-
-| Topic | Pattern | Purpose |
-|-------|---------|---------|
-| Workflow Instances | `ai.flowx.dev.eventsgateway.receive.workflowinstances.v1` | Handles workflow instance messages |
-| Engine Receive | `ai.flowx.dev.engine.receive.*` | Messages for engine service |
-| Integration Receive | `ai.flowx.dev.integration.receive.*` | Messages for integration service |
-
-<Warning>
-The `max.message.bytes` setting for the workflow instances topic should be increased to at least 10MB to handle large payloads. See the [Troubleshooting](#troubleshooting) section for instructions.
-</Warning>
-
-### Authentication configuration
-
-OAuth2 is used for authentication and authorization:
-
-| Parameter | Description | Default | Required |
-|-----------|-------------|---------|----------|
-| `security.oauth2.baseServerUrl` | OAuth2 server base URL | - | Yes |
-| `security.oauth2.realm` | Authentication realm | `flowx` | Yes |
-| `security.oauth2.client.clientId` | Client ID | `flowx-platform-authorize` | Yes |
-| `security.oauth2.client.clientSecret` | Client secret | - | Yes |
-| `security.oauth2.serviceAccount.admin.clientId` | Admin service account ID | - | Yes |
-| `security.oauth2.serviceAccount.admin.clientSecret` | Admin service account secret | - | Yes |
-
-Example configuration:
-
-```yaml
-security:
-  oauth2:
-    baseServerUrl: https://keycloak.example.com/auth
-    realm: flowx
-    client:
-      clientId: flowx-platform-authorize
-      clientSecret: clientSecretValue
-    serviceAccount:
-      admin:
-        clientId: integration-designer-admin
-        clientSecret: adminSecretValue
-```
-
-### Monitoring and health checks
-
-Spring Boot Actuator settings for monitoring and health checks:
-
-| Parameter | Description | Default | Required |
-|-----------|-------------|---------|----------|
-| `management.endpoints.web.exposure.include` | Exposed endpoints | `health,info,metrics,prometheus` | No |
-| `management.health.kubernetes.enabled` | Enable Kubernetes health | `true` | No |
-| `management.health.livenessState.enabled` | Enable liveness state | `true` | No |
-| `management.health.readinessState.enabled` | Enable readiness state | `true` | No |
-| `management.metrics.export.prometheus.enabled` | Enable Prometheus metrics | `true` | No |
-
-<Tip>
-The following Actuator endpoints are particularly useful for monitoring:
-
-- `/actuator/health` - Health status of the service and dependencies
-- `/actuator/metrics` - Detailed performance metrics
-- `/actuator/prometheus` - Metrics in Prometheus format
-</Tip>
-
-## Deployment example
-
-Configuration for production environments:
-
-```yaml
-# values.yaml for production
-configProfile: k8stemplate_v2,kafka-auth,prod
-
-replicaCount: 2  # Multiple replicas for high availability
-
-advancing:
-  datasource:
-    url: jdbc:postgresql://postgresql-prod:5432/advancing
-    username: flowx
-    password: prodPassword
-
-mongodb:
-  auth:
-    username: integration-designer
-    password: prodMongoPassword
-  runtime:
-    auth:
-      username: app-runtime
-      password: prodRuntimePassword
-
-kafka:
-  bootstrap:
-    servers: kafka-prod-1:9092,kafka-prod-2:9092,kafka-prod-3:9092
-  topic:
-    naming:
-      environment: prod
-  workflow:
-    createTopics: false  # Disable auto-creation in production
-
-security:
-  oauth2:
-    baseServerUrl: https://keycloak-prod.example.com/auth
-    realm: flowx
-    client:
-      clientId: flowx-platform-authorize
-      clientSecret: prodClientSecret
-    serviceAccount:
-      admin:
-        clientId: integration-designer-admin
-        clientSecret: prodAdminSecret
-
-logging:
-  level:
-    root: WARN
-    app: INFO
-    ai.flowx.integration: INFO
-
-resources:
-  limits:
-    cpu: 2000m
-    memory: 2048Mi
-  requests:
-    cpu: 1000m
-    memory: 1024Mi
-```
-
-## Ingress configuration
-
-If you need to expose the Integration Designer service externally, configure the ingress:
-
-```yaml
-ingress:
-  enabled: true
-  admin:
-    enabled: true
-    hostname: "{{ .Values.flowx.ingress.admin }}"
-    path: /integration(/|$)(.*)
-    annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: /$2
-      nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,platform,Flowx-Platform
-```
-
-## RBAC configuration
-
-Integration Designer requires specific permissions to access Kubernetes resources:
-
-```yaml
-rbac:
-  create: true
-  rules:
-    - apiGroups:
-        - ""
-      resources:
-        - secrets
-        - configmaps
-        - pods
-      verbs:
-        - get
-        - list
-        - watch
-```
-
-## Troubleshooting
-
-### MongoDB connection issues
-
-If you experience MongoDB connection problems:
-
-<AccordionGroup>
-<Accordion title="Symptoms">
-- Service fails to start
-- MongoDB connection errors in logs
-- "Cannot connect to MongoDB" errors
-</Accordion>
-
-<Accordion title="Solutions">
-1. Check connection strings and credentials:
-   ```bash
-   kubectl exec -n <namespace> <pod-name> -- env | grep MONGO
-   ```
-
-2. Verify MongoDB pods are running:
-   ```bash
-   kubectl get pods -n <namespace> | grep mongodb
-   ```
-
-3. Test connectivity from the Integration Designer pod:
-   ```bash
-   kubectl exec -n <namespace> <pod-name> -- curl -v mongodb-0.mongodb-headless:27017
-   ```
-
-4. Check for network policies blocking connections
-</Accordion>
-</AccordionGroup>
-
-### Kafka communication issues
-
-If Kafka messaging is not working correctly:
-
-<AccordionGroup>
-<Accordion title="Symptoms">
-- Workflows not progressing
-- Messages not being sent or received
-- Kafka connection errors in logs
-</Accordion>
-
-<Accordion title="Solutions">
-1. Verify Kafka is accessible:
-   ```bash
-   kubectl exec -n <namespace> <pod-name> -- curl -v <kafka-bootstrap-server>:9092
-   ```
-
-2. Check consumer group status:
-   ```bash
-   kubectl exec -n <namespace> <kafka-pod> -- kafka-consumer-groups.sh \
-     --bootstrap-server localhost:9092 \
-     --describe --group start-workflows-group
-   ```
-
-3. Verify topic configuration for `max.message.bytes`:
-   ```bash
-   # Using AKHQ
-   1. Access the AKHQ web interface
-   2. Navigate to Topics → ai.flowx.dev.eventsgateway.receive.workflowinstances.v1
-   3. Go to Configuration tab
-   4. Set max.message.bytes to 10485760 (10MB)
-
-   # Or using Kafka CLI
-   kubectl exec -n <namespace> <kafka-pod> -- kafka-configs.sh \
-     --bootstrap-server localhost:9092 \
-     --entity-type topics \
-     --entity-name ai.flowx.dev.eventsgateway.receive.workflowinstances.v1 \
-     --alter --add-config max.message.bytes=10485760
-   ```
-</Accordion>
-</AccordionGroup>
-
-### Authentication failures
-
-For OAuth2 authentication issues:
-
-<AccordionGroup>
-<Accordion title="Symptoms">
-- 401/403 errors
-- Authentication failed messages in logs
-- Service unable to make authenticated requests
-</Accordion>
-
-<Accordion title="Solutions">
-1. Verify OAuth2 server is accessible:
-   ```bash
-   kubectl exec -n <namespace> <pod-name> -- curl -v <oauth2-server-url>/auth/realms/<realm>/.well-known/openid-configuration
-   ```
-
-2. Check client credentials:
-   ```bash
-   kubectl exec -n <namespace> <pod-name> -- env | grep OAUTH
-   ```
-
-3. Make sure roles and permissions are properly configured in Keycloak:
-   - The client should have the necessary roles
-   - Service accounts should have appropriate permissions
-</Accordion>
-</AccordionGroup>
-
-### Large API responses are truncated
-
-If you encounter issues with large API responses:
-
-<AccordionGroup>
-<Accordion title="Symptoms">
-- Incomplete data in API responses
-- Unexpected errors when fetching large data sets
-- Connection reset errors
-</Accordion>
-
-<Accordion title="Solutions">
-1. Verify WebClient buffer size:
-   ```bash
-   kubectl exec -n <namespace> <pod-name> -- env | grep BUFFER
-   ```
-
-2. Increase the buffer size to at least 10MB:
-   ```yaml
-   flowx:
-     webclient:
-       buffersize: 10485760  # 10MB
-   ```
-
-3. Consider using pagination if available in the external API
-
-4. For very large responses, implement streaming solutions
-</Accordion>
-</AccordionGroup>
-
-## Next steps
-
-After successfully setting up the Integration Designer service:
-
-1. [Configure external systems and endpoints](../docs/platform-deep-dive/integrations/integration-designer#managing-integration-endpoints)
-2. [Create integration workflows](../docs/platform-deep-dive/integrations/integration-designer#workflows)
-3. [Set up authorization for external systems](../docs/platform-deep-dive/integrations/integration-designer#configuring-authorization)
-4. [Link workflows to BPMN processes](../docs/platform-deep-dive/integrations/integration-designer#workflow-integration)
-
-<Card title="Integration designer guide" href="../docs/platform-deep-dive/integrations/integration-designer" icon="diagram-project">
-Learn how to use Integration Designer to create and manage integrations
-</Card>
+Key components:
+- `ai.flowx.`: Base package identifier
+- `{environment}`: Deployment environment (e.g., dev, prod)
+- `{service}`: Specific service (e.g., core, eventsgateway)
+- `{action}`: Operation type (e.g., receive, trigger)
+- `{detail}`: Specific topic detail
+- `v1`: Version identifier
+
+#### Important Kafka topics
+
+1. **Workflow Instances Topic**
+   - Pattern: `ai.flowx.{env}.eventsgateway.receive.workflowinstances.v1`
+   - Purpose: Handles workflow instance messages
+   - Recommended configuration: 
+     - Retention: 7 days
+     - Partition count: Minimum 3
+
+2. **Engine Receive Topics**
+   - Pattern: `ai.flowx.{env}.engine.receive.*`
+   - Purpose: Engine service communication
+   - Recommended configuration:
+     - Retention: 3 days
+     - Partition count: Minimum 3
+
+3. **Integration Receive Topics**
+   - Pattern: `ai.flowx.{env}.integration.receive.*`
+   - Purpose: Integration service communication
+   - Recommended configuration:
+     - Retention: 3 days
+     - Partition count: Minimum 3
+
+4. **Resource Usage Topics**
+   - Validation Request: `ai.flowx.{env}.application-version.resources-usages.sub-res-validation.request-integration.v1`
+   - Refresh: `ai.flowx.{env}.application-version.resources-usages.refresh.v1`
+   - Purpose: Resource tracking and validation
+   - Recommended configuration:
+     - Retention: 1 day
+     - Partition count: 1-2
+
+#### Large message handling for workflow instances topic
+
+##### Updating `max.message.bytes` configuration
+
+The workflow instances topic requires special configuration to handle large messages. By default, Kafka has message size limitations that may prevent Integration Designer from processing large workflow payloads.
+
+**Recommended `max.message.bytes` value**: `10485760` (10 MB)
+
+###### Method 1: Update using AKHQ (Recommended)
+
+1. **Access AKHQ**
+   - Open the AKHQ web interface
+   - Log in if authentication is required
+
+2. **Navigate to Topic**
+   - Go to the "Topics" section
+   - Find the topic: `ai.flowx.dev.eventsgateway.receive.workflowinstances.v1`
+
+3. **Edit Configuration**
+   - Click on the topic name
+   - Go to the "Configuration" tab
+   - Locate or add `max.message.bytes`
+   - Set the value to `10485760`
+   - Save changes
+
+
+
+## Additional Resources
+
+- [Integration Designer Documentation](../docs/platform-deep-dive/integrations/integration-designer)
