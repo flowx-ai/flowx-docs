@@ -84,6 +84,39 @@ You must also enable the environment variable on **AI Developer** agent, if you 
 Python 2.7 support will be deprecated in FlowX.AI 5.0. We recommend migrating your Python scripts to Python 3 to take advantage of improved performance and modern language features.
 </Warning>
 
+
+### GraalVM Cache Configuration
+
+When using GraalVM (when `FLOWX_SCRIPTENGINE_USEGRAALVM=true`), you must ensure the engine has proper access to a cache directory within the container. By default, this is configured in the `/tmp` directory.
+
+<Info>
+For environments with filesystem restrictions or custom configurations, you need to ensure the GraalVM cache is properly configured.
+</Info>
+
+There are two methods to configure the GraalVM cache location:
+
+#### Option 1: Using Java Options (Preferred)
+
+Add the following Java option to your deployment configuration:
+
+```
+-Dpolyglot.engine.userResourceCache=/tmp
+```
+
+This option is set by default in the standard Docker image but might need to be included if you're overriding the Java options.
+
+#### Option 2: Using Environment Variables
+
+Alternatively, you can set the following environment variable:
+
+```
+XDG_CACHE_HOME=/tmp
+```
+
+<Warning>
+If you encounter errors related to Python script execution when using GraalVM, check that the cache directory is properly configured and accessible.
+</Warning>
+
 For more details about supported scripting languages and their capabilities, see the [Supported scripts](../../4.7.x/docs/building-blocks/supported-scripts) documentation.
 
 ## Authorization & access roles
