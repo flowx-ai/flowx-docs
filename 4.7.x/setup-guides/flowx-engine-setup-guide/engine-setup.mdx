@@ -61,6 +61,27 @@ The Process Engine requires to connect to Runtime MongoDB instance to access run
 * `RUNTIME_DB_USERNAME`: ` app-runtime`
 * `DB_NAME`: `app-runtime`
 
+
+## Configuring script engine
+
+FlowX.AI Engine supports multiple scripting languages for business rules and actions. Use the following environment variables to configure the script engine behavior:
+
+### Python Runtime Configuration
+
+<Info>
+**Important**: By default, FlowX.AI 4.7.1 uses Python 2.7 (Jython) as the Python runtime. To enable Python 3 via GraalPy with its 3x performance improvements, you must explicitly set the feature toggle.
+</Info>
+
+| Environment Variable            | Description                                                                                                                            | Default Value | Possible Values |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------- | --------------- |
+| `FLOWX_SCRIPTENGINE_USEGRAALVM` | Determines which Python runtime to use. When `false` or missing, Python 2.7 (Jython) is used. When `true`, Python 3 (GraalPy) is used. | `false`       | `true`, `false` |
+
+<Warning>
+Python 2.7 support will be deprecated in FlowX.AI 5.0. We recommend migrating your Python scripts to Python 3 to take advantage of improved performance and modern language features.
+</Warning>
+
+For more details about supported scripting languages and their capabilities, see the [Supported scripts](../../4.7.x/docs/building-blocks/supported-scripts) documentation.
+
 ## Authorization & access roles
 
 This section outlines the OAuth2 configuration settings for securing the Spring application, including resource server settings, security type, and access authorizations.
