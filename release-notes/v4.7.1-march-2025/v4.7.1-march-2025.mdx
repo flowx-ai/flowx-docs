@@ -73,6 +73,10 @@ We've upgraded our Python scripting capabilities to Python 3, delivering signifi
   </Card>  
 </CardGroup>
 
+<Info>
+**Important Configuration Note:** Python 2.7 remains the default runtime. To enable Python 3 support with its performance improvements, you must set the feature toggle `FLOWX_SCRIPTENGINE_USEGRAALVM` to `true` in the [**Process Engine configuration**](/4.7.x/setup-guides/flowx-engine-setup-guide/engine-setup) and in the **AI Developer** (if used) agent configuration. If this configuration variable is missing or set to `false`, Python 2.7 will be used.
+</Info>
+
 
 More details about the scripting capabilities can be found in the [Supported scripting languages](../../4.7.x/docs/building-blocks/supported-scripts) section.
 
