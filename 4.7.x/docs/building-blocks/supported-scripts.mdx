@@ -8,19 +8,24 @@ description: "Scripts are used to define and run actions but also properties ins
 
 <CardGroup>
 
-<Card title="Python" icon="python" href="#python"></Card>
+<Card title="Python 3" icon="python" href="#python-3"></Card>
+<Card title="Python 2.7" icon="python" href="#python-2-7"></Card>
 <Card title="DMN" icon="code" href="#dmn"></Card>
 <Card title="MVEL" icon="code" href="#mvel"></Card>
 <Card title="Groovy" icon="code" href="#groovy"></Card>
-<Card title="JavaScript" icon="code" href="#javascript-graaljs"></Card>
+<Card title="JavaScript" icon="js" href="#javascript"></Card>
+
+
+
+
 
 </CardGroup>
 
 | Scripting Language | Language Version     | Scripting Engine                         | Scripting Engine Version |
 | ------------------ | -------------------- | ---------------------------------------- | ------------------------ |
 | JavaScript         | ECMAScript 15 (2024) | GraalJS                                  | GraalVM 24.1.2           |
-| Python (GraalVM)   | 3.11.7               | GraalPy                                  | GraalVM 24.1.2           |
-| Python (Jython)    | 2.7                  | org.python.jython » jython-standalone    | 2.7.2                    |
+| Python 3           | 3.11.7               | GraalPy                                  | GraalVM 24.1.2           |
+| Python 2.7         | 2.7                  | org.python.jython » jython-standalone    | 2.7.2                    |
 | DMN                | 1.3                  | org.camunda.bpm.dmn » camunda-engine-dmn | 7.20.0                   |
 | MVEL               | 2                    | org.mvel » mvel2                         | 2.5.2.Final              |
 | Groovy             | 3.0.21               | org.codehaus.groovy » groovy-jsr223      | 3.0.21                   |
@@ -49,7 +54,7 @@ By default, FlowX.AI uses Python 2.7 (Jython) for script execution. Python 3 sup
 **New in v4.7.1**: JavaScript support has been upgraded from Nashorn (ECMAScript 5.1) to GraalJS (ECMAScript 15/2024), providing significantly improved performance and modern language features.
 </Info>
 
-JavaScript in FlowX.AI is powered by GraalJS, which fully supports ECMAScript 15 (2024) standards. This provides modern JavaScript capabilities for your business rules and integrations.
+JavaScript in FlowX.AI is powered by GraalJS, which supports ECMAScript 15 (2024) standards. This provides modern JavaScript capabilities for your business rules and integrations.
 
 ### What is GraalJS?
 
@@ -76,7 +81,7 @@ JavaScript scripts run in a sandboxed environment. Here is a list of JavaScript 
 
 ---
 
-## Python (GraalVM)
+## Python 3
 
 <Info>
 **Important Configuration Note**: Python 2.7 (Jython) is the default Python runtime in FlowX.AI. To enable Python 3 via GraalPy, you must set the feature toggle `FLOWX_SCRIPTENGINE_USEGRAALVM` to `true` in the [**Process Engine configuration**](/4.7.x/setup-guides/flowx-engine-setup-guide/engine-setup) and in the AI Developer agent configuration. If this configuration variable is missing or set to `false`, Python 2.7 will be used.
@@ -112,7 +117,7 @@ Available modules might provide limited access to system resources due to the ex
 
 ---
 
-## Python 2.7 (Jython)
+## Python 2.7
 
 <Info>
 Python 2.7 is the default runtime in FlowX.AI 4.7.1 and is implemented via Jython. While it remains fully supported in this version, we recommend migrating to Python 3 for all new development to prepare for future releases.
