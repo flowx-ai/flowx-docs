@@ -105,6 +105,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
+          dockerfile: Dockerfile.docs
           push: true
           tags: ${{ steps.prep.outputs.tags }}
           build-args: |
