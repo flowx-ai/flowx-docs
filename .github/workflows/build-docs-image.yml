@@ -1,0 +1,174 @@
+name: Build and Push Documentation Image
+
+on:
+  release:
+    types: [published]  # Trigger on published releases
+  workflow_dispatch:    # Also allow manual triggering
+    inputs:
+      version:
+        description: 'Documentation version (e.g., 4.7.1)'
+        required: true
+      tag_latest:
+        description: 'Tag as latest (for final releases)'
+        required: true
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Determine version
+        id: determine_version
+        run: |
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            # Extract version from release tag (without 'v' prefix if present)
+            TAG_NAME="${{ github.event.release.tag_name }}"
+            if [[ "$TAG_NAME" == v* ]]; then
+              VERSION="${TAG_NAME#v}"
+            else
+              VERSION="$TAG_NAME"
+            fi
+            
+            # Check if this is a final release (no suffix like -1, -2, -beta, etc.)
+            if [[ ! "$VERSION" =~ .*-.* ]]; then
+              TAG_LATEST="true"
+            else
+              TAG_LATEST="false"
+            fi
+          else
+            # Use version from manual workflow input
+            VERSION="${{ github.event.inputs.version }}"
+            TAG_LATEST="${{ github.event.inputs.tag_latest }}"
+          fi
+          
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag_latest=$TAG_LATEST" >> $GITHUB_OUTPUT
+          
+          echo "Building documentation version: $VERSION (Tag as latest: $TAG_LATEST)"
+      
+      - name: Create version metadata
+        run: |
+          cat > version.json << EOL
+          {
+            "version": "${{ steps.determine_version.outputs.version }}",
+            "buildDate": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "compatibleWith": {
+              "flowx": {
+                "minVersion": "${{ steps.determine_version.outputs.version }}",
+                "maxVersion": "${{ steps.determine_version.outputs.version }}"
+              }
+            },
+            "metadata": {
+              "buildId": "${{ github.run_id }}",
+              "gitCommit": "${{ github.sha }}",
+              "release": "${{ github.event_name == 'release' && github.event.release.tag_name || '' }}",
+              "workflow": {
+                "name": "Build Documentation Image",
+                "triggeredBy": "${{ github.actor }}"
+              }
+            }
+          }
+          EOL
+          
+          echo "Created version.json:"
+          cat version.json
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Prepare tags
+        id: prep
+        run: |
+          TAGS="flowxai/flowx-docs:${{ steps.determine_version.outputs.version }}"
+          if [[ "${{ steps.determine_version.outputs.tag_latest }}" == "true" ]]; then
+            TAGS="$TAGS,flowxai/flowx-docs:latest"
+          fi
+          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+      
+      - name: Build and push image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.prep.outputs.tags }}
+          build-args: |
+            DOCS_VERSION=${{ steps.determine_version.outputs.version }}
+      
+      - name: Generate release info
+        run: |
+          mkdir -p ./release-info
+          
+          # Create release notes markdown
+          cat > ./release-info/release-notes.md << EOL
+          # FlowX Documentation: Version ${{ steps.determine_version.outputs.version }}
+          
+          ## Build Information
+          
+          - **Version:** ${{ steps.determine_version.outputs.version }}
+          - **Build Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          - **Release:** ${{ github.event_name == 'release' && github.event.release.tag_name || 'Manual build' }}
+          - **Commit:** ${{ github.sha }}
+          - **Built By:** ${{ github.actor }}
+          - **Workflow Run:** [#${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          
+          ## Docker Image
+          
+          - **Repository:** flowxai/flowx-docs
+          - **Tag:** ${{ steps.determine_version.outputs.version }}
+          ${{ steps.determine_version.outputs.tag_latest == 'true' && '- **Also tagged as:** latest' || '' }}
+          
+          ## Usage
+          
+          ```yaml
+          # In Kubernetes as init container
+          initContainers:
+            - name: docs-init
+              image: flowxai/flowx-docs:${{ steps.determine_version.outputs.version }}
+              env:
+                - name: DOCS_OUTPUT_PATH
+                  value: /docs-data
+              volumeMounts:
+                - name: docs-volume
+                  mountPath: /docs-data
+          ```
+          
+          This documentation image is aligned with FlowX version ${{ steps.determine_version.outputs.version }}.
+          EOL
+      
+      - name: Upload release information
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs-release-info-${{ steps.determine_version.outputs.version }}
+          path: ./release-info/
+      
+      - name: Add comment to release
+        if: ${{ github.event_name == 'release' }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const releaseId = context.payload.release.id;
+            const releaseNotes = require('fs').readFileSync('./release-info/release-notes.md', 'utf8');
+            
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: releaseId,
+              body: context.payload.release.body + '\n\n## Documentation Image\n\n' + releaseNotes
+            });
