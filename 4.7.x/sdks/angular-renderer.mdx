@@ -1,11 +1,11 @@
 ---
 title: Angular SDK
 icon: angular 
-description: FlowxProcessRenderer is a low code library designed to render UI configured via the Flowx Process Editor.
+description: FlowxProcessRenderer is a library designed to render the UI of processes created via the Flowx Process Designer.
 ---
 
 <Warning>
-**Breaking changes**: Starting with version 4.0 the ui-sdk will no longer expect the authToken to be present in the LOCAL_STORAGE. Instead, the authToken will be passed as an input to the flx-process-renderer component. This is mandatory for the SSE to work properly.
+**Breaking changes**: Starting with version 4.0 the ui-sdk will no longer expect the authToken to be present in the `LOCAL_STORAGE`. Instead, the authToken will be passed as an input to the flx-process-renderer component. This is mandatory for the SSE to work properly.
 </Warning>
 
 ## Prerequisites
@@ -30,17 +30,17 @@ ng new my-flowx-app
 ```
 
 <Check>
-To install the npm libraries provided by FLOWX you will need to obtain access to the private FLOWX Nexus registry. Please consult with your project DevOps.
+To install the npm libraries provided by FLOWX you will need to obtain access to the private FlowX Nexus registry. Please consult with your project DevOps.
 </Check>
 
 <Info>
-The library uses Angular version **@angular\~19**, **npm v10.8.0** and **node v18.20*.4*.
+The library uses Angular version **@angular\~19**, **npm v10.1.0** and **node v20.9.0**.
 </Info>
 
 <Check>
 If you are using an older version of Angular (for example, v16), please consult the following link for update instructions: 
 
-[**Update Angular from v16.0 to v19.0**](https://angular.dev/update-guide?v=16.0-17.0&l=1)
+[**Update Angular from v16.0 to v19.0**](https://angular.dev/update-guide?v=16.0-19.0&l=1)
 </Check>
 
 ## Installing the library
@@ -295,7 +295,7 @@ export class FlxCustomValidationComponent implements OnInit {
 
 ### Custom Interceptors
 
-* Starting from the FlowX SDKs version 4.6, the Angular `HttpClientModule` is no longer use internally to make HTTP requests. Thus, we have a new mechanism that allows you to create custom interceptors for handling HTTP requests. 
+* Starting from the FlowX SDKs version 4.6, the Angular `HttpClientModule` is no longer used internally to make HTTP requests. Thus, we have a new mechanism that allows you to create custom interceptors for handling HTTP requests.
 
 #### Request Interceptors
 
@@ -450,14 +450,21 @@ const translatedText = localize.transform('@@substitution_tag')
 
 The SDK provides a caching mechanism for static resources. The cache is enabled by default and can be disabled by setting the `cache` input of the `flx-process-renderer` component to `false`. When turned on, the cache will store the static resources in the browser's cache storage. 
 
-In order to reset the cache, you can go to the `Application` (chrome) or `Storage` (firefox) tab in the browser Dev tools and either clear the cache or disable the cache for the current site. 
+In order to reset the cache, you can go to the `Application` (Chrome) or `Storage` (Firefox) tab in the browser Dev tools and either clear the cache or disable the cache for the current site.
 
-@Dragos - insert Chrome and Firefox screenshots here
+|   Browser   |  Dev Tools Tab  |                                                                Screenshot                                                                |
+| :---------: | :-------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
+| **Chrome**  | Application tab | <Frame caption="Chrome - Application tab">![Chrome Cache](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/chrome_cahce.png)</Frame> |
+| **Firefox** |   Storage tab   | <Frame caption="Firefox - Storage tab">![Firefox Cache](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/firefox_cache.png)</Frame>  |
 
+**How to clear the cache**:
+
+- **Chrome**: Navigate to Application → Storage → Cache storage → Right-click on "flowx-resources-cache" → Clear
+- **Firefox**: Navigate to Storage → Cache Storage → Right-click → Clear
 
 ### Interacting with the process
 
-Data from the process is communicated via **Server Send Event** protocol under the following keys:
+Data from the process is communicated via the **Server Send Event** protocol under the following keys:
 
 | Name            |                                        Description                                       | Example |   |
 | --------------- | :--------------------------------------------------------------------------------------: | :-----: | - |
