@@ -1,0 +1,196 @@
+---
+title: Collection prototype
+description: Learn how to use collection prototypes to display different elements of a collection with customized layouts, including support for custom components.
+---
+
+## What is a collection prototype?
+
+A collection prototype lets you define different display formats for items within a single collection. This feature helps you present content in specialized ways based on item properties. For example, you might want to highlight featured products differently from standard products in an e-commerce interface.
+
+## How collection prototypes work
+
+Collection prototypes use two main properties to determine how to display each item:
+
+1. **Prototype identifier key**: This property tells the system where to look in each data object to determine which prototype to use. 
+
+2. **Prototype identifier value**: This value, when found at the location specified by the identifier key, triggers the use of a specific prototype.
+
+## Basic example
+
+Let's say you have a collection of products where some are standard and others are recommended:
+
+<Frame>
+![Collection prototype for normal product](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/c.prototype1.png) 
+</Frame>
+
+<Frame>
+![Collection prototype for recommended product](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/c.prototype2.png)
+</Frame>
+
+Here's sample data for this collection:
+
+```java
+output.put("processData", 
+{
+  "products": [ 
+    {
+      "name": "Product One Plus",
+      "description": "The plus option",
+      "type": "normal"
+    },
+    {
+      "name": "Product Two Premium",
+      "description": "This is premium product",
+      "type": "recommended" // This uses the "recommended" prototype
+    },
+    {
+      "name": "Product Basic",
+      "description": "The most basic option",
+      "type": "normal" // This uses the "normal" prototype
+    },
+    {
+      "name": "Gold Product",
+      "description": "The gold option",
+      "type": "normal"
+    }
+  ]
+}
+);
+```
+
+With the appropriate configuration, the system renders the collection like this:
+
+<Frame>
+![Collection with two prototypes as rendered by the SDK](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/render_collection.gif)
+</Frame>
+
+## Adding custom components to collection prototypes
+
+Collection prototypes now support custom components, allowing you to create more sophisticated item displays. You can include specialized UI elements that are tailored to each collection item.
+
+### How to configure custom components in collections
+
+When adding a custom component to a collection prototype, keep these key points in mind:
+
+1. **Use relative paths**: Configure input keys relative to each collection item, not from the root data object.
+
+2. **Ensure data availability**: Make sure the data needed by your custom component exists in each collection item.
+
+Here's an example data structure:
+
+```json
+{
+    "app": {
+        "clients": [
+            {
+                "name": "John Doe",
+                "signatureImageURL": "http://example.com/signature1.png"
+            },
+            {
+                "name": "Jane Smith",
+                "signatureImageURL": "http://example.com/signature2.png"
+            }
+        ]
+    }
+}
+```
+
+Configuration for this structure:
+- Collection source: `app.clients`
+- Custom component input key: `signatureImageURL` (not the full path)
+
+### Understanding data access differences
+
+Custom components handle data paths differently depending on their context:
+
+#### For components outside collections
+
+Components use full paths from the data root:
+
+```jsx
+// Input keys:
+// app.name
+// app.signatureImageURL
+
+// Resulting data object:
+data: {
+    app: {
+        name: "John Doe",
+        signatureImageURL: "http://example.com/signature1.png"
+    },
+    actions: [],
+    actionsFn: {}
+}
+```
+
+#### For components inside collections
+
+Components use paths relative to the current collection item:
+
+```jsx
+// Input keys:
+// name
+// signatureImageURL
+
+// Resulting data object:
+data: {
+    name: "John Doe",
+    signatureImageURL: "http://example.com/signature1.png",
+    actions: [],
+    actionsFn: {}
+}
+```
+
+## Creating interactive collections with UI actions
+
+To let users interact with collection items (such as selecting a product), follow these steps:
+
+<Steps>
+
+<Step title = "Create a node action">
+
+Add an [Action](../../../actions/actions) to your [User task node](../../../node/user-task-node):
+
+<Frame>
+![Node Action that saves the selected product to the process's data.](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/col_prot_action.png)
+</Frame>
+
+For a product selection action like the **save-item** example above:
+- Set it as **Manual** since users trigger it
+- Mark it as **Mandatory** if selection is required to proceed
+- Enable **Repeatable** to allow users to change their selection
+
+Specify where to save the selected item in the **Data to send** field. Our example uses the `selectedProduct` key.
+
+</Step>
+
+<Step title = "Configure the UI action">
+
+Next, add a UI action to an element in your collection prototype. This can be the prototype itself or a component within it.
+
+<Frame>
+![Select product element and its UI Action configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/add_ui_action_col_prot.png)
+</Frame>
+Set the **Collection Item Save Key** to connect the UI action to your node action. This field must match the key you specified in the **Data to send** field of your node action (in our example, `selectedProduct`).
+
+</Step>
+
+</Steps>
+
+<Warning>
+**Important**: The collection item save key creates the connection between your UI element and the node action. These keys must match exactly or the data won't be passed correctly.
+</Warning>
+
+### Seeing the results
+
+Before a user selects an item, the process data looks like this:
+
+<Frame>
+![Process data before selecting a product](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/c.prototype_result.png)
+</Frame>
+
+After selection, notice the new `selectedProduct` field that contains the selected item:
+
+<Frame>
+![Process data after selecting a product](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/c.prototype_result_final.png)
+</Frame>
