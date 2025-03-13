@@ -70,7 +70,7 @@
                     "pages": [
                       "4.7.x/docs/flowx-designer/design-assets/themes",
                       "4.7.x/docs/flowx-designer/design-assets/font-files",
-                      "4.7.x/docs/flowx-designer/design-assets/system-assets"
+                      "4.7.x/docs/flowx-designer/design-assets/global-media-library"
                     ]
                   },
                   {
@@ -224,7 +224,7 @@
                         "group": "Collections UI elements",
                         "pages": [
                           "4.7.x/docs/building-blocks/ui-designer/ui-component-types/collection/collection",
-                          "4.7.x/docs/building-blocks/ui-designer/ui-component-types/collection/collection_prototype"
+                          "4.7.x/docs/building-blocks/ui-designer/ui-component-types/collection/collection-prototype"
                         ]
                       },
                       {
