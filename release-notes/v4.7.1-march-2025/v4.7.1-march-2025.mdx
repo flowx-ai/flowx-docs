@@ -8,7 +8,9 @@ description: FlowX.AI 4.7.1 brings enhanced resource navigation, better error de
 ✅ Enhanced resource usage tracking with direct navigation  
 ✅ Upgraded JavaScript support to ECMAScript 15 (2024) in Business Rules  
 ✅ Added Python 3 support with 3x performance improvement  
-✅ Major performance enhancements for both design time and runtime
+✅ Major performance enhancements for both design time and runtime        
+✅ Security enhancements for runtime endpoints
+
 
 ## Projects
 
@@ -84,6 +86,7 @@ More details about the scripting capabilities can be found in the [Supported scr
 
 ## Performance improvements 🚀
 
+
 We've made significant performance enhancements throughout the platform to make your development and runtime experience smoother and faster.
 
 ### Design time improvements
@@ -104,6 +107,32 @@ Platform average response time has been **reduced by 20%** in our comprehensive 
 </Info>
 
 ---
+
+## Security enhancements 🔒
+
+We've significantly improved platform security by implementing proper endpoint access controls and separation between internal and public-facing APIs.
+
+<CardGroup columns="2">
+  <Card title="Enhanced API Security" icon="shield-check">  
+  Runtime execution proxy vulnerability addressed with comprehensive endpoint updates.
+  </Card>  
+  <Card title="Access Control Improvements" icon="lock">  
+  Better separation between design-time and runtime endpoints with proper access controls.
+  </Card>  
+</CardGroup>
+
+### Endpoint security updates
+
+We've implemented a comprehensive security update for runtime endpoints to prevent potential proxy vulnerabilities:
+
+- Redesigned API structure to separate internal (`runtime-internal`) from external-facing (`runtime`) endpoints
+- Migrated design-time operations to use `runtime-internal` endpoints for enhanced security
+- Moved specific management operations to dedicated `build-mgmt` endpoints 
+- Updated all API clients to use the new secure endpoints
+
+<Info>
+**Important:** Make sure to update to the corresponding  version of the [**`flowx-admin`**](./deployment-guidelines-v4.7.1#component-versions) to benefit from these security enhancements.
+</Info>
 
 ## **Bug fixes** 🐞  
 
