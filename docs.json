@@ -412,7 +412,7 @@
 
                   {
                     "group": "v4.7.1 - March",
-                    "icon": "sparkles",
+                    "icon": "wrench",
                     "pages": [
                       "release-notes/v4.7.1-march-2025/v4.7.1-march-2025",
                       "release-notes/v4.7.1-march-2025/deployment-guidelines-v4.7.1",
@@ -450,7 +450,7 @@
                   },
                   {
                     "group": "v4.6.0 - January",
-                    "icon": "sparkles",
+                    "icon": "scroll",
                     "pages": [
                       "release-notes/v4.6.0-january-2025/v4.6.0-january-2025",
                       "release-notes/v4.6.0-january-2025/deployment-guidelines-v4.6.0",
@@ -466,6 +466,7 @@
                   },
                   {
                     "group": "v4.1.5 - September",
+                    "icon": "wrench",
                     "pages": [
                       "release-notes/v4.1.5-september-2024/v4.1.5-september-2024",
                       "release-notes/v4.1.5-september-2024/deployment-guidelines-v4.1.5",
@@ -474,6 +475,7 @@
                   },
                   {
                     "group": "v4.1.4 - September",
+                    "icon": "wrench",
                     "pages": [
                       "release-notes/v4.1.4-september-2024/v4.1.4-september-2024",
                       "release-notes/v4.1.4-september-2024/deployment-guidelines-v4.1.4",
@@ -482,6 +484,7 @@
                   },
                   {
                     "group": "v4.1.3 - August",
+                    "icon": "wrench",
                     "pages": [
                       "release-notes/v4.1.3-august-2024/v4.1.3-august-2024",
                       "release-notes/v4.1.3-august-2024/deployment-guidelines-v4.1.3",
@@ -490,6 +493,7 @@
                   },
                   {
                     "group": "v4.1.2 - June",
+                    "icon": "wrench",
                     "pages": [
                       "release-notes/v4.1.2-june-2024/v4.1.2-june-2024",
                       "release-notes/v4.1.2-june-2024/deployment-guidelines-v4.1.2",
@@ -498,6 +502,7 @@
                   },
                   {
                     "group": "v4.1.1 - June",
+                    "icon": "wrench",
                     "pages": [
                       "release-notes/v4.1.1-june-2024/v4.1.1-june-2024",
                       "release-notes/v4.1.1-june-2024/deployment-guidelines-v4.1.1",
@@ -506,6 +511,7 @@
                   },
                   {
                     "group": "v4.1.0 - May",
+                    "icon": "scroll",
                     "pages": [
                       "release-notes/v4.1.0-may-2024/v4.1.0-may-2024",
                       "release-notes/v4.1.0-may-2024/deployment-guidelines-v4.1.0",
@@ -515,6 +521,7 @@
                   },
                   {
                     "group": "v4.0.0 - April",
+                    "icon": "scroll",
                     "pages": [
                       "release-notes/v4.0.0-april-2024/v4.0.0-april-2024",
                       "release-notes/v4.0.0-april-2024/deployment-guidelines-v4.0.0",
