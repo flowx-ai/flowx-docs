@@ -28,6 +28,39 @@ Example:
   value: k8stemplate_v2,kafka-auth
 ```
 
+### Skipping plugins for data-sync
+
+If your deployment doesn't have certain plugins installed, you should configure data-sync to skip migrations for those plugins:
+
+- `FLOWX_SKIPPEDRESOURCESERVICES` - Comma-separated list of service names for which data-sync should skip running migrations.
+
+Example:
+
+```yaml
+# Skip data-sync for document and notification plugins
+- name: FLOWX_SKIPPEDRESOURCESERVICES
+  value: "document-plugin,notification-plugin"
+```
+<Warning>
+Avoid blank spaces in the value of the `FLOWX_SKIPPEDRESOURCESERVICES` variable.
+</Warning>
+
+This prevents data-sync from failing when trying to synchronize databases for plugins that aren't installed in your environment.
+
+<Info>
+Available services datasources are:
+- `scheduler-core`: scheduler
+- `cms-core`: cms
+- `task-management-plugin`: task-manager
+- `document-plugin`: document-plugin
+- `notification-plugin`: notification-plugin
+- `runtime-manager`: app-runtime,appmanager
+- `integration-designer`: integration-designer
+- `admin`: admin,engine
+- `process-engine`: engine
+- `application-manager`: appmanager
+</Info>
+
 ### MongoDB connections
 
 #### CMS MongoDB
