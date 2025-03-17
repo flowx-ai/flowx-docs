@@ -208,25 +208,14 @@ To make your collection items interactive, such as allowing users to select an i
        - Name: (e.g., `selectItem`)
     
     <Frame caption="Adding a Node Action">
-      ![Configuration screen for node action setup](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/col_prot_action.png)
+      ![Configuration screen for node action setup](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/add_interactivity.png)
     </Frame>
 
     **Configuration options:**
     - Set as **Manual** since users trigger it
     - Mark as **Mandatory** if selection is required to proceed
     - Enable **Repeatable** for changeable selections
-    
-    **Example configuration:**
-    ```javascript
-    {
-      "id": "select-payment-method",
-      "name": "selectPaymentMethod",
-      "type": "manual",
-      "mandatory": true,
-      "repeatable": true,
-      "dataToSend": "selectedPaymentMethod"
-    }
-    ```
+  
   </Step>
 
   <Step title="Configure a UI Action">
@@ -235,32 +224,13 @@ To make your collection items interactive, such as allowing users to select an i
     1. Return to the UI Designer
     2. Select the component in your prototype that should trigger the action
     3. In the Settings panel, add a UI Action
-    4. Set the **Action ID** to match your Node Action
-    5. Set the **Collection Item Save Key** to match your "Data to send" value
+    4. Add a  **Collection Item Save Key**.
+    5. Add a **Custom Key** and make sure it matches the **Collection Item Save Key**.
     
     <Frame caption="Adding a UI Action">
-      ![Configuration screen for UI action setup](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/add_ui_action_col_prot.png)
+      ![Configuration screen for UI action setup](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/collection_item_save_key.png)
     </Frame>
-
-    <Warning>
-      The **Collection Item Save Key** must match your node action's **Data to send** field exactly, or the data won't be passed correctly. This key is how we expose the data from the Collection to the node action.
-    </Warning>
     
-    **Example UI action configuration:**
-    ```javascript
-    {
-      "type": "CARD",
-      "settings": {
-        "title": "${name}",
-        "uiActions": [
-          {
-            "actionId": "select-payment-method",
-            "collectionItemSaveKey": "selectedPaymentMethod"
-          }
-        ]
-      }
-    }
-    ```
   </Step>
   
   <Step title="Test the Interaction">
@@ -403,7 +373,6 @@ When working with collection prototypes, you might encounter some common issues:
 ### Known Limitations
 
 <Warning>
-- **JavaScript expressions** for hiding or disabling UI components cannot be applied within elements inside a Collection prototype
 - **Nested collections** (collections inside collection prototypes) may cause performance issues and should be used sparingly
 - **Deep data structures** might require careful handling of relative paths for proper data binding
 </Warning>
