@@ -103,6 +103,32 @@ Available services datasources are:
 - `NOTIFICATIONPLUGIN_MONGO_PASSWORD` - Password for the MongoDB Notification Plugin database.
 - `NOTIFICATIONPLUGIN_MONGO_DATABASE` - MongoDB database name for the Notification Plugin.
 
+
+#### App Runtime MongoDB
+
+- `FLOWX_DATASOURCE_APPRUNTIME_URI` - MongoDB URI for App Runtime database.
+  - **Example**: `"mongodb://${APPRUNTIME_MONGO_USERNAME}:${APPRUNTIME_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${APPRUNTIME_MONGO_DATABASE}"`
+- `APPRUNTIME_MONGO_USERNAME` - Username for MongoDB App Runtime database.
+- `APPRUNTIME_MONGO_DATABASE` - Database name for App Runtime.
+
+
+#### Integration Designer MongoDB
+
+- `FLOWX_DATASOURCE_INTEGRATIONDESIGNER_URI` - MongoDB URI for Integration Designer database.
+  - **Example**: `"mongodb://${INTEGRATIONDESIGNER_MONGO_USERNAME}:${INTEGRATIONDESIGNER_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${INTEGRATIONDESIGNER_MONGO_DATABASE}"`
+- `INTEGRATIONDESIGNER_MONGO_USERNAME` - Username for MongoDB Integration Designer database.
+- `INTEGRATIONDESIGNER_MONGO_DATABASE` - Database name for Integration Designer.
+
+
+#### Admin MongoDB
+
+- `FLOWX_DATASOURCE_ADMIN_URI` - MongoDB URI for Admin database.
+  - **Example**: `"mongodb://${ADMIN_MONGO_USERNAME}:${ADMIN_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${ADMIN_MONGO_DATABASE}"`
+- `ADMIN_MONGO_USERNAME` - Username for MongoDB Admin database.
+- `ADMIN_MONGO_DATABASE` - Database name for Admin.
+
+
+
 ### PostgreSQL connections
 
 #### Process Engine database

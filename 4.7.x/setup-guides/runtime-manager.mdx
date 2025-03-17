@@ -116,10 +116,10 @@ ingress:
   adminInstances:
     enabled: true
     hostname: "{{ .Values.flowx.ingress.admin }}"
-    path: /rtm/api/runtime(/|$)(.*)
+    path: /rtm/api/(runtime|runtime-internal)/(.*)
     annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: /api/runtime/$2
-      nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,platform,Flowx-Platform
+      nginx.ingress.kubernetes.io/rewrite-target: /api/$1/$2
+      nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-
 ```
 
 > **Note:** Replace placeholders in environment variables with the appropriate values for your environment before starting the service.
