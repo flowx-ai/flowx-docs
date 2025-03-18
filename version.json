@@ -1,0 +1,15 @@
+{
+    "version": "4.7.1",
+    "buildDate": "2025-03-11T00:00:00Z",
+    "compatibleWith": {
+      "flowx": {
+        "minVersion": "4.7.1",
+        "maxVersion": "4.7.1"
+      }
+    },
+    "metadata": {
+      "buildId": "${GITHUB_RUN_ID}",
+      "gitCommit": "${GITHUB_SHA}",
+      "branch": "${GITHUB_REF_NAME}"
+    }
+  }
