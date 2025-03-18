@@ -517,11 +517,44 @@ For more information on bulk updates configuration, see FlowX Engine setup:
 <Card title="FlowX Engine setup" href="../../../../setup-guides/flowx-engine-setup-guide/engine-setup#topics-related-to-the-task-management-plugin" icon ="file">
 </Card>
 
+
+## Updating Task Manager metadata through Business Rules
+
+You can dynamically update the task title during process execution using Business Rules. This allows you to customize how tasks are displayed in the Task Manager based on process data, ensuring that tasks are easily identifiable and relevant to their current context.
+
+### Updating the task title
+
+The task title can be updated using the following approach:
+
+```javascript
+// Define your task title
+const taskTitle = "SME Branch Lending";
+
+// Update the task title
+output.put("task", {
+    "title": taskTitle
+});
+```
+
+You can make task titles more dynamic and informative by incorporating process data:
+
+```javascript
+// Get relevant data from the process
+const clientDataSection = input.clientDataSection;
+
+// Create a descriptive task title
+const taskTitle = `Loan Application #${applicationId} - ${clientDataSection.firstName} - ${clientDataSection.lastName}`;
+
+// Update the task title
+output.put("task", {
+    "title": taskTitle
+});
+```
+
+
 ## Full-Code implementation
 
 For more customized UX, the **full-code** implementation using the **Task Management SDKs (React and Angular)** allows developers to build custom tables, cards, or any other UI elements based on the views and columns configured in Task Management.
-
-
 
 
 ## FAQs
