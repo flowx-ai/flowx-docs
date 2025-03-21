@@ -520,37 +520,74 @@ For more information on bulk updates configuration, see FlowX Engine setup:
 
 ## Updating Task Manager metadata through Business Rules
 
-You can dynamically update the task title during process execution using Business Rules. This allows you to customize how tasks are displayed in the Task Manager based on process data, ensuring that tasks are easily identifiable and relevant to their current context.
+You can dynamically update task metadata (title and priority) during process execution using Business Rules. This allows you to customize how tasks are displayed and prioritized in the Task Manager based on process data.
 
-### Updating the task title
+### Updating task title and priority
 
-The task title can be updated using the following approach:
+Here's how to update both the title and priority:
 
 ```javascript
 // Define your task title
-const taskTitle = "SME Branch Lending";
+taskTitle = "SME Branch Lending";
+taskPriority = 1; 
 
 // Update the task title
 output.put("task", {
-    "title": taskTitle
+    "title": taskTitle,
+    "priority": taskPriority
 });
 ```
+
+### Setting dynamic value based on business logic
+
+You can set priority dynamically based on business conditions:
+
+```javascript
+// Get client data and loan amount
+const clientDataSection = input.clientDataSection;
+const loanAmount = input.loanAmount;
+
+// Create a descriptive task title
+const taskTitle = `Loan Application # ${clientDataSection.firstName} - ${clientDataSection.lastName}`;
+
+// Set priority based on loan amount
+let taskPriority;
+if (loanAmount > 50000) {
+    taskPriority = 1; // HIGH priority for large loans
+} else if (loanAmount > 10000) {
+    taskPriority = 2; // MEDIUM priority for medium loans
+} else {
+    taskPriority = 3; // LOW priority for small loans
+}
+
+// Update both title and priority
+output.put("task", {
+    "title": taskTitle,
+    "priority": taskPriority
+});
+```
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/task_and_title.png)
+</Frame>
+
 
 You can make task titles more dynamic and informative by incorporating process data:
 
 ```javascript
 // Get relevant data from the process
-const clientDataSection = input.clientDataSection;
+const clientName = input.get("customer.fullName");
+const applicationId = input.get("application.id");
+const loanAmount = input.get("loan.amount");
 
 // Create a descriptive task title
-const taskTitle = `Loan Application #${applicationId} - ${clientDataSection.firstName} - ${clientDataSection.lastName}`;
+const taskTitle = `Loan Application #${applicationId} - ${clientName} - ${loanAmount}`;
 
 // Update the task title
 output.put("task", {
     "title": taskTitle
 });
 ```
-
 
 ## Full-Code implementation
 

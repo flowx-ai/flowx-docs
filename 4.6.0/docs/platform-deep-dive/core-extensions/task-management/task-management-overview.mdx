@@ -517,11 +517,81 @@ For more information on bulk updates configuration, see FlowX Engine setup:
 <Card title="FlowX Engine setup" href="../../../../setup-guides/flowx-engine-setup-guide/engine-setup#topics-related-to-the-task-management-plugin" icon ="file">
 </Card>
 
+
+
+## Updating Task Manager metadata through Business Rules
+
+You can dynamically update task metadata (title and priority) during process execution using Business Rules. This allows you to customize how tasks are displayed and prioritized in the Task Manager based on process data.
+
+### Updating task title and priority
+
+Here's how to update both the title and priority:
+
+```javascript
+// Define your task title
+taskTitle = "SME Branch Lending";
+taskPriority = 1; 
+
+// Update the task title
+output.put("task", {
+    "title": taskTitle,
+    "priority": taskPriority
+});
+```
+
+### Setting dynamic value based on business logic
+
+You can set priority dynamically based on business conditions:
+
+```javascript
+// Get client data and loan amount
+const clientDataSection = input.clientDataSection;
+const loanAmount = input.loanAmount;
+
+// Create a descriptive task title
+const taskTitle = `Loan Application # ${clientDataSection.firstName} - ${clientDataSection.lastName}`;
+
+// Set priority based on loan amount
+let taskPriority;
+if (loanAmount > 50000) {
+    taskPriority = 1; // HIGH priority for large loans
+} else if (loanAmount > 10000) {
+    taskPriority = 2; // MEDIUM priority for medium loans
+} else {
+    taskPriority = 3; // LOW priority for small loans
+}
+
+// Update both title and priority
+output.put("task", {
+    "title": taskTitle,
+    "priority": taskPriority
+});
+```
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/task_and_title.png)
+</Frame>
+
+
+You can make task titles more dynamic and informative by incorporating process data:
+
+```javascript
+// Get relevant data from the process
+const clientName = input.get("customer.fullName");
+const applicationId = input.get("application.id");
+const loanAmount = input.get("loan.amount");
+
+// Create a descriptive task title
+const taskTitle = `Loan Application #${applicationId} - ${clientName} - ${loanAmount}`;
+
+// Update the task title
+output.put("task", {
+    "title": taskTitle
+});
+```
 ## Full-Code implementation
 
 For more customized UX, the **full-code** implementation using the **Task Management SDKs (React and Angular)** allows developers to build custom tables, cards, or any other UI elements based on the views and columns configured in Task Management.
-
-
 
 
 ## FAQs
