@@ -5,6 +5,13 @@ description: The OCR (Optical Character Recognition) plugin is a powerful tool t
 
 Before using the OCR service for reading barcodes and extracting signatures, please note the following requirements:
 
+<Info>
+* All \*.pdf documents that are sent to the OCR service for reading barcodes and extracting handwritten signatures should be scanned at a minimum resolution of 200DPI (approximately 1654x2339 px for A4 pages)
+* Barcode is searched on the top 15% of each image (scanned page)
+* Signatures are detected on boxes with a border: 4px black solid
+* Only two signatures per image (scanned page) are detected.
+</Info>
+
 * All *.pdf documents should be scanned at a minimum resolution of 200DPI (approximately 1654x2339 px for A4 pages).
 * The barcode is searched in the top 15% of each scanned page.
 * Signatures are detected within boxes with a 4px black solid border.
