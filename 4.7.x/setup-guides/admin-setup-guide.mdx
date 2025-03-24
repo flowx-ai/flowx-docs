@@ -59,51 +59,97 @@ Ensure that the MongoDB configuration is compatible with the same database requi
 
 ## Kafka configuration
 
-**Kafka** is used for saving audit logs, using scheduled timer events, managing platform component versions, and sending updates for start timer events. Both producers and consumers may need to be configured depending on the application's functionality. The environment variables that need to be set are:
+The Admin microservice uses Kafka for sending audit logs, managing scheduled timer events, platform component versions, and start timer event updates. Both producers and consumers must be configured to ensure proper communication between services.
 
-### General configuration
+### General Kafka configuration
 
-- `KAFKA_BOOTSTRAP_SERVERS` - the Kafka bootstrap servers URL  
-  - **Default**: `localhost:9092`
-- `KAFKA_SECURITY_PROTOCOL` - protocol used for Kafka communication  
-  - **Default**: `"PLAINTEXT"`
-- `KAFKA_MESSAGE_MAX_BYTES` - maximum size for Kafka messages  
-  - **Default**: `52428800` (50MB)
+| Environment Variable              | Description             | Example Value     | Default Value    |
+| --------------------------------- | ----------------------- | ----------------- | ---------------- |
+| `SPRING_KAFKA_BOOTSTRAP_SERVERS`  | Kafka broker addresses  | `localhost:9092`  | `localhost:9092` |
+| `SPRING_KAFKA_SECURITY_PROTOCOL`  | Security protocol       | `PLAINTEXT`       | `PLAINTEXT`      |
+| `KAFKA_MESSAGE_MAX_BYTES`         | Maximum message size    | `52428800` (50MB) | `52428800`       |
 
-### Topic environment variables
+### Kafka producer configuration
+
+| Environment Variable                     | Description            | Example Value                                            |
+| ---------------------------------------- | ---------------------- | -------------------------------------------------------- |
+| `SPRING_KAFKA_PRODUCER_KEY_SERIALIZER`   | Key serializer class   | `org.apache.kafka.common.serialization.StringSerializer` |
+| `SPRING_KAFKA_PRODUCER_MAX_REQUEST_SIZE` | Maximum request size   | `52428800` (50MB)                                        |
+
+### Kafka consumer configuration
+
+| Environment Variable                          | Description                      | Default Value            |
+| --------------------------------------------- | -------------------------------- | ------------------------ |
+| `KAFKA_CONSUMER_GROUP_ID_GENERIC_PROCESSING`  | Generic processing consumer group| `genericProcessingGroup` |
+| `KAFKA_CONSUMER_THREADS_GENERIC_PROCESSING`   | Generic processing threads       | `6`                      |
+| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL`         | Auth exception retry (seconds)   | `10`                     |
+
+### Topic naming convention and pattern creation
+
+The Admin microservice uses a consistent naming structure for Kafka topics to ensure standardized communication.
+
+| Environment Variable              | Description           | Default Value |
+| --------------------------------- | --------------------- | ------------- |
+| `KAFKA_TOPIC_NAMING_PACKAGE`      | Base package          | `ai.flowx.`   |
+| `KAFKA_TOPIC_NAMING_ENVIRONMENT`  | Environment prefix    | `dev.`        |
+| `KAFKA_TOPIC_NAMING_VERSION`      | Topic version         | `.v1`         |
+| `KAFKA_TOPIC_NAMING_SEPARATOR`    | Primary separator     | `.`           |
+| `KAFKA_TOPIC_NAMING_SEPARATOR2`   | Secondary separator   | `-`           |
+
+Topics are constructed using the following pattern:
+```
+{prefix} + service + {separator/dot} + action + {separator/dot} + detail + {suffix}
+```
+
+Where:
+- `prefix` is `${kafka.topic.naming.package}${kafka.topic.naming.environment}` (e.g., `ai.flowx.dev.`)
+- `suffix` is `${kafka.topic.naming.version}` (e.g., `.v1`)
+
+### Kafka topic configuration
 
 #### Audit topics
 
-- **Audit Output**:
-  - **Environment variable**: `KAFKA_TOPIC_AUDIT_OUT`
-  - **Pattern**: `${kafka.topic.naming.prefix}core${dot}trigger${dot}save${dot}audit${kafka.topic.naming.suffix}`
-  - **Purpose**: For sending audit-related events.
-  - **Example**: `ai.flowx.core.trigger.save.audit.v1`
+| Environment Variable     | Description              | Pattern                                                                         | Example Value                        |
+| ------------------------ | ------------------------ | ------------------------------------------------------------------------------- | ------------------------------------ |
+| `KAFKA_TOPIC_AUDIT_OUT`  | Audit output topic       | `${kafka.topic.naming.prefix}core${dot}trigger${dot}save${dot}audit${kafka.topic.naming.suffix}` | `ai.flowx.dev.core.trigger.save.audit.v1` |
 
 #### Platform topics
 
-- **Components Versions Caching**:
-  - **Environment variable**: `KAFKA_TOPIC_PLATFORM_COMPONENTS_VERSIONS_IN`
-  - **Pattern**: `${kafka.topic.naming.prefix}core${dot}trigger${dot}platform${dot}versions${dot}caching${kafka.topic.naming.suffix}`
-  - **Purpose**: For caching platform component versions.
-  - **Example**: `ai.flowx.core.trigger.platform.versions.caching.v1`
+| Environment Variable                          | Description                      | Pattern                                                                                                  | Example Value                                        |
+| --------------------------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `KAFKA_TOPIC_PLATFORM_COMPONENTS_VERSIONS_IN` | Components versions caching topic| `${kafka.topic.naming.prefix}core${dot}trigger${dot}platform${dot}versions${dot}caching${kafka.topic.naming.suffix}` | `ai.flowx.dev.core.trigger.platform.versions.caching.v1` |
 
 #### Events Gateway topics
 
-- **Commands Message Output**:
-  - **Environment variable**: `KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE`
-  - **Pattern**: `${kafka.topic.naming.prefix}eventsgateway${dot}process${dot}commands${dot}message${kafka.topic.naming.suffix}`
-  - **Purpose**: For sending process command messages through the events gateway.
-  - **Example**: `ai.flowx.eventsgateway.process.commands.message.v1`
+| Environment Variable                   | Description                | Pattern                                                                                           | Example Value                                         |
+| -------------------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE` | Commands message output topic | `${kafka.topic.naming.prefix}eventsgateway${dot}process${dot}commands${dot}message${kafka.topic.naming.suffix}` | `ai.flowx.dev.eventsgateway.process.commands.message.v1` |
 
 #### Build topics
 
-- **Start Timer Events Updates**:
-  - **Environment variable**: `KAFKA_TOPIC_BUILD_START_TIMER_EVENTS_OUT_UPDATES`
-  - **Pattern**: `${kafka.topic.naming.prefix}build${dot}start${dash}timer${dash}events${dot}updates${dot}in${kafka.topic.naming.suffix}`
-  - **Purpose**: Sends updates from the admin to the application manager about start timer events, specifically if they have been edited or deleted.
-  - **Example**: `ai.flowx.build.start-timer-events.updates.in.v1`
+| Environment Variable                           | Description                | Pattern                                                                                                  | Example Value                                         |
+| ---------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `KAFKA_TOPIC_BUILD_START_TIMER_EVENTS_OUT_UPDATES` | Start timer events updates topic | `${kafka.topic.naming.prefix}build${dot}start${dash}timer${dash}events${dot}updates${dot}in${kafka.topic.naming.suffix}` | `ai.flowx.dev.build.start-timer-events.updates.in.v1` |
 
+#### Resource topics
+
+| Environment Variable                      | Description                 | Pattern                                                                                                 | Example Value                                           |
+| ----------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| `KAFKA_TOPIC_RESOURCES_USAGES_REFRESH`    | Resources usages refresh topic | `${kafka.topic.naming.prefix}application${dash}version${dot}resources${dash}usages${dot}refresh${kafka.topic.naming.suffix}` | `ai.flowx.dev.application-version.resources-usages.refresh.v1` |
+
+### OAuth authentication (when using SASL_PLAINTEXT)
+
+When using OAuth authentication with Kafka (SASL_PLAINTEXT), activate the `kafka-auth` profile and configure the following environment variables:
+
+| Environment Variable             | Description           | Example Value       |
+| -------------------------------- | --------------------- | ------------------- |
+| `KAFKA_OAUTH_CLIENT_ID`          | OAuth client ID       | `kafka`             |
+| `KAFKA_OAUTH_CLIENT_SECRET`      | OAuth client secret   | `kafka-secret`      |
+| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint  | `kafka.auth.localhost` |
+
+<Info>
+When using the `kafka-auth` profile, the security protocol will be set to `SASL_PLAINTEXT` and the appropriate SASL mechanism and configuration will be applied automatically.
+</Info>
 
 ## Redis configuration
 
