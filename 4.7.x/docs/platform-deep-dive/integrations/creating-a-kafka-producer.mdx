@@ -70,3 +70,46 @@ public void sendMessage(String topic, Headers headers, Object payload) {
   kafkaTemplate.send(producerRecord);
 }
 ```
+
+## Kafka headers
+
+### Understanding Kafka headers in FlowX Integration
+
+When integrating with FlowX Engine via Kafka, headers play a crucial role in message routing and processing. It's essential to preserve and include all received headers in responses back to the FlowX Engine.
+
+### Important headers
+
+| Header                                    | Purpose                                                              | Consequences If Missing                                                        |
+| ----------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `fxContext`                               | Identifies the target process/subprocess in the hierarchy            | Messages may be incorrectly routed or not processed                            |
+| `Fx-AppId`                                | Identifies the application processing the message                    | Application context may be lost                                                |
+| `Fx-RootAppId`                            | Identifies the original application that initiated the process chain | Process origin tracking may be lost; important for complex process hierarchies |
+| `Fx-BuildId`                              | Contains the build identifier for versioning and traceability        | Version-specific behaviors may be affected; debugging becomes more difficult   |
+| `processInstanceId`/`processInstanceUuid` | Primary keys for message correlation                                 | Message correlation may fail                                                   |
+| `Fx-ProcessName`                          | Required for cross-process communication                             | "Start another process via Kafka" functionality may break                      |
+
+### The fxContext header explained
+
+The `fxContext` header is particularly important for routing messages in architectures with embedded processes and subprocesses:
+
+- For kafka-receive nodes in the root process: `fxContext = "main"`
+- For an embedded subprocess with nodeId=4: `fxContext = "main:4"`
+- For an embedded sub-subprocess with nodeId=12: `fxContext = "main:4:12"`
+
+This hierarchical format ensures messages are delivered to their intended recipients within the process structure.
+
+### Understanding Fx-RootAppId
+
+The `Fx-RootAppId` header is used to track the originating application throughout the entire process chain. This is particularly important when:
+
+- Multiple applications are involved in a workflow
+- Processes spawn subprocesses across different components
+- You need to trace a complete transaction back to its originating application
+
+Unlike `Fx-AppId` which may change as a message passes through different components, `Fx-RootAppId` preserves the original initiator's identity.
+
+### Best Practices
+
+1. **Preserve All Headers**: Always include all received Kafka headers in responses to the FlowX Engine.
+   ```java
+   headers.forEach(header -> producerRecord.headers().add(header));
