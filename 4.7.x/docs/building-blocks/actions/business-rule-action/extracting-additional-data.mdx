@@ -66,16 +66,19 @@ Example output:
 
 ### Extract specific owner details
 
-To retrieve specific attributes, such as email, username, first name, and last name, use this script:
+To retrieve specific attributes, such as email, username, first name, and last name, use one of the following scripts (JS or Python):
 
 
-```JavaScript
-// Retrieve security details
-securityDetails = additionalData.get("securityDetails");
-
-// Extract owner details from the Default swimlane
-email = securityDetails.Default.owner.details.email;username = securityDetails.Default.owner.username;
-firstName = securityDetails.Default.owner.details.firstName;lastName = securityDetails.Default.owner.details.lastName;
+<Tabs>
+  <Tab title="JavaScript">
+    ```javascript
+    // Retrieve security details
+    securityDetails = additionalData.get("securityDetails");
+Copy// Extract owner details from the Default swimlane
+email = securityDetails.Default.owner.details.email;
+username = securityDetails.Default.owner.username;
+firstName = securityDetails.Default.owner.details.firstName;
+lastName = securityDetails.Default.owner.details.lastName;
 
 // Store extracted details in the output
 output.put("email", email);
@@ -83,6 +86,25 @@ output.put("username", username);
 output.put("firstName", firstName);
 output.put("lastName", lastName);
 ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    # Retrieve security details
+    security_details = additionalData.get("securityDetails")
+Copy# Extract owner details from the Default swimlane
+email = security_details["Default"]["owner"]["details"]["email"]
+username = security_details["Default"]["owner"]["username"]
+first_name = security_details["Default"]["owner"]["details"]["firstName"]
+last_name = security_details["Default"]["owner"]["details"]["lastName"]
+
+# Store extracted details in the output
+output["email"] = email
+output["username"] = username
+output["firstName"] = first_name
+output["lastName"] = last_name
+```
+  </Tab>
+</Tabs>
 
 Extracted values: 
 
