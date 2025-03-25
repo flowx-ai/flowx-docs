@@ -1,58 +1,282 @@
 ---
-title: Introduction
+title: Introduction to FlowX.AI
 description: FlowX.AI is an AI multi-experience development platform that sits on top of legacy systems and creates unified, scalable digital experiences.
-icon: face-awesome
+icon: sparkles
+mode: wide
 ---
 
-# Why FlowX.AI?
+<div className="text-center mb-10">
+  <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-[#fdb913] bg-clip-text bg-gradient-to-r from-[#fdb913] to-[#f59e0b] drop-shadow-sm">Why FlowX.AI?</h1>
+<p className="text-xl text-gray-700 dark:text-white max-w-3xl mx-auto font-medium">
+  Revolutionize your digital transformation with our AI-powered platform that brings legacy systems into the future.
+</p>
+</div>
 
-- With the world’s first AI-generated UI, FlowX.AI generates in **real-time omnichannel interfaces for customers and employees**.
-- It captures and unifies data offering enterprises **AI-based optimization** and innovation capabilities.
-- It **integrates easily with any infrastructure** and scales it as necessary.
-
-It is a modern <Tooltip tip="FlowX.AI operates as an event-driven platform, coordinating integrations and generating UI based on user actions.">event-driven platform</Tooltip> built on a **microservices architecture**. It uses the most popular **industry standards** for process modeling, business rule management and integrates as easily with legacy systems as with the latest APIs and RPAs.
-
-Also, all applications you create are **containerized, portable, scalable, and resilient** out of the box. You’re free to deploy anywhere and scale to any size without redesign.
-
-FlowX.AI can be deployed in a private cloud, in a public cloud or on-prem, depending on your requirements.
-
-## Why does it matter?
-
-FlowX.AI can be **deployed on top of existing legacy systems, so there is no need for costly or risky upgrade projects.** This helps lower the stress on the IT team and the technology budget since studies show that around 65-75% of the IT budget goes towards maintaining current infrastructure. Now, It’s not reasonable to expect enterprises are just going to rip and replace the legacy stack with new applications. They will do so at some point but for now they need something that enables them to run existing business and gives them some leeway or headspace to create modern digital experiences.
-
-FlowX.AI platform brings **a layer of scalability to your existing stack**, beyond their current capabilities. This is thanks to our Kafka and Redis core that queue messages until the system is able to respond. And best of all, the app user is not experiencing any lag, since data is pre-pulled in the front-end ahead of his actions. A typical use case might sustain 100,000 users per minute, but of course, given our containerized architecture, it can be scaled even more.
-
-**Unified interface across multiple systems or platforms** - often, say for an in-branch onboarding process, a teller has to use 4 or 5 different applications - to access various customer data such as a CRM, public reference checks, a KYC system and so on. With a process designed in FLOWX, you create just one application that unifies the purpose and the data from all those other applications. And this is very liberating for employees, it saves up time, eliminates the possibility of errors and overall, makes the experience of using the onboarding application a pleasant one.
-
-With FlowX you **build omnichannel experiences across all digital channels**, be they web applications, mobile apps or in-branch terminals. What’s more, our applications are built with a hand-off capability - meaning the user can start the process on the web and then pick up on the mobile app later that evening.
-
-**The UI is generated on the fly, by our AI model.** This means that you don’t need coding or design skills to create interfaces. Of course, you can inject your own code for CSS styling, apply your own design system with logo, corporate colors and fonts - but this is just if you want it. By default, you don’t need it.
-
-And of course, when it comes to processes, **we support a no-code/full-code framework that makes the platform available to any citizen developer**. This brings speed to development, since there is no disconnect between business and IT, supports agile ways of working and overall, has a positive impact over creativity and innovation.
-
-## Next steps
-
-We’ll guide you through everything you need to know in order to understand FlowX, deploy it and use it successfully inside your organization.
-
-<Tip>
-If you have any questions regarding the content here or anything else that might be missing and you’d like to know, please [get in touch](mailto:support@flowx.ai) with us! We’d be happy to help!
-</Tip>
-
-So, to start with, let’s dive into FlowX.AI! :rocket:
-
-<CardGroup cols={2}>
-  <Card  title="Quickstart" icon="square-1" href="/4.0/docs/getting-started/building-your-first-proc">
-    So, to start with, let’s dive into FLOWX.AI and see what we can build! 🚀
+<CardGroup>
+  <Card 
+    title="AI-Powered Optimization" 
+    icon="bolt"
+    iconType="solid"
+    color="#fdb913"
+  >
+    Captures and unifies data offering enterprises advanced AI-based optimization and innovation capabilities that enhance operational efficiency.
   </Card>
-  <Card title="Frameworks and Standards" icon="square-2" href="/4.0/docs/platform-overview/frameworks-and-standards">
-    Read about the frameworks and standards used to build the platform
-  </Card>
-  <Card title="FlowX.AI Architecture" icon="square-3" href="/4.0/docs/platform-overview/flowx-architecture">
-    Find about the core platform components
-  </Card>
-  <Card title="Release Notes" icon="square-4" href="/release-notes/overview">
-    See the Release Notes
+  <Card 
+    title="Seamless Integration" 
+    icon="puzzle-piece"
+    iconType="solid"
+    color="#fdb913"
+  >
+    Integrates easily with any infrastructure and scales it as necessary, regardless of your current tech stack and legacy systems.
   </Card>
 </CardGroup>
 
-[](../docs/platform-overview/flowx-architecture)
+<div className="mb-20">
+  <Tabs>
+    <Tab title="Architecture">
+      <div className="p-8 md:p-10">
+          <div>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">FlowX.AI is built on a <span className="text-[#fdb913] bg-clip-text bg-gradient-to-r from-[#fdb913] to-[#f59e0b] drop-shadow-sm">modern event-driven platform</span></h3>
+            <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
+              The microservices architecture provides unparalleled flexibility and scalability for all your business needs. This approach allows you to adapt quickly to changing requirements while maintaining robust performance and security across your digital ecosystem.
+            </p>
+            <div className="mt-6 inline-flex items-center px-4 py-2 bg-[#fdb913]/15 dark:bg-[#fdb913]/25 text-[#fdb913] rounded-lg text-sm font-medium">
+              <svg className="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1v-3a1 1 0 00-1-1z" clipRule="evenodd"></path>
+              </svg>
+              Powered by Kafka & Redis for maximum performance
+            </div>
+          </div>
+        </div>
+    </Tab>
+    <Tab title="Standards">
+      <div className="p-8 md:p-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Industry Standard Technologies</h3>
+        <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
+          FlowX.AI is built using modern, industry-standard technologies and frameworks to ensure reliability, performance, and ease of integration.
+        </p>
+<ul className="mt-6 space-y-3 text-gray-700 dark:text-gray-300 list-none">
+  <li>Spring Boot for robust backend services</li>
+  <li>Angular and React for flexible frontend development</li>
+  <li>Kubernetes for containerized deployment</li>
+  <li>OAuth 2.0 and OpenID Connect for secure authentication</li>
+</ul>
+
+      </div>
+    </Tab>
+    <Tab title="Deployment">
+      <div className="p-8 md:p-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Flexible Deployment Options</h3>
+        <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
+          FlowX.AI offers multiple deployment options to fit your organization's requirements and infrastructure preferences.
+        </p>
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="bg-white/70 dark:bg-gray-800/70 p-5 rounded-lg border border-gray-200 dark:border-gray-700">
+            <h4 className="font-bold text-[#fdb913] mb-2">On-Premises</h4>
+            <p>Deploy within your own infrastructure for maximum control and compliance with specific regulations.</p>
+          </div>
+          <div className="bg-white/70 dark:bg-gray-800/70 p-5 rounded-lg border border-gray-200 dark:border-gray-700">
+            <h4 className="font-bold text-[#fdb913] mb-2">Cloud-Native</h4>
+            <p>Leverage cloud providers like AWS, Azure, or GCP for scalability and reduced maintenance overhead.</p>
+          </div>
+        </div>
+      </div>
+    </Tab>
+  </Tabs>
+</div>
+
+<h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 border-b border-gray-200 dark:border-gray-700 pb-2">Why does it matter?</h2>
+
+<Info>
+  <h4 className="text-xl font-bold mb-2 text-gray-800 dark:text-white">Did you know?</h4>
+  <p>
+    Studies show that around <span className="font-bold">65-75%</span> of IT budgets go towards maintaining current infrastructure. FlowX.AI helps reduce this burden substantially, allowing you to invest in innovation rather than maintenance.
+  </p>
+</Info>
+
+
+<CardGroup cols={1}>
+  <Card 
+    title="No Costly Upgrades Needed" 
+    icon="shield-check"
+    iconType="solid"
+    color="#fdb913"
+  >
+    FlowX.AI can be deployed on top of existing legacy systems, eliminating the need for costly or risky upgrade projects.
+  </Card>
+  
+  <Card 
+    title="Enhanced Scalability" 
+    icon="bolt"
+    iconType="solid"
+    color="#fdb913"
+  >
+    FlowX.AI platform brings a layer of scalability to your existing stack, beyond their current capabilities thanks to our Kafka and Redis core.
+  </Card>
+  
+  <Card 
+    title="Unified Interface" 
+    icon="table-cells"
+    iconType="solid"
+    color="#fdb913"
+  >
+    Create one application that unifies the purpose and data from multiple systems, saving time and eliminating errors.
+  </Card>
+  
+  <Card 
+    title="Omnichannel Experiences" 
+    icon="mobile-screen"
+    iconType="solid"
+    color="#fdb913"
+  >
+    Build seamless experiences across all digital channels with hand-off capability between web and mobile applications.
+  </Card>
+  
+  <Card 
+    title="AI-Generated UI" 
+    icon="square-code"
+    iconType="solid"
+    color="#fdb913"
+  >
+    The UI is generated on the fly by our AI model, requiring no coding or design skills to create interfaces.
+  </Card>
+</CardGroup>
+
+<Card
+  title="No-Code/Full-Code Framework"
+  icon="code"
+  iconType="solid"
+  color="#fdb913"
+>
+  Our platform is available to any citizen developer, bringing speed to development, supporting agile ways of working, and having a positive impact on creativity and innovation. Whether you're a professional developer or a business user, FlowX.AI adapts to your skill level and needs.
+  
+  <div className="mt-4 mb-2">
+    <a href="4.0/docs/building-blocks/process/process" className="inline-flex items-center px-5 py-3 bg-gradient-to-r from-[#fdb913] to-[#f59e0b] text-white rounded-lg text-base font-medium shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+      <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+        <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+      </svg>
+      Start creating without barriers!
+    </a>
+  </div>
+  <p className="text-sm text-gray-500 dark:text-gray-400">Fully customizable components for complete control</p>
+</Card>
+
+<div className="mt-28 mb-20">
+  <div className="max-w-5xl mx-auto">
+    <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-[#fdb913] bg-clip-text bg-gradient-to-r from-[#fdb913] to-[#f59e0b]">
+      Next steps
+    </h2>
+
+    <p className="text-lg text-gray-700 dark:text-gray-200 mb-16 max-w-3xl mx-auto text-center">
+      We'll guide you through everything you need to know to understand FlowX, deploy it and use it successfully inside your organization.
+    </p>
+  </div>
+
+  <Steps>
+    <Step title="Quickstart" icon="bolt" iconType="solid" iconColor="#fdb913">
+<div className="p-5 my-2 rounded-lg border border-gray-100 dark:border-gray-700 hover:border-[#fdb913] dark:hover:border-[#fdb913] transition-colors duration-300 shadow-sm hover:shadow-md">
+        <p className="mb-4 text-gray-700 dark:text-gray-300">Dive into FlowX.AI and see what you can build! Start creating your first process and witness the power of our platform.</p>
+        <a href="/4.0/docs/getting-started/building-your-first-proc" className="inline-flex items-center text-[#fdb913] font-medium hover:text-[#f59e0b] transition-colors duration-300">
+          Get Started
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg>
+        </a>
+      </div>
+    </Step>
+    
+    <Step title="Learn the frameworks" icon="cube" iconType="solid" iconColor="#fdb913">
+<div className="p-5 my-2 rounded-lg border border-gray-100 dark:border-gray-700 hover:border-[#fdb913] dark:hover:border-[#fdb913] transition-colors duration-300 shadow-sm hover:shadow-md">
+        <p className="mb-4 text-gray-700 dark:text-gray-300">Read about the frameworks and standards used to build the platform. Understanding these concepts will help you get the most out of FlowX.AI.</p>
+        <a href="/4.0/docs/platform-overview/frameworks-and-standards" className="inline-flex items-center text-[#fdb913] font-medium hover:text-[#f59e0b] transition-colors duration-300">
+          Explore Frameworks
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg>
+        </a>
+      </div>
+    </Step>
+    
+    <Step title="Understand the architecture" icon="sitemap" iconType="solid" iconColor="#fdb913">
+<div className="p-5 my-2 rounded-lg border border-gray-100 dark:border-gray-700 hover:border-[#fdb913] dark:hover:border-[#fdb913] transition-colors duration-300 shadow-sm hover:shadow-md">
+        <p className="mb-4 text-gray-700 dark:text-gray-300">Find out about the core platform components and how they work together to power your digital experiences.</p>
+        <a href="/4.0/docs/platform-overview/flowx-architecture" className="inline-flex items-center text-[#fdb913] font-medium hover:text-[#f59e0b] transition-colors duration-300">
+          Discover Architecture
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg>
+        </a>
+      </div>
+    </Step>
+    
+    <Step title="Stay updated" icon="pen-to-square" iconType="solid" iconColor="#fdb913">
+<div className="p-5 my-2 rounded-lg border border-gray-100 dark:border-gray-700 hover:border-[#fdb913] dark:hover:border-[#fdb913] transition-colors duration-300 shadow-sm hover:shadow-md">
+        <p className="mb-4 text-gray-700 dark:text-gray-300">Check the Release Notes for the latest features and improvements. FlowX.AI is constantly evolving to better serve your needs.</p>
+        <a href="/release-notes/overview" className="inline-flex items-center text-[#fdb913] font-medium hover:text-[#f59e0b] transition-colors duration-300">
+          View Releases
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg>
+        </a>
+      </div>
+    </Step>
+  </Steps>
+</div>
+
+<CardGroup cols={2}>
+  <Card 
+    title="Quickstart" 
+    icon="bolt"
+    iconType="solid"
+    color="#fdb913"
+    href="/4.0/docs/getting-started/building-your-first-proc"
+  >
+    So, to start with, let's dive into FLOWX.AI and see what we can build! 🚀
+  </Card>
+  
+  <Card 
+    title="Frameworks" 
+    icon="puzzle-piece"
+    iconType="solid"
+    color="#fdb913"
+    href="/4.0/docs/platform-overview/frameworks-and-standards"
+  >
+    Read about the frameworks and standards used to build the platform
+  </Card>
+  
+  <Card 
+    title="Architecture" 
+    icon="sitemap"
+    iconType="solid"
+    color="#fdb913"
+    href="/4.0/docs/platform-overview/flowx-architecture"
+  >
+    Find about the core platform components and how they interact
+  </Card>
+  
+  <Card 
+    title="Release Notes" 
+    icon="scroll"
+    iconType="solid"
+    color="#fdb913"
+    href="/release-notes/overview"
+  >
+    Stay up to date with the latest features and improvements
+  </Card>
+</CardGroup>
+
+<Check title="Need help?">
+  If you have any questions regarding the content here or anything else that might be missing and you'd like to know, please get in touch with us! We'd be happy to help!
+  
+<a 
+  href="mailto:support@flowx.ai" 
+  className="inline-flex items-center px-5 py-2.5 mt-4 bg-gradient-to-r from-[#fdb913] to-[#f59e0b] text-black dark:text-white border border-black dark:border-white rounded-lg font-medium transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
+>
+  <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+  </svg>
+  Get in touch with us
+</a>
+
+</Check>
