@@ -15,15 +15,8 @@ RUN mkdir -p /docs-source /docs-metadata /docs-tmp
 # Copy the documentation content
 COPY . /docs-tmp
 
-RUN (find /docs-tmp -type d -name "3.*" | xargs -I {} cp -r {} /docs-source) && \
-    (find /docs-tmp -type d -name "4.*" | xargs -I {} cp -r {} /docs-source) && \
-    (find /docs-tmp -type d -name "5.*" | xargs -I {} cp -r {} /docs-source) && \
-    (find /docs-tmp -type d -name "6.*" | xargs -I {} cp -r {} /docs-source) && \
-    (find /docs-tmp -type d -name "7.*" | xargs -I {} cp -r {} /docs-source) && \
-    (find /docs-tmp -type d -name "8.*" | xargs -I {} cp -r {} /docs-source) && \
-    (find /docs-tmp -type d -name "9.*" | xargs -I {} cp -r {} /docs-source) && \
-    (find /docs-tmp -type d -name "10.*" | xargs -I {} cp -r {} /docs-source) && \
-    rm -Rf /docs-tmp
+RUN (find . -type d -depth 1 | grep -E "^\.\/[0-9]+\." | xargs -I {} cp -r {} /docs-source) && \
+rm -Rf /docs-tmp
 
 # Copy version metadata
 COPY version.json /docs-metadata/version.json
