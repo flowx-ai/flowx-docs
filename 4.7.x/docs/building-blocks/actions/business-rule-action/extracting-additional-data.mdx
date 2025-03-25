@@ -70,11 +70,11 @@ To retrieve specific attributes, such as email, username, first name, and last n
 
 
 <Tabs>
-  <Tab title="JavaScript">
-    ```javascript
-    // Retrieve security details
-    securityDetails = additionalData.get("securityDetails");
-Copy// Extract owner details from the Default swimlane
+<Tab title="JavaScript">
+```javascript
+// Retrieve security details
+securityDetails = additionalData.get("securityDetails");
+// Extract owner details from the Default swimlane
 email = securityDetails.Default.owner.details.email;
 username = securityDetails.Default.owner.username;
 firstName = securityDetails.Default.owner.details.firstName;
@@ -86,12 +86,12 @@ output.put("username", username);
 output.put("firstName", firstName);
 output.put("lastName", lastName);
 ```
-  </Tab>
-  <Tab title="Python">
-    ```python
-    # Retrieve security details
-    security_details = additionalData.get("securityDetails")
-Copy# Extract owner details from the Default swimlane
+</Tab>
+<Tab title="Python">
+```python
+# Retrieve security details
+security_details = additionalData.get("securityDetails")
+# Extract owner details from the Default swimlane
 email = security_details["Default"]["owner"]["details"]["email"]
 username = security_details["Default"]["owner"]["username"]
 first_name = security_details["Default"]["owner"]["details"]["firstName"]
@@ -103,7 +103,7 @@ output["username"] = username
 output["firstName"] = first_name
 output["lastName"] = last_name
 ```
-  </Tab>
+</Tab>
 </Tabs>
 
 Extracted values: 
