@@ -686,16 +686,16 @@
                   "4.7.x/setup-guides/events-gateway-setup",
                   "4.7.x/setup-guides/audit-setup-guide",
                   "4.7.x/setup-guides/search-data-service-setup-guide",
-                  "4.7.x/setup-guides/data-sync"
+                  "4.7.x/setup-guides/data-sync",
+                  "4.7.x/setup-guides/plugins-setup-guide/documents-plugin-setup",
+                  "4.7.x/setup-guides/plugins-setup-guide/notifications-plugin-setup",
+                  "4.7.x/setup-guides/plugins-setup-guide/task-management-plugin-setup"
                 ]
               },
               {
                 "group": "Plugins",
                 "pages": [
                   "4.7.x/setup-guides/plugins-setup-guide/plugins-setup-guide-overview",
-                  "4.7.x/setup-guides/plugins-setup-guide/documents-plugin-setup",
-                  "4.7.x/setup-guides/plugins-setup-guide/notifications-plugin-setup",
-                  "4.7.x/setup-guides/plugins-setup-guide/task-management-plugin-setup",
                   "4.7.x/setup-guides/plugins-setup-guide/ocr-plugin-setup",
                   "4.7.x/setup-guides/plugins-setup-guide/reporting-setup"
                 ]
@@ -3475,10 +3475,6 @@
       {
         "label": "Support",
         "href": "https://flowxai.zendesk.com/"
-      },
-      {
-        "label": "Community",
-        "href": "https://discord.gg/Gm3Dv7YjbW"
       }
     ],
     "primary": {
@@ -3493,7 +3489,6 @@
   "footer": {
     "socials": {
       "website": "https://www.flowx.ai/",
-      "discord": "https://discord.gg/Gm3Dv7YjbW",
       "linkedin": "https://www.linkedin.com/company/flowxai/",
       "twitter": "https://twitter.com/FlowX_ai"
     }

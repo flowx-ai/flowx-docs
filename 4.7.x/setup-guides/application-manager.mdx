@@ -25,6 +25,10 @@ Before you start setting up the Application Manager service, ensure the followin
 | Kafka         | 2.8+    | Event-driven communication            |
 | OAuth2 Server | -       | Authentication (Keycloak recommended) |
 
+<Info>
+Ensure that the database for storing application data is properly set up and configured before starting the service.
+</Info>
+
 ## Dependencies
 
 The Application Manager relies on other FlowX services and components to function properly:
@@ -38,114 +42,198 @@ The Application Manager relies on other FlowX services and components to functio
 
 ### Basic service configuration
 
-| Environment Variable         | Description                   | Example Value               | Required |
-| ---------------------------- | ----------------------------- | --------------------------- | -------- |
-| `CONFIG_PROFILE`             | Spring configuration profiles | `k8stemplate_v2,kafka-auth` | Yes      |
-| `MULTIPART_MAX_FILE_SIZE`    | Maximum file upload size      | `25MB`                      | No       |
-| `MULTIPART_MAX_REQUEST_SIZE` | Maximum request size          | `25MB`                      | No       |
-| `LOGGING_CONFIG_FILE`        | Logging configuration file    | `logback-spring.xml`        | No       |
+| Environment Variable         | Description                   | Example Value               |
+| ---------------------------- | ----------------------------- | --------------------------- |
+| `CONFIG_PROFILE`             | Spring configuration profiles | `k8stemplate_v2,kafka-auth` |
+| `MULTIPART_MAX_FILE_SIZE`    | Maximum file upload size      | `25MB`                      |
+| `MULTIPART_MAX_REQUEST_SIZE` | Maximum request size          | `25MB`                      |
+| `LOGGING_CONFIG_FILE`        | Logging configuration file    | `logback-spring.xml`        |
 
 ### Database configuration
 
 #### PostgreSQL configuration
 
-| Environment Variable                  | Description         | Example Value                                   | Required |
-| ------------------------------------- | ------------------- | ----------------------------------------------- | -------- |
-| `SPRING_DATASOURCE_URL`               | PostgreSQL JDBC URL | `jdbc:postgresql://postgresql:5432/app_manager` | Yes      |
-| `SPRING_DATASOURCE_USERNAME`          | Database username   | `flowx`                                         | Yes      |
-| `SPRING_DATASOURCE_PASSWORD`          | Database password   | `password`                                      | Yes      |
-| `SPRING_DATASOURCE_DRIVER_CLASS_NAME` | JDBC driver class   | `org.postgresql.Driver`                         | No       |
+| Environment Variable                  | Description         | Example Value                                   |
+| ------------------------------------- | ------------------- | ----------------------------------------------- |
+| `SPRING_DATASOURCE_URL`               | PostgreSQL JDBC URL | `jdbc:postgresql://postgresql:5432/app_manager` |
+| `SPRING_DATASOURCE_USERNAME`          | Database username   | `flowx`                                         |
+| `SPRING_DATASOURCE_PASSWORD`          | Database password   | `password`                                      |
+| `SPRING_DATASOURCE_DRIVER_CLASS_NAME` | JDBC driver class   | `org.postgresql.Driver`                         |
 
 #### MongoDB configuration
 
-| Environment Variable          | Description                            | Example Value                                                                                            | Required |
-| ----------------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------- |
-| `SPRING_DATA_MONGODB_URI`     | MongoDB connection URI                 | `mongodb://${DB_USERNAME}:${DB_PASSWORD}@mongodb-0.mongodb-headless:27017/app-runtime?retryWrites=false` | Yes      |
-| `DB_USERNAME`                 | MongoDB username                       | `app-runtime`                                                                                            | Yes      |
-| `DB_PASSWORD`                 | MongoDB password                       | `password`                                                                                               | Yes      |
-| `SPRING_DATA_MONGODB_STORAGE` | Storage type (Azure environments only) | `mongodb` (alternative: `cosmosdb`)                                                                      | No       |
+The Application Manager requires MongoDB to store runtime build information. Use the following environment variables for configuration:
+
+| Environment Variable          | Description                            | Example Value                                                                                            |
+| ----------------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `SPRING_DATA_MONGODB_URI`     | MongoDB connection URI                 | `mongodb://${DB_USERNAME}:${DB_PASSWORD}@mongodb-0.mongodb-headless:27017/app-runtime?retryWrites=false` |
+| `DB_USERNAME`                 | MongoDB username                       | `app-runtime`                                                                                            |
+| `DB_PASSWORD`                 | MongoDB password                       | `password`                                                                                               |
+| `SPRING_DATA_MONGODB_STORAGE` | Storage type (Azure environments only) | `mongodb` (alternative: `cosmosdb`)                                                                      |
 
 ### Redis configuration
 
-| Environment Variable    | Description           | Example Value  | Required |
-| ----------------------- | --------------------- | -------------- | -------- |
-| `SPRING_REDIS_HOST`     | Redis server hostname | `redis-master` | Yes      |
-| `SPRING_REDIS_PASSWORD` | Redis password        | `password`     | Yes      |
-| `SPRING_REDIS_PORT`     | Redis server port     | `6379`         | No       |
+If caching is required, configure Redis using the following environment variables:
+
+
+| Environment Variable    | Description           | Example Value  |
+| ----------------------- | --------------------- | -------------- |
+| `SPRING_REDIS_HOST`     | Redis server hostname | `redis-master` |
+| `SPRING_REDIS_PASSWORD` | Redis password        | `password`     |
+| `SPRING_REDIS_PORT`     | Redis server port     | `6379`         |
 
 ### Kafka configuration
 
 #### Kafka connection and security variables
 
-| Environment Variable             | Description             | Example Value                      | Required    |
-| -------------------------------- | ----------------------- | ---------------------------------- | ----------- |
-| `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Kafka broker addresses  | `kafka-flowx-kafka-bootstrap:9092` | Yes         |
-| `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Environment prefix      | `dev.`                             | Yes         |
-| `KAFKA_MESSAGE_MAX_BYTES`        | Maximum message size    | `52428800` (50MB)                  | No          |
+| Environment Variable             | Description             | Example Value                      |
+| -------------------------------- | ----------------------- | ---------------------------------- |
+| `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Kafka broker addresses  | `kafka-flowx-kafka-bootstrap:9092` |
+| `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol       | `PLAINTEXT`                        |
+| `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Environment prefix      | `dev.`                             |
+| `KAFKA_MESSAGE_MAX_BYTES`        | Maximum message size    | `52428800` (50MB)                  |
+| `FLOWX_KAFKA_PAYLOAD_SIZE_LIMIT` | Payload size limit      | `512000` (500KB)                   |
+
+#### Kafka producer configuration
+
+| Environment Variable                      | Description            | Example Value                                            |
+| ----------------------------------------- | ---------------------- | -------------------------------------------------------- |
+| `SPRING_KAFKA_PRODUCER_KEY_SERIALIZER`    | Key serializer class   | `org.apache.kafka.common.serialization.StringSerializer` |
+| `SPRING_KAFKA_PRODUCER_MAX_REQUEST_SIZE`  | Maximum request size   | `52428800` (50MB)                                        |
 
 #### OAuth authentication variables (when using SASL_PLAINTEXT)
 
-| Environment Variable             | Description          | Example Value                                                                                | Required    |
-| -------------------------------- | -------------------- | -------------------------------------------------------------------------------------------- | ----------- |
-| `KAFKA_OAUTH_CLIENT_ID`          | OAuth client ID      | `flowx-service-client`                                                                       | Conditional |
-| `KAFKA_OAUTH_CLIENT_SECRET`      | OAuth client secret  | `flowx-service-client-secret`                                                                | Conditional |
-| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint | `https://auth-pr1180.dev3.flowxai.dev/auth/realms/kafka-authz/protocol/openid-connect/token` | Conditional |
+| Environment Variable             | Description          | Example Value                                                                                |
+| -------------------------------- | -------------------- | -------------------------------------------------------------------------------------------- |
+| `KAFKA_OAUTH_CLIENT_ID`          | OAuth client ID      | `flowx-service-client`                                                                       |
+| `KAFKA_OAUTH_CLIENT_SECRET`      | OAuth client secret  | `flowx-service-client-secret`                                                                |
+| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint | `https://auth-pr1180.dev3.flowxai.dev/auth/realms/kafka-authz/protocol/openid-connect/token` |
 
 #### Kafka consumer configuration
 
-| Environment Variable                                  | Description                       | Default Value              |
-| ----------------------------------------------------- | --------------------------------- | -------------------------- |
-| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_EXPORT` | Application export consumer group | `appResourceExportGroup`   |
-| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_IMPORT` | Application import consumer group | `appResourceImportGroup`   |
-| `KAFKA_CONSUMER_GROUP_ID_BUILD_CREATE`                | Build create consumer group       | `buildCreateGroup`         |
-| `KAFKA_CONSUMER_GROUP_ID_BUILD_UPDATE`                | Build update consumer group       | `buildUpdateGroup`         |
-| `KAFKA_CONSUMER_GROUP_ID_BUILD_RESOURCE_EXPORT`       | Build export consumer group       | `buildResourceExportGroup` |
-| `KAFKA_CONSUMER_GROUP_ID_BUILD_RESOURCE_IMPORT`       | Build import consumer group       | `buildResourceImportGroup` |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_START`               | Process start consumer group      | `processStartGroup`        |
-| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_MERGE`           | Application merge consumer group  | `appMergeItemGroup`        |
+| Environment Variable                                       | Description                             | Default Value                      |
+| ---------------------------------------------------------- | --------------------------------------- | ---------------------------------- |
+| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_EXPORT`      | Application export consumer group       | `appResourceExportGroup`           |
+| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_IMPORT`      | Application import consumer group       | `appResourceImportGroup`           |
+| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_USAGES`      | Resource usages consumer group          | `appResourceUsagesGroup`           |
+| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_ELEM_VALID`  | Resource element validation group       | `appResElemUsageValidationResp`    |
+| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_COPY`        | Resource copy consumer group            | `appResourceCopyGroup`             |
+| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_MERGE`                | Application merge consumer group        | `appMergeItemGroup`                |
+| `KAFKA_CONSUMER_GROUP_ID_BUILD_CREATE`                     | Build create consumer group             | `buildCreateGroup`                 |
+| `KAFKA_CONSUMER_GROUP_ID_BUILD_UPDATE`                     | Build update consumer group             | `buildUpdateGroup`                 |
+| `KAFKA_CONSUMER_GROUP_ID_BUILD_RESOURCE_EXPORT`            | Build export consumer group             | `buildResourceExportGroup`         |
+| `KAFKA_CONSUMER_GROUP_ID_BUILD_RESOURCE_IMPORT`            | Build import consumer group             | `buildResourceImportGroup`         |
+| `KAFKA_CONSUMER_GROUP_ID_BUILD_START_TIMER_EVENTS_UPDATES` | Build timer events updates consumer     | `buildStartTimerEventsUpdatesGroup`|
+| `KAFKA_CONSUMER_GROUP_ID_PROCESS_START`                    | Process start consumer group            | `processStartGroup`                |
+| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL`                      | Auth exception retry interval (seconds) | `10`                               |
+
+#### Kafka consumer threads configuration
+
+| Environment Variable                                         | Description                                | Default Value |
+| ------------------------------------------------------------ | ------------------------------------------ | ------------- |
+| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_EXPORT`          | Application export consumer threads        | `3`           |
+| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_IMPORT`          | Application import consumer threads        | `3`           |
+| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_USAGES`          | Resource usages consumer threads           | `3`           |
+| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_ELEM_VALID_RESP` | Resource validation response threads       | `3`           |
+| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_COPY`            | Resource copy consumer threads             | `3`           |
+| `KAFKA_CONSUMER_THREADS_APPLICATION_MERGE`                    | Application merge consumer threads         | `3`           |
+| `KAFKA_CONSUMER_THREADS_BUILD_CREATE`                         | Build create consumer threads              | `2`           |
+| `KAFKA_CONSUMER_THREADS_BUILD_UPDATE`                         | Build update consumer threads              | `4`           |
+| `KAFKA_CONSUMER_THREADS_BUILD_RESOURCE_EXPORT`                | Build export consumer threads              | `3`           |
+| `KAFKA_CONSUMER_THREADS_BUILD_RESOURCE_IMPORT`                | Build import consumer threads              | `3`           |
+| `KAFKA_CONSUMER_THREADS_BUILD_START_TIMER_EVENTS_UPDATES`     | Build timer events updates consumer threads| `3`           |
+
+### Topic naming convention and pattern creation
+
+The Application Manager uses a sophisticated topic naming convention that follows a structured pattern. This ensures consistency across environments and makes topics easily identifiable.
+
+#### Topic naming components
+
+| Component     | Default Value | Environment Variable             | Description                           |
+| ------------- | ------------- | -------------------------------- | ------------------------------------- |
+| `package`     | `ai.flowx.`   | `KAFKA_TOPIC_NAMING_PACKAGE`     | Base package identifier               |
+| `environment` | `dev.`        | `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Deployment environment                |
+| `version`     | `.v1`         | `KAFKA_TOPIC_NAMING_VERSION`     | Topic version                         |
+| `separator`   | `.`           | `KAFKA_TOPIC_NAMING_SEPARATOR`   | Main separator (referred to as `dot`) |
+| `separator2`  | `-`           | `KAFKA_TOPIC_NAMING_SEPARATOR2`  | Secondary separator (as `dash`)       |
+| `prefix`      | -             | -                                | Combined `package` and `environment`  |
+| `suffix`      | -             | -                                | The version suffix                    |
+
+#### Topic pattern creation
+
+Topics are constructed using the following pattern:
+```
+{prefix} + service + {separator/dot} + action + {separator/dot} + detail + {suffix}
+```
+
+For example, a typical topic might look like:
+```
+ai.flowx.dev.application-version.export.v1
+```
+
+Where:
+- `ai.flowx.dev.` is the prefix (package + environment)
+- `application-version` is the service
+- `export` is the action
+- `.v1` is the suffix (version)
+
+For more complex topics, additional components are added:
+```
+ai.flowx.dev.application-version.resources-usages.sub-res-validation.response.v1
+```
+
+Where:
+- `resources-usages` represents the resource type
+- `sub-res-validation` represents the operation type
+- `response` indicates it's a response message
 
 #### Kafka topic configuration
 
 ##### Application resource topics
 
-| Environment Variable                                                      | Description                                | Default Pattern                                                                               |
-| ------------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------- |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_EXPORT`                                 | Application resource export topic          | `ai.flowx.dev.application-version.export.v1`                                                  |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_IMPORT`                                 | Application resource import topic          | `ai.flowx.dev.application-version.import.v1`                                                  |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_IN`                              | Resource usages in topic                   | `ai.flowx.dev.application-version.resources-usages.operations.bulk.v1`                        |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_OUT`                             | Resource usages out topic                  | `ai.flowx.dev.application-version.resources-usages.operations.bulk.v1`                        |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_REFRESH`                         | Resource usages refresh topic              | `ai.flowx.dev.application-version.resources-usages.refresh.v1`                                |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_RESPONSE`        | Resource element usage validation response | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.response.v1`            |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_OUT_INTEGRATION` | Resource validation integration topic      | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.request-integration.v1` |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_COPY`                                   | Resource copy topic                        | `ai.flowx.dev.application-version.copy-resource.v1`                                           |
-| `KAFKA_TOPIC_MERGE`                                                       | Application merge topic                    | `ai.flowx.dev.application-version.merge.v1`                                                   |
+| Environment Variable                                                  | Description                                | Default Pattern                                                                                     |
+| --------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_EXPORT`                             | Application resource export topic          | `ai.flowx.dev.application-version.export.v1`                                                        |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_IMPORT`                             | Application resource import topic          | `ai.flowx.dev.application-version.import.v1`                                                        |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_IN`                          | Resource usages in topic                   | `ai.flowx.dev.application-version.resources-usages.operations.bulk.v1`                              |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_OUT`                         | Resource usages out topic                  | `ai.flowx.dev.application-version.resources-usages.operations.bulk.v1`                              |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_REFRESH`                     | Resource usages refresh topic              | `ai.flowx.dev.application-version.resources-usages.refresh.v1`                                      |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_RESPONSE`    | Resource element usage validation response | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.response.v1`                  |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_OUT_INTEGRATION` | Resource validation integration topic  | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.request-integration.v1`       |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_OUT_CMS`     | Resource validation CMS topic             | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.cms.v1`                       |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_COPY`                               | Resource copy topic                        | `ai.flowx.dev.application-version.copy-resource.v1`                                                 |
+| `KAFKA_TOPIC_APPLICATION_MERGE`                                       | Application merge topic                    | `ai.flowx.dev.application-version.merge.v1`                                                         |
 
 ##### Build resource topics
 
-| Environment Variable                     | Description                | Default Pattern                                       |
-| ---------------------------------------- | -------------------------- | ----------------------------------------------------- |
-| `KAFKA_TOPIC_BUILD_RESOURCE_EXPORT`      | Build export topic         | `ai.flowx.dev.build.export.v1`                        |
-| `KAFKA_TOPIC_BUILD_RESOURCE_IMPORT`      | Build import topic         | `ai.flowx.dev.build.import.v1`                        |
-| `KAFKA_TOPIC_BUILD_RESOURCE_CREATE`      | Build create topic         | `ai.flowx.dev.build.create.v1`                        |
-| `KAFKA_TOPIC_BUILD_RESOURCE_UPDATE`      | Build update topic         | `ai.flowx.dev.build.update.v1`                        |
-| `KAFKA_TOPIC_START_TIMER_EVENTS_UPDATES` | Timer events updates topic | `ai.flowx.dev.build.start-timer-events.updates.in.v1` |
+| Environment Variable                           | Description                | Default Pattern                                               |
+| ---------------------------------------------- | -------------------------- | ------------------------------------------------------------- |
+| `KAFKA_TOPIC_BUILD_UPDATE`                     | Build update topic         | `ai.flowx.dev.build.update.v1`                                |
+| `KAFKA_TOPIC_BUILD_CREATE`                     | Build create topic         | `ai.flowx.dev.build.create.v1`                                |
+| `KAFKA_TOPIC_BUILD_RESOURCE_EXPORT`            | Build export topic         | `ai.flowx.dev.build.export.v1`                                |
+| `KAFKA_TOPIC_BUILD_RESOURCE_IMPORT`            | Build import topic         | `ai.flowx.dev.build.import.v1`                                |
+| `KAFKA_TOPIC_BUILD_START_TIMER_EVENTS_IN_UPDATES` | Timer events updates topic | `ai.flowx.dev.build.start-timer-events.updates.in.v1`      |
 
 ##### Process topics
 
-| Environment Variable                               | Description                     | Default Pattern                                            | 
-| -------------------------------------------------- | ------------------------------- | ---------------------------------------------------------- | 
-| `KAFKA_TOPIC_PROCESS_START_FOR_EVENT`              | Process start for event topic   | `ai.flowx.dev.core.trigger.start-for-event.process.v1`     | 
-| `KAFKA_TOPIC_PROCESS_START_BY_NAME`                | Process start by name topic     | `ai.flowx.dev.core.trigger.start-by-name.process.v1`       |
-| `KAFKA_TOPIC_PROCESS_START_BY_NAME_OUT`            | Process start by name out topic | `ai.flowx.dev.core.trigger.start-by-name.process.out.v1`   |
-| `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_SET`   | Set timer schedule topic        | `ai.flowx.dev.core.trigger.set.timer-event-schedule.v1`    |
-| `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_STOP`  | Stop timer schedule topic       | `ai.flowx.dev.core.trigger.stop.timer-event-schedule.v1`   |
+| Environment Variable                                      | Description                     | Default Pattern                                                        | 
+| --------------------------------------------------------- | ------------------------------- | ---------------------------------------------------------------------- | 
+| `KAFKA_TOPIC_PROCESS_START_FOR_EVENT_IN`                  | Process start for event topic   | `ai.flowx.dev.core.trigger.start-for-event.process.v1`                 | 
+| `KAFKA_TOPIC_PROCESS_START_BY_NAME_IN`                    | Process start by name topic     | `ai.flowx.dev.core.trigger.start-by-name.process.v1`                   |
+| `KAFKA_TOPIC_PROCESS_START_BY_NAME_OUT`                   | Process start by name out topic | `ai.flowx.dev.core.trigger.start-by-name.process.out.v1`               |
+| `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_SET`      | Set timer schedule topic        | `ai.flowx.dev.core.trigger.set.timer-event-schedule.v1`                |
+| `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_STOP`     | Stop timer schedule topic       | `ai.flowx.dev.core.trigger.stop.timer-event-schedule.v1`               |
 
 ##### Other topics
 
-| Environment Variable                    | Description                     | Default Pattern                                         | 
-| --------------------------------------- | ------------------------------- | ------------------------------------------------------- | 
-| `KAFKA_TOPIC_AUDIT_OUTPUT`              | Audit topic                     | `ai.flowx.dev.core.trigger.save.audit.v1`               | 
-| `KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE`| Events gateway messages topic   | `ai.flowx.dev.eventsgateway.receive.copyresource.v1`    |
+| Environment Variable                      | Description                   | Default Pattern                                               | 
+| ----------------------------------------- | ----------------------------- | ------------------------------------------------------------- | 
+| `KAFKA_TOPIC_AUDIT_OUT`                   | Audit topic                   | `ai.flowx.dev.core.trigger.save.audit.v1`                     | 
+| `KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE`  | Events gateway messages topic | `ai.flowx.dev.eventsgateway.receive.copyresource.v1`          |
+
+<Info>
+These Kafka topics use predefined naming conventions for ease of use. Optional adjustments may be made if the desired topic name cannot be achieved with the standard structure.
+</Info>
 
 ### Authentication configuration
 
@@ -158,7 +246,18 @@ The Application Manager relies on other FlowX services and components to functio
 | `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` | Admin service account secret | `secret`                                    | 
 | `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`     | Admin service account ID     | `flowx-runtime-manager-sa`                  | 
 
+Refer to the dedicated section for configuring user roles and access rights:
+
+<Card title="Access Management" href="./access-management/app-manager-access-rights" icon="lock">
+</Card>
+
 ### File storage configuration
+
+<Info>
+S3 is used in the Application Manager for:
+- Storing imported and exported resources
+- Storing application versions and builds that are imported or exported
+</Info>
 
 | Environment Variable                             | Description            | Example Value                              | Default               |
 | ------------------------------------------------ | ---------------------- | ------------------------------------------ | --------------------- |
@@ -186,6 +285,8 @@ The Application Manager relies on other FlowX services and components to functio
 
 ### Resource proxy configuration
 
+The Resource Proxy module forwards resource-related requests to appropriate services, handling CRUD operations on the manifest. It requires proper configuration of proxy endpoints:
+
 | Environment Variable                                    | Description                        | Example Value    | Default   |
 | ------------------------------------------------------- | ---------------------------------- | ---------------- | --------- |
 | `RESOURCE_PROXY_MANIFEST_URL`                           | Manifest URL for resource proxy    | URL value        | None      |
@@ -197,7 +298,15 @@ The Application Manager relies on other FlowX services and components to functio
 | `FLOWX_RESOURCE_PROXY_WEB_CLIENT_MAX_IN_MEMORY_SIZE`    | Maximum in-memory size             | `5MB`            | `5MB`     |
 | `FLOWX_RUNTIMEEXECUTIONPROXY_WEBCLIENT_MAXINMEMORYSIZE` | Maximum REST request size          | `5242880` (5 MB) | `5242880` |
 
+<Info>
+`FLOWX_RUNTIMEEXECUTIONPROXY_WEBCLIENT_MAXINMEMORYSIZE` - Specifies the maximum size (in bytes) of in-memory data for REST requests. This is particularly useful when dealing with large payloads to prevent excessive memory consumption.
+  * Default Value: 5242880 (5 MB)
+  * Usage Example: Set to 10485760 (10 MB) to allow larger in-memory request sizes.
+</Info>
+
 ### Scheduler configuration
+
+The Application Manager scheduler supports retrying failed deployments and master election for better coordination of tasks across instances:
 
 | Environment Variable                              | Description                  | Example Value    | Default |
 | ------------------------------------------------- | ---------------------------- | ---------------- | ------- |
@@ -206,22 +315,32 @@ The Application Manager relies on other FlowX services and components to functio
 | `FLOWX_SCHEDULER_MASTER_ELECTION_CRON_EXPRESSION` | Master election cron         | `*/30 * * * * *` | None    |
 | `FLOWX_SCHEDULER_MASTER_ELECTION_PROVIDER`        | Election provider            | `redis`          | None    |
 
-### Kafka topic naming convention
+#### Retry failed deployments
 
-The Application Manager uses a structured topic naming convention with the following components:
+Configures a cron job to retry updating builds in the runtime database every minute when previous attempts have failed.
 
-| Component     | Default Value | Environment Variable             | Description             |
-| ------------- | ------------- | -------------------------------- | ----------------------- |
-| `package`     | `ai.flowx.`   | `KAFKA_TOPIC_NAMING_PACKAGE`     | Base package identifier |
-| `environment` | `dev.`        | `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Deployment environment  |
-| `version`     | `.v1`         | `KAFKA_TOPIC_NAMING_VERSION`     | Topic version           |
-| `separator`   | `.`           | `KAFKA_TOPIC_NAMING_SEPARATOR`   | Main separator          |
-| `separator2`  | `-`           | `KAFKA_TOPIC_NAMING_SEPARATOR2`  | Secondary separator     |
+#### Master election
 
-The topics follow a pattern like:
-```
-ai.flowx.{environment}.{service}.{action}.{detail}.v1
-```
+Enables master election for improved scheduling coordination when multiple instances of the Application Manager are running, ensuring that scheduled tasks are only executed once.
+
+### Configuring logging
+
+To control the logging levels for the Application Manager, use the following environment variables:
+
+| Environment Variable | Description                     | Example Value |
+| -------------------- | ------------------------------- | ------------- |
+| `LOGGING_LEVEL_ROOT` | Root Spring Boot logs level     | `INFO`        |
+| `LOGGING_LEVEL_APP`  | Application-level logs level    | `INFO`        |
+| `LOGGING_LEVEL_DB`   | Database interactions log level | `INFO`        |
+
+## Data model overview
+
+The Application Manager stores application data using a relational database schema, with key entities such as application, application_version, and application_manifest. Below are descriptions of primary entities:
+
+* **Application** - Defines an application with its details like name, type, and metadata.
+* **Application Branch** - Represents branches for versioning within an application.
+* **Application Version** - Keeps track of each version of an application, including committed and WIP statuses.
+* **Application Manifest** - Contains the list of resources associated with a specific application version.
 
 ## Ingress configuration
 
