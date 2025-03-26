@@ -176,7 +176,7 @@ Kafka handles all communication between the FlowX.AI Engine, external plugins, a
 | `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Kafka bootstrap servers     | `localhost:9092` |
 | `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol for Kafka | `"PLAINTEXT"`    |
 
-Message routing configuration:
+### Message routing configuration
 
 | Environment variable       | Description                                                           | Default value       |
 | -------------------------- | --------------------------------------------------------------------- | ------------------- |
@@ -184,8 +184,9 @@ Message routing configuration:
 
 
 <Info>
-When `KAFKA_DEFAULT_FX_CONTEXT` is set, any message without an explicit fxContext header will automatically use this value, ensuring proper message routing even for services that don't explicitly set context headers.
+When `KAFKA_DEFAULT_FX_CONTEXT` is set and an event is received on Kafka without an fxContext header, the system will automatically apply the default context value to the message.
 </Info>
+
 
 ### Kafka consumer retry settings
 
