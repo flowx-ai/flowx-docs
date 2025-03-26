@@ -137,33 +137,33 @@ The following configuration from versions before 4.1 will be deprecated in versi
 Starting from version 4.1, use the following configuration instead. This setup is backwards compatible until version 4.5.
 </Info>
 
-| Environment variable | Description | Default value |
-|---------------------|-------------|---------------|
-| `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_INTROSPECTION_URI` | URI for token introspection | `${security.oauth2.base-server-url}/realms/${security.oauth2.realm}/protocol/openid-connect/token/introspect` |
-| `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_ID` | Client ID for token introspection | `${security.oauth2.client.client-id}` |
-| `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_SECRET` | Client secret for token introspection | `${security.oauth2.client.client-secret}` |
+| Environment variable                                                    | Description                           | Default value                                                                                                 |
+| ----------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_INTROSPECTION_URI` | URI for token introspection           | `${security.oauth2.base-server-url}/realms/${security.oauth2.realm}/protocol/openid-connect/token/introspect` |
+| `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_ID`         | Client ID for token introspection     | `${security.oauth2.client.client-id}`                                                                         |
+| `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_SECRET`     | Client secret for token introspection | `${security.oauth2.client.client-secret}`                                                                     |
 
 ### Service account settings
 
 Configure the process engine service account:
 
-| Environment variable | Description | Default value |
-|---------------------|-------------|---------------|
-| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID` | Client ID for the service account | `flowx-${SPRING_APPLICATION_NAME}-sa` |
-| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` | Client secret for the service account | |
+| Environment variable                                  | Description                           | Default value                         |
+| ----------------------------------------------------- | ------------------------------------- | ------------------------------------- |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`     | Client ID for the service account     | `flowx-${SPRING_APPLICATION_NAME}-sa` |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` | Client secret for the service account |                                       |
 
 For more information about the necessary service account, see [Process Engine Service Account](../access-management/configuring-an-iam-solution#process-engine-service-account).
 
 ### Security configuration
 
-| Environment variable | Description | Default value |
-|---------------------|-------------|---------------|
-| `SECURITY_TYPE` | Type of security mechanism | `oauth2` |
-| `SECURITY_BASIC_ENABLED` | Enable basic authentication | `false` |
-| `SECURITY_PUBLIC_PATHS_0` | Public path not requiring authentication | `/api/platform/components-versions` |
-| `SECURITY_PUBLIC_PATHS_1` | Public path not requiring authentication | `/manage/actuator/health` |
-| `SECURITY_PATH_AUTHORIZATIONS_0_PATH` | Security path pattern | `"/api/**"` |
-| `SECURITY_PATH_AUTHORIZATIONS_0_ROLES_ALLOWED` | Roles allowed for path access | `"ANY_AUTHENTICATED_USER"` |
+| Environment variable                           | Description                              | Default value                       |
+| ---------------------------------------------- | ---------------------------------------- | ----------------------------------- |
+| `SECURITY_TYPE`                                | Type of security mechanism               | `oauth2`                            |
+| `SECURITY_BASIC_ENABLED`                       | Enable basic authentication              | `false`                             |
+| `SECURITY_PUBLIC_PATHS_0`                      | Public path not requiring authentication | `/api/platform/components-versions` |
+| `SECURITY_PUBLIC_PATHS_1`                      | Public path not requiring authentication | `/manage/actuator/health`           |
+| `SECURITY_PATH_AUTHORIZATIONS_0_PATH`          | Security path pattern                    | `"/api/**"`                         |
+| `SECURITY_PATH_AUTHORIZATIONS_0_ROLES_ALLOWED` | Roles allowed for path access            | `"ANY_AUTHENTICATED_USER"`          |
 
 ## Configuring Kafka
 
@@ -171,16 +171,27 @@ Kafka handles all communication between the FlowX.AI Engine, external plugins, a
 
 ### Kafka connection settings
 
-| Environment variable | Description | Default value |
-|---------------------|-------------|---------------|
-| `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Kafka bootstrap servers | `localhost:9092` |
-| `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol for Kafka | `"PLAINTEXT"` |
+| Environment variable             | Description                 | Default value    |
+| -------------------------------- | --------------------------- | ---------------- |
+| `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Kafka bootstrap servers     | `localhost:9092` |
+| `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol for Kafka | `"PLAINTEXT"`    |
+
+Message routing configuration:
+
+| Environment variable       | Description                                                           | Default value       |
+| -------------------------- | --------------------------------------------------------------------- | ------------------- |
+| `KAFKA_DEFAULT_FX_CONTEXT` | Default context value for message routing when no context is provided | `""` (empty string) |
+
+
+<Info>
+When `KAFKA_DEFAULT_FX_CONTEXT` is set, any message without an explicit fxContext header will automatically use this value, ensuring proper message routing even for services that don't explicitly set context headers.
+</Info>
 
 ### Kafka consumer retry settings
 
-| Environment variable | Description | Default value |
-|---------------------|-------------|---------------|
-| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` | Interval between retries after `AuthorizationException` (seconds) | `10` |
+| Environment variable                  | Description                                                       | Default value |
+| ------------------------------------- | ----------------------------------------------------------------- | ------------- |
+| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` | Interval between retries after `AuthorizationException` (seconds) | `10`          |
 
 ### Consumer groups & consumer threads configuration
 
@@ -205,35 +216,35 @@ Thread numbers refer to the number of threads a consumer application uses to pro
 
 #### Consumer group configuration
 
-| Environment variable | Description | Default value |
-|---------------------|-------------|---------------|
-| `KAFKA_CONSUMER_GROUP_ID_NOTIFY_ADVANCE` | Group ID for notifying advance actions | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_NOTIFY_PARENT` | Group ID for notifying when a subprocess is blocked | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_ADAPTERS` | Group ID for messages related to adapters | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_SCHEDULER_RUN_ACTION` | Group ID for running scheduled actions | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_SCHEDULER_ADVANCING` | Group ID for messages indicating continuing advancement | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_MESSAGE_EVENTS` | Group ID for message events | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_START` | Group ID for starting processes | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_START_FOR_EVENT` | Group ID for starting processes for an event | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_EXPIRE` | Group ID for expiring processes | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_OPERATIONS` | Group ID for processing operations from Task Management plugin | `notif123-preview` |
+| Environment variable                               | Description                                                         | Default value      |
+| -------------------------------------------------- | ------------------------------------------------------------------- | ------------------ |
+| `KAFKA_CONSUMER_GROUP_ID_NOTIFY_ADVANCE`           | Group ID for notifying advance actions                              | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_NOTIFY_PARENT`            | Group ID for notifying when a subprocess is blocked                 | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_ADAPTERS`                 | Group ID for messages related to adapters                           | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_SCHEDULER_RUN_ACTION`     | Group ID for running scheduled actions                              | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_SCHEDULER_ADVANCING`      | Group ID for messages indicating continuing advancement             | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_MESSAGE_EVENTS`           | Group ID for message events                                         | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_PROCESS_START`            | Group ID for starting processes                                     | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_PROCESS_START_FOR_EVENT`  | Group ID for starting processes for an event                        | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_PROCESS_EXPIRE`           | Group ID for expiring processes                                     | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUP_ID_PROCESS_OPERATIONS`       | Group ID for processing operations from Task Management plugin      | `notif123-preview` |
 | `KAFKA_CONSUMER_GROUP_ID_PROCESS_BATCH_PROCESSING` | Group ID for processing bulk operations from Task Management plugin | `notif123-preview` |
 
 #### Consumer thread configuration
 
-| Environment variable | Description | Default value |
-|---------------------|-------------|---------------|
-| `KAFKA_CONSUMER_THREADS_NOTIFY_ADVANCE` | Number of threads for notifying advance actions | `6` |
-| `KAFKA_CONSUMER_THREADS_NOTIFY_PARENT` | Number of threads for notifying when a subprocess is blocked | `6` |
-| `KAFKA_CONSUMER_THREADS_ADAPTERS` | Number of threads for processing messages related to adapters | `6` |
-| `KAFKA_CONSUMER_THREADS_SCHEDULER_ADVANCING` | Number of threads for continuing advancement | `6` |
-| `KAFKA_CONSUMER_THREADS_SCHEDULER_RUN_ACTION` | Number of threads for running scheduled actions | `6` |
-| `KAFKA_CONSUMER_THREADS_MESSAGE_EVENTS` | Number of threads for message events | `6` |
-| `KAFKA_CONSUMER_THREADS_PROCESS_START` | Number of threads for starting processes | `6` |
-| `KAFKA_CONSUMER_THREADS_PROCESS_START_FOR_EVENT` | Number of threads for starting processes for an event | `2` |
-| `KAFKA_CONSUMER_THREADS_PROCESS_EXPIRE` | Number of threads for expiring processes | `6` |
-| `KAFKA_CONSUMER_THREADS_PROCESS_OPERATIONS` | Number of threads for processing operations from task management | `6` |
-| `KAFKA_CONSUMER_THREADS_PROCESS_BATCH_PROCESSING` | Number of threads for processing bulk operations from task management | `6` |
+| Environment variable                              | Description                                                           | Default value |
+| ------------------------------------------------- | --------------------------------------------------------------------- | ------------- |
+| `KAFKA_CONSUMER_THREADS_NOTIFY_ADVANCE`           | Number of threads for notifying advance actions                       | `6`           |
+| `KAFKA_CONSUMER_THREADS_NOTIFY_PARENT`            | Number of threads for notifying when a subprocess is blocked          | `6`           |
+| `KAFKA_CONSUMER_THREADS_ADAPTERS`                 | Number of threads for processing messages related to adapters         | `6`           |
+| `KAFKA_CONSUMER_THREADS_SCHEDULER_ADVANCING`      | Number of threads for continuing advancement                          | `6`           |
+| `KAFKA_CONSUMER_THREADS_SCHEDULER_RUN_ACTION`     | Number of threads for running scheduled actions                       | `6`           |
+| `KAFKA_CONSUMER_THREADS_MESSAGE_EVENTS`           | Number of threads for message events                                  | `6`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_START`            | Number of threads for starting processes                              | `6`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_START_FOR_EVENT`  | Number of threads for starting processes for an event                 | `2`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_EXPIRE`           | Number of threads for expiring processes                              | `6`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_OPERATIONS`       | Number of threads for processing operations from task management      | `6`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_BATCH_PROCESSING` | Number of threads for processing bulk operations from task management | `6`           |
 
 All events that start with a configured pattern will be consumed by the Engine. This enables you to create new integrations and connect them to the engine without changing the configuration.
 
@@ -258,23 +269,23 @@ topic:
 ```
 </Tip>
 
-#### Core Engine topics
+#### Core engine topics
 
-| Environment variable | Description | Default value |
-|---------------------|-------------|---------------|
-| `KAFKA_TOPIC_PROCESS_NOTIFY_ADVANCE` | Topic used internally for advancing processes | `ai.flowx.dev.core.notify.advance.process.v1` |
-| `KAFKA_TOPIC_PROCESS_NOTIFY_PARENT` | Topic used for sub-processes to notify the parent process | `ai.flowx.dev.core.notify.parent.process.v1` |
-| `KAFKA_TOPIC_PATTERN` | Pattern the Engine listens on for incoming events | `ai.flowx.dev.engine.receive.*` |
-| `KAFKA_TOPIC_LICENSE_OUT` | Topic used to generate licensing-related details | `ai.flowx.dev.core.trigger.save.license.v1` |
-| `KAFKA_TOPIC_PROCESS_EVENT_MESSAGE` | Topic for process message events | `ai.flowx.dev.core.message.event.process.v1` |
+| Environment variable                 | Description                                               | Default value                                 |
+| ------------------------------------ | --------------------------------------------------------- | --------------------------------------------- |
+| `KAFKA_TOPIC_PROCESS_NOTIFY_ADVANCE` | Topic used internally for advancing processes             | `ai.flowx.dev.core.notify.advance.process.v1` |
+| `KAFKA_TOPIC_PROCESS_NOTIFY_PARENT`  | Topic used for sub-processes to notify the parent process | `ai.flowx.dev.core.notify.parent.process.v1`  |
+| `KAFKA_TOPIC_PATTERN`                | Pattern the Engine listens on for incoming events         | `ai.flowx.dev.engine.receive.*`               |
+| `KAFKA_TOPIC_LICENSE_OUT`            | Topic used to generate licensing-related details          | `ai.flowx.dev.core.trigger.save.license.v1`   |
+| `KAFKA_TOPIC_PROCESS_EVENT_MESSAGE`  | Topic for process message events                          | `ai.flowx.dev.core.message.event.process.v1`  |
 
 #### Topics related to the Task Management plugin
 
-| Environment variable | Description | Default value |
-|---------------------|-------------|---------------|
-| `KAFKA_TOPIC_TASK_OUT` | Topic used for sending notifications to the plugin | `ai.flowx.dev.plugin.tasks.trigger.save.task.v1` |
-| `KAFKA_TOPIC_PROCESS_OPERATIONS_IN` | Topic for receiving information about operations performed | `ai.flowx.dev.core.trigger.operations.v1` |
-| `KAFKA_TOPIC_PROCESS_OPERATIONS_BULK_IN` | Topic where operations can be performed in bulk | `ai.flowx.core.trigger.operations.bulk.v1` |
+| Environment variable                     | Description                                                | Default value                                    |
+| ---------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------ |
+| `KAFKA_TOPIC_TASK_OUT`                   | Topic used for sending notifications to the plugin         | `ai.flowx.dev.plugin.tasks.trigger.save.task.v1` |
+| `KAFKA_TOPIC_PROCESS_OPERATIONS_IN`      | Topic for receiving information about operations performed | `ai.flowx.dev.core.trigger.operations.v1`        |
+| `KAFKA_TOPIC_PROCESS_OPERATIONS_BULK_IN` | Topic where operations can be performed in bulk            | `ai.flowx.core.trigger.operations.bulk.v1`       |
 
 ##### OPERATIONS_IN request example
 

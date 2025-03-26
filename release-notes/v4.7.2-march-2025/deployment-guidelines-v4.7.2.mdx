@@ -103,3 +103,17 @@ Starting FlowX 5.0, the following versions of 3rd Party Dependencies will no lon
 
 
 
+## Additional configuration
+
+Added new environment variable on Process Engine:
+
+### Message routing configuration
+
+| Environment variable       | Description                                                           | Default value       |
+| -------------------------- | --------------------------------------------------------------------- | ------------------- |
+| `KAFKA_DEFAULT_FX_CONTEXT` | Default context value for message routing when no context is provided | `""` (empty string) |
+
+
+<Info>
+When `KAFKA_DEFAULT_FX_CONTEXT` is set, any message without an explicit fxContext header will automatically use this value, ensuring proper message routing even for services that don't explicitly set context headers.
+</Info>
