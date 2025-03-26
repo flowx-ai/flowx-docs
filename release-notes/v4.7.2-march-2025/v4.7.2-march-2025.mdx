@@ -1,0 +1,67 @@
+---
+title: FlowX.AI 4.7.2 Release Notes
+description: FlowX.AI 4.7.2 delivers improved merge conflict handling with retry capabilities, deprecates DMN business rules, and fixes issues with subprocess handling, media file imports, and OCR functionality to enhance your development workflow! 🚀
+---
+
+## **What's new? 🆕**
+
+✅ Improved merge conflict handling with retry functionality          
+✅ Enhanced error messages during failed merges           
+✅ Streamlined workflow for resolving merge conflicts             
+
+## Merge conflicts
+
+### Improved error messages when merge fails
+
+We've enhanced the merge conflict resolution experience with more informative error messages and a new retry functionality:
+
+- When a merge fails, users can now see a "Retry merge" button on the Merge failed modal
+- Clicking this button allows users to attempt the merge again without losing previous work
+
+The system now handles two distinct scenarios:
+
+**1. When conflicts exist:**
+- The system opens the Merge conflicts panel with the previous state of the merge before the failed attempt
+- This preserves all your conflict resolution work so you can fix the specific issues that caused the failure
+
+<Frame>
+![Merge failed with conflicts](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/If%20conflicts.png)
+</Frame>
+
+**2. When no conflicts exist:**
+- The system automatically retries the merge operation
+- This streamlines the workflow when the merge failure was due to temporary issues rather than actual conflicts
+
+<Frame>
+![Merge failed without conflicts](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/If%20no%20conflicts.png)
+</Frame>
+
+## Process engine
+
+### Deprecated DMN rules
+
+In version 4.7.2, we've deprecated the [[**DMN (Decision Model and Notation)**]](../../4.7.x/docs/building-blocks/actions/business-rule-action/dmn-business-rule-action) business rule actions. This change affects how business rules are configured on task/user task nodes in business processes.
+
+**What's changing:**
+- DMN is no longer available as a language option when configuring business rule actions
+
+**What's next:**
+For guidance on using alternative business rule languages, please refer to our [supported scripting languages](../../4.7.x/docs/building-blocks/supported-scripts) documentation.
+
+
+## **Bug fixes** 🐞  
+
+- Resolved export/import issues with media library files, particularly for applications migrated from earlier versions
+- Fixed an issue where parallel multi-instance Call Activity would incorrectly trigger a subprocess when using an empty array list as a variable
+- Fixed a display issue where not all subprocesses were visible in the subprocess list on smaller screens
+- Fixed a bug where message events couldn't be caught when placed directly after an uninterrupting timer event
+- Resolved "Unsupported Media Type" errors when importing application versions with media file binaries
+- Fixed an issue where color palette changes in Theme settings couldn't be saved at 100% browser resolution on smaller screens
+- Fixed a issue where OCR plugin failed due to missing correlation headers
+---
+
+## **Additional information**  
+
+📌 [Deployment Guidelines v4.7.2](./deployment-guidelines-v4.7.2)  
+📌 [Migration Guide (from v4.7.0)](./migrating-from-v4.7.0-to-v4.7.2)  
+📌 [Supported scripting languages](../../4.7.x/docs/building-blocks/supported-scripts)
