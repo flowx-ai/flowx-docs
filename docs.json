@@ -408,7 +408,15 @@
                 "group": "Release Notes",
                 "pages": [
                   "release-notes/overview",
-
+                  {
+                    "group": "v4.7.2 - March",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.2-march-2025/v4.7.2-march-2025",
+                      "release-notes/v4.7.2-march-2025/deployment-guidelines-v4.7.2",
+                      "release-notes/v4.7.2-march-2025/migrating-from-v4.1.x-to-v4.7.2"
+                    ]
+                  },
 
                   {
                     "group": "v4.7.1 - March",
@@ -1134,6 +1142,16 @@
                   "release-notes/overview",
 
                   {
+                    "group": "v4.7.2 - March",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.2-march-2025/v4.7.2-march-2025",
+                      "release-notes/v4.7.2-march-2025/deployment-guidelines-v4.7.2",
+                      "release-notes/v4.7.2-march-2025/migrating-from-v4.1.x-to-v4.7.2"
+                    ]
+                  },
+
+                  {
                     "group": "v4.7.1 - March",
                     "icon": "sparkles",
                     "pages": [
@@ -1813,6 +1831,16 @@
                   "release-notes/overview",
 
                   {
+                    "group": "v4.7.2 - March",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.2-march-2025/v4.7.2-march-2025",
+                      "release-notes/v4.7.2-march-2025/deployment-guidelines-v4.7.2",
+                      "release-notes/v4.7.2-march-2025/migrating-from-v4.1.x-to-v4.7.2"
+                    ]
+                  },
+
+                  {
                     "group": "v4.7.1 - March",
                     "icon": "sparkles",
                     "pages": [
@@ -2483,8 +2511,18 @@
                   "release-notes/overview",
 
                   {
+                    "group": "v4.7.2 - March",
+                    "icon": "wrench", 
+                    "pages": [
+                      "release-notes/v4.7.2-march-2025/v4.7.2-march-2025",
+                      "release-notes/v4.7.2-march-2025/deployment-guidelines-v4.7.2",
+                      "release-notes/v4.7.2-march-2025/migrating-from-v4.1.x-to-v4.7.2"
+                    ]
+                  },
+
+                  {
                     "group": "v4.7.1 - March",
-                    "icon": "sparkles",
+                    "icon": "wrench",
                     "pages": [
                       "release-notes/v4.7.1-march-2025/v4.7.1-march-2025",
                       "release-notes/v4.7.1-march-2025/deployment-guidelines-v4.7.1",
@@ -3134,16 +3172,24 @@
                 "group": "Release Notes",
                 "pages": [
                   "release-notes/overview",
+
+                  {
+                    "group": "v4.7.2 - March",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.2-march-2025/v4.7.2-march-2025",
+                      "release-notes/v4.7.2-march-2025/deployment-guidelines-v4.7.2",
+                      "release-notes/v4.7.2-march-2025/migrating-from-v4.1.x-to-v4.7.2"
+                    ]
+                  },
+
                   {
                     "group": "v4.7.1 - March",
-                    "icon": "sparkles",
+                    "icon": "wrench",
                     "pages": [
                       "release-notes/v4.7.1-march-2025/v4.7.1-march-2025",
                       "release-notes/v4.7.1-march-2025/deployment-guidelines-v4.7.1",
                       "release-notes/v4.7.1-march-2025/migrating-from-v4.1.x-to-v4.7.1"
-
-  
-
                     ]
                   },
 
