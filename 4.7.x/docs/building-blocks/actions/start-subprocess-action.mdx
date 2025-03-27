@@ -3,6 +3,10 @@ title: Start subprocess action
 description: A Start subprocess action is an action that allows you to start a subprocess from another (parent) process.
 ---
 
+<Info>
+The "Start subprocess" is available only on [User Task](../node/user-task-node) nodes.
+For any other scenarios, you should use the [Call Activity node](../node/call-subprocess-tasks/call-activity-node) instead.
+</Info>
 Using **subprocesses** is a good way to split the complexity of your business flow into multiple, simple and reusable processes.
 
 ## Configuring a Start subprocess action
@@ -15,7 +19,7 @@ Here are the steps to start a subprocess from a parent process:
 2. In the parent process, create a **user task** node where you want to start the subprocess created at step 1.
 3. Add a **Start subprocess** action to the task node.
 4. Configure the **Start Subprocess** action and from the dropdown list choose the subprocess created at step 1.
-
+ 
 By following these steps, you can start a subprocess from a parent process and control its execution based on your specific use case.
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/process_subprocess1.png)
