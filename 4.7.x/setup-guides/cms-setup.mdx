@@ -44,12 +44,12 @@ If this configuration is not provided, the default value will be set to `flowx`.
 
 Connect the CMS to an OAuth 2.0 identity management platform by setting the following variables:
 
-| Environment variable                   | Description                                      |
-| -------------------------------------- | ------------------------------------------------ |
-| `SECURITY_OAUTH2_BASE_SERVER_URL`      | Base URL for the OAuth 2.0 Authorization Server  |
-| `SECURITY_OAUTH2_CLIENT_CLIENT_ID`     | Unique identifier for the client application     |
-| `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` | Secret key to authenticate client requests       |
-| `SECURITY_OAUTH2_REALM`                | Realm name for OAuth 2.0 provider authentication |
+| Environment variable                  | Description                                      |
+| ------------------------------------- | ------------------------------------------------ |
+| `SECURITY_OAUTH2_BASESERVERURL`       | Base URL for the OAuth 2.0 Authorization Server  |
+| `SECURITY_OAUTH2_CLIENT_CLIENTID`     | Unique identifier for the client application     |
+| `SECURITY_OAUTH2_CLIENT_CLIENTSECRET` | Secret key to authenticate client requests       |
+| `SECURITY_OAUTH2_REALM`               | Realm name for OAuth 2.0 provider authentication |
 
 For detailed role and access configuration, refer to:  
 
@@ -104,32 +104,30 @@ The service can use the same Redis component deployed for the engine. See [Redis
 
 | Environment variable             | Description                 | Default value    |
 | -------------------------------- | --------------------------- | ---------------- |
-| `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Address of the Kafka server | `localhost:9092` |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`  | Address of the Kafka server | `localhost:9092` |
 | `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol for Kafka | `"PLAINTEXT"`    |
 
 
-#### Consumer and producer configuration
+#### Auth and retry configuration
 
-| Environment variable                  | Description                                     | Default value     |
-| ------------------------------------- | ----------------------------------------------- | ----------------- |
-| `SPRING_KAFKA_CONSUMER_GROUP_ID`      | Defines the Kafka consumer group                |                   |
-| `KAFKA_CONSUMER_THREADS`              | Number of Kafka consumer threads                |                   |
-| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` | Retry interval after an authorization exception | `10`              |
-| `KAFKA_MESSAGE_MAX_BYTES`             | Maximum message size in bytes                   | `52428800` (50MB) |
+| Environment variable               | Description                                     | Default value     |
+| ---------------------------------- | ----------------------------------------------- | ----------------- |
+| `KAFKA_AUTHEXCEPTIONRETRYINTERVAL` | Retry interval after an authorization exception | `10`              |
+| `KAFKA_MESSAGE_MAX_BYTES`          | Maximum message size in bytes                   | `52428800` (50MB) |
 
 #### Consumer group configuration
 
-| Environment variable                           | Description                            | Default value                    |
-| ---------------------------------------------- | -------------------------------------- | -------------------------------- |
-| `KAFKA_CONSUMER_GROUP_ID_CONTENT_TRANSLATE`    | Group ID for content translation       | `cms-consumer-preview`           |
-| `KAFKA_CONSUMER_GROUP_ID_RES_USAGE_VALIDATION` | Group ID for resource usage validation | `cms-res-usage-validation-group` |
+| Environment variable                        | Description                            | Default value                    |
+| ------------------------------------------- | -------------------------------------- | -------------------------------- |
+| `KAFKA_CONSUMER_GROUPID_CONTENTTRANSLATE`   | Group ID for content translation       | `cms-consumer-preview`           |
+| `KAFKA_CONSUMER_GROUPID_RESUSAGEVALIDATION` | Group ID for resource usage validation | `cms-res-usage-validation-group` |
 
 #### Consumer thread configuration
 
-| Environment variable                           | Description                            | Default value                    |
-| ---------------------------------------------- | -------------------------------------- | -------------------------------- |
-| `KAFKA_CONSUMER_THREADS_CONTENT_TRANSLATE`    | Threads for content translation       | `1`                              |
-| `KAFKA_CONSUMER_THREADS_RES_USAGE_VALIDATION` | Threads for resource usage validation | `2`                              |
+| Environment variable                        | Description                           | Default value |
+| ------------------------------------------- | ------------------------------------- | ------------- |
+| `KAFKA_CONSUMER_THREADS_CONTENTTRANSLATE`   | Threads for content translation       | `1`           |
+| `KAFKA_CONSUMER_THREADS_RESUSAGEVALIDATION` | Threads for resource usage validation | `2`           |
 
 
 #### Topic configuration
@@ -209,11 +207,6 @@ spring:
         login.callback.handler.class: io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler
 ```
 
-Required environment variables:
-- `KAFKA_OAUTH_CLIENT_ID`
-- `KAFKA_OAUTH_CLIENT_SECRET`
-- `KAFKA_OAUTH_TOKEN_ENDPOINT_URI`
-
 ### Configuring logging
 
 | Environment variable         | Description                             |
@@ -226,8 +219,8 @@ Required environment variables:
 
 #### Public storage
 
-| Environment variable                         | Description                                             |
-| -------------------------------------------- | ------------------------------------------------------- |
+| Environment variable                       | Description                                             |
+| ------------------------------------------ | ------------------------------------------------------- |
 | `APPLICATION_FILESTORAGE_S3_SERVERURL`     | URL of S3 server for file storage                       |
 | `APPLICATION_FILESTORAGE_S3_BUCKETNAME`    | S3 bucket name                                          |
 | `APPLICATION_FILESTORAGE_S3_ROOTDIRECTORY` | Root directory in S3 bucket                             |

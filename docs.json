@@ -3576,5 +3576,11 @@
       "source": "/link/4.7/business-rule-action",
       "destination": "/4.7.x/docs/building-blocks/actions/business-rule-action/business-rule-action"
     }
-  ]
+  
+  ],
+
+
+  "contextual": {
+   "options": ["copy", "view", "chatgpt"]
+  }
 }
