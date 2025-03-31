@@ -80,13 +80,25 @@ The Advancing Controller uses a PostgreSQL or an Oracle database as a dependency
 
 If you need to change the datasource configuration detail, you can use the following environment variables:
 
-* `SPRING_DATASOURCE_URL`: Environment variable used to configure a data source URL for a Spring application. It typically contains the JDBC driver name, the server name, port number, and database name.
-* `SPRING_DATASOURCE_USERNAME`: Environment variable used to set the username for the database connection. This can be used to connect to a database instance.
-* `SPRING_DATASOURCE_PASSWORD`: Environment variable used to store the password for the database connection. This can be used to secure access to the database and ensure that only authorized users have access to the data.
-* `SPRING_JPA_DATABASE`: Specifies the type of database that the Spring application should connect to (accepted values: `oracle` or `postgresql`).
-* `SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULTSCHEMA` (❗️only for Oracle DBs): Specifies the default schema to use for the database (default value: `public`).
+| Variable                                         | Description                                               | Example Value                                       |
+| ------------------------------------------------ | --------------------------------------------------------- | --------------------------------------------------- |
+| `SPRING_DATASOURCE_URL`                          | JDBC URL for database connection                          | `jdbc:postgresql://jx-onboardingdb:5432/onboarding` |
+| `SPRING_DATASOURCE_DRIVERCLASSNAME`              | JDBC driver class name                                    | `org.postgresql.Driver`                             |
+| `SPRING_DATASOURCE_USERNAME`                     | Database username                                         | `postgres`                                          |
+| `SPRING_DATASOURCE_PASSWORD`                     | Database password                                         | `[your-secure-password]`                            |
+| `SPRING_JPA_DATABASE`                            | Database type (accepted values: `oracle` or `postgresql`) | `postgresql`                                        |
+| `SPRING_JPA_SHOWSQL`                             | Toggle SQL query logging                                  | `false`                                             |
+| `SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA` | Default database schema (❗️only for Oracle DBs)           | `public`                                            |
+| `SPRING_LIQUIBASE_CHANGELOG`                     | Path to Liquibase changelog for database migrations       | `classpath:config/liquibase/master.xml`             |
 
 <Info>
 It's important to keep in mind that the Advancing Controller is tightly integrated with the FlowX.AI Engine. Therefore, it is crucial to ensure that both the Engine and the Advancing Controller are configured correctly and are in sync.
 </Info>
 
+
+
+## Health monitoring
+
+| Variable                       | Description                   | Example Value |
+| ------------------------------ | ----------------------------- | ------------- |
+| `MANAGEMENT_HEALTH_DB_ENABLED` | Enable database health checks | `true`        |
