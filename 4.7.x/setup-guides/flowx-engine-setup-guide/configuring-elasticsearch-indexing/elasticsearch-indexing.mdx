@@ -376,7 +376,7 @@ When working with large volumes of data, it's recommended to implement time-base
 
 ### Partitioning with Kafka vs HTTP
 
-While both HTTP and Kafka indexing strategies support basic Elasticsearch sharding, **only the Kafka strategy provides out-of-the-box support for time-based partitioning** through the `transforms.routeTS.timestamp.format` configuration.
+While both HTTP and Kafka indexing strategies support basic Elasticsearch sharding, **only the Kafka strategy provides out-of-the-box support for time-based partitioning** through the `transforms.routeTS.timestamp.format` in the Kafka Sink Connector configuration.
 
 <Warning>
 Time-based partitioning (creating separate indices for different time periods like daily/weekly/monthly) is not available as a built-in feature when using the HTTP indexing strategy. For efficient time-based partitioning and index lifecycle management, we recommend using the Kafka indexing strategy.
