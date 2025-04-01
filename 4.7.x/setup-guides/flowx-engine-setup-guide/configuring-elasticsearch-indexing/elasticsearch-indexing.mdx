@@ -369,6 +369,33 @@ The mappings between messages and Elasticsearch data types need to be specified.
 }
 ```
 
+
+## Time-based partitioning and index deletion
+
+When working with large volumes of data, it's recommended to implement time-based partitioning for Elasticsearch indices to improve performance and manageability.
+
+### Partitioning with Kafka vs HTTP
+
+While both HTTP and Kafka indexing strategies support basic Elasticsearch sharding, **only the Kafka strategy provides out-of-the-box support for time-based partitioning** through the `transforms.routeTS.timestamp.format` configuration.
+
+<Warning>
+Time-based partitioning (creating separate indices for different time periods like daily/weekly/monthly) is not available as a built-in feature when using the HTTP indexing strategy. For efficient time-based partitioning and index lifecycle management, we recommend using the Kafka indexing strategy.
+</Warning>
+
+### Efficient data deletion
+
+When deleting data from Elasticsearch, it's significantly more efficient to delete entire indices rather than deleting individual documents. This is particularly important for maintaining performance in systems with high data volumes.
+
+The Kafka indexing strategy automatically creates time-based indices that can be deleted as entire units when they're no longer needed. This aligns well with database partitioning strategies, allowing for consistent data lifecycle management across your database and Elasticsearch.
+
+For optimal performance, align your Elasticsearch time-based partitioning with your database partitioning strategy:
+
+| Database partitioning | Recommended Elasticsearch timestamp format |
+|-----------------------|-------------------------------------------|
+| `MONTH`               | `yyyyMM` (monthly indices)                |
+| `WEEK`                | `yyyyww` (weekly indices)                 |
+| `DAY`                 | `yyyyMMdd` (daily indices)                |
+
 Here are some guidelines to help you get started:
 
 <Card title="Configuration guidelines" href="./process-instance-indexing-config-guidelines" icon= "file">

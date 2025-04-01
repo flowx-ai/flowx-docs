@@ -26,72 +26,114 @@ The Runtime Manager service requires the following components to be set up befor
 * [**Authentication & access roles**](#configuring-authentication-and-access-roles)
 * [**Logging**](./setup-guides-overview#logging)
 
-## Configuration
 
-### General environment variables
+## Change the application name
 
-The following environment variables provide essential configurations:
+| Environment Variable         | Description                                               | Example Value        |
+| ---------------------------- | --------------------------------------------------------- | -------------------- |
+| `SPRING_APPLICATION_NAME`    | Service identifier used for service discovery and logging | `runtime-manager`    |
 
-* `LOGGING_CONFIG_FILE` - Path to the logging configuration file for customized logging levels.
-* `SPRING_APPLICATION_NAME` - Sets the application name.  
-  * **Default Value:** `application-manager` -> must be changed to `runtime-manager`.
+<Warning>
+Default Value: `application-manager -> must be changed to `runtime-manager
+</Warning>
 
-### Database configuration
+
+## Core service configuration
+
+| Environment Variable         | Description                                               | Example Value        |
+| ---------------------------- | --------------------------------------------------------- | -------------------- |
+| `CONFIG_PROFILE`             | Spring configuration profiles to activate                 | `k8stemplate_v2`     |
+| `FLOWX_ENVIRONMENT_NAME`     | Environment identifier (dev, staging, prod, etc.)         | `pr`                 |
+| `LOGGING_CONFIG_FILE`        | Path to logging configuration file                        | `logback-spring.xml` |
+| `MULTIPART_MAX_FILE_SIZE`    | Maximum file size for uploads                             | `25MB`               |
+| `MULTIPART_MAX_REQUEST_SIZE` | Maximum total request size                                | `25MB`               |
+
+
+## Database configuration
 
 The Runtime Manager uses the same PostgreSQL (to store application data) and MongoDB (to manage runtime data) as [**application-manager**](application-manager). Configure these database connections with the following environment variables:
 
-#### PostgreSQL (Application data)
-
-* `SPRING_DATASOURCE_URL` - Database URL for the PostgreSQL data source  (same as the one configured in `application-manager` setup)
-
-#### MongoDB (Runtime data)
-
-* `SPRING_DATA_MONGODB_URI` - URI for connecting to MongoDB for runtime data  (same as the one configured in `application-manager` setup)
-    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false`
-* `DB_USERNAME`: `app-runtime`
-* `DB_NAME`: `app-runtime`
-* `DB_PASSWORD`: DB password.
-
-### Configuring Kafka
-
-Kafka is used for event-driven operations within the Runtime Handler. Set up the Kafka configuration using the following environment variables:
-
-* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - Address of the Kafka server in the format `host:port`
-* `KAFKA_TOPIC_NAMING_ENVIRONMENT` - Environment-specific suffix for Kafka topics
-
-#### Kafka OAuth Authentication
-
-To securely integrate with Kafka, configure the following OAuth credentials:
-
-* `KAFKA_OAUTH_CLIENT_ID` - OAuth Client ID for Kafka
-* `KAFKA_OAUTH_CLIENT_SECRET` - OAuth Client Secret for Kafka
-* `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` - OAuth Token Endpoint URI for obtaining Kafka tokens  
-  * **Format:** `https://<auth-server>/auth/realms/<realm>/protocol/openid-connect/token`
-
-### Configuring authentication and access roles
-
-Runtime Handler uses OAuth2 for secure access control. Set up the OAuth2 configurations with the following environment variables:
+### PostgreSQL (Application data)
 
 
-* `SECURITY_OAUTH2_BASE_SERVER_URL` - Base URL for the OAuth 2.0 Authorization Server
-* `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - Unique identifier for the client application registered with the OAuth 2.0 server
-* `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - Secret key for authenticating requests made by the authorization client
-* `SECURITY_OAUTH2_REALM` - The realm name for OAuth2 authentication
+| Environment Variable         | Description                        | Example Value                                   |
+| ---------------------------- | ---------------------------------- | ----------------------------------------------- |
+| `SPRING_DATASOURCE_URL`      | JDBC URL for PostgreSQL connection | `jdbc:postgresql://postgresql:5432/app_manager` |
+| `SPRING_DATASOURCE_USERNAME` | PostgreSQL username                | `flowx`                                         |
+| `SPRING_DATASOURCE_PASSWORD` | PostgreSQL password                | *sensitive*                                     |
+
+### MongoDB (Runtime data)
+
+| Environment Variable      | Description                | Example Value                                                                                                                                                         |
+| ------------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SPRING_DATA_MONGODB_URI` | URI for MongoDB connection | `mongodb://${DB_USERNAME}:${DB_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-headless:27017/${DB_NAME}?retryWrites=false` |
+| `DB_NAME`                 | MongoDB database name      | `app-runtime`                                                                                                                                                         |
+| `DB_USERNAME`             | MongoDB username           | `app-runtime`                                                                                                                                                         |
+| `DB_PASSWORD`             | MongoDB password           | *sensitive*                                                                                                                                                           |
 
 
-### Redis configuration (optional)
 
-If Redis is required for caching, set the following environment variable:
+## Redis configuration
 
-* `SPRING_REDIS_HOST` - Hostname or IP address of the Redis server
+| Environment Variable         | Description                       | Example Value  |
+| ---------------------------- | --------------------------------- | -------------- |
+| `SPRING_DATA_REDIS_HOST`     | Redis server hostname             | `redis-master` |
+| `SPRING_DATA_REDIS_PASSWORD` | Redis password                    | *sensitive*    |
+| `SPRING_DATA_REDIS_PORT`     | Redis server port                 | `6379`         |
+| `SPRING_REDIS_TTL`           | Default Redis TTL in milliseconds | `5000000`      |
 
-### Configuring file storage
 
-For file storage needs, configure the S3-compatible storage with the following environment variable:
+## Kafka configuration
 
-* `APPLICATION_FILE_STORAGE_S3_SERVER_URL` - URL of the S3-compatible storage server for storing application files.
+### Kafka connection
 
-### Ingress configuration
+| Environment Variable             | Description                         | Example Value                      |
+| -------------------------------- | ----------------------------------- | ---------------------------------- |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`  | Kafka broker addresses              | `kafka-flowx-kafka-bootstrap:9092` |
+| `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Environment prefix for Kafka topics |                                    |
+
+### Kafka OAuth Authentication
+
+| Environment Variable             | Description                    | Example Value                                                     |
+| -------------------------------- | ------------------------------ | ----------------------------------------------------------------- |
+| `KAFKA_OAUTH_CLIENT_ID`          | OAuth client ID for Kafka      | `flowx-service-client`                                            |
+| `KAFKA_OAUTH_CLIENT_SECRET`      | OAuth client secret for Kafka  | `flowx-service-client-secret`                                     |
+| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint for Kafka | `{baseUrl}/auth/realms/kafka-authz/protocol/openid-connect/token` |
+
+<Info>
+Kafka OAuth authentication secures communication between services using the Kafka message broker. The client ID and secret are used to obtain an access token from the token endpoint.
+</Info>
+
+
+## Authentication configuration
+
+### OpenID Connect configuration
+
+| Environment Variable                                  | Description                  | Example Value              |
+| ----------------------------------------------------- | ---------------------------- | -------------------------- |
+| `SECURITY_OAUTH2_BASE_SERVER_URL`                     | OAuth2 server base URL       | `{baseUrl}/auth`           |
+| `SECURITY_OAUTH2_REALM`                               | OAuth2 realm name            | `flowx`                    |
+| `SECURITY_OAUTH2_CLIENT_CLIENT_ID`                    | OAuth2 client ID             | `flowx-platform-authorize` |
+| `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`                | OAuth2 client secret         | *sensitive*                |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` | Admin service account secret | *sensitive*                |
+
+<Warning>
+The service account configuration approach is deprecated but still supported for backward compatibility. In newer deployments, consider using the standard OAuth2 client configuration.
+</Warning>
+
+## File storage configuration
+
+| Environment Variable                     | Description                      | Example Value       |
+| ---------------------------------------- | -------------------------------- | ------------------- |
+| `APPLICATION_FILE_STORAGE_S3_SERVER_URL` | S3-compatible storage server URL | `http://minio:9000` |
+| `APPLICATION_FILE_STORAGE_S3_ACCESS_KEY` | S3 access key                    | *sensitive*         |
+| `APPLICATION_FILE_STORAGE_S3_SECRET_KEY` | S3 secret key                    | *sensitive*         |
+
+<Info>
+S3-compatible storage is used for storing application files, exports, and imports. The Runtime Manager supports MinIO, AWS S3, and other S3-compatible storage solutions.
+</Info>
+
+## Ingress configuration
 
 
 For exposing the Runtime manager service, configure public, admin and adminInstances ingress settings:

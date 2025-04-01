@@ -92,11 +92,11 @@ CMS also connects to a Runtime MongoDB instance for operational data:
 The service can use the same Redis component deployed for the engine. See [Redis Configuration](./setup-guides-overview#redis-configuration).
 </Info>
 
-| Environment variable    | Description                                            |
-| ----------------------- | ------------------------------------------------------ |
-| `SPRING_REDIS_HOST`     | Hostname or IP of the Redis server                     |
-| `SPRING_REDIS_PASSWORD` | Authentication password for Redis                      |
-| `REDIS_TTL`             | Maximum time-to-live for Redis cache keys (in seconds) |
+| Environment variable         | Description                                            |
+| ---------------------------- | ------------------------------------------------------ |
+| `SPRING_DATA_REDIS_HOST`     | Hostname or IP of the Redis server                     |
+| `SPRING_DATA_REDIS_PASSWORD` | Authentication password for Redis                      |
+| `SPRING_REDIS_TTL`           | Maximum time-to-live for Redis cache keys (in seconds) |
 
 ### Configuring Kafka 
 
@@ -213,7 +213,6 @@ spring:
 | ---------------------------- | --------------------------------------- |
 | `LOGGING_LEVEL_ROOT`         | Log level for root service logs         |
 | `LOGGING_LEVEL_APP`          | Log level for application-specific logs |
-| `LOGGING_LEVEL_MONGO_DRIVER` | Log level for the MongoDB driver        |
 
 ### Configuring file storage
 

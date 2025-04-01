@@ -73,12 +73,12 @@ You must also enable these environment variables on the **AI Developer** agent, 
 ### Python runtime configuration
 
 <Info>
-By default, FlowX.AI 4.7.1 uses Python 2.7 (Jython) as the Python runtime. To enable Python 3 via GraalPy with its 3x performance improvements, you must explicitly set the feature toggle.
+By default, FlowX.AI 4.7.1 uses Python 2.7 (Jython) as the Python runtime. To enable Python 3 via GraalPy with its 3x performance improvements and JavaScript with GraalJS, you must explicitly set the feature toggle.
 </Info>
 
-| Environment variable            | Description                            | Default value | Possible values |
-| ------------------------------- | -------------------------------------- | ------------- | --------------- |
-| `FLOWX_SCRIPTENGINE_USEGRAALVM` | Determines which Python runtime to use | `false`       | `true`, `false` |
+| Environment variable            | Description                                           | Default value | Possible values |
+| ------------------------------- | ----------------------------------------------------- | ------------- | --------------- |
+| `FLOWX_SCRIPTENGINE_USEGRAALVM` | Determines which Python and JavaScript runtime to use | `false`       | `true`, `false` |
 
 <Warning>
 Python 2.7 support will be deprecated in FlowX.AI 5.0. We recommend migrating your Python scripts to Python 3 to take advantage of improved performance and modern language features.
@@ -178,8 +178,8 @@ Kafka handles all communication between the FlowX.AI Engine, external plugins, a
 
 ### Message routing configuration
 
-| Environment variable       | Description                                                           | Default value       |
-| -------------------------- | --------------------------------------------------------------------- | ------------------- |
+| Environment variable     | Description                                                           | Default value       |
+| ------------------------ | --------------------------------------------------------------------- | ------------------- |
 | `KAFKA_DEFAULTFXCONTEXT` | Default context value for message routing when no context is provided | `""` (empty string) |
 
 

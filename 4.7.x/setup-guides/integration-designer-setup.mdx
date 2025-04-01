@@ -112,14 +112,14 @@ The Integration Designer uses a structured topic naming convention that follows 
 
 ##### Topic naming components
 
-| Environment variable                       | Description                | Default value     |
-| ------------------------------------------ | -------------------------- | ----------------- |
-| `KAFKA_TOPIC_NAMING_PACKAGE`               | Base package for topics    | `ai.flowx.`       |
-| `KAFKA_TOPIC_NAMING_ENVIRONMENT`           | Environment identifier     | `dev.`            |
-| `KAFKA_TOPIC_NAMING_VERSION`               | Topic version              | `.v1`             |
-| `KAFKA_TOPIC_NAMING_SEPARATOR`             | Topic name separator       | `.`               |
-| `KAFKA_TOPIC_NAMING_SEPARATOR2`            | Alternative separator      | `-`               |
-| `KAFKA_TOPIC_NAMING_ENGINERECEIVEPATTERN`  | Engine receive pattern     | `engine.receive.` |
+| Environment variable                           | Description                 | Default value          |
+| ---------------------------------------------- | --------------------------- | ---------------------- |
+| `KAFKA_TOPIC_NAMING_PACKAGE`                   | Base package for topics     | `ai.flowx.`            |
+| `KAFKA_TOPIC_NAMING_ENVIRONMENT`               | Environment identifier      | `dev.`                 |
+| `KAFKA_TOPIC_NAMING_VERSION`                   | Topic version               | `.v1`                  |
+| `KAFKA_TOPIC_NAMING_SEPARATOR`                 | Topic name separator        | `.`                    |
+| `KAFKA_TOPIC_NAMING_SEPARATOR2`                | Alternative separator       | `-`                    |
+| `KAFKA_TOPIC_NAMING_ENGINERECEIVEPATTERN`      | Engine receive pattern      | `engine.receive.`      |
 | `KAFKA_TOPIC_NAMING_INTEGRATIONRECEIVEPATTERN` | Integration receive pattern | `integration.receive.` |
 
 Topics are constructed using the following pattern:
@@ -162,10 +162,10 @@ Where:
 
 ##### Application resource usage topics
 
-| Environment variable                            | Description                                  | Default Pattern                                                                                 |
-| ----------------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `KAFKA_TOPIC_APPLICATION_IN_RES_ELEM_USAGE_VALIDATION` | Topic for resource usage validation requests | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.request-integration.v1`   |
-| `KAFKA_TOPIC_RESOURCES_USAGES_REFRESH`          | Topic for resource usage refresh commands    | `ai.flowx.dev.application-version.resources-usages.refresh.v1`                                  |
+| Environment variable                                   | Description                                  | Default Pattern                                                                               |
+| ------------------------------------------------------ | -------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `KAFKA_TOPIC_APPLICATION_IN_RES_ELEM_USAGE_VALIDATION` | Topic for resource usage validation requests | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.request-integration.v1` |
+| `KAFKA_TOPIC_RESOURCES_USAGES_REFRESH`                 | Topic for resource usage refresh commands    | `ai.flowx.dev.application-version.resources-usages.refresh.v1`                                |
 
 #### OAuth authentication variables (when using SASL_PLAINTEXT)
 
@@ -223,14 +223,14 @@ The workflow instances topic requires special configuration to handle large mess
 
 Integration Designer uses OAuth2 for secure access control. Set up OAuth2 configurations with these environment variables:
 
-| Environment variable                           | Description                                        | Example value           |
-| ---------------------------------------------- | -------------------------------------------------- | ----------------------- |
-| `SECURITY_OAUTH2_BASE_SERVER_URL`              | Base URL for OAuth2 authorization server           | `https://keycloak.example.com/auth` |
-| `SECURITY_OAUTH2_REALM`                        | Realm for OAuth2 authentication                    | `flowx`                 |
-| `SECURITY_OAUTH2_CLIENT_CLIENT_ID`             | Client ID for Integration Designer OAuth2 client   | `integration-designer`  |
-| `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`         | Client Secret for Integration Designer OAuth2 client | `client-secret`        |
-| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID` | Client ID for admin service account            | `admin-client`          |
-| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` | Client Secret for admin service account    | `admin-secret`          |
+| Environment variable                                  | Description                                          | Example value                       |
+| ----------------------------------------------------- | ---------------------------------------------------- | ----------------------------------- |
+| `SECURITY_OAUTH2_BASE_SERVER_URL`                     | Base URL for OAuth2 authorization server             | `https://keycloak.example.com/auth` |
+| `SECURITY_OAUTH2_REALM`                               | Realm for OAuth2 authentication                      | `flowx`                             |
+| `SECURITY_OAUTH2_CLIENT_CLIENT_ID`                    | Client ID for Integration Designer OAuth2 client     | `integration-designer`              |
+| `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`                | Client Secret for Integration Designer OAuth2 client | `client-secret`                     |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`     | Client ID for admin service account                  | `admin-client`                      |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` | Client Secret for admin service account              | `admin-secret`                      |
 
 For detailed instructions on configuring user roles and access rights, refer to:
 
