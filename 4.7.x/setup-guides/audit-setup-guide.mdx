@@ -39,8 +39,6 @@ To configure the Kafka server for the Audit service, set the following environme
 | Variable                                                     | Description                                 | Example Value                                                 |
 | ------------------------------------------------------------ | ------------------------------------------- | ------------------------------------------------------------- |
 | `SPRING_KAFKA_CONSUMER_GROUPID`                              | Consumer group ID for audit logs            | `audit-gid`                                                   |
-| `SPRING_KAFKA_CONSUMER_KEYSERIALIZER`                        | Serializer class for message keys           | `org.apache.kafka.common.serialization.StringSerializer`      |
-| `SPRING_KAFKA_CONSUMER_VALUESERIALIZER`                      | Serializer class for message values         | `org.springframework.kafka.support.serializer.JsonSerializer` |
 | `SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES` | Maximum data size per partition             | `${KAFKA_MESSAGE_MAX_BYTES:52428800}`                         |
 | `KAFKA_CONSUMER_THREADS`                                     | Number of consumer threads                  | `1`                                                           |
 | `KAFKA_AUTHEXCEPTIONRETRYINTERVAL`                           | Retry interval after auth failure (seconds) | `10`                                                          |

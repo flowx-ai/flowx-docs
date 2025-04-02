@@ -20,206 +20,260 @@ Before setting up the plugin, ensure that you have the following dependencies in
 
 The plugin comes with pre-filled configuration properties, but you need to set up a few custom environment variables to tailor it to your specific setup. Here are the key configuration steps:
 
-### Postgres database
-
-Configure the basic Postgres settings in the `values.yaml` file:
-
-```yaml
-documentdb:
-  existingSecret: {{secretName}}
-  metrics:
-    enabled: true
-    service:
-      annotations:
-        prometheus.io/port: {{prometheus port}}
-        prometheus.io/scrape: "true"
-      type: ClusterIP
-    serviceMonitor:
-      additionalLabels:
-        release: prometheus-operator
-      enabled: true
-      interval: 30s
-      scrapeTimeout: 10s
-  persistence:
-    enabled: true
-    size: 4Gi
-  postgresqlDatabase: document
-  postgresqlUsername: postgres
-  resources:
-    limits:
-      cpu: 500m
-      memory: 512Mi
-    requests:
-      cpu: 200m
-      memory: 256Mi
-  service:
-    annotations:
-      fabric8.io/expose: "false"
-```
-
 ### Redis server
 
 The plugin can utilize the [Redis component](https://app.gitbook.com/@flowx-ai/s/flowx-docs/flowx-engine/setup-guide#2-redis-server) already deployed for the FLOWX.AI engine. Make sure it is configured properly.
-
-### Document storage 
-
-Ensure that you have a deployed S3-compatible file storage solution, such as Min.io, which will be used to store document files.
 
 ### Authorization configuration
 
 To connect to the identity management platform, set the following environment variables:
 
-* `SECURITY_OAUTH2_BASE_SERVER_URL`
-* `SECURITY_OAUTH2_CLIENT_CLIENT_ID`
-* `SECURITY_OAUTH2_REALM`
+| Environment Variable                   | Description                               | Default Value                          |
+| -------------------------------------- | ----------------------------------------- | -------------------------------------- |
+| `SECURITY_OAUTH2_BASESERVERURL`      | Base URL of the OAuth2/OIDC server        | `https://keycloak.example.com/auth`    |
+| `SECURITY_OAUTH2_CLIENT_CLIENTID`     | OAuth2 client ID for the Documents Plugin | `document-plugin`                      |
+| `SECURITY_OAUTH2_CLIENT_CLIENTSECRET` | OAuth2 client secret                      | `secret` |
+| `SECURITY_OAUTH2_REALM`                | OAuth2 realm name                         | `flowx`                                |
 
-### Enable HTML template types 
+### Document processing configuration
 
-If you want to use HTML templates for documents, set the `FLOWX_HTML_TEMPLATES_ENABLED` environment variable to true.
+| Environment Variable                | Description                             | Default Value                                               |
+| ----------------------------------- | --------------------------------------- | ----------------------------------------------------------- |
+| `FLOWX_DEFAULTCLIENTTYPE`           | Default client type                     | `PF`                                                        |
+| `FLOWX_HTML_TEMPLATES_ENABLED`      | Enable HTML templates feature           | `false`                                                     |
+| `FLOWX_HTML_TEMPLATES_PDFFONTPATHS` | Paths to fonts for HTML templates       | `/statics/fonts/Calibri.ttf, /statics/fonts/DejaVuSans.ttf` |
+| `FLOWX_CONVERT_DPI`                 | DPI setting for PDF to image conversion | `150`                                                       |
 
-### Datasource configuration
 
-The service uses a Postgres/Oracle database to store data related to document templates and documents. Configure the following details using environment variables:
+<Info>
+Set the `FLOWX_HTML_TEMPLATES_PDFFONTPATHS` config to select the font used for generating documents based on PDF templates.
+</Info>
 
-* `SPRING_DATASOURCE_URL`: The URL for the Postgres/Oracle database.
-* `SPRING_DATASOURCE_USERNAME`: The username for the database connection.
-* `SPRING_DATASOURCE_PASSWORD`: The password for the database connection.
-* `SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA`: Use this property to overwrite the name of the database schema if needed.
+<Info>
+If you want to use specific fonts in your PDF templates, override the `FLOWX_HTML_TEMPLATES_PDFFONTPATHS` config. By default, Calibri and DejaVuSans are available fonts.
+</Info>
 
-Ensure that the user, password, connection URL, and database name are correctly configured to avoid startup errors. The datasource is automatically configured using a Liquibase script within the engine, including migration scripts.
+<Info>
+`FLOWX_CONVERT_DPI`:	Sets the DPI (dots per inch) for PDF to JPEG conversion. Higher values result in higher resolution images. (Default value: `150`).
+</Info>
 
-### MongoDB configuration
+After making these configurations, the fonts will be available for use within PDF templates.
 
-Configure the MongoDB database access information by setting the `SPRING_DATA_MONGODB_URI` environment variable to the MongoDB database URI.
+### Database configuration
+
+#### SQL database (PostgreSQL)
+
+The Documents Plugin uses a PostgreSQL database for relational data storage.
+
+
+#### Primary MongoDB configuration
+
+| Environment Variable                      | Description                | Example Value                                                 |
+| ----------------------------------------- | -------------------------- | ------------------------------------------------------------- |
+| `SPRING_DATA_MONGODB_URI`                 | MongoDB connection URI     | `mongodb://flowx:password@jx-document-mongodb:27017/document` |
+| `MONGODB_USERNAME`                        | MongoDB username           | `flowx`                                                       |
+| `MONGODB_PASSWORD`                        | MongoDB password           | `password`                                                    |
+| `SPRING_DATA_MONGODB_UUID_REPRESENTATION` | UUID representation format | `standard`                                                    |
+| `SPRING_DATA_MONGODB_STORAGE`             | MongoDB storage type       | `mongodb`                                                     |
+
+#### Runtime MongoDB configuration
+
+| Environment Variable                              | Description                                       | Example Value                                                                         |
+| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `SPRING_DATA_MONGODB_RUNTIME_ENABLED`             | Enable runtime MongoDB connection                 | `true`                                                                                |
+| `SPRING_DATA_MONGODB_RUNTIME_URI`                 | Runtime MongoDB connection URI                    | `mongodb://paperflow:password@jx-app-runtime-mdb:27017/app-runtime?retryWrites=false` |
+| `DB_USERNAME`                                     | Runtime MongoDB username                          | `paperflow`                                                                           |
+| `DB_PASSWORD`                                     | Runtime MongoDB password                          | `password`                                                                            |
+| `SPRING_DATA_MONGODB_RUNTIME_AUTO_INDEX_CREATION` | Enable automatic index creation                   | `false`                                                                               |
+| `SPRING_DATA_MONGODB_RUNTIME_UUID_REPRESENTATION` | UUID representation format for runtime connection | `standard`                                                                            |
+
 
 ### Redis configuration
 
 Set the following values with the corresponding Redis-related values:
 
-* `SPRING_REDIS_HOST`: The host address of the Redis server.
-* `SPRING_REDIS_PASSWORD`: The password for the Redis server, if applicable.
-* `REDIS_TTL`: The time-to-live (TTL) value for Redis cache entries.
 
-### Conversion
-
-<Info>
-Configuration available starting with **3.4.7** platform version.
-</Info>
-
-* `FLOWX_CONVERT_DPI`:	Sets the DPI (dots per inch) for PDF to JPEG conversion. Higher values result in higher resolution images. (Default value: `150`).
-
-### Kafka configuration
-
-Set the following Kafka-related configurations using environment variables:
-
-* `SPRING_KAFKA_BOOTSTRAP_SERVERS`: The address of the Kafka server.
-* `SPRING_KAFKA_CONSUMER_GROUP_ID`: The group ID for Kafka consumers.
-* `KAFKA_CONSUMER_THREADS`: The number of Kafka consumer threads to use.
-* `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL`: The interval between retries after a `AuthorizationException` is thrown by `KafkaConsumer`.
-* `KAFKA_MESSAGE_MAX_BYTES`: The maximum size of a message that can be received by the broker from a producer.
-
-Each action in the service corresponds to a Kafka event. Configure a separate Kafka topic for each use case.
-
-#### Generate
-
-* `KAFKA_TOPIC_DOCUMENT_GENERATE_HTML_IN`: This Kafka topic is used for messages related to generating HTML documents (the topic that listens for the request from the engine)
-* `KAFKA_TOPIC_DOCUMENT_GENERATE_HTML_OUT`: This Kafka topic is used for messages related to generating HTML documents (the topic on which the engine will expect the reply)
-* `KAFKA_TOPIC_DOCUMENT_GENERATE_PDF_IN`: This Kafka topic is used for the input messages related to generating PDF documents (the topic that listens for the request from the engine)
-* `KAFKA_TOPIC_DOCUMENT_GENERATE_PDF_OUT`: This Kafka topic is used for the output messages related to generating PDF documents, it produces messages with the result of generating a PDF document (the topic on which the engine will expect the reply)
+| Environment Variable         | Description                        | Default Value           |
+| ---------------------------- | ---------------------------------- | ----------------------- |
+| `SPRING_DATA_REDIS_HOST`     | Hostname of the Redis server       | `localhost`             |
+| `SPRING_DATA_REDIS_PORT`     | Port number of the Redis server    | `6379`                  |
+| `SPRING_DATA_REDIS_PASSWORD` | Password for Redis authentication  | `defaultpassword`       |
+| `REDIS_TTL`                  | Time-to-live (TTL) for Redis cache | `5000000` (miliseconds) |
 
 
-#### Persist (uploading a file/document)
 
-* `KAFKA_TOPIC_FILE_PERSIST_IN`: This Kafka topic is used for the input messages related to persisting files, it receives messages indicating the request to persist a file (the topic that listens for the request from the engine)
-* `KAFKA_TOPIC_FILE_PERSIST_OUT`: This Kafka topic is used for the output messages related to persisting files, it produces messages with the result of persisting a file (the topic on which the engine will expect the reply)
-* `KAFKA_TOPIC_DOCUMENT_PERSIST_IN`: This Kafka topic is used for the input messages related to persisting documents, it receives messages indicating the request to persist a document (the topic that listens for the request from the engine)
-* `KAFKA_TOPIC_DOCUMENT_PERSIST_OUT`: This Kafka topic is used for the output messages related to persisting documents, it produces messages with the result of persisting a document (the topic that listens for the request from the engine)
+### Multipart upload configuration
 
-#### Split
-
-* `KAFKA_TOPIC_DOCUMENT_SPLIT_IN`: This Kafka topic is used for the input messages related to splitting documents, it receives messages indicating the request to split a document into multiple parts (the topic that listens for the request from the engine)
-* `KAFKA_TOPIC_DOCUMENT_SPLIT_OUT`: This Kafka topic is used for the output messages related to splitting documents, it produces messages with the result of splitting a document (the topic on which the engine will expect the reply)
-
-#### Combine
-
-* `KAFKA_TOPIC_FILE_COMBINE_IN`: This Kafka topic is used for the input messages related to combining files, it receives messages indicating the request to combine multiple files into a single file (the topic that listens for the request from the engine)
-* `KAFKA_TOPIC_FILE_COMBINE_OUT`: This Kafka topic is used for the output messages related to combining files, it produces messages with the result of combining files (the topic on which the engine will expect the reply)
+| Environment Variable         | Description                   | Default Value |
+| ---------------------------- | ----------------------------- | ------------- |
+| `SPRING_SERVLET_CONTEXTPATH` | Servlet context path          | `/`           |
+| `MULTIPART_MAX_FILE_SIZE`    | Maximum file size for uploads | `50MB`        |
 
 
-#### Get 
 
-* `KAFKA_TOPIC_DOCUMENT_GET_URLS_IN`: This Kafka topic is used for the input messages related to retrieving URLs for documents, it receives messages indicating the request to retrieve the URLs of documents (the topic that listens for the request from the engine)
-* `KAFKA_TOPIC_DOCUMENT_GET_URLS_OUT`: This Kafka topic is used for the output messages related to retrieving URLs for documents, it produces messages with the result of retrieving the URLs of documents (the topic on which the engine will expect the reply)
 
-#### Delete
+## Basic Kafka configuration
 
-* `KAFKA_TOPIC_FILE_DELETE_IN`: This Kafka topic is used for the input messages related to deleting files, it receives messages indicating the request to delete a file (the topic that listens for the request from the engine)
-* `KAFKA_TOPIC_FILE_DELETE_OUT`: This Kafka topic is used for the output messages related to deleting files, it produces messages with the result of deleting a file (the topic on which the engine will expect the reply)
+| Environment Variable               | Description                        | Default Value                             |
+| ---------------------------------- | ---------------------------------- | ----------------------------------------- |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`    | Address of Kafka server(s)         | `localhost:9092`                          |
+| `SPRING_KAFKA_SECURITY_PROTOCOL`   | Security protocol for Kafka        | `PLAINTEXT`                               |
+| `SPRING_KAFKA_CONSUMER_GROUPID`    | Consumer group ID for the service  | `kafka-svc-document-consumer-local-test2` |
+| `KAFKA_MESSAGE_MAX_BYTES`          | Maximum message size in bytes      | `52428800` (50MB)                         |
+| `KAFKA_AUTHEXCEPTIONRETRYINTERVAL` | Retry interval for auth exceptions | `10` (seconds)                            |
 
-#### OCR
+## Topic naming configuration
 
-* `KAFKA_TOPIC_OCR_OUT`: This Kafka topic is used for the output messages related to optical character recognition (OCR), it produces messages with the OCR results (the topic on which the engine will expect the reply)
-* `KAFKA_TOPIC_OCR_IN`: This Kafka topic is used for the input messages related to optical character recognition (OCR), it receives messages indicating the request to perform OCR on a document (the topic that listens for the request from the engine)
+| Environment Variable             | Description                         | Default Value |
+| -------------------------------- | ----------------------------------- | ------------- |
+| `KAFKA_TOPIC_NAMING_SEPARATOR`   | Primary separator for topic names   | `.`           |
+| `KAFKA_TOPIC_NAMING_SEPARATOR2`  | Secondary separator for topic names | `-`           |
+| `KAFKA_TOPIC_NAMING_PACKAGE`     | Package prefix for topic names      | `ai.flowx.`   |
+| `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Environment segment for topic names | `dev.`        |
+| `KAFKA_TOPIC_NAMING_VERSION`     | Version suffix for topic names      | `.v1`         |
 
-<Check>
-Ensure that the Engine is listening to messages on topics with specific patterns. Use the correct outgoing topic names when configuring the documents plugin.
-</Check>
+## Thread configuration
 
-Each of these Kafka topics corresponds to a specific action or functionality within the service, allowing communication and data exchange between different components or services in a decoupled manner.
+| Environment Variable                                                                          | Description                          | Default Value |
+| --------------------------------------------------------------------------------------------- | ------------------------------------ | ------------- |
+| `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_DOCUMENTGENERATEHTMLIN` | Threads for HTML document generation | `5`           |
+| `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_DOCUMENTPERSISTIN`      | Threads for document persistence     | `5`           |
+| `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_DOCUMENTSPLITTIN`       | Threads for document splitting       | `5`           |
+| `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_DOCUMENTGETURLSIN`      | Threads for document URL retrieval   | `5`           |
+| `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPER_CONTAINER_OCRIN`                 | Threads for OCR processing           | `5`           |
+| `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_FILEDELETEIN`           | Threads for file deletion            | `5`           |
+| `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_FILEUPDATEIN`           | Threads for file updates             | `5`           |
+| `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_FILECONVERTIN`          | Threads for file conversion          | `5`           |
+| `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_FILEPERSISTIN`          | Threads for file persistence         | `5`           |
+| `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_FILECOMBINEIN`          | Threads for file combining           | `5`           |
 
-### File storage configuration
+## Document topics
 
-Depending on your use case, you can choose either a file system or an S3-compatible cloud storage solution for document storage. Configure the file storage solution using the following environment variables:
+### Generate HTML documents
 
-* `APPLICATION_FILE_STORAGE_PARTITION_STRATEGY`: Set the partition strategy for file storage. Use `NONE` to save documents in `minio/amazon-s3` as before, with a bucket for each process instance. Use `PROCESS_DATE` to save documents in a single bucket with a subfolder structure, for example: `bucket/2022/2022-07-04/process-id-xxxx/customer-id/file.pdf`.      
-* `APPLICATION_FILE_STORAGE_DELETION_STRATEGY` (default value: **delete**): This will keep the current behaviour of deleting the temporary files.
-Other possible values:
-  * **disabled**: This will disable entirely the deletion of temporary files from the temporary bucket, and the responsibility to delete and clean up the bucket will move in the ownership of the admins of the implementing project.
-  * **deleteBypassingGovernanceRetention**: This will still delete the temporary files and further more will add in the delete request the header: `x-amz-bypass-governance-retention:true` , to enable deletion of governed files, in case the s3 configured user for document-plugin, will have the `s3:BypassGovernanceRetention` permission.
-* `APPLICATION_FILE_STORAGE_S3_SERVER_URL`: The URL of the S3-compatible server.
-* `APPLICATION_FILE_STORAGE_S3_ACCESS_KEY`: The access key for the S3-compatible server.
-* `APPLICATION_FILE_STORAGE_S3_SECRET_KEY`: The secret key for the S3-compatible server.
-* `APPLICATION_FILE_STORAGE_S3_BUCKET_PREFIX`: The prefix to use for S3 bucket names.
-* `APPLICATION_FILE_STORAGE_S3_TEMP_BUCKET`: Upon file upload, the initial destination is a sandbox, from which it is subsequently transferred to the designated bucket.
+| Environment Variable                     | Description                                 | Default Value                                                          |
+| ---------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------- |
+| `KAFKA_TOPIC_DOCUMENT_GENERATE_HTML_IN`  | Topic for incoming HTML generation requests | `ai.flowx.dev.plugin.document.trigger.generate.html.v1`                |
+| `KAFKA_TOPIC_DOCUMENT_GENERATE_HTML_OUT` | Topic for HTML generation results           | `ai.flowx.dev.engine.receive.plugin.document.generate.html.results.v1` |
+
+### Document persistence
+
+| Environment Variable               | Description                                      | Default Value                                                             |
+| ---------------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------- |
+| `KAFKA_TOPIC_DOCUMENT_PERSIST_IN`  | Topic for incoming document persistence requests | `ai.flowx.dev.plugin.document.trigger.persist.document.v1`                |
+| `KAFKA_TOPIC_DOCUMENT_PERSIST_OUT` | Topic for document persistence results           | `ai.flowx.dev.engine.receive.plugin.document.persist.document.results.v1` |
+
+### Document splitting
+
+| Environment Variable             | Description                                    | Default Value                                                           |
+| -------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------- |
+| `KAFKA_TOPIC_DOCUMENT_SPLIT_IN`  | Topic for incoming document splitting requests | `ai.flowx.dev.plugin.document.trigger.split.document.v1`                |
+| `KAFKA_TOPIC_DOCUMENT_SPLIT_OUT` | Topic for document splitting results           | `ai.flowx.dev.engine.receive.plugin.document.split.document.results.v1` |
+
+### Document URL retrieval
+
+| Environment Variable                | Description                               | Default Value                                                 |
+| ----------------------------------- | ----------------------------------------- | ------------------------------------------------------------- |
+| `KAFKA_TOPIC_DOCUMENT_GET_URLS_IN`  | Topic for incoming URL retrieval requests | `ai.flowx.dev.plugin.document.retrieve.urls.v1`               |
+| `KAFKA_TOPIC_DOCUMENT_GET_URLS_OUT` | Topic for URL retrieval results           | `ai.flowx.dev.engine.receive.plugin.document.urls.results.v1` |
+
+### OCR processing
+
+| Environment Variable  | Description                      | Default Value                                                |
+| --------------------- | -------------------------------- | ------------------------------------------------------------ |
+| `KAFKA_TOPIC_OCR_IN`  | Topic for incoming OCR requests  | `ai.flowx.dev.plugin.document.store.ocr.v1`                  |
+| `KAFKA_TOPIC_OCR_OUT` | Topic for OCR processing results | `ai.flowx.dev.engine.receive.plugin.document.ocr.results.v1` |
+
+## File operation topics
+
+### File deletion
+
+| Environment Variable          | Description                               | Default Value                                                        |
+| ----------------------------- | ----------------------------------------- | -------------------------------------------------------------------- |
+| `KAFKA_TOPIC_FILE_DELETE_IN`  | Topic for incoming file deletion requests | `ai.flowx.dev.plugin.document.trigger.delete.file.v1`                |
+| `KAFKA_TOPIC_FILE_DELETE_OUT` | Topic for file deletion results           | `ai.flowx.dev.engine.receive.plugin.document.delete.file.results.v1` |
+
+### File update
+
+| Environment Variable          | Description                             | Default Value                                                        |
+| ----------------------------- | --------------------------------------- | -------------------------------------------------------------------- |
+| `KAFKA_TOPIC_FILE_UPDATE_IN`  | Topic for incoming file update requests | `ai.flowx.dev.plugin.document.trigger.update.file.v1`                |
+| `KAFKA_TOPIC_FILE_UPDATE_OUT` | Topic for file update results           | `ai.flowx.dev.engine.receive.plugin.document.update.file.results.v1` |
+
+### File conversion
+
+| Environment Variable | Description | Default Value |
+| `KAFKA_TOPIC_FILE_CONVERT_IN`  | Topic for incoming file conversion requests | `ai.flowx.dev.plugin.document.trigger.convert.file.v1`                |
+| `KAFKA_TOPIC_FILE_CONVERT_OUT` | Topic for file conversion results           | `ai.flowx.dev.engine.receive.plugin.document.convert.file.results.v1` |
+
+### File persistence
+
+| Environment Variable             | Description                               | Default Value                                                        |
+| -------------------------------- | ----------------------------------------- | -------------------------------------------------------------------- |
+| `KAFKA_TOPIC_FILE_PERSIST_IN`  | Topic for incoming file persistence requests | `ai.flowx.dev.plugin.document.trigger.persist.file.v1`                |
+| `KAFKA_TOPIC_FILE_PERSIST_IN` | Topic for incoming file persistence requests | `ai.flowx.dev.plugin.document.trigger.persist.file.v1` |
+| `KAFKA_TOPIC_FILE_PERSIST_OUT` | Topic for file persistence results | `ai.flowx.dev.engine.receive.plugin.document.persist.file.results.v1` |
+
+### File combination
+
+| Environment Variable           | Description                                  | Default Value                                                         |
+| ------------------------------ | -------------------------------------------- | --------------------------------------------------------------------- |
+| `KAFKA_TOPIC_FILE_COMBINE_IN`  | Topic for incoming file combination requests | `ai.flowx.dev.plugin.document.trigger.combine.file.v1`                |
+| `KAFKA_TOPIC_FILE_COMBINE_OUT` | Topic for file combination results           | `ai.flowx.dev.engine.receive.plugin.document.combine.file.results.v1` |
+
+## Audit
+
+| Environment Variable    | Description                  | Default Value                             |
+| ----------------------- | ---------------------------- | ----------------------------------------- |
+| `KAFKA_TOPIC_AUDIT_OUT` | Topic for sending audit logs | `ai.flowx.dev.core.trigger.save.audit.v1` |
+
+## Authentication configuration
+
+When the `kafka-auth` profile is active:
+
+| Environment Variable             | Description               | Default Value          |
+| -------------------------------- | ------------------------- | ---------------------- |
+| `KAFKA_OAUTH_CLIENT_ID`          | OAuth client ID for Kafka | `kafka`                |
+| `KAFKA_OAUTH_CLIENT_SECRET`      | OAuth client secret       | `kafka-secret`         |
+| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint URI  | `kafka.auth.localhost` |
+
+
+### General storage configuration
+
+| Environment Variable                        | Description                                                                                 | Default Value     |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------- | ----------------- |
+| `APPLICATION_DEFAULTLOCALE`                 | Default locale for the application                                                          | `en`              |
+| `APPLICATION_SUPPORTEDLOCALES`              | Comma-separated list of supported locales                                                   | `en, ro`          |
+| `APPLICATION_FILESTORAGE_TYPE`              | Storage type to use (`s3` or `fileSystem`)                                                  | `s3`              |
+| `APPLICATION_FILESTORAGE_DISKDIRECTORY`     | Directory for file storage when using filesystem                                            | `MS_SVC_DOCUMENT` |
+| `APPLICATION_FILESTORAGE_PARTITIONSTRATEGY` | Strategy for file organization (`NONE` or `PROCESS_DATE`)                                   | `NONE`            |
+| `APPLICATION_FILESTORAGE_DELETIONSTRATEGY`  | Strategy for deleting files (`delete`, `disabled`, or `deleteBypassingGovernanceRetention`) | `delete`          |
+
+## S3-Compatible storage configuration
+
+| Environment Variable                           | Description                                       | Default Value                 |
+| ---------------------------------------------- | ------------------------------------------------- | ----------------------------- |
+| `APPLICATION_FILESTORAGE_S3_ENABLED`           | Enable S3-compatible storage                      | `true`                        |
+| `APPLICATION_FILESTORAGE_S3_SERVERURL`         | URL of MinIO or S3-compatible server              | `http://minio-service:9000`   |
+| `APPLICATION_FILESTORAGE_S3_ACCESSKEY`         | Access key for MinIO/S3                           | `minio`                       |
+| `APPLICATION_FILESTORAGE_S3_SECRETKEY`         | Secret key for MinIO/S3                           | `minio123`                    |
+| `APPLICATION_FILESTORAGE_S3_BUCKETPREFIX`      | Prefix for bucket names                           | `qdevlocal-preview-paperflow` |
+| `APPLICATION_FILESTORAGE_S3_TEMPBUCKET`        | Name of temporary bucket for initial file uploads | `temp-bucket`                 |
+| `APPLICATION_FILESTORAGE_S3_ENCRYPTIONENABLED` | Enable server-side encryption                     | `false`                       |
 
 
 <Info>
 Make sure to follow the recommended [bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html) when choosing the bucket prefix name.
 </Info>
 
-### Setting maximum file size
 
-To control the maximum file size permitted for uploads, configure the `SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE` and `SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE` variables.
 
-<Info>
-The limit is set by default to 50MB:
+### Logging configuration
 
-```yml
-spring:
-  servlet:
-    contextPath: /
-    multipart:
-      max-file-size: ${MULTIPART_MAX_FILE_SIZE:50MB}    #increase the multipart file size on the request
-      max-request-size: ${MULTIPART_MAX_FILE_SIZE:50MB} #increase the request size
-```
-</Info>
-
-### Custom font path for PDF templates
-
-Set the `FLOWX_HTML_TEMPLATES_PDF_FONT_PATHS` config to select the font used for generating documents based on PDF templates.
-
-### Custom font paths for PDF templates
-
-If you want to use specific fonts in your PDF templates, override the `FLOWX_HTML_TEMPLATES_PDF_FONT_PATHS` config. By default, Calibri and DejaVuSans are available fonts.
-
-After making these configurations, the fonts will be available for use within PDF templates.
-
-### Logging
-
-The following environment variables could be set in order to control log levels:
-
-* `LOGGING_LEVEL_ROOT`: Controls the log level for root Spring Boot microservice logs.
-* `LOGGING_LEVEL_APP`: Controls the log level for application-specific logs.
-* `LOGGING_LEVEL_MONGO_DRIVER`: Controls the log level for MongoDB driver logs.
-
-Adjust these variables according to your logging requirements.
+| Environment Variable         | Description                                 | Default Value |
+| ---------------------------- | ------------------------------------------- | ------------- |
+| `LOGGING_LEVEL_APP`          | Log level for application logs              | `DEBUG`       |
+| `LOGGING_LEVEL_MONGO_DRIVER` | Log level for MongoDB driver                | `INFO`        |
+| `LOGGING_LEVEL_LIQUIBASE`    | Log level for Liquibase database migrations | `INFO`        |
+| `LOGGING_LEVEL_REDIS`        | Log level for Redis/Lettuce client          | `OFF`         |
+| `LOGGING_LEVEL_ROOT`         | Root logging level for the application      | -             |
