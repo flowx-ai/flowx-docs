@@ -1,8 +1,9 @@
 ---
-title: Data-Sync Job Setup Guide
+title: Data-Sync job setup
 icon: rotate
 description: Comprehensive guide for configuring and deploying the Data-Sync Job in your Kubernetes environment
 ---
+
 ## Overview
 
 The Data-Sync Job synchronizes data across multiple databases to maintain consistency and up-to-date information throughout your system. It operates by connecting to various databases, retrieving data, and synchronizing changes across them. The job logs all actions and can be scheduled to run at regular intervals.
@@ -19,9 +20,9 @@ kubectl get jobs
 kubectl logs job/data-sync-job
 ```
 
-## Required Environment Variables
+## Required environment variables
 
-### Core Configuration
+### Core configuration
 
 | Variable                        | Description                                                     | Example                               |
 | ------------------------------- | --------------------------------------------------------------- | ------------------------------------- |
@@ -30,11 +31,11 @@ kubectl logs job/data-sync-job
 
 > ⚠️ **Warning**: Do not include spaces in the `FLOWX_SKIPPEDRESOURCESERVICES` value.
 
-### Database Connections
+### Database connections
 
 The Data-Sync Job requires connection details for multiple databases. Configure the following sections based on your deployment.
 
-#### MongoDB Connections
+#### MongoDB connections
 
 Each MongoDB-based service requires the following variables:
 
@@ -49,25 +50,25 @@ Each MongoDB-based service requires the following variables:
 | **Integration Designer** | `FLOWX_DATASOURCE_INTEGRATIONDESIGNER_URI`, `INTEGRATIONDESIGNER_MONGO_USERNAME`, `INTEGRATIONDESIGNER_MONGO_PASSWORD`, `INTEGRATIONDESIGNER_MONGO_DATABASE` |
 | **Admin**                | `FLOWX_DATASOURCE_ADMIN_URI`, `ADMIN_MONGO_USERNAME`, `ADMIN_MONGO_PASSWORD`, `ADMIN_MONGO_DATABASE`                                                         |
 
-##### MongoDB URI Format
+##### MongoDB URI format
 
 ```
 mongodb://${USERNAME}:${PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${DATABASE}
 ```
 
-#### PostgreSQL Connections
+#### PostgreSQL connections
 
 | Component               | Required Variables                                                                                                                                               |
 | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Process Engine**      | `FLOWX_DATASOURCE_ENGINE_URL`, `FLOWX_DATASOURCE_ENGINE_USERNAME`, `FLOWX_DATASOURCE_ENGINE_PASSWORD`, `FLOWX_DATASOURCE_ENGINE_DRIVERCLASSNAME`                 |
 | **Application Manager** | `FLOWX_DATASOURCE_APPMANAGER_URL`, `FLOWX_DATASOURCE_APPMANAGER_USERNAME`, `FLOWX_DATASOURCE_APPMANAGER_PASSWORD`, `FLOWX_DATASOURCE_APPMANAGER_DRIVERCLASSNAME` |
 
-##### Driver Class Names
+##### Driver class names
 
 - PostgreSQL: `org.postgresql.Driver`
 - Oracle: `oracle.jdbc.OracleDriver`
 
-### Additional Configuration
+### Additional configuration
 
 | Variable                                        | Description                                                 |
 | ----------------------------------------------- | ----------------------------------------------------------- |
@@ -75,7 +76,7 @@ mongodb://${USERNAME}:${PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-h
 | `SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULTSCHEMA` | Default schema for Hibernate                                |
 | `LOGGING_CONFIG_FILE`                           | Path to logging configuration file                          |
 
-## Service to Database Mapping
+## Service to database mapping
 
 Each service in your environment corresponds to specific database datasources:
 
@@ -92,7 +93,7 @@ Each service in your environment corresponds to specific database datasources:
 | `process-engine`         | engine                  |
 | `application-manager`    | appmanager              |
 
-## Sample Configuration
+  ## Sample configuration
 
 ```yaml
 apiVersion: batch/v1
@@ -120,9 +121,9 @@ spec:
 
 ## Troubleshooting
 
-### Common Issues
+### Common issues
 
-1. **Database Connection Failures**:
+1. **Database connection failures**:
    - Verify MongoDB and PostgreSQL connection strings
    - Check that database credentials are correct
    - Ensure network connectivity between the job pod and databases
@@ -142,14 +143,14 @@ Monitor the Data-Sync Job logs to diagnose issues:
 kubectl logs job/data-sync-job
 ```
 
-## Best Practices
+## Best practices
 
 1. Store sensitive credentials in Kubernetes Secrets and reference them in your deployment
 2. Include the Data-Sync Job in your CI/CD pipeline for automated deployment
 3. Schedule regular runs using a Kubernetes CronJob for periodic synchronization
 4. Monitor job execution and set up alerts for failures
 
-## Next Steps
+## Next steps
 
 After successfully configuring and deploying the Data-Sync Job:
 
