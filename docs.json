@@ -26,8 +26,7 @@
                 "group": "Getting Started",
                 "pages": [
                   "4.7.x/docs/introduction",
-                  "4.7.x/docs/getting-started/building-your-first-proc",
-                  "4.7.x/docs/getting-started/learn-more"
+                  "4.7.x/docs/getting-started/building-your-first-proc"
                 ]
               },
               {
@@ -758,8 +757,7 @@
                 "group": "Getting Started",
                 "pages": [
                   "4.6.0/docs/introduction",
-                  "4.6.0/docs/getting-started/building-your-first-proc",
-                  "4.6.0/docs/getting-started/learn-more"
+                  "4.6.0/docs/getting-started/building-your-first-proc"
                 ]
               },
               {
