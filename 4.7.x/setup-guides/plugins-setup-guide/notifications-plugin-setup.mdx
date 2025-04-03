@@ -4,122 +4,110 @@ description: The Notifications plugin is available as a docker image, and it has
 icon: envelope
 ---
 
-* a [MongoDB](https://www.mongodb.com/2) database
-* needs to be able to connect to the Kafka instance used by the engine
-* a [Redis](https://redis.io/) instance for caching notification templates
-* in case you need to also attach documents to the sent notifications, the plugin will need to be able to access your chosen storage solution. It can use an S3 compatible file storage solution (we have successfully used [Min.io](https://min.io/))
 
-The plugin comes with most of the needed configuration properties filled in, but there are a few that need to be set up using some custom environment variables.
+## Dependencies
 
-## Dependencies 
+Before setting up the plugin, ensure you have the following dependencies:
 
-### Mongo database
+* A [MongoDB](https://www.mongodb.com/2) database for storing notification templates and records
+* Access to the Kafka instance used by the FlowX.AI Engine
+* A [Redis](https://redis.io/) instance for caching notification templates
+* An S3-compatible file storage solution (e.g., [Min.io](https://min.io/)) if you need to attach documents to notifications
 
-Basic mongo configuration - helm values.yaml
 
-```yaml
-notification-mdb:
-    existingSecret: {{secretName}}
-    mongodbDatabase: {{NotificationDatabaseName}}
-    mongodbUsername: {{NotificationDatabaseUser}}
-    persistence:
-      enabled: true
-      mountPath: /bitnami/mongodb
-      size: 4Gi
-    replicaSet:
-      enabled: true
-      name: rs0
-      pdb:
-        enabled: true
-        minAvailable:
-          arbiter: 1
-          secondary: 1
-      replicas:
-        arbiter: 1
-        secondary: 1
-      useHostnames: true
-    serviceAccount:
-      create: false
-    usePassword: true
-```
 
-### Redis server
+## Authorization configuration
 
-The plugin can use the [Redis component](https://app.gitbook.com/@flowx-ai/s/flowx-docs/flowx-engine/setup-guide#2-redis-server) already deployed for the engine.
+Set these variables to connect to your identity management platform:
 
-### Document storage 
+| Environment Variable                  | Description                                   | Default Value |
+| ------------------------------------- | --------------------------------------------- | ------------- |
+| `SECURITY_OAUTH2_BASESERVERURL`       | Base URL of the OAuth2/OIDC server            | -             |
+| `SECURITY_OAUTH2_CLIENT_CLIENTID`     | OAuth2 client ID for the Notifications Plugin | -             |
+| `SECURITY_OAUTH2_CLIENT_CLIENTSECRET` | OAuth2 client secret                          | -             |
+| `SECURITY_OAUTH2_REALM`               | OAuth2 realm name                             | -             |
 
-You need to have an S3 compatible file storage solution deployed in your setup.
 
-## Configuration
-
-### Authorization configuration
-
-The following variables need to be set in order to connect to the identity management platform:
-
-`SECURITY_OAUTH2_BASE_SERVER_URL`
-
-`SECURITY_OAUTH2_CLIENT_CLIENT_ID`
-
-`SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`
-
-`SECURITY_OAUTH2_REALM`
-
-### MongoDB configuration
+## MongoDB configuration
 
 The only thing that needs to be configured is the DB access info, the rest will be handled by the plugin.
 
-`SPRING_DATA_MONGODB_URI` - the URI for the MongoDB database
+| Environment Variable      | Description                             | Default Value                                                                                                                                                        |
+| ------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SPRING_DATA_MONGODB_URI` | MongoDB connection URI                  | `mongodb://${DB_USERNAME}:${DB_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/notification-plugin` |
+| `DB_USERNAME`             | Username for runtime MongoDB connection | `notification-plugin`                                                                                                                                                |
+| `DB_PASSWORD`             | Password for runtime MongoDB connection | `password`                                                                                                                                                           |
 
-### Redis configuration
 
-The following values should be set with the corresponding Redis related values.
+## Redis configuration
 
-`SPRING_REDIS_HOST`
+Configure your Redis caching instance:
 
-`SPRING_REDIS_PASSWORD`
+| Environment Variable    | Description                                 | Default Value     |
+| ----------------------- | ------------------------------------------- | ----------------- |
+| `SPRING_REDIS_HOST`     | Redis server hostname                       | `localhost`       |
+| `SPRING_REDIS_PORT`     | Redis server port                           | `6379`            |
+| `SPRING_REDIS_PASSWORD` | Redis server password                       | `defaultpassword` |
+| `REDIS_TTL`             | Time-to-live for Redis cache (milliseconds) | `5000000`         |
 
-`REDIS_TTL`
 
-### Kafka configuration 
 
-The following Kafka related configurations can be set by using environment variables:
+## Kafka configuration 
 
-`SPRING_KAFKA_BOOTSTRAP_SERVERS` - address of the Kafka server
+### Core Kafka settings
 
-`SPRING_KAFKA_CONSUMER_GROUP_ID` - group of consumers
+| Environment Variable               | Description                                             | Default Value      |
+| ---------------------------------- | ------------------------------------------------------- | ------------------ |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`    | Address of the Kafka server(s)                          | `localhost:9092`   |
+| `SPRING_KAFKA_SECURITYPROTOCOL`    | Security protocol for Kafka connections                 | `PLAINTEXT`        |
+| `SPRING_KAFKA_CONSUMERGROUPID`     | Consumer group identifier                               | `notif123-preview` |
+| `KAFKA_MESSAGEMAXBYTES`            | Maximum message size (bytes)                            | `52428800` (50MB)  |
+| `KAFKA_AUTHEXCEPTIONRETRYINTERVAL` | Retry interval after authorization exceptions (seconds) | `10`               |
+| `KAFKA_CONSUMER_THREADS`           | Number of consumer threads                              | `1`                |
 
-`KAFKA_CONSUMER_THREADS` - the number of Kafka consumer threads
 
-`KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` - the interval between retries after `AuthorizationException` is thrown by `KafkaConsumer`
 
-`KAFKA_MESSAGE_MAX_BYTES` - this is the largest size of the message that can be received by the broker from a producer.
+### Topic naming configuration
 
-Each action available in the service corresponds to a Kafka event. A separate Kafka topic must be configured for each use-case.
+| Environment Variable             | Description                         | Default Value | 
+| -------------------------------- | ----------------------------------- | ------------- | 
+| `KAFKA_TOPIC_NAMING_SEPARATOR`   | Primary separator for topic names   | `.`           | 
+| `KAFKA_TOPIC_NAMING_SEPARATOR2`  | Secondary separator for topic names | `-`           | 
+| `KAFKA_TOPIC_NAMING_PACKAGE`     | Package prefix for topic names      | `ai.flowx.`   | 
+| `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Environment segment for topic names | `dev.`        | 
+| `KAFKA_TOPIC_NAMING_VERSION`     | Version suffix for topic names      | `.v1`         | 
 
-#### **Forwarding notifications to an external system**
 
-`KAFKA_TOPIC_NOTIFICATION_EXTERNAL_OUT` - the notification will be forwarded on this topic to be handled by an external system
+### Topic configurations
 
-#### **Sending a notification**
+Each action in the service corresponds to a Kafka event on a specific topic. Configure the following topics:
 
-`KAFKA_TOPIC_NOTIFICATION_INTERNAL_IN` - topic used to trigger the request to send a notification
 
-`KAFKA_TOPIC_NOTIFICATION_INTERNAL_OUT` - topic used for sending replies after sending the notification
+#### OTP topics
 
-#### **Generating/validating an OTP**
+| Environment Variable           | Description                                | Default Value                                                             | 
+| ------------------------------ | ------------------------------------------ | ------------------------------------------------------------------------- |
+| `KAFKA_TOPIC_OTP_GENERATE_IN`  | Topic for incoming OTP generation requests | `ai.flowx.dev.plugin.notification.trigger.generate.otp.v1`                | 
+| `KAFKA_TOPIC_OTP_GENERATE_OUT` | Topic for OTP generation results           | `ai.flowx.dev.engine.receive.plugin.notification.generate.otp.results.v1` | 
+| `KAFKA_TOPIC_OTP_VALIDATE_IN`  | Topic for incoming OTP validation requests | `ai.flowx.dev.plugin.notification.trigger.validate.otp.v1`                | 
+| `KAFKA_TOPIC_OTP_VALIDATE_OUT` | Topic for OTP validation results           | `ai.flowx.dev.engine.receive.plugin.notification.validate.otp.results.v1` | 
 
-`KAFKA_TOPIC_OTP_GENERATE_IN`
+#### Notification topics
 
-`KAFKA_TOPIC_OTP_GENERATE_OUT` - after the OTP was generated and send to the user, this is the topic used to send the response back to the Engine.
+| Environment Variable                    | Description                                            | Default Value                                                                  |
+| --------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------ | 
+| `KAFKA_TOPIC_NOTIFICATION_INTERNAL_IN`  | Topic for incoming notification requests               | `ai.flowx.dev.plugin.notification.trigger.send.notification.v1`                |
+| `KAFKA_TOPIC_NOTIFICATION_INTERNAL_OUT` | Topic for notification delivery confirmations          | `ai.flowx.dev.engine.receive.plugin.notification.confirm.send.notification.v1` | 
+| `KAFKA_TOPIC_NOTIFICATION_EXTERNAL_OUT` | Topic for forwarding notifications to external systems | `ai.flowx.dev.plugin.notification.trigger.forward.notification.v1`             | 
 
-`KAFKA_TOPIC_OTP_VALIDATE_IN` - Event send on this topic with an OTP and an identifier will check if the OTP is valid
 
-`KAFKA_TOPIC_OTP_VALIDATE_OUT` - Response to the request to validate an OTP will be sent back to the Engine on this topic
+#### Audit topic
 
-<Warning>
-The Engine is listening for messages on topics with names of a certain pattern, make sure to use correct outgoing topic names when configuring the notifications plugin.
-</Warning>
+| Environment Variable    | Description                  | Default Value                             | 
+| ----------------------- | ---------------------------- | ----------------------------------------- | 
+| `KAFKA_TOPIC_AUDIT_OUT` | Topic for sending audit logs | `ai.flowx.dev.core.trigger.save.audit.v1` | 
+
+
 
 ### File storage configuration
 
@@ -127,73 +115,87 @@ Based on use case you can use directly a file system or an S3 compatible cloud s
 
 The file storage solution can be configured using the following environment variables:
 
-`APPLICATION_FILE_STORAGE_S3_SERVER_URL`
+| Environment Variable                           | Description                                      | Default Value                 |
+| ---------------------------------------------- | ------------------------------------------------ | ----------------------------- |
+| `APPLICATION_FILESTORAGE_TYPE`                 | Storage type to use (`s3` or `fileSystem`)       | `s3`                          |
+| `APPLICATION_FILESTORAGE_DISKDIRECTORY`        | Directory for file storage when using filesystem | `MS_SVC_NOTIFICATION`         |
+| `APPLICATION_FILESTORAGE_S3_ENABLED`           | Enable S3-compatible storage                     | `true`                        |
+| `APPLICATION_FILESTORAGE_S3_SERVERURL`         | URL of S3-compatible server                      | `http://minio-service:9000`   |
+| `APPLICATION_FILESTORAGE_S3_ENCRYPTIONENABLED` | Enable server-side encryption                    | `false`                       |
+| `APPLICATION_FILESTORAGE_S3_ACCESSKEY`         | Access key for S3                                | `minio`                       |
+| `APPLICATION_FILESTORAGE_S3_SECRETKEY`         | Secret key for S3                                | `secret`                      |
+| `APPLICATION_FILESTORAGE_S3_BUCKETPREFIX`      | Prefix for bucket names                          | `qdevlocal-preview-paperflow` |
 
-`APPLICATION_FILE_STORAGE_S3_ACCESS_KEY`
 
-`APPLICATION_FILE_STORAGE_S3_SECRET_KEY`
+### SMTP setup
 
-`APPLICATION_FILE_STORAGE_S3_BUCKET_PREFIX`
+Configure SMTP settings for sending email notifications:
 
-### SMTP Setup
-
-If you want to use a custom SMTP server:
-
-`SIMPLEJAVAMAIL_SMTP_HOST` - used by mail servers to send, receive, and/or relay outgoing mail between email senders and receivers
-
-`SIMPLEJAVAMAIL_SMTP_PORT` - refers to the specific part of the Internet address that’s used to transfer email
-
-`SIMPLEJAVAMAIL_SMTP_USERNAME`
-
-`SIMPLEJAVAMAIL_SMTP_PASSWORD`
-
-`SIMPLEJAVAEMAIL_TRANSPORTSTRATEGY` - sets the method on how the notifications are delivered, for example `EXTERNAL_FORWARD` for forwarding to external adapters
-
-The email and name to be used as sender for emails sent by the plugin:
-
-`APPLICATION_MAIL_FROM_EMAIL`
-
-`APPLICATION_MAIL_FROM_NAME`
+| Environment Variable               | Description                                                 | Default Value                | 
+| ---------------------------------- | ----------------------------------------------------------- | ---------------------------- | 
+| `SIMPLEJAVAMAIL_SMTP_HOST`         | SMTP server hostname                                        | `smtp.gmail.com`             | 
+| `SIMPLEJAVAMAIL_SMTP_PORT`         | SMTP server port                                            | `587`                        | 
+| `SIMPLEJAVAMAIL_SMTP_USERNAME`     | SMTP server username                                        | `notification.test@flowx.ai` | 
+| `SIMPLEJAVAMAIL_SMTP_PASSWORD`     | SMTP server password                                        | `paswword`                   | 
+| `SIMPLEJAVAMAIL_TRANSPORTSTRATEGY` | Email transport strategy (e.g., `SMTP`, `EXTERNAL_FORWARD`) | `SMTP`                       | 
+| `APPLICATION_MAIL_FROM_EMAIL`      | Default sender email address                                | `notification.test@flowx.ai` | 
+| `APPLICATION_MAIL_FROM_NAME`       | Default sender name                                         | `Notification Test`          | 
 
 ### Email attachments configuration
 
-The maximum file size for files to be attached as email attachments can also be configured:
+Configure handling of email attachments:
 
-`SPRING_HTTP_MULTIPART_MAX_FILE_SIZE`
+| Environment Variable                   | Description                                | Default Value |
+| -------------------------------------- | ------------------------------------------ | ------------- |
+| `SPRING_HTTP_MULTIPART_MAXFILESIZE`    | Maximum file size for attachments          | `15MB`        |
+| `SPRING_HTTP_MULTIPART_MAXREQUESTSIZE` | Maximum request size for multipart uploads | `15MB`        |
 
-`SPRING_HTTP_MULTIPART_MAX_REQUEST_SIZE`
+### OTP configuration
+
+Configure One-Time Password generation and validation:
+
+| Environment Variable            | Description                            | Default Value       |
+| ------------------------------- | -------------------------------------- | ------------------- |
+| `FLOWX_OTP_LENGTH`              | Number of characters in generated OTPs | `4`                 |
+| `FLOWX_OTP_EXPIRETIMEINSECONDS` | Expiry time for OTPs (seconds)         | `6000` (10 minutes) |
+
+### Logging configuration
+
+Control logging levels for different components:
+
+| Environment Variable         | Description                               | Default Value | 
+| ---------------------------- | ----------------------------------------- | ------------- | 
+| `LOGGING_LEVEL_ROOT`         | Root logging level                        | -             |
+| `LOGGING_LEVEL_APP`          | Application-specific log level            | `DEBUG`       | 
+| `LOGGING_LEVEL_MONGO_DRIVER` | MongoDB driver log level                  | `INFO`        | 
+| `LOGGING_LEVEL_THYMELEAF`    | Thymeleaf template engine log level       | `INFO`        | 
+| `LOGGING_LEVEL_FCM_CLIENT`   | Firebase Cloud Messaging client log level | `OFF`         | 
+| `LOGGING_LEVEL_REDIS`        | Redis/Lettuce client log level            | `OFF`         | 
 
 
-### OTP Configuration
+## Usage notes
 
-The desired character size and expiration time of the generated one-time-passwords can also be configured.
+### Topic naming convention
 
-`FLOWX_OTP_LENGTH` - the number of characters allowed for OTP
+Topics follow a standardized naming convention:
+- Example: `ai.flowx.dev.plugin.notification.trigger.generate.otp.v1`
+- Structure: `{package}.{environment}.{component}.{action}.{subject}.{version}`
 
-`FLOWX_OTP_EXPIRE_TIME_IN_SECONDS` - expiry time (seconds)
+### Consumer error handling
 
-### Logging
+When `KAFKA_CONSUMER_ERRORHANDLING_ENABLED` is set to `true`:
+- The application will retry processing failed messages according to `KAFKA_CONSUMER_ERRORHANDLING_RETRIES`
+- Between retries, the application will wait for the duration specified by `KAFKA_CONSUMER_ERRORHANDLING_RETRYINTERVAL`
 
-The following environment variables could be set in order to control log levels:
+For example, if `KAFKA_CONSUMER_ERRORHANDLING_RETRYINTERVAL` is set to 5000 (5 seconds) and `KAFKA_CONSUMER_ERROR_HANDLING_RETRIES` is set to 5, the consumer application will make up to 5 attempts, waiting 5 seconds between each attempt.
 
-`LOGGING_LEVEL_ROOT` - root Spring Boot microservice logs
+### Message size configuration
 
-`LOGGING_LEVEL_APP` - app level logs
+The `KAFKA_MESSAGE_MAX_BYTES` setting affects multiple Kafka properties:
+- `spring.kafka.producer.properties.message.max.bytes`
+- `spring.kafka.producer.properties.max.request.size`
+- `spring.kafka.consumer.properties.max.partition.fetch.bytes`
 
-`LOGGING_LEVEL_MONGO_DRIVER` - MongoDB driver logs
+### OAuth authentication
 
-`LOGGING_LEVEL_THYMELEAF` - [Thymeleaf](https://www.thymeleaf.org/) logs, logs related to using notifications templates
-
-
-### Error handling
-
-`KAFKA_CONSUMER_ERROR_HANDLING_ENABLED`- default value: `FALSE`→ allows control on Kafka consumer applications to handle errors and failures during message consumption - When this variable is set to `true`, it enables the consumer application to handle any errors that occur during message consumption
-
-`KAFKA_CONSUMER_ERROR_HANDLING_RETRIES`- default value: `0`→ when `KAFKA_CONSUMER_ERROR_HANDLING_ENABLED` is set to `true`, this environment variable specifies the maximum number of retries that the consumer application should attempt before giving up on processing a message; for example, if `KAFKA_CONSUMER_ERROR_HANDLING_RETRIES` is set to `5`, the consumer application will attempt to process a message up to 5 times before giving up
-
-`KAFKA_CONSUMER_ERROR_HANDLING_RETRY_INTERVAL`- default value: `1000`→ when `KAFKA_CONSUMER_ERROR_HANDLING_ENABLED` is set to true and retries are enabled with `KAFKA_CONSUMER_ERROR_HANDLING_RETRIES`, this environment variable specifies the amount of time that the consumer application should wait before attempting to retry processing a message
-
-<Info>
-For example, if KAFKA_CONSUMER_ERROR_HANDLING_RETRY_INTERVAL is set to 5 seconds, the consumer application will wait 5 seconds before attempting to retry processing a failed message. This interval is applied to all retry attempts, so if KAFKA_CONSUMER_ERROR_HANDLING_RETRIES is set to 5 and the retry interval is 5 seconds, the consumer application will make up to 5 attempts, waiting 5 seconds between each attempt.
-</Info>
-
+When using the 'kafka-auth' profile, the security protocol changes to 'SASL_PLAINTEXT' and requires OAuth configuration via the `KAFKA_OAUTH_*` variables.

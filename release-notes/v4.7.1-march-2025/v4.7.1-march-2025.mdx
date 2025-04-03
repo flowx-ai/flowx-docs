@@ -62,6 +62,10 @@ FlowX.AI 4.7.1 brings the latest JavaScript features to your business rules with
 </Tab>  
 </Tabs>
 
+<Info>
+**Important Configuration Note:** Nashorn engine remains the default runtime. To enable GraalJS support with its performance improvements, you must set the feature toggle `FLOWX_SCRIPTENGINE_USEGRAALVM` to `true` in the [**Process Engine configuration**](/4.7.x/setup-guides/flowx-engine-setup-guide/engine-setup) and in the **AI Developer** (if used) agent configuration. If this configuration variable is missing or set to `false`, Nashorn will be used.
+</Info>
+
 ### Python 3 support for Business Rules
 
 We've upgraded our Python scripting capabilities to Python 3, delivering significant performance improvements while maintaining compatibility.

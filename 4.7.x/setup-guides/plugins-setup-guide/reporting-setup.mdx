@@ -4,6 +4,14 @@ description: The Reporting setup guide assists in configuring the reporting plug
 icon: chart-simple
 ---
 
+The FlowX Reporting solution provides powerful data analytics and visualization capabilities for your FlowX platform. This guide offers step-by-step instructions for setting up and configuring all components of the reporting system.
+
+The reporting solution consists of three main components:
+
+- **Reporting Plugin**: Extracts and processes data from the FlowX Engine
+- **Spark Application**: Handles data transformation and loading operations
+- **Apache Superset**: Provides the visualization interface and dashboard capabilities
+
 ## Dependencies
 
 The reporting plugin, available as a Docker image, requires the following dependencies:
@@ -16,6 +24,19 @@ The reporting plugin, available as a Docker image, requires the following depend
   - Requires a dedicated PostgreSQL database for its operation.
   - Utilizes Redis for efficient caching.
   - Exposes its user interface via an ingress.
+
+## Prerequisites
+
+Before starting the installation, ensure you have:
+
+- Kubernetes cluster with Helm installed
+- Access to PostgreSQL databases for:
+  - FlowX Engine database (source)
+  - Reporting database (destination)
+  - Superset metadata database
+- Docker registry access for the reporting images
+- Redis instance for Superset caching
+- Ingress controller for exposing Superset UI
 
 ## Reporting plugin helm chart configuration
 
@@ -72,8 +93,15 @@ sparkApplication: #Defines the Spark application configuration.
       REPORTING_DATABASE_USER: flowx
       REPORTING_DATABASE_URL: postgresql:5432
       REPORTING_DATABASE_NAME: reporting
+      REPORTING_DATABASE_TYPE: postgres
+      APPLICATION_DATABASE_USER: postgres
+      APPLICATION_DATABASE_URL: localhost:5439
+      APPLICATION_DATABASE_NAME: app_manager
+      APPLICATION_DATABASE_TYPE: postgres
       ENGINE_DATABASE_PASSWORD: "password"
       REPORTING_DATABASE_PASSWORD: "password"
+      APPLICATION_DATABASE_PASSWORD: "password"
+
   executor: #This section configures the executor component of the Spark application.
     envVars: #Environment variables for executor setup.
       ENGINE_DATABASE_USER: flowx
@@ -83,8 +111,15 @@ sparkApplication: #Defines the Spark application configuration.
       REPORTING_DATABASE_USER: flowx
       REPORTING_DATABASE_URL: postgresql:5432
       REPORTING_DATABASE_NAME: reporting
+      REPORTING_DATABASE_TYPE: postgres
+      APPLICATION_DATABASE_USER: postgres
+      APPLICATION_DATABASE_URL: localhost:5439
+      APPLICATION_DATABASE_NAME: app_manager
+      APPLICATION_DATABASE_TYPE: postgres
       ENGINE_DATABASE_PASSWORD: "password"
       REPORTING_DATABASE_PASSWORD: "password"
+      APPLICATION_DATABASE_PASSWORD: "password"
+      
 ```
 <Info>
 NOTE: Passwords are currently set as plain strings, which is not secure practice in a production environment.
@@ -108,11 +143,17 @@ sparkApplication:
       REPORTING_DATABASE_USER: flowx
       REPORTING_DATABASE_URL: postgresql:5432
       REPORTING_DATABASE_NAME: reporting
+      REPORTING_DATABASE_TYPE: postgres
+      APPLICATION_DATABASE_USER: postgres
+      APPLICATION_DATABASE_URL: localhost:5439
+      APPLICATION_DATABASE_NAME: app_manager
+      APPLICATION_DATABASE_TYPE: postgres
     extraEnvVarsMultipleSecretsCustomKeys: 
       - name: postgresql-generic
         secrets: #Secrets retrieved from a generic source.
           ENGINE_DATABASE_PASSWORD: postgresql-password
           REPORTING_DATABASE_PASSWORD: postgresql-password
+          APPLICATION_DATABASE_PASSWORD: postgresql-password
   executor:
     env: #Environment variables for executor setup with secrets.
       ENGINE_DATABASE_USER: flowx
@@ -122,11 +163,17 @@ sparkApplication:
       REPORTING_DATABASE_USER: flowx
       REPORTING_DATABASE_URL: postgresql:5432
       REPORTING_DATABASE_NAME: reporting
+      REPORTING_DATABASE_TYPE: postgres
+      APPLICATION_DATABASE_USER: postgres
+      APPLICATION_DATABASE_URL: localhost:5439
+      APPLICATION_DATABASE_NAME: app_manager
+      APPLICATION_DATABASE_TYPE: postgres
     extraEnvVarsMultipleSecretsCustomKeys:
       - name: postgresql-generic
         secrets: #Secrets retrieved from a generic source.
           ENGINE_DATABASE_PASSWORD: postgresql-password
           REPORTING_DATABASE_PASSWORD: postgresql-password
+          APPLICATION_DATABASE_PASSWORD: postgresql-password
 ```
 
 
@@ -182,13 +229,20 @@ spec:
         REPORTING_DATABASE_USER: flowx
         REPORTING_DATABASE_URL: postgresql:5432
         REPORTING_DATABASE_NAME: reporting
+        REPORTING_DATABASE_TYPE: postgres
+        APPLICATION_DATABASE_USER: postgres
+        APPLICATION_DATABASE_URL: localhost:5439
+        APPLICATION_DATABASE_NAME: app_manager
+        APPLICATION_DATABASE_TYPE: postgres
         ENGINE_DATABASE_PASSWORD: "password"
         REPORTING_DATABASE_PASSWORD: "password"
+        APPLICATION_DATABASE_PASSWORD: "password"
     extraEnvVarsMultipleSecretsCustomKeys: 
       - name: postgresql-generic
         secrets: #Secrets retrieved from a generic source.
           ENGINE_DATABASE_PASSWORD: postgresql-password
           REPORTING_DATABASE_PASSWORD: postgresql-password
+          APPLICATION_DATABASE_PASSWORD: postgresql-password
     executor:
       cores:  1
       instances: 3
@@ -203,11 +257,17 @@ spec:
         REPORTING_DATABASE_USER: flowx
         REPORTING_DATABASE_URL: postgresql:5432
         REPORTING_DATABASE_NAME: reporting
+        REPORTING_DATABASE_TYPE: postgres
+        APPLICATION_DATABASE_USER: postgres
+        APPLICATION_DATABASE_URL: localhost:5439
+        APPLICATION_DATABASE_NAME: app_manager
+        APPLICATION_DATABASE_TYPE: postgres
     extraEnvVarsMultipleSecretsCustomKeys:
       - name: postgresql-generic
         secrets: #Secrets retrieved from a generic source.
           ENGINE_DATABASE_PASSWORD: postgresql-password
           REPORTING_DATABASE_PASSWORD: postgresql-password
+          APPLICATION_DATABASE_PASSWORD: postgresql-password
 ```
 
 ### Superset configuration

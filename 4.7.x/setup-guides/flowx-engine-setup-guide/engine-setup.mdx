@@ -45,22 +45,22 @@ FlowX.AI Engine uses environment variables for configuration. This section cover
 
 ### PostgreSQL
 
-| Environment variable | Description |
-|---------------------|-------------|
-| `SPRING_DATASOURCE_URL` | Database URL for PostgreSQL |
-| `SPRING_DATASOURCE_USERNAME` | Username for PostgreSQL |
-| `SPRING_DATASOURCE_PASSWORD` | Password for PostgreSQL |
-| `SPRING_DATASOURCE_DRIVER_CLASS_NAME` | Driver class for PostgreSQL |
+| Environment variable                | Description                 |
+| ----------------------------------- | --------------------------- |
+| `SPRING_DATASOURCE_URL`             | Database URL for PostgreSQL |
+| `SPRING_DATASOURCE_USERNAME`        | Username for PostgreSQL     |
+| `SPRING_DATASOURCE_PASSWORD`        | Password for PostgreSQL     |
+| `SPRING_DATASOURCE_DRIVERCLASSNAME` | Driver class for PostgreSQL |
 
 ### MongoDB configuration
 
 Configure connection to the Runtime MongoDB instance:
 
-| Environment variable | Description | Default value |
-|---------------------|-------------|---------------|
+| Environment variable              | Description                   | Default value                                                                                                                |
+| --------------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | `SPRING_DATA_MONGODB_RUNTIME_URI` | URI for connecting to MongoDB | Format: `mongodb://${RUNTIME_DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false` |
-| `RUNTIME_DB_USERNAME` | MongoDB username | `app-runtime` |
-| `DB_NAME` | MongoDB database name | `app-runtime` |
+| `RUNTIME_DB_USERNAME`             | MongoDB username              | `app-runtime`                                                                                                                |
+| `DB_NAME`                         | MongoDB database name         | `app-runtime`                                                                                                                |
 
 ## Configuring script engine
 
@@ -73,12 +73,12 @@ You must also enable these environment variables on the **AI Developer** agent, 
 ### Python runtime configuration
 
 <Info>
-By default, FlowX.AI 4.7.1 uses Python 2.7 (Jython) as the Python runtime. To enable Python 3 via GraalPy with its 3x performance improvements, you must explicitly set the feature toggle.
+By default, FlowX.AI 4.7.1 uses Python 2.7 (Jython) as the Python runtime. To enable Python 3 via GraalPy with its 3x performance improvements and JavaScript with GraalJS, you must explicitly set the feature toggle.
 </Info>
 
-| Environment variable | Description | Default value | Possible values |
-|---------------------|-------------|---------------|-----------------|
-| `FLOWX_SCRIPTENGINE_USEGRAALVM` | Determines which Python runtime to use | `false` | `true`, `false` |
+| Environment variable            | Description                                           | Default value | Possible values |
+| ------------------------------- | ----------------------------------------------------- | ------------- | --------------- |
+| `FLOWX_SCRIPTENGINE_USEGRAALVM` | Determines which Python and JavaScript runtime to use | `false`       | `true`, `false` |
 
 <Warning>
 Python 2.7 support will be deprecated in FlowX.AI 5.0. We recommend migrating your Python scripts to Python 3 to take advantage of improved performance and modern language features.
@@ -173,26 +173,26 @@ Kafka handles all communication between the FlowX.AI Engine, external plugins, a
 
 | Environment variable             | Description                 | Default value    |
 | -------------------------------- | --------------------------- | ---------------- |
-| `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Kafka bootstrap servers     | `localhost:9092` |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`  | Kafka bootstrap servers     | `localhost:9092` |
 | `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol for Kafka | `"PLAINTEXT"`    |
 
 ### Message routing configuration
 
-| Environment variable       | Description                                                           | Default value       |
-| -------------------------- | --------------------------------------------------------------------- | ------------------- |
-| `KAFKA_DEFAULT_FX_CONTEXT` | Default context value for message routing when no context is provided | `""` (empty string) |
+| Environment variable     | Description                                                           | Default value       |
+| ------------------------ | --------------------------------------------------------------------- | ------------------- |
+| `KAFKA_DEFAULTFXCONTEXT` | Default context value for message routing when no context is provided | `""` (empty string) |
 
 
 <Info>
-When `KAFKA_DEFAULT_FX_CONTEXT` is set and an event is received on Kafka without an fxContext header, the system will automatically apply the default context value to the message.
+When `KAFKA_DEFAULTFXCONTEXT` is set and an event is received on Kafka without an fxContext header, the system will automatically apply the default context value to the message.
 </Info>
 
 
 ### Kafka consumer retry settings
 
-| Environment variable                  | Description                                                       | Default value |
-| ------------------------------------- | ----------------------------------------------------------------- | ------------- |
-| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` | Interval between retries after `AuthorizationException` (seconds) | `10`          |
+| Environment variable               | Description                                                       | Default value |
+| ---------------------------------- | ----------------------------------------------------------------- | ------------- |
+| `KAFKA_AUTHEXCEPTIONRETRYINTERVAL` | Interval between retries after `AuthorizationException` (seconds) | `10`          |
 
 ### Consumer groups & consumer threads configuration
 
@@ -217,35 +217,35 @@ Thread numbers refer to the number of threads a consumer application uses to pro
 
 #### Consumer group configuration
 
-| Environment variable                               | Description                                                         | Default value      |
-| -------------------------------------------------- | ------------------------------------------------------------------- | ------------------ |
-| `KAFKA_CONSUMER_GROUP_ID_NOTIFY_ADVANCE`           | Group ID for notifying advance actions                              | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_NOTIFY_PARENT`            | Group ID for notifying when a subprocess is blocked                 | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_ADAPTERS`                 | Group ID for messages related to adapters                           | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_SCHEDULER_RUN_ACTION`     | Group ID for running scheduled actions                              | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_SCHEDULER_ADVANCING`      | Group ID for messages indicating continuing advancement             | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_MESSAGE_EVENTS`           | Group ID for message events                                         | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_START`            | Group ID for starting processes                                     | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_START_FOR_EVENT`  | Group ID for starting processes for an event                        | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_EXPIRE`           | Group ID for expiring processes                                     | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_OPERATIONS`       | Group ID for processing operations from Task Management plugin      | `notif123-preview` |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_BATCH_PROCESSING` | Group ID for processing bulk operations from Task Management plugin | `notif123-preview` |
+| Environment variable                             | Description                                                         | Default value      |
+| ------------------------------------------------ | ------------------------------------------------------------------- | ------------------ |
+| `KAFKA_CONSUMER_GROUPID_NOTIFYADVANCE`           | Group ID for notifying advance actions                              | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUPID_NOTIFYPARENT`            | Group ID for notifying when a subprocess is blocked                 | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUPID_ADAPTERS`                | Group ID for messages related to adapters                           | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUPID_SCHEDULERRUNACTION`      | Group ID for running scheduled actions                              | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUPID_SCHEDULERADVANCING`      | Group ID for messages indicating continuing advancement             | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUPID_MESSAGEEVENTS`           | Group ID for message events                                         | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUPID_PROCESS_START`           | Group ID for starting processes                                     | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUPID_PROCESS_STARTFOREVENT`   | Group ID for starting processes for an event                        | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUPID_PROCESS_EXPIRE`          | Group ID for expiring processes                                     | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUPID_PROCESS_OPERATIONS`      | Group ID for processing operations from Task Management plugin      | `notif123-preview` |
+| `KAFKA_CONSUMER_GROUPID_PROCESS_BATCHPROCESSING` | Group ID for processing bulk operations from Task Management plugin | `notif123-preview` |
 
 #### Consumer thread configuration
 
-| Environment variable                              | Description                                                           | Default value |
-| ------------------------------------------------- | --------------------------------------------------------------------- | ------------- |
-| `KAFKA_CONSUMER_THREADS_NOTIFY_ADVANCE`           | Number of threads for notifying advance actions                       | `6`           |
-| `KAFKA_CONSUMER_THREADS_NOTIFY_PARENT`            | Number of threads for notifying when a subprocess is blocked          | `6`           |
-| `KAFKA_CONSUMER_THREADS_ADAPTERS`                 | Number of threads for processing messages related to adapters         | `6`           |
-| `KAFKA_CONSUMER_THREADS_SCHEDULER_ADVANCING`      | Number of threads for continuing advancement                          | `6`           |
-| `KAFKA_CONSUMER_THREADS_SCHEDULER_RUN_ACTION`     | Number of threads for running scheduled actions                       | `6`           |
-| `KAFKA_CONSUMER_THREADS_MESSAGE_EVENTS`           | Number of threads for message events                                  | `6`           |
-| `KAFKA_CONSUMER_THREADS_PROCESS_START`            | Number of threads for starting processes                              | `6`           |
-| `KAFKA_CONSUMER_THREADS_PROCESS_START_FOR_EVENT`  | Number of threads for starting processes for an event                 | `2`           |
-| `KAFKA_CONSUMER_THREADS_PROCESS_EXPIRE`           | Number of threads for expiring processes                              | `6`           |
-| `KAFKA_CONSUMER_THREADS_PROCESS_OPERATIONS`       | Number of threads for processing operations from task management      | `6`           |
-| `KAFKA_CONSUMER_THREADS_PROCESS_BATCH_PROCESSING` | Number of threads for processing bulk operations from task management | `6`           |
+| Environment variable                             | Description                                                           | Default value |
+| ------------------------------------------------ | --------------------------------------------------------------------- | ------------- |
+| `KAFKA_CONSUMER_THREADS_NOTIFYADVANCE`           | Number of threads for notifying advance actions                       | `6`           |
+| `KAFKA_CONSUMER_THREADS_NOTIFYPARENT`            | Number of threads for notifying when a subprocess is blocked          | `6`           |
+| `KAFKA_CONSUMER_THREADS_ADAPTERS`                | Number of threads for processing messages related to adapters         | `6`           |
+| `KAFKA_CONSUMER_THREADS_SCHEDULERADVANCING`      | Number of threads for continuing advancement                          | `6`           |
+| `KAFKA_CONSUMER_THREADS_SCHEDULERRUNACTION`      | Number of threads for running scheduled actions                       | `6`           |
+| `KAFKA_CONSUMER_THREADS_MESSAGEEVENTS`           | Number of threads for message events                                  | `6`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_START`           | Number of threads for starting processes                              | `6`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_STARTFOREVENT`   | Number of threads for starting processes for an event                 | `2`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_EXPIRE`          | Number of threads for expiring processes                              | `6`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_OPERATIONS`      | Number of threads for processing operations from task management      | `6`           |
+| `KAFKA_CONSUMER_THREADS_PROCESS_BATCHPROCESSING` | Number of threads for processing bulk operations from task management | `6`           |
 
 All events that start with a configured pattern will be consumed by the Engine. This enables you to create new integrations and connect them to the engine without changing the configuration.
 
@@ -254,20 +254,18 @@ All events that start with a configured pattern will be consumed by the Engine. 
 <Tip>
 Recommended topic naming convention:
 
-```yaml
-topic:
-  naming:
-    package: "ai.flowx."
-    environment: "dev."
-    version: ".v1"
-    prefix: ${kafka.topic.naming.package}${kafka.topic.naming.environment}
-    suffix: ${kafka.topic.naming.version}
-    engineReceivePattern: engine.receive.
-    integrationReceivePattern: integration.receive.
+* `KAFKA_TOPIC_NAMING_PACKAGE`: `ai.flowx.dev`
+* `KAFKA_TOPIC_NAMING_ENVIRONMENT`: `dev`
+* `KAFKA_TOPIC_NAMING_VERSION`: `v1`
+* `KAFKA_TOPIC_NAMING_SEPARATOR`: `.`
+* `KAFKA_TOPIC_NAMING_SEPARATOR2`: `-`
+* `KAFKA_TOPIC_NAMING_PREFIX`: `${KAFKA_TOPIC_NAMING_PACKAGE}${KAFKA_TOPIC_NAMING_ENVIRONMENT}`
+* `KAFKA_TOPIC_NAMING_SUFFIX`: `${KAFKA_TOPIC_NAMING_VERSION}`
+* `KAFKA_TOPIC_NAMING_ENGINERECEIVEPATTERN`: `engine.receive.`
+* `KAFKA_TOPIC_NAMING_INTEGRATIONRECEIVEPATTERN`: `integration.receive.`
+* `KAFKA_TOPIC_PATTERN`: `${KAFKA_TOPIC_NAMING_PREFIX}${KAFKA_TOPIC_NAMING_ENGINERECEIVEPATTERN}*`
+* `KAFKA_TOPIC_INTEGRATIONPATTERN`: `${KAFKA_TOPIC_NAMING_PREFIX}${KAFKA_TOPIC_NAMING_INTEGRATIONRECEIVEPATTERN}*`
 
-  pattern: ${kafka.topic.naming.prefix}${kafka.topic.naming.engineReceivePattern}*
-  integrationPattern: ${kafka.topic.naming.prefix}${kafka.topic.naming.integrationReceivePattern}*
-```
 </Tip>
 
 #### Core engine topics
@@ -282,11 +280,11 @@ topic:
 
 #### Topics related to the Task Management plugin
 
-| Environment variable                     | Description                                                | Default value                                    |
-| ---------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------ |
-| `KAFKA_TOPIC_TASK_OUT`                   | Topic used for sending notifications to the plugin         | `ai.flowx.dev.plugin.tasks.trigger.save.task.v1` |
-| `KAFKA_TOPIC_PROCESS_OPERATIONS_IN`      | Topic for receiving information about operations performed | `ai.flowx.dev.core.trigger.operations.v1`        |
-| `KAFKA_TOPIC_PROCESS_OPERATIONS_BULK_IN` | Topic where operations can be performed in bulk            | `ai.flowx.core.trigger.operations.bulk.v1`       |
+| Environment variable                    | Description                                                | Default value                                    |
+| --------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------ |
+| `KAFKA_TOPIC_TASK_OUT`                  | Topic used for sending notifications to the plugin         | `ai.flowx.dev.plugin.tasks.trigger.save.task.v1` |
+| `KAFKA_TOPIC_PROCESS_OPERATIONS_IN`     | Topic for receiving information about operations performed | `ai.flowx.dev.core.trigger.operations.v1`        |
+| `KAFKA_TOPIC_PROCESS_OPERATIONS_BULKIN` | Topic where operations can be performed in bulk            | `ai.flowx.core.trigger.operations.bulk.v1`       |
 
 ##### OPERATIONS_IN request example
 
@@ -365,10 +363,10 @@ Task manager operations include: assignment, unassignment, hold, unhold, termina
 
 #### Topics related to Timer Events
 
-| Environment variable                                  | Description                                     | Default value                                            |
-| ----------------------------------------------------- | ----------------------------------------------- | -------------------------------------------------------- |
-| `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_SET`  | Used to communicate with Scheduler microservice | `ai.flowx.dev.core.trigger.set.timer-event-schedule.v1`  |
-| `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_STOP` | Used to communicate with Scheduler microservice | `ai.flowx.dev.core.trigger.stop.timer-event-schedule.v1` |
+| Environment variable                                | Description                                     | Default value                                            |
+| --------------------------------------------------- | ----------------------------------------------- | -------------------------------------------------------- |
+| `KAFKA_TOPIC_PROCESS_SCHEDULEDTIMEREVENTS_OUT_SET`  | Used to communicate with Scheduler microservice | `ai.flowx.dev.core.trigger.set.timer-event-schedule.v1`  |
+| `KAFKA_TOPIC_PROCESS_SCHEDULEDTIMEREVENTS_OUT_STOP` | Used to communicate with Scheduler microservice | `ai.flowx.dev.core.trigger.stop.timer-event-schedule.v1` |
 
 #### Topics related to the Search Data service
 
@@ -400,7 +398,7 @@ Task manager operations include: assignment, unassignment, hold, unhold, termina
 
 | Environment variable                  | Default value                                          |
 | ------------------------------------- | ------------------------------------------------------ |
-| `KAFKA_TOPIC_PROCESS_START_FOR_EVENT` | `ai.flowx.dev.core.trigger.start-for-event.process.v1` |
+| `KAFKA_TOPIC_PROCESS_STARTFOREVENT` | `ai.flowx.dev.core.trigger.start-for-event.process.v1` |
 
 #### Topics related to Events-gateway microservice
 
@@ -464,10 +462,10 @@ You need to set the following environment variables:
 
 ## Configuring file upload size
 
-| Environment variable                        | Description                              | Default value |
-| ------------------------------------------- | ---------------------------------------- | ------------- |
-| `SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE`    | Maximum file size allowed for uploads    | `50MB`        |
-| `SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE` | Maximum request size allowed for uploads | `50MB`        |
+| Environment variable                      | Description                              | Default value |
+| ----------------------------------------- | ---------------------------------------- | ------------- |
+| `SPRING_SERVLET_MULTIPART_MAXFILESIZE`    | Maximum file size allowed for uploads    | `50MB`        |
+| `SPRING_SERVLET_MULTIPART_MAXREQUESTSIZE` | Maximum request size allowed for uploads | `50MB`        |
 
 ## Connecting the Advancing controller
 
@@ -485,9 +483,9 @@ To use the advancing controller, configure the following variables:
 | ---------------------------------------------- | -------------------------------------------------- | ---------------------------------------------- |
 | `ADVANCING_TYPE`                               | Type of advancing mechanism                        | `PARALLEL` (alternatives: `KAFKA`, `PARALLEL`) |
 | `ADVANCING_THREADS`                            | Number of parallel threads                         | `20`                                           |
-| `ADVANCING_PICKING_BATCH_SIZE`                 | Number of tasks to pick in each batch              | `10`                                           |
-| `ADVANCING_PICKING_PAUSE_MILLIS`               | Pause duration between batches (ms)                | `100`                                          |
-| `ADVANCING_COOLDOWN_AFTER_SECONDS`             | Cooldown period after processing a batch (seconds) | `120`                                          |
+| `ADVANCING_PICKINGBATCHSIZE`                   | Number of tasks to pick in each batch              | `10`                                           |
+| `ADVANCING_PICKINGPAUSEMILLIS`                 | Pause duration between batches (ms)                | `100`                                          |
+| `ADVANCING_COOLDOWNAFTERSECONDS`               | Cooldown period after processing a batch (seconds) | `120`                                          |
 | `ADVANCING_SCHEDULER_HEARTBEAT_CRONEXPRESSION` | Cron expression for the heartbeat                  | `"*/2 * * * * ?"`                              |
 
 <Card title="Advancing controller setup" href="../advancing-controller-setup-guide" icon="gears">
@@ -495,19 +493,20 @@ To use the advancing controller, configure the following variables:
 
 ## Configuring cleanup mechanism
 
-| Environment variable                        | Description                                       | Default value                                              |
-| ------------------------------------------- | ------------------------------------------------- | ---------------------------------------------------------- |
-| `SCHEDULER_THREADS`                         | Number of threads for the scheduler               | `10`                                                       |
-| `SCHEDULER_PROCESS_CLEANUP_ENABLED`         | Activates the cron job for process cleanup        | `false`                                                    |
-| `SCHEDULER_PROCESS_CLEANUP_CRON_EXPRESSION` | Cron expression for the process cleanup scheduler | `0 */5 0-5 * * ?` (every 5 minutes between 12 AM and 5 AM) |
-| `SCHEDULER_PROCESS_CLEANUP_BATCH_SIZE`      | Number of processes to clean up in one batch      | `1000`                                                     |
-| `SCHEDULER_MASTER_ELECTION_CRON_EXPRESSION` | Cron expression for the master election process   | `30 */3 * * * ?` (every 3 minutes)                         |
+| Environment variable                      | Description                                       | Default value                                              |
+| ----------------------------------------- | ------------------------------------------------- | ---------------------------------------------------------- |
+| `SCHEDULER_THREADS`                       | Number of threads for the scheduler               | `10`                                                       |
+| `SCHEDULER_PROCESSCLEANUP_ENABLED`        | Activates the cron job for process cleanup        | `false`                                                    |
+| `SCHEDULER_PROCESSCLEANUP_CRONEXPRESSION` | Cron expression for the process cleanup scheduler | `0 */5 0-5 * * ?` (every 5 minutes between 12 AM and 5 AM) |
+| `SCHEDULER_PROCESSCLEANUP_BATCHSIZE`      | Number of processes to clean up in one batch      | `1000`                                                     |
+| `SCHEDULER_MASTERELECTION_CRONEXPRESSION` | Cron expression for the master election process   | `30 */3 * * * ?` (every 3 minutes)                         |
+|                                           |                                                   |                                                            |
 
 ## Managing subprocesses expiration
 
-| Environment variable                | Description                                                                                                                                 | Default value |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| `FLOWX_PROCESS_EXPIRE_SUBPROCESSES` | When true, terminates all subprocesses upon parent process expiration. When false, subprocesses follow their individual expiration settings | `true`        |
+| Environment variable               | Description                                                                                                                                 | Default value |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `FLOWX_PROCESS_EXPIRESUBPROCESSES` | When true, terminates all subprocesses upon parent process expiration. When false, subprocesses follow their individual expiration settings | `true`        |
 
 ## Configuring application management
 

@@ -1,170 +1,159 @@
 ---
-title: Data-sync job setup guide
+title: Data-Sync job setup
 icon: rotate
-description: This guide provides essential environment variables for configuring the Data-Sync Job. You should use these environment variables to set up and run the Job in your Kubernetes environment.
+description: Comprehensive guide for configuring and deploying the Data-Sync Job in your Kubernetes environment
 ---
 
-# Overview
+## Overview
 
-The Data-Sync Job is designed to synchronize and transfer data across multiple databases, ensuring data consistency and up-to-date information across all connected systems.
+The Data-Sync Job synchronizes data across multiple databases to maintain consistency and up-to-date information throughout your system. It operates by connecting to various databases, retrieving data, and synchronizing changes across them. The job logs all actions and can be scheduled to run at regular intervals.
 
-It operates by connecting to multiple databases, retrieves data, and synchronizes changes across them. The job logs its actions and can be scheduled to run regularly, keeping all databases in sync and up-to-date.
+## Quick Start
 
-# Data-sync job setup guide
-
-This guide details the essential environment variables required to configure and run the Data-Sync Job for synchronizing data across various databases.
+```bash
+# 1. Configure your environment variables in a data-sync-job.yaml file
+# 2. Apply the configuration
+kubectl apply -f data-sync-job.yaml
+# 3. Monitor the job status
+kubectl get jobs
+# 4. Check logs if needed
+kubectl logs job/data-sync-job
+```
 
 ## Required environment variables
 
-### Config profile
+### Core configuration
 
-- `CONFIG_PROFILE` - This environment variable must be set explicitly and exactly to ensure that no unintended profiles are loaded by mistake. The value of this variable should represent a minimal configuration state, relying only on defaults specified in the `application.properties` file of the application.
+| Variable                        | Description                                                     | Example                               |
+| ------------------------------- | --------------------------------------------------------------- | ------------------------------------- |
+| `CONFIG_PROFILE`                | Specifies which configuration profile to use (required)         | `k8stemplate_v2,kafka-auth`           |
+| `FLOWX_SKIPPEDRESOURCESERVICES` | Comma-separated list of services to skip during synchronization | `document-plugin,notification-plugin` |
 
+> ⚠️ **Warning**: Do not include spaces in the `FLOWX_SKIPPEDRESOURCESERVICES` value.
 
-Example:
+### Database connections
 
-```yaml
-- name: CONFIG_PROFILE
-  value: k8stemplate_v2,kafka-auth
+The Data-Sync Job requires connection details for multiple databases. Configure the following sections based on your deployment.
+
+#### MongoDB connections
+
+Each MongoDB-based service requires the following variables:
+
+| Component                | Required Variables                                                                                                                                           |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **CMS**                  | `FLOWX_DATASOURCE_CMS_URI`, `CMS_MONGO_USERNAME`, `CMS_MONGO_PASSWORD`, `CMS_MONGO_DATABASE`                                                                 |
+| **Scheduler**            | `FLOWX_DATASOURCE_SCHEDULER_URI`, `SCHEDULER_MONGO_USERNAME`, `SCHEDULER_MONGO_PASSWORD`, `SCHEDULER_MONGO_DATABASE`                                         |
+| **Task Manager**         | `FLOWX_DATASOURCE_TASKMANAGER_URI`, `TASKMANAGER_MONGO_USERNAME`, `TASKMANAGER_MONGO_PASSWORD`, `TASKMANAGER_MONGO_DATABASE`                                 |
+| **Document Plugin**      | `FLOWX_DATASOURCE_DOCUMENTPLUGIN_URI`, `DOCUMENTPLUGIN_MONGO_USERNAME`, `DOCUMENTPLUGIN_MONGO_PASSWORD`, `DOCUMENTPLUGIN_MONGO_DATABASE`                     |
+| **Notification Plugin**  | `FLOWX_DATASOURCE_NOTIFICATIONPLUGIN_URI`, `NOTIFICATIONPLUGIN_MONGO_USERNAME`, `NOTIFICATIONPLUGIN_MONGO_PASSWORD`, `NOTIFICATIONPLUGIN_MONGO_DATABASE`     |
+| **App Runtime**          | `FLOWX_DATASOURCE_APPRUNTIME_URI`, `APPRUNTIME_MONGO_USERNAME`, `APPRUNTIME_MONGO_PASSWORD`, `APPRUNTIME_MONGO_DATABASE`                                     |
+| **Integration Designer** | `FLOWX_DATASOURCE_INTEGRATIONDESIGNER_URI`, `INTEGRATIONDESIGNER_MONGO_USERNAME`, `INTEGRATIONDESIGNER_MONGO_PASSWORD`, `INTEGRATIONDESIGNER_MONGO_DATABASE` |
+| **Admin**                | `FLOWX_DATASOURCE_ADMIN_URI`, `ADMIN_MONGO_USERNAME`, `ADMIN_MONGO_PASSWORD`, `ADMIN_MONGO_DATABASE`                                                         |
+
+##### MongoDB URI format
+
+```
+mongodb://${USERNAME}:${PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${DATABASE}
 ```
 
-### Skipping services for data-sync
+#### PostgreSQL connections
 
-If your deployment doesn't have certain plugins or other microservices installed, you should configure data-sync to skip migrations for those:
+| Component               | Required Variables                                                                                                                                               |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Process Engine**      | `FLOWX_DATASOURCE_ENGINE_URL`, `FLOWX_DATASOURCE_ENGINE_USERNAME`, `FLOWX_DATASOURCE_ENGINE_PASSWORD`, `FLOWX_DATASOURCE_ENGINE_DRIVERCLASSNAME`                 |
+| **Application Manager** | `FLOWX_DATASOURCE_APPMANAGER_URL`, `FLOWX_DATASOURCE_APPMANAGER_USERNAME`, `FLOWX_DATASOURCE_APPMANAGER_PASSWORD`, `FLOWX_DATASOURCE_APPMANAGER_DRIVERCLASSNAME` |
 
-- `FLOWX_SKIPPEDRESOURCESERVICES` - Comma-separated list of service names for which data-sync should skip running migrations.
+##### Driver class names
 
-Example:
+- PostgreSQL: `org.postgresql.Driver`
+- Oracle: `oracle.jdbc.OracleDriver`
+
+### Additional configuration
+
+| Variable                                        | Description                                                 |
+| ----------------------------------------------- | ----------------------------------------------------------- |
+| `SPRING_JPA_DATABASE`                           | Database type for Spring JPA (e.g., `postgresql`, `oracle`) |
+| `SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULTSCHEMA` | Default schema for Hibernate                                |
+| `LOGGING_CONFIG_FILE`                           | Path to logging configuration file                          |
+
+## Service to database mapping
+
+Each service in your environment corresponds to specific database datasources:
+
+| Service                  | Datasources             |
+| ------------------------ | ----------------------- |
+| `scheduler-core`         | scheduler               |
+| `cms-core`               | cms                     |
+| `task-management-plugin` | task-manager            |
+| `document-plugin`        | document-plugin         |
+| `notification-plugin`    | notification-plugin     |
+| `runtime-manager`        | app-runtime, appmanager |
+| `integration-designer`   | integration-designer    |
+| `admin`                  | admin, engine           |
+| `process-engine`         | engine                  |
+| `application-manager`    | appmanager              |
+
+  ## Sample configuration
 
 ```yaml
-# Skip data-sync for document and notification plugins
-- name: FLOWX_SKIPPEDRESOURCESERVICES
-  value: "document-plugin,notification-plugin"
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: data-sync-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: data-sync
+        image: your-registry/data-sync:latest
+        env:
+        - name: CONFIG_PROFILE
+          value: k8stemplate_v2,kafka-auth
+        - name: FLOWX_SKIPPEDRESOURCESERVICES
+          value: "document-plugin,notification-plugin"
+        # MongoDB connections
+        - name: FLOWX_DATASOURCE_CMS_URI
+          value: "mongodb://${CMS_MONGO_USERNAME}:${CMS_MONGO_PASSWORD}@mongodb-0.mongodb-headless:27017/${CMS_MONGO_DATABASE}"
+        # Add all other required environment variables
+      restartPolicy: Never
+  backoffLimit: 3
 ```
-<Warning>
-Avoid blank spaces in the value of the `FLOWX_SKIPPEDRESOURCESERVICES` variable.
-</Warning>
 
-This prevents data-sync from failing when trying to synchronize databases for services that aren't installed in your environment.
+## Troubleshooting
 
-<Info>
-Available services datasources are:
-- `scheduler-core`: scheduler
-- `cms-core`: cms
-- `task-management-plugin`: task-manager
-- `document-plugin`: document-plugin
-- `notification-plugin`: notification-plugin
-- `runtime-manager`: app-runtime,appmanager
-- `integration-designer`: integration-designer
-- `admin`: admin,engine
-- `process-engine`: engine
-- `application-manager`: appmanager
-</Info>
+### Common issues
 
-### MongoDB connections
+1. **Database connection failures**:
+   - Verify MongoDB and PostgreSQL connection strings
+   - Check that database credentials are correct
+   - Ensure network connectivity between the job pod and databases
 
-#### CMS MongoDB
+2. **Missing Required Variables**:
+   - Ensure all required environment variables are properly set
+   - Check for typos in environment variable names
 
-- `FLOWX_DATASOURCE_CMS_URI` - MongoDB URI for CMS database.
-  - **Example**: `"mongodb://${CMS_MONGO_USERNAME}:${CMS_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${CMS_MONGO_DATABASE}"`
-- `CMS_MONGO_USERNAME` - Username for MongoDB CMS database.
-- `CMS_MONGO_PASSWORD` - Password for the CMS MongoDB database.
-- `CMS_MONGO_DATABASE` - Database name for CMS.
+3. **Service Synchronization Failures**:
+   - If a service isn't installed but data-sync is attempting to sync it, add it to `FLOWX_SKIPPEDRESOURCESERVICES`
 
-#### Scheduler MongoDB
+### Logs
 
-- `FLOWX_DATASOURCE_SCHEDULER_URI` - MongoDB URI for Scheduler database.
-  - **Example**: `"mongodb://${SCHEDULER_MONGO_USERNAME}:${SCHEDULER_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${SCHEDULER_MONGO_DATABASE}"`
-- `SCHEDULER_MONGO_USERNAME` - Username for MongoDB Scheduler database.
-- `SCHEDULER_MONGO_PASSWORD` - Password for the Scheduler MongoDB database.
-- `SCHEDULER_MONGO_DATABASE` - Database name for Scheduler.
-
-#### Task Manager MongoDB
-
-- `FLOWX_DATASOURCE_TASKMANAGER_URI` - MongoDB URI for Task Manager database.
-  - **Example**: `"mongodb://${TASKMANAGER_MONGO_USERNAME}:${TASKMANAGER_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${TASKMANAGER_MONGO_DATABASE}"`
-- `TASKMANAGER_MONGO_USERNAME` - Username for MongoDB Task Manager database.
-- `TASKMANAGER_MONGO_PASSWORD` - Password for the Task Manager MongoDB database.
-- `TASKMANAGER_MONGO_DATABASE` - Database name for Task Manager.
-
-#### Document plugin MongoDB
-
-- `FLOWX_DATASOURCE_DOCUMENTPLUGIN_URI` - MongoDB URI for Document Plugin database.
-  - **Example**: `"mongodb://${DOCUMENTPLUGIN_MONGO_USERNAME}:${DOCUMENTPLUGIN_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${DOCUMENTPLUGIN_MONGO_DATABASE}"`
-- `DOCUMENTPLUGIN_MONGO_DATABASE` - MongoDB database name for the Document Plugin.
-- `DOCUMENTPLUGIN_MONGO_USERNAME` - MongoDB username for the Document Plugin.
-- `DOCUMENTPLUGIN_MONGO_PASSWORD` - Password for the MongoDB Document Plugin database.
-
-#### Notification plugin MongoDB
-
-- `FLOWX_DATASOURCE_NOTIFICATIONPLUGIN_URI` - MongoDB URI for the Notification Plugin.
-  - **Example**: `"mongodb://${NOTIFICATIONPLUGIN_MONGO_USERNAME}:${NOTIFICATIONPLUGIN_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${NOTIFICATIONPLUGIN_MONGO_DATABASE}"`
-- `NOTIFICATIONPLUGIN_MONGO_USERNAME` - MongoDB username for the Notification Plugin.
-- `NOTIFICATIONPLUGIN_MONGO_PASSWORD` - Password for the MongoDB Notification Plugin database.
-- `NOTIFICATIONPLUGIN_MONGO_DATABASE` - MongoDB database name for the Notification Plugin.
-
-
-#### App Runtime MongoDB
-
-- `FLOWX_DATASOURCE_APPRUNTIME_URI` - MongoDB URI for App Runtime database.
-  - **Example**: `"mongodb://${APPRUNTIME_MONGO_USERNAME}:${APPRUNTIME_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${APPRUNTIME_MONGO_DATABASE}"`
-- `APPRUNTIME_MONGO_USERNAME` - Username for MongoDB App Runtime database.
-- `APPRUNTIME_MONGO_DATABASE` - Database name for App Runtime.
-
-
-#### Integration Designer MongoDB
-
-- `FLOWX_DATASOURCE_INTEGRATIONDESIGNER_URI` - MongoDB URI for Integration Designer database.
-  - **Example**: `"mongodb://${INTEGRATIONDESIGNER_MONGO_USERNAME}:${INTEGRATIONDESIGNER_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${INTEGRATIONDESIGNER_MONGO_DATABASE}"`
-- `INTEGRATIONDESIGNER_MONGO_USERNAME` - Username for MongoDB Integration Designer database.
-- `INTEGRATIONDESIGNER_MONGO_DATABASE` - Database name for Integration Designer.
-
-
-#### Admin MongoDB
-
-- `FLOWX_DATASOURCE_ADMIN_URI` - MongoDB URI for Admin database.
-  - **Example**: `"mongodb://${ADMIN_MONGO_USERNAME}:${ADMIN_MONGO_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/${ADMIN_MONGO_DATABASE}"`
-- `ADMIN_MONGO_USERNAME` - Username for MongoDB Admin database.
-- `ADMIN_MONGO_DATABASE` - Database name for Admin.
-
-
-
-### PostgreSQL connections
-
-#### Process Engine database
-
-- `FLOWX_DATASOURCE_ENGINE_URL` - PostgreSQL URL for Process Engine database.
-- `FLOWX_DATASOURCE_ENGINE_USERNAME` - Username for PostgreSQL Process Engine database.
-- `FLOWX_DATASOURCE_ENGINE_DRIVERCLASSNAME` - Driver class name for the Process Engine PostgreSQL database.
-
-#### Application Manager database
-
-- `FLOWX_DATASOURCE_APPMANAGER_URL` - PostgreSQL URL for Application Manager database.
-- `FLOWX_DATASOURCE_APPMANAGER_USERNAME` - Username for PostgreSQL Application Manager database.
-- `FLOWX_DATASOURCE_APPMANAGER_PASSWORD` - Password for the Application Manager PostgreSQL database.
-- `FLOWX_DATASOURCE_APPMANAGER_DRIVERCLASSNAME` 
-    - **Details**: Required to ensure proper database connectivity. This value can be overridden for other databases, such as Oracle.
-        - **For PostgreSQL**: `org.postgresql.Driver`
-        - **For Oracle**: `oracle.jdbc.OracleDriver`
-
-
-### Spring JPA Variables
-
-`SPRING_JPA_DATABASE` - The database type for Spring JPA (e.g., oracle).
-`SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULTSCHEMA` - The default schema for Hibernate in Spring JPA.
-
-### Logging
-
-- `LOGGING_CONFIG_FILE` - Configuration file for logging.
-
-
-## Deployment
-
-To deploy the Data-Sync Job, apply the YAML configuration with the required environment variables:
+Monitor the Data-Sync Job logs to diagnose issues:
 
 ```bash
-kubectl apply -f data-sync-job.yaml
+kubectl logs job/data-sync-job
 ```
 
-Monitor the Job status and logs as needed to ensure successful execution.
+## Best practices
 
+1. Store sensitive credentials in Kubernetes Secrets and reference them in your deployment
+2. Include the Data-Sync Job in your CI/CD pipeline for automated deployment
+3. Schedule regular runs using a Kubernetes CronJob for periodic synchronization
+4. Monitor job execution and set up alerts for failures
+
+## Next steps
+
+After successfully configuring and deploying the Data-Sync Job:
+
+1. Verify data consistency across databases
+2. Set up monitoring and alerting for job status
+3. Consider automating deployment through your CI/CD pipeline

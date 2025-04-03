@@ -53,95 +53,95 @@ The Application Manager relies on other FlowX services and components to functio
 
 #### PostgreSQL configuration
 
-| Environment Variable                  | Description         | Example Value                                   |
-| ------------------------------------- | ------------------- | ----------------------------------------------- |
-| `SPRING_DATASOURCE_URL`               | PostgreSQL JDBC URL | `jdbc:postgresql://postgresql:5432/app_manager` |
-| `SPRING_DATASOURCE_USERNAME`          | Database username   | `flowx`                                         |
-| `SPRING_DATASOURCE_PASSWORD`          | Database password   | `password`                                      |
-| `SPRING_DATASOURCE_DRIVER_CLASS_NAME` | JDBC driver class   | `org.postgresql.Driver`                         |
+| Environment Variable                | Description         | Example Value                                   |
+| ----------------------------------- | ------------------- | ----------------------------------------------- |
+| `SPRING_DATASOURCE_URL`             | PostgreSQL JDBC URL | `jdbc:postgresql://postgresql:5432/app_manager` |
+| `SPRING_DATASOURCE_USERNAME`        | Database username   | `flowx`                                         |
+| `SPRING_DATASOURCE_PASSWORD`        | Database password   | `password`                                      |
+| `SPRING_DATASOURCE_DRIVERCLASSNAME` | JDBC driver class   | `org.postgresql.Driver`                         |
 
 #### MongoDB configuration
 
 The Application Manager requires MongoDB to store runtime build information. Use the following environment variables for configuration:
 
-| Environment Variable          | Description                            | Example Value                                                                                            |
-| ----------------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `SPRING_DATA_MONGODB_URI`     | MongoDB connection URI                 | `mongodb://${DB_USERNAME}:${DB_PASSWORD}@mongodb-0.mongodb-headless:27017/app-runtime?retryWrites=false` |
-| `DB_USERNAME`                 | MongoDB username                       | `app-runtime`                                                                                            |
-| `DB_PASSWORD`                 | MongoDB password                       | `password`                                                                                               |
-| `SPRING_DATA_MONGODB_STORAGE` | Storage type (Azure environments only) | `mongodb` (alternative: `cosmosdb`)                                                                      |
+| Environment Variable          | Description                            | Example Value                                                                                                                                                                  |
+| ----------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `SPRING_DATA_MONGODB_URI`     | MongoDB connection URI                 | `mongodb://${DB_USERNAME}:${DB_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/app-runtime?retryWrites=false` |
+| `DB_USERNAME`                 | MongoDB username                       | `app-runtime`                                                                                                                                                                  |
+| `DB_PASSWORD`                 | MongoDB password                       | `password`                                                                                                                                                                     |
+| `SPRING_DATA_MONGODB_STORAGE` | Storage type (Azure environments only) | `mongodb` (alternative: `cosmosdb`)                                                                                                                                            |
 
 ### Redis configuration
 
 If caching is required, configure Redis using the following environment variables:
 
 
-| Environment Variable    | Description           | Example Value  |
-| ----------------------- | --------------------- | -------------- |
-| `SPRING_REDIS_HOST`     | Redis server hostname | `redis-master` |
-| `SPRING_REDIS_PASSWORD` | Redis password        | `password`     |
-| `SPRING_REDIS_PORT`     | Redis server port     | `6379`         |
+| Environment Variable         | Description                       | Example Value  |
+| ---------------------------- | --------------------------------- | -------------- |
+| `SPRING_DATA_REDIS_HOST`     | Redis server hostname             | `redis-master` |
+| `SPRING_DATA_REDIS_PASSWORD` | Redis password                    | `password`     |
+| `SPRING_DATA_REDIS_PORT`     | Redis server port                 | `6379`         |
+| `SPRING_REDIS_TTL`           | Default Redis TTL in milliseconds | `5000000`      |
 
 ### Kafka configuration
 
 #### Kafka connection and security variables
 
-| Environment Variable             | Description             | Example Value                      |
-| -------------------------------- | ----------------------- | ---------------------------------- |
-| `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Kafka broker addresses  | `kafka-flowx-kafka-bootstrap:9092` |
-| `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol       | `PLAINTEXT`                        |
-| `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Environment prefix      | `dev.`                             |
-| `KAFKA_MESSAGE_MAX_BYTES`        | Maximum message size    | `52428800` (50MB)                  |
-| `FLOWX_KAFKA_PAYLOAD_SIZE_LIMIT` | Payload size limit      | `512000` (500KB)                   |
+| Environment Variable             | Description            | Example Value                      |
+| -------------------------------- | ---------------------- | ---------------------------------- |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`  | Kafka broker addresses | `kafka-flowx-kafka-bootstrap:9092` |
+| `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol      | `PLAINTEXT`                        |
+| `KAFKA_MESSAGE_MAX_BYTES`        | Maximum message size   | `52428800` (50MB)                  |
+| `FLOWX_KAFKA_PAYLOADSIZELIMIT`   | Payload size limit     | `512000` (500KB)                   |
 
 #### Kafka producer configuration
 
-| Environment Variable                      | Description            | Example Value                                            |
-| ----------------------------------------- | ---------------------- | -------------------------------------------------------- |
-| `SPRING_KAFKA_PRODUCER_KEY_SERIALIZER`    | Key serializer class   | `org.apache.kafka.common.serialization.StringSerializer` |
-| `SPRING_KAFKA_PRODUCER_MAX_REQUEST_SIZE`  | Maximum request size   | `52428800` (50MB)                                        |
+| Environment Variable                                | Description          | Example Value                                            |
+| --------------------------------------------------- | -------------------- | -------------------------------------------------------- |
+| `SPRING_KAFKA_PRODUCER_KEYSERIALIZER`               | Key serializer class | `org.apache.kafka.common.serialization.StringSerializer` |
+| `SPRING_KAFKA_PRODUCER_PROPERTIES_MAX_REQUEST_SIZE` | Maximum request size | `52428800` (50MB)                                        |
 
 #### OAuth authentication variables (when using SASL_PLAINTEXT)
 
-| Environment Variable             | Description          | Example Value                                                                                |
-| -------------------------------- | -------------------- | -------------------------------------------------------------------------------------------- |
-| `KAFKA_OAUTH_CLIENT_ID`          | OAuth client ID      | `flowx-service-client`                                                                       |
-| `KAFKA_OAUTH_CLIENT_SECRET`      | OAuth client secret  | `flowx-service-client-secret`                                                                |
-| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint | `https://auth-pr1180.dev3.flowxai.dev/auth/realms/kafka-authz/protocol/openid-connect/token` |
+| Environment Variable             | Description          | Example Value                                                     |
+| -------------------------------- | -------------------- | ----------------------------------------------------------------- |
+| `KAFKA_OAUTH_CLIENTID`           | OAuth client ID      | `flowx-service-client`                                            |
+| `KAFKA_OAUTH_CLIENTSECRET`       | OAuth client secret  | `flowx-service-client-secret`                                     |
+| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint | `{baseUrl}/auth/realms/kafka-authz/protocol/openid-connect/token` |
 
 #### Kafka consumer configuration
 
-| Environment Variable                                       | Description                             | Default Value                      |
-| ---------------------------------------------------------- | --------------------------------------- | ---------------------------------- |
-| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_EXPORT`      | Application export consumer group       | `appResourceExportGroup`           |
-| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_IMPORT`      | Application import consumer group       | `appResourceImportGroup`           |
-| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_USAGES`      | Resource usages consumer group          | `appResourceUsagesGroup`           |
-| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_ELEM_VALID`  | Resource element validation group       | `appResElemUsageValidationResp`    |
-| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_RESOURCE_COPY`        | Resource copy consumer group            | `appResourceCopyGroup`             |
-| `KAFKA_CONSUMER_GROUP_ID_APPLICATION_MERGE`                | Application merge consumer group        | `appMergeItemGroup`                |
-| `KAFKA_CONSUMER_GROUP_ID_BUILD_CREATE`                     | Build create consumer group             | `buildCreateGroup`                 |
-| `KAFKA_CONSUMER_GROUP_ID_BUILD_UPDATE`                     | Build update consumer group             | `buildUpdateGroup`                 |
-| `KAFKA_CONSUMER_GROUP_ID_BUILD_RESOURCE_EXPORT`            | Build export consumer group             | `buildResourceExportGroup`         |
-| `KAFKA_CONSUMER_GROUP_ID_BUILD_RESOURCE_IMPORT`            | Build import consumer group             | `buildResourceImportGroup`         |
-| `KAFKA_CONSUMER_GROUP_ID_BUILD_START_TIMER_EVENTS_UPDATES` | Build timer events updates consumer     | `buildStartTimerEventsUpdatesGroup`|
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_START`                    | Process start consumer group            | `processStartGroup`                |
-| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL`                      | Auth exception retry interval (seconds) | `10`                               |
+| Environment Variable                                                     | Description                             | Default Value                       |
+| ------------------------------------------------------------------------ | --------------------------------------- | ----------------------------------- |
+| `KAFKA_CONSUMER_GROUPID_APPLICATION_RESOURCE_EXPORT`                     | Application export consumer group       | `appResourceExportGroup`            |
+| `KAFKA_CONSUMER_GROUPID_APPLICATION_RESOURCE_IMPORT`                     | Application import consumer group       | `appResourceImportGroup`            |
+| `KAFKA_CONSUMER_GROUPID_APPLICATION_RESOURCE_USAGES`                     | Resource usages consumer group          | `appResourceUsagesGroup`            |
+| `KAFKA_CONSUMER_GROUPID_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATIONRESP` | Resource element validation group       | `appResElemUsageValidationResp`     |
+| `KAFKA_CONSUMER_GROUPID_APPLICATION_RESOURCE_COPY`                       | Resource copy consumer group            | `appResourceCopyGroup`              |
+| `KAFKA_CONSUMER_GROUPID_APPLICATION_MERGE`                               | Application merge consumer group        | `appMergeItemGroup`                 |
+| `KAFKA_CONSUMER_GROUPID_BUILD_CREATE`                                    | Build create consumer group             | `buildCreateGroup`                  |
+| `KAFKA_CONSUMER_GROUPID_BUILD_UPDATE`                                    | Build update consumer group             | `buildUpdateGroup`                  |
+| `KAFKA_CONSUMER_GROUPID_BUILD_RESOURCE_EXPORT`                           | Build export consumer group             | `buildResourceExportGroup`          |
+| `KAFKA_CONSUMER_GROUPID_BUILD_RESOURCE_IMPORT`                           | Build import consumer group             | `buildResourceImportGroup`          |
+| `KAFKA_CONSUMER_GROUPID_BUILD_STARTTIMEREVENTS_UPDATES`                  | Build timer events updates consumer     | `buildStartTimerEventsUpdatesGroup` |
+| `KAFKA_CONSUMER_GROUPID_PROCESS_START`                                   | Process start consumer group            | `processStartGroup`                 |
+| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL`                                    | Auth exception retry interval (seconds) | `10`                                |
 
 #### Kafka consumer threads configuration
 
-| Environment Variable                                         | Description                                | Default Value |
-| ------------------------------------------------------------ | ------------------------------------------ | ------------- |
-| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_EXPORT`          | Application export consumer threads        | `3`           |
-| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_IMPORT`          | Application import consumer threads        | `3`           |
-| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_USAGES`          | Resource usages consumer threads           | `3`           |
-| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_ELEM_VALID_RESP` | Resource validation response threads       | `3`           |
-| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_COPY`            | Resource copy consumer threads             | `3`           |
-| `KAFKA_CONSUMER_THREADS_APPLICATION_MERGE`                    | Application merge consumer threads         | `3`           |
-| `KAFKA_CONSUMER_THREADS_BUILD_CREATE`                         | Build create consumer threads              | `2`           |
-| `KAFKA_CONSUMER_THREADS_BUILD_UPDATE`                         | Build update consumer threads              | `4`           |
-| `KAFKA_CONSUMER_THREADS_BUILD_RESOURCE_EXPORT`                | Build export consumer threads              | `3`           |
-| `KAFKA_CONSUMER_THREADS_BUILD_RESOURCE_IMPORT`                | Build import consumer threads              | `3`           |
-| `KAFKA_CONSUMER_THREADS_BUILD_START_TIMER_EVENTS_UPDATES`     | Build timer events updates consumer threads| `3`           |
+| Environment Variable                                                     | Description                                 | Default Value |
+| ------------------------------------------------------------------------ | ------------------------------------------- | ------------- |
+| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_EXPORT`                     | Application export consumer threads         | `3`           |
+| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_IMPORT`                     | Application import consumer threads         | `3`           |
+| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_USAGES`                     | Resource usages consumer threads            | `3`           |
+| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATIONRESP` | Resource validation response threads        | `3`           |
+| `KAFKA_CONSUMER_THREADS_APPLICATION_RESOURCE_COPY`                       | Resource copy consumer threads              | `3`           |
+| `KAFKA_CONSUMER_THREADS_APPLICATION_MERGE`                               | Application merge consumer threads          | `3`           |
+| `KAFKA_CONSUMER_THREADS_BUILD_CREATE`                                    | Build create consumer threads               | `2`           |
+| `KAFKA_CONSUMER_THREADS_BUILD_UPDATE`                                    | Build update consumer threads               | `4`           |
+| `KAFKA_CONSUMER_THREADS_BUILD_RESOURCE_EXPORT`                           | Build export consumer threads               | `3`           |
+| `KAFKA_CONSUMER_THREADS_BUILD_RESOURCE_IMPORT`                           | Build import consumer threads               | `3`           |
+| `KAFKA_CONSUMER_THREADS_BUILD_STARTTIMEREVENTS_UPDATES`                  | Build timer events updates consumer threads | `3`           |
 
 ### Topic naming convention and pattern creation
 
@@ -149,15 +149,15 @@ The Application Manager uses a sophisticated topic naming convention that follow
 
 #### Topic naming components
 
-| Component     | Default Value | Environment Variable             | Description                           |
-| ------------- | ------------- | -------------------------------- | ------------------------------------- |
-| `package`     | `ai.flowx.`   | `KAFKA_TOPIC_NAMING_PACKAGE`     | Base package identifier               |
-| `environment` | `dev.`        | `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Deployment environment                |
-| `version`     | `.v1`         | `KAFKA_TOPIC_NAMING_VERSION`     | Topic version                         |
-| `separator`   | `.`           | `KAFKA_TOPIC_NAMING_SEPARATOR`   | Main separator (referred to as `dot`) |
-| `separator2`  | `-`           | `KAFKA_TOPIC_NAMING_SEPARATOR2`  | Secondary separator (as `dash`)       |
-| `prefix`      | -             | -                                | Combined `package` and `environment`  |
-| `suffix`      | -             | -                                | The version suffix                    |
+| Component     | Default Value                                                    | Environment Variable             | Description                           |
+| ------------- | ---------------------------------------------------------------- | -------------------------------- | ------------------------------------- |
+| `package`     | `ai.flowx.`                                                      | `KAFKA_TOPIC_NAMING_PACKAGE`     | Base package identifier               |
+| `environment` | `dev.`                                                           | `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Deployment environment                |
+| `version`     | `.v1`                                                            | `KAFKA_TOPIC_NAMING_VERSION`     | Topic version                         |
+| `separator`   | `.`                                                              | `KAFKA_TOPIC_NAMING_SEPARATOR`   | Main separator (referred to as `dot`) |
+| `separator2`  | `-`                                                              | `KAFKA_TOPIC_NAMING_SEPARATOR2`  | Secondary separator (as `dash`)       |
+| `prefix`      | `${KAFKA_TOPIC_NAMING_PACKAGE}${KAFKA_TOPIC_NAMING_ENVIRONMENT}` | `KAFKA_TOPIC_NAMING_PREFIX`      | Combined `package` and `environment`  |
+| `suffix`      | `${KAFKA_TOPIC_NAMING_VERSION}`                                  | `KAFKA_TOPIC_NAMING_SUFFIX`      | The version suffix                    |
 
 #### Topic pattern creation
 
@@ -191,45 +191,45 @@ Where:
 
 ##### Application resource topics
 
-| Environment Variable                                                  | Description                                | Default Pattern                                                                                     |
-| --------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------- |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_EXPORT`                             | Application resource export topic          | `ai.flowx.dev.application-version.export.v1`                                                        |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_IMPORT`                             | Application resource import topic          | `ai.flowx.dev.application-version.import.v1`                                                        |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_IN`                          | Resource usages in topic                   | `ai.flowx.dev.application-version.resources-usages.operations.bulk.v1`                              |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_OUT`                         | Resource usages out topic                  | `ai.flowx.dev.application-version.resources-usages.operations.bulk.v1`                              |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_REFRESH`                     | Resource usages refresh topic              | `ai.flowx.dev.application-version.resources-usages.refresh.v1`                                      |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_RESPONSE`    | Resource element usage validation response | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.response.v1`                  |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_OUT_INTEGRATION` | Resource validation integration topic  | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.request-integration.v1`       |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_OUT_CMS`     | Resource validation CMS topic             | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.cms.v1`                       |
-| `KAFKA_TOPIC_APPLICATION_RESOURCE_COPY`                               | Resource copy topic                        | `ai.flowx.dev.application-version.copy-resource.v1`                                                 |
-| `KAFKA_TOPIC_APPLICATION_MERGE`                                       | Application merge topic                    | `ai.flowx.dev.application-version.merge.v1`                                                         |
+| Environment Variable                                                      | Description                                | Default Pattern                                                                               |
+| ------------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------- |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_EXPORT`                                 | Application resource export topic          | `ai.flowx.dev.application-version.export.v1`                                                  |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_IMPORT`                                 | Application resource import topic          | `ai.flowx.dev.application-version.import.v1`                                                  |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_IN`                              | Resource usages in topic                   | `ai.flowx.dev.application-version.resources-usages.operations.bulk.v1`                        |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_OUT`                             | Resource usages out topic                  | `ai.flowx.dev.application-version.resources-usages.operations.bulk.v1`                        |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_USAGES_REFRESH`                         | Resource usages refresh topic              | `ai.flowx.dev.application-version.resources-usages.refresh.v1`                                |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_RESPONSE`        | Resource element usage validation response | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.response.v1`            |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_OUT_INTEGRATION` | Resource validation integration topic      | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.request-integration.v1` |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_OUT_CMS`         | Resource validation CMS topic              | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.cms.v1`                 |
+| `KAFKA_TOPIC_APPLICATION_RESOURCE_COPY`                                   | Resource copy topic                        | `ai.flowx.dev.application-version.copy-resource.v1`                                           |
+| `KAFKA_TOPIC_APPLICATION_MERGE`                                           | Application merge topic                    | `ai.flowx.dev.application-version.merge.v1`                                                   |
 
 ##### Build resource topics
 
-| Environment Variable                           | Description                | Default Pattern                                               |
-| ---------------------------------------------- | -------------------------- | ------------------------------------------------------------- |
-| `KAFKA_TOPIC_BUILD_UPDATE`                     | Build update topic         | `ai.flowx.dev.build.update.v1`                                |
-| `KAFKA_TOPIC_BUILD_CREATE`                     | Build create topic         | `ai.flowx.dev.build.create.v1`                                |
-| `KAFKA_TOPIC_BUILD_RESOURCE_EXPORT`            | Build export topic         | `ai.flowx.dev.build.export.v1`                                |
-| `KAFKA_TOPIC_BUILD_RESOURCE_IMPORT`            | Build import topic         | `ai.flowx.dev.build.import.v1`                                |
-| `KAFKA_TOPIC_BUILD_START_TIMER_EVENTS_IN_UPDATES` | Timer events updates topic | `ai.flowx.dev.build.start-timer-events.updates.in.v1`      |
+| Environment Variable                         | Description                | Default Pattern                                       |
+| -------------------------------------------- | -------------------------- | ----------------------------------------------------- |
+| `KAFKA_TOPIC_BUILD_UPDATE`                   | Build update topic         | `ai.flowx.dev.build.update.v1`                        |
+| `KAFKA_TOPIC_BUILD_CREATE`                   | Build create topic         | `ai.flowx.dev.build.create.v1`                        |
+| `KAFKA_TOPIC_BUILD_RESOURCE_EXPORT`          | Build export topic         | `ai.flowx.dev.build.export.v1`                        |
+| `KAFKA_TOPIC_BUILD_RESOURCE_IMPORT`          | Build import topic         | `ai.flowx.dev.build.import.v1`                        |
+| `KAFKA_TOPIC_BUILD_STARTTIMEREVENTS_UPDATES` | Timer events updates topic | `ai.flowx.dev.build.start-timer-events.updates.in.v1` |
 
 ##### Process topics
 
-| Environment Variable                                      | Description                     | Default Pattern                                                        | 
-| --------------------------------------------------------- | ------------------------------- | ---------------------------------------------------------------------- | 
-| `KAFKA_TOPIC_PROCESS_START_FOR_EVENT_IN`                  | Process start for event topic   | `ai.flowx.dev.core.trigger.start-for-event.process.v1`                 | 
-| `KAFKA_TOPIC_PROCESS_START_BY_NAME_IN`                    | Process start by name topic     | `ai.flowx.dev.core.trigger.start-by-name.process.v1`                   |
-| `KAFKA_TOPIC_PROCESS_START_BY_NAME_OUT`                   | Process start by name out topic | `ai.flowx.dev.core.trigger.start-by-name.process.out.v1`               |
-| `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_SET`      | Set timer schedule topic        | `ai.flowx.dev.core.trigger.set.timer-event-schedule.v1`                |
-| `KAFKA_TOPIC_PROCESS_SCHEDULED_TIMER_EVENTS_OUT_STOP`     | Stop timer schedule topic       | `ai.flowx.dev.core.trigger.stop.timer-event-schedule.v1`               |
+| Environment Variable                                | Description                     | Default Pattern                                          |
+| --------------------------------------------------- | ------------------------------- | -------------------------------------------------------- |
+| `KAFKA_TOPIC_PROCESS_STARTFOREVENT_IN`              | Process start for event topic   | `ai.flowx.dev.core.trigger.start-for-event.process.v1`   |
+| `KAFKA_TOPIC_PROCESS_STARTBYNAME_IN`                | Process start by name topic     | `ai.flowx.dev.core.trigger.start-by-name.process.v1`     |
+| `KAFKA_TOPIC_PROCESS_STARTBYNAME_OUT`               | Process start by name out topic | `ai.flowx.dev.core.trigger.start-by-name.process.out.v1` |
+| `KAFKA_TOPIC_PROCESS_SCHEDULEDTIMEREVENTS_OUT_SET`  | Set timer schedule topic        | `ai.flowx.dev.core.trigger.set.timer-event-schedule.v1`  |
+| `KAFKA_TOPIC_PROCESS_SCHEDULEDTIMEREVENTS_OUT_STOP` | Stop timer schedule topic       | `ai.flowx.dev.core.trigger.stop.timer-event-schedule.v1` |
 
 ##### Other topics
 
-| Environment Variable                      | Description                   | Default Pattern                                               | 
-| ----------------------------------------- | ----------------------------- | ------------------------------------------------------------- | 
-| `KAFKA_TOPIC_AUDIT_OUT`                   | Audit topic                   | `ai.flowx.dev.core.trigger.save.audit.v1`                     | 
-| `KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE`  | Events gateway messages topic | `ai.flowx.dev.eventsgateway.receive.copyresource.v1`          |
+| Environment Variable                    | Description                   | Default Pattern                                      |
+| --------------------------------------- | ----------------------------- | ---------------------------------------------------- |
+| `KAFKA_TOPIC_AUDIT_OUT`                 | Audit topic                   | `ai.flowx.dev.core.trigger.save.audit.v1`            |
+| `KAFKA_TOPIC_EVENTSGATEWAY_OUT_MESSAGE` | Events gateway messages topic | `ai.flowx.dev.eventsgateway.receive.copyresource.v1` |
 
 <Info>
 These Kafka topics use predefined naming conventions for ease of use. Optional adjustments may be made if the desired topic name cannot be achieved with the standard structure.
@@ -237,14 +237,45 @@ These Kafka topics use predefined naming conventions for ease of use. Optional a
 
 ### Authentication configuration
 
-| Environment Variable                                  | Description                  | Example Value                               | 
-| ----------------------------------------------------- | ---------------------------- | ------------------------------------------- | 
-| `SECURITY_OAUTH2_BASE_SERVER_URL`                     | OAuth2 server base URL       | `https://auth-pr1180.dev3.flowxai.dev/auth` | 
-| `SECURITY_OAUTH2_CLIENT_CLIENT_ID`                    | Client ID                    | `flowx-platform-authorize`                  | 
-| `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`                | Client secret                | `secret`                                    | 
-| `SECURITY_OAUTH2_REALM`                               | Authentication realm         | `flowx`                                     | 
-| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` | Admin service account secret | `secret`                                    | 
-| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`     | Admin service account ID     | `flowx-runtime-manager-sa`                  | 
+
+#### OpenID Connect configuration
+
+| Environment Variable                      | Description             | Default Value                                                                                      |
+| ----------------------------------------- | ----------------------- | -------------------------------------------------------------------------------------------------- |
+| `SECURITY_TYPE`                           | Security type           | `oauth2`                                                                                           |
+| `SECURITY_OAUTH2_CLIENT`                  | Enable OAuth2 client    | `enabled`                                                                                          |
+| `SECURITY_OAUTH2_BASE_SERVER_URL`         | OAuth2 server base URL  |                                                                                                    |
+| `SECURITY_OAUTH2_REALM`                   | OAuth2 realm name       |                                                                                                    |
+| `SECURITY_OAUTH2_CLIENT_CLIENTID`         | OAuth2 client ID        |                                                                                                    |
+| `SECURITY_OAUTH2_CLIENT_CLIENTSECRET`     | OAuth2 client secret    |                                                                                                    |
+| `SECURITY_OAUTH2_CLIENT_ACCESS_TOKEN_URI` | OAuth2 access token URI | `${SECURITY_OAUTH2_BASE_SERVER_URL}/realms/${SECURITY_OAUTH2_REALM}/protocol/openid-connect/token` |
+
+#### Service account configuration
+
+| Environment Variable                                 | Description                   | Default Value              |
+| ---------------------------------------------------- | ----------------------------- | -------------------------- |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENTID`     | Service account client ID     | `flowx-runtime-manager-sa` |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENTSECRET` | Service account client secret |                            |
+
+#### Spring security OAuth2 client configuration
+
+| Environment Variable                                                                   | Description                   | Default Value                                                                                                 |
+| -------------------------------------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_INTROSPECTION_URI`                | Token introspection URI       | `${SECURITY_OAUTH2_BASE_SERVER_URL}/realms/${SECURITY_OAUTH2_REALM}/protocol/openid-connect/token/introspect` |
+| `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENTID`                         | Resource server client ID     | `${SECURITY_OAUTH2_CLIENT_CLIENTID}`                                                                          |
+| `SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENTSECRET`                     | Resource server client secret | `${SECURITY_OAUTH2_CLIENT_CLIENTSECRET}`                                                                      |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_PROVIDER`                     | Identity provider name        | `mainAuthProvider`                                                                                            |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENT_NAME`                  | Client name                   | `mainIdentity`                                                                                                |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENTID`                     | Client ID                     | `${SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENTID}`                                                           |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENTSECRET`                 | Client secret                 | `${SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENTSECRET}`                                                       |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_AUTHORIZATION_GRANT_TYPE`     | Authorization grant type      | `client_credentials`                                                                                          |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENT_AUTHENTICATION_METHOD` | Client authentication method  | `client_secret_post`                                                                                          |
+| `SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_MAINAUTHPROVIDER_TOKEN_URI`                    | Provider token URI            | `${SECURITY_OAUTH2_BASE_SERVER_URL}/realms/${SECURITY_OAUTH2_REALM}/protocol/openid-connect/token`            |
+
+
+<Info>
+The Application Manager requires proper authentication settings to secure access to application resources and APIs. By default, the service is configured to use Keycloak as the OpenID provider, but it can be adapted to work with other OAuth2-compatible providers.
+</Info>
 
 Refer to the dedicated section for configuring user roles and access rights:
 
@@ -259,16 +290,16 @@ S3 is used in the Application Manager for:
 - Storing application versions and builds that are imported or exported
 </Info>
 
-| Environment Variable                             | Description            | Example Value                              | Default               |
-| ------------------------------------------------ | ---------------------- | ------------------------------------------ | --------------------- |
-| `APPLICATION_FILE_STORAGE_S3_SERVER_URL`         | S3 server URL          | `http://minio:9000`                        | None                  |
-| `APPLICATION_FILE_STORAGE_S3_ACCESS_KEY`         | S3 access key          | `Ha0wvtOE9gQ2NSzghEcs`                     | None                  |
-| `APPLICATION_FILE_STORAGE_S3_SECRET_KEY`         | S3 secret key          | `jY7nYLVtNh9JzMflliQKu3noPpjxD3prxIkliErX` | None                  |
-| `APPLICATION_FILE_STORAGE_TYPE`                  | Storage type           | `s3`                                       | `s3`                  |
-| `APPLICATION_FILE_STORAGE_DELETION_STRATEGY`     | File deletion strategy | `delete`                                   | `delete`              |
-| `APPLICATION_FILE_STORAGE_S3_ENABLED`            | Enable S3 storage      | `true`                                     | `true`                |
-| `APPLICATION_FILE_STORAGE_S3_ENCRYPTION_ENABLED` | Enable S3 encryption   | `false`                                    | `false`               |
-| `APPLICATION_FILE_STORAGE_S3_BUCKET_PREFIX`      | S3 bucket name prefix  | `applications-bucket`                      | `applications-bucket` |
+| Environment Variable                           | Description            | Example Value                              | Default               |
+| ---------------------------------------------- | ---------------------- | ------------------------------------------ | --------------------- |
+| `APPLICATION_FILESTORAGE_S3_SERVERURL`         | S3 server URL          | `http://minio:9000`                        | None                  |
+| `APPLICATION_FILESTORAGE_S3_ACCESSKEY`         | S3 access key          | `Ha0wvtOE9gQ2NSzghEcs`                     | None                  |
+| `APPLICATION_FILESTORAGE_S3_SECRETKEY`         | S3 secret key          | `jY7nYLVtNh9JzMflliQKu3noPpjxD3prxIkliErX` | None                  |
+| `APPLICATION_FILESTORAGE_TYPE`                 | Storage type           | `s3`                                       | `s3`                  |
+| `APPLICATION_FILESTORAGE_DELETIONSTRATEGY`     | File deletion strategy | `delete`                                   | `delete`              |
+| `APPLICATION_FILESTORAGE_S3_ENABLED`           | Enable S3 storage      | `true`                                     | `true`                |
+| `APPLICATION_FILESTORAGE_S3_ENCRYPTIONENABLED` | Enable S3 encryption   | `false`                                    | `false`               |
+| `APPLICATION_FILESTORAGE_S3_BUCKETPREFIX`      | S3 bucket name prefix  | `applications-bucket`                      | `applications-bucket` |
 
 ### Monitoring and health check configuration
 
@@ -291,11 +322,11 @@ The Resource Proxy module forwards resource-related requests to appropriate serv
 | ------------------------------------------------------- | ---------------------------------- | ---------------- | --------- |
 | `RESOURCE_PROXY_MANIFEST_URL`                           | Manifest URL for resource proxy    | URL value        | None      |
 | `RESOURCE_PROXY_TARGET_URL`                             | Target URL for resource forwarding | URL value        | None      |
-| `FLOWX_RESOURCE_PROXY_RETRY_GET_RESOURCE_TIMEOUT_MS`    | Resource retrieval timeout         | `500`            | `500`     |
-| `FLOWX_RESOURCE_PROXY_RETRY_GET_RESOURCE_MAX_COUNT`     | Maximum resource retrieval retries | `10`             | `10`      |
-| `FLOWX_RESOURCE_PROXY_WEB_CLIENT_RETRY_ATTEMPTS`        | Web client retry attempts          | `2`              | `2`       |
-| `FLOWX_RESOURCE_PROXY_WEB_CLIENT_RETRY_BACKOFF`         | Retry backoff time (seconds)       | `1`              | `1`       |
-| `FLOWX_RESOURCE_PROXY_WEB_CLIENT_MAX_IN_MEMORY_SIZE`    | Maximum in-memory size             | `5MB`            | `5MB`     |
+| `FLOWX_RESOURCEPROXY_RETRYGETRESOURCETIMEOUTMS`         | Resource retrieval timeout         | `500`            | `500`     |
+| `FLOWX_RESOURCEPROXY_RETRYGETRESOURCEMAXCOUNT`          | Maximum resource retrieval retries | `10`             | `10`      |
+| `FLOWX_RESOURCEPROXY_WEBCLIENT_RETRYATTEMPTS`           | Web client retry attempts          | `2`              | `2`       |
+| `FLOWX_RESOURCEPROXY_WEBCLIENT_RETRYBACKOFF`            | Retry backoff time (seconds)       | `1`              | `1`       |
+| `FLOWX_RESOURCEPROXY_WEBCLIENT_MAXINMEMORYSIZE`         | Maximum in-memory size             | `5MB`            | `5MB`     |
 | `FLOWX_RUNTIMEEXECUTIONPROXY_WEBCLIENT_MAXINMEMORYSIZE` | Maximum REST request size          | `5242880` (5 MB) | `5242880` |
 
 <Info>
@@ -308,12 +339,12 @@ The Resource Proxy module forwards resource-related requests to appropriate serv
 
 The Application Manager scheduler supports retrying failed deployments and master election for better coordination of tasks across instances:
 
-| Environment Variable                              | Description                  | Example Value    | Default |
-| ------------------------------------------------- | ---------------------------- | ---------------- | ------- |
-| `FLOWX_SCHEDULER_RETRY_FAILED_DEPLOYMENTS_CRON`   | Failed deployment retry cron | `0 * * * * *`    | None    |
-| `FLOWX_SCHEDULER_MASTER_ELECTION_ENABLED`         | Enable master election       | `true`           | `false` |
-| `FLOWX_SCHEDULER_MASTER_ELECTION_CRON_EXPRESSION` | Master election cron         | `*/30 * * * * *` | None    |
-| `FLOWX_SCHEDULER_MASTER_ELECTION_PROVIDER`        | Election provider            | `redis`          | None    |
+| Environment Variable                            | Description                  | Example Value    | Default |
+| ----------------------------------------------- | ---------------------------- | ---------------- | ------- |
+| `FLOWX_SCHEDULER_RETRYFAILEDDEPLOYMENTSCRON`    | Failed deployment retry cron | `0 * * * * *`    | None    |
+| `FLOWX_SCHEDULER_MASTERELECTION_ENABLED`        | Enable master election       | `true`           | `false` |
+| `FLOWX_SCHEDULER_MASTERELECTION_CRONEXPRESSION` | Master election cron         | `*/30 * * * * *` | None    |
+| `FLOWX_SCHEDULER_MASTERELECTION_PROVIDER`       | Election provider            | `redis`          | None    |
 
 #### Retry failed deployments
 

@@ -177,12 +177,12 @@ The FlowX.AI Designer is an SPA application that is packaged in a docker image w
 
 In order to configure the docker image you need to configure the next parameters:
 
-```jsx
+```yaml
 flowx-process-renderer:
   env:
     BASE_API_URL: {{the one configured as host in the nginx}}
     PROCESS_API_PATH: {{something like /engine}}
-    KEYCLOAK_ISSUER: {{openid provider - ex: https://something/auth/realms/realmName}}
+    KEYCLOAK_ISSUER: {{openid provider - ex: https://something/auth/realms/realmName}}  
     KEYCLOAK_REDIRECT_URI: {{url of the SPA}}
     KEYCLOAK_CLIENT_ID: {{client ID}}
     STATIC_ASSETS_PATH: {{mediaLibrary.s3.publicUrl }}/{{env}}

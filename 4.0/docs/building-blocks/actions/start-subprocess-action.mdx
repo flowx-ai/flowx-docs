@@ -5,6 +5,11 @@ description: A Start subprocess action is an action that allows you to start a s
 
 Using **subprocesses** is a good way to split the complexity of your business flow into multiple, simple and reusable processes.
 
+<Info>
+The "Start subprocess" is available only on [User Task](../node/user-task-node) nodes.
+For any other scenarios, you should use the [Call Activity node](../node/call-subprocess-tasks/call-activity-node) instead.
+</Info>
+
 ## Configuring a Start subprocess action
 
 To use a process as a [subprocess](../process/subprocess) you must first create it. Once the subprocess is created, you can start it from another (parent) process. To do this, you will need to add a **Start Subprocess** action to a [**User task**](../node/task-node) node in the parent process or by using a [Call activity node](../node/call-subprocess-tasks/call-activity-node).

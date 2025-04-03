@@ -44,12 +44,12 @@ If this configuration is not provided, the default value will be set to `flowx`.
 
 Connect the CMS to an OAuth 2.0 identity management platform by setting the following variables:
 
-| Environment variable                   | Description                                      |
-| -------------------------------------- | ------------------------------------------------ |
-| `SECURITY_OAUTH2_BASE_SERVER_URL`      | Base URL for the OAuth 2.0 Authorization Server  |
-| `SECURITY_OAUTH2_CLIENT_CLIENT_ID`     | Unique identifier for the client application     |
-| `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` | Secret key to authenticate client requests       |
-| `SECURITY_OAUTH2_REALM`                | Realm name for OAuth 2.0 provider authentication |
+| Environment variable                  | Description                                      |
+| ------------------------------------- | ------------------------------------------------ |
+| `SECURITY_OAUTH2_BASESERVERURL`       | Base URL for the OAuth 2.0 Authorization Server  |
+| `SECURITY_OAUTH2_CLIENT_CLIENTID`     | Unique identifier for the client application     |
+| `SECURITY_OAUTH2_CLIENT_CLIENTSECRET` | Secret key to authenticate client requests       |
+| `SECURITY_OAUTH2_REALM`               | Realm name for OAuth 2.0 provider authentication |
 
 For detailed role and access configuration, refer to:  
 
@@ -92,11 +92,11 @@ CMS also connects to a Runtime MongoDB instance for operational data:
 The service can use the same Redis component deployed for the engine. See [Redis Configuration](./setup-guides-overview#redis-configuration).
 </Info>
 
-| Environment variable    | Description                                            |
-| ----------------------- | ------------------------------------------------------ |
-| `SPRING_REDIS_HOST`     | Hostname or IP of the Redis server                     |
-| `SPRING_REDIS_PASSWORD` | Authentication password for Redis                      |
-| `REDIS_TTL`             | Maximum time-to-live for Redis cache keys (in seconds) |
+| Environment variable         | Description                                            |
+| ---------------------------- | ------------------------------------------------------ |
+| `SPRING_DATA_REDIS_HOST`     | Hostname or IP of the Redis server                     |
+| `SPRING_DATA_REDIS_PASSWORD` | Authentication password for Redis                      |
+| `SPRING_REDIS_TTL`           | Maximum time-to-live for Redis cache keys (in seconds) |
 
 ### Configuring Kafka 
 
@@ -104,32 +104,30 @@ The service can use the same Redis component deployed for the engine. See [Redis
 
 | Environment variable             | Description                 | Default value    |
 | -------------------------------- | --------------------------- | ---------------- |
-| `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Address of the Kafka server | `localhost:9092` |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`  | Address of the Kafka server | `localhost:9092` |
 | `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol for Kafka | `"PLAINTEXT"`    |
 
 
-#### Consumer and producer configuration
+#### Auth and retry configuration
 
-| Environment variable                  | Description                                     | Default value     |
-| ------------------------------------- | ----------------------------------------------- | ----------------- |
-| `SPRING_KAFKA_CONSUMER_GROUP_ID`      | Defines the Kafka consumer group                |                   |
-| `KAFKA_CONSUMER_THREADS`              | Number of Kafka consumer threads                |                   |
-| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` | Retry interval after an authorization exception | `10`              |
-| `KAFKA_MESSAGE_MAX_BYTES`             | Maximum message size in bytes                   | `52428800` (50MB) |
+| Environment variable               | Description                                     | Default value     |
+| ---------------------------------- | ----------------------------------------------- | ----------------- |
+| `KAFKA_AUTHEXCEPTIONRETRYINTERVAL` | Retry interval after an authorization exception | `10`              |
+| `KAFKA_MESSAGE_MAX_BYTES`          | Maximum message size in bytes                   | `52428800` (50MB) |
 
 #### Consumer group configuration
 
-| Environment variable                           | Description                            | Default value                    |
-| ---------------------------------------------- | -------------------------------------- | -------------------------------- |
-| `KAFKA_CONSUMER_GROUP_ID_CONTENT_TRANSLATE`    | Group ID for content translation       | `cms-consumer-preview`           |
-| `KAFKA_CONSUMER_GROUP_ID_RES_USAGE_VALIDATION` | Group ID for resource usage validation | `cms-res-usage-validation-group` |
+| Environment variable                        | Description                            | Default value                    |
+| ------------------------------------------- | -------------------------------------- | -------------------------------- |
+| `KAFKA_CONSUMER_GROUPID_CONTENTTRANSLATE`   | Group ID for content translation       | `cms-consumer-preview`           |
+| `KAFKA_CONSUMER_GROUPID_RESUSAGEVALIDATION` | Group ID for resource usage validation | `cms-res-usage-validation-group` |
 
 #### Consumer thread configuration
 
-| Environment variable                           | Description                            | Default value                    |
-| ---------------------------------------------- | -------------------------------------- | -------------------------------- |
-| `KAFKA_CONSUMER_THREADS_CONTENT_TRANSLATE`    | Threads for content translation       | `1`                              |
-| `KAFKA_CONSUMER_THREADS_RES_USAGE_VALIDATION` | Threads for resource usage validation | `2`                              |
+| Environment variable                        | Description                           | Default value |
+| ------------------------------------------- | ------------------------------------- | ------------- |
+| `KAFKA_CONSUMER_THREADS_CONTENTTRANSLATE`   | Threads for content translation       | `1`           |
+| `KAFKA_CONSUMER_THREADS_RESUSAGEVALIDATION` | Threads for resource usage validation | `2`           |
 
 
 #### Topic configuration
@@ -209,30 +207,24 @@ spring:
         login.callback.handler.class: io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler
 ```
 
-Required environment variables:
-- `KAFKA_OAUTH_CLIENT_ID`
-- `KAFKA_OAUTH_CLIENT_SECRET`
-- `KAFKA_OAUTH_TOKEN_ENDPOINT_URI`
-
 ### Configuring logging
 
 | Environment variable         | Description                             |
 | ---------------------------- | --------------------------------------- |
 | `LOGGING_LEVEL_ROOT`         | Log level for root service logs         |
 | `LOGGING_LEVEL_APP`          | Log level for application-specific logs |
-| `LOGGING_LEVEL_MONGO_DRIVER` | Log level for the MongoDB driver        |
 
 ### Configuring file storage
 
 #### Public storage
 
-| Environment variable                         | Description                                             |
-| -------------------------------------------- | ------------------------------------------------------- |
-| `APPLICATION_FILE_STORAGE_S3_SERVER_URL`     | URL of S3 server for file storage                       |
-| `APPLICATION_FILE_STORAGE_S3_BUCKET_NAME`    | S3 bucket name                                          |
-| `APPLICATION_FILE_STORAGE_S3_ROOT_DIRECTORY` | Root directory in S3 bucket                             |
-| `APPLICATION_FILE_STORAGE_S3_CREATE_BUCKET`  | Auto-create bucket if it doesn't exist (`true`/`false`) |
-| `APPLICATION_FILE_STORAGE_S3_PUBLIC_URL`     | Public URL for accessing files                          |
+| Environment variable                       | Description                                             |
+| ------------------------------------------ | ------------------------------------------------------- |
+| `APPLICATION_FILESTORAGE_S3_SERVERURL`     | URL of S3 server for file storage                       |
+| `APPLICATION_FILESTORAGE_S3_BUCKETNAME`    | S3 bucket name                                          |
+| `APPLICATION_FILESTORAGE_S3_ROOTDIRECTORY` | Root directory in S3 bucket                             |
+| `APPLICATION_FILESTORAGE_S3_CREATEBUCKET`  | Auto-create bucket if it doesn't exist (`true`/`false`) |
+| `APPLICATION_FILESTORAGE_S3_PUBLICURL`     | Public URL for accessing files                          |
 
 #### Private storage
 
@@ -242,20 +234,20 @@ Private CMS securely stores uploaded documents and AI-generated documents, ensur
 Private CMS ensures secure file storage by keeping documents hidden from the Media Library and accessible only through authenticated endpoints with access token permissions. Files can be retrieved using tags (e.g., ai_document, ref:UUID_doc) and are excluded from application builds.
 </Info>
 
-| Environment variable                                | Description                                 |
-| --------------------------------------------------- | ------------------------------------------- |
-| `APPLICATION_FILE_STORAGE_S3_PRIVATE_SERVER_URL`    | URL of S3 server for private storage        |
-| `APPLICATION_FILE_STORAGE_S3_PRIVATE_BUCKET_NAME`   | S3 bucket name for private storage          |
-| `APPLICATION_FILE_STORAGE_S3_PRIVATE_CREATE_BUCKET` | Auto-create private bucket (`true`/`false`) |
-| `APPLICATION_FILE_STORAGE_S3_PRIVATE_ACCESS_KEY`    | Access key for private S3 server            |
-| `APPLICATION_FILE_STORAGE_S3_PRIVATE_SECRET_KEY`    | Secret key for private S3 server            |
+| Environment variable                             | Description                                 |
+| ------------------------------------------------ | ------------------------------------------- |
+| `APPLICATION_FILESTORAGE_S3_PRIVATESERVERURL`    | URL of S3 server for private storage        |
+| `APPLICATION_FILESTORAGE_S3_PRIVATEBUCKETNAME`   | S3 bucket name for private storage          |
+| `APPLICATION_FILESTORAGE_S3_PRIVATECREATEBUCKET` | Auto-create private bucket (`true`/`false`) |
+| `APPLICATION_FILESTORAGE_S3_PRIVATEACCESSKEY`    | Access key for private S3 server            |
+| `APPLICATION_FILESTORAGE_S3_PRIVATESECRETKEY`    | Secret key for private S3 server            |
 
 ### Configuring file upload size
 
-| Environment variable                        | Description                      | Default value |
-| ------------------------------------------- | -------------------------------- | ------------- |
-| `SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE`    | Maximum file size for uploads    | `50MB`        |
-| `SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE` | Maximum request size for uploads | `50MB`        |
+| Environment variable                      | Description                      | Default value |
+| ----------------------------------------- | -------------------------------- | ------------- |
+| `SPRING_SERVLET_MULTIPART_MAXFILESIZE`    | Maximum file size for uploads    | `50MB`        |
+| `SPRING_SERVLET_MULTIPART_MAXREQUESTSIZE` | Maximum request size for uploads | `50MB`        |
 
 <Warning>
 Setting high file size limits may increase vulnerability to potential attacks. Consider security implications before increasing these limits.

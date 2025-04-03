@@ -11,70 +11,75 @@ Before proceeding with the setup, ensure that the following components have been
 * **Redis** - version 6.0 or higher
 * **Kafka** - version 2.8 or higher
 
-## Dependencies
-
-* **Kafka** - used for event communication
-* **Redis** - used for caching
-
 ## Configuration
 
 ### Configuring Kafka
 
 Set the following Kafka-related configurations using environment variables:
 
-* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - the address of the Kafka server, it should be in the format "host:port"
+* `SPRING_KAFKA_BOOTSTRAPSERVERS` - the address of the Kafka server, it should be in the format "host:port"
 
 #### Groupd IDs
 
-The configuration parameters "KAFKA_CONSUMER_GROUP_ID_*" are used to set the consumer group name for Kafka consumers that consume messages from topics. Consumer groups in Kafka allow for parallel message processing by distributing the workload among multiple consumer instances. By configuring the consumer group ID, you can specify the logical grouping of consumers that work together to process messages from the same topic, enabling scalable and fault-tolerant message consumption in your Kafka application.
+The configuration parameters "KAFKA_CONSUMER_GROUPID_*" are used to set the consumer group name for Kafka consumers that consume messages from topics. Consumer groups in Kafka allow for parallel message processing by distributing the workload among multiple consumer instances. By configuring the consumer group ID, you can specify the logical grouping of consumers that work together to process messages from the same topic, enabling scalable and fault-tolerant message consumption in your Kafka application.
 
-| Configuration Parameter                                      | Default value                        | Description                                                          |
-| ------------------------------------------------------------ | ---------------------------- | -------------------------------------------------------------------- |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_ENGINE_COMMANDS_MESSAGE`    | `engine-commands-message`    | Consumer group ID for processing engine commands messages            |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_ENGINE_COMMANDS_DISCONNECT` | `engine-commands-disconnect` | Consumer group ID for processing engine commands disconnect messages |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_ENGINE_COMMANDS_CONNECT`    | `engine-commands-connect`    | Consumer group ID for processing engine commands connect messages    |
-| `KAFKA_CONSUMER_GROUP_ID_PROCESS_TASK_COMMANDS`              | `task-commands-message`      | Consumer group ID for processing task commands                       |
-
+| Configuration Parameter                                   | Default value                      | Description                                                          |
+| --------------------------------------------------------- | ---------------------------------- | -------------------------------------------------------------------- |
+| `KAFKA_CONSUMER_GROUPID_PROCESSENGINECOMMANDS_MESSAGE`    | `engine-commands-message`          | Consumer group ID for processing engine commands messages            |
+| `KAFKA_CONSUMER_GROUPID_PROCESSENGINECOMMANDS_DISCONNECT` | `engine-commands-disconnect`       | Consumer group ID for processing engine commands disconnect messages |
+| `KAFKA_CONSUMER_GROUPID_PROCESSENGINECOMMANDS_CONNECT`    | `engine-commands-connect`          | Consumer group ID for processing engine commands connect messages    |
+| `KAFKA_CONSUMER_GROUPID_PROCESS_TASKCOMMANDS_MESSAGE`     | `task-commands-message`            | Consumer group ID for processing task commands                       |
+| `KAFKA_CONSUMER_GROUPID_PROCESSVERSIONCOMMANDS_MESSAGE`   | `process-version-commands-message` | Consumer group ID for processing process version commands messages   |
+| `KAFKA_CONSUMER_GROUPID_GENERICCOMMANDS`                  | `generic-commands-message`         | Consumer group ID for processing generic commands messages           |
+| `KAFKA_CONSUMER_GROUPID_USERBROADCASTCOMMANDS`            | `user-broadcast-commands-message`  | Consumer group ID for processing user broadcast commands messages    |
 
 #### Threads
 
 The configuration parameters "KAFKA_CONSUMER_THREADS_*" are utilized to specify the number of threads assigned to Kafka consumers for processing messages from topics. These parameters allow you to fine-tune the concurrency and parallelism of your Kafka consumer application, enabling efficient and scalable message consumption from Kafka topics.
 
-| Configuration Parameter                                     | Default value | Description                                                                              |
-| ----------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------------- |
-| `KAFKA_CONSUMER_THREADS_PROCESS_ENGINE_COMMANDS_MESSAGE`    | 10            | Number of threads for processing engine commands messages                                |
-| `KAFKA_CONSUMER_THREADS_PROCESS_ENGINE_COMMANDS_DISCONNECT` | 5             | Number of threads for processing engine commands disconnect messages                     |
-| `KAFKA_CONSUMER_THREADS_PROCESS_ENGINE_COMMANDS_CONNECT`    | 5             | Number of threads for processing engine commands connect messages                        |
-| `KAFKA_CONSUMER_THREADS_TASK_COMMANDS`                      | 10            | Number of threads for task commands                                                      |
-| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL`                       | 10            | Interval between retries after an AuthorizationException is thrown by the Kafka consumer |
-
+| Configuration Parameter                                   | Default value | Description                                                          |
+| --------------------------------------------------------- | ------------- | -------------------------------------------------------------------- |
+| `KAFKA_CONSUMER_THREADS_PROCESSENGINECOMMANDS_MESSAGE`    | 10            | Number of threads for processing engine commands messages            |
+| `KAFKA_CONSUMER_THREADS_PROCESSENGINECOMMANDS_DISCONNECT` | 5             | Number of threads for processing engine commands disconnect messages |
+| `KAFKA_CONSUMER_THREADS_PROCESSENGINECOMMANDS_CONNECT`    | 5             | Number of threads for processing engine commands connect messages    |
+| `KAFKA_CONSUMER_THREADS_TASKCOMMANDS`                     | 10            | Number of threads for task commands                                  |
+| `KAFKA_CONSUMER_THREADS_PROCESSVERSIONCOMMANDS`           | 10            | Number of threads for processing process version commands messages   |
+| `KAFKA_CONSUMER_THREADS_GENERICCOMMANDS`                  | 10            | Number of threads for processing generic commands messages           |
+| `KAFKA_CONSUMER_THREADS_USERBROADCASTCOMMANDS`            | 10            | Number of threads for processing user broadcast commands messages    |
 
 #### Kafka topics related to process instances
 
-| Configuration Parameter                                     | Default value                                              |
-| ----------------------------------------------------------- | ---------------------------------------------------------- |
-| `KAFKA_TOPIC_EVENTS_GATEWAY_PROCESS_INSTANCE_IN_MESSAGE`    | `ai.flowx.dev.eventsgateway.engine.commands.message.v1`    |
-| `KAFKA_TOPIC_EVENTS_GATEWAY_PROCESS_INSTANCE_IN_DISCONNECT` | `ai.flowx.dev.eventsgateway.engine.commands.disconnect.v1` |
-| `KAFKA_TOPIC_EVENTS_GATEWAY_PROCESS_INSTANCE_IN_CONNECT`    | `ai.flowx.dev.eventsgateway.engine.commands.connect.v1`    |
+| Configuration Parameter                                   | Default value                                              |
+| --------------------------------------------------------- | ---------------------------------------------------------- |
+| `KAFKA_TOPIC_EVENTSGATEWAY_PROCESSINSTANCE_IN_MESSAGE`    | `ai.flowx.dev.eventsgateway.engine.commands.message.v1`    |
+| `KAFKA_TOPIC_EVENTSGATEWAY_PROCESSINSTANCE_IN_DISCONNECT` | `ai.flowx.dev.eventsgateway.engine.commands.disconnect.v1` |
+| `KAFKA_TOPIC_EVENTSGATEWAY_PROCESSINSTANCE_IN_CONNECT`    | `ai.flowx.dev.eventsgateway.engine.commands.connect.v1`    |
 
+#### Kafka topics related to process versions
 
-#### Kafka topics related to tasks
+| Configuration Parameter                               | Default value                                                    |
+| ----------------------------------------------------- | ---------------------------------------------------------------- |
+| `KAFKA_TOPIC_EVENTSGATEWAY_PROCESSVERSION_IN_MESSAGE` | `ai.flowx.dev.eventsgateway.process-version-commands.message.v1` |
+    
 
-| Configuration Parameter                      | Default value                                     |
-| -------------------------------------------- | ------------------------------------------------- |
-| `KAFKA_TOPIC_EVENTS_GATEWAY_TASK_IN_MESSAGE` | `ai.flowx.eventsgateway.task.commands.message.v1` |
+#### Kafka topics related to user messages
+
+| Configuration Parameter                             | Default value                                     |
+| --------------------------------------------------- | ------------------------------------------------- |
+| `KAFKA_TOPIC_EVENTSGATEWAY_USERMESSAGES_IN_MESSAGE` | `ai.flowx.dev.core.designer.notification.user.v1` |
+
 
 
 ### Configuring authorization & access roles
 
 Set the following environment variables to connect to the identity management platform:
 
-| Configuration Parameter                | Description                             |
-| -------------------------------------- | --------------------------------------- |
-| `SECURITY_OAUTH2_BASE_SERVER_URL`      | Base URL of the OAuth2 server           |
-| `SECURITY_OAUTH2_CLIENT_CLIENT_ID`     | Client ID for OAuth2 authentication     |
-| `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` | Client secret for OAuth2 authentication |
-| `SECURITY_OAUTH2_REALM`                | Realm for OAuth2 authentication         |
+| Configuration Parameter               | Description                             |
+| ------------------------------------- | --------------------------------------- |
+| `SECURITY_OAUTH2_BASESERVERURL`       | Base URL of the OAuth2 server           |
+| `SECURITY_OAUTH2_CLIENT_CLIENTID`     | Client ID for OAuth2 authentication     |
+| `SECURITY_OAUTH2_CLIENT_CLIENTSECRET` | Client secret for OAuth2 authentication |
+| `SECURITY_OAUTH2_REALM`               | Realm for OAuth2 authentication         |
 
 
 ### Redis
@@ -121,8 +126,6 @@ This configuration helps manage how event data is stored and accessed in Redis.
 | ------------------------------ | ------- | ----------------------------------------------------------------------------------------------------- |
 | `EVENTS_REDIS_FREQUENCYMILLIS` | 200     | Time interval (in milliseconds) between Redis queries by the events gateway to check for new messages |
 | `EVENTS_REDIS_TTLHOURS`        | 4       | Sets the time-to-live for events in Redis to 4 hours                                                  |
-
-
 
 
 

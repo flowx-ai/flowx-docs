@@ -1,206 +1,324 @@
 ---
 title: FlowX Admin setup
-description: The FlowX.AI Admin microservice manages process-related entities and provides the REST API used by the FlowX.AI Designer. The processes defined here will be handled by the FlowX.AI Engine. The Admin microservice uses most of the same resources as the FlowX.AI Engine.
+description: Complete configuration reference for the FlowX Admin microservice, including logging, databases, Kafka, and various subsystems.
 icon: terminal
 ---
 
+This guide provides a comprehensive reference for configuring the FlowX Admin microservice using environment variables and configuration files.
 
-## Infrastructure prerequisites
+## Infrastructure Prerequisites
 
 Before setting up the Admin microservice, ensure the following components are properly set up:
 
 - **Database Instance**: The Admin microservice connects to the same database as the FlowX.AI Engine.
+- **MongoDB**: For additional data management.
+- **Redis**: For caching and transient data storage.
+- **Kafka**: For audit logs, events, and messaging (if using FlowX.AI Audit functionality).
 
+## Core configuration
 
-## Dependencies
+### Server configuration
 
-Ensure the following dependencies are met:
+| Environment Variable                        | Description                                        | Default Value |
+| ------------------------------------------- | -------------------------------------------------- | ------------- |
+| `SERVER_PORT`                               | Port on which the Admin service will run           | `8080`        |
+| `SPRING_APPLICATION_NAME`                   | Name of the application used for service discovery | `admin`       |
+| `SPRING_JACKSON_SERIALIZATION_INDENTOUTPUT` | Enable indented JSON output                        | `true`        |
 
-- **[Database](#database-configuration)**: Properly configured database instance.
-- **[Datasource](#datasource-configuration)**: Configuration details for connecting to the database where also the FlowX.Ai Engine is connected.
-- **Kafka cluster**: If you intend to use the [**FlowX.AI Audit**](../../4.0/docs/platform-deep-dive/core-extensions/audit) functionality, ensure that the backend microservice can connect to the Kafka cluster. When connected to Kafka, it sends details about all database transactions to a configured Kafka topic.
+## Database configuration
 
-## Datasource configuration
+The Admin microservice connects to the same PostgreSQL or Oracle database as the FlowX.AI Engine for storing process definitions.
 
-To store process definitions the Admin microservice connects to the same Postgres / Oracle database as the Engine. Make sure to set the needed database connection details.
-
-The following configuration details need to be added using environment variables:
-
-* `SPRING_DATASOURCE_URL`: This environment variable is used to specify the URL of the database that the Admin microservice and Engine connect to. The URL typically includes the necessary information to connect to the database server, such as the host, port, and database name. It follows the format of the database's JDBC URL, which is specific to the type of database being used (e.g., PostgreSQL or Oracle).
-* `SPRING_DATASOURCE_USERNAME`: This environment variable sets the username that the Admin microservice and Engine used to authenticate themselves when connecting to the database. The username is used to identify the user account that has access to the specified database.
-* `SPRING_DATASOURCE_PASSWORD`: This environment variable specifies the password associated with the username provided in the `SPRING_DATASOURCE_USERNAME` variable. The password is used to authenticate the user and grant access to the database.
+| Environment Variable         | Description                      | Example Value                            |
+| ---------------------------- | -------------------------------- | ---------------------------------------- |
+| `SPRING_DATASOURCE_URL`      | JDBC URL for database connection | `jdbc:postgresql://localhost:5432/flowx` |
+| `SPRING_DATASOURCE_USERNAME` | Database username                | `postgres`                               |
+| `SPRING_DATASOURCE_PASSWORD` | Database password                | `[your-secure-password]`                 |
 
 <Warning>
-You will need to make sure that the user, password, connection link and db name are configured correctly, otherwise, you will receive errors at start time.
+You will need to make sure that the user, password, connection link and database name are configured correctly, otherwise, you will receive errors at start time.
 </Warning>
 
 <Info>
 The database schema is managed by a [liquibase](https://www.liquibase.org/) script provided with the Engine.
 </Info>
 
+## MongoDB configuration
 
-### MongoDB configuration
+The Admin microservice also connects to a MongoDB database instance for additional data management.
 
-The Admin microservice also connects to a MongoDB database instance for additional data management. Configure the MongoDB connection with the following environment variables:
-
-* `SPRING_DATA_MONGODB_URI` - URI for connecting to the Admin MongoDB instance
-    * Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false`
-* `DB_USERNAME`: `admin`.
-* `DB_PASSWORD`: DB password.
-* `DB_NAME`: `admin`.
-* `SPRING_DATA_MONGODB_STORAGE` - Specifies the storage type used for the Runtime MongoDB instance (Azure environments only) 
-  * **Possible Values:** `mongodb`, `cosmosdb`
-  * **Default Value:** `mongodb`
+| Environment Variable                     | Description                                | Example Value                                                                         |
+| ---------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------- |
+| `DB_USERNAME`                            | MongoDB username                           | `admin`                                                                               |
+| `DB_PASSWORD`                            | MongoDB password                           | `[your-secure-password]`                                                              |
+| `DB_NAME`                                | MongoDB database name                      | `admin`                                                                               |
+| `SPRING_DATA_MONGODB_URI`                | MongoDB connection URI                     | `mongodb://${DB_USERNAME}:${DB_PASSWORD}@localhost:27017/${DB_NAME}?retryWrites=true` |
+| `SPRING_DATA_MONGODB_UUIDREPRESENTATION` | UUID representation format                 | `standard`                                                                            |
+| `SPRING_DATA_MONGODB_STORAGE`            | Storage type (Azure environments)          | `mongodb` or `cosmosdb`                                                               |
+| `MONGOCK_CHANGELOGSSCANPACKAGE_0_`       | Mongock changelog scan package             | `ai.flowx.admin.data.model.config.mongock`                                            |
+| `MONGOCK_TRANSACTIONENABLED`             | Enable transactions for Mongock operations | `false`                                                                               |
 
 <Info>
 Ensure that the MongoDB configuration is compatible with the same database requirements as the FlowX.AI Engine, especially if sharing database instances.
 </Info>
 
+## Redis and caching configuration
+
+Redis is used for caching and storing transient data.
+
+| Environment Variable         | Description                       | Default Value            | Status                 |
+| ---------------------------- | --------------------------------- | ------------------------ | ---------------------- |
+| `SPRING_DATA_REDIS_HOST`     | Redis server hostname             | `localhost`              | **Recommended**        |
+| `SPRING_DATA_REDIS_PORT`     | Redis server port                 | `6379`                   | **Recommended**        |
+| `SPRING_DATA_REDIS_PASSWORD` | Redis server password             | `[your-secure-password]` | **Recommended**        |
+| `SPRING_REDIS_HOST`          | Redis server hostname             | `localhost`              | **Deprecated**         |
+| `SPRING_REDIS_PORT`          | Redis server port                 | `6379`                   | **Deprecated**         |
+| `SPRING_REDIS_PASSWORD`      | Redis server password             | `defaultpassword`        | **Deprecated**         |
+| `SPRING_REDIS_TTL`           | Default Redis TTL in milliseconds | `5000000`                | Used in other settings |
+
+
+<Warning>
+The `SPRING_REDIS_*` variables are deprecated and will be removed in a future FlowX version. Please use the corresponding `SPRING_DATA_REDIS_*` variables instead.
+</Warning>
 
 ## Kafka configuration
 
-The Admin microservice uses Kafka for sending audit logs, managing scheduled timer events, platform component versions, and start timer event updates. Both producers and consumers must be configured to ensure proper communication between services.
+The Admin microservice uses Kafka for sending audit logs, managing scheduled timer events, platform component versions, and start timer event updates.
 
-### General Kafka configuration
+### General Kafka settings
 
-| Environment Variable              | Description             | Example Value     | Default Value    |
-| --------------------------------- | ----------------------- | ----------------- | ---------------- |
-| `SPRING_KAFKA_BOOTSTRAP_SERVERS`  | Kafka broker addresses  | `localhost:9092`  | `localhost:9092` |
-| `SPRING_KAFKA_SECURITY_PROTOCOL`  | Security protocol       | `PLAINTEXT`       | `PLAINTEXT`      |
-| `KAFKA_MESSAGE_MAX_BYTES`         | Maximum message size    | `52428800` (50MB) | `52428800`       |
+| Environment Variable             | Description                   | Default Value     |
+| -------------------------------- | ----------------------------- | ----------------- |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`  | Kafka broker addresses        | `localhost:9092`  |
+| `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol             | `PLAINTEXT`       |
+| `KAFKA_MESSAGE_MAX_BYTES`        | Maximum message size in bytes | `52428800` (50MB) |
 
 ### Kafka producer configuration
 
-| Environment Variable                     | Description            | Example Value                                            |
-| ---------------------------------------- | ---------------------- | -------------------------------------------------------- |
-| `SPRING_KAFKA_PRODUCER_KEY_SERIALIZER`   | Key serializer class   | `org.apache.kafka.common.serialization.StringSerializer` |
-| `SPRING_KAFKA_PRODUCER_MAX_REQUEST_SIZE` | Maximum request size   | `52428800` (50MB)                                        |
+| Environment Variable | Description | Default Value |
+|----------|-------------|---------------|
+| `SPRING_KAFKA_PRODUCER_KEYSERIALIZER` | Key serializer class | `org.apache.kafka.common.serialization.StringSerializer` |
+| `SPRING_KAFKA_PRODUCER_VALUESERIALIZER` | Value serializer class | `org.springframework.kafka.support.serializer.JsonSerializer` |
+| `SPRING_KAFKA_PRODUCER_MAXREQUESTSIZE` | Maximum request size | `52428800` (50MB) |
 
 ### Kafka consumer configuration
 
-| Environment Variable                          | Description                      | Default Value            |
-| --------------------------------------------- | -------------------------------- | ------------------------ |
-| `KAFKA_CONSUMER_GROUP_ID_GENERIC_PROCESSING`  | Generic processing consumer group| `genericProcessingGroup` |
-| `KAFKA_CONSUMER_THREADS_GENERIC_PROCESSING`   | Generic processing threads       | `6`                      |
-| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL`         | Auth exception retry (seconds)   | `10`                     |
+| Environment Variable                         | Description                                | Default Value                    |
+| -------------------------------------------- | ------------------------------------------ | -------------------------------- |
+| `KAFKA_CONSUMER_GROUPID_GENERICPROCESSING`   | Generic processing consumer group          | `genericProcessingGroup`         |
+| `KAFKA_CONSUMER_THREADS_GENERICPROCESSING`   | Generic processing threads                 | `6`                              |
+| `KAFKA_CONSUMER_GROUPID_CONTENTTRANSLATE`    | Content translation consumer group         | `cms-consumer-preview`           |
+| `KAFKA_CONSUMER_GROUPID_RESUSAGEVALIDATION`  | Resource usage validation consumer group   | `cms-res-usage-validation-group` |
+| `KAFKA_CONSUMER_THREADS_CONTENTTRANSLATE`    | Content translation consumer threads       | `1`                              |
+| `KAFKA_CONSUMER_THREADS_RESUSAGEVALIDATION`  | Resource usage validation consumer threads | `2`                              |
+| `KAFKA_AUTHEXCEPTIONRETRYINTERVAL`           | Auth exception retry interval (seconds)    | `10`                             |
+| `SPRING_KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` | Auth exception retry interval (seconds)    | `10`                             |
 
-### Topic naming convention and pattern creation
+### Topic naming configuration
 
-The Admin microservice uses a consistent naming structure for Kafka topics to ensure standardized communication.
+| Environment Variable             | Description                          | Default Value                                                    |
+| -------------------------------- | ------------------------------------ | ---------------------------------------------------------------- |
+| `DOT`                            | Reference to the primary separator   | `${kafka.topic.naming.separator}`                                |
+| `DASH`                           | Reference to the secondary separator | `${kafka.topic.naming.separator2}`                               |
+| `KAFKA_TOPIC_NAMING_PACKAGE`     | Base package name                    | `ai${dot}flowx${dot}`                                            |
+| `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Environment name                     | `dev${dot}`                                                      |
+| `KAFKA_TOPIC_NAMING_VERSION`     | Topic version                        | `${dot}v1`                                                       |
+| `KAFKA_TOPIC_NAMING_SEPARATOR`   | Primary separator                    | `.`                                                              |
+| `KAFKA_TOPIC_NAMING_SEPARATOR2`  | Secondary separator                  | `-`                                                              |
+| `KAFKA_TOPIC_NAMING_PREFIX`      | Combined prefix                      | `${kafka.topic.naming.package}${kafka.topic.naming.environment}` |
+| `KAFKA_TOPIC_NAMING_SUFFIX`      | Combined suffix                      | `${kafka.topic.naming.version}`                                  |
 
-| Environment Variable              | Description           | Default Value |
-| --------------------------------- | --------------------- | ------------- |
-| `KAFKA_TOPIC_NAMING_PACKAGE`      | Base package          | `ai.flowx.`   |
-| `KAFKA_TOPIC_NAMING_ENVIRONMENT`  | Environment prefix    | `dev.`        |
-| `KAFKA_TOPIC_NAMING_VERSION`      | Topic version         | `.v1`         |
-| `KAFKA_TOPIC_NAMING_SEPARATOR`    | Primary separator     | `.`           |
-| `KAFKA_TOPIC_NAMING_SEPARATOR2`   | Secondary separator   | `-`           |
-
-Topics are constructed using the following pattern:
-```
-{prefix} + service + {separator/dot} + action + {separator/dot} + detail + {suffix}
-```
-
-Where:
-- `prefix` is `${kafka.topic.naming.package}${kafka.topic.naming.environment}` (e.g., `ai.flowx.dev.`)
-- `suffix` is `${kafka.topic.naming.version}` (e.g., `.v1`)
-
-### Kafka topic configuration
+### Kafka topics configuration
 
 #### Audit topics
 
-| Environment Variable     | Description              | Pattern                                                                         | Example Value                        |
-| ------------------------ | ------------------------ | ------------------------------------------------------------------------------- | ------------------------------------ |
-| `KAFKA_TOPIC_AUDIT_OUT`  | Audit output topic       | `${kafka.topic.naming.prefix}core${dot}trigger${dot}save${dot}audit${kafka.topic.naming.suffix}` | `ai.flowx.dev.core.trigger.save.audit.v1` |
+| Environment Variable    | Description        | Pattern                                                                                          | Example Value                             |
+| ----------------------- | ------------------ | ------------------------------------------------------------------------------------------------ | ----------------------------------------- |
+| `KAFKA_TOPIC_AUDIT_OUT` | Audit output topic | `${kafka.topic.naming.prefix}core${dot}trigger${dot}save${dot}audit${kafka.topic.naming.suffix}` | `ai.flowx.dev.core.trigger.save.audit.v1` |
 
-#### Platform topics
+#### Platform Topics
 
-| Environment Variable                          | Description                      | Pattern                                                                                                  | Example Value                                        |
-| --------------------------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| `KAFKA_TOPIC_PLATFORM_COMPONENTS_VERSIONS_IN` | Components versions caching topic| `${kafka.topic.naming.prefix}core${dot}trigger${dot}platform${dot}versions${dot}caching${kafka.topic.naming.suffix}` | `ai.flowx.dev.core.trigger.platform.versions.caching.v1` |
+| Environment Variable                         | Description                       | Pattern                                                                                                              | Example Value                                            |
+| -------------------------------------------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `KAFKA_TOPIC_PLATFORM_COMPONENTSVERSIONS_IN` | Components versions caching topic | `${kafka.topic.naming.prefix}core${dot}trigger${dot}platform${dot}versions${dot}caching${kafka.topic.naming.suffix}` | `ai.flowx.dev.core.trigger.platform.versions.caching.v1` |
 
-#### Events Gateway topics
+#### Events gateway topics
 
-| Environment Variable                   | Description                | Pattern                                                                                           | Example Value                                         |
-| -------------------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
-| `KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE` | Commands message output topic | `${kafka.topic.naming.prefix}eventsgateway${dot}process${dot}commands${dot}message${kafka.topic.naming.suffix}` | `ai.flowx.dev.eventsgateway.process.commands.message.v1` |
+| Environment Variable                    | Description                   | Pattern                                                                                                         | Example Value                                            |
+| --------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `KAFKA_TOPIC_EVENTSGATEWAY_OUT_MESSAGE` | Commands message output topic | `${kafka.topic.naming.prefix}eventsgateway${dot}process${dot}commands${dot}message${kafka.topic.naming.suffix}` | `ai.flowx.dev.eventsgateway.process.commands.message.v1` |
 
 #### Build topics
 
-| Environment Variable                           | Description                | Pattern                                                                                                  | Example Value                                         |
-| ---------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
-| `KAFKA_TOPIC_BUILD_START_TIMER_EVENTS_OUT_UPDATES` | Start timer events updates topic | `${kafka.topic.naming.prefix}build${dot}start${dash}timer${dash}events${dot}updates${dot}in${kafka.topic.naming.suffix}` | `ai.flowx.dev.build.start-timer-events.updates.in.v1` |
+| Environment Variable                             | Description                      | Pattern                                                                                                                  | Example Value                                         |
+| ------------------------------------------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------- |
+| `KAFKA_TOPIC_BUILD_STARTTIMEREVENTS_OUT_UPDATES` | Start timer events updates topic | `${kafka.topic.naming.prefix}build${dot}start${dash}timer${dash}events${dot}updates${dot}in${kafka.topic.naming.suffix}` | `ai.flowx.dev.build.start-timer-events.updates.in.v1` |
 
 #### Resource topics
 
-| Environment Variable                      | Description                 | Pattern                                                                                                 | Example Value                                           |
-| ----------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| `KAFKA_TOPIC_RESOURCES_USAGES_REFRESH`    | Resources usages refresh topic | `${kafka.topic.naming.prefix}application${dash}version${dot}resources${dash}usages${dot}refresh${kafka.topic.naming.suffix}` | `ai.flowx.dev.application-version.resources-usages.refresh.v1` |
+| Environment Variable                            | Description                          | Pattern                                                                                                                                                      | Example Value                                                                 |
+| ----------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| `KAFKA_TOPIC_RESOURCESUSAGES_REFRESH`           | Resources usages refresh topic       | `${kafka.topic.naming.prefix}application${dash}version${dot}resources${dash}usages${dot}refresh${kafka.topic.naming.suffix}`                                 | `ai.flowx.dev.application-version.resources-usages.refresh.v1`                |
+| `KAFKA_TOPIC_REQUEST_CONTENT_IN`                | Topic for content retrieval requests | `${kafka.topic.naming.prefix}plugin${dot}cms${dot}trigger${dot}retrieve${dot}content${kafka.topic.naming.suffix}`                                            | `ai.flowx.dev.plugin.cms.trigger.retrieve.content.v1`                         |
+| `KAFKA_TOPIC_REQUEST_CONTENT_OUT`               | Topic for content retrieval results  | `${kafka.topic.naming.prefix}${kafka.topic.naming.engineReceivePattern}plugin${dot}cms${dot}retrieve${dot}content${dot}results${kafka.topic.naming.suffix}`  | `ai.flowx.dev.engine.receive.plugin.cms.retrieve.content.results.v1`          |
+| `KAFKA_TOPIC_APPLICATION_IN_RESUSAGEVALIDATION` | Topic for resource usage validation  | `${kafka.topic.naming.prefix}application${dash}version${dot}resources${dash}usages${dot}sub${dash}res${dash}validation${dot}cms${kafka.topic.naming.suffix}` | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.cms.v1` |
 
-### OAuth authentication (when using SASL_PLAINTEXT)
+### OAuth authentication for Kafka
 
-When using OAuth authentication with Kafka (SASL_PLAINTEXT), activate the `kafka-auth` profile and configure the following environment variables:
+When using the `kafka-auth` profile, the following variables configure OAuth for Kafka:
 
-| Environment Variable             | Description           | Example Value       |
-| -------------------------------- | --------------------- | ------------------- |
-| `KAFKA_OAUTH_CLIENT_ID`          | OAuth client ID       | `kafka`             |
-| `KAFKA_OAUTH_CLIENT_SECRET`      | OAuth client secret   | `kafka-secret`      |
-| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint  | `kafka.auth.localhost` |
+| Environment Variable             | Description              | Default Value          |
+| -------------------------------- | ------------------------ | ---------------------- |
+| `KAFKA_OAUTH_CLIENTID`           | OAuth client ID          | `kafka`                |
+| `KAFKA_OAUTH_CLIENTSECRET`       | OAuth client secret      | `kafka-secret`         |
+| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint URI | `kafka.auth.localhost` |
 
 <Info>
-When using the `kafka-auth` profile, the security protocol will be set to `SASL_PLAINTEXT` and the appropriate SASL mechanism and configuration will be applied automatically.
+When using the `kafka-auth` profile, the security protocol will automatically be set to `SASL_PLAINTEXT` and the SASL mechanism will be set to `OAUTHBEARER`.
 </Info>
 
-## Redis configuration
+## Logging configuration
 
-The following values should be set with the corresponding Redis-related values:
+The FlowX Admin microservice provides granular control over logging levels for different components:
 
-* `SPRING_REDIS_HOST`
-* `SPRING_REDIS_PASSWORD`
+| Environment Variable                             | Description                                 | Default Value                        |
+| ------------------------------------------------ | ------------------------------------------- | ------------------------------------ |
+| `LOGGING_LEVEL_ROOT`                             | Log level for root Spring Boot microservice | `INFO`                               |
+| `LOGGING_LEVEL_APP`                              | Log level for application-specific code     | `DEBUG`                              |                        |
 
-## Logging
+## Localization settings
 
-The following environment variables could be set in order to control log levels:
+| Environment Variable           | Description                        | Default Value |
+| ------------------------------ | ---------------------------------- | ------------- |
+| `APPLICATION_DEFAULTLOCALE`    | Default locale for the application | `en`          |
+| `APPLICATION_SUPPORTEDLOCALES` | List of supported locales          | `en, ro`      |
 
-* `LOGGING_LEVEL_ROOT` - root Spring Boot microservice logs
-* `LOGGING_LEVEL_APP` - app level logs
+## Health monitoring
 
-## Authorization & access roles
+| Environment Variable                           | Description                              | Default Value                           |
+| ---------------------------------------------- | ---------------------------------------- | --------------------------------------- |
+| `MANAGEMENT_HEALTH_DB_ENABLED`                 | Enable database health checks            | `true`                                  |
+| `MANAGEMENT_HEALTH_KAFKA_ENABLED`              | Enable Kafka health checks               | `true`                                  |
+| `MANAGEMENT_SERVER_ADDRESS`                    | Management server bind address           | `0.0.0.0`                               |
+| `MANAGEMENT_SERVER_PORT`                       | Management server port                   | `8081`                                  |
+| `MANAGEMENT_SERVER_BASEPATH`                   | Base path for management endpoints       | `/manage`                               |
+| `MANAGEMENT_SECURITY_ENABLED`                  | Enable security for management endpoints | `false`                                 |
+| `MANAGEMENT_ENDPOINTS_WEB_BASEPATH`            | Base path for actuator endpoints         | `/actuator`                             |
+| `MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE`    | Endpoints to expose                      | `health,info,metrics,metric,prometheus` |
+| `MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED`    | Enable Kubernetes probes                 | `true`                                  |
+| `MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS`       | Show health check details                | `always`                                |
+| `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED` | Enable Prometheus metrics export         | `false`                                 |
 
-The following variables need to be set in order to connect to the identity management platform:
+### Platform health configuration
 
-* `SECURITY_OAUTH2_BASE_SERVER_URL`
-* `SECURITY_OAUTH2_CLIENT_CLIENT_ID`
-* `SECURITY_OAUTH2_REALM`
+| Environment Variable                      | Description                                   | Default Value                           |
+| ----------------------------------------- | --------------------------------------------- | --------------------------------------- |
+| `FLOWX_PLATFORMHEALTH_NAMESPACE`          | Kubernetes namespace for health checks        | `flowx`                                 |
+| `FLOWX_PLATFORMHEALTH_MANAGEMENTBASEPATH` | Base path for management endpoints            | `${management.server.base-path}`        |
+| `FLOWX_PLATFORMHEALTH_ACTUATORBASEPATH`   | Base path for actuator endpoints              | `${management.endpoints.web.base-path}` |
+| `FLOWX_PLATFORMHEALTH_ANNOTATIONNAME`     | Kubernetes annotation name for health checks  | `flowx.ai/health`                       |
+| `FLOWX_PLATFORMHEALTH_ANNOTATIONVALUE`    | Kubernetes annotation value for health checks | `true`                                  |
 
-A specific service account should be configured in the OpenID provider to allow the Admin microservice to access realm-specific data. It can be configured using the following environment variables:
+## Multi-edit and undo/redo configuration
 
-* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID` - the openid service account username
-* `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` - the openid service account client secret
+| Environment Variable                    | Description                                     | Default Value |
+| --------------------------------------- | ----------------------------------------------- | ------------- |
+| `FLOWX_MULTIEDIT_TTL`                   | Time-to-live for multi-edit sessions in seconds | `45`          |
+| `FLOWX_UNDOREDO_TTL`                    | Time-to-live for undo/redo actions in seconds   | `86400`       |
+| `FLOWX_UNDOREDO_CLEANUP_CRONEXPRESSION` | Cron expression for undo/redo cleanup           | `0 0 2 ?`     |
+| `FLOWX_UNDOREDO_CLEANUP_DAYS`           | Days to keep deleted undo/redo items            | `2`           |
 
-Configuration needed to clear the offline sessions of a user session from the identity provider solution:
+## Resources usage configuration
 
-* `FLOWX_AUTHENTICATE_CLIENTID` 
+| Environment Variable                                                      | Description                                           | Default Value                             |
+| ------------------------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------- |
+| `FLOWX_LIB_RESOURCESUSAGES_ENABLED`                                       | Enable resources usage tracking                       | `true`                                    |
+| `FLOWX_LIB_RESOURCESUSAGES_REFRESHLISTENER_ENABLED`                       | Enable listener for resource usage refreshes          | `true`                                    |
+| `FLOWX_LIB_RESOURCESUSAGES_REFRESHLISTENER_COLLECTOR_THREADCOUNT`         | Thread count for resource usage collector             | `5`                                       |
+| `FLOWX_LIB_RESOURCESUSAGES_REFRESHLISTENER_COLLECTOR_MAXBATCHSIZE`        | Maximum batch size for resource usage collection      | `1000`                                    |
+| `FLOWX_LIB_RESOURCESUSAGES_KAFKA_CONSUMER_GROUPID_RESOURCESUSAGESREFRESH` | Consumer group ID for resource usage refresh          | `adminResourcesUsagesRefreshGroup`        |
+| `FLOWX_LIB_RESOURCESUSAGES_KAFKA_CONSUMER_THREADS_RESOURCESUSAGESREFRESH` | Number of consumer threads for resource usage refresh | `3`                                       |
+| `FLOWX_LIB_RESOURCESUSAGES_KAFKA_TOPIC_RESOURCE_USAGES_REFRESH`           | Kafka topic for resource usage refresh                | `${kafka.topic.resources-usages.refresh}` |
+| `FLOWX_LIB_RESOURCESUSAGES_KAFKA_AUTHEXCEPTIONRETRYINTERVAL`              | Retry interval in seconds after auth exceptions       | `3`                                       |
 
-<Card title="Configuring access rights for admin" href="./access-management/configuring-access-rights-for-admin">
-</Card>
+## Authentication and Authorization Configuration
 
-## Elasticsearch
+The FlowX Admin microservice supports authentication and authorization through OpenID Connect (with Keycloak as the default provider) and allows detailed role-based access control.
 
-* `SPRING_ELASTICSEARCH_REST_URIS`
-* `SPRING_ELASTICSEARCH_REST_DISABLESSL`
-* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME` 
-* `SPRING_ELASTICSEARCH_REST_USERNAME`
-* `SPRING_ELASTICSEARCH_REST_PASSWORD`
+### OpenID Connect Configuration
+
+| Environment Variable                  | Description                   | Default Value |
+| ------------------------------------- | ----------------------------- | ------------- |
+| `SECURITY_TYPE`                       | Security type                 | `oauth2`      |
+| `SECURITY_OAUTH2CLIENT`               | Enable OAuth2 client          | `enabled`     |
+| `SECURITY_OAUTH2_BASESERVERURL`       | Base URL of the OAuth2 server |               |
+| `SECURITY_OAUTH2_REALM`               | OAuth2 realm name             |               |
+| `SECURITY_OAUTH2_CLIENT_CLIENTID`     | OAuth2 client ID              |               |
+| `SECURITY_OAUTH2_CLIENT_CLIENTSECRET` | OAuth2 client secret          |               |
+
+### Service Account Configuration
+
+<Warning>
+The following service account configuration is deprecated but still supported for backward compatibility.
+</Warning>
+
+| Environment Variable                                 | Description                   | Default Value                         |
+| ---------------------------------------------------- | ----------------------------- | ------------------------------------- |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENTID`     | Service account client ID     | `flowx-${SPRING_APPLICATION_NAME}-sa` |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENTSECRET` | Service account client secret | `client-secret`                       |
+
+  
+### Spring Security OAuth2 Client Configuration
+
+| Environment Variable                                                                   | Description                   | Default Value                                                                                               |
+| -------------------------------------------------------------------------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `SPRING_SECURITY_OAUTH2_RESOURCESERVER_OPAQUETOKEN_INTROSPECTIONURI`                   | Token introspection URI       | `${SECURITY_OAUTH2_BASESERVERURL}/realms/${SECURITY_OAUTH2_REALM}/protocol/openid-connect/token/introspect` |
+| `SPRING_SECURITY_OAUTH2_RESOURCESERVER_OPAQUETOKEN_CLIENTID`                           | Resource server client ID     | `${SECURITY_OAUTH2_CLIENT_CLIENTID}`                                                                        |
+| `SPRING_SECURITY_OAUTH2_RESOURCESERVER_OPAQUETOKEN_CLIENTSECRET`                       | Resource server client secret | `${SECURITY_OAUTH2_CLIENT_CLIENTSECRET}`                                                                    |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_PROVIDER`                     | Identity provider name        | `mainAuthProvider`                                                                                          |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENTNAME`                   | Client name                   | `mainIdentity`                                                                                              |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENTID`                     | Client ID                     | `${SECURITY_OAUTH2_SERVICEACCOUNT_ADMIN_CLIENTID}`                                                          |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENTSECRET`                 | Client secret                 | `${SECURITY_OAUTH2_SERVICEACCOUNT_ADMIN_CLIENTSECRET}`                                                      |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_AUTHORIZATIONGRANTTYPE`       | Authorization grant type      | `client_credentials`                                                                                        |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENT_AUTHENTICATION_METHOD` | Client authentication method  | `client_secret_post`                                                                                        |
+| `SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_MAINAUTHPROVIDER_TOKENURI`                     | Provider token URI            | `${SECURITY_OAUTH2_BASESERVERURL}/realms/${SECURITY_OAUTH2_REALM}/protocol/openid-connect/token`            |
+
+### Identity Provider Configuration
+
+| Environment Variable          | Description                          | Default Value                                     |
+| ----------------------------- | ------------------------------------ | ------------------------------------------------- |
+| `OPENID_PROVIDER`             | OpenID provider type                 | `keycloak` (possible values: `keycloak`, `entra`) |
+| `FLOWX_AUTHENTICATE_CLIENTID` | Client ID for authentication service | `flowx-platform-authenticate`                     |
+| `FLOWX_PROCESS_DEFAULTROLES`  | Default roles for processes          | `FLOWX_ROLE`                                      |
+
+#### Keycloak Configuration
+
+| Environment Variable                   | Description            | Default Value                                            |
+| -------------------------------------- | ---------------------- | -------------------------------------------------------- |
+| `OPENID_KEYCLOAK_BASE_SERVER_URL`      | Keycloak server URL    | `${SECURITY_OAUTH2_BASESERVERURL}`                     |
+| `OPENID_KEYCLOAK_REALM`                | Keycloak realm         | `${SECURITY_OAUTH2_REALM}`                               |
+| `OPENID_KEYCLOAK_CLIENT_CLIENT_ID`     | Keycloak client ID     | `${SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENTID}`     |
+| `OPENID_KEYCLOAK_CLIENT_CLIENT_SECRET` | Keycloak client secret | `${SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENTSECRET}` |
+
+#### Microsoft Entra ID configuration
+
+| Environment Variable         | Description                   | Default Value                                                             |
+| ---------------------------- | ----------------------------- | ------------------------------------------------------------------------- |
+| `OPENID_ENTRA_GRAPH_SCOPE`   | Microsoft Graph API scope     | `https://graph.microsoft.com/.default`                                    |
+| `OPENID_ENTRA_TENANT_ID`     | Microsoft Entra tenant ID     |                                                                           |
+| `OPENID_ENTRA_CLIENT_ID`     | Microsoft Entra client ID     | `${SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENTID}`     |
+| `OPENID_ENTRA_CLIENT_SECRET` | Microsoft Entra client secret | `${SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_MAINIDENTITY_CLIENTSECRET}` |
+| `OPENID_ENTRA_PRINCIPAL_ID`  | Microsoft Entra principal ID  |                                                                           |
 
 
-## Undo/redo actions
+<Info>
+The role-based access control is configured in the application YAML and grants specific permissions for platform management, user management, process management, integrations management, and configuration management.
+</Info>
 
-```yaml
-flowx:
-  undo-redo:
-    ttl: 6000000  # Redis TTL for undoable actions by user+nodeid (in seconds)
-    cleanup:
-      cronExpression: "0 2 * * * *"  # Every day at 2am
-      days: 2  # Items marked as deleted will be permanently removed if older than this number of days
-```
+<Warning>
+In production environments, never use the default service account credentials. Always configure secure, environment-specific credentials for authentication.
+</Warning>
+
+<Warning>
+Sensitive information such as passwords and client secrets should be managed securely using environment variables or a secrets management solution in production environments.
+</Warning>

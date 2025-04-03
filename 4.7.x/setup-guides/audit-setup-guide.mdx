@@ -27,28 +27,68 @@ The Audit service is built as a Docker image and runs on top of Kafka and Elasti
 
 To configure the Kafka server for the Audit service, set the following environment variables:
 
-* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - address of the Kafka server, it should be in the format "host:port"
-* `SPRING_KAFKA_CONSUMER_GROUP_ID` - the consumer group ID to be used for the audit logs
-* `KAFKA_CONSUMER_THREADS` - the number of Kafka consumer threads to be used for processing audit logs
-* `KAFKA_TOPIC_AUDIT_IN` - the topic key for receiving audit logs
+#### Connection settings
+
+| Variable                        | Description                               | Example Value    |
+| ------------------------------- | ----------------------------------------- | ---------------- |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS` | Address of the Kafka server(s)            | `localhost:9092` |
+| `SPRING_KAFKA_SECURITYPROTOCOL` | Protocol used to communicate with brokers | `PLAINTEXT`      |
+
+#### Consumer configuration
+
+| Variable                                                     | Description                                 | Example Value                                                 |
+| ------------------------------------------------------------ | ------------------------------------------- | ------------------------------------------------------------- |
+| `SPRING_KAFKA_CONSUMER_GROUPID`                              | Consumer group ID for audit logs            | `audit-gid`                                                   |
+| `SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES` | Maximum data size per partition             | `${KAFKA_MESSAGE_MAX_BYTES:52428800}`                         |
+| `KAFKA_CONSUMER_THREADS`                                     | Number of consumer threads                  | `1`                                                           |
+| `KAFKA_AUTHEXCEPTIONRETRYINTERVAL`                           | Retry interval after auth failure (seconds) | `10`                                                          |
+
+#### Topic naming configuration
+
+| Variable                         | Description                         | Example Value                                                                                    |
+| -------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `DOT`                            | Reference to primary separator      | `${kafka.topic.naming.separator}`                                                                |
+| `DASH`                           | Reference to secondary separator    | `${kafka.topic.naming.separator2}`                                                               |
+| `KAFKA_TOPIC_NAMING_SEPARATOR`   | Primary separator for topic names   | `.`                                                                                              |
+| `KAFKA_TOPIC_NAMING_SEPARATOR2`  | Secondary separator for topic names | `-`                                                                                              |
+| `KAFKA_TOPIC_NAMING_PACKAGE`     | Base namespace for topics           | `ai${dot}flowx${dot}`                                                                            |
+| `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Environment indicator               | `dev${dot}`                                                                                      |
+| `KAFKA_TOPIC_NAMING_VERSION`     | Version component                   | `${dot}v1`                                                                                       |
+| `KAFKA_TOPIC_NAMING_PREFIX`      | Combined prefix                     | `${kafka.topic.naming.package}${kafka.topic.naming.environment}`                                 |
+| `KAFKA_TOPIC_NAMING_SUFFIX`      | Combined suffix                     | `${kafka.topic.naming.version}`                                                                  |
+| `KAFKA_TOPIC_AUDIT_IN`           | Topic for receiving audit logs      | `${kafka.topic.naming.prefix}core${dot}trigger${dot}save${dot}audit${kafka.topic.naming.suffix}` |
+
+
+<Info>
+With default settings, the `KAFKA_TOPIC_AUDIT_IN` resolves to: `ai.flowx.dev.core.trigger.save.audit.v1`
+</Info>
 
 ### Configuring Elasticsearch
 
 To configure Elasticsearch, set the following environment variables:
 
-* `SPRING_ELASTICSEARCH_REST_URIS` - the URL(s) of one or more Elasticsearch nodes to connect to (no protocol needed)
-* `SPRING_ELASTICSEARCH_REST_DISABLESSL` - a boolean value that determines whether SSL should be disabled for Elasticsearch connections
-* `SPRING_ELASTICSEARCH_REST_USERNAME` - the username to use for basic authentication when connecting to Elasticsearch
-* `SPRING_ELASTICSEARCH_REST_PASSWORD` - the password to use for basic authentication when connecting to Elasticsearch
-* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_DATASTREAM` - (used if ES is used across all dev environments) - the index settings for the datastreams that will be created in Elasticsearch 
+| Variable                                         | Description                   | Example Value          |
+| ------------------------------------------------ | ----------------------------- | ---------------------- |
+| `SPRING_ELASTICSEARCH_REST_PROTOCOL`             | Protocol for ES connection    | `https`                |
+| `SPRING_ELASTICSEARCH_REST_URIS`                 | URL(s) of Elasticsearch nodes | `localhost:9200`       |
+| `SPRING_ELASTICSEARCH_REST_DISABLESSL`           | Disable SSL for connections   | `false`                |
+| `SPRING_ELASTICSEARCH_REST_USERNAME`             | Username for authentication   | `elastic`              |
+| `SPRING_ELASTICSEARCH_REST_PASSWORD`             | Password for authentication   | `your-secure-password` |
+| `SPRING_ELASTICSEARCH_INDEX_SETTINGS_DATASTREAM` | Name of the audit data stream | `audit-logs`           |
+| `SPRING_ELASTICSEARCH_INDEX_SETTINGS_SHARDS`     | Number of primary shards      | `2`                    |
+| `SPRING_ELASTICSEARCH_INDEX_SETTINGS_REPLICAS`   | Number of replica shards      | `2`                    |
+
+<Info>
+The Elasticsearch index settings determine how your audit data is distributed and replicated across the cluster. The number of shards affects search performance and indexing, while replicas provide redundancy.
+</Info>
 
 ### Configuring logging
 
 To control the log levels, set the following environment variables:
 
-* `LOGGING_LEVEL_ROOT` - the log level for the root Spring Boot microservice logs
-* `LOGGING_LEVEL_APP` - the log level for app-level logs
+| Variable             | Description                | Example Value |
+| -------------------- | -------------------------- | ------------- |
+| `LOGGING_LEVEL_ROOT` | Log level for root service | `INFO`        |
+| `LOGGING_LEVEL_APP`  | Log level for application  | `INFO`        |
 
-<Warning>
-Make sure to overwrite the placeholders (where needed) with the appropriate values before starting the service.
-</Warning>
+

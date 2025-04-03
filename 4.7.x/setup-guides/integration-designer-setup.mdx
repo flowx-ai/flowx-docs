@@ -55,15 +55,16 @@ Integration Designer requires two MongoDB databases for managing integration-spe
 - **Integration Designer Database** (`integration-designer`): Stores data specific to Integration Designer, such as integration configurations, metadata, and other operational data.
 - **Shared Runtime Database** (`app-runtime`): Shared across multiple services, this database manages runtime data essential for integration and data flow execution.
 
-| Environment variable             | Description                                 | Example value                                                     |
-| -------------------------------- | ------------------------------------------- | ----------------------------------------------------------------- |
-| `SPRING_DATA_MONGODB_URI`        | Integration Designer MongoDB URI            | `mongodb://mongodb-0.mongodb-headless:27017/integration-designer` |
-| `MONGODB_USERNAME`               | MongoDB username                            | `integration-designer`                                            |
-| `MONGODB_PASSWORD`               | MongoDB password                            | `secureMongoPass`                                                 |
-| `SPRING_DATA_MONGODB_STORAGE`    | Storage type (Azure environments only)      | `mongodb` (or `cosmosdb`)                                         |
-| `SPRING_DATA_MONGODB_RUNTIME_URI`| Runtime MongoDB URI                         | `mongodb://mongodb-0.mongodb-headless:27017/app-runtime`          |
-| `MONGODB_RUNTIME_USERNAME`       | Runtime MongoDB username                    | `app-runtime`                                                     |
-| `MONGODB_RUNTIME_PASSWORD`       | Runtime MongoDB password                    | `secureRuntimePass`                                               |
+| Environment variable              | Description                            | Example value                                                            |
+| --------------------------------- | -------------------------------------- | ------------------------------------------------------------------------ |
+| `SPRING_DATA_MONGODB_URI`         | Integration Designer MongoDB URI       | `mongodb://mongodb-0.mongodb-headless:27017/integration-designer`        |
+| `MONGODB_USERNAME`                | MongoDB username                       | `integration-designer`                                                   |
+| `MONGODB_PASSWORD`                | MongoDB password                       | `secureMongoPass`                                                        |
+| `SPRING_DATA_MONGODB_STORAGE`     | Storage type (Azure environments only) | `mongodb` (or `cosmosdb`)                                                |
+| `SPRING_DATA_MONGODB_RUNTIME_URI` | Runtime MongoDB URI                    | `mongodb://mongodb-0.mongodb-headless:27017/${MONGODB_RUNTIME_DATABASE}` |
+| `MONGODB_RUNTIME_DATABASE`        | Runtime MongoDB database               | `app-runtime`                                                            |
+| `MONGODB_RUNTIME_USERNAME`        | Runtime MongoDB username               | `app-runtime`                                                            |
+| `MONGODB_RUNTIME_PASSWORD`        | Runtime MongoDB password               | `secureRuntimePass`                                                      |
 
 <Info>
 Integration Designer requires a runtime connection to function correctly. Starting the service without a configured and active runtime MongoDB connection is not supported.
@@ -75,7 +76,7 @@ Integration Designer requires a runtime connection to function correctly. Starti
 
 | Environment variable             | Description            | Example value                   |
 | -------------------------------- | ---------------------- | ------------------------------- |
-| `SPRING_KAFKA_BOOTSTRAP_SERVERS` | Kafka broker addresses | `localhost:9092`                |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`  | Kafka broker addresses | `localhost:9092`                |
 | `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol      | `PLAINTEXT` or `SASL_PLAINTEXT` |
 | `FLOWX_WORKFLOW_CREATETOPICS`    | Auto-create topics     | `false` (default)               |
 
@@ -89,22 +90,15 @@ This setting affects:
 - Producer message max bytes
 - Producer max request size
 
-#### Producer configuration
-
-| Environment variable                     | Description            | Default value                                                 |
-| ---------------------------------------- | ---------------------- | ------------------------------------------------------------- |
-| `SPRING_KAFKA_PRODUCER_KEY_SERIALIZER`   | Key serializer class   | `org.apache.kafka.common.serialization.StringSerializer`      |
-| `SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER` | Value serializer class | `org.springframework.kafka.support.serializer.JsonSerializer` |
-
 #### Consumer configuration
 
-| Environment variable                                | Description                                | Default value                                         |
-| --------------------------------------------------- | ------------------------------------------ | ----------------------------------------------------- |
-| `KAFKA_CONSUMER_GROUP_ID_START_WORKFLOWS`           | Start workflows consumer group             | `start-workflows-group`                                |
-| `KAFKA_CONSUMER_GROUP_ID_RES_ELEM_USAGE_VALIDATION` | Resource usage validation consumer group   | `integration-designer-res-elem-usage-validation-group` |
-| `KAFKA_CONSUMER_THREADS_START_WORKFLOWS`            | Start workflows consumer threads           | `3`                                                    |
-| `KAFKA_CONSUMER_THREADS_RES_ELEM_USAGE_VALIDATION`  | Resource usage validation consumer threads | `3`                                                    |
-| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL`               | Retry interval after authorization errors  | `10` (seconds)                                         |
+| Environment variable                            | Description                                | Default value                                          |
+| ----------------------------------------------- | ------------------------------------------ | ------------------------------------------------------ |
+| `KAFKA_CONSUMER_GROUPID_STARTWORKFLOWS`         | Start workflows consumer group             | `start-workflows-group`                                |
+| `KAFKA_CONSUMER_GROUPID_RESELEMUSAGEVALIDATION` | Resource usage validation consumer group   | `integration-designer-res-elem-usage-validation-group` |
+| `KAFKA_CONSUMER_THREADS_STARTWORKFLOWS`         | Start workflows consumer threads           | `3`                                                    |
+| `KAFKA_CONSUMER_THREADS_RESELEMUSAGEVALIDATION` | Resource usage validation consumer threads | `3`                                                    |
+| `KAFKA_AUTHEXCEPTIONRETRYINTERVAL`              | Retry interval after authorization errors  | `10` (seconds)                                         |
 
 #### Topic naming convention and pattern creation
 
@@ -112,14 +106,14 @@ The Integration Designer uses a structured topic naming convention that follows 
 
 ##### Topic naming components
 
-| Environment variable                       | Description                | Default value     |
-| ------------------------------------------ | -------------------------- | ----------------- |
-| `KAFKA_TOPIC_NAMING_PACKAGE`               | Base package for topics    | `ai.flowx.`       |
-| `KAFKA_TOPIC_NAMING_ENVIRONMENT`           | Environment identifier     | `dev.`            |
-| `KAFKA_TOPIC_NAMING_VERSION`               | Topic version              | `.v1`             |
-| `KAFKA_TOPIC_NAMING_SEPARATOR`             | Topic name separator       | `.`               |
-| `KAFKA_TOPIC_NAMING_SEPARATOR2`            | Alternative separator      | `-`               |
-| `KAFKA_TOPIC_NAMING_ENGINERECEIVEPATTERN`  | Engine receive pattern     | `engine.receive.` |
+| Environment variable                           | Description                 | Default value          |
+| ---------------------------------------------- | --------------------------- | ---------------------- |
+| `KAFKA_TOPIC_NAMING_PACKAGE`                   | Base package for topics     | `ai.flowx.`            |
+| `KAFKA_TOPIC_NAMING_ENVIRONMENT`               | Environment identifier      | `dev.`                 |
+| `KAFKA_TOPIC_NAMING_VERSION`                   | Topic version               | `.v1`                  |
+| `KAFKA_TOPIC_NAMING_SEPARATOR`                 | Topic name separator        | `.`                    |
+| `KAFKA_TOPIC_NAMING_SEPARATOR2`                | Alternative separator       | `-`                    |
+| `KAFKA_TOPIC_NAMING_ENGINERECEIVEPATTERN`      | Engine receive pattern      | `engine.receive.`      |
 | `KAFKA_TOPIC_NAMING_INTEGRATIONRECEIVEPATTERN` | Integration receive pattern | `integration.receive.` |
 
 Topics are constructed using the following pattern:
@@ -149,9 +143,9 @@ Where:
 
 ##### Events gateway topics
 
-| Environment variable                     | Description                                | Default Pattern                                             |
-| ---------------------------------------- | ------------------------------------------ | ---------------------------------------------------------- |
-| `KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE` | Topic for workflow instances communication | `ai.flowx.dev.eventsgateway.receive.workflowinstances.v1`   |
+| Environment variable                    | Description                                | Default Pattern                                           |
+| --------------------------------------- | ------------------------------------------ | --------------------------------------------------------- |
+| `KAFKA_TOPIC_EVENTSGATEWAY_OUT_MESSAGE` | Topic for workflow instances communication | `ai.flowx.dev.eventsgateway.receive.workflowinstances.v1` |
 
 ##### Engine and Integration communication topics
 
@@ -162,10 +156,10 @@ Where:
 
 ##### Application resource usage topics
 
-| Environment variable                            | Description                                  | Default Pattern                                                                                 |
-| ----------------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `KAFKA_TOPIC_APPLICATION_IN_RES_ELEM_USAGE_VALIDATION` | Topic for resource usage validation requests | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.request-integration.v1`   |
-| `KAFKA_TOPIC_RESOURCES_USAGES_REFRESH`          | Topic for resource usage refresh commands    | `ai.flowx.dev.application-version.resources-usages.refresh.v1`                                  |
+| Environment variable                                | Description                                  | Default Pattern                                                                               |
+| --------------------------------------------------- | -------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `KAFKA_TOPIC_APPLICATION_IN_RESELEMUSAGEVALIDATION` | Topic for resource usage validation requests | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.request-integration.v1` |
+| `KAFKA_TOPIC_RESOURCESUSAGES_REFRESH`               | Topic for resource usage refresh commands    | `ai.flowx.dev.application-version.resources-usages.refresh.v1`                                |
 
 #### OAuth authentication variables (when using SASL_PLAINTEXT)
 
@@ -223,14 +217,14 @@ The workflow instances topic requires special configuration to handle large mess
 
 Integration Designer uses OAuth2 for secure access control. Set up OAuth2 configurations with these environment variables:
 
-| Environment variable                           | Description                                        | Example value           |
-| ---------------------------------------------- | -------------------------------------------------- | ----------------------- |
-| `SECURITY_OAUTH2_BASE_SERVER_URL`              | Base URL for OAuth2 authorization server           | `https://keycloak.example.com/auth` |
-| `SECURITY_OAUTH2_REALM`                        | Realm for OAuth2 authentication                    | `flowx`                 |
-| `SECURITY_OAUTH2_CLIENT_CLIENT_ID`             | Client ID for Integration Designer OAuth2 client   | `integration-designer`  |
-| `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`         | Client Secret for Integration Designer OAuth2 client | `client-secret`        |
-| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID` | Client ID for admin service account            | `admin-client`          |
-| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` | Client Secret for admin service account    | `admin-secret`          |
+| Environment variable                                  | Description                                          | Example value                       |
+| ----------------------------------------------------- | ---------------------------------------------------- | ----------------------------------- |
+| `SECURITY_OAUTH2_BASE_SERVER_URL`                     | Base URL for OAuth2 authorization server             | `https://keycloak.example.com/auth` |
+| `SECURITY_OAUTH2_REALM`                               | Realm for OAuth2 authentication                      | `flowx`                             |
+| `SECURITY_OAUTH2_CLIENT_CLIENT_ID`                    | Client ID for Integration Designer OAuth2 client     | `integration-designer`              |
+| `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`                | Client Secret for Integration Designer OAuth2 client | `client-secret`                     |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`     | Client ID for admin service account                  | `admin-client`                      |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` | Client Secret for admin service account              | `admin-secret`                      |
 
 For detailed instructions on configuring user roles and access rights, refer to:
 
@@ -271,9 +265,9 @@ ingress:
 
 To monitor the performance and health of the Integration Designer, use tools like Prometheus or Grafana. Configure Prometheus metrics with:
 
-| Environment variable                      | Description                          | Default value |
-| ----------------------------------------- | ------------------------------------ | ------------- |
-| `MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED` | Enable Prometheus metrics export    | `false`       |
+| Environment variable                           | Description                      | Default value |
+| ---------------------------------------------- | -------------------------------- | ------------- |
+| `MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED` | Enable Prometheus metrics export | `false`       |
 
 ### RBAC configuration
 

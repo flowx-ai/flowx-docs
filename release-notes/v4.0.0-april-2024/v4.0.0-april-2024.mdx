@@ -205,6 +205,7 @@ Here's a summary of the changes introduced in version 4.0 after upgrading from v
 
 - **AuthToken Management**: The ui-sdk no longer relies on the authToken being stored in LOCAL_STORAGE. Read more, [**here**](/4.0/sdks/angular-renderer#authorization).
 - The **Subprocess Run** node is now called **Call activity** node.
+- The **Start subprocess** action is now available only on [User Task](../building-blocks/node/user-task-node) nodes. For any other node types, you should use the [Call Activity node](../building-blocks/node/call-subprocess-tasks/call-activity-node) instead.
 - Business Rules: Enhancements for structured data management and improved attribute access via `instanceMetadata` new object. Read more, [**here**](./migrating-from-v3.4.x/process-configuration#business-rules).
 - **Timer event scheduler**: Significant optimizations have been implemented in the timer event scheduler, resulting in improved efficiency and responsiveness.
 - **UI Designer** updates and improvements.
