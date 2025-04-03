@@ -22,14 +22,15 @@ While many configuration properties come pre-configured, several environment var
 ## Authorization configuration & access roles
 
 Configure the following variables to connect to your identity management platform:
-| Environment Variable                                  | Description                                      | Default Value                     |
-| ----------------------------------------------------- | ------------------------------------------------ | --------------------------------- |
-| `SECURITY_OAUTH2_BASE_SERVER_URL`                     | Base URL of your OpenID Connect provider         | -                                 | 
-| `SECURITY_OAUTH2_CLIENT_CLIENT_ID`                    | Client ID for authentication                     | -                                 | 
-| `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`                | Client secret for authentication                 | -                                 | 
-| `SECURITY_OAUTH2_REALM`                               | Security realm for the application               | -                                 | 
-| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_ID`     | Service account client ID for process initiation | `flowx-task-management-plugin-sa` |
-| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` | Service account client secret                    | -                                 | 
+
+| Environment Variable                                | Description                                      | Default Value                     |
+| --------------------------------------------------- | ------------------------------------------------ | --------------------------------- |
+| `SECURITY_OAUTH2_BASESERVERURL`                     | Base URL of your OpenID Connect provider         | -                                 |
+| `SECURITY_OAUTH2_CLIENT_CLIENTID`                   | Client ID for authentication                     | -                                 |
+| `SECURITY_OAUTH2_CLIENT_CLIENTSECRET`               | Client secret for authentication                 | -                                 |
+| `SECURITY_OAUTH2_REALM`                             | Security realm for the application               | -                                 |
+| `SECURITY_OAUTH2_SERVICEACCOUNT_ADMIN_CLIENTID`     | Service account client ID for process initiation | `flowx-task-management-plugin-sa` |
+| `SECURITY_OAUTH2_SERVICEACCOUNT_ADMIN_CLIENTSECRET` | Service account client secret                    | -                                 |
 
 <Info>
 A dedicated service account must be configured in your OpenID provider to allow the Task Management microservice to access realm-specific data and perform operations.
@@ -37,12 +38,16 @@ A dedicated service account must be configured in your OpenID provider to allow 
 
 ### OpenID connect settings
 
-| Environment Variable        | Description                         | Default Value                          | 
-| --------------------------- | ----------------------------------- | -------------------------------------- | 
-| `OPENID_PROVIDER`           | Type of OpenID provider             | `keycloak`                             | 
-| `OPENID_ENTRA_TENANT_ID`    | Tenant ID for Microsoft Entra ID    | -                                      | 
-| `OPENID_ENTRA_PRINCIPAL_ID` | Principal ID for Microsoft Entra ID | -                                      | 
-| `OPENID_ENTRA_GRAPH_SCOPE`  | Graph scope for Microsoft Entra ID  | `https://graph.microsoft.com/.default` | 
+<Info>
+The Task Management plugin supports Microsoft Entra ID as an OpenID provider.
+</Info>
+
+| Environment Variable       | Description                         | Default Value                                     |
+| -------------------------- | ----------------------------------- | ------------------------------------------------- |
+| `OPENID_PROVIDER`          | Type of OpenID provider             | `keycloak` (possible values: `keycloak`, `entra`) |
+| `OPENID_ENTRA_TENANTID`    | Tenant ID for Microsoft Entra ID    | -                                                 |
+| `OPENID_ENTRA_PRINCIPALID` | Principal ID for Microsoft Entra ID | -                                                 |
+| `OPENID_ENTRA_GRAPHSCOPE`  | Graph scope for Microsoft Entra ID  | `https://graph.microsoft.com/.default`            |
 
 For more detailed information about configuring the service account:
 
@@ -109,15 +114,15 @@ Configure the Kafka integration using these environment variables:
 
 ### Core Kafka settings
 
-| Environment Variable                   | Description                                             | Default Value                    |
-| -------------------------------------- | ------------------------------------------------------- | -------------------------------- |
-| `SPRING_KAFKA_BOOTSTRAP_SERVERS`       | Address of the Kafka server(s)                          | `localhost:9092`                 | 
-| `SPRING_KAFKA_SECURITY_PROTOCOL`       | Security protocol for Kafka connections                 | `PLAINTEXT`                      | 
-| `SPRING_KAFKA_CONSUMER_GROUP_ID`       | Consumer group identifier                               | `kafka-task-management-consumer` | 
-| `KAFKA_MESSAGE_MAX_BYTES`              | Maximum message size (bytes)                            | `52428800` (50MB)                | 
-| `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL`  | Retry interval after authorization exceptions (seconds) | `10`                             | 
-| `KAFKA_CONSUMER_THREADS`               | Number of consumer threads                              | `3`                              |
-| `KAFKA_CONSUMER_EXCLUDE_USERS_THREADS` | Number of threads for processing user exclusion events  | `3`                              | 
+| Environment Variable                 | Description                                             | Default Value                    |
+| ------------------------------------ | ------------------------------------------------------- | -------------------------------- |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`      | Address of the Kafka server(s)                          | `localhost:9092`                 |
+| `SPRING_KAFKA_SECURITYPROTOCOL`      | Security protocol for Kafka connections                 | `PLAINTEXT`                      |
+| `SPRING_KAFKA_CONSUMER_GROUPID`      | Consumer group identifier                               | `kafka-task-management-consumer` |
+| `KAFKA_MESSAGE_MAX_BYTES`            | Maximum message size (bytes)                            | `52428800` (50MB)                |
+| `KAFKA_AUTHEXCEPTIONRETRYINTERVAL`   | Retry interval after authorization exceptions (seconds) | `10`                             |
+| `KAFKA_CONSUMER_THREADS`             | Number of consumer threads                              | `3`                              |
+| `KAFKA_CONSUMER_EXCLUDEUSERSTHREADS` | Number of threads for processing user exclusion events  | `3`                              |
 
 ### Topic naming configuration
 
@@ -134,11 +139,11 @@ Configure the Kafka integration using these environment variables:
 
 #### Process management topics
 
-| Environment Variable                      | Description                                        | Default Value                                  | 
-| ----------------------------------------- | -------------------------------------------------- | ---------------------------------------------- | 
-| `KAFKA_TOPIC_PROCESS_START_OUT`           | Topic for running hooks                            | `ai.flowx.dev.core.trigger.start.process.v1`   |
-| `KAFKA_TOPIC_PROCESS_OPERATIONS_OUT`      | Topic for task operations (assign, unassign, etc.) | `ai.flowx.dev.core.trigger.operation.v1`       | 
-| `KAFKA_TOPIC_PROCESS_OPERATIONS_BULK_OUT` | Topic for bulk operations on tasks                 | `ai.flowx.dev.core.trigger.operations.bulk.v1` | 
+| Environment Variable                     | Description                                        | Default Value                                  |
+| ---------------------------------------- | -------------------------------------------------- | ---------------------------------------------- |
+| `KAFKA_TOPIC_PROCESS_START_OUT`          | Topic for running hooks                            | `ai.flowx.dev.core.trigger.start.process.v1`   |
+| `KAFKA_TOPIC_PROCESS_OPERATIONS_OUT`     | Topic for task operations (assign, unassign, etc.) | `ai.flowx.dev.core.trigger.operation.v1`       |
+| `KAFKA_TOPIC_PROCESS_OPERATIONS_BULKOUT` | Topic for bulk operations on tasks                 | `ai.flowx.dev.core.trigger.operations.bulk.v1` |
 
 
 #### Scheduling topics
@@ -154,7 +159,7 @@ Configure the Kafka integration using these environment variables:
 
 | Environment Variable                    | Description                     | Default Value                                        | 
 | --------------------------------------- | ------------------------------- | ---------------------------------------------------- | 
-| `KAFKA_TOPIC_EXCLUDE_USERS_SCHEDULE_IN` | Topic for user exclusion events | `ai.flowx.dev.plugin.tasks.trigger.exclude.users.v1` |
+| `KAFKA_TOPIC_EXCLUDEUSERS_SCHEDULE_IN` | Topic for user exclusion events | `ai.flowx.dev.plugin.tasks.trigger.exclude.users.v1` |
 
 #### Task operations topics
 
@@ -164,10 +169,10 @@ Configure the Kafka integration using these environment variables:
 
 #### Events and integration topics
 
-| Environment Variable                     | Description                             | Default Value                                                        |
-| ---------------------------------------- | --------------------------------------- | -------------------------------------------------------------------- | 
-| `KAFKA_TOPIC_EVENTS_GATEWAY_OUT_MESSAGE` | Topic for Events Gateway messages       | `ai.flowx.dev.eventsgateway.receive.taskmanager.commands.message.v1` | 
-| `KAFKA_TOPIC_RESOURCES_USAGES_REFRESH`   | Topic for resource usage refresh events | `ai.flowx.dev.application-version.resources-usages.refresh.v1`       | 
+| Environment Variable                    | Description                             | Default Value                                                        |
+| --------------------------------------- | --------------------------------------- | -------------------------------------------------------------------- |
+| `KAFKA_TOPIC_EVENTSGATEWAY_OUT_MESSAGE` | Topic for Events Gateway messages       | `ai.flowx.dev.eventsgateway.receive.taskmanager.commands.message.v1` |
+| `KAFKA_TOPIC_RESOURCESUSAGES_REFRESH`   | Topic for resource usage refresh events | `ai.flowx.dev.application-version.resources-usages.refresh.v1`       |
 
 <Info>
 The Engine listens for messages on topics with specific naming patterns. Ensure you use the correct outgoing topic names when configuring the Task Management plugin to maintain proper communication with the engine.
@@ -204,23 +209,23 @@ Configure scheduled maintenance jobs:
 
 The plugin includes a resource usage monitoring feature that can be configured:
 
-| Environment Variable                                                          | Description                                            | Default Value                         |
-| ----------------------------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------- |
-| `FLOWX_LIB_RESOURCES_USAGES_ENABLED`                                          | Enable resource usage tracking                         | `true`                                |
-| `FLOWX_LIB_RESOURCES_USAGES_REFRESH_LISTENER_ENABLED`                         | Enable refresh listener                                | `true`                                |
-| `FLOWX_LIB_RESOURCES_USAGES_REFRESH_LISTENER_COLLECTOR_THREAD_COUNT`          | Number of threads for resource collection              | `5`                                   |
-| `FLOWX_LIB_RESOURCES_USAGES_REFRESH_LISTENER_COLLECTOR_MAX_BATCH_SIZE`        | Maximum batch size for collection                      | `1000`                                |
-| `FLOWX_LIB_RESOURCES_USAGES_KAFKA_CONSUMER_GROUP_ID_RESOURCES_USAGES_REFRESH` | Consumer group for resource usage refresh events       | `taskMgmtResourcesUsagesRefreshGroup` |
-| `FLOWX_LIB_RESOURCES_USAGES_KAFKA_CONSUMER_THREADS_RESOURCES_USAGES_REFRESH`  | Number of threads for processing resource usage events | `3`                                   |
+| Environment Variable                                                       | Description                                            | Default Value                         |
+| -------------------------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------- |
+| `FLOWX_LIB_RESOURCESUSAGES_ENABLED`                                        | Enable resource usage tracking                         | `true`                                |
+| `FLOWX_LIB_RESOURCESUSAGES_REFRESHLISTENER_ENABLED`                        | Enable refresh listener                                | `true`                                |
+| `FLOWX_LIB_RESOURCESUSAGES_REFRESHLISTENER_COLLECTOR_THREADCOUNT`          | Number of threads for resource collection              | `5`                                   |
+| `FLOWX_LIB_RESOURCESUSAGES_REFRESHLISTENER_COLLECTOR_MAXBATCHSIZE`         | Maximum batch size for collection                      | `1000`                                |
+| `FLOWX_LIB_RESOURCESUSAGES_KAFKA_CONSUMER_GROUPID_RESOURCESUSAGES_REFRESH` | Consumer group for resource usage refresh events       | `taskMgmtResourcesUsagesRefreshGroup` |
+| `FLOWX_LIB_RESOURCESUSAGES_KAFKA_CONSUMER_THREADS_RESOURCESUSAGES_REFRESH` | Number of threads for processing resource usage events | `3`                                   |
 
 
 ### Database migration
 
 The Task Management plugin uses Mongock for MongoDB migrations:
 
-| Environment Variable               | Description                              | Default Value                             |
-| ---------------------------------- | ---------------------------------------- | ----------------------------------------- |
-| `MONGOCK_CHANGE_LOGS_SCAN_PACKAGE` | Package to scan for database change logs | `ai.flowx.task.management.config.mongock` |
+| Environment Variable            | Description                              | Default Value                             |
+| ------------------------------- | ---------------------------------------- | ----------------------------------------- |
+| `MONGOCK_CHANGELOGSSCANPACKAGE` | Package to scan for database change logs | `ai.flowx.task.management.config.mongock` |
 
 
 

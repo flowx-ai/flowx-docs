@@ -64,13 +64,12 @@ The Application Manager relies on other FlowX services and components to functio
 
 The Application Manager requires MongoDB to store runtime build information. Use the following environment variables for configuration:
 
-| Environment Variable          | Description                            | Example Value                                                                                            |
-| ----------------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `SPRING_DATA_MONGODB_URI`     | MongoDB connection URI                 | `mongodb://${DB_USERNAME}:${DB_PASSWORD}@mongodb-0.mongodb-headless:27017/${DB_NAME}?retryWrites=false` |
-| `DB_USERNAME`                 | MongoDB username                       | `app-runtime`                                                                                            |
-| `DB_NAME`                     | MongoDB database name                  | `app-runtime`                                                                                            |
-| `DB_PASSWORD`                 | MongoDB password                       | `password`                                                                                               |
-| `SPRING_DATA_MONGODB_STORAGE` | Storage type (Azure environments only) | `mongodb` (alternative: `cosmosdb`)                                                                      |
+| Environment Variable          | Description                            | Example Value                                                                                                                                                                  |
+| ----------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `SPRING_DATA_MONGODB_URI`     | MongoDB connection URI                 | `mongodb://${DB_USERNAME}:${DB_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-arbiter-headless:27017/app-runtime?retryWrites=false` |
+| `DB_USERNAME`                 | MongoDB username                       | `app-runtime`                                                                                                                                                                  |
+| `DB_PASSWORD`                 | MongoDB password                       | `password`                                                                                                                                                                     |
+| `SPRING_DATA_MONGODB_STORAGE` | Storage type (Azure environments only) | `mongodb` (alternative: `cosmosdb`)                                                                                                                                            |
 
 ### Redis configuration
 
@@ -326,8 +325,8 @@ The Resource Proxy module forwards resource-related requests to appropriate serv
 | `FLOWX_RESOURCEPROXY_RETRYGETRESOURCETIMEOUTMS`         | Resource retrieval timeout         | `500`            | `500`     |
 | `FLOWX_RESOURCEPROXY_RETRYGETRESOURCEMAXCOUNT`          | Maximum resource retrieval retries | `10`             | `10`      |
 | `FLOWX_RESOURCEPROXY_WEBCLIENT_RETRYATTEMPTS`           | Web client retry attempts          | `2`              | `2`       |
-| `FLOWX_RESOURCEPROXY_WEBCLIENT_RETRYBACKOFF`           | Retry backoff time (seconds)       | `1`              | `1`       |
-| `FLOWX_RESOURCEPROXY_WEBCLIENT_MAXINMEMORYSIZE`        | Maximum in-memory size             | `5MB`            | `5MB`     |
+| `FLOWX_RESOURCEPROXY_WEBCLIENT_RETRYBACKOFF`            | Retry backoff time (seconds)       | `1`              | `1`       |
+| `FLOWX_RESOURCEPROXY_WEBCLIENT_MAXINMEMORYSIZE`         | Maximum in-memory size             | `5MB`            | `5MB`     |
 | `FLOWX_RUNTIMEEXECUTIONPROXY_WEBCLIENT_MAXINMEMORYSIZE` | Maximum REST request size          | `5242880` (5 MB) | `5242880` |
 
 <Info>

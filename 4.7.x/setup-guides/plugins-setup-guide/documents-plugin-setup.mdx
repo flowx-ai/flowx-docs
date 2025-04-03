@@ -78,14 +78,14 @@ The Documents Plugin uses a PostgreSQL database for relational data storage.
 
 #### Runtime MongoDB configuration
 
-| Environment Variable                              | Description                                       | Example Value                                                                         |
-| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| `SPRING_DATA_MONGODB_RUNTIME_ENABLED`             | Enable runtime MongoDB connection                 | `true`                                                                                |
-| `SPRING_DATA_MONGODB_RUNTIME_URI`                 | Runtime MongoDB connection URI                    | `mongodb://paperflow:password@jx-app-runtime-mdb:27017/app-runtime?retryWrites=false` |
-| `DB_USERNAME`                                     | Runtime MongoDB username                          | `paperflow`                                                                           |
-| `DB_PASSWORD`                                     | Runtime MongoDB password                          | `password`                                                                            |
-| `SPRING_DATA_MONGODB_RUNTIME_AUTO_INDEX_CREATION` | Enable automatic index creation                   | `false`                                                                               |
-| `SPRING_DATA_MONGODB_RUNTIME_UUID_REPRESENTATION` | UUID representation format for runtime connection | `standard`                                                                            |
+| Environment Variable                             | Description                                       | Example Value                                                                                         |
+| ------------------------------------------------ | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `SPRING_DATA_MONGODB_RUNTIME_ENABLED`            | Enable runtime MongoDB connection                 | `true`                                                                                                |
+| `SPRING_DATA_MONGODB_RUNTIME_URI`                | Runtime MongoDB connection URI                    | `mongodb://${MONGODB_USERNAME:flowx}:${MONGODB_PASSWORD:password}@jx-document-mongodb:27017/document` |
+| `MONGODB_USERNAME`                               | Runtime MongoDB username                          | `paperflow`                                                                                           |
+| `MONGODB_PASSWORD`                               | Runtime MongoDB password                          | `password`                                                                                            |
+| `SPRING_DATA_MONGODB_RUNTIME_AUTOINDEXCREATION`  | Enable automatic index creation                   | `false`                                                                                               |
+| `SPRING_DATA_MONGODB_RUNTIME_UUIDREPRESENTATION` | UUID representation format for runtime connection | `standard`                                                                                            |
 
 
 ### Redis configuration
@@ -104,11 +104,11 @@ Set the following values with the corresponding Redis-related values:
 
 ### Multipart upload configuration
 
-| Environment Variable         | Description                   | Default Value |
-| ---------------------------- | ----------------------------- | ------------- |
-| `SPRING_SERVLET_CONTEXTPATH` | Servlet context path          | `/`           |
-| `MULTIPART_MAX_FILE_SIZE`    | Maximum file size for uploads | `50MB`        |
-
+| Environment Variable                      | Description                                | Default Value |
+| ----------------------------------------- | ------------------------------------------ | ------------- |
+| `SPRING_SERVLET_CONTEXTPATH`              | Servlet context path                       | `/`           |
+| `SPRING_SERVLET_MULTIPART_MAXFILESIZE`    | Maximum file size for uploads              | `50MB`        |
+| `SPRING_SERVLET_MULTIPART_MAXREQUESTSIZE` | Maximum request size for multipart uploads | `50MB`        |
 
 
 
@@ -140,7 +140,7 @@ Set the following values with the corresponding Redis-related values:
 | `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_DOCUMENTPERSISTIN`      | Threads for document persistence     | `5`           |
 | `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_DOCUMENTSPLITTIN`       | Threads for document splitting       | `5`           |
 | `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_DOCUMENTGETURLSIN`      | Threads for document URL retrieval   | `5`           |
-| `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPER_CONTAINER_OCRIN`                 | Threads for OCR processing           | `5`           |
+| `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_OCRIN`                  | Threads for OCR processing           | `5`           |
 | `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_FILEDELETEIN`           | Threads for file deletion            | `5`           |
 | `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_FILEUPDATEIN`           | Threads for file updates             | `5`           |
 | `KAFKA_CONSUMER_THREADPOOLS_THREADPOOLGENERIC_THREADCOUNTPERCONTAINER_FILECONVERTIN`          | Threads for file conversion          | `5`           |
@@ -202,9 +202,9 @@ Set the following values with the corresponding Redis-related values:
 
 ### File conversion
 
-| Environment Variable | Description | Default Value |
-| `KAFKA_TOPIC_FILE_CONVERT_IN`  | Topic for incoming file conversion requests | `ai.flowx.dev.plugin.document.trigger.convert.file.v1`                |
-| `KAFKA_TOPIC_FILE_CONVERT_OUT` | Topic for file conversion results           | `ai.flowx.dev.engine.receive.plugin.document.convert.file.results.v1` |
+| Environment Variable           | Description                       | Default Value                                                         |
+| `----------------------------` | --------------------------------- | `-------------------------------------------------------------------` |
+| `KAFKA_TOPIC_FILE_CONVERT_OUT` | Topic for file conversion results | `ai.flowx.dev.engine.receive.plugin.document.convert.file.results.v1` |
 
 ### File persistence
 
@@ -226,16 +226,6 @@ Set the following values with the corresponding Redis-related values:
 | Environment Variable    | Description                  | Default Value                             |
 | ----------------------- | ---------------------------- | ----------------------------------------- |
 | `KAFKA_TOPIC_AUDIT_OUT` | Topic for sending audit logs | `ai.flowx.dev.core.trigger.save.audit.v1` |
-
-## Authentication configuration
-
-When the `kafka-auth` profile is active:
-
-| Environment Variable             | Description               | Default Value          |
-| -------------------------------- | ------------------------- | ---------------------- |
-| `KAFKA_OAUTH_CLIENT_ID`          | OAuth client ID for Kafka | `kafka`                |
-| `KAFKA_OAUTH_CLIENT_SECRET`      | OAuth client secret       | `kafka-secret`         |
-| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint URI  | `kafka.auth.localhost` |
 
 
 ### General storage configuration

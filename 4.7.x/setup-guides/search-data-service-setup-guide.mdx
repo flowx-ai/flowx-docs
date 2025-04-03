@@ -95,11 +95,12 @@ Set up Elasticsearch connectivity with these environment variables:
 
 Configure authentication and authorization with these variables:
 
-| Variable                           | Description                | Example                             |
-| ---------------------------------- | -------------------------- | ----------------------------------- |
-| `SECURITY_OAUTH2_BASE_SERVER_URL`  | Base URL for OAuth2 server | `https://keycloak.example.com/auth` |
-| `SECURITY_OAUTH2_CLIENT_CLIENT_ID` | OAuth2 client ID           | `data-search-service`               |
-| `SECURITY_OAUTH2_REALM`            | OAuth2 realm name          | `flowx`                             |
+| Variable                              | Description                | Example                             |
+| ------------------------------------- | -------------------------- | ----------------------------------- |
+| `SECURITY_OAUTH2_BASESERVERURL`       | Base URL for OAuth2 server | `https://keycloak.example.com/auth` |
+| `SECURITY_OAUTH2_CLIENT_CLIENTID`     | OAuth2 client ID           | `data-search-service`               |
+| `SECURITY_OAUTH2_CLIENT_CLIENTSECRET` | OAuth2 client secret       | `data-search-service-secret`        |
+| `SECURITY_OAUTH2_REALM`               | OAuth2 realm name          | `flowx`                             |
 
 ### Logging configuration
 
@@ -235,7 +236,9 @@ Kibana provides a powerful interface for visualizing and exploring data indexed 
 3. Use the Discover tab to explore indexed data
 4. Create visualizations and dashboards based on your data
 
-> ℹ️ **Info**: Kibana is an open-source data visualization and exploration tool designed primarily for Elasticsearch. It serves as the visualization layer for the Elastic Stack, allowing users to interact with their data stored in Elasticsearch to perform various activities such as querying, analyzing, and visualizing data. For more information, visit the [Kibana official documentation](https://www.elastic.co/guide/en/kibana/current/index.html).
+<Info>
+Kibana is an open-source data visualization and exploration tool designed primarily for Elasticsearch. It serves as the visualization layer for the Elastic Stack, allowing users to interact with their data stored in Elasticsearch to perform various activities such as querying, analyzing, and visualizing data. For more information, visit the [Kibana official documentation](https://www.elastic.co/guide/en/kibana/current/index.html).
+</Info>
 
 ## Best practices
 

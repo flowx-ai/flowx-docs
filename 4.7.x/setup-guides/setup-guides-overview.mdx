@@ -1,151 +1,236 @@
 ---
-title: Setup guides
-description: Deploying microservices involves breaking down an application into smaller, modular components that can be independently deployed. Each microservice should include all necessary dependencies and configurations to ensure smooth and reliable operation.
+title: Microservices setup guides
+description: Complete reference for deploying and configuring FlowX.AI microservices in your environment
 icon: wrench
 ---
 
-Microservices can be deployed using container management systems like Docker or Kubernetes, which allow for the deployment of multiple microservices within a unified environment.
+FlowX.AI is built on a modern microservices architecture, allowing for scalable, resilient, and flexible deployments. Each microservice operates independently while collaborating with others to provide a complete enterprise solution.
+
+## Deployment strategy
+
+Deploying FlowX.AI microservices involves breaking down the application into modular components that can be independently deployed, scaled, and maintained. All microservices are delivered as Docker containers, making them suitable for deployment on any container orchestration platform, such as Kubernetes or Docker Swarm.
+
+### Deployment prerequisites
+
+Before beginning the deployment process, ensure you have:
+
+- A Kubernetes cluster or Docker environment
+- Access to a container registry
+- Persistent storage for databases
+- Network policies configured for inter-service communication
+- Resource quotas and limits defined for each environment
+
+### Recommended installation order
 
 <Tip>
-To achieve a smooth and successful deployment of your microservices, it's crucial to follow the recommended installation order. Proper sequencing avoids dependency issues and ensures that each service operates correctly within the overall system architecture.
+Following the correct installation sequence is crucial for a successful deployment. This ordered approach prevents dependency issues and ensures each service has the required dependencies available when it initializes.
 </Tip>
 
-**Recommended Installation Order for Microservices**:
-
 <Steps>
-<Step title ="advancing-controller">
-</Step>
-<Step title="process-engine">
-</Step>
-<Step title="All backend services in parallel">
+<Step title="Infrastructure Components">
+First, deploy the foundational infrastructure:
 
-Deploy the following backend services simultaneously, as they are foundational and interdependent:
-
-- admin
-- audit-core
-- task-management
-- scheduler-core
-- data-search
-- license-core
-- events-gateway
-- others (any additional microservices)
+- **Databases**: PostgreSQL/Oracle for relational data, MongoDB for document storage
+- **Message Broker**: Kafka and ZooKeeper
+- **Caching**: Redis
+- **Identity Management**: Keycloak or other OAuth2 provider
 </Step>
-<Step title="designer">
-Finally, deploy the Frontend service. This should be done after the backend is fully operational, although it can be deployed alongside the backend if it won’t be accessed from the browser immediately (note that the platform status might crash or be incomplete while the backend is still starting up).
+
+<Step title="Core Components">
+Next, deploy these core services in order:
+
+1. **Advancing Controller**: Manages process advancement and orchestration
+2. **Process Engine**: Handles business process execution and state management
+</Step>
+
+<Step title="Backend Services">
+Once the core components are operational, deploy these services (can be deployed in parallel):
+
+- **Admin Service**: Platform administration and configuration management
+- **Audit Core**: Compliance auditing and activity tracking
+- **Task Management**: Human task assignment and workflow
+- **Scheduler Core**: Job scheduling and time-based operations
+- **Data Search**: Indexing and searching capabilities
+- **License Core**: License management and validation
+- **Events Gateway**: Event routing and processing
+- **Document Plugin**: Document generation and management
+- **Notification Plugin**: Communication and alerts management
+- **Any additional plugins or extensions**
+</Step>
+
+<Step title="Frontend Components">
+Finally, deploy the frontend services:
+
+- **Designer**: Process design environment for business analysts
+- **Web Components**: UI components for custom applications
+- **Customer-facing UIs and portals**
 </Step>
 </Steps>
 
-Following this sequence ensures that the core components are established before dependent services start. This approach minimizes the risk of initialization errors and incomplete system states. Prioritizing backend services is essential, as they provide the foundation for other components.
+## Environment variables reference
 
-## Environment variables
+Environment variables are the primary configuration mechanism for FlowX.AI microservices. They provide a secure and flexible way to customize service behavior without modifying the container images.
 
-Environment variables are variables that are set in the system environment and can be used by applications and services to store and access configuration information. Environment variables typically include settings such as paths to directories, file locations, settings for the operating system and applications, and more. 
+### Common environment variables
 
-Environment variables are used to store and access configuration information in a secure and efficient manner. Below you will find some examples of common/shared environment variables that need to be set for different services and components.
+The following sections detail the most commonly used environment variables across FlowX.AI microservices. For service-specific variables, refer to the dedicated setup guides for each component.
 
-## Authorization & access roles
+#### Authorization & access management
 
-An identity management platform is a software system that helps you manage authorization & access roles, including user accounts, passwords, access control, and authentication. Identity management platforms typically offer features such as user provisioning, identity federation, and single sign-on. 
+| Environment Variable                                | Description                                        | Example Value                       | Required |
+| --------------------------------------------------- | -------------------------------------------------- | ----------------------------------- | -------- |
+| `SECURITY_OAUTH2_BASESERVERURL`                     | Base URL of the OAuth2/OIDC server                 | `https://keycloak.example.com/auth` | Yes      |
+| `SECURITY_OAUTH2_CLIENTCLIENTID`                    | OAuth2 client ID for the service                   | `flowx-admin-service`               | Yes      |
+| `SECURITY_OAUTH2_CLIENTCLIENTSECRET`                | OAuth2 client secret                               | `secret`                            | Yes      |
+| `SECURITY_OAUTH2_REALM`                             | OAuth2 realm name                                  | `flowx`                             | Yes      |
+| `SECURITY_OAUTH2_SERVICEACCOUNT_ADMIN_CLIENTID`     | Service account client ID (for inter-service auth) | `flowx-service-account`             | No*      |
+| `SECURITY_OAUTH2_SERVICEACCOUNT_ADMIN_CLIENTSECRET` | Service account client secret                      | `secret`                            | No*      |
 
-The following variables need to be set in order to connect to the identity management platform:
+*Required for some services that need to make authenticated calls to other services
 
-* `SECURITY_OAUTH2_BASE_SERVER_URL` - the base URL for the OAuth 2.0 Authorization Server, which is responsible for authentication and authorization for clients and users, it is used to authorize clients, as well as to issue and validate access tokens
-* `SECURITY_OAUTH2_CLIENT_CLIENT_ID` - a unique identifier for a client application that is registered with the OAuth 2.0 Authorization Server, this is used to authenticate the client application when it attempts to access resources on behalf of a user
-* `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` - secret key that is used to authenticate requests made by an authorization client
-* `SECURITY_OAUTH2_REALM` - security configuration env var in the Spring Security OAuth2 framework, it is used to specify the realm name used when authenticating with OAuth2 providers
+#### Database configuration
 
-<Card title="Access Management" href="./access-management/access-management-overview" icon="link">
-</Card>
+##### PostgreSQL/Oracle
 
-## Datasource configuration
+| Environment Variable                            | Description                     | Example Value                           | Required |
+| ----------------------------------------------- | ------------------------------- | --------------------------------------- | -------- |
+| `SPRING_DATASOURCE_URL`                         | JDBC connection URL             | `jdbc:postgresql://postgres:5432/flowx` | Yes      |
+| `SPRING_DATASOURCE_USERNAME`                    | Database username               | `flowx_user`                            | Yes      |
+| `SPRING_DATASOURCE_PASSWORD`                    | Database password               | `securePassword123`                     | Yes      |
+| `SPRING_DATASOURCE_DRIVERCLASSNAME`             | JDBC driver class (Oracle only) | `oracle.jdbc.OracleDriver`              | Yes*     |
+| `SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULTSCHEMA` | Default schema (Oracle only)    | `FLOWX`                                 | Yes*     |
 
-Datasource configuration is the process of configuring a data source, such as a database, file, or web service, so that an application can connect to it and use the data. This typically involves setting up the connection parameters, such as the host, port, username, and password. 
+*Required only for Oracle databases
 
-In some cases, additional configuration settings may be required, such as specifying the type of data source (e.g. Oracle, MySQL, etc.) or setting up access control for data access.
+##### MongoDB
 
-Environment variables are more secure than hard-coding credentials in the application code and make it easier to update data source parameters without having to modify the application code.
+| Environment Variable                  | Description                                | Example Value                                                               | Required |
+| ------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------- | -------- |
+| `SPRING_DATA_MONGODB_URI`             | MongoDB connection URI                     | `mongodb://mongo1,mongo2,mongo3:27017/flowx?replicaSet=rs0`                 | Yes      |
+| `DB_USERNAME`                         | MongoDB username for services that need it | `flowx_mongo_user`                                                          | Yes      |
+| `DB_PASSWORD`                         | MongoDB password                           | `mongoSecurePass456`                                                        | Yes      |
+| `SPRING_DATA_MONGODB_RUNTIME_ENABLED` | Enable runtime MongoDB connection          | `true`                                                                      | No       |
+| `SPRING_DATA_MONGODB_RUNTIME_URI`     | URI for runtime MongoDB connection         | `mongodb://${DB_USERNAME}:${DB_PASSWORD}@mongodb-runtime:27017/app-runtime` | No*      |
 
-<Info>
-Some microservices ([**Admin**](./admin-setup-guide) microservice, for example, connects to the same Postgres / Oracle database as the [**FlowX Engine**](./flowx-engine-setup-guide/engine-setup)).
-</Info>
+*Required if runtime MongoDB connection is enabled
 
-<Info>
-Depending on the data source type, various parameters may need to be configured. For example, if connecting to an Oracle database, the driver class name, and the database schema must be provided. For MongoDB, the URI is needed.
-</Info>
+#### Kafka Configuration
 
-The following variables need to be set in order to set the datasource:
+| Environment Variable               | Description                                  | Example Value                            | Required |
+| ---------------------------------- | -------------------------------------------- | ---------------------------------------- | -------- |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`    | Comma-separated list of Kafka brokers        | `kafka-0:9092,kafka-1:9092,kafka-2:9092` | Yes      |
+| `SPRING_KAFKA_SECURITY_PROTOCOL`   | Security protocol for Kafka communication    | `SASL_PLAINTEXT`                         | No       |
+| `SPRING_KAFKA_CONSUMER_GROUPID`    | Consumer group ID                            | `flowx-process-engine-group`             | Yes      |
+| `KAFKA_CONSUMER_THREADS`           | Number of Kafka consumer threads             | `5`                                      | No       |
+| `KAFKA_AUTHEXCEPTIONRETRYINTERVAL` | Retry interval for auth exceptions (seconds) | `10`                                     | No       |
+| `KAFKA_MESSAGE_MAX_BYTES`          | Maximum Kafka message size (bytes)           | `52428800` (50MB)                        | No       |
 
-* `SPRING_DATASOURCE_URL` - environment variable used to configure a data source URL for a Spring application, it typically contains the JDBC driver name, the server name, port number, and database name
-* `SPRING_DATASOURCE_USERNAME` - environment variable used to set the username for the database connection, this can be used to connect to a database instance
-* `SPRING_DATASOURCE_PASSWORD` - environment variable used to store the password for the database connection, this can be used to secure access to the database and ensure that only authorized users have access to the data
-* `SPRING_DATASOURCE_DRIVERCLASSNAME` (❗️only for Oracle DBs) - environment variable used to set the class name of the JDBC driver that the Spring DataSource will use to connect to the database
-* `SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULTSCHEMA` (❗️only for Oracle DBs) - environment variable used to overwrite the name of the database schema
-* `SPRING_DATA_MONGODB_URI` (❗️only for MongoDB) - environment variable used to provide the connection string for a MongoDB database that is used with, this connection string provides the host, port, database name, user credentials, and other configuration details for the MongoDB server
+#### Topic Naming Configuration
 
-<Warning>
-You will need to make sure that the user, password, connection link and db name are configured correctly, otherwise, you will receive errors at start time.
-</Warning>
+For services that communicate via Kafka, the topic naming follows a convention:
 
-<Info>
-The datasource is configured automatically via a liquibase script inside the engine. All updates will include migration scripts.
-</Info>
-
-
-## Kafka
-
-The following Kafka-related configurations can be set by using environment variables:
-
-* `SPRING_KAFKA_BOOTSTRAP_SERVERS` - environment variable used to configure the list of brokers to which the kafka client will connect, this is a comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster
-* `SPRING_KAFKA_CONSUMER_GROUP_ID` - environment variable is used to set the consumer group ID for the Kafka consumer, it is used to identify which consumer group the consumer belongs to and allows the Kafka broker to manage which messages are consumed by each consumer in the group
-
-<Info>
-* `SPRING_KAFKA_CONSUMER_GROUP_ID` - might be different for the services that have the group id separated in topics, also thread numbers.
-</Info>
-
-* `KAFKA_CONSUMER_THREADS` - environment variable used to control the number of threads that a Kafka consumer instance can use to consume messages from a cluster, it defines the number of threads that the consumer instance should use to poll for messages from the Kafka cluster
-* `KAFKA_AUTH_EXCEPTION_RETRY_INTERVAL` - environment variable used to set the interval at which Kafka clients should retry authentication exceptions (the interval between retries after AuthorizationException is thrown by KafkaConsumer)
-* `KAFKA_MESSAGE_MAX_BYTES` - this is the largest size of the message that can be received by the broker from a producer.
-
-Each action available in the service corresponds to a Kafka event. A separate Kafka topic must be configured for each use case.
+| Environment Variable             | Description                    | Example Value | Required |
+| -------------------------------- | ------------------------------ | ------------- | -------- |
+| `KAFKA_TOPIC_NAMING_SEPARATOR`   | Primary topic name separator   | `.`           | No       |
+| `KAFKA_TOPIC_NAMING_SEPARATOR2`  | Secondary topic name separator | `-`           | No       |
+| `KAFKA_TOPIC_NAMING_PACKAGE`     | Package prefix for topics      | `ai.flowx.`   | No       |
+| `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Environment segment            | `dev.`        | No       |
+| `KAFKA_TOPIC_NAMING_VERSION`     | Version suffix                 | `.v1`         | No       |
 
 <Warning>
-FlowX Engine is listening for messages on topics with names of a certain pattern, make sure to use correct outgoing topic names when configuring the services.
+The engine and other services listen for messages on topics with specific naming patterns. Ensure you use correct topic names to maintain proper inter-service communication.
 </Warning>
 
-## Redis configuration 
+#### Redis configuration
 
-Redis configuration involves setting up the connection parameters, such as the host, port, username, and password. In some cases, additional configuration settings may be required, such as specifying the type of data store or setting up access control for data access.
+| Environment Variable    | Description               | Example Value      | Required |
+| ----------------------- | ------------------------- | ------------------ | -------- |
+| `SPRING_REDIS_HOST`     | Redis server hostname     | `redis-master`     | Yes      |
+| `SPRING_REDIS_PORT`     | Redis server port         | `6379`             | Yes      |
+| `SPRING_REDIS_PASSWORD` | Redis password            | `redisPassword789` | Yes      |
+| `REDIS_TTL`             | Cache TTL in milliseconds | `5000000`          | No       |
 
-* `SPRING_REDIS_HOST` - environment variable used to configure the hostname or IP address of a Redis server when [](https://docs.camunda.io/docs/components/concepts/workflow-patterns/)using Spring Data Redis
-* `SPRING_REDIS_PASSWORD` - environment variable is used to store the password used to authenticate with a Redis server, it is used to secure access to the Redis server and should be kept confidential
-* `REDIS_TTL` - environment variable is used to specify the maximum time-to-live (TTL) for a key in Redis, it is used to set a limit on how long a key can exist before it is automatically expired (Redis will delete the key after the specified TTL has expired)
+#### Logging configuration
+
+| Environment Variable         | Description                        | Example Value | Required |
+| ---------------------------- | ---------------------------------- | ------------- | -------- |
+| `LOGGING_LEVEL_ROOT`         | Root logging level                 | `INFO`        | No       |
+| `LOGGING_LEVEL_APP`          | Application-specific logging level | `DEBUG`       | No       |
+| `LOGGING_LEVEL_MONGO_DRIVER` | MongoDB driver logging level       | `WARN`        | No       |
+| `LOGGING_LEVEL_KAFKA`        | Kafka client logging level         | `WARN`        | No       |
+| `LOGGING_LEVEL_REDIS`        | Redis client logging level         | `OFF`         | No       |
+
+## Deployment best practices
 
 
-## Debugging
-
-Advanced debugging features can be enabled. When this happens, snapshots of the process status will be taken after each action and can be later used for debugging purposes. This feature comes with an exponential increase in database usage, so we suggest having the flag set to true on debugging media and false production ones.
-
-## Logging
-
-The following environment variables could be set in order to control log levels:
-
-* `LOGGING_LEVEL_ROOT` - root Spring Boot microservice logs
-* `LOGGING_LEVEL_APP` - controls the verbosity of the application's logs and how much information is recorded (app level logs)
 
 
-## License model
+### High availability considerations
 
-A license model is a set of rules and regulations governing how software can be used, distributed, and modified. It also outlines the rights and responsibilities of the software user and the software developer. Common license models include open source, freeware, shareware, and commercial software.
+For production environments, configure these high availability features:
 
-Most of the third-party components used by FlowX are under [**Apache License 2.0**](https://www.apache.org/licenses/LICENSE-2.0) source code.
+- **Database Clustering**: Implement PostgreSQL/Oracle with replication
+- **MongoDB Replica Sets**: Deploy MongoDB as a replica set with at least 3 nodes
+- **Kafka Clustering**: Use at least 3 Kafka brokers with replication factor ≥ 3
+- **Redis Sentinel/Cluster**: Configure Redis for high availability
+- **Service Replicas**: Run multiple instances of each microservice
+- **Load Balancing**: Implement proper load balancing for service instances
+- **Affinity/Anti-Affinity Rules**: Distribute service instances across nodes
 
-## Third-party components
+### Security recommendations
 
-Third-party components are software components or libraries that are not part of FLOWX.AI but are instead created by another company or individual and used in a development project. 
+Secure your FLOWX.AI deployment with these measures:
 
-These components can range from databases and operating systems to user interface components and libraries that provide support for a specific feature or task.
+1. **Network Segmentation**: Isolate microservices using network policies
+2. **Secret Management**: Use Kubernetes Secrets or a vault solution
+3. **TLS Everywhere**: Enable TLS for all service-to-service communication
+4. **OAuth2 Scopes**: Configure fine-grained OAuth2 scopes for services
+5. **Resource Isolation**: Use namespaces and pod security policies
+6. **Regular Updates**: Keep all components updated with security patches
+7. **Audit Logging**: Enable comprehensive audit logging via the Audit Core service
 
-Third party components are components such as libraries, frameworks, APIs, etc.
+## Troubleshooting
 
-<Card title= "Third-party components" href="/4.1.x/docs/platform-deep-dive/third-party-components" icon ="link">
-</Card>
+### Common issues and solutions
+
+| Issue                      | Possible cause                | Solution                                                        |
+| -------------------------- | ----------------------------- | --------------------------------------------------------------- |
+| Service fails to start     | Missing environment variables | Check logs for "Configuration property not found" errors        |
+| Database connection errors | Incorrect credentials or URL  | Verify database connection parameters                           |
+| Services can't communicate | Kafka misconfiguration        | Ensure topic names match between producer and consumer services |
+| Authentication failures    | OAuth2 configuration issues   | Verify client IDs, secrets, and server URLs                     |
+| Performance degradation    | Insufficient resources        | Monitor CPU/memory usage and scale resources appropriately      |
+| Data inconsistency         | Redis cache not synchronized  | Check Redis connection and consider cache invalidation          |
+
+### Diagnostic procedures
+
+When troubleshooting FlowX.AI microservices:
+
+1. **Check Service Logs**: Examine logs for error messages
+2. **Verify Configurations**: Ensure all required environment variables are set correctly
+3. **Test Connectivity**: Verify network connectivity between services
+4. **Monitor Resources**: Check CPU, memory, and disk usage
+5. **Inspect Kafka Topics**: Use Kafka tools to inspect message flow
+6. **Review Database State**: Examine database for data integrity issues
+7. **Check OAuth2 Tokens**: Verify token validity and permissions
+
+## Service-specific documentation
+
+For detailed configuration of individual services, refer to:
+
+
+<CardGroup>
+<Card title="Process Engine Setup" href="../setup-guides/flowx-engine-setup-guide/engine-setup" icon="gear" />
+<Card title="Admin Setup" href="../setup-guides/admin-setup-guide" icon="shield" />
+<Card title="Task Management Setup" href="../setup-guides/plugins-setup-guide/task-management-plugin-setup" icon="list-check" />
+<Card title="Scheduler Core Setup" href="../setup-guides/scheduler-setup-guide" icon="clock" />
+<Card title="Data Search Setup" href="../setup-guides/search-data-service-setup-guide" icon="" />
+<Card title="CMS Setup" href="../setup-guides/cms-setup" icon="file" />
+<Card title="Events Gateway Setup" href="../setup-guides/events-gateway-setup" icon="envelope" />
+<Card title="Advancing Controller Setup" href="../setup-guides/advancing-controller-setup-guide" icon="gear" />
+<Card title="Application Manager Setup" href="../setup-guides/application-manager" icon="gear" />
+<Card title="Integration Setup" href="../setup-guides/integration-designer-setup" icon="gear" />
+<Card title="Runtime Manager Setup" href="../setup-guides/runtime-manager" icon="gear" />
+<Card title="Notifications Plugin Setup" href="../setup-guides/plugins-setup-guide/notifications-plugin-setup" icon="envelope" />
+<Card title="Documents Plugin Setup" href="../setup-guides/plugins-setup-guide/documents-plugin-setup" icon="file" />
+</CardGroup>
