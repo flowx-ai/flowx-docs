@@ -26,8 +26,7 @@
                 "group": "Getting Started",
                 "pages": [
                   "4.7.x/docs/introduction",
-                  "4.7.x/docs/getting-started/building-your-first-proc",
-                  "4.7.x/docs/getting-started/learn-more"
+                  "4.7.x/docs/getting-started/building-your-first-proc"
                 ]
               },
               {
@@ -732,9 +731,7 @@
                   "4.7.x/setup-guides/access-management/configuring-access-rights-for-integration-designer",
                   "4.7.x/setup-guides/access-management/configuring-access-rights-for-admin",
                   "4.7.x/setup-guides/access-management/configuring-access-rights-for-engine",
-                  "4.7.x/setup-guides/access-management/configuring-access-rights-for-cms",
-                  "4.7.x/setup-guides/access-management/configuring-access-rights-for-license"
-                ]
+                  "4.7.x/setup-guides/access-management/configuring-access-rights-for-cms"                ]
               },
               {
                 "group": "Plugins access rights",
@@ -758,8 +755,7 @@
                 "group": "Getting Started",
                 "pages": [
                   "4.6.0/docs/introduction",
-                  "4.6.0/docs/getting-started/building-your-first-proc",
-                  "4.6.0/docs/getting-started/learn-more"
+                  "4.6.0/docs/getting-started/building-your-first-proc"
                 ]
               },
               {
