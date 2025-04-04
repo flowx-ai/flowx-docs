@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "willow",
   "name": "Docs",
   "colors": {
     "primary": "#fdb913",
@@ -731,9 +731,7 @@
                   "4.7.x/setup-guides/access-management/configuring-access-rights-for-integration-designer",
                   "4.7.x/setup-guides/access-management/configuring-access-rights-for-admin",
                   "4.7.x/setup-guides/access-management/configuring-access-rights-for-engine",
-                  "4.7.x/setup-guides/access-management/configuring-access-rights-for-cms",
-                  "4.7.x/setup-guides/access-management/configuring-access-rights-for-license"
-                ]
+                  "4.7.x/setup-guides/access-management/configuring-access-rights-for-cms"                ]
               },
               {
                 "group": "Plugins access rights",
