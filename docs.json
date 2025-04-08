@@ -26,7 +26,8 @@
                 "group": "Getting Started",
                 "pages": [
                   "4.7.x/docs/introduction",
-                  "4.7.x/docs/getting-started/building-your-first-proc"
+                  "4.7.x/docs/getting-started/building-your-first-proc",
+                  "4.7.x/docs/getting-started/ai-in-flowx"
                 ]
               },
               {
@@ -271,6 +272,7 @@
                       "4.7.x/docs/platform-deep-dive/core-components/events-gateway"
                     ]
                   },
+
                   {
                     "group": "Core extensions",
                     "icon": "puzzle-piece",
@@ -300,6 +302,21 @@
                       "4.7.x/docs/platform-deep-dive/core-extensions/search-data-service"
                     ]
                   },
+
+                  {
+                    "group": "AI Core",
+                    "icon": "microchip",
+                    "pages": [
+                      "4.7.x/docs/platform-deep-dive/ai-core/ai-core-overview",
+                      "4.7.x/docs/platform-deep-dive/ai-core/ai-developer",
+                      "4.7.x/docs/platform-deep-dive/ai-core/ai-designer",
+                      "4.7.x/docs/platform-deep-dive/ai-core/ai-architect",
+                      "4.7.x/docs/platform-deep-dive/ai-core/ai-assistant",
+                      "4.7.x/docs/platform-deep-dive/ai-core/ai-analyst"
+                    ] 
+                  },
+
+
                   {
                     "group": "Plugins",
                     "icon": "puzzle-piece-simple",
@@ -346,10 +363,11 @@
                           "4.7.x/docs/platform-deep-dive/plugins/custom-plugins/reporting/access-and-authorization"
                         ]
                       },
-                      "4.7.x/docs/platform-deep-dive/plugins/ai-agents",
                       "4.7.x/docs/platform-deep-dive/plugins/wysiwyg"
                     ]
                   },
+
+
                   {
                     "group": "Integrations",
                     "icon": "link",
