@@ -27,8 +27,7 @@ The **FlowX.AI Designer** is a collaborative, no-code/full-code web-based applic
 The FlowX Designer is a web application that runs in the browser, residing outside a FlowX deployment, serving as the administrative interface for the entire platform.
 </Tip>
 
-<Card title="FlowX Designer" href="../flowx-designer" icon ="pencil">
-</Card>
+<Card title="FlowX Designer" href="../flowx-designer" icon ="pencil"/>
 
 The no-code/full-code capabilities allow both business users (analysts, product managers) and experienced developers to collaboratively build applications, reducing the typical development cycle from months to days.
 
@@ -64,8 +63,7 @@ The Engine is built on [Kafka](./frameworks-and-standards/event-driven-architect
 The Engine works closely with the **Advancing Controller** to ensure efficient process instance progression, particularly in scaled environments.
 
 
-<Card title="FlowX.AI Engine" href="../platform-deep-dive/core-components/flowx-engine" icon="window-flip">
-</Card>
+<Card title="FlowX.AI Engine" href="../platform-deep-dive/core-components/flowx-engine" icon="window-flip"/>
 
 #### FlowX.AI Application Manager
 
@@ -78,8 +76,7 @@ The **Application Manager** is responsible for managing the application lifecycl
 
 This microservice maintains a comprehensive data model for applications, including all their components, versions, and dependencies, ensuring consistency across environments.
 
-<Card title="Projects" href="../projects" icon ="folder-open">
-</Card>
+<Card title="Projects" href="../projects" icon ="folder-open"/>
 
 #### FlowX.AI Runtime Manager
 
@@ -104,8 +101,9 @@ The **Integration Designer** provides a visual interface for creating and managi
 This microservice simplifies the complex task of connecting to various enterprise systems, allowing for secure, scalable, and maintainable integrations without extensive coding.
 
 
-<Card title="Integration Designer" href="../platform-deep-dive/core-extensions/integration-designer" icon ="ruler-combined">
-</Card>
+<Card title="Integration Designer" href="../platform-deep-dive/integrations/integration-designer" icon ="ruler-combined"/>
+
+
 
 #### FlowX.AI Content Management
 
@@ -118,8 +116,7 @@ The **Content Management** microservice handles all taxonomies and structured co
 
 This Java-based service uses MongoDB for flexible storage of unstructured content, making it the go-to place for all shared taxonomies and content definitions.
 
-<Card title="Content Management" href="../platform-deep-dive/core-extensions/content-management" icon ="folder-grid">
-</Card>
+<Card title="Content Management" href="../platform-deep-dive/core-extensions/content-management" icon ="folder-grid"/>
 
 #### FlowX.AI Scheduler
 
@@ -132,8 +129,7 @@ The **Scheduler** microservice handles time-based operations within processes:
 
 It communicates with the FlowX Engine through Kafka, creating time-based events that can be processed when needed, similar to a reminder application for business processes.
 
-<Card title="Scheduler" href="../platform-deep-dive/core-extensions/scheduler" icon ="clock">
-</Card>
+<Card title="Scheduler" href="../platform-deep-dive/core-extensions/scheduler" icon ="clock"/>
 
 #### FlowX.AI Admin
 
@@ -159,8 +155,7 @@ The **Data Search** microservice enables search capabilities across the platform
 This service leverages Elasticsearch to execute efficient searches. It works by indexing process data automatically when process status changes or at specific trigger points, making the information searchable without impacting performance. The service communicates with the FlowX Engine through Kafka topics, receiving search requests and returning results that can be displayed in applications.
 
 
-<Card title="Data Search" href="../platform-deep-dive/core-extensions/search-data-service" icon ="magnifying-glass">
-</Card>
+<Card title="Data Search" href="../platform-deep-dive/core-extensions/search-data-service" icon ="magnifying-glass"/>
 
 #### FlowX.AI Events Gateway
 
@@ -175,8 +170,7 @@ The **Events Gateway** microservice centralizes and manages the real-time commun
 
 This component is crucial for maintaining the real-time, responsive nature of FlowX applications. It ensures that all UI updates, notifications, and system changes are immediately reflected across the platform without requiring page refreshes or manual polling. The Events Gateway reads messages from Kafka topics and distributes them appropriately, enabling features like instant form rendering when reaching user tasks or displaying real-time configuration errors.
 
-<Card title="Events Gateway" href="../platform-deep-dive/core-components/events-gateway" icon ="window-flip">
-</Card>
+<Card title="Events Gateway" href="../platform-deep-dive/core-components/events-gateway" icon ="window-flip"/>
 
 ### FlowX.AI SDKs
 
@@ -188,8 +182,9 @@ The platform provides SDKs for different client platforms:
 
 These SDKs communicate with the FlowX Engine to render dynamic UIs and orchestrate user interactions based on process definitions.
 
-<Card title="SDKs" href="../sdks" icon ="browser">
-</Card>
+<Card title="SDKs" href="../../sdks/sdks-overview" icon ="browser"/>
+
+
 
 
 ### FlowX.AI plugins
@@ -208,8 +203,7 @@ The platform's functionality can be extended through plugins:
 Plugins provide modular extensions to the core platform, allowing for customization without modifying the base architecture.
 
 
-<Card title="Plugins" href="../platform-deep-dive/plugins/custom-plugins" icon ="plug">
-</Card>
+<Card title="Plugins" href="../platform-deep-dive/plugins/custom-plugins" icon ="plug"/>
 
 ## Platform infrastructure
 
@@ -226,8 +220,7 @@ The **Advancing Controller** is a critical supporting service for the FlowX.AI E
 The Advancing Controller works in close coordination with the Engine to ensure uninterrupted process advancement. It must run concurrently with the Engine for optimal performance, particularly in production environments where reliability is crucial.
 
 
-<Card title="Advancing Controller" href="../platform-deep-dive/core-components/advancing-controller" icon ="window-flip">
-</Card>
+<Card title="Advancing Controller" href="../platform-deep-dive/core-components/advancing-controller" icon ="window-flip"/>
 
 ### Authorization & session management
 
@@ -241,13 +234,9 @@ FlowX.AI recommends **Keycloak** or **Azure AD (Entra)** for identity and access
 Every communication from client applications passes through a public entry point (API Gateway), which validates authentication tokens before allowing access to the platform. The system supports OAuth2 authentication with multiple configuration options for securing microservice communication.
 
 <CardGroup>
-<Card title="Keycloak" href="../../setup-guides/access-management/configuring-an-iam-solution" icon ="key">
-</Card>
-<Card title="Azure AD (Entra)" href="../..setup-guides/access-management/configuring-an-iam-solution-entra" icon ="key">
-</Card>
+<Card title="Keycloak" href="../../setup-guides/access-management/configuring-an-iam-solution" icon ="key"/>
+<Card title="Azure AD (Entra)" href="../../setup-guides/access-management/configuring-an-iam-solution-entra" icon ="key"/>
 </CardGroup>
-
-
 
 ### Integrations
 
@@ -283,8 +272,7 @@ FlowX.AI supports multiple scripting languages for business rules, validations, 
 
 This flexibility allows developers to use the most appropriate language for different use cases while maintaining performance and security.
 
-<Card title="Supported Scripts" href="../building-blocks/supported-scripts" icon ="code">
-</Card>
+<Card title="Supported Scripts" href="../building-blocks/supported-scripts" icon ="code"/>
 
 
 ## Deployment and scalability
