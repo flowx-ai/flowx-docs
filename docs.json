@@ -11,6 +11,10 @@
     "family": "Inter"
   },
   "favicon": "/favicon2.svg",
+
+  "scripts": [
+    "/direct-feedback.js"
+  ],
   "navigation": {
     "versions": [
       
@@ -27,8 +31,7 @@
                 "pages": [
                   "4.7.x/docs/introduction",
                   "4.7.x/docs/getting-started/building-your-first-proc",
-                  "4.7.x/docs/getting-started/learn-more"
-                ]
+                  "4.7.x/docs/getting-started/ai-in-flowx"                ]
               },
               {
                 "group": "Platform overview",
@@ -272,6 +275,7 @@
                       "4.7.x/docs/platform-deep-dive/core-components/events-gateway"
                     ]
                   },
+
                   {
                     "group": "Core extensions",
                     "icon": "puzzle-piece",
@@ -301,6 +305,20 @@
                       "4.7.x/docs/platform-deep-dive/core-extensions/search-data-service"
                     ]
                   },
+
+                  {
+                    "group": "AI Core",
+                    "icon": "microchip",
+                    "pages": [
+                      "4.7.x/docs/platform-deep-dive/ai-core/ai-core-overview",
+                      "4.7.x/docs/platform-deep-dive/ai-core/ai-developer",
+                      "4.7.x/docs/platform-deep-dive/ai-core/ai-designer",
+                      "4.7.x/docs/platform-deep-dive/ai-core/ai-assistant",
+                      "4.7.x/docs/platform-deep-dive/ai-core/ai-analyst"
+                    ] 
+                  },
+
+
                   {
                     "group": "Plugins",
                     "icon": "puzzle-piece-simple",
@@ -347,10 +365,11 @@
                           "4.7.x/docs/platform-deep-dive/plugins/custom-plugins/reporting/access-and-authorization"
                         ]
                       },
-                      "4.7.x/docs/platform-deep-dive/plugins/ai-agents",
                       "4.7.x/docs/platform-deep-dive/plugins/wysiwyg"
                     ]
                   },
+
+
                   {
                     "group": "Integrations",
                     "icon": "link",
@@ -732,9 +751,7 @@
                   "4.7.x/setup-guides/access-management/configuring-access-rights-for-integration-designer",
                   "4.7.x/setup-guides/access-management/configuring-access-rights-for-admin",
                   "4.7.x/setup-guides/access-management/configuring-access-rights-for-engine",
-                  "4.7.x/setup-guides/access-management/configuring-access-rights-for-cms",
-                  "4.7.x/setup-guides/access-management/configuring-access-rights-for-license"
-                ]
+                  "4.7.x/setup-guides/access-management/configuring-access-rights-for-cms"                ]
               },
               {
                 "group": "Plugins access rights",
@@ -758,8 +775,7 @@
                 "group": "Getting Started",
                 "pages": [
                   "4.6.0/docs/introduction",
-                  "4.6.0/docs/getting-started/building-your-first-proc",
-                  "4.6.0/docs/getting-started/learn-more"
+                  "4.6.0/docs/getting-started/building-your-first-proc"
                 ]
               },
               {
@@ -3579,6 +3595,9 @@
   
   ],
 
+
+
+  "layout": "DefaultLayout",
 
   "contextual": {
    "options": ["copy", "view", "chatgpt"]

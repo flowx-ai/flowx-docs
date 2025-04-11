@@ -250,6 +250,16 @@ We've also squashed pesky bugs to ensure a smoother and more reliable experience
 ### FlowX Engine
 
 * MVEL parser now (with the latest MVEL version update: 2.5.2) happily accepts arrays/lists after objects, eliminating JSON file frustrations and improving developer workflow—no more cryptic error messages ruining your day!
+* `output.put` method is required to generate structured output data when using input to validate or filter incoming data based on certain conditions (commonly used to retrieve information needed for processing)
+
+<Info>
+The direct property assignment syntax (input.property = value) is no longer supported. Instead, you must use the output.put method (output.put("property", value)) to generate structured output data.
+
+* This represents a fundamental change in how MVEL scripts interact with data
+* The input object should be treated as read-only for accessing incoming data
+* The output object with its put method must be used for storing any results or modified values
+</Info>
+
 * Python Business Rules now reliably execute during runtime, ensuring consistent behavior between test and live modes—no more mysterious token standstills!
 
 ### Web SDK
