@@ -31,9 +31,7 @@
                 "pages": [
                   "4.7.x/docs/introduction",
                   "4.7.x/docs/getting-started/building-your-first-proc",
-                  "4.7.x/docs/getting-started/ai-in-flowx",
-                  "4.7.x/docs/getting-started/test-nps"
-                ]
+                  "4.7.x/docs/getting-started/ai-in-flowx"                ]
               },
               {
                 "group": "Platform overview",
