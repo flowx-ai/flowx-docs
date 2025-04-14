@@ -32,6 +32,57 @@ The AI Analyst offers two main categories of capabilities:
    - Transforms textual requirements into a structured workflow
    - Produces a JSON representation containing nodes (with name and type) and links between nodes
 
+
+
+```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#f1774a',
+      'primaryTextColor': '#000',
+      'primaryBorderColor': '#000',
+      'lineColor': '#6b6b6b',
+      'secondaryColor': '#f3b861',
+      'tertiaryColor': '#bababa'
+    }
+  }
+}%%
+graph TD;
+    Start([Start]):::primary
+    Check_Prompt[Check Prompt]:::secondary
+    Classify_Image[Classify Image]:::tertiary
+    Generate_Process[Generate Process]:::secondary
+    Generate_from_Node[Generate from Node]:::tertiary
+    Generate_between_Nodes[Generate between Nodes]:::tertiary
+    PostProcessing[PostProcessing]:::secondary
+    END([END]):::primary
+    
+    subgraph Parallel_Processing [Parallel Processing]
+        Process_Swimlanes[Process Swimlanes]:::tertiary
+        Split_Image[Split Image]:::tertiary
+        Image_Analysis[Image Analysis]:::tertiary
+        Generate_Prompt[Generate Prompt]:::tertiary
+    end
+    
+    Start ==> Check_Prompt;
+    Start --> Classify_Image;
+    Classify_Image --> Parallel_Processing;
+    Parallel_Processing --> Generate_Process;
+    Check_Prompt ==> Generate_Process;
+    Check_Prompt --> Generate_from_Node;
+    Check_Prompt --> Generate_between_Nodes;
+    Generate_Process ==> PostProcessing;
+    Generate_from_Node --> PostProcessing;
+    Generate_between_Nodes --> PostProcessing;
+    PostProcessing ==> END;
+    
+    %% Styling
+    classDef primary fill:#f1774a,stroke:#000,stroke-width:1px,color:#000;
+    classDef secondary fill:#f3b861,stroke:#000,stroke-width:1px,color:#000;
+    classDef tertiary fill:#bababa,stroke:#000,stroke-width:1px,color:#000;
+```
+
 2. **Generate from Image**
    - Extracts BPMN process information from uploaded images
    - Identifies swimlanes and components in diagram images
@@ -39,10 +90,76 @@ The AI Analyst offers two main categories of capabilities:
    - Accepts optional text descriptions for additional context
    - Combines visual recognition with language processing for accurate interpretation
 
+
+
+```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#f1774a',
+      'primaryTextColor': '#000',
+      'primaryBorderColor': '#000',
+      'lineColor': '#6b6b6b',
+      'secondaryColor': '#f3b861',
+      'tertiaryColor': '#bababa'
+    }
+  }
+}%%
+graph TD;
+    Start([Start]):::primary
+    Classify_Image[Classify Image]:::secondary
+    Check_Prompt[Check Prompt]:::tertiary
+    Generate_Process[Generate Process]:::secondary
+    Generate_from_Node[Generate from Node]:::tertiary
+    Generate_between_Nodes[Generate between Nodes]:::tertiary
+    Post_Processing[Post Processing]:::secondary
+    END([END]):::primary
+    
+    subgraph Parallel_Processing [Parallel Processing]
+        Process_Swimlanes[Process Swimlanes]:::secondary
+        Split_Image[Split Image]:::secondary
+        Image_Analysis[Image Analysis]:::secondary
+        Generate_Prompt[Generate Prompt]:::secondary
+    end
+    
+    Start ==> Classify_Image;
+    Start --> Check_Prompt;
+    Classify_Image ==> Parallel_Processing;
+    Parallel_Processing ==> Generate_Process;
+    Check_Prompt --> Generate_Process;
+    Check_Prompt --> Generate_from_Node;
+    Check_Prompt --> Generate_between_Nodes;
+    Generate_Process ==> Post_Processing;
+    Generate_from_Node --> Post_Processing;
+    Generate_between_Nodes --> Post_Processing;
+    Post_Processing ==> END;
+    
+    %% Styling
+    classDef primary fill:#f1774a,stroke:#000,stroke-width:1px,color:#000;
+    classDef secondary fill:#f3b861,stroke:#000,stroke-width:1px,color:#000;
+    classDef tertiary fill:#bababa,stroke:#000,stroke-width:1px,color:#000;
+    classDef secondary-highlight fill:#f3b861,stroke:#8a2be2,stroke-width:2px,color:#000;
+```
+
 3. **Generate from Document**
    - Extracts process descriptions from uploaded documents
    - Analyzes textual content to identify workflow components and relationships
    - Creates a structured representation of the described process
+
+
+<img
+  className="block dark:hidden"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/AI%20Analyst.svg"
+  alt="AI Analyst Diagram - Light Mode"
+/>
+
+<img
+  className="hidden dark:block"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/AI%20Analyst-dark.svg"
+  alt="AI Analyst Diagram - Dark Mode"
+/>
+
 
 ### Edit Existing Processes
 
@@ -54,13 +171,56 @@ The AI Analyst offers two main categories of capabilities:
    - Adds missing steps between existing nodes in a workflow
    - Enhances process completeness and logical flow
 
+<img
+  className="block dark:hidden"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/AI%20Analyst-existing.svg"
+  alt="AI Analyst Diagram - Light Mode"
+/>
+
+<img
+  className="hidden dark:block"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/AI%20Analyst-existing-dark.svg"
+  alt="AI Analyst Diagram - Dark Mode"
+/>
+
+
+
+
 3. **Generate from Node**
    - Expands a process by adding subsequent steps after a specified node
    - Allows incremental development of complex workflows
 
+
+<img
+  className="block dark:hidden"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/AI%20Analyst-from-node.svg"
+  alt="AI Analyst Diagram - Light Mode"
+/>
+
+<img
+  className="hidden dark:block"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/AI%20Analyst-from-node-dark.svg"
+  alt="AI Analyst Diagram - Dark Mode"
+/>
+
+
+
 4. **Edit Existing Process**
    - Modifies components of an existing process based on user instruction
    - Updates node properties, connections, or process structure
+
+
+<img
+  className="block dark:hidden"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/AI%20Analyst-edit-existing.svg"
+  alt="AI Analyst Diagram - Light Mode"
+/>
+
+<img
+  className="hidden dark:block"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/AI%20Analyst-edit-existing-dark.svg"
+  alt="AI Analyst Diagram - Dark Mode"
+/>
 
 
 ## User Experience
@@ -79,40 +239,6 @@ The interaction follows a human-in-the-loop approach, allowing for quality check
 ## Anatomy
 
 The AI Analyst architecture integrates multiple AI components to process different input types and generate standardized BPMN output.
-
-
-```mermaid
-%%{
-  init: {
-    
-    'theme': 'base',
-    'themeVariables': {
-      'primaryColor': '#fed913',
-      'primaryTextColor': '#000',
-      'primaryBorderColor': '#000',
-      'lineColor': '#6b6b6b',
-      'secondaryColor': '#fff',
-      'tertiaryColor': '#000'
-    }
-  }
-}%%
-graph TD;
-    __start__([START]):::first
-    chatbot_quality_check{Quality Check}
-    human[Human in the Loop<hr/><small><em>__interrupt = before</em></small>]
-    process_generation[Process Generation]
-    rewrite_query[Rewrite query]
-    __end__([END]):::last
-    __start__ --> rewrite_query;
-    human -->|Additional \n Info| rewrite_query;
-    process_generation -->|Generate process| __end__;
-    rewrite_query --> chatbot_quality_check;
-    chatbot_quality_check -.-> human;
-    chatbot_quality_check -.-> process_generation;
-    chatbot_quality_check -.-> rewrite_query;
-    chatbot_quality_check -.-> __end__;
-
-```
 
 The workflow begins with a user query that gets rewritten for clarity. A quality check determines if more information is needed, in which case a human provides additional context. Once sufficient information is available, the process generation component creates the BPMN workflow, which is then delivered to the user.
 

@@ -33,7 +33,7 @@ The assistant functions as a knowledge hub that can quickly search, retrieve, an
 
 The AI Assistant offers specialized content search functionality across different documentation sources:
 
-### 1. Search into FlowX Documentation
+### Search into FlowX Documentation
 
 * **Purpose:** Provides answers to questions about the FlowX.AI platform, its features, configuration options, and best practices.
 * **Documentation Coverage:** Accesses a comprehensive repository of approximately 1,000 documentation chunks (318,000 tokens).
@@ -41,13 +41,6 @@ The AI Assistant offers specialized content search functionality across differen
 * **Performance:** Documentation ingestion takes approximately 12 seconds, with rapid response times for most queries.
 * **Response Format:** Delivers answers in well-formatted markdown for readability.
 
-### 2. Search into Uploaded Documents
-
-* **Purpose:** Extends knowledge base with custom documentation specific to your organization or banking operations.
-* **Document Support:** Processes and indexes uploaded documentation to make it searchable.
-* **Integration:** Seamlessly combines custom knowledge with platform documentation when answering queries.
-* **Context Awareness:** Uses conversation history to better understand the intent behind questions.
-* **Document Grading:** Evaluates the relevance of retrieved documents before generating responses.
 
 
 ## User Experience
@@ -77,33 +70,37 @@ The AI Assistant architecture follows a sophisticated retrieval-augmented genera
   init: {
     'theme': 'base',
     'themeVariables': {
-      'primaryColor': '#fed913',
+      'primaryColor': '#f1774a',
       'primaryTextColor': '#000',
       'primaryBorderColor': '#000',
       'lineColor': '#6b6b6b',
-      'secondaryColor': '#fff',
+      'secondaryColor': '#f3b861',
       'tertiaryColor': '#000'
     }
   }
 }%%
 graph TD;
-    __start__([__start__]):::first
-    rewrite_query(rewrite_query)
-    retrieve(retrieve)
-    generate(generate)
-    generate_async(generate_async)
-    grade_documents(grade_documents)
-    refuse_to_answer(refuse_to_answer)
-    __end__([__end__]):::last
-    __start__ --> rewrite_query;
-    generate --> __end__;
-    generate_async --> __end__;
-    refuse_to_answer --> __end__;
-    retrieve --> grade_documents;
-    rewrite_query --> retrieve;
-    grade_documents -.-> generate;
-    grade_documents -.-> generate_async;
-    grade_documents -.-> refuse_to_answer;
+    Start([Start]):::primary
+    Check_Prompt[Check Prompt]:::secondary
+    Rewrite_Query[Rewrite Query]:::secondary
+    Retrieve_Documents[Retrieve Documents]:::secondary
+    Grade_Documents[Grade Documents]:::secondary
+    Generate_Answer[Generate Answer]:::secondary
+    Generate_Greetings[Generate Greetings]:::secondary
+    END([END]):::primary
+    
+    Start --> Check_Prompt;
+    Check_Prompt --> Rewrite_Query;
+    Check_Prompt --> Generate_Greetings;
+    Rewrite_Query --> Retrieve_Documents;
+    Retrieve_Documents --> Grade_Documents;
+    Grade_Documents --> Generate_Answer;
+    Generate_Answer --> END;
+    Generate_Greetings --> END;
+    
+    %% Styling
+    classDef primary fill:#f1774a,stroke:#000,stroke-width:1px,color:#000;
+    classDef secondary fill:#f3b861,stroke:#000,stroke-width:1px,color:#000;
 ```
 
 The workflow begins with query refinement, followed by document retrieval and relevance grading. Based on the quality of retrieved information, the system can generate an immediate response, process a more complex response asynchronously, or refuse to answer if no relevant documentation is found.

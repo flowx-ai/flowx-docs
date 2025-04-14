@@ -30,7 +30,7 @@ The AI Developer offers two main categories of capabilities:
 
 1. **Generate Business Rule**
    - Transforms natural language descriptions into code using the data model as context
-   - Supports JavaScript, Python, and potentially MVEL
+   - Supports JavaScript, Python, and MVEL
    - Produces clean, functional business rule code based on text prompts
 
 2. **Generate Business Rule from Document**
@@ -47,20 +47,14 @@ The AI Developer offers two main categories of capabilities:
    - Produces JavaScript code for calculated or derived values
    - Leverages the data model to ensure proper variable referencing
 
-5. **Generate Test Data**
-   - Creates sample JSON input to test existing business rules
-   - Automatically identifies input keys and assigns appropriate sample values
-
 ### Edit Existing Code
 
 1. **Edit Existing Business Rule**
    - Modifies existing code based on natural language instructions
    - Uses the data model as context for accurate updates
 
-2. **Fix / Improve / Document / Explain Code**
+2. **Fix / Explain Code**
    - Fixes errors in business rules based on error logs
-   - Improves code structure and readability
-   - Adds meaningful comments to document code
    - Provides clear explanations of what the code does
 
 3. **Translate Code Between Programming Languages**
@@ -83,29 +77,39 @@ For document-based generation, users can upload documents, view extracted rule d
 The AI Developer architecture integrates large language models with the FlowX.AI Platform to seamlessly convert natural language to code.
 
 ```mermaid
-graph TB
-    A[User Input] --> B[AI Developer Agent]
-    B --> C{Capability Selection}
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#f1774a',
+      'primaryTextColor': '#000',
+      'primaryBorderColor': '#000',
+      'lineColor': '#6b6b6b',
+      'secondaryColor': '#f3b861',
+      'tertiaryColor': '#000'
+    }
+  }
+}%%
+graph TD;
+    Start([Start]):::primary
     
-    C -->|Generate New| D[Generate Processor]
-    C -->|Edit Existing| E[Edit Processor]
+    subgraph DI_Platform_process [DI Platform process]
+        Classify_Document[Classify Document]:::secondary
+        Summarize[Summarize]:::secondary
+        Identify_process[Identify process]:::secondary
+        Extract_Prompt[Extract Prompt]:::secondary
+    end
     
-    D --> F[Context Loader]
-    E --> F
+    Generate_Business_rule[Generate Business rule]:::secondary
+    END([END]):::primary
     
-    F --> G[Data Model Context]
-    F --> H[Document Analysis]
-    F --> I[Code Analysis]
+    Start --> DI_Platform_process;
+    DI_Platform_process --> Generate_Business_rule;
+    Generate_Business_rule --> END;
     
-    G --> J[Large Language Model]
-    H --> J
-    I --> J
-    
-    J --> K[Code Generator]
-    K --> L[Output Formatter]
-    L --> M[Generated Code]
-    
-    M --> N[User Review]
+    %% Styling
+    classDef primary fill:#f1774a,stroke:#000,stroke-width:1px,color:#000;
+    classDef secondary fill:#f3b861,stroke:#000,stroke-width:1px,color:#000;
 ```
 
 ## Top rules for Designer AI Agent prompting

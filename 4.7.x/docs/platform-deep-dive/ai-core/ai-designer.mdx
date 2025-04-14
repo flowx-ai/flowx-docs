@@ -64,32 +64,51 @@ The agent performs validation checks to ensure inputs are appropriate for UI gen
 
 The AI Designer integrates visual recognition and natural language processing to transform various inputs into structured UI representations.
 
-```mermaid
-graph TD
-    A[User Input] --> B{Input Type}
+```mermaid 
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#f1774a',
+      'primaryTextColor': '#000',
+      'primaryBorderColor': '#000',
+      'lineColor': '#6b6b6b',
+      'secondaryColor': '#f3b861',
+      'tertiaryColor': '#bababa'
+    }
+  }
+}%%
+graph TD;
+    Start([Start]):::primary
+    Check_Prompt[Check Prompt]:::secondary
+    Classify_Image[Classify Image]:::tertiary
+    Edit_Interface[Edit Interface]:::tertiary
+    Design_UI[Design UI]:::secondary
+    Map_to_Data_Model[Map to Data Model]:::secondary
+    END([END]):::primary
     
-    B -->|Text Prompt| C[Text Processor]
-    B -->|Image| D[Image Processor]
-    B -->|Form Structure| E[Form Processor]
-    B -->|Edit Request| F[Edit Processor]
+    subgraph Parallel_Processing [Parallel Processing]
+        Extract_Sections[Extract Sections]:::tertiary
+        Component_Identification[Component Identification]:::tertiary
+        Map_Components[Map Components]:::tertiary
+        Grid_Correction[Grid Correction]:::tertiary
+        Validate_Layout[Validate Layout]:::tertiary
+    end
     
-    C --> G[UI Validation]
-    D --> G
-    E --> G
-    F --> H[Existing UI Loader]
+    Start --> Check_Prompt;
+    Start --> Classify_Image;
+    Check_Prompt --> Edit_Interface;
+    Check_Prompt --> Design_UI;
+    Edit_Interface --> Design_UI;
+    Classify_Image --> Parallel_Processing;
+    Parallel_Processing --> Design_UI;
+    Design_UI --> Map_to_Data_Model;
+    Map_to_Data_Model --> END;
     
-    H --> G
-    
-    G -->|Valid UI Request| I[UI Generator]
-    G -->|Invalid Request| J[Feedback Provider]
-    
-    I --> K[Data Model Mapper]
-    K --> L[JSON Compiler]
-    
-    L --> M[UI Preview]
-    M --> N[Implementation]
-    
-    J --> O[User Guidance]
+    %% Styling
+    classDef primary fill:#f1774a,stroke:#000,stroke-width:1px,color:#000;
+    classDef secondary fill:#f3b861,stroke:#000,stroke-width:1px,color:#000;
+    classDef tertiary fill:#bababa,stroke:#000,stroke-width:1px,color:#000;
 ```
 
 The workflow begins with user input being categorized and processed based on its type. All inputs undergo validation to ensure they describe UI elements. For valid requests, the UI Generator creates the appropriate components, which are then mapped to the data model if available. The final output is compiled into a JSON representation that the FlowX.AI platform can interpret and display as a functional UI.
