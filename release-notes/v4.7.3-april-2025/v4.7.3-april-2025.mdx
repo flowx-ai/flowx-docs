@@ -1,63 +1,71 @@
 ---
 title: FlowX.AI 4.7.3 Release Notes
-description: FlowX.AI 4.7.2 delivers improved merge conflict handling with retry capabilities, deprecates DMN business rules, and fixes issues with subprocess handling, media file imports, and OCR functionality to enhance your development workflow! 🚀
+description:  FlowX.AI 4.7.3 enhances workflow conflict resolution, adds configurable enumeration ordering, and fixes data streams, UI templates, and application export/import issues to improve your development experience! 🚀
 ---
 
 ## **What's new? 🆕**
 
-✅ Improved merge conflict handling with retry functionality          
-✅ Enhanced error messages during failed merges           
-✅ Streamlined workflow for resolving merge conflicts             
 
-## Merge conflicts
+✅ Enhanced workflow conflict resolution with improved visibility      
+✅ Added ability to configure order attributes on enumerations      
+✅ Upgraded conflict management interface for better user experience       
 
-### Improved error messages when merge fails
+## Merge conflicts - workflow improvements
 
-We've enhanced the merge conflict resolution experience with more informative error messages and a new retry functionality:
+### Enhanced workflow conflict resolution
 
-- When a merge fails, users can now see a "Retry merge" button on the Merge failed modal
-- Clicking this button allows users to attempt the merge again without losing previous work
+We've significantly improved how workflow conflicts are handled in this release:
 
-The system now handles two distinct scenarios:
+- Upgraded to a new version (v2) of the workflow conflict resolution interface
+- Now only showing workflow entities that have actual conflicts, making it easier to identify and address issues
+- Streamlined the conflict resolution process for a more efficient workflow
 
-**1. When conflicts exist:**
-- The system opens the Merge conflicts panel with the previous state of the merge before the failed attempt
-- This preserves all your conflict resolution work so you can fix the specific issues that caused the failure
+<Info>
+**Important note about sequence conflicts:**
+
+When resolving conflicts related to sequences, if you select one of the conflicting sequences, nodes that are no longer connected may remain "orphaned" on the canvas in the merged version. This design decision was made to prevent accidental node deletion. If these orphaned nodes are no longer needed, they can be manually removed in subsequent versions.
+</Info>
+ 
+
+## Configurable enumeration ordering
+
+You can now configure the **Order** attribute on enumerations, giving you greater control over how enumeration values are displayed in dropdown lists:
+
+- Set specific order values for each enumeration entry
+- Control the presentation sequence in UI components
+- Improve user experience by arranging options in logical or prioritized order
 
 <Frame>
-![Merge failed with conflicts](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/If%20conflicts.png)
+![Enum order](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/enum_order.png)
 </Frame>
 
-**2. When no conflicts exist:**
-- The system automatically retries the merge operation
-- This streamlines the workflow when the merge failure was due to temporary issues rather than actual conflicts
 
-<Frame>
-![Merge failed without conflicts](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/If%20no%20conflicts.png)
-</Frame>
-
-## Process engine
-
-### Deprecated DMN rules
-
-In version 4.7.2, we've deprecated the [[**DMN (Decision Model and Notation)**]](../../4.7.x/docs/building-blocks/actions/business-rule-action/dmn-business-rule-action) business rule actions. This change affects how business rules are configured on task/user task nodes in business processes.
-
-**What's changing:**
-- DMN is no longer available as a language option when configuring business rule actions
-
-**What's next:**
-For guidance on using alternative business rule languages, please refer to our [supported scripting languages](../../4.7.x/docs/building-blocks/supported-scripts) documentation.
+<Info>
+**Limitation:** When changing the order value for an enumeration entry, the system does not automatically update the order values of other entries. You'll need to manually adjust the order values of other entries in the interface.
+</Info>
 
 
 ## **Bug fixes** 🐞  
 
-- Resolved export/import issues with media library files, particularly for applications migrated from earlier versions
-- Fixed an issue where parallel multi-instance Call Activity would incorrectly trigger a subprocess when using an empty array list as a variable
-- Fixed a display issue where not all subprocesses were visible in the subprocess list on smaller screens
-- Fixed a bug where message events couldn't be caught when placed directly after an uninterrupting timer event
-- Resolved "Unsupported Media Type" errors when importing application versions with media file binaries
-- Fixed an issue where color palette changes in Theme settings couldn't be saved at 100% browser resolution on smaller screens
-- Fixed a issue where OCR plugin failed due to missing correlation headers
+
+- Fixed an issue where workflow nodes could have two output sequences 
+- Resolved a problem with enumerations displaying in the wrong order in dropdown lists
+- Fixed an authentication issue where users would receive 401 unauthorized errors when executing actions after token refresh
+- Fixed a UI behavior issue where slider actions configured with "onChange" were incorrectly triggered when entering a screen instead of only when modified 
+- Resolved intermittent application build export timeouts that were occurring for projects with library dependencies
+- Fixed an issue with identical advancing IDs occurring in multi-pod deployments due to missing hostname command in GraalVM docker images
+- Resolved an issue preventing media library migration from default application
+- Fixed the "Go to reference" functionality from data model attributes that was not correctly redirecting to referenced elements 
+- Fixed an error during application export/import where "There already exists a tagged build for this project version" was preventing successful imports 
+- Restored support for multiple topics in Data Stream Topics feature, which was previously only listening to the first topic in the list
+- Fixed a 500 error that occurred when attempting to create child actions on certain nodes
+- Fixed a critical issue where UI templates would disappear when creating a new version of an application after performing undo operations on pasted templates 
+- Fixed a bug where updates to the subprocess in a Start subprocess action weren't being saved properly
+- Fixed an issue with the "Send email" button remaining disabled in the Test notification template feature after correcting validation errors
+- Fixed an error that occurred when trying to export document templates containing null values in templateMap
+- Fixed a display issue where Tokens, Workflows, and Subprocesses information wasn't showing in process instances after migration from 4.7.1 to 4.7.2 
+- Fixed a UI issue where business rule code wasn't displayed when testing business rules in committed versions
+
 ---
 
 ## **Additional information**  
