@@ -3466,7 +3466,7 @@
                 ]
               }
             ]
-          }, d
+          },
           {
             "tab": "SDKs",
             "groups": [
@@ -3475,7 +3475,7 @@
                 "pages": [
                   "3.x/sdks/sdks-overview",
                   "3.x/sdks/angular-renderer",
-                  "3.x/sdks/ios-renderer", d
+                  "3.x/sdks/ios-renderer",
                   "3.x/sdks/android-renderer"
                 ]
               }
