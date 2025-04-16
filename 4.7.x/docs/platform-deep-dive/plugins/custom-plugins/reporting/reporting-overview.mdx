@@ -35,9 +35,7 @@ Apache Superset is an open-source software application for data exploration and 
 
 Superset is also an SQL IDE, so users can write SQL, join data create datasets and so on.
 
-<Card title="Superset documentation" href="https://superset.apache.org/docs/intro/" icon="book">
-</Card>
-
+<Card title="Superset documentation" href="https://superset.apache.org/docs/intro/" icon="book"/>
 
 
 ### Plugin architecture
@@ -160,6 +158,183 @@ In this example, the applicant can have several real estate assets, so a subset 
 <Warning>
 Extracting arrays of objects is even more is computationally intensive, do not use them if the only purpose is just to aggregate them afterward. Aggregation should be performed in the process, not in the reporting stage.
 </Warning>
+
+## Reporting plugin data model best practices
+
+<AccordionGroup>
+<Accordion title="Defining and extracting a Data Model for reporting">
+In FlowX projects, every process is backed by a large, potentially complex JSON structure containing all the variables declared and used at runtime. To enable effective analytics, **the reporting plugin needs to extract only the data elements necessary for operational and business analysis**, resulting in a significantly smaller and flatter JSON-type data model. This extracted model ignores the evolving implementation details of the full process JSON; instead, it focuses on stable, business-relevant fields. The reporting plugin then uses these essential data points to populate a relational database, ensuring that only the required information is captured—providing a clear, consistent basis for reporting and analytics, both for finished and in-progress processes.
+</Accordion>
+
+<Accordion title="The process JSON vs. the smaller reporting JSON">
+Most of the time, the “main” JSON that drives the process contains every variable needed for execution. It can become quite large and deeply nested with details like technical parameters, intermediary states, or debug flags. Over time, as new features are added or business rules change, additional layers and properties might be introduced or removed, making this JSON evolve rapidly and often in unpredictable ways.
+
+By contrast, for reporting purposes, you only need a much smaller, flatter representation of the data: the points actually used in business analysis. This “reporting JSON” extracts core fields (such as transaction numbers, dates, and totals) while ignoring transient or overly technical details. It also organizes these fields in a simpler, more direct format, so your reporting remains stable even as the underlying process changes.
+
+Example of the “big” process JSON (with nested structures and details that may change):
+
+```json
+{
+  "order": {
+    "id": 54321,
+    "status": "PENDING",
+    "items": [
+      {
+        "sku": "SKU123",
+        "quantity": 2,
+        "metadata": {
+          "internalId": "A1B2C3",
+          "isBackordered": false
+        }
+      },
+      {
+        "sku": "SKU456",
+        "quantity": 1,
+        "metadata": {
+          "internalId": "X9Y8Z7",
+          "isBackordered": true
+        }
+      }
+    ],
+    "workflowState": {
+      "step": 3,
+      "retries": 2,
+      "debugInfo": {
+        "lastError": "timeout"
+      }
+    }
+  },
+  "customer": {
+    "name": "Jane Doe",
+    "contact": {
+      "email": "jane.doe@example.com",
+      "phone": "+1-202-555-0173"
+    },
+    "preferences": {
+      "newsletter": true,
+      "smsOptIn": false
+    }
+  },
+  "technicalLogs": {
+    "startTime": "2025-01-01T09:00:00Z",
+    "executionTimeMs": 1203,
+    "sourceSystem": "v2.1"
+  }
+}
+
+
+```
+
+Example of the smaller, flatter “reporting JSON” (distilling only stable, business-relevant fields):
+
+```json
+{
+  "orderId": 54321,
+  "orderStatus": "PENDING",
+  "customerName": "Jane Doe",
+  "email": "jane.doe@example.com",
+  "totalItems": 3,
+  "subscriptionNewsletter": true,
+  "orderDate": "2025-01-01"
+}
+```
+
+Here, the second example omits low-level process details like workflow steps, retries, debug logs, or nested metadata. It pulls out only the pieces of information actually needed for regular business reporting, ensuring the reporting model is concise, stable, and not prone to frequent changes.
+
+</Accordion>
+
+
+
+<Accordion title="Setting up the Process Reported Parameters from the Start">   
+One of the key early steps in designing your automation is meeting with business stakeholders to establish which data points truly matter for reporting. By agreeing together on a precise set of metrics—such as order totals, critical dates, or customer details—and “freezing” them in both name, JSON path and definition, you create a stable reporting baseline. While adding new elements is possible over time, the original core set remains intact. This approach decouples the business view of your data from the underlying technical or process-level details that may change with new features or system updates. As a result, it simplifies reporting because the agreed-upon parameters remain consistent and predictable, no matter how often the internal structure of the process JSON evolves.
+</Accordion>
+
+<Accordion title="Including the Reporting Data Model as a Separate Section">
+
+A practical way to maintain consistent reporting data is to house it within the same main JSON structure while keeping it distinctly organized. For example, you could create a dedicated reporting section in the overall JSON. Whenever certain steps in the automation are reached, the automation logic populates or updates those reporting fields. This ensures both in-progress and completed processes reflect the most up-to-date information for business analysis. By confining the reported parameters to a single location, you clearly separate the stable, business-facing view of the data from the broader, more dynamic process details—making reporting easier to maintain and less likely to break when other parts of the automation change.
+
+Example:
+
+
+```json
+{
+  "order": {
+    "id": 12345,
+    "items": [
+      {
+        "sku": "SKU001",
+        "quantity": 2
+      }
+    ],
+    "internalProcessing": {
+      "retries": 1,
+      "currentStep": 2
+    }
+  },
+  "reporting": {
+    "orderId": 12345,
+    "status": "PENDING",
+    "orderDate": "2025-02-01"
+  }
+}
+``` 
+
+</Accordion>
+
+<Accordion title="Limitations of the Reporting Data Model">
+
+Within the reporting data model, you can nest objects to practically any depth, and you may also include arrays of objects when necessary. However, arrays of arrays are not supported. In other words, while you can store an array of line items or child entities, you cannot place another array inside that array. This limitation simplifies processing and ensures consistency in how the data is read and stored. Although deeper nesting is technically possible, keeping your reporting model as flat as feasible still avoids unnecessary complexity, making it easier to maintain and analyze the data.
+
+**Supported: Arrays of Objects**
+
+```json
+{
+  "orderId": 12345,
+  "items": [
+    {
+      "sku": "SKU001",
+      "quantity": 2
+    },
+    {
+      "sku": "SKU002",
+      "quantity": 1
+    }
+  ]
+}
+```
+
+Here, items is an array containing two individual objects, each representing a single line item. You can readily extract data (e.g., SKU, quantity) for reporting.
+
+**Not Supported: Arrays of Arrays**
+
+```json
+{
+  "orderId": 67890,
+  "itemBatches": [
+    [
+      {
+        "sku": "SKU111",
+        "quantity": 2
+      },
+      {
+        "sku": "SKU222",
+        "quantity": 5
+      }
+    ],
+    [
+      {
+        "sku": "SKU333",
+        "quantity": 1
+      }
+    ]
+  ]
+}
+```
+
+Here, `itemBatches` is an array containing other arrays, each of which holds objects. This multi-level nesting complicates the data extraction process and is not supported in the reporting data model. Instead, keep lists in a single, flat array whenever possible, even if multiple “batches” exist, to ensure the data remains easy to process and consistent for reporting.
+
+</Accordion>
+</AccordionGroup>
 
 ## Enabling process reporting
 
@@ -409,6 +584,5 @@ To create a dashboard follow the next steps:
 
 For details on how to configure the FlowX.AI reporting plugin, check the following section:
 
-<Card title="Reporting setup guide" href="../../../../../setup-guides/plugins-setup-guide/reporting-setup" icon="gear">
-</Card>
+<Card title="Reporting setup guide" href="../../../../../setup-guides/plugins-setup-guide/reporting-setup" icon="gear"/>
 
