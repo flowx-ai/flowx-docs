@@ -25,11 +25,10 @@ You can however use your own BI tool like Tableau, PowerBI etc. as an alternativ
 
 Use the suggested query structure and logic to ensure accurate reporting and avoid duplicates, even during database updates. Do not just use select on single reporting tables.
 
-<Frame>
+
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/reporting.png)
 
-</Frame>
 
 Apache Superset is an open-source software application for data exploration and data visualization able to handle data at a large scale. It enables users to connect their company's databases and perform data analysis, and easily build charts and assemble dashboards.
 
@@ -42,9 +41,8 @@ Superset is also an SQL IDE, so users can write SQL, join data create datasets a
 
 Here’s an overview of the reporting plugin architecture:
 
-<Frame>
+
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Reporting_diagram_small2.png)
-</Frame>
 
 ### Setting up reporting for a process definition
 
@@ -88,19 +86,19 @@ See [**Enabling Process Reporting**](#enabling-process-reporting) section for mo
 ## Reporting data model
 
 <Info>
-You can only create or modify the reporting data model in non-committed versions, as commited versions are read-only.
+You can only create or modify the reporting data model in non-committed versions, as committed versions are read-only.
 </Info>
 
 1. Open the branch view.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep1.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/branching_view.png)
 </Frame>
 
-2. If the currently published version is read-only, start a new version.
+2. If the current project version is committed, start a new version.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep5.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/start_new_version.png)
 </Frame>
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep6.png)
@@ -108,17 +106,25 @@ You can only create or modify the reporting data model in non-committed versions
 
 3. Make sure the new work-in-progress branch is selected, then go back to the process definition page.
 4. Click on the Data Model icon and navigate in the object model to the target parameters.
-5. Set up the business data structure to be reported by using the Edit button for each parameter.
+5. Set up the business data structure to be reported by using the "Use in reporting" flag.
+
+
+
+- Click "Show details".
+- Click "Use in reporting".
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep8.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/data_to_be_reported.png)
 </Frame>
 
-- Check "Use in reporting" flag.
-- Select the parameter type (number, string, Boolean or array).
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flag_use_in_reporting.gif)
+</Frame>
+
+You can do this also for each parameter individually.
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep9.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/parameter_type.png)
 </Frame>
 
 
@@ -137,13 +143,16 @@ There are three parameter structures that you can report:
 In the following example, there are 3 simple parameters that will be extracted: `loan_approvalFee`, `loan_currency` and `loan_downPayment`. 
 They will be reported in the table `params_{process_alias}`, one row per instance.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep10.png)
-
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/primitive_parameters_reporting.png)
+</Frame>
 ### Arrays of primitives reporting
 
 In the following example, the applicant can submit more than one email address, so each email will be extracted to a separate row in a dedicated table in the reporting database.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep11.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/arrays_of_primitives.png)
+</Frame>
 
 <Warning>
 Extracting arrays is computationally intensive, do not use them if the only purpose is just to aggregate them afterward. Aggregation should be performed in the process, not in the reporting stage.
@@ -153,12 +162,15 @@ Extracting arrays is computationally intensive, do not use them if the only purp
 
 In this example, the applicant can have several real estate assets, so a subset of data items (`currentValue`, `mortgageBalance`, `propertyType`) will be extracted for each one of them.
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/rep12.png)
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/array_of_objects.png)
+</Frame>
 
 <Warning>
 Extracting arrays of objects is even more is computationally intensive, do not use them if the only purpose is just to aggregate them afterward. Aggregation should be performed in the process, not in the reporting stage.
 </Warning>
 
+{/*
 ## Reporting plugin data model best practices
 
 <AccordionGroup>
@@ -166,18 +178,23 @@ Extracting arrays of objects is even more is computationally intensive, do not u
 In FlowX projects, every process is backed by a large, potentially complex JSON structure containing all the variables declared and used at runtime. To enable effective analytics, **the reporting plugin needs to extract only the data elements necessary for operational and business analysis**, resulting in a significantly smaller and flatter JSON-type data model. This extracted model ignores the evolving implementation details of the full process JSON; instead, it focuses on stable, business-relevant fields. The reporting plugin then uses these essential data points to populate a relational database, ensuring that only the required information is captured—providing a clear, consistent basis for reporting and analytics, both for finished and in-progress processes.
 </Accordion>
 
-<Accordion title="The process JSON vs. the smaller reporting JSON">
+<Accordion title="The process JSON vs. the smaller reporting subset">
 Most of the time, the “main” JSON that drives the process contains every variable needed for execution. It can become quite large and deeply nested with details like technical parameters, intermediary states, or debug flags. Over time, as new features are added or business rules change, additional layers and properties might be introduced or removed, making this JSON evolve rapidly and often in unpredictable ways.
 
-By contrast, for reporting purposes, you only need a much smaller, flatter representation of the data: the points actually used in business analysis. This “reporting JSON” extracts core fields (such as transaction numbers, dates, and totals) while ignoring transient or overly technical details. It also organizes these fields in a simpler, more direct format, so your reporting remains stable even as the underlying process changes.
+By contrast, for reporting purposes, you only extract a smaller, flatter subset of the data: the points actually used in business analysis. This “reporting JSON” extracts core fields (such as customer fields, transaction numbers, dates) while ignoring transient or overly technical details. It should also be fairly stable over time and not depend on the actual implementation details, so your reporting remains consistent even as the underlying process changes.
 
-Example of the “big” process JSON (with nested structures and details that may change):
+**Example of the “big” process JSON** (with nested structures and details that may change):
 
-```json
+<Info>
+The reporting fields, highlighted below, omit low-level process details like workflow steps, retries, debug logs, or nested metadata. It pulls out only the pieces of information actually needed for regular business reporting, ensuring the reporting model is concise, stable, and not prone to frequent changes.
+</Info>
+
+```json {2-5, 32-35}
 {
   "order": {
     "id": 54321,
     "status": "PENDING",
+    "orderDate": "2025-01-01",
     "items": [
       {
         "sku": "SKU123",
@@ -188,10 +205,10 @@ Example of the “big” process JSON (with nested structures and details that m
         }
       },
       {
-        "sku": "SKU456",
+        "sku": "SKU124",
         "quantity": 1,
         "metadata": {
-          "internalId": "X9Y8Z7",
+          "internalId": "A1B2C3",
           "isBackordered": true
         }
       }
@@ -223,65 +240,26 @@ Example of the “big” process JSON (with nested structures and details that m
 }
 
 
+
 ```
-
-Example of the smaller, flatter “reporting JSON” (distilling only stable, business-relevant fields):
-
-```json
-{
-  "orderId": 54321,
-  "orderStatus": "PENDING",
-  "customerName": "Jane Doe",
-  "email": "jane.doe@example.com",
-  "totalItems": 3,
-  "subscriptionNewsletter": true,
-  "orderDate": "2025-01-01"
-}
-```
-
-Here, the second example omits low-level process details like workflow steps, retries, debug logs, or nested metadata. It pulls out only the pieces of information actually needed for regular business reporting, ensuring the reporting model is concise, stable, and not prone to frequent changes.
-
 </Accordion>
 
 
 
-<Accordion title="Setting up the Process Reported Parameters from the Start">   
-One of the key early steps in designing your automation is meeting with business stakeholders to establish which data points truly matter for reporting. By agreeing together on a precise set of metrics—such as order totals, critical dates, or customer details—and “freezing” them in both name, JSON path and definition, you create a stable reporting baseline. While adding new elements is possible over time, the original core set remains intact. This approach decouples the business view of your data from the underlying technical or process-level details that may change with new features or system updates. As a result, it simplifies reporting because the agreed-upon parameters remain consistent and predictable, no matter how often the internal structure of the process JSON evolves.
-</Accordion>
+<Accordion title="Setting up the Process Reported Parameters from the Start and sticking to it">   
 
-<Accordion title="Including the Reporting Data Model as a Separate Section">
+One of the key early steps in designing your automation is meeting with business stakeholders to establish which data points truly matter for reporting. By agreeing together on a **precise set of metrics**—such as order ids, critical dates, or customer details—and “freezing” them in both name, JSON path and definition, you create a stable reporting baseline. While adding new elements is possible over time, the original core set remains intact. This approach decouples the business view of your data from the underlying technical or process-level details that may change with new features or system updates. As a result, it simplifies reporting because the agreed-upon parameters remain consistent and predictable, no matter how often the internal structure of the process JSON evolves.
 
-A practical way to maintain consistent reporting data is to house it within the same main JSON structure while keeping it distinctly organized. For example, you could create a dedicated reporting section in the overall JSON. Whenever certain steps in the automation are reached, the automation logic populates or updates those reporting fields. This ensures both in-progress and completed processes reflect the most up-to-date information for business analysis. By confining the reported parameters to a single location, you clearly separate the stable, business-facing view of the data from the broader, more dynamic process details—making reporting easier to maintain and less likely to break when other parts of the automation change.
+To be more precise, if the JSON “path” of a reporting data point (ex. `customer.contact.email`) changes in the most current build (considered the “master version” and used for restating all historical process instances), the actual customer email might not appear for some historical instances.
 
-Example:
+NOTE: if only the name of the property changes but not the path (ex. `customer.contact.email_address`), the reporting plugin will use an internal ID number to extract the correct data from historical instances. However if the path or type (ex. from string to object or to array) of a parameter changes, it will probably not be retrieved from historical version instances.
 
-
-```json
-{
-  "order": {
-    "id": 12345,
-    "items": [
-      {
-        "sku": "SKU001",
-        "quantity": 2
-      }
-    ],
-    "internalProcessing": {
-      "retries": 1,
-      "currentStep": 2
-    }
-  },
-  "reporting": {
-    "orderId": 12345,
-    "status": "PENDING",
-    "orderDate": "2025-02-01"
-  }
-}
-``` 
+This is why it is very important to agree on a set of business parameters to be extracted and keep them in the same JSON position as the process evolves over time.
 
 </Accordion>
 
-<Accordion title="Limitations of the Reporting Data Model">
+
+<Accordion title="Array Limitations of the Reporting Data Model">
 
 Within the reporting data model, you can nest objects to practically any depth, and you may also include arrays of objects when necessary. However, arrays of arrays are not supported. In other words, while you can store an array of line items or child entities, you cannot place another array inside that array. This limitation simplifies processing and ensures consistency in how the data is read and stored. Although deeper nesting is technically possible, keeping your reporting model as flat as feasible still avoids unnecessary complexity, making it easier to maintain and analyze the data.
 
@@ -303,7 +281,7 @@ Within the reporting data model, you can nest objects to practically any depth, 
 }
 ```
 
-Here, items is an array containing two individual objects, each representing a single line item. You can readily extract data (e.g., SKU, quantity) for reporting.
+Here, `items` is an array containing two individual objects, each representing a single line item. You can readily extract data (e.g., `sku`, `quantity`) for reporting.
 
 **Not Supported: Arrays of Arrays**
 
@@ -335,46 +313,19 @@ Here, `itemBatches` is an array containing other arrays, each of which holds obj
 
 </Accordion>
 </AccordionGroup>
+*/}
 
 ## Enabling process reporting
 
-Enable reporting by checking the “Use process in reporting” button on the settings/general page of each process version.
+Enable reporting by checking the “Use process in reporting” button on the settings/general page of each process.
 
-<Info>
-You can also make data model changes on an already published version (if it is not set as read-only), but the effects of the changes are immediate and every periodic refresh will try to re-compute all historical instances to adapt to the changing data model, potentially taking a lot of computing.
-</Info>
-
-- Only the versions marked for reporting will be extracted to the database, using the master data model from the published version.
-- Modifying the data model of a process version has no impact until the moment the version becomes published and is also set to "use_in_reporting".
-- You can add / remove older process versions to be reported by opening the process branch modal, selecting the version, closing the branch modal, and then selecting Settings in the left bar, then in the General tab switching “Use process in reporting” on or off. You might not be able to do this on committed (read-only) versions.
+- Modifying the data model of a process version has no impact until the moment the version or build of the project is set in the "Active policy" tab and is also set to "use_in_reporting".
 
 The reporting refresh schedule is set for a fixed interval (currently 5 minutes):
 
 - No processing overlaps are allowed. If processing takes more than 5 minutes, the next processing is automatically postponed until the current one is finished.
 - The number of Spark executors is automatically set by the reporting plugin depending on the volume of data to be processed, up to a certain fixed limit that is established in the cloud environment. This limit can be adapted depending on your needs.
 - Rebuilding the whole history for a process (if the master data model, process name or the Published version change) typically takes more time. It is better to make these changes after the working hours.
-
-
-## Process reporting modification scenarios
-
-**Modifying the data model for the Published version** causes all data for that process to be deleted from the database and to be rebuilt from scratch using the Data Model of the current Published version. 
-
-- This includes deleting process-specific array tables and rebuilding them, possibly with different names.
-- All historical instances from previous versions are also rebuilt using the most recent Published data model.
-- This may take a lot of time, so it is better to perform these operations during periods of low system use.
-
-
-<Info>
-The same thing happens whenever the Published version changes, or if the process name is modified.
-</Info>
-
-**Adding Process Versions**: Adds new rows to existing tables.
-
-**Removing Non-Published Process Versions** from reporting (by unchecking their “Use in reporting” switch in Settings) simply deletes their corresponding rows from the table.
-
-**Removing the Currently Published Version from Reporting**: **Not advisable** as it applies a random older data model and deletes all instances processed with this version.
-
-**Reporting Data Structure Obsolescence and Backwards Compatibility**: The master data model is applied to all historical data from all reported versions. If only the name of a parameter changes, the plugin uses its UUID to map the old name to the new one. However, if the full path changes or the parameter does not exist in an older version, it returns a `Null` value to the database.
 
 ## Reporting database
 
