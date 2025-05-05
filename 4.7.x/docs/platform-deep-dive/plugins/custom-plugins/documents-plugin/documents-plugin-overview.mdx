@@ -56,8 +56,7 @@ Once you have deployed the Documents Plugin in your infrastructure, you can star
 Before adding these actions to your **process definition**, follow these steps:
 
 1. Ensure that all custom information is properly configured in the plugin, such as the document templates to be used.
-2. For each event type, you will need a corresponding Kafka topic.
-TODO: out of the blue ... what is event type?
+2. For each Kafka send/receive node you will need a corresponding Kafka topic.
 
 <Check>
 The `..in` topic names configured for the plugin should match [**the `..out` topic  names used when configuring the engine**](../../../../../setup-guides/flowx-engine-setup-guide/engine-setup#configuring-kafka). Make sure to use an outgoing topic name that matches the pattern configured in the Engine. The value can be found and overwritten in the `KAFKA_TOPIC_PATTERN` variable. 
