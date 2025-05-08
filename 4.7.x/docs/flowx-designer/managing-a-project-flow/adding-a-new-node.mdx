@@ -1,69 +1,283 @@
 ---
 title: Adding a new node
-description: Once you create a new process definition, you can start configuring it by adding new nodes.
+description: Learn how to add and configure different node types to build robust process flows in FlowX.AI Designer.
 ---
-You can choose between a series of available node types below. For an overview of what each node represents, see [BPMN 2.0 basic concepts](../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn):
 
+Once you've created a process definition, the next step is to build your process flow by adding and connecting nodes. Nodes represent different steps, events, and decision points in your business process.
 
-<Card title="What's a BPMN node?" icon ="circle-question" href="/4.0/docs/building-blocks/node/node">
-<br></br>
-A BPMN (Business Process Model and Notation) node is a visual representation of a point in your process. Nodes are added at specific process points to denote the entrance or transition of a record within the process. FlowX supports various node types, each requiring distinct configurations to fulfill its role in the business flow.
+<Frame>
+![Adding a new node](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/mapf_add_new_node.gif)
+</Frame>
+
+## What is a BPMN node?
+
+<Card title="BPMN node" icon="circle-question">
+A BPMN (Business Process Model and Notation) node is a visual representation of a point in your process. Nodes are added at specific process points to denote the entrance or transition of a record within the process. Each node type has a specific purpose and configuration requirements.
 </Card>
 
-<CardGroup>
-<Card title="Start Event" href="../../building-blocks/node/start-end-node" icon= "circle" iconType="light">
-</Card>
-<Card title="End Event" href="../../building-blocks/node/start-end-node" icon= "circle" iconType="regular">
-</Card>
-<Card title="Service Task" href="../../building-blocks/node/task-node" icon ="gear">
-</Card>
-<Card title="User Task" href="../../building-blocks/node/user-task-node" icon ="user">
-</Card>
-<Card title="Parallel Gateway" href="../../building-blocks/node/parallel-gateway" icon="rhombus">
-</Card>
-<Card title="Exclusive Gateway" href="../../building-blocks/node/exclusive-gateway-node" icon="rhombus">
-</Card>
-<Card title="Send Message Task" href="../../building-blocks/node/message-send-received-task-node" icon = "rectangle">
-</Card>
-<Card title="Receive Message Task" href="../../building-blocks/node/message-send-received-task-node" icon = "rectangle">
-</Card>
+## Available node types
+
+FlowX.AI supports a rich variety of BPMN node types that you can use to model your business processes:
+
+### Flow control nodes
+
+<CardGroup cols={2}>
+  <Card title="Start event" href="../../building-blocks/node/start-end-node" icon="circle" iconType="light">
+    Marks the beginning of a process flow
+  </Card>
+  <Card title="End Event" href="../../building-blocks/node/start-end-node" icon="circle" iconType="regular">
+    Marks the conclusion of a process flow
+  </Card>
+</CardGroup>
+
+### Activity nodes
+
+<CardGroup cols={2}>
+  <Card title="Task Node" href="../../building-blocks/node/task-node" icon="gear">
+    Executes automated tasks and business rules
+  </Card>
+  <Card title="User Task" href="../../building-blocks/node/user-task-node" icon="user">
+    Creates user interfaces and handles user interactions
+  </Card>
+  <Card title="Send Message Task" href="../../building-blocks/node/message-send-received-task-node" icon="paper-plane">
+    Sends data to external systems or services
+  </Card>
+  <Card title="Receive Message Task" href="../../building-blocks/node/message-send-received-task-node" icon="envelope">
+    Receives data from external systems or services
+  </Card>
+</CardGroup>
+
+### Gateway nodes
+
+<CardGroup cols={2}>
+  <Card title="Exclusive gateway" href="../../building-blocks/node/exclusive-gateway-node" icon="diamond">
+    Creates decision points with mutually exclusive paths
+  </Card>
+  <Card title="Parallel Gateway" href="../../building-blocks/node/parallel-gateway" icon="code-branch">
+    Splits process flow into multiple concurrent paths
+  </Card>
+</CardGroup>
+
+### Event nodes
+
+<CardGroup cols={2}>
+  <Card title="Message event" href="../../building-blocks/node/message-events/" icon="comment">
+    Captures interactions between different process participants
+  </Card>
+  <Card title="Timer Event" href=".../../building-blocks/node/timer-events/" icon="clock">
+    Triggers actions based on time conditions or delays
+  </Card>
+  <Card title="Error Event" href="../../building-blocks/node/error-events" icon="triangle-exclamation">
+    Manages error handling in processes
+  </Card>
 </CardGroup>
 
 
-### Steps for creating a new node
+### Subprocess nodes
 
-To create a new node on an existing process:
+<CardGroup cols={2}>
+  <Card title="Call activity" href="../../building-blocks/node/call-subprocess-tasks/call-activity-node" icon="diagram-project">
+    Calls and runs a subprocess within the main process
+  </Card>
+  <Card title="Start Embedded Subprocess" href="../../building-blocks/node/call-subprocess-tasks/start-embedded-subprocess" icon="folder-tree">
+    Initiates subprocesses embedded within a parent process
+  </Card>
+</CardGroup>
 
-<Steps>
 
-<Step>
-Open **FlowX.AI Designer** and from the **Processes** tab select **Definitions**.
-</Step>
-<Step>
-Select your **process definition** or create a new one.
-</Step>
-<Step>
-Make sure you are in edit mode.
-</Step>
-<Step>
-Drag and drop one or more **node** elements.
-</Step>
-<Step>
-To connect the node that you just created:
-* Click the node, select the **arrow** command
-* Click the node that you wish to link to the newly added node
-</Step>
-</Steps>
+### Boundary event nodes
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/mapf_add_new_node.gif)
-</Frame>
+<CardGroup cols={2}>
+  <Card title="Message catch boundary event" href="../../building-blocks/node/boundary-events" icon="border-all">
+    Waits for a specific message during task execution
+  </Card>
+  <Card title="Timer Boundary Event" href="../../building-blocks/node/message-events/message-catch-boundary-event" icon="stopwatch">
+    Triggers based on time conditions during task execution
+  </Card>
+  <Card title="Error Boundary Event" href="../../building-blocks/node/error-events#configuring-an-error-intermediate-boundary-event" icon="exclamation">
+    Catches errors during task or subprocess execution
+  </Card>
+</CardGroup>
 
-Depending on the type of the **node**, you can define some node details, and a set of values (stages, data stream topics, key name) and you can also add various [actions](../../building-blocks/actions/actions) to it.
 
-<Card title="BPMN nodes" href="../../building-blocks/node" icon ="file">
+<Info>
+Boundary events can only be attached to certain node types:
+- User Task
+- Service Task
+- Send Message/Receive Message Tasks
+- Subprocess (Embedded and Call Activity)
+</Info>
+
+
+
+For more information on BPMN node types and BPMN standards, see the following resources:
+
+<CardGroup cols={2}>
+  <Card title="BPMN Node Documentation" href="../../building-blocks/node/node" icon="file-lines">
+    BPMN node types in FlowX.AI
+  </Card>
+  <Card title="Intro to BPMN" href="../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn" icon="diagram-project">
+    Learn fundamental BPMN concepts and standards
+  </Card>
+</CardGroup>
+
+For a comprehensive understanding of BPMN standards and concepts, see [BPMN 2.0 Basic Concepts](../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn).
+
+<Card title="BPMN 101" href="https://academy.flowx.ai/explore/bpmn-101" icon="school">
+Learn more about BPMN and how it's used in FlowX through our Academy course
 </Card>
 
-<Check>
-Now, check the next section to learn how to add an action to a node.
-</Check>
+## Adding a node to your process
+
+<Steps>
+  <Step title="Access Your Process Definition">
+    1. Open **FlowX.AI Designer** and navigate to your project
+    2. Go to the **Processes** section within your project
+    3. Click on the process definition you want to edit
+
+  </Step>
+  
+  <Step title="Add a Node to the Canvas">
+   
+    1. Locate the node palette on the left side of the screen
+    2. **Drag and drop** your desired node type onto the canvas
+    3. Position the node where you want it in your process flow
+    
+    <Tip>
+      Organize your process flow from left to right for better readability. Place related nodes closer together to show their relationship.
+    </Tip>
+  </Step>
+  
+  <Step title="Connect Nodes with Sequence Flows">
+    To create a connection between nodes (called a sequence flow):
+    
+    1. Click on the source node to select it
+    2. Click the **arrow** icon that appears
+    3. Click on the target node you want to connect to
+    4. A sequence flow arrow will be created between the two nodes
+    
+<Frame>
+![Connect nodes](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/node_sequence.png)
+</Frame>
+
+    <Warning>
+      Every node (except End nodes) must have at least one outgoing sequence flow, and every node (except Start nodes) must have at least one incoming sequence flow for the process to be valid.
+    </Warning>
+  </Step>
+  
+  <Step title="Configure Node Properties">
+    After adding a node, you need to configure its properties:
+    
+    1. Click on the node to select it to open the properties panel
+    2. Click edit icon to open the properties panel
+    3. Configure basic properties like name and description
+    4. Set node-specific properties depending on the node type
+    5. Configure actions for the node
+    
+<Frame>
+![Node edit menu](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/node_edit_menu.png)
+</Frame>
+
+<Frame>
+![Node properties](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/node_config.png)
+</Frame>
+
+
+    <Info>
+      Different node types have different configuration options. For example, Gateway nodes have condition-related settings.
+    <Frame>
+    ![Gateway configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/gateway_config.png)
+    </Frame>
+    </Info>
+  </Step>
+  
+  <Step title="Add Actions to Nodes">
+    For nodes that support actions (task nodes, user task nodes, and message nodes):
+    
+    1. Select the node
+    2. In the properties panel, navigate to the **Actions** section
+    3. Click **+ Add Action**
+    4. Select the action type and configure its parameters
+    
+
+<Frame>
+![Add action](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/node_action.png)
+</Frame>
+
+    <Note>
+      Actions allow you to incorporate business rules, save data, send messages, and interact with users. Learn more about [Node Actions](../../building-blocks/actions/actions).
+    </Note>
+  </Step>
+</Steps>
+
+## Common node configuration options
+
+While each node type has specific properties, many share these common configuration options:
+
+<AccordionGroup>
+  <Accordion title="Basic Properties">
+    - **Name**: A descriptive name for the node (visible in the Process Designer).
+    - **Can go back**: Option available in various nodes that controls whether users can return to previous steps in a process. When enabled (set to true), it allows users to revisit and redo that step after completing it.
+    - **Stage**: The stage of the process the node belongs to.
+  </Accordion>
+  
+  <Accordion title="Action Properties">
+    For nodes that support actions:
+    - **Action Type**: Type of action to execute
+    - **Action Parameters**: Configuration for the specific action
+    - **Execution Order**: Sequence for multiple actions on a node
+  </Accordion>
+</AccordionGroup>
+
+## Node type-specific configuration
+
+<CardGroup cols={2}>
+  <Card title="User Task Configuration" icon="user-gear">
+    - UI Component selection
+    - Form configuration
+    - Data validation rules
+    - Task assignment settings
+  </Card>
+  
+  <Card title="Gateway Configuration" icon="code-branch">
+    - Condition expressions
+    - Default sequence flow
+    - Branch naming
+    - Gateway direction (diverging/converging)
+  </Card>
+  
+  <Card title="Message Task Configuration" icon="envelope-open-text">
+    - Message format
+    - Target system
+    - Correlation keys
+    - Timeout handling
+  </Card>
+  
+  <Card title="Service Task Configuration" icon="gears">
+    - Service implementation
+    - Input/output mapping
+    - Error handling
+    - Execution parameters
+  </Card>
+</CardGroup>
+
+## Best practices
+
+<Tip>
+**When adding nodes to your process:**
+
+- **Use descriptive names** for nodes to make the process easier to understand
+- **Organize the layout** from left to right for better readability
+- **Limit the number of sequence flows** from a single node to maintain clarity
+- **Group related functionality** into subprocesses to reduce complexity
+- **Document assumptions and decisions** in node descriptions
+- **Validate your process** regularly during development to catch errors early
+</Tip>
+
+## Next steps
+
+After adding nodes to your process, you can:
+
+  <Card title="Add Actions to Nodes" icon="plus" href="../managing-a-project-flow/adding-an-action-to-a-node">
+    Configure business rules and actions for your nodes
+  </Card>

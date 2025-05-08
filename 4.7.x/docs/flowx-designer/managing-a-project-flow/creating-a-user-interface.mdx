@@ -1,152 +1,257 @@
 ---
-title: Creating a user interface
+title: Creating a User interface
+description: Learn how to design and configure engaging user interfaces for your process flows using FlowX.AI Designer.
 ---
 
-You can configure interfaces for both generated and custom screens in FlowX Designer.
+FlowX.AI allows you to create rich, interactive user interfaces for your process flows without extensive coding. Using the UI Designer, you can configure screens with various components and navigation patterns to create intuitive user experiences.
 
-Create a simple process:
+<Frame caption="Process Flow with User Tasks">
+![User Interface Process](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui.png)
+</Frame>
+
+## Understanding UI design in FlowX.AI
+
+<Card title="UI Design Concepts" icon="palette">
+In FlowX.AI, user interfaces are primarily associated with **User Task** nodes in your process flow. Each User Task can represent a screen or part of a screen in your application. The UI Designer provides a visual editor where you can add, arrange, and configure UI components to create your desired interface.
+</Card>
+
+<CardGroup cols={2}>
+  <Card title="UI Designer Documentation" href="../../building-blocks/ui-designer/ui-designer" icon="file-lines">
+    Comprehensive guide to the UI Designer and available components
+  </Card>
+  <Card title="Navigation Areas" href="../../building-blocks/process/navigation-areas" icon="sitemap">
+    Learn more about different navigation patterns and structures
+  </Card>
+</CardGroup>
+
+## Creating a process with user interfaces
 
 <Steps>
-<Step>
-Go to **FlowX Designer** and navigate to the **Definitions** tab.
-</Step>
-<Step>
-Click on the **New Process** button, using the **breadcrumbs** in the top-right corner.
-</Step>
-<Step>
-Add a **Start Node**.
-</Step>
-<Step>
-Add two **User Tasks** that will represent the screens of the application.
-</Step>
-<Step>
-Finish your BPMN process with an **End Node**.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui.png)
-</Frame>
-
-</Step>
-<Step>
-Now create a **Navigation Area** (Page) where we will include our user tasks.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui1.gif)
-</Frame>
-
-<Tip>
-
-In the FlowX Designer, you can create the following navigation areas:
-
-* **Stepper**: Breaks progress into logical, numbered steps for intuitive navigation.
-* **Tab Bar**: Allows users to switch between different sections or views within the application.
-* **Page**: Displays full-page content for an immersive experience.
-* **Modal**: Overlays that require user interaction before returning to the main interface.
-* **Zone**: Groups specific navigation areas or tasks, like headers and footers.
-* **Parent Process Area**: Supports subprocess design under a parent hierarchy, ensuring validation and design consistency.
-</Tip>
-
-</Step>
+  <Step title="Create a Process Definition">
+    1. Open **FlowX.AI Designer** and navigate to your project
+    2. Go to the **Processes** section and click **+ New Process**
+    3. Give your process a descriptive name and click **Create**
+    
+    <Tip>
+      Plan your user interface flow before starting. Consider how many screens you need and how users will navigate between them.
+    </Tip>
+  </Step>
+  
+  <Step title="Add Process Flow Nodes">
+    1. Add a **Start Node** to your process canvas
+    2. Add **User Task** nodes for each screen in your application
+    3. Connect the nodes in the sequence users will navigate through them
+    4. Add an **End Node** to complete your process
+    
+    <Frame caption="Process Flow with User Tasks">
+      ![User Interface Process](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui.png)
+    </Frame>
+    
+    <Note>
+      Each User Task node represents a screen or a significant UI interaction in your application. Design your process flow to match your intended user journey.
+    </Note>
+  </Step>
+  
+  <Step title="Create a Navigation Area">
+    1. With your process open in edit mode, click the **Navigation** tab
+    2. Click the **+ Add** button to create a new navigation area
+    3. Select **Page** as the navigation type (or another type based on your needs)
+    4. Name your navigation area (e.g., "Main Application Page")
+    5. Assign the relevant User Task nodes to this navigation area
+    
+    <Frame caption="Creating a Navigation Area">
+      ![Create Navigation Area](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui1.gif)
+    </Frame>
+    
+    <Info>
+      **Available Navigation Area Types:**
+      
+      - **Stepper**: Breaks progress into logical, numbered steps for intuitive navigation
+      - **Tab Bar**: Allows users to switch between different sections or views
+      - **Page**: Displays full-page content for an immersive experience
+      - **Modal**: Overlays that require user interaction before returning to the main interface
+      - **Zone**: Groups specific navigation areas or tasks, like headers and footers
+      - **Parent Process Area**: Supports subprocess design under a parent hierarchy
+    </Info>
+  </Step>
 </Steps>
 
 ## Configuring the UI
 
-All visual properties of the UI elements and navigation areas are configured using the using the **FlowX UI Designer**.
+All visual properties of UI elements and navigation areas are configured using the FlowX.AI UI Designer, which provides a visual editor for building your interfaces.
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/where_ui1.png)
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/where_ui2.png)
+<Frame caption="UI Designer Location">
+![UI Designer Location](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/where_ui1.png)
+![UI Designer Access](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/where_ui2.png)
 </Frame>
 
-### Navigation type
+### Selecting navigation type
 
-To begin, we need to define the type of navigation for our page application. The options are:
-
-* Single page form
-* Wizard 
-
-<Check>
-We will use the **Wizard** type for our example.
-</Check>
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui3.png)
-</Frame>
-
-
-### Configuring the first screen (card)
+To begin, you need to define the type of navigation for your application:
 
 <Steps>
-<Step>
-Open the **UI Designer** for your first **user task**. This will represent the **first card**.
-</Step>
-<Step>
-Add a **CARD** element to the UI.
-</Step>
-<Step>
-Add a **Form** to the card to group the inputs.
-</Step>
-<Step>
-Add an **input** field to the form.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ui_card1.png)
-</Frame>
-
-</Step>
-<Step>
-Add a button with a save data action to advance to the next screen and save the input data.
-
-<Info>
-First, configure the action at the node level. The action, called when the button is clicked, should be **Manual** (not automatic because it is triggered by a user).
-</Info>
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui_save_data.png)
-</Frame>
-
-</Step>
+  <Step title="Configure Navigation Type">
+    1. In the UI Designer, go to the navigation configuration section
+    2. Select one of the following navigation types:
+       - **Single page form**: For simple, one-page applications
+       - **Wizard**: For multi-step processes with clear progression
+    
+    <Frame caption="Navigation Type Selection">
+      ![Navigation Type](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui3.png)
+    </Frame>
+    
+    <Info>
+      For this example, we'll use the **Wizard** type, which is ideal for multi-step processes like applications or onboarding flows.
+    </Info>
+  </Step>
 </Steps>
 
+## Designing the first screen
+
+Let's configure the first User Task node to create an engaging and functional screen:
+
+<Steps>
+  <Step title="Open the UI Designer">
+    1. In your process diagram, select the first **User Task** node
+    2. Click the **UI Designer** button in the properties panel
+    3. This will open the visual UI Designer for this specific node
+  </Step>
+  
+  <Step title="Add a Card Component">
+    1. From the component palette, drag a **Card** component onto the canvas
+    2. The Card component will serve as a container for your form elements
+    3. Configure the card's appearance using the properties panel (size, padding, etc.)
+  </Step>
+  
+  <Step title="Add a Form Component">
+    1. Drag a **Form** component into the Card
+    2. Forms help organize inputs and handle data binding
+    3. Configure the form's properties as needed
+  </Step>
+  
+  <Step title="Add Input Fields">
+    1. Drag an **Input** component into the Form
+    2. Configure the input's properties:
+       - Set a label (e.g., "Full Name")
+       - Choose the input type (text, number, email, etc.)
+       - Configure validation rules if needed
+       - Set the data binding to store user input
+    
+    <Frame caption="First Card Design">
+      ![First Card UI](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ui_card1.png)
+    </Frame>
+  </Step>
+  
+  <Step title="Add a Button with Action">
+    1. Drag a **Button** component into the Form
+    2. Configure the button text (e.g., "Continue" or "Next")
+    3. Set up the button's action to trigger process advancement
+    
+    <Info>
+      Before the button will work, you need to configure an action on the User Task node itself. This action will be triggered when the button is clicked.
+    </Info>
+    
+    <Frame caption="Save Data Action Configuration">
+      ![Save Data Action](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui_save_data.png)
+    </Frame>
+  </Step>
+</Steps>
 
 ### Testing the first screen
 
 <Steps>
-<Step>
-Start the process definition that you just configured.
-</Step>
-<Step>
-The card with the **Form** and the **Input** is displayed.
-</Step>
-<Step>
-Test the **Input**.
-</Step>
+  <Step title="Preview Your Screen">
+    1. Save your UI design
+    2. Start the process to test the UI
+    3. The Card with the Form and Input field should be displayed as configured
+    
+    <Frame caption="Testing the First Screen">
+      ![Test First Screen](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/test_card_ui.gif)
+    </Frame>
+  </Step>
 </Steps>
 
-<Frame>
-![Test the input](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/test_card_ui.gif)
-</Frame>
+## Designing the second screen
 
-## Configuring the second screen (card)
+Follow a similar process to design your second screen:
 
 <Steps>
-<Step>
-Go to your second **user task** and add a new **CARD**.
-</Step>
-<Step>
-Add other UI elements of your choice.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui4.png)
-</Frame>
-
-</Step>
+  <Step title="Configure the Second User Task">
+    1. Select the second **User Task** node in your process
+    2. Open the **UI Designer**
+    3. Add a **Card** component
+    4. Add other UI components as needed (text, inputs, buttons, etc.)
+    
+    <Frame caption="Second Card Design">
+      ![Second Card UI](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/create_ui4.png)
+    </Frame>
+  </Step>
+  
+  <Step title="Add Navigation Actions">
+    1. Add a button to submit the form or continue to the next step
+    2. Configure actions on the User Task node as needed
+    3. Consider adding a "Back" button if appropriate for your flow
+  </Step>
 </Steps>
 
-### Testing the final result
+## Testing the complete flow
 
-Start the process definition again to review the final result:
+Once you've configured all your screens, test the complete process flow:
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/final_rez.gif)
+<Frame caption="Testing the complete flow">
+![Test Complete Flow](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/final_rez.gif)
 </Frame>
+
+## Available UI components
+
+FlowX.AI provides a rich set of UI components to create engaging interfaces:
+
+<CardGroup cols={3}>
+  <Card title="Layout Components" icon="table-columns">
+    Cards, containers, dividers, and grids for organizing content
+  </Card>
+  <Card title="Form Elements" icon="input-text">
+    Inputs, checkboxes, radio buttons, dropdowns, and date pickers
+  </Card>
+  <Card title="Interactive Elements" icon="hand-pointer">
+    Buttons, links, tabs, and accordions for user interaction
+  </Card>
+  <Card title="Content Components" icon="font">
+    Text, images, icons, and media elements for displaying information
+  </Card>
+  <Card title="Data Display" icon="table">
+    Tables, lists, and data grids for showing structured data
+  </Card>
+  <Card title="Navigation" icon="compass">
+    Menus, breadcrumbs, steppers, and pagination controls
+  </Card>
+</CardGroup>
+
+## Best practices
+
+<Tip>
+**When designing user interfaces:**
+
+- **Use consistent styling** across all screens for a cohesive user experience
+- **Group related inputs** within logical sections or cards
+- **Implement proper validation** to prevent errors and guide users
+- **Provide clear feedback** on actions with success and error messages
+- **Design with accessibility** in mind using proper labels and ARIA attributes
+- **Test your UI** on different screen sizes to ensure responsive design
+- **Keep navigation intuitive** with clear paths forward and back
+- **Use data binding** to maintain state across screens
+</Tip>
+
+## Next steps
+
+After creating your user interface, you can:
+
+<CardGroup cols={2}>
+  <Card title="Configure Data Models" icon="database" href="../../building-blocks/process/data-model">
+    Set up data structures to store and manage user input
+  </Card>
+  <Card title="Add Advanced Components" icon="puzzle-piece" href="../../building-blocks/ui-designer/ui-component-types/root-components/custom">
+    Learn how to use and configure specialized UI components
+  </Card>
+</CardGroup>
+

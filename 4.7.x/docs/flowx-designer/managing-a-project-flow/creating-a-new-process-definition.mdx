@@ -1,35 +1,233 @@
 ---
 title: Creating a new process definition
-description: The first step of defining your business process in the FlowX.AI Designer is adding a new process definition for it.
+description: Define your business processes in the FlowX.AI Designer by creating process definitions that model your workflows.
 ---
-This should include at least one [START](../../building-blocks/node/start-end-node#start-node) and [END](../../building-blocks/node/start-end-node#end-node) node.
 
-## Steps for creating a new process definition
 
-<Card title="What's a proces definition?" icon ="circle-question" href="/4.0/docs/building-blocks/process/process-definition">
-<br></br>
-A process definition is the core building block of the platform, serving as the blueprint of a business process composed of nodes linked by sequences. Once defined and published on the platform, a process can be executed, monitored, and optimized. Starting a business process results in the creation of a new instance of this definition.
-</Card>
+<video
+autoPlay
+controls
+loop
+src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/create_new_proc.mp4"
+></video>
 
-To create a new **process definition**:
+## What is a process definition?
+
+A process definition is the core building block of the FlowX.AI platform, serving as the blueprint for a business process. It's composed of nodes linked by sequences that define the path and logic of your application's workflow.
+
+<Info>
+A complete process definition must include at least one [START](../../building-blocks/node/start-end-node#start-node) and one [END](../../building-blocks/node/start-end-node#end-node) node to mark where the process begins and concludes.
+</Info>
+
+<CardGroup cols={2}>
+  <Card title="Executable Blueprint" icon="diagram-project">
+    Process definitions can be instantiated, executed, and monitored within the platform
+  </Card>
+  <Card title="Business Logic Container" icon="gears">
+    Houses all actions, decisions, user interfaces, and integrations for your business process
+  </Card>
+  <Card title="Event-Driven Flow" icon="sitemap">
+    Nodes and sequences create a path for process tokens to follow based on conditions and events
+  </Card>
+  <Card title="Multi-Platform Support" icon="display">
+    Process definitions can generate interfaces for web, mobile, and other platforms
+  </Card>
+</CardGroup>
+
+## Creating a process definition
 
 <Steps>
-<Step>
-Open **FlowX.AI Designer** and go to the **Definitions** tab.
-</Step>
-<Step>
-Click the **New process** button, using the **breadcrumbs** from the top-right corner.
-</Step>
-<Step>
-Enter a unique name for your process and click **Create**.
-</Step>
-<Step>
-You're automatically taken to the **FlowX.AI Process Designer** editor where you can start building your process.
-</Step>
+  <Step title="Access the Process Definitions Section">
+    1. Open **FlowX.AI Designer** and navigate to your project
+    2. Go to the **Processes** section within your project
+    
+    <Note>
+      You must have already created a project before creating process definitions. Process definitions belong to projects and inherit project settings.
+    </Note>
+  </Step>
+  
+  <Step title="Create a New Process Definition">
+    1. Click the **+ New Process** button in the top-right corner
+    2. Enter a unique name for your process definition that clearly describes its purpose
+    3. Optionally, add a description to provide context about what this process does
+    4. Click **Create** to create the new process definition
+    
+    <Tip>
+      Use a descriptive naming convention for your processes, such as "[Department]-[Function]-[Action]" (e.g., "HR-Onboarding-Application").
+    </Tip>
+  
+  <Frame>
+  ![Process Definition Editor](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/create_new_process.png)
+  </Frame>
+  
+  </Step>
+  
+  <Step title="Configure the Process Definition">
+    After creating the process definition, you'll be automatically directed to the FlowX.AI Process Designer editor where you can start building your process flow.
+    
+    <Frame>
+      ![Process Designer Empty Canvas](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/process_designer_empty.png)
+    </Frame>
+  </Step>
+  
+  <Step title="Add Start and End Nodes">
+    Every process definition must have at least one START node and one END node:
+    
+    1. From the node palette on the left, drag a **START** node onto the canvas
+    2. Configure the START node properties in the panel that appears
+    3. Drag an **END** node onto the canvas
+    4. Connect the nodes by clicking on the START node, selecting the arrow command, and then clicking on the END node
+    
+
+    <Warning>
+      Without properly configured START and END nodes, your process won't be executable. The START node initializes the process, while the END node ensures proper process completion.
+    </Warning>
+  </Step>
+  
+  <Step title="Build Your Process Flow">
+    Expand your process by adding additional nodes between the START and END nodes:
+    
+    1. Drag the appropriate node types from the palette onto the canvas
+    2. Configure each node's properties and actions
+    3. Connect nodes in the sequence they should execute
+    4. Add conditions and gateways to create branching logic
+    
+    <CardGroup cols={3}>
+      <Card title="Task Nodes" icon="list-check">
+        For business rules and automated actions
+      </Card>
+      <Card title="User Task Nodes" icon="user-gear">
+        For user interactions and UI components
+      </Card>
+      <Card title="Gateways" icon="code-branch">
+        For decision points and parallel flows
+      </Card>
+    </CardGroup>
+  </Step>
+  
+  <Step title="Save Your Process Definition">
+    Regularly save your work by clicking the **Save** button in the editor toolbar.
+    
+    <Info>
+      Process definitions are saved within your project but need to be included in a project version and build to be deployed to environments.
+    </Info>
+  </Step>
 </Steps>
 
-<Frame>
-![Creating a process definition](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/mapf_new_def.gif)
-</Frame>
+## Key node types
 
-In the following section, you will learn how to add a new node to your newly created process.
+When building your process definition, you'll use various node types to model your business logic:
+
+<AccordionGroup>
+  <Accordion title="Start and End Nodes">
+    **Start Node**: Marks the beginning of a process flow, defining how a process instance is initiated.
+    
+    **End Node**: Marks the conclusion of a process flow, ensuring proper cleanup and completion.
+    
+    <Note>
+      A process can have multiple START nodes (with different conditions) and multiple END nodes depending on the possible outcomes.
+    </Note>
+  </Accordion>
+  
+  <Accordion title="Task Nodes">
+    **Task Node**: Used for executing automated actions without user interaction.
+    
+    **User Task Node**: Configures the UI components and collects data from users.
+    
+    **Send/Receive Message Tasks**: Used for communication with external systems and services.
+  </Accordion>
+  
+  <Accordion title="Gateway Nodes">
+    **Exclusive Gateway**: Creates decision points where the flow follows only one path based on conditions.
+    
+    **Parallel Gateway**: Splits the process into multiple parallel branches that execute simultaneously.
+    
+    **Inclusive Gateway**: Allows multiple paths to be taken based on conditions, unlike the exclusive gateway.
+  </Accordion>
+  
+  <Accordion title="Special Nodes">
+    **Subprocess Run Node**: Enables you to run a subprocess within the main process.
+    
+    **Timer Events**: Schedule actions to occur at specific times or after delays.
+    
+    **Message Events**: Handle message-based communication between processes.
+  </Accordion>
+</AccordionGroup>
+
+## Adding actions to nodes
+
+Nodes can have actions associated with them to perform specific operations:
+
+<CardGroup cols={2}>
+  <Card title="Business Rules" icon="code">
+    Execute logic, validate data, and make decisions
+  </Card>
+  <Card title="Data Operations" icon="database">
+    Save, retrieve, and manipulate process data
+  </Card>
+  <Card title="Integration" icon="plug">
+    Connect with external systems and services
+  </Card>
+  <Card title="UI Interactions" icon="display">
+    Send data to and receive data from users
+  </Card>
+</CardGroup>
+
+<Note>
+Actions can only be added to certain node types: task nodes, user task nodes, and send/receive message tasks.
+</Note>
+
+## Best practices
+
+<Tip>
+**Process Definition Design Tips**:
+
+- Start with a simple skeleton process with START and END nodes before adding complexity
+- Create a logical flow from left to right in your diagram for better readability
+- Group related activities into subprocesses to keep the main process clean
+- Use clear naming conventions for nodes and actions
+- Document your process design decisions within node descriptions
+- Test your process with simulated data before publishing
+</Tip>
+
+## Next steps
+
+After creating your process definition, you can:
+
+  <Card title="Add Nodes to Your Process" icon="circle-plus" href="../managing-a-project-flow/adding-a-new-node">
+    Learn how to add and configure different node types
+  </Card>
+
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Can a process have multiple START nodes?">
+    Yes, a process definition can have multiple START nodes, each with different starting conditions as long as they are on different swimlanes. This allows the same process to be initiated in different ways depending on the context.
+  
+  <Info>
+  Process definition cannot contain multiple start nodes on the same swimlane.
+  </Info>
+
+
+  </Accordion>
+  
+  <Accordion title="How do I modify an existing process definition?">
+    To modify an existing process, navigate to the Processes section in your project, find the process you want to edit, and click on it. Then click the "Edit Process" button to open it in the Process Designer.
+  </Accordion>
+  
+  <Accordion title="Can I reuse parts of a process definition?">
+    Yes, you can create reusable components as subprocesses, which can then be called from multiple main processes. This promotes reusability and maintainability.
+  </Accordion>
+
+  
+<Accordion title="Can I export or import process definitions?">
+  Yes, FlowX.AI allows you to export and import process definitions. When you export a process definition, it creates a structured folder containing multiple files:
+
+  - A root export folder with a unique identifier
+  - A process subfolder containing manifest.json and metadata.json files
+  - A version subfolder containing the actual process definition JSON file
+
+  This structured export can be imported into other projects or environments, facilitating sharing, backup, and version control of your processes.
+</Accordion>
+</AccordionGroup>

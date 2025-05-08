@@ -1,34 +1,151 @@
 ---
 title: Moving a token backwards in a process
-description: Back in steps is a functionality that allows you to go back in a business process redo a series of previous actions in the process.
+description: Learn how to implement "Back" functionality in your processes to allow users to return to previous steps while preserving data.
 ---
 
-**Why is it useful?** Brings a whole new level of flexibility in using a business flow or journey, allowing the user to go back a step without losing all the data inputted so far.
+While most process flows progress in a forward direction, FlowX.AI provides powerful capabilities for moving backwards in a process flow. This feature allows users to revisit previous steps without losing their progress or data, enhancing the flexibility and user-friendliness of your applications.
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/allow_back_action.png)
+<Frame caption="Back Action Configuration">
+![Back Action Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/allow_back_action.png)
 </Frame>
 
-In most cases, the **token** instance will just need to advance forward in the process as the actions on the process are completed.
+## What is token resetting?
 
-<Card title="Token" href="../../building-blocks/token">
+<Card title="Token Concept" icon="location-dot">
+In FlowX.AI, a **token** represents the current position within a process instance. It moves from one node to another as the process executes, carrying process data and state information. Normally, tokens advance forward through the process flow, but sometimes you need to allow users to go back to previous steps.
 </Card>
 
-But there might be cases when the token will need to be moved backward in order to redo a series of previous actions in the process.
+<CardGroup cols={2}>
+  <Card title="Process Tokens" href="../../building-blocks/token" icon="file-lines">
+    Learn more about tokens and how they drive process flow
+  </Card>
+  <Card title="Process Instances" href="../../building-blocks/process/process-instance" icon="diagram-project">
+    Understand how processes execute in FlowX.AI
+  </Card>
+</CardGroup>
 
-We will call this behavior **resetting the token**.
+## Why use backwards navigation?
 
-The token can only be reset to certain actions on certain process nodes. These actions will be marked accordingly with a flag `Allow BACK on this action?`. 
+<CardGroup cols={2}>
+  <Card title="User Experience" icon="user">
+    Allows users to correct mistakes or review previous inputs without starting over
+  </Card>
+  <Card title="Process Flexibility" icon="arrows-up-down-left-right">
+    Creates more natural and less rigid process flows that adapt to user needs
+  </Card>
+  <Card title="Data Preservation" icon="database">
+    Maintains important data while allowing selective changes to specific fields
+  </Card>
+  <Card title="Reduced Abandonment" icon="chart-line">
+    Decreases process abandonment rates by allowing users to navigate freely
+  </Card>
+</CardGroup>
 
-When such an action is triggered from the application, the current process token will be marked as aborted and a new one will be created and placed on the node that contains the action that was executed. If any sub-processes were started between the two token positions, they will also be aborted when the token is reset.
+## How token resetting works
 
-The newly created token will copy from the initial token all the information regarding the actions that were performed before the reset point.
+When a user navigates backwards in a process:
 
-There are a few configuration options available in order to decide which of the data to keep when resetting the token:
+1. The current token is marked as **aborted**
+2. A **new token** is created at the target node (the previous step)
+3. Data is selectively copied from the original token to the new one
+4. Any subprocesses started between the original and new positions are aborted
+5. The process continues from the reset position with the new token
 
-* `Remove the following objects from current state`: Process keys that should be deleted when the user is navigating back tho this action 
-* `Copy the following objects from current state`: Process keys that should retain their data as persisted prior to the user navigating back to this action.
+<Info>
+The token can only be reset to specific actions on specific nodes that have been configured to allow backwards navigation.
+</Info>
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/pf_moving_token_bw.gif)
-</Frame>
+## Configuring backwards navigation
+
+<Steps>
+  <Step title="Identify Target Nodes">
+    First, determine which nodes in your process should allow users to navigate back to them. Typically, these are:
+    
+    - Key decision points
+    - Form submission steps
+    - Points where users might need to correct previous inputs
+    - The beginning of logical sections in your process
+  </Step>
+  
+  <Step title="Configure Node Actions">
+    1. Select the node that should be a target for backwards navigation
+    2. Add or edit an action on this node
+    3. In the action configuration, enable the **Allow BACK on this action?** option
+    
+    <Frame caption="Back Action Configuration">
+      ![Back Action Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/allow_back_action.png)
+    </Frame>
+    
+    <Warning>
+      Only configure "back" functionality on actions that make logical sense as return points in your process. Too many back points can make process state management complex.
+    </Warning>
+  </Step>
+  
+  <Step title="Configure Data Handling">
+    When a token is reset, you need to decide which data to retain and which to discard. Configure this using:
+    
+    1. **Remove the following objects from current state**: Specify process keys that should be deleted when navigating back to this action
+    2. **Copy the following objects from current state**: Specify process keys that should retain their data from before the navigation
+    
+    <Tip>
+      Carefully consider which data to preserve. Generally, you want to keep contextual or reference data while allowing changes to the specific data related to the step being revisited.
+    </Tip>
+  </Step>
+  
+  <Step title="Implement UI Navigation">
+    Add navigation controls in your user interface:
+    
+    1. Add a "Back" button to relevant screens
+    2. Configure the button to trigger the action with back functionality
+    3. Ensure the UI updates appropriately when the user navigates back
+    
+    <Frame caption="Back Navigation in Action">
+      ![Token Reset Animation](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/pf_moving_token_bw.gif)
+    </Frame>
+  </Step>
+</Steps>
+
+## Use cases for backwards navigation
+
+<AccordionGroup>
+  <Accordion title="Multi-Step Forms">
+    In applications with multi-step forms or wizards, backwards navigation allows users to review and edit their inputs across different steps before final submission.
+  </Accordion>
+  
+  <Accordion title="Decision Correction">
+    When users make selections that lead down specific process paths, back functionality lets them change their mind and explore alternative options.
+  </Accordion>
+  
+  <Accordion title="Error Correction">
+    If validation occurs after a form submission and errors are found, users can navigate back to fix issues while preserving other valid inputs.
+  </Accordion>
+  
+  <Accordion title="Process Review">
+    In complex workflows like loan applications or onboarding processes, users often need to review previous sections before completing the process.
+  </Accordion>
+</AccordionGroup>
+
+## Best practices
+
+<Tip>
+**When implementing backwards navigation:**
+
+- **Be selective** about which nodes allow back functionality
+- **Consider data dependencies** between steps to avoid inconsistent states
+- **Provide clear UI indicators** for steps users can navigate back to
+- **Test thoroughly** to ensure data is properly preserved or reset
+- **Consider subprocess implications** as they will be aborted during reset
+- **Document back navigation points** for easier maintenance
+- **Use intuitive button labeling** ("Back", "Previous Step", etc.)
+</Tip>
+
+## Technical considerations
+
+<Warning>
+**Keep in mind these technical aspects when implementing back functionality:**
+
+1. **Performance Impact**: Token resetting involves creating new tokens and copying data, which may impact performance in complex processes
+2. **Subprocess Handling**: Any subprocesses active between the current and target positions will be aborted
+3. **Data Consistency**: Ensure your data model can handle partial updates without creating inconsistencies
+4. **Action Sequencing**: Consider the order of actions that might be re-executed after navigating back
+</Warning>

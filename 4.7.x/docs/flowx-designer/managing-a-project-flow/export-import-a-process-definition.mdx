@@ -1,67 +1,205 @@
 ---
-title: Exporting / importing a process definition version
-description: To export process definitions versions and move them between different environments, you can use the export version/ import process feature.
+title: Exporting and importing projects
+description: Learn how to transfer projects between environments using the export and import functionality in FlowX.AI Designer.
 ---
 
-## Export a process definition
+Moving projects between environments is a common requirement in enterprise software development. FlowX.AI provides robust export and import functionality to help you promote your projects from development to testing and production environments.
 
-You can export a version of your process definition as a JSON file directly from the versioning menu in the **FlowX Designer**:
+<Info>
+In recent versions of FlowX.AI, the export/import functionality has moved from the process definition level to the project level, allowing for more comprehensive and consistent transfers between environments.
+</Info>
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/export_process_version.png)
+## Project vs. process export/import
+
+<Card title="Project-Level Operations" icon="folder-tree">
+Modern versions of FlowX.AI use **project-level** export and import operations rather than process-level ones. This approach ensures that all related resources, dependencies, and configurations are transferred together, maintaining the integrity of your application.
+</Card>
+
+<Note>
+This documentation covers the updated project export/import approach. If you're using an older version of FlowX.AI that still handles exports at the process definition level, some details may differ.
+</Note>
+
+## Exporting a project
+
+<Steps>
+  <Step title="Navigate to the Projects Section">
+    1. Open **FlowX.AI Designer** and go to the **Projects** section
+    2. Select the project you want to export
+  </Step>
+  
+  <Step title="Access Export Functionality">
+    1. Open the project actions menu (typically a three-dot or "More" icon)
+    2. Select the **Export** option
+    
+    <Frame caption="Project Export Option">
+      ![Project Export Option](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/export_process_version.png)
+    </Frame>
+    
+    <Note>
+      The screenshot above shows the legacy process export UI. The project export interface may look different but follows similar principles.
+    </Note>
+  </Step>
+  
+  <Step title="Configure Export Options">
+    Depending on your version, you may have options to:
+    
+    1. Export the entire project or specific versions
+    2. Include or exclude certain resources
+    3. Select dependency handling options
+  </Step>
+  
+  <Step title="Complete the Export">
+    1. Click the **Export** button to generate the export package
+    2. The system will create a downloadable file containing your project
+    3. Save this file to your local system
+    
+    <Tip>
+      Use a clear naming convention for your export files to help identify their contents later, such as `[project-name]_[version]_[environment]_[date].zip`.
+    </Tip>
+  </Step>
+</Steps>
+
+## Importing a project
+
+<Steps>
+  <Step title="Navigate to the Projects Section">
+    1. Open **FlowX.AI Designer** in the target environment
+    2. Go to the **Projects** section
+  </Step>
+  
+  <Step title="Access Import Functionality">
+    1. Look for an **Import Project** or similar button
+    2. Click this button to start the import process
+    
+    <Frame caption="Import Process Button">
+      ![Import Process Button](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/import_proc_version.png)
+    </Frame>
+  </Step>
+  
+  <Step title="Select the Import File">
+    1. The system will open a file browser dialog
+    2. Navigate to and select your previously exported file
+    3. Click **Open** or **Select** to proceed
+  </Step>
+  
+  <Step title="Review Import Options">
+    Before completing the import, the system will display information about what's being imported:
+    
+    1. Project details and versions
+    2. Potential conflicts with existing content
+    3. Dependency status
+    
+    <Warning>
+      Pay careful attention to any warnings about version conflicts or missing dependencies, as these might require manual resolution.
+    </Warning>
+  </Step>
+  
+  <Step title="Confirm and Complete the Import">
+    1. Review all information carefully
+    2. Make any necessary adjustments to import options
+    3. Click **Import** or **Confirm** to complete the process
+    
+    <Frame caption="Import confirmation">
+      ![Import confirmation](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/case2_update.png)
+    </Frame>
+  </Step>
+</Steps>
+
+## Import scenarios
+
+When importing a project, you may encounter different scenarios depending on whether the project already exists in the target environment and what versions are present.
+
+### New project import
+
+<Card title="New project" icon="plus">
+If the project does not exist in the target environment, it will be created with all its resources, and you'll see all versions from the export file.
+</Card>
+
+<Frame caption="New project import">
+![New Project Import](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/import_proc_version.png)
 </Frame>
 
-## Import a process definition
+### Existing project with no additional versions
 
-Given you have exported a version from another environment, when you press the "Import Process" button from the process definition list, then the system opens a local file browser with available JSON files.
+<Card title="Update Existing Project" icon="arrows-rotate">
+If the project exists but doesn't have versions beyond those in the import file, the system will update the existing project with any changes from the import file.
+</Card>
 
-There are multiple scenarios you can encounter:
-
-* [**New process definition**](#new-process-definition)
-* [**Existing process definition with no additional versions**](#existing-process-definition-with-no-additional-versions)
-* [**Existing process definition with additional version**](#existing-process-definition-with-additional-version)
-
-### New process definition
-
-The process definition does not exist in the target environment and when the file is submitted then the process definition is added to the target environment and in the branching tree the imported version is displayed as active and unavailable versions as inactive/ placeholders.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/import_proc_version.png)
+<Frame caption="Updating Existing Project">
+![Updating Existing Project](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/import_2.png)
 </Frame>
 
-#### Unavailable versions
+### Existing project with additional versions
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/unavailable_version.png)
-</Frame>
+<Card title="Version conflict" icon="code-branch">
+If the target environment has versions not present in the import file, or if versions have diverged, you'll need to resolve these conflicts during import.
+</Card>
 
-### Existing process definition with no additional versions
-
-The process definition exists in the target environment and does not contain additional versions compared to the ones in the import file. When you submit the file, the branching tree is updated. Imported and existing versions are displayed as active, while unavailable versions are shown as inactive/placeholders.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/import_2.png)
-</Frame>
-
-
-Additionally, if the current publish policy is "latest submitted" or "latest work in progress" and the import file indicates that the publish version will be overwritten, you'll see information about the new published version. 
-
-You'll also have the option to update the publish policy:
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/case2_update.png)
-</Frame>
-
-### Existing process definition with additional version
-
-You have an existing process definition with additional versions, and you want to overwrite versions in conflict while being warned about the published version.
-
-The process definition in the target environment contains additional versions compared to the ones in the import file. These versions are children of parent versions that should receive other children versions after import. In this case, you'll see a message about overwritten versions.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Frame%2022749.png)
+<Frame caption="Version Conflict Resolution">
+![Version Conflict Resolution](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/Frame%2022749.png)
 </Frame>
 
 <Warning>
-In case the process definition was exported using an incompatible FlowX Designer version, you will receive an error and not be able to import it. It will first need to be adjusted to match the format needed by your current FlowX Designer version.
+Be cautious when overwriting versions, as this can impact any running processes or deployed applications that use those versions.
 </Warning>
+
+## Best practices for export/import
+
+<Tip>
+**When transferring projects between environments:**
+
+- **Plan your promotion path** - Establish a clear workflow for moving from development to testing to production
+- **Use consistent naming** - Name your projects, versions, and export files consistently across environments
+- **Document dependencies** - Keep track of dependencies between projects and libraries
+- **Test after import** - Always validate your project in the new environment after import
+- **Version control** - Consider using external version control systems in addition to FlowX.AI's built-in versioning
+- **Incremental imports** - For large projects, consider importing incrementally rather than all at once
+- **Backup before import** - Always back up the target environment before performing significant imports
+</Tip>
+
+## Common issues and solutions
+
+<AccordionGroup>
+  <Accordion title="Version Compatibility">
+    **Issue**: Import fails due to version incompatibility between environments.
+    
+    **Solution**: Ensure all environments are running compatible versions of FlowX.AI. If necessary, upgrade the older environment before attempting import.
+  </Accordion>
+  
+  <Accordion title="Missing Dependencies">
+    **Issue**: Imported project references libraries or resources not present in the target environment.
+    
+    **Solution**: Export and import dependencies first, or update the project to use dependencies available in the target environment.
+  </Accordion>
+  
+  <Accordion title="Conflict Resolution">
+    **Issue**: Conflicts between imported versions and existing versions.
+    
+    **Solution**: Carefully review the differences and decide whether to overwrite or preserve existing versions. Consider merging changes manually for complex conflicts.
+  </Accordion>
+  
+  <Accordion title="Environment-Specific Configurations">
+    **Issue**: Hard-coded environment-specific values in processes or configurations.
+    
+    **Solution**: Use environment variables and configuration parameters instead of hard-coded values to ease transitions between environments.
+  </Accordion>
+</AccordionGroup>
+
+## Next steps
+
+After importing your project, you should:
+
+<CardGroup cols={2}>
+  <Card title="Verify Project Resources" icon="check-square">
+    Ensure all process definitions, UI components, and other resources imported correctly
+  </Card>
+  <Card title="Configure Environment Settings" icon="sliders">
+    Adjust any environment-specific settings for the new environment
+  </Card>
+  <Card title="Test Process Flows" icon="vial">
+    Validate that all process flows work as expected in the new environment
+  </Card>
+  <Card title="Create a Build" icon="box">
+    Create a build from your imported project for deployment
+  </Card>
+</CardGroup>
