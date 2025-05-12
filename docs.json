@@ -429,6 +429,16 @@
                   "release-notes/overview",
 
                   {
+                    "group": "v4.7.4 - May 2025",  
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.4-may-2025/v4.7.4-may-2025",
+                      "release-notes/v4.7.4-may-2025/deployment-guidelines-v4.7.4",
+                      "release-notes/v4.7.4-may-2025/migrating-from-v4.1.x-to-v4.7.4"
+                    ]
+                  },
+
+                  {
                     "group": "v4.7.3 - April 2025",
                     "icon": "wrench",
                     "pages": [
@@ -1168,6 +1178,17 @@
                 "pages": [
                   "release-notes/overview",
 
+
+                  {
+                    "group": "v4.7.4 - May 2025",  
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.4-may-2025/v4.7.4-may-2025",
+                      "release-notes/v4.7.4-may-2025/deployment-guidelines-v4.7.4",
+                      "release-notes/v4.7.4-may-2025/migrating-from-v4.1.x-to-v4.7.4"
+                    ]
+                  },
+
                   {
                     "group": "v4.7.3 - April 2025",  
                     "icon": "wrench",
@@ -1866,6 +1887,16 @@
                 "group": "Release Notes",
                 "pages": [
                   "release-notes/overview",
+
+                  {
+                    "group": "v4.7.4 - May 2025",  
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.4-may-2025/v4.7.4-may-2025",
+                      "release-notes/v4.7.4-may-2025/deployment-guidelines-v4.7.4",
+                      "release-notes/v4.7.4-may-2025/migrating-from-v4.1.x-to-v4.7.4"
+                    ]
+                  },
                   
                   {
                     "group": "v4.7.3 - April 2025",  
@@ -2556,6 +2587,16 @@
                 "pages": [
                   "release-notes/overview",
 
+                  {
+                    "group": "v4.7.4 - May 2025",  
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.4-may-2025/v4.7.4-may-2025",
+                      "release-notes/v4.7.4-may-2025/deployment-guidelines-v4.7.4",
+                      "release-notes/v4.7.4-may-2025/migrating-from-v4.1.x-to-v4.7.4"
+                    ]
+                  },
+
 
                   {
                     "group": "v4.7.3 - April 2025",
@@ -3229,6 +3270,16 @@
                 "group": "Release Notes",
                 "pages": [
                   "release-notes/overview",
+
+                  {
+                    "group": "v4.7.4 - May 2025",  
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.4-may-2025/v4.7.4-may-2025",
+                      "release-notes/v4.7.4-may-2025/deployment-guidelines-v4.7.4",
+                      "release-notes/v4.7.4-may-2025/migrating-from-v4.1.x-to-v4.7.4"
+                    ]
+                  },
 
                   {
                     "group": "v4.7.3 - April 2025",

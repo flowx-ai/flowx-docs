@@ -1,0 +1,42 @@
+---
+title: FlowX.AI 4.7.4 Release Notes
+description: FlowX.AI 4.7.4 enhances system stability with Spring Boot updates and resolves critical issues across build exports, reporting, SDK functionality, and cross-platform consistency to deliver a more reliable development experience! 🚀
+---
+
+## **What's new? 🆕**
+
+✅ Updated Spring Boot to version 3.4.5      
+✅ Fixed critical build export timeout issues      
+✅ Improved reporting data representation
+✅ Enhanced cross-platform consistency
+
+## Spring Boot Update
+
+### Updated to Spring Boot 3.4.5
+
+We've updated our Spring Boot dependency to version 3.4.5, bringing you:
+
+- Enhanced system stability
+- Latest security patches
+- Improved performance
+
+## **Bug fixes** 🐞  
+
+- Fixed build export timeout issues where projects with dependency libraries would intermittently time out during export, causing inconsistent behavior. Some exports would fail with timeout errors while others with identical dependencies would complete successfully in under 5 minutes upon retry.
+
+- Fixed an issue where workflow instances list was not loading when using CosmosDB, preventing users from viewing workflow instances in the Integration Designer.
+
+- Fixed reporting data issue where arrays were not properly represented in the reporting_data table (process-engine schema). Arrays now display with the correct format (e.g., `client.Address[].StreetName`, `client.Names[]`) instead of the incorrect format (e.g., `client.Address.StreetName`, `client.Names`).
+
+- Fixed a CMS permission issue where the `media_library_read` role was required to access processes containing images via the FlowX SDK in version 4.7+. This was a change from version 4.1 behavior and has been resolved to maintain backward compatibility with existing authentication and authorization flows.
+
+- Fixed inconsistencies in onChange action behavior across platforms. Resolved issues where users could continue typing in fields after token advancement in UserTasks on web (when onBlur=false) and mobile platforms (regardless of onBlur setting). This ensures consistent behavior across web, Android, and iOS.
+
+- Fixed a React SDK issue where ternary expressions in computed values were resulting in "Invalid Expression" errors. The issue affected SDK version 5.86.1 but was working correctly in earlier versions (5.62.1). Expressions like `return ${var1} ? "Onboarded" : (${var2} ? "Non-eligible" : "Ready for Onboarding");` now work as expected.
+
+---
+
+## **Additional information**  
+
+📌 [Deployment Guidelines v4.7.4](./deployment-guidelines-v4.7.4)  
+📌 [Migration Guide (from v4.1.x)](./migrating-from-v4.1.x-to-v4.7.4)
