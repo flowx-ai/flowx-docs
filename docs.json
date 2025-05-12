@@ -77,18 +77,19 @@
                     ]
                   },
                   {
-                    "group": "Managing a process flow",
+                    "group": "Managing a project flow",
                     "icon": "arrow-progress",
                     "pages": [
-                      "4.7.x/docs/flowx-designer/managing-a-process-flow/creating-a-new-process-definition",
-                      "4.7.x/docs/flowx-designer/managing-a-process-flow/adding-a-new-node",
-                      "4.7.x/docs/flowx-designer/managing-a-process-flow/adding-an-action-to-a-node",
-                      "4.7.x/docs/flowx-designer/managing-a-process-flow/handling-decisions-in-the-flow",
-                      "4.7.x/docs/flowx-designer/managing-a-process-flow/adding-more-flow-branches",
-                      "4.7.x/docs/flowx-designer/managing-a-process-flow/creating-a-user-interface",
-                      "4.7.x/docs/flowx-designer/managing-a-process-flow/moving-a-token-backwards-in-a-process",
-                      "4.7.x/docs/flowx-designer/managing-a-process-flow/export-import-a-process-definition",
-                      "4.7.x/docs/flowx-designer/managing-a-process-flow/starting-a-process"
+                      "4.7.x/docs/flowx-designer/managing-a-project-flow/creating-a-project",
+                      "4.7.x/docs/flowx-designer/managing-a-project-flow/creating-a-new-process-definition",
+                      "4.7.x/docs/flowx-designer/managing-a-project-flow/adding-a-new-node",
+                      "4.7.x/docs/flowx-designer/managing-a-project-flow/adding-an-action-to-a-node",
+                      "4.7.x/docs/flowx-designer/managing-a-project-flow/handling-decisions-in-the-flow",
+                      "4.7.x/docs/flowx-designer/managing-a-project-flow/adding-more-flow-branches",
+                      "4.7.x/docs/flowx-designer/managing-a-project-flow/creating-a-user-interface",
+                      "4.7.x/docs/flowx-designer/managing-a-project-flow/moving-a-token-backwards-in-a-process",
+                      "4.7.x/docs/flowx-designer/managing-a-project-flow/export-import-a-process-definition",
+                      "4.7.x/docs/flowx-designer/managing-a-project-flow/starting-a-process"
                     ]
                   }
                 ]
@@ -294,7 +295,6 @@
                         "pages": [
                           "4.7.x/docs/platform-deep-dive/core-extensions/task-management/task-management-overview",
                           "4.7.x/docs/platform-deep-dive/core-extensions/task-management/using-allocation-rules",
-                          "4.7.x/docs/platform-deep-dive/core-extensions/task-management/using-hooks",
                           "4.7.x/docs/platform-deep-dive/core-extensions/task-management/using-out-of-office-records",
                           "4.7.x/docs/platform-deep-dive/core-extensions/task-management/using-stages"
                         ]

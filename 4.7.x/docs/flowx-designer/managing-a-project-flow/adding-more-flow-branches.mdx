@@ -1,0 +1,182 @@
+---
+title: Adding parallel flow branches
+description: Learn how to create concurrent process flows using parallel gateways to execute multiple activities simultaneously.
+---
+
+In many business processes, certain activities can or should be performed simultaneously rather than sequentially. FlowX.AI's parallel gateway nodes allow you to split your process flow into multiple concurrent branches, enabling parallel execution of different activities.
+
+<Frame caption="Parallel Gateway Visualization">
+![Parallel Gateway](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/process_flowx_parallel.png#center)
+</Frame>
+
+## What is a parallel gateway?
+
+<Card title="Parallel Gateway" icon="code-branch">
+A parallel gateway (also known as an AND gateway) creates multiple concurrent paths in your process flow. Unlike exclusive gateways which follow only one path, parallel gateways activate all outgoing paths simultaneously. This allows multiple activities to be performed in parallel, improving process efficiency.
+</Card>
+
+<CardGroup cols={2}>
+  <Card title="Parallel Gateway Documentation" href="../../building-blocks/node/parallel-gateway" icon="file-lines">
+    Complete reference for parallel gateway configuration
+  </Card>
+  <Card title="Process Flow Tokens" href="../../building-blocks/token" icon="diagram-project">
+    Learn more about how tokens drive process flow execution
+  </Card>
+</CardGroup>
+
+## How parallel gateways work
+
+<Frame caption="Process Flow with Parallel Branches">
+![Parallel Branches Example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/parallel_zn.png)
+</Frame>
+
+Parallel gateways function as fork and join points in your process:
+
+1. **Fork (Diverging Gateway)**: Splits the process flow into multiple concurrent paths
+2. **Parallel Execution**: All branches execute simultaneously and independently
+3. **Join (Converging Gateway)**: Merges the parallel branches back into a single flow
+4. **Synchronization**: The process waits until all parallel branches complete before proceeding
+
+<Info>
+A process must have both a diverging parallel gateway (fork) and a converging parallel gateway (join) that brings all branches back together. All branches must be completed before the process can continue past the converging gateway.
+</Info>
+
+## Token behavior in parallel gateways
+
+Tokens are fundamental to understanding how parallel flows work in FlowX.AI:
+
+<Frame caption="Token Flow in Parallel Gateways">
+![Token Flow](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/token_parallel.png)
+</Frame>
+
+<Steps>
+  <Step title="Token Creation">
+    When a process reaches a parallel gateway, the gateway creates child tokens for each outgoing branch. Each branch receives its own token.
+  </Step>
+  
+  <Step title="Independent Execution">
+    Each child token advances through its respective branch independently, proceeding from one node to the next based on the sequence and actions defined in the process.
+  </Step>
+  
+  <Step title="Token Synchronization">
+    A converging parallel gateway waits for all child tokens to arrive. The parent token remains at this gateway until all child tokens have completed their respective paths.
+  </Step>
+  
+  <Step title="Process Continuation">
+    Once all child tokens have arrived at the converging gateway, they are merged back into the parent token, and the process continues with a single token.
+  </Step>
+</Steps>
+
+<Warning>
+If any parallel branch gets stuck or never completes, the entire process will wait indefinitely at the converging gateway. Always ensure all branches can complete successfully.
+</Warning>
+
+## Creating a flow with parallel branches
+
+<Steps>
+  <Step title="Create or Open a Process Definition">
+    1. Open **FlowX.AI Designer** and navigate to your project
+    2. Go to the **Processes** section and select your process or create a new one
+    3. Click the **Edit Process** button to open the Process Designer
+  </Step>
+  
+  <Step title="Add Basic Flow Elements">
+    1. Add a **Start Node** to your process canvas (if creating a new process)
+    2. Add initial nodes for any process steps that should occur before the parallel branches
+    
+    <Note>
+      Plan your parallel branches carefully. Activities in parallel branches should be independent of each other and not rely on results from other branches.
+    </Note>
+  </Step>
+  
+  <Step title="Add the Diverging Parallel Gateway">
+    1. From the node palette, drag a **Parallel Gateway** node onto your canvas
+    2. Connect your previous node to this gateway
+    3. Give your gateway a descriptive name (e.g., "Start Parallel Processing")
+  </Step>
+  
+  <Step title="Create Parallel Branches">
+    1. Add the nodes for each parallel branch that will execute simultaneously
+    2. Connect the diverging parallel gateway to the first node of each branch
+    3. Build out each branch with the necessary nodes and actions
+    
+    <Tip>
+      You can have any number of parallel branches, but keep in mind that every branch must eventually connect to the converging gateway.
+    </Tip>
+  </Step>
+  
+  <Step title="Add the Converging Parallel Gateway">
+    1. Add another **Parallel Gateway** node to the canvas
+    2. Connect the last node of each parallel branch to this converging gateway
+    3. Give this gateway a descriptive name (e.g., "Merge Parallel Branches")
+    
+    <Warning>
+      Ensure that all parallel branches connect to the converging gateway. Missing connections will result in stuck processes.
+    </Warning>
+  </Step>
+  
+  <Step title="Complete the Process Flow">
+    1. Add any additional nodes that should execute after the parallel branches
+    2. Connect the converging gateway to the next node in your process
+    3. Ensure your process eventually reaches an **End Node**
+    4. Save your process definition
+  </Step>
+</Steps>
+
+## Use cases for parallel gateways
+
+Parallel gateways are ideal for the following scenarios:
+
+<CardGroup cols={2}>
+  <Card title="Document Collection" icon="file-lines">
+    Requesting multiple documents simultaneously from different systems or departments
+  </Card>
+  <Card title="Multi-Party Approval" icon="users">
+    Collecting approvals from multiple stakeholders at the same time
+  </Card>
+  <Card title="Data Processing" icon="database">
+    Performing multiple data operations or calculations in parallel
+  </Card>
+  <Card title="Background Checks" icon="shield-check">
+    Running different validation or verification processes concurrently
+  </Card>
+</CardGroup>
+
+## Best practices
+
+<Tip>
+**When implementing parallel branches:**
+
+- **Use meaningful names** for parallel gateways to document their purpose
+- **Keep branches independent** of each other to avoid deadlocks or race conditions
+- **Balance work** across branches to optimize overall process execution time
+- **Consider timeouts** for branches that might get stuck or take too long
+- **Test all branches** thoroughly to ensure they can complete successfully
+- **Use data scoping** carefully to prevent data conflicts between branches
+- **Consider error handling** in each branch to prevent process deadlocks
+</Tip>
+
+## Common patterns
+
+<CardGroup cols={2}>
+  <Card title="Simple Parallel Split-Join" icon="code-branch">
+    Basic pattern with a diverging and converging gateway
+  </Card>
+  <Card title="Multi-Layer Parallel Processing" icon="network-wired">
+    Nested parallel structures with gateways inside parallel branches
+  </Card>
+  <Card title="Parallel Tasks with Timeouts" icon="stopwatch">
+    Parallel branches with timer events to handle potential delays
+  </Card>
+  <Card title="Collect and Merge" icon="diagram-merge">
+    Parallel branches that gather different pieces of information for later consolidation
+  </Card>
+</CardGroup>
+
+## Next steps
+
+After implementing parallel branches in your process, you can:
+
+  <Card title="Creating a user interface" icon="palette" href="../../flowx-designer/managing-a-project-flow/creating-a-user-interface">
+    Design the user interface elements that will interact with your actions
+  </Card>
