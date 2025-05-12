@@ -30,7 +30,7 @@ Learn more about managing HTML templates:
 <Card title="Managing HTML templates" href="./managing-html-templates" icon ="files"/>
 
 <Check>
-Before using templates, ensure they are in a **Published** state. Document templates marked as **Draft/In Progress** will not undergo the generation process.
+Before using templates, ensure they are in a **Published** state. Document templates marked as **Draft/In Progress** are not eligible as templates for document generation.
 </Check>
 
 <Frame>
@@ -38,7 +38,7 @@ Before using templates, ensure they are in a **Published** state. Document templ
 </Frame>
 
 <Tip> 
-We've created a comprehensive FlowX.AI Academy course guiding you through the process of **Creating a Document Template in Designer**. Access the course [**here**](https://academy.flowx.ai/catalog/info/id:172) for detailed instructions and insights.
+We've created a comprehensive FlowX.AI Academy course guiding you through the process of **Creating a Document Template in Designer**. Access the course [**here**](https://academy.flowx.ai/module/create-document-templates-flowxai-designer) for detailed instructions and insights.
 </Tip>
 
 ## Sending a document generation request
@@ -107,16 +107,16 @@ To identify your defined topics in your current environment, follow the next ste
         "secondInput": "${application.client.lastName}",
         "thirdInput": "${application.client.accountType}"
       },
-     "includeBarcode": false //if you want to include a barcode, you can set it to true
+     "includeBarcode": false //if you want to include a barcode, set it to true
     }
   ]
 }
 ```
 
-- **documentList**: A list of documents to be generated with properties (name and value to be replaced in the document templates)
+- **documentList**: A list of documents to be generated based on a document template
 - **customId**: Client ID
 - **templateName**: The name of the template that you want to use (defined in the **Document templates** section)
-- **language**: Should match the language set on the template (a template can be created for multiple languages as long as they are defined in the system, see [**Languages**](/4.1.x/docs/platform-deep-dive/core-extensions/content-management/languages) section for more information)
+- **language**: Should match the language set on the template (a template can be created for multiple languages as long as they are defined in the system, see the [**Languages**](/4.1.x/docs/platform-deep-dive/core-extensions/content-management/languages) section for more information)
 
 <Info>
 When incorporating templates into the execution of a process, the extracted default values will be in accordance with the specifications of the default language configured in the system. For instance, if the default language is set to English, the template's default values will reflect those assigned to the English version. Make sure to match the language of your template with the default language of the system.
@@ -126,7 +126,7 @@ To verify the default language of the platform, navigate to **FlowX Designer →
 
 </Info>
 
-- **includeBarcode**: True/False
+- **includeBarcode**: true/false
 - **data**: A map containing the values that should be replaced in the document template (data that comes from user input). The keys used in the map should match the ones defined in the HTML template and your UI elements.
 
 Ultimately, the configuration should resemble the presented image:
@@ -137,7 +137,7 @@ Ultimately, the configuration should resemble the presented image:
 
 5. Configure the third node (Receive Message Task): 
 
-    *  Add the topic where the response will be sent; in our example `ai.flowx.updates.document.html.generate.v1` and its key: `generatedDocuments`
+    *  Add the topic where the engine will wait for the response from the plugin; in our example `ai.flowx.updates.document.html.generate.v1` and its key: `generatedDocuments`
   
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/generate_template_receive.png)    
@@ -145,13 +145,14 @@ Ultimately, the configuration should resemble the presented image:
 
 ## Receiving the document generation reply
 
-The response, containing information about the generated documents, is sent to the output Kafka topic defined in the Kafka Receive Event Node. The response includes details such as file IDs, document types, and storage paths.
+The response containing information about the generated documents, is sent to the output Kafka topic defined in the Kafka Receive Event Node. The response includes details such as file IDs, document types, and storage paths.
 
 <Frame>
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/html_generated_response.png)
 </Frame>
 
 Here is an example of a response after generation (received on `generatedDocuments` key):
+TODO Dragos: duplicate of the section above?
 
 ```json
 {
