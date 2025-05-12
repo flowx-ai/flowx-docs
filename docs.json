@@ -295,7 +295,6 @@
                         "pages": [
                           "4.7.x/docs/platform-deep-dive/core-extensions/task-management/task-management-overview",
                           "4.7.x/docs/platform-deep-dive/core-extensions/task-management/using-allocation-rules",
-                          "4.7.x/docs/platform-deep-dive/core-extensions/task-management/using-hooks",
                           "4.7.x/docs/platform-deep-dive/core-extensions/task-management/using-out-of-office-records",
                           "4.7.x/docs/platform-deep-dive/core-extensions/task-management/using-stages"
                         ]
