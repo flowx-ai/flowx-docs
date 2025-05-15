@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "palm",
+  "theme": "mint",
   "name": "Docs",
   "description": "Comprehensive documentation for FlowX.AI, the AI-driven process automation platform.",
   "colors": {
@@ -9,17 +9,8 @@
     "light": "#fdb913"
     },
 
-"fonts": {
-    "family": "Inter",
-    "source": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
-    "format": "woff2",
-    "heading": {
-      "family": "Poppins",
-      "source": "https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap"
-    },
-    "body": {
-      "family": "Inter"
-    }
+  "fonts": {
+    "family": "Inter"
   },
   
   "appearance": {
