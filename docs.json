@@ -1,17 +1,46 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "palm",
   "name": "Docs",
+  "description": "Comprehensive documentation for FlowX.AI, the AI-driven process automation platform.",
   "colors": {
     "primary": "#fdb913",
-    "light": "#fdb913",
-    "dark": "#fdb913"
+    "dark": "#fdb913",
+    "light": "#fdb913"
+    },
+
+"fonts": {
+    "family": "Inter",
+    "source": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
+    "format": "woff2",
+    "heading": {
+      "family": "Poppins",
+      "source": "https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap"
+    },
+    "body": {
+      "family": "Inter"
+    }
   },
-  "fonts": {
-    "family": "Inter"
+  
+  "appearance": {
+    "default": "system",
+    "strict": false
   },
+
+  "background": {
+    "decoration": "grid",
+    "color": {
+      "light": "#FFFFFF"
+    }
+  },
+  "styling": {
+    "eyebrows": "breadcrumbs",
+    "codeblocks": "system"
+  },
+
   "favicon": "/favicon2.svg",
 
+  
   "scripts": [
     "/direct-feedback.js"
   ],
@@ -427,6 +456,16 @@
                 "group": "Release Notes",
                 "pages": [
                   "release-notes/overview",
+
+                  {
+                    "group": "v4.7.4 - May 2025",  
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.4-may-2025/v4.7.4-may-2025",
+                      "release-notes/v4.7.4-may-2025/deployment-guidelines-v4.7.4",
+                      "release-notes/v4.7.4-may-2025/migrating-from-v4.1.x-to-v4.7.4"
+                    ]
+                  },
 
                   {
                     "group": "v4.7.3 - April 2025",
@@ -1168,6 +1207,17 @@
                 "pages": [
                   "release-notes/overview",
 
+
+                  {
+                    "group": "v4.7.4 - May 2025",  
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.4-may-2025/v4.7.4-may-2025",
+                      "release-notes/v4.7.4-may-2025/deployment-guidelines-v4.7.4",
+                      "release-notes/v4.7.4-may-2025/migrating-from-v4.1.x-to-v4.7.4"
+                    ]
+                  },
+
                   {
                     "group": "v4.7.3 - April 2025",  
                     "icon": "wrench",
@@ -1866,6 +1916,16 @@
                 "group": "Release Notes",
                 "pages": [
                   "release-notes/overview",
+
+                  {
+                    "group": "v4.7.4 - May 2025",  
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.4-may-2025/v4.7.4-may-2025",
+                      "release-notes/v4.7.4-may-2025/deployment-guidelines-v4.7.4",
+                      "release-notes/v4.7.4-may-2025/migrating-from-v4.1.x-to-v4.7.4"
+                    ]
+                  },
                   
                   {
                     "group": "v4.7.3 - April 2025",  
@@ -2556,6 +2616,16 @@
                 "pages": [
                   "release-notes/overview",
 
+                  {
+                    "group": "v4.7.4 - May 2025",  
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.4-may-2025/v4.7.4-may-2025",
+                      "release-notes/v4.7.4-may-2025/deployment-guidelines-v4.7.4",
+                      "release-notes/v4.7.4-may-2025/migrating-from-v4.1.x-to-v4.7.4"
+                    ]
+                  },
+
 
                   {
                     "group": "v4.7.3 - April 2025",
@@ -3231,6 +3301,16 @@
                   "release-notes/overview",
 
                   {
+                    "group": "v4.7.4 - May 2025",  
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.4-may-2025/v4.7.4-may-2025",
+                      "release-notes/v4.7.4-may-2025/deployment-guidelines-v4.7.4",
+                      "release-notes/v4.7.4-may-2025/migrating-from-v4.1.x-to-v4.7.4"
+                    ]
+                  },
+
+                  {
                     "group": "v4.7.3 - April 2025",
                     "icon": "wrench",
                     "pages": [
@@ -3565,10 +3645,6 @@
   },
   "navbar": {
     "links": [
-      {
-        "label": "Support",
-        "href": "https://flowxai.zendesk.com/"
-      }
     ],
     "primary": {
       "type": "button",
@@ -3577,14 +3653,44 @@
     }
   },
   "search": {
-    "prompt": "Search or ask..."
+    "prompt": "Search...or ask a question",
+    "shortcut": {
+      "modifier": "ctrl",
+      "key": "k"
+    }
   },
   "footer": {
     "socials": {
-      "website": "https://www.flowx.ai/",
-      "linkedin": "https://www.linkedin.com/company/flowxai/",
-      "twitter": "https://twitter.com/FlowX_ai"
-    }
+      "linkedin": "https://www.linkedin.com/company/flowxai",
+      "twitter": "https://twitter.com/flowxai"
+    },
+    "links": [
+      {
+        "header": "Documentation",
+        "items": [
+          {"label": "Introduction", "href": "https://docs.flowx.ai/4.7.x/docs/introduction"},
+          {"label": "Platform overview", "href": "https://docs.flowx.ai/4.7.x/docs/platform-overview"},
+          {"label": "Designer", "href": "https://docs.flowx.ai/4.7.x/docs/flowx-designer"},
+          {"label": "Release Notes", "href": "https://docs.flowx.ai/release-notes"}
+        ]
+      },
+
+      {
+        "header": "Resources",
+        "items": [
+          {"label": "FlowX.AI Academy", "href": "https://academy.flowx.ai"},
+          {"label": "Support", "href": "https://flowxai.zendesk.com/"}
+        ]
+      },
+      {
+        "header": "Company",
+        "items": [
+          {"label": "About FlowX.AI", "href": "https://www.flowx.ai/#platform"},
+          {"label": "Contact Us", "href": "https://www.flowx.ai/#contact"},
+          {"label": "Careers", "href": "https://apply.workable.com/flowxai/"}
+        ]
+      }
+    ]
   },
   "integrations": {
     "ga4": {
@@ -3592,7 +3698,15 @@
     }
   },
 
-  
+  "seo": {
+    "indexing": "all",
+    "metatags": {
+      "og:title": "FlowX.AI Documentation | Enterprise Process Automation Platform",
+      "og:description": "Comprehensive documentation for FlowX.AI, the enterprise AI-driven process automation platform that enables businesses to rapidly create scalable digital experiences.",
+      "og:image": "https://flowx.ai/assets/images/flowxai-og-image.png"
+    }
+  },
+
   "redirects": [
     {
       "source": "/link/4.5/task-manager-overview",

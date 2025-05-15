@@ -1,0 +1,48 @@
+---
+title: FlowX.AI 4.7.4 Release Notes
+description: FlowX.AI 4.7.4 enhances system stability with Spring Boot updates and resolves critical issues across build exports, reporting, SDK functionality, and cross-platform consistency to deliver a more reliable development experience! 🚀
+---
+
+## **What's new? 🆕**
+
+✅ Updated Spring Boot to version 3.4.5      
+✅ Added retry mechanism for ES indexing to handle key‑identifier errors                      
+✅ Fixed critical build export timeout issues      
+✅ Improved reporting data representation           
+✅ Enhanced cross-platform consistency                  
+
+## Spring Boot update 
+
+### Updated to Spring Boot 3.4.5
+
+We've updated our Spring Boot dependency to version 3.4.5:
+
+- Enhanced system stability
+- Latest security patches
+- Improved performance
+
+
+### Elasticsearch indexing - configurable retry mechanism
+
+
+- `OPTIMISTIC_LOCKING_RETRIES`: Number of times the engine will retry indexing when it encounters concurrent-update errors specifically on key identifiers during their update after an action.
+
+<Card title="Elasticsearch indexing configuration" href="../../4.7.x/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/elasticsearch-indexing#configuration" icon="file"/>
+
+## **Bug fixes** 🐞  
+
+- **Build export timeouts**: Resolved intermittent timeout failures on projects with dependency libraries; exports now consistently complete or retry correctly.  
+- **Build creation on merge without conflicts**: Fixed an issue where merging one branch into another without conflicts—and switching the active policy—did not trigger a new build, forcing users to manually create a version; now, merges automatically update build resources and create the new version so merged changes appear at runtime.
+- **Project version import stashing conflict**: Resolved an error where importing a branched project version across environments would inadvertently stash other versions—restoring successful import, fixing the GET history API response, and ensuring the Project versions history modal renders correctly.
+- **CosmosDB workflows**: Fixed an issue preventing the workflow instances list from loading in the Integration Designer when using CosmosDB.  
+- **Reporting arrays**: Corrected array formatting in the `reporting_data` table (process-engine schema) so that fields like `client.Address[].StreetName` and `client.Names[]` display properly.  
+- **CMS permissions**: Restored backward compatibility for FlowX SDK v4.7+ by removing the unintended `media_library_read` requirement for processes containing images (behavior now matches v4.1).  
+- **onChange action behavior**: Standardized onChange/onBlur across web, Android, and iOS so users cannot continue typing after token advancement unless explicitly allowed.  
+- **React SDK ternary expressions**: Fixed an “Invalid Expression” error in SDK v5.86.1—ternary expressions in computed values (e.g. `return ${var1} ? "Onboarded" : (${var2} ? "Non-eligible" : "Ready for Onboarding");`) now parse correctly as they did in v5.62.1.
+- **Elasticsearch indexing**: Fixed an issue where the engine was not retrying to index process instances when it encountered concurrent-update errors on key identifiers.
+---
+
+## **Additional information**  
+
+📌 [Deployment Guidelines v4.7.4](./deployment-guidelines-v4.7.4)  
+📌 [Migration Guide (from v4.1.x)](./migrating-from-v4.1.x-to-v4.7.4)

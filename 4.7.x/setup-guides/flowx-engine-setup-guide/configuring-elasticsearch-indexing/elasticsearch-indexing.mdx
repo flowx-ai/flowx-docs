@@ -11,7 +11,7 @@ Before proceeding, it is recommended to familiarize yourself with Elasticsearch 
 </Card>
 
 
-## Configuration updates
+## Configuration
 
 To enable Kafka indexing strategy, the previous configuration parameter `flowx.use-elasticsearch` is being replaced. However, to ensure backward compatibility, it will still be preserved in the configuration. Below is an example of how to configure it:
 
@@ -30,6 +30,7 @@ Instead of the removed configuration, a new configuration area has been added:
 ```yaml
 flowx:
   indexing:
+    optimistic-locking-retries: 3 //controls how many times the engine will retry indexing when it encounters concurrent-update errors on key identifiers.  
     enabled: true  // true | false - specifies if the indexing with Elasticsearch for the whole app is enabled or disabled.
     processInstance:  // set of configurations for indexing process instances. Can be duplicated for other objects.
       indexing-type: kafka  // no-indexing | http | kafka - the chosen indexing strategy.
