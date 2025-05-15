@@ -18,10 +18,12 @@ To configure a document template, first, you need to select some information sto
 3. **Language** - choose the language for your notification template
 4. **Subject** - enter a subject
 
+<Info>
+You can edit the content for each language you have defined in the project.
+</Info>
+
 <Frame>
-
-![Notification template](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/notifications_template.png)
-
+![Notification template](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/notif_templ_ex.png)
 </Frame>
 
 #### Editing the content
@@ -36,11 +38,14 @@ Using the **Data model** tab, you can define key pair values (parameters) that w
 * NUMBER
 * BOOLEAN
 * OBJECT
-* ARRAY (which has an additional `item` field)
+* OBJECT_REF 
+* ARRAY
+* ARRAY_REF
+* ENUM
 
 <Frame>
 
-![Data model](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/notifications_data_model.png)
+![Data model](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/notif_template_dm.png)
 
 </Frame>
 
@@ -48,40 +53,43 @@ After you defined some parameters in the **Data Model** tab, you can type "**#**
 
 <Frame>
 
-![Data model](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/data_model1.gif)
+![Data model](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/notif_templ_dm.gif)
 
 </Frame>
 
-[WYSIWYG Editor](../../wysiwyg)
+<Card title="WYSIWYG Editor" href="/docs/platform-deep-dive/wysiwyg" icon="pencil" />
 
 ### Testing the template
 
 You can use the test function to ensure that your template configuration is working as it should before publishing it.
 
 <Frame>
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/testing_notif_template.gif)
-
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/test_notif_template.mp4"
+></video>
 </Frame>
 
-In the example above, some keys (marked as mandatory) were not used in the template, letting you know that you've missed some important information. After you enter all the mandatory keys, the notification test will go through:
-
-<Frame>
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/notifications_email.png)
-
-</Frame>
+<Warning>
+If some keys (marked as mandatory) are not used in the template, the test will not go through.
+</Warning>
 
 ### Other actions
 
 When opening the contextual menu (accessible by clicking on the breadcrumbs button), you have multiple actions to work with the notifications templates:
 
-* Publish template - publish a template (it will be then displayed in the **Published** tab), you can also clone published templates
-* Export template - export a template (JSON format)
-* Show history - (version history and last edited)
+* **Configure** - edit the template
+* **Export template** - export a template (JSON format)
+* **Audit log** - view the audit log
+* **Copy to another project/library** - copy a template to another project/library
+* **Duplicate** - duplicate a template
+* **Delete** - delete a template
 
 <Frame>
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/notif_export_etc.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/notif_templ_menu.png)
 
 </Frame>
