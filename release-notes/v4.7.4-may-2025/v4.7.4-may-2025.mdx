@@ -26,18 +26,19 @@ description: FlowX.AI 4.7.4 enhances system stability with Spring Boot updates a
 
 
 
-
 ## **Bug fixes** 🐞  
 
 - **Build export timeouts**: Resolved intermittent timeout failures on projects with dependency libraries; exports now consistently complete or retry correctly.  
 - **Build creation on merge without conflicts**: Fixed an issue where merging one branch into another without conflicts—and switching the active policy—did not trigger a new build, forcing users to manually create a version; now, merges automatically update build resources and create the new version so merged changes appear at runtime.
 - **Project version import stashing conflict**: Resolved an error where importing a branched project version across environments would inadvertently stash other versions—restoring successful import, fixing the GET history API response, and ensuring the Project versions history modal renders correctly.
 - **CosmosDB workflows**: Fixed an issue preventing the workflow instances list from loading in the Integration Designer when using CosmosDB.  
-- **Reporting arrays**: Corrected array formatting in the `reporting_data` table (process-engine schema) so that fields like `client.Address[].StreetName` and `client.Names[]` display properly.  
+- **Reporting arrays**: Corrected array formatting in the `reporting_data` table (process-engine schema).
 - **CMS permissions**: Restored backward compatibility for FlowX SDK v4.7+ by removing the unintended `media_library_read` requirement for processes containing images (behavior now matches v4.1).  
 - **onChange action behavior**: Standardized onChange/onBlur across web, Android, and iOS so users cannot continue typing after token advancement unless explicitly allowed.  
 - **React SDK ternary expressions**: Fixed an “Invalid Expression” error in SDK v5.86.1—ternary expressions in computed values (e.g. `return ${var1} ? "Onboarded" : (${var2} ? "Non-eligible" : "Ready for Onboarding");`) now parse correctly as they did in v5.62.1.
 - **Elasticsearch indexing**: Fixed an issue where the engine was not retrying to index process instances when it encountered concurrent-update errors on key identifiers.
+- **iOS SSE token refresh**: Fixed an issue in iOS SDK where Server-Sent Events connections would occasionally use expired JWT tokens instead of refreshed ones, causing 401 errors and process hangs in production environments.
+
 ---
 
 ## **Additional information**  
