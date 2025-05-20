@@ -3690,12 +3690,7 @@
   },
 
   "seo": {
-    "indexing": "all",
-    "metatags": {
-      "og:title": "FlowX.AI Documentation | Enterprise Process Automation Platform",
-      "og:description": "Comprehensive documentation for FlowX.AI, the enterprise AI-driven process automation platform that enables businesses to rapidly create scalable digital experiences.",
-      "og:image": "https://flowx.ai/assets/images/flowxai-og-image.png"
-    }
+    "indexing": "all"
   },
 
   "redirects": [
