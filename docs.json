@@ -38,10 +38,777 @@
   "navigation": {
     "versions": [
       
+      {
+        "version": "v5.x",
+        "default": true,
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "5.x/docs/introduction",
+                  "5.x/docs/getting-started/building-your-first-proc",
+                  "5.x/docs/getting-started/ai-in-flowx"                ]
+              },
+              {
+                "group": "Platform overview",
+                "pages": [
+                  {
+                    "group": "Frameworks and standards",
+                    "icon": "gears",
+                    "pages": [
+                      {
+                        "group": "Business process industry and standards",
+                        "pages": [
+                          "5.x/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn",
+                          "5.x/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn",
+                          "5.x/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel"
+                        ]
+                      },
+                      {
+                        "group": "Event-driven architecture frameworks",
+                        "pages": [
+                          "5.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts",
+                          "5.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch",
+                          "5.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kubernetes",
+                          "5.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-nginx",
+                          "5.x/docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis"
+                        ]
+                      }
+                    ]
+                  },
+                  "5.x/docs/platform-overview/flowx-architecture"
+                ]
+              },
+              {
+                "group": "FlowX.AI Designer",
+                "pages": [
+                  "5.x/docs/flowx-designer/overview",
+                  {
+                    "group": "Design Assets",
+                    "icon": "pen",
+                    "pages": [
+                      "5.x/docs/flowx-designer/design-assets/themes",
+                      "5.x/docs/flowx-designer/design-assets/font-files",
+                      "5.x/docs/flowx-designer/design-assets/global-media-library"
+                    ]
+                  },
+                  {
+                    "group": "Managing a project flow",
+                    "icon": "arrow-progress",
+                    "pages": [
+                      "5.x/docs/flowx-designer/managing-a-project-flow/creating-a-project",
+                      "5.x/docs/flowx-designer/managing-a-project-flow/creating-a-new-process-definition",
+                      "5.x/docs/flowx-designer/managing-a-project-flow/adding-a-new-node",
+                      "5.x/docs/flowx-designer/managing-a-project-flow/adding-an-action-to-a-node",
+                      "5.x/docs/flowx-designer/managing-a-project-flow/handling-decisions-in-the-flow",
+                      "5.x/docs/flowx-designer/managing-a-project-flow/adding-more-flow-branches",
+                      "4.7.x/docs/flowx-designer/managing-a-project-flow/creating-a-user-interface",
+                      "4.7.x/docs/flowx-designer/managing-a-project-flow/moving-a-token-backwards-in-a-process",
+                      "5.x/docs/flowx-designer/managing-a-project-flow/export-import-a-process-definition",
+                      "5.x/docs/flowx-designer/managing-a-project-flow/starting-a-process"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Building projects",
+                "pages": [
+                  "5.x/docs/projects/resources",
+                  {
+                    "group": "Configuration",
+                    "icon": "box",
+                    "pages": [
+                      "5.x/docs/projects/managing-applications/application",
+                      "5.x/docs/projects/managing-applications/libraries",
+                      "5.x/docs/projects/managing-applications/versioning"
+                    ]
+                  },
+                  {
+                    "group": "Runtime",
+                    "icon": "play",
+                    "pages": [
+                      "5.x/docs/projects/runtime/builds",
+                      "5.x/docs/projects/runtime/active-policy",
+                      "5.x/docs/projects/runtime/configuration-parameters-overrides",
+                      {
+                        "group": "Active process",
+                        "pages": [
+                          "5.x/docs/projects/runtime/active-process/process-instance",
+                          "5.x/docs/projects/runtime/active-process/failed-process-start"
+                        ]
+                      },
+                      "5.x/docs/projects/runtime/scheduled-processes"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Building blocks",
+                "pages": [
+                  {
+                    "group": "Processes",
+                    "icon": "network-wired",
+                    "pages": [
+                      "5.x/docs/building-blocks/process/process",
+                      "5.x/docs/building-blocks/process/process-definition",
+                      "5.x/docs/building-blocks/process/data-model",
+                      "5.x/docs/building-blocks/process/project-data-model",
+                      "5.x/docs/building-blocks/process/subprocess",
+                      "5.x/docs/building-blocks/process/navigation-areas"
+                    ]
+                  },
+                  {
+                    "group": "Nodes",
+                    "icon": "circle-nodes",
+                    "pages": [
+                      "5.x/docs/building-blocks/node/node",
+                      "5.x/docs/building-blocks/node/start-end-node",
+                      "5.x/docs/building-blocks/node/message-send-received-task-node",
+                      "5.x/docs/building-blocks/node/task-node",
+                      "5.x/docs/building-blocks/node/user-task-node",
+                      "5.x/docs/building-blocks/node/exclusive-gateway-node",
+                      "5.x/docs/building-blocks/node/parallel-gateway",
+                      {
+                        "group": "Call subprocess tasks",
+                        "pages": [
+                          "5.x/docs/building-blocks/node/call-subprocess-tasks/call-activity-node",
+                          "5.x/docs/building-blocks/node/call-subprocess-tasks/start-embedded-subprocess"
+                        ]
+                      },
+                      {
+                        "group": "Message events",
+                        "pages": [
+                          "5.x/docs/building-blocks/node/message-events/message-events",
+                          "5.x/docs/building-blocks/node/message-events/message-catch-start-event",
+                          {
+                            "group": "Message intermediate events",
+                            "pages": [
+                              "5.x/docs/building-blocks/node/message-events/message-intermediate/message-intermediate",
+                              "5.x/docs/building-blocks/node/message-events/message-intermediate/message-throw-intermediate-event",
+                              "5.x/docs/building-blocks/node/message-events/message-intermediate/message-catch-intermediate-event",
+                              "5.x/docs/building-blocks/node/message-events/message-intermediate/example-intermediate-message-events"
+                            ]
+                          },
+                          "5.x/docs/building-blocks/node/message-events/message-catch-boundary-event"
+                        ]
+                      },
+                      {
+                        "group": "Timer events",
+                        "pages": [
+                          "5.x/docs/building-blocks/node/timer-events/timer-events",
+                          "5.x/docs/building-blocks/node/timer-events/timer-start-event",
+                          "5.x/docs/building-blocks/node/timer-events/timer-intermediate-event",
+                          "5.x/docs/building-blocks/node/timer-events/timer-boundary-event",
+                          "5.x/docs/building-blocks/node/timer-events/timer-expressions"
+                        ]
+                      },
+                      "5.x/docs/building-blocks/node/error-events"
+                    ]
+                  },
+                  {
+                    "group": "Actions",
+                    "icon": "bolt",
+                    "pages": [
+                      "5.x/docs/building-blocks/actions/actions",
+                      {
+                        "group": "Business rule actions",
+                        "pages": [
+                          "5.x/docs/building-blocks/actions/business-rule-action/business-rule-action",
+                          "5.x/docs/building-blocks/actions/business-rule-action/dmn-business-rule-action",
+                          "5.x/docs/building-blocks/actions/business-rule-action/extracting-additional-data"
+                        ]
+                      },
+                      "5.x/docs/building-blocks/actions/send-data-to-user-interface",
+                      "5.x/docs/building-blocks/actions/upload-file-action",
+                      "5.x/docs/building-blocks/actions/start-subprocess-action",
+                      "5.x/docs/building-blocks/actions/append-params-to-parent-process",
+                      "5.x/docs/building-blocks/actions/kafka-send-action",
+                      "5.x/docs/building-blocks/actions/start-integration-workflow",
+                      "5.x/docs/building-blocks/actions/start-new-project-instance"
+                    ]
+                  },
+                  {
+                    "group": "UI Designer",
+                    "icon": "paintbrush",
+                    "pages": [
+                      "5.x/docs/building-blocks/ui-designer/ui-designer",
+                      {
+                        "group": "Root components",
+                        "pages": [
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/root-components/root-components",
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/root-components/container",
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/root-components/card",
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/root-components/custom"
+                        ]
+                      },
+                      {
+                        "group": "Collections UI elements",
+                        "pages": [
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/collection/collection",
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/collection/collection-prototype"
+                        ]
+                      },
+                      {
+                        "group": "Form elements",
+                        "pages": [
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/input-form-field",
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/text-area",
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/select-form-field",
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/checkbox-form-field",
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/radio-form-field",
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/switch-form-field",
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/datepicker-form-field",
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/slider",
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/segmented-button"
+                        ]
+                      },
+                      "5.x/docs/building-blocks/ui-designer/ui-component-types/buttons",
+                      "5.x/docs/building-blocks/ui-designer/ui-component-types/file-preview",
+                      "5.x/docs/building-blocks/ui-designer/ui-component-types/table",
+                      "5.x/docs/building-blocks/ui-designer/ui-component-types/image",
+                      "5.x/docs/building-blocks/ui-designer/ui-component-types/indicators",
+                      "5.x/docs/building-blocks/ui-designer/ui-component-types/typography",
+                      "5.x/docs/building-blocks/ui-designer/ui-actions",
+                      "5.x/docs/building-blocks/ui-designer/validators",
+                      "5.x/docs/building-blocks/ui-designer/dynamic-and-computed-values",
+                      "5.x/docs/building-blocks/ui-designer/localization-and-i18n",
+                      "5.x/docs/building-blocks/ui-designer/layout-configuration",
+                      "5.x/docs/building-blocks/ui-designer/conditional-styling"
+
+                    ]
+                  },
+                  "5.x/docs/building-blocks/token",
+                  "5.x/docs/building-blocks/supported-scripts"
+                ]
+              },
+              {
+                "group": "Platform deep dive",
+                "pages": [
+                  {
+                    "group": "Core components",
+                    "icon": "puzzle",
+                    "pages": [
+                      "5.x/docs/platform-deep-dive/core-components/flowx-engine",
+                      "5.x/docs/platform-deep-dive/core-components/advancing-controller",
+                      "5.x/docs/platform-deep-dive/core-components/events-gateway"
+                    ]
+                  },
+
+                  {
+                    "group": "Core extensions",
+                    "icon": "puzzle-piece",
+                    "pages": [
+                      {
+                        "group": "Content management",
+                        "pages": [
+                          "5.x/docs/platform-deep-dive/core-extensions/content-management/content-management",
+                          "5.x/docs/platform-deep-dive/core-extensions/content-management/enumerations",
+                          "5.x/docs/platform-deep-dive/core-extensions/content-management/substitution-tags",
+                          "5.x/docs/platform-deep-dive/core-extensions/content-management/media-library"
+                        ]
+                      },
+                      {
+                        "group": "Task management",
+                        "pages": [
+                          "5.x/docs/platform-deep-dive/core-extensions/task-management/task-management-overview",
+                          "5.x/docs/platform-deep-dive/core-extensions/task-management/using-allocation-rules",
+                          "5.x/docs/platform-deep-dive/core-extensions/task-management/using-out-of-office-records",
+                          "5.x/docs/platform-deep-dive/core-extensions/task-management/using-stages"
+                        ]
+                      },
+                      "5.x/docs/platform-deep-dive/core-extensions/configuration-parameters",
+                      "5.x/docs/platform-deep-dive/core-extensions/audit",
+                      "5.x/docs/platform-deep-dive/core-extensions/scheduler",
+                      "5.x/docs/platform-deep-dive/core-extensions/search-data-service"
+                    ]
+                  },
+
+                  {
+                    "group": "AI Core",
+                    "icon": "microchip",
+                    "pages": [
+                      "5.x/docs/platform-deep-dive/ai-core/ai-core-overview",
+                      "5.x/docs/platform-deep-dive/ai-core/ai-developer",
+                      "5.x/docs/platform-deep-dive/ai-core/ai-designer",
+                      "5.x/docs/platform-deep-dive/ai-core/ai-assistant",
+                      "5.x/docs/platform-deep-dive/ai-core/ai-analyst"
+                    ] 
+                  },
+
+
+                  {
+                    "group": "Plugins",
+                    "icon": "puzzle-piece-simple",
+                    "pages": [
+                      "5.x/docs/platform-deep-dive/plugins/custom-plugins",
+                      {
+                        "group": "Documents plugin",
+                        "pages": [
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin-overview",
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/generating-from-html-templates",
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/managing-html-templates",
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/uploading-a-new-document",
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/converting-documents-to-different-formats",
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/splitting-a-document",
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/deleting-a-file",
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/getting-urls-to-documents",
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/documents-plugin/listing-stored-files"
+                        ]
+                      },
+                      {
+                        "group": "Notifications plugin",
+                        "pages": [
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/notifications-plugin-overview",
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/managing-notification-templates",
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-a-notification",
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/sending-an-email-with-attachments",
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/forwarding-notifications-to-an-external-system",
+                          {
+                            "group": "OTP flow",
+                            "pages": [
+                              "5.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/otp-flow",
+                              "5.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/generate-otp",
+                              "5.x/docs/platform-deep-dive/plugins/custom-plugins/notifications-plugin/otp-flow/validate-otp"
+                            ]
+                          }
+                        ]
+                      },
+                      "5.x/docs/platform-deep-dive/plugins/languages",
+                      "5.x/docs/platform-deep-dive/plugins/custom-plugins/ocr-plugin",
+                      {
+                        "group": "Reporting plugin",
+                        "pages": [
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/reporting/reporting-overview",
+                          "5.x/docs/platform-deep-dive/plugins/custom-plugins/reporting/access-and-authorization"
+                        ]
+                      },
+                      "5.x/docs/platform-deep-dive/plugins/wysiwyg"
+                    ]
+                  },
+
+
+                  {
+                    "group": "Integrations",
+                    "icon": "link",
+                    "pages": [
+                      "5.x/docs/platform-deep-dive/integrations/integrations-overview",
+                      "5.x/docs/platform-deep-dive/integrations/integration-designer",
+                      "5.x/docs/platform-deep-dive/integrations/building-a-connector",
+                      "5.x/docs/platform-deep-dive/integrations/creating-a-kafka-consumer",
+                      "5.x/docs/platform-deep-dive/integrations/creating-a-kafka-producer",
+                      "5.x/docs/platform-deep-dive/integrations/mock-integrations",
+                      "5.x/docs/platform-deep-dive/integrations/open-telemetry"
+                    ]
+                  },
+                  "5.x/docs/platform-deep-dive/third-party-components",
+                  {
+                    "group": "User roles management",
+                    "icon": "user",
+                    "pages": [
+                      "5.x/docs/platform-deep-dive/user-roles-management/swimlanes",
+                      "5.x/docs/platform-deep-dive/user-roles-management/business-filters"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "API reference",
+                "pages": [
+                  {
+                    "group": "Start processes",
+                    "pages": [
+                      "5.x/docs/api/start-process/get-build-info",
+                      "5.x/docs/api/start-process/rest2",
+                      "5.x/docs/api/start-process/rest3"
+                    ]
+                  },
+                  "5.x/docs/api/rest4",
+                  "5.x/docs/api/add-misconfigurations",
+                  "5.x/docs/api/list-buckets",
+                  "5.x/docs/api/list-objects-in-buckets",
+                  "5.x/docs/api/download-file",
+                  "5.x/docs/api/add-kafka-mock",
+                  "5.x/docs/api/view-kafka-exchanges"
+                ]
+              }
+            ]
+          },
+
+
+
+          
+          {
+            "tab": "Release notes",
+            "groups": [
+              {
+                "group": "Release Notes",
+                "pages": [
+                  "release-notes/overview",
+
+                  {
+                    "group": "v4.7.4 - May 2025",  
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.4-may-2025/v4.7.4-may-2025",
+                      "release-notes/v4.7.4-may-2025/deployment-guidelines-v4.7.4",
+                      "release-notes/v4.7.4-may-2025/migrating-from-v4.1.x-to-v4.7.4"
+                    ]
+                  },
+
+                  {
+                    "group": "v4.7.3 - April 2025",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.3-april-2025/v4.7.3-april-2025",
+                      "release-notes/v4.7.3-april-2025/deployment-guidelines-v4.7.3",
+                      "release-notes/v4.7.3-april-2025/migrating-from-v4.1.x-to-v4.7.3"
+                    ]
+                  },
+
+                  {
+                    "group": "v4.7.2 - March 2025",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.2-march-2025/v4.7.2-march-2025",
+                      "release-notes/v4.7.2-march-2025/deployment-guidelines-v4.7.2",
+                      "release-notes/v4.7.2-march-2025/migrating-from-v4.1.x-to-v4.7.2"
+                    ]
+                  },
+
+                  {
+                    "group": "v4.7.1 - March 2025",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.1-march-2025/v4.7.1-march-2025",
+                      "release-notes/v4.7.1-march-2025/deployment-guidelines-v4.7.1",
+                      "release-notes/v4.7.1-march-2025/migrating-from-v4.1.x-to-v4.7.1"
+
+  
+
+                    ]
+                  },
+
+                  {
+                    "group": "v4.7.0 - February 2025",
+                    "icon": "sparkles",
+                    "pages": [
+                      "release-notes/v4.7.0-february-2025/v4.7.0-february-2025",
+                      "release-notes/v4.7.0-february-2025/deployment-guidelines-v4.7.0",
+                      "release-notes/v4.7.0-february-2025/migrating-from-v4.1.x-to-v4.7.0"
+
+  
+
+                    ]
+                  },
+
+                  {
+                    "group": "v4.6.1 - February 2025",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.6.1-february-2025/v4.6.1-february-2025",
+                      "release-notes/v4.6.1-february-2025/deployment-guidelines-v4.6.1",
+                      "release-notes/v4.6.1-february-2025/migrating-from-v4.1.x-to-v4.6.1"
+
+  
+
+                    ]
+                  },
+                  {
+                    "group": "v4.6.0 - January 2025",
+                    "icon": "scroll",
+                    "pages": [
+                      "release-notes/v4.6.0-january-2025/v4.6.0-january-2025",
+                      "release-notes/v4.6.0-january-2025/deployment-guidelines-v4.6.0",
+                      {
+                        "group": "Migrating from v4.1.x",
+                        "pages": [
+                          "release-notes/v4.6.0-january-2025/migrating-from-v4.1.x-to-v4.6.0/renderers",
+                          "release-notes/v4.6.0-january-2025/migrating-from-v4.1.x-to-v4.6.0/process-configuration",
+                          "release-notes/v4.6.0-january-2025/migrating-from-v4.1.x-to-v4.6.0/migrating-from-v4.1.x"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "v4.1.5 - September 2024",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.1.5-september-2024/v4.1.5-september-2024",
+                      "release-notes/v4.1.5-september-2024/deployment-guidelines-v4.1.5",
+                      "release-notes/v4.1.5-september-2024/migrating-from-previous-to-v4.1.5"
+                    ]
+                  },
+                  {
+                    "group": "v4.1.4 - September 2024",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.1.4-september-2024/v4.1.4-september-2024",
+                      "release-notes/v4.1.4-september-2024/deployment-guidelines-v4.1.4",
+                      "release-notes/v4.1.4-september-2024/migrating-from-previous-to-v4.1.4"
+                    ]
+                  },
+                  {
+                    "group": "v4.1.3 - August 2024",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.1.3-august-2024/v4.1.3-august-2024",
+                      "release-notes/v4.1.3-august-2024/deployment-guidelines-v4.1.3",
+                      "release-notes/v4.1.3-august-2024/migrating-from-previous-to-v4.1.3"
+                    ]
+                  },
+                  {
+                    "group": "v4.1.2 - June 2024",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.1.2-june-2024/v4.1.2-june-2024",
+                      "release-notes/v4.1.2-june-2024/deployment-guidelines-v4.1.2",
+                      "release-notes/v4.1.2-june-2024/migrating-from-previous-to-v4.1.2"
+                    ]
+                  },
+                  {
+                    "group": "v4.1.1 - June 2024",
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.1.1-june-2024/v4.1.1-june-2024",
+                      "release-notes/v4.1.1-june-2024/deployment-guidelines-v4.1.1",
+                      "release-notes/v4.1.1-june-2024/migrating-from-previous-to-v4.1.1"
+                    ]
+                  },
+                  {
+                    "group": "v4.1.0 - May 2024",
+                    "icon": "scroll",
+                    "pages": [
+                      "release-notes/v4.1.0-may-2024/v4.1.0-may-2024",
+                      "release-notes/v4.1.0-may-2024/deployment-guidelines-v4.1.0",
+                      "release-notes/v4.1.0-may-2024/ui-components-changelog",
+                      "release-notes/v4.1.0-may-2024/migrating-from-v3.4.x-to-v4.1"
+                    ]
+                  },
+                  {
+                    "group": "v4.0.0 - April 2024",
+                    "icon": "scroll",
+                    "pages": [
+                      "release-notes/v4.0.0-april-2024/v4.0.0-april-2024",
+                      "release-notes/v4.0.0-april-2024/deployment-guidelines-v4.0.0",
+                      "release-notes/v4.0.0-april-2024/ui-components-changelog",
+                      {
+                        "group": "Migrating from v3.4.x",
+                        "pages": [
+                          "release-notes/v4.0.0-april-2024/migrating-from-v3.4.x/migrating-from-v3.4.x",
+                          "release-notes/v4.0.0-april-2024/migrating-from-v3.4.x/renderers",
+                          "release-notes/v4.0.0-april-2024/migrating-from-v3.4.x/process-configuration"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "v3.x.x",
+                    "pages": [
+                      {
+                        "group": "v3.4.8 - June 2024",
+                        "pages": [
+                          "release-notes/v3.x.x/v3.4.8-june-2024/v3.4.8-june-2024",
+                          "release-notes/v3.x.x/v3.4.8-june-2024/deployment-guidelines-v3.4.8"
+                        ]
+                      },
+                      {
+                        "group": "v3.4.7 - January 2024",
+                        "pages": [
+                          "release-notes/v3.x.x/v3.4.7-january-2024/v3.4.7-january-2024",
+                          "release-notes/v3.x.x/v3.4.7-january-2024/deployment-guidelines-v3.4.7"
+                        ]
+                      },
+                      {
+                        "group": "v3.4.6 - December 2023",
+                        "pages": [
+                          "release-notes/v3.x.x/v3.4.6-december-2023/v3.4.6-december-2023",
+                          "release-notes/v3.x.x/v3.4.6-december-2023/deployment-guidelines-v3.4.6"
+                        ]
+                      },
+                      {
+                        "group": "v3.4.5 - November 2023",
+                        "pages": [
+                          "release-notes/v3.x.x/v3.4.5-november-2023/v3.4.5-november-2023",
+                          "release-notes/v3.x.x/v3.4.5-november-2023/deployment-guidelines-v3.4.5"
+                        ]
+                      },
+                      {
+                        "group": "v3.4.4 - November 2023",
+                        "pages": [
+                          "release-notes/v3.x.x/v3.4.4-november-2023/v3.4.4-november-2023",
+                          "release-notes/v3.x.x/v3.4.4-november-2023/deployment-guidelines-v3.4.4"
+                        ]
+                      },
+                      {
+                        "group": "v3.4.3 - October 2023",
+                        "pages": [
+                          "release-notes/v3.x.x/v3.4.3-october-2023/v3.4.3-october-2023",
+                          "release-notes/v3.x.x/v3.4.3-october-2023/deployment-guidelines-v3.4.3"
+                        ]
+                      },
+                      {
+                        "group": "v3.4.2 - October 2023",
+                        "pages": [
+                          "release-notes/v3.x.x/v3.4.2-october-2023/v3.4.2-october-2023",
+                          "release-notes/v3.x.x/v3.4.2-october-2023/deployment-guidelines-v3.4.2"
+                        ]
+                      },
+                      {
+                        "group": "v3.4.1 - September 2023",
+                        "pages": [
+                          "release-notes/v3.x.x/v3.4.1-september-2023/v3.4.1-september-2023",
+                          "release-notes/v3.x.x/v3.4.1-september-2023/deployment-guidelines-v3.4.1"
+                        ]
+                      },
+                      {
+                        "group": "v3.4.0 - September 2023",
+                        "pages": [
+                          "release-notes/v3.x.x/v3.4.0-september-2023/v3.4.0-september-2023",
+                          "release-notes/v3.x.x/v3.4.0-september-2023/deployment-guidelines-v3.4.0"
+                        ]
+                      },
+                      {
+                        "group": "v3.3.0 - July 2023",
+                        "pages": [
+                          "release-notes/v3.x.x/v3.3.0-july-2023/v3.3.0-july-2023",
+                          "release-notes/v3.x.x/v3.3.0-july-2023/deployment-guidelines-v3.3.0"
+                        ]
+                      },
+                      {
+                        "group": "v3.2.0 - April 2023",
+                        "pages": [
+                          "release-notes/v3.x.x/v3.2.0-april-2023/v3.2.0-april-2023",
+                          "release-notes/v3.x.x/v3.2.0-april-2023/deployment-guidelines-v3.2.0"
+                        ]
+                      },
+                      {
+                        "group": "v3.1.0 - March 2023",
+                        "pages": [
+                          "release-notes/v3.x.x/v3.1.0-march-2023/v3.1.0-march-2023",
+                          "release-notes/v3.x.x/v3.1.0-march-2023/deployment-guidelines-v3.1.0"
+                        ]
+                      },
+                      {
+                        "group": "v3.0.0 - February 2023",
+                        "pages": [
+                          "release-notes/v3.x.x/v3.0.0-february-2023/v3.0.0-february-2023",
+                          "release-notes/v3.x.x/v3.0.0-february-2023/deployment-guidelines-v3.0.0"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+
+          {
+            "tab": "SDKs",
+            "groups": [
+              {
+                "group": "SDKs",
+                "pages": [
+                  "5.x/sdks/sdks-overview",
+                  "5.x/sdks/angular-renderer",
+                  "5.x/sdks/react-renderer",
+                  "5.x/sdks/ios-renderer",
+                  "5.x/sdks/android-renderer"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Setup guides",
+            "groups": [
+              {
+                "group": "Microservices",
+                "pages": [
+                  "5.x/setup-guides/setup-guides-overview",
+                  {
+                    "group": "FlowX Engine setup",
+                    "icon": "engine",
+                    "pages": [
+                      "5.x/setup-guides/flowx-engine-setup-guide/engine-setup",
+                      "5.x/setup-guides/flowx-engine-setup-guide/configuring-access-roles-for-processes",
+                      {
+                        "group": "Process instance indexing",
+                        "pages": [
+                          "5.x/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/elasticsearch-indexing",
+                          "5.x/setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/process-instance-indexing-config-guidelines"
+                        ]
+                      },
+                      "5.x/setup-guides/flowx-engine-setup-guide/process-instance-data-archiving"
+                    ]
+                  },
+                  "5.x/setup-guides/application-manager",
+                  "5.x/setup-guides/runtime-manager",
+                  "5.x/setup-guides/integration-designer-setup",
+                  "5.x/setup-guides/advancing-controller-setup-guide",
+                  "5.x/setup-guides/designer-setup-guide",
+                  "5.x/setup-guides/admin-setup-guide",
+                  "5.x/setup-guides/cms-setup",
+                  "5.x/setup-guides/scheduler-setup-guide",
+                  "5.x/setup-guides/events-gateway-setup",
+                  "5.x/setup-guides/audit-setup-guide",
+                  "4.7.x/setup-guides/search-data-service-setup-guide",
+                  "5.x/setup-guides/data-sync",
+                  "5.x/setup-guides/plugins-setup-guide/documents-plugin-setup",
+                  "5.x/setup-guides/plugins-setup-guide/notifications-plugin-setup",
+                  "5.x/setup-guides/plugins-setup-guide/task-management-plugin-setup"
+                ]
+              },
+              {
+                "group": "Plugins",
+                "pages": [
+                  "5.x/setup-guides/plugins-setup-guide/plugins-setup-guide-overview",
+                  "5.x/setup-guides/plugins-setup-guide/ocr-plugin-setup",
+                  "5.x/setup-guides/plugins-setup-guide/reporting-setup"
+                ]
+              },
+              {
+                "group": "Observability",
+                "pages": [
+                  "5.x/setup-guides/open-telemetry-config",
+                  "5.x/setup-guides/ot-default-properties"
+                ]
+              },
+              {
+                "group": "Microservices access rights",
+                "pages": [
+                  {
+                    "group": "Access management",
+                    "icon": "lock",
+                    "pages": [
+                      "5.x/setup-guides/access-management/access-management-overview",
+                      "5.x/setup-guides/access-management/configuring-an-iam-solution",
+                      "5.x/setup-guides/access-management/configuring-an-iam-solution-entra",
+                      "5.x/setup-guides/access-management/default-roles"
+                    ]
+                  },
+                  "5.x/setup-guides/access-management/app-manager-access-rights",
+                  "5.x/setup-guides/access-management/configuring-access-rights-for-integration-designer",
+                  "5.x/setup-guides/access-management/configuring-access-rights-for-admin",
+                  "5.x/setup-guides/access-management/configuring-access-rights-for-engine",
+                  "5.x/setup-guides/access-management/configuring-access-rights-for-cms"                ]
+              },
+              {
+                "group": "Plugins access rights",
+                "pages": [
+                  "5.x/setup-guides/plugins-access-rights/configuring-access-rights-for-documents",
+                  "5.x/setup-guides/plugins-access-rights/configuring-access-rights-for-notifications",
+                  "5.x/setup-guides/plugins-access-rights/configuring-access-rights-for-task-management"
+                ]
+              }
+            ]
+          }
+        ]
+      },
 
       {
         "version": "v4.7.x",
-        "default": true,
         "tabs": [
           {
             "tab": "Documentation",

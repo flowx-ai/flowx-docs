@@ -1,0 +1,206 @@
+---
+title: Enumerations
+description: Enumerations allow you to manage a collection of predefined values that can be used within UI components or templates. These values can be tailored for specific source systems or languages.
+---
+
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-29%20at%2012.36.20.png)
+</Frame>
+
+
+## Overview
+
+Enumerations help you standardize and manage lists of values that are displayed in your applications. Each enumeration consists of one or more values with both an internal identifier (the code) and display strings (labels) for different languages. You can also establish hierarchies by creating child collections—for example, defining states within a country.
+
+## User interface overview
+
+The **Enumerations** tab is divided into the following sections:
+
+
+### Header
+
+- **New Enumeration** - Click this button to create a new enumeration.  
+- **Contextual Menu (three dots)** - Provides options for **Import** and **Export**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-29%20at%2012.53.55.png)
+</Frame>
+
+### Main table
+
+- **Name** - Displays the name of each enumeration.  
+- **Edited At** - Indicates the last update timestamp for each enumeration.  
+- **View Details** - Allows you to update the enumeration name.  
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-29%20at%2012.42.36.png)
+</Frame>
+
+
+---
+
+## Enumeration entry details
+
+
+When you open an enumeration entry, define the following properties:
+
+1. **Code** - Not displayed in the end-user interface, but used to assure value uniqueness
+2. **Labels** - These are the display strings shown to end users in various languages.
+3. **External source systems codes** - Specifies the corresponding codes for each external system that consumes the data. Connectors use these codes for data validation.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-29%20at%2013.14.01.png)
+</Frame>
+
+### Adding a new enumeration
+
+To create a new enumeration:
+
+1. **Open your project:**  Launch **FlowX Designer** and open your project.
+2. **Access Enumerations:** Select **Enumerations** from the **CMS** tab.
+3. **Name the Enumeration:** Enter a suggestive name and click **Add**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/create_new_enum.png)
+</Frame>
+
+### Configuring an enumeration
+
+After creating an enumeration, add values to it by configuring:
+
+- **Code:** A unique identifier (not visible to end-users).
+- **Labels:** The display string for each language.
+- **Source Systems:** The code values assigned for each external system consuming the data.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/enum_add_value.png)
+</Frame>
+
+<Info>
+You can find the list of available source systems under **Projects → Integrations → Systems**.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/systems.png)
+</Frame>
+
+</Info>
+
+### Creating a child collection
+
+Enumerations can be organized hierarchically by defining child values for each entry. For example, you might define states as children under a country enumeration. Hierarchical structures enable cascading selections in the user interface; for instance, choosing a country in one dropdown can filter the states available in another.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/child_enum.png)
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/child_enum_example.png)
+</Frame>
+
+### Importing/exporting an enumeration
+
+You can import or export enumerations using the following formats:
+
+- **ZIP**
+- **CSV**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/export_import_enums.png)
+</Frame>
+
+<Warning>
+Every enumeration (root or child) must contain at least one **content value** (i.e., at least one label is provided) before attempting an import or export. Remember, the term *value* here refers to the display content for end-users, not the internal code.
+</Warning>
+
+
+### Enumerations example
+
+Consider an example for **Activity Domain Companies**. You can use hierarchies to organize related domains and activities.
+
+#### **Activity Domain Companies → Agriculture forestry and fishing:**
+
+* **Agriculture, hunting, and related services →**
+
+<details>
+
+<summary>Cultivation of non-perennial plants:</summary>
+
+* Cultivation of cereals (excluding rice), leguminous plants and oilseeds
+* Cultivation of rice
+* Growing of vegetables and melons, roots and tubers
+* Cultivation of tobacco
+
+</details>
+
+<details>
+
+<summary>Cultivation of plants from permanent crops:</summary>
+
+* Cultivation of grapes
+* Cultivation of grapes
+* Cultivation of seeds and stone fruits
+* Cultivation of oil seeds
+
+</details>
+
+<details>
+
+<summary>Animal husbandry:</summary>
+
+* Raising of dairy cattle
+* Raising of other cattle
+* Raising horses and other horses
+
+</details>
+
+* **Forestry and logging →**
+
+<details>
+
+<summary>Forestry and other forestry activities:</summary>
+
+* Forestry and other forestry activities
+
+</details>
+
+<details>
+
+<summary>Logging:</summary>
+
+* Logging
+
+</details>
+
+<details>
+
+<summary>Collection of non-wood forest products from spontaneous flora:</summary>
+
+* Collection of non-wood forest products from spontaneous flor
+
+</details>
+
+* **Fisheries and aquaculture →**
+
+<details>
+
+<summary>Fishing:</summary>
+
+* Sea fishing
+* Freshwater fishing
+
+</details>
+
+<details>
+
+<summary>Aquaculture:</summary>
+
+* Maritime aquaculture
+* Freshwater aquaculture
+
+</details>
+
+This is the output after adding all the lists/collections from above:
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/enumerations_output.gif)
+</Frame>

@@ -1,0 +1,29 @@
+---
+title: Enable misconfigurations
+api: GET {{baseUrlAdmin}}/api/process-versions/compute
+description: To enable and to compute warnings for already existing processes from previous FlowX versions (< 4.1), you must use the following endpoint to compute all the warnings.
+---
+
+<ParamField path="baseUrlAdmin" type="string">
+  The URL of admin.
+</ParamField>
+
+
+<ParamField path="compute" type="string" >
+
+This is the specific operation performed to compute misconfigurations for older processes.
+
+</ParamField>
+
+<RequestExample>
+```bash Request
+  curl --request GET \
+    --url {baseUrlAdmin}/api/process-versions/compute
+```
+</RequestExample>
+
+<ResponseExample>
+```
+{ "status": "success" }
+```
+</ResponseExample> 

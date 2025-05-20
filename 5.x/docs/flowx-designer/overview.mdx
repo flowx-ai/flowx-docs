@@ -1,0 +1,345 @@
+---
+title: FlowX.AI Designer
+icon: pen-ruler
+description: The FlowX.AI Designer is a collaborative, no-code, web-based application development environment, designed to facilitate the creation of web and mobile applications without the need for coding expertise.
+---
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  controls
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_designer_47x.mp4"
+></video>
+</Frame>
+
+# Overview
+
+The **FlowX Designer** is a powerful, collaborative platform that empowers you to create sophisticated web and mobile applications without coding expertise. Let's explore the key capabilities available in the Designer:
+
+<Tabs>
+  <Tab title="Project Management">
+    <Frame>
+      ![Project Management](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-23%20at%2017.33.16.png)
+    </Frame>
+    
+    Projects serve as comprehensive workspaces that group all resources, dependencies, and configurations needed for specific use cases. They provide:
+    
+    - Centralized resource management
+    - Version control capabilities
+    - Build deployment across environments
+    - Collaborative editing workflows
+    - Modular organization of processes and assets
+  </Tab>
+  
+  <Tab title="Process Design">
+    <Frame>
+      ![Process Design](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/prs_def.png)
+    </Frame>
+    
+    The process designer allows you to:
+    
+    - Create and edit processes using BPMN 2.0 standards
+    - Configure nodes with business rules and actions
+    - Set up user tasks and system integrations
+    - Establish decision logic and execution paths
+    - Test and debug process flows
+  </Tab>
+  
+  <Tab title="Content & UI">
+    <Frame>
+      ![UI Designer](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/ui_ui_designer.gif)
+    </Frame>
+    
+    Create intuitive user interfaces and manage content with:
+    
+    - Drag-and-drop UI component assembly
+    - Advanced navigator with layer management
+    - Theme customization capabilities
+    - Media library organization
+    - Font and styling controls
+  </Tab>
+  
+  <Tab title="Plugins & Integration">
+    <Frame>
+      ![Integrations](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/plugins_integrations.png)
+    </Frame>
+    
+    Extend functionality with plugins and integrations:
+    
+    - Task management capabilities
+    - Document generation and templates
+    - Notification system configuration
+    - Integration mapping and monitoring
+    - API connection management
+  </Tab>
+</Tabs>
+
+## Key features & capabilities
+
+<CardGroup cols={2}>
+  <Card title="Project & Library Management" icon="folder" color="#ea5a0c">
+    Create and manage comprehensive workspaces with centralized resources, version control, and modular components that enable efficient collaboration.
+  </Card>
+  <Card title="Process Design & Monitoring" icon="arrow-progress" color="#0285c7">
+    Design, debug, and monitor processes using BPMN 2.0 standards with powerful tracking and performance analytics.
+  </Card>
+  <Card title="Content Management" icon="folder-grid" color="#16a34a">
+    Manage enumerations, substitution tags, languages, media, fonts, and themes with comprehensive organization tools.
+  </Card>
+  <Card title="UI Design" icon="pen-ruler" color="#dc2626">
+    Create intuitive interfaces with an advanced navigator, component library, and flexible styling options.
+  </Card>
+  <Card title="Plugin Ecosystem" icon="puzzle-piece-simple" color="#7e22ce">
+    Extend functionality with task management, notification, and document generation plugins for comprehensive solutions.
+  </Card>
+  <Card title="Integration Tools" icon="link" color="#2563eb">
+    Configure and monitor integrations between the FlowX Engine, plugins, and external systems with visual mapping tools.
+  </Card>
+  <Card title="Platform Monitoring" icon="signal-bars" color="#f59e0b">
+    Track system health, component versions, and performance metrics with comprehensive monitoring tools.
+  </Card>
+  <Card title="AI Assistance" icon="robot" color="#64748b">
+    Accelerate development with AI-powered suggestions, optimization recommendations, and contextual help.
+  </Card>
+</CardGroup>
+
+<Note>
+Depending on your access rights, some features and tabs might not be visible. For more information, check [Configuring access rights for Admin](../../setup-guides/access-management/configuring-access-rights-for-admin) section.
+</Note>
+
+## Detailed component overview
+
+<AccordionGroup>
+  <Accordion title="Projects & Libraries" icon="folder">
+    <Tabs>
+      <Tab title="Projects">
+        A project groups resources that represent a project's entire lifecycle. It's not just a collection of processes; it's an organized workspace containing all dependencies required for that project. It enables:
+        
+        - Centralized resource management
+        - Version control with history tracking
+        - Build deployment across environments
+        - Collaborative workflows with simultaneous editing
+        - Modular organization of processes and assets
+        
+        <Frame>
+          ![Project Management](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-23%20at%2017.33.16.png)
+        </Frame>
+        
+        <Card title="Learn More About Projects" href="../projects/managing-applications/application" icon="folder"/>
+      </Tab>
+      <Tab title="Libraries">
+        A library is a specialized project type designed to store and share reusable resources across multiple projects:
+        
+        - Share processes, enumerations, and media assets
+        - Enable centralized resource management
+        - Provide version-controlled dependency management
+        - Support modular development approaches
+        - Include comprehensive dependency tracking
+        - Offer robust import/export functionality
+      </Tab>
+    </Tabs>
+  </Accordion>
+
+  <Accordion title="Process Management" icon="arrow-progress">
+    <Tabs>
+      <Tab title="Process Definitions">
+        A **process definition** is uniquely identified by its name and version number. The process designer provides:
+        
+        - [Process definition](../building-blocks/process/process-definition) management
+        - Versioning history with comparison capabilities
+        - Debugging tools for process execution
+        - Version comparison for change identification
+        - BPMN 2.0 standard compliance
+        
+        <Frame>
+          ![Process Definitions](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/designer_process_definitions.gif)
+        </Frame>
+        
+        <CardGroup cols={2}>
+          <Card title="Process Definition" href="../building-blocks/process/process-definition" icon="diagram-project"/>
+          <Card title="Managing a Process Flow" href="../flowx-designer/managing-a-project-flow/" icon="arrow-right-arrow-left"/>
+        </CardGroup>
+      </Tab>
+      <Tab title="Active Processes">
+        The complete list of active **process instances** is visible from the FlowX Designer. Monitor and manage running process instances with:
+        
+        - Filtering by process definition names
+        - Search by unique process ID
+        - View current process status and data
+        - [Token](../building-blocks/token) instance and content inspection
+        - [Subprocess](../building-blocks/process/subprocess) management
+        - Real-time monitoring with performance metrics
+        - Advanced filtering for process management
+        
+        <Frame>
+          ![Active Process](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/designer_active_process.png)
+        </Frame>
+        
+        <Card title="Process Instance Management" href="../projects/runtime/active-process/process-instance" icon="play"/>
+      </Tab>
+    </Tabs>
+  </Accordion>
+
+  <Accordion title="Content Management" icon="folder-grid">
+    <Grid cols={2}>
+      <div>
+        <h4>Data & Localization</h4>
+        <Steps>
+          <Step title="Enumerations">
+            Manage static value definitions that can be used in UI components or templates with bulk import/export capabilities.
+          </Step>
+          <Step title="Substitution Tags">
+            Generate dynamic content across the platform with context-aware tag suggestions for localization.
+          </Step>
+          <Step title="Languages">
+            Configure language-specific enumeration values with comprehensive character set support.
+          </Step>
+          <Step title="Source Systems">
+            Connect to multiple data sources for [enumeration values](../platform-deep-dive/core-extensions/content-management/enumerations) with third-party system integration.
+          </Step>
+        </Steps>
+      </div>
+      <div>
+        <h4>Media & Styling</h4>
+        <Steps>
+          <Step title="Media Library">
+            Centrally manage various media files with metadata tagging and optimization capabilities.
+          </Step>
+          <Step title="Font Management">
+            Upload and manage font files including variable fonts with subset creation for performance.
+          </Step>
+          <Step title="Themes">
+            Personalize application appearance with atomic design principles and multi-device previewing.
+          </Step>
+        </Steps>
+      </div>
+    </Grid>
+    
+    <Frame>
+      ![Content Management](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/designer_cms.gif)
+    </Frame>
+    
+    <Info>
+      You need to deploy the CMS service in your infrastructure before you can start defining and using custom content types.
+    </Info>
+    
+    <CardGroup>
+      <Card title="Headless CMS" href="../platform-deep-dive/core-extensions/content-management/content-management" icon="server"/>
+      <Card title="CMS Setup Guide" href="../../setup-guides/cms-setup" icon="gears"/>
+    </CardGroup>
+  </Accordion>
+
+  <Accordion title="Plugins" icon="puzzle-piece-simple">
+    <CardGroup cols={3}>
+      <Card title="Task Management" icon="list-check" href="../platform-deep-dive/core-extensions/task-management/task-management-overview">
+        <Frame>
+          ![Task Management](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/designer_task_manager.png)
+        </Frame>
+        Track and assign activities with prioritization, history tracking, and performance analytics. The Task Manager provides a business-oriented view of processes with assignment-level interactions.
+      </Card>
+      <Card title="Notification Templates" icon="bell" href="../platform-deep-dive/plugins/custom-plugins/notifications-plugin/notifications-plugin-overview">
+        <Frame>
+          ![Notification Templates](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/designer_notification_templates.png)
+        </Frame>
+        Create, edit, and activate/deactivate notification templates for multiple channels (SMS, email, push notifications) with scheduling, monitoring, and personalization capabilities.
+      </Card>
+      <Card title="Document Templates" icon="file-lines" href="../platform-deep-dive/plugins/custom-plugins/documents-plugin/documents-plugin-overview">
+        <Frame>
+          ![Document Templates](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/designer_documents.png)
+        </Frame>
+        Generate documents based on custom templates with process data, convert between formats, split documents, add barcodes/signatures, and manage version control with conditional template variables.
+      </Card>
+    </CardGroup>
+  </Accordion>
+
+  <Accordion title="System Settings" icon="gears">
+    <Tabs>
+      <Tab title="Configuration Parameters">
+        <Frame>
+          ![Generic Parameters](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/designer_generic_params.png)
+        </Frame>
+        
+        Manage environment-specific settings with:
+        
+        - Key-value parameter definition
+        - Environment-specific value configuration
+        - Parameter grouping and categorization
+        - Environment comparison tools
+        - Import/export capabilities
+        
+        <Warning>
+          The maximum length of a parameter input value is 255 characters.
+        </Warning>
+      </Tab>
+      <Tab title="Access Management">
+        <Frame>
+          ![Access Management](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/designer_access_mng.png)
+        </Frame>
+        
+        Administrate users, roles and groups through:
+        
+        - Integration with Keycloak/[RH-SSO](https://access.redhat.com/products/red-hat-single-sign-on)
+        - Role-based access control
+        - Granular permission management
+        - User onboarding templates
+        - Group organization
+        
+        <Card title="Configuring Access Rights" href="../../setup-guides/access-management/configuring-access-rights-for-admin" icon="lock"/>
+      </Tab>
+      <Tab title="Integration Management">
+        <Frame>
+          ![Integration Management](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/flowx-designer/designer_integrations.png)
+        </Frame>
+        
+        Configure and monitor connections between:
+        
+        - [FlowX Process engine](../platform-deep-dive/core-components/flowx-engine)
+        - [Platform plugins](../platform-deep-dive/plugins/custom-plugins/)
+        - External adapters and systems
+        - Scenario-specific configurations (OTP, documents, notifications)
+        - Visual mapping tools
+      </Tab>
+    </Tabs>
+  </Accordion>
+
+  <Accordion title="Platform Status" icon="signal-bars">
+    <Frame>
+      ![Platform Status](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/platform_status.png)
+    </Frame>
+   
+    Quickly check the health status of all FlowX services and custom connectors with:
+    
+    - Health status monitoring
+    - Component version checking
+    - Performance metrics and resource utilization statistics
+    - System alerts
+    - Historical data for trend analysis
+  </Accordion>
+
+  <Accordion title="UI Designer" icon="pen-ruler">
+    <Frame>
+      ![UI Designer](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/ui_designer.png)
+    </Frame>
+    
+    The UI Designer provides a comprehensive environment for creating intuitive user interfaces with:
+    
+    - Enhanced UI layer panel for intuitive design element management
+    - Improved drag and drop functionality for precise component placement
+    - Flexible root component management for form groups and containers
+    - Clear component hierarchy visualization with navigation controls
+    - Rich component library with customization options
+    - Integration with themes and styling capabilities
+    
+    <Card title="UI Designer Documentation" href="../building-blocks/ui-designer/ui-designer" icon="book">
+      Learn more about UI Designer capabilities and components
+    </Card>
+  </Accordion>
+</AccordionGroup>
+
+## Next steps
+
+<Card title="Managing a Process Flow" href="../flowx-designer/managing-a-project-flow/" icon="file">
+  Learn how to create and manage a process from scratch
+</Card>
