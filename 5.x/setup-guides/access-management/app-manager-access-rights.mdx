@@ -1,0 +1,367 @@
+---
+title: Application manager access rights
+description: Granular access rights can be configured for restricting access to the Application-manager component.
+icon: lock-open
+---
+
+The **Application Manager** component provides granular access rights, allowing users to perform various actions depending on their assigned roles and the configured scopes.
+
+<Info>
+These access rights are also used by to the runtime-manager microservice.
+</Info>
+
+<Warning>
+In order for users to view resources within the Application Manager, they must have, in addition to the appropriate `role_apps_manage_<scope>` role, at least **read access** on each [**resource**](../../docs/projects/resources).
+</Warning>
+
+### Available access scopes
+
+
+1. **manage-applications** 
+   - **Scopes**:
+     - **read** 
+       - **Roles**:
+         - `ROLE_APPS_MANAGE_READ`
+         - `ROLE_APPS_MANAGE_IMPORT`
+         - `ROLE_APPS_MANAGE_EDIT`
+         - `ROLE_APPS_MANAGE_ADMIN`
+     - **edit** 
+       - **Roles**:
+         - `ROLE_APPS_MANAGE_EDIT`
+         - `ROLE_APPS_MANAGE_ADMIN`
+     - **import** 
+       - **Roles**:
+         - `ROLE_APPS_MANAGE_IMPORT`
+         - `ROLE_APPS_MANAGE_EDIT`
+         - `ROLE_APPS_MANAGE_ADMIN`
+     - **admin**
+       - **Roles**:
+         - `ROLE_APPS_MANAGE_ADMIN`
+
+
+2. **manage-app-dependencies**
+   - **Scopes**:
+     - **read** 
+       - **Roles**:
+         - `ROLE_APP_DEPENDENCIES_MANAGE_READ`
+         - `ROLE_APP_DEPENDENCIES_MANAGE_EDIT`
+         - `ROLE_APP_DEPENDENCIES_MANAGE_ADMIN`
+     - **edit** 
+       - **Roles**:
+         - `ROLE_APP_DEPENDENCIES_MANAGE_EDIT`
+         - `ROLE_APP_DEPENDENCIES_MANAGE_ADMIN`
+     - **admin**
+       - **Roles**:
+         - `ROLE_APP_DEPENDENCIES_MANAGE_ADMIN`
+
+3. **manage-builds** 
+   - **Scopes**:
+     - **read** 
+       - **Roles**:
+         - `ROLE_BUILDS_MANAGE_READ`
+         - `ROLE_BUILDS_MANAGE_EDIT`
+         - `ROLE_BUILDS_MANAGE_IMPORT`
+         - `ROLE_BUILDS_MANAGE_ADMIN`
+     - **edit** 
+       - **Roles**:
+         - `ROLE_BUILDS_MANAGE_EDIT`
+         - `ROLE_BUILDS_MANAGE_ADMIN`
+     - **import** 
+       - **Roles**:
+         - `ROLE_BUILDS_MANAGE_IMPORT`
+         - `ROLE_BUILDS_MANAGE_EDIT`
+         - `ROLE_BUILDS_MANAGE_ADMIN`
+     - **admin** 
+       - **Roles**:
+         - `ROLE_BUILDS_MANAGE_ADMIN`
+
+4. **manage-active-policy** 
+   - **Scopes**:
+     - **read** 
+       - **Roles**:
+         - `ROLE_ACTIVE_POLICY_MANAGE_READ`
+         - `ROLE_ACTIVE_POLICY_MANAGE_EDIT`
+     - **edit** 
+       - **Roles**:
+         - `ROLE_ACTIVE_POLICY_MANAGE_EDIT`
+
+5. **manage-app-configs** 
+   - **Scopes**:
+     - **read** 
+       - **Roles**:
+         - `ROLE_APP_CONFIG_MANAGE_READ`
+         - `ROLE_APP_CONFIG_MANAGE_IMPORT`
+         - `ROLE_APP_CONFIG_MANAGE_EDIT`
+         - `ROLE_APP_CONFIG_MANAGE_ADMIN`
+     - **edit** 
+       - **Roles**:
+         - `ROLE_APP_CONFIG_MANAGE_EDIT`
+         - `ROLE_APP_CONFIG_MANAGE_ADMIN`
+     - **import**
+       - **Roles**:
+         - `ROLE_APP_CONFIG_MANAGE_IMPORT`
+         - `ROLE_APP_CONFIG_MANAGE_EDIT`
+         - `ROLE_APP_CONFIG_MANAGE_ADMIN`
+     - **admin** 
+       - **Roles**:
+         - `ROLE_APP_CONFIG_MANAGE_ADMIN`
+
+6. **manage-app-configs-overrides** 
+   - **Scopes**:
+     - **read** 
+       - **Roles**:
+         - `ROLE_APP_CONFIG_OVERRIDES_MANAGE_READ`
+         - `ROLE_APP_CONFIG_OVERRIDES_MANAGE_IMPORT`
+         - `ROLE_APP_CONFIG_OVERRIDES_MANAGE_EDIT`
+         - `ROLE_APP_CONFIG_OVERRIDES_MANAGE_ADMIN`
+     - **import** 
+       - **Roles**:
+         - `ROLE_APP_CONFIG_OVERRIDES_MANAGE_IMPORT`
+         - `ROLE_APP_CONFIG_OVERRIDES_MANAGE_EDIT`
+         - `ROLE_APP_CONFIG_OVERRIDES_MANAGE_ADMIN`
+     - **edit** 
+       - **Roles**:
+         - `ROLE_APP_CONFIG_OVERRIDES_MANAGE_EDIT`
+         - `ROLE_APP_CONFIG_OVERRIDES_MANAGE_ADMIN`
+     - **admin** 
+       - **Roles**:
+         - `ROLE_APP_CONFIG_OVERRIDES_MANAGE_ADMIN`
+
+
+### Permissions explained 
+
+<AccordionGroup>
+
+  <Accordion title="manage-applications - Scope: read">
+    * **Permissions**:
+        - Can view Projects entry in main menu
+        - Add icon for Applications and Libraries sections is hidden - cannot add application or library
+        - Can view application or library Config view in read-only mode (for draft application versions) with action buttons hidden
+        - Can export application version
+    * **Restrictions**:
+        - Cannot start a draft application version
+        - Cannot discard changes
+        - Cannot create build
+        - Cannot create new branch
+        - Cannot import application version
+        - Cannot commit a draft application version
+        - Cannot merge branches
+        - Can view draft application version in read-only mode with buttons hidden
+    * **Roles allowed**: 
+        * `ROLE_APPS_MANAGE_READ` 
+        * `ROLE_APPS_MANAGE_IMPORT`
+        * `ROLE_APPS_MANAGE_EDIT`
+        * `ROLE_APPS_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-applications - Scope: edit">
+    - **Permissions**:
+      - Can view Projects entry in main menu
+      - Can create new application or library
+      - Can merge branches
+      - Can create new branch
+      - Can start new application version
+      - Can submit application version
+      - Cannot delete application - Delete icon in contextual menu is hidden
+      - `ROLE_APPS_MANAGE_EDIT` is required for any type of edit operation on a resource
+   - **Roles allowed**: 
+        * `ROLE_APPS_MANAGE_EDIT` 
+        * `ROLE_APPS_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-applications - Scope: import">
+    - **Permissions**:
+      - Can view Import Version entry on:
+        - Projects page
+        - Application versioning overlay
+      - Can view Export version button on application versioning overlay
+    - **Roles allowed**: 
+        * `ROLE_APPS_MANAGE_IMPORT`
+        * `ROLE_APPS_MANAGE_EDIT`
+        * `ROLE_APPS_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-applications - Scope: admin">
+    - **Permissions**:
+      - All permissions under read, edit, import
+      - Can delete application or library
+    - **Roles allowed**: `ROLE_APPS_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-builds - Scope: read">
+    - **Permissions**:
+      - Can view Builds entry in application Runtime tab menu
+      - Can view Builds page
+      - Can view Builds content (contextual menu > Build contents)
+      - Cannot import build
+        - Projects page > Import icon > Import build is not shown
+    - **Roles allowed**: `ROLE_BUILDS_MANAGE_READ` 
+        * `ROLE_BUILDS_MANAGE_EDIT`
+        * `ROLE_BUILDS_MANAGE_IMPORT`
+        * `ROLE_BUILDS_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-builds - Scope: edit">
+    - **Permissions**:
+      - Can see Create build button on Application Versioning overlay for a committed application version
+    - **Roles allowed**: 
+        * `ROLE_BUILDS_MANAGE_EDIT`
+        * `ROLE_BUILDS_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-builds - Scope: import">
+    - **Permissions**:
+      - Can view Builds entry in application Runtime tab menu
+      - Can import builds
+    - **Roles allowed**: 
+        * `ROLE_BUILDS_MANAGE_EDIT`
+        * `ROLE_BUILDS_MANAGE_IMPORT`
+        * `ROLE_BUILDS_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-builds - Scope: admin">
+    - **Permissions**:
+      - Can do all of the above
+    - **Roles allowed**: 
+        * `ROLE_BUILDS_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-active-policy - Scope: read">
+    - **Permissions**:
+      - Can view Active policy entry in application Runtime tab menu
+      - Can view Active policy page in read-only mode - Fields and Save button are hidden
+    - **Roles allowed**: 
+        * `ROLE_ACTIVE_POLICY_MANAGE_READ`
+        * `ROLE_ACTIVE_POLICY_MANAGE_EDIT`
+  </Accordion>
+
+  <Accordion title="manage-active-policy - Scope: edit">
+    - **Permissions**:
+      - All permissions under read
+      - Can update active policy settings - fields and save button are enabled
+    - **Roles allowed**: `ROLE_ACTIVE_POLICY_MANAGE_EDIT`
+  </Accordion>
+
+  <Accordion title="manage-app-configs - Scope: read">
+    - **Permissions**:
+      - Can view Configuration parameters in Application Config View menu
+      - Can view Configuration parameters page in read-only mode
+    - **Roles allowed**: 
+        * `ROLE_APP_CONFIG_MANAGE_READ` 
+        * `ROLE_APP_CONFIG_MANAGE_IMPORT`
+        * `ROLE_APP_CONFIG_MANAGE_EDIT`
+        * `ROLE_APP_CONFIG_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-app-configs - Scope: import">
+    - **Permissions**:
+      - All permissions under read
+      - Can import configuration parameters
+    - **Roles allowed**: 
+        * `ROLE_APP_CONFIG_MANAGE_IMPORT` 
+        * `ROLE_APP_CONFIG_MANAGE_EDIT` 
+        * `ROLE_APP_CONFIG_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-app-configs - Scope: edit">
+    - **Permissions**:
+      - All permissions under read
+      - Can add/edit/delete configuration parameters
+      - Cannot import configuration parameters
+    - **Roles allowed**: 
+        * `ROLE_APP_CONFIG_MANAGE_EDIT`
+        * `ROLE_APP_CONFIG_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-app-configs - Scope: admin">
+    - **Permissions**:
+      - All permissions for read, edit, import
+    - **Roles allowed**: `ROLE_APP_CONFIG_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-app-configs-overrides - Scope: read">
+    - **Permissions**:
+      - Can view Configuration parameters overrides in Application Runtime View menu
+      - Can view Configuration parameters overrides page in read-only mode:
+        - cannot add configuration param override
+        - cannot edit a configuration param override
+        - cannot delete a configuration param override
+    - **Roles allowed**: 
+        * `ROLE_APP_CONFIG_OVERRIDES_MANAGE_READ`
+        * `ROLE_APP_CONFIG_OVERRIDES_MANAGE_IMPORT`
+        * `ROLE_APP_CONFIG_OVERRIDES_MANAGE_EDIT`
+        * `ROLE_APP_CONFIG_OVERRIDES_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-app-configs-overrides - Scope: import">
+    - **Permissions**:
+      - All permissions under read
+      - Can import configuration parameters
+    - **Roles allowed**: 
+        * `ROLE_APP_CONFIG_OVERRIDES_MANAGE_IMPORT`
+        * `ROLE_APP_CONFIG_OVERRIDES_MANAGE_EDIT`
+        * `ROLE_APP_CONFIG_OVERRIDES_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-app-configs-overrides - Scope: edit">
+    - **Permissions**:
+      - All permissions under read
+      - Can add/edit configuration parameters overrides
+    - **Roles allowed**: 
+        * `ROLE_APP_CONFIG_OVERRIDES_MANAGE_EDIT`
+        * `ROLE_APP_CONFIG_OVERRIDES_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-app-configs-overrides - Scope: admin">
+    - **Permissions**:
+      - All permissions under read, edit, import
+      - Can delete app config overrides
+    - **Roles allowed**: `ROLE_APP_CONFIG_OVERRIDES_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-app-dependencies - Scope: read">
+    - **Permissions**:
+      - Can view Dependencies entry in Application Config view menu
+      - Can view Dependencies page in read-only mode
+    - **Roles allowed**: 
+        * `ROLE_APP_DEPENDENCIES_MANAGE_READ` 
+        * `ROLE_APP_DEPENDENCIES_MANAGE_EDIT` 
+        * `ROLE_APP_DEPENDENCIES_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-app-dependencies - Scope: edit">
+    - **Permissions**:
+      - All permissions under read
+      - Can add/edit dependencies
+    - **Roles allowed**: 
+        * `ROLE_APP_DEPENDENCIES_MANAGE_EDIT`
+        * `ROLE_APP_DEPENDENCIES_MANAGE_ADMIN`
+  </Accordion>
+
+  <Accordion title="manage-app-dependencies - Scope: admin">
+    - **Permissions**:
+      - All permissions under read, edit
+      - Can delete dependency
+    - **Roles allowed**: `ROLE_APP_DEPENDENCIES_MANAGE_ADMIN`
+  </Accordion>
+
+</AccordionGroup>
+
+### Configuring access
+
+To define or adjust access for these roles, use the following format in your environment variables:
+
+```plaintext
+SECURITY_ACCESSAUTHORIZATIONS_<AUTHORIZATIONNAME>_SCOPES_<SCOPENAME>_ROLESALLOWED: NEEDED_ROLE_NAMES
+```
+
+<Info>
+Roles must be defined in your identity provider (e.g., Keycloak, RH-SSO, Entra or any compatible provider).
+</Info>
+
+Custom roles can be configured as needed, and multiple roles can be assigned to each scope.
+
+
+
+
+

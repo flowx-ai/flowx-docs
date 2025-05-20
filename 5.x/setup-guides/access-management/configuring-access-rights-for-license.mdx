@@ -1,0 +1,50 @@
+---
+title: License Engine access rights
+description: Granular access rights can be configured for restricting access to the License component.
+icon: lock-open
+---
+
+The following access authorizations are provided, with the specified access scopes:
+
+1. **Manage-licenses** - for configuring access for managing license related details
+
+Available scopes:
+
+* read - users are able to view the license report
+* edit - users are able to update the license model and sync license data
+* admin - users are able to download the license data
+
+
+
+The License component is preconfigured with the following default users roles for each of the access scopes mentioned above:
+
+* manage-licenses
+  * read:
+    * ROLE_LICENSE_MANAGE_READ
+    * ROLE_LICENSE_MANAGE_EDIT
+    * ROLE_LICENSE_MANAGE_ADMIN
+  * edit:
+    * ROLE_LICENSE_MANAGE_EDIT
+    * ROLE_LICENSE_MANAGE_ADMIN
+  * admin:
+    * ROLE_LICENSE_MANAGE_ADMIN
+
+<Info>
+These roles need to be defined in the chosen identity provider solution.
+</Info>
+
+In case other custom roles are needed, you can configure them using environment variables. More than one role can be set for each access scope.
+
+To configure access for each of the roles above, adapt the following input:
+
+`SECURITY_ACCESSAUTHORIZATIONS_AUTHORIZATIONNAME_SCOPES_SCOPENAME_ROLESALLOWED: NEEDED_ROLE_NAMES`
+
+Possible values for `AUTHORIZATIONNAME: MANAGELICENSES`.
+
+Possible values for `SCOPENAME`: read, edit, admin.
+
+For example, if you need to configure role access for read, insert this:
+
+```
+SECURITY_ACCESSAUTHORIZATIONS_MANAGELICENSES_SCOPES_READ_ROLESALLOWED: ROLE_NAME_TEST
+```

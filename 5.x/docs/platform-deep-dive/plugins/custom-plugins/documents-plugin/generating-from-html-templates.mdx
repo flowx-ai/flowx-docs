@@ -1,0 +1,189 @@
+---
+title: Generating documents
+description: Generate new documents from custom templates that can be pre-filled with data from the current process instance.
+---
+
+<Info>
+Configure document templates easily using the [**WYSIWYG editor**](../../wysiwyg). Access and manage your templates through the **Document Templates** section in your Project in [**FlowX Designer**](../../../../flowx-designer/overview).
+</Info>
+
+
+<Frame>
+![Document template interface](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/docs_plugin_template.png)
+</Frame>
+
+
+## Generating documents from HTML templates
+
+The Documents plugin simplifies document generation through predefined templates. This guide focuses on generating documents using HTML templates.
+
+<Frame>
+![Document templates](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/doc_tmplts.png)
+</Frame>
+
+## Before you begin
+
+1. **Verify access permissions**: Ensure you have the necessary [permissions to manage document templates](../../../../../setup-guides/plugins-access-rights/configuring-access-rights-for-documents).
+2. **Check Kafka configuration**: Confirm that Kafka is properly configured and accessible:
+   - The document plugin relies on Kafka for communication between nodes
+   - Familiarize yourself with the required Kafka topics (detailed later in this guide)
+
+## Creating an HTML template
+
+1. Access the [**WYSIWYG editor**](/4.1.x/docs/platform-deep-dive/plugins/wysiwyg) through **FlowX Designer → Plugins → Document templates**
+2. Create or import your HTML template
+
+<Frame>
+![HTML template creation](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/doc_template.png)
+</Frame>
+
+For detailed template management instructions:
+
+<Card title="Managing HTML templates" href="./managing-html-templates" icon="files"/>
+
+<Tip>
+For comprehensive guidance, take our FlowX.AI Academy course: [**Creating a Document Template in Designer**](https://academy.flowx.ai/module/create-document-templates-flowxai-designer).
+</Tip>
+
+
+# Implementing document generation in a process
+
+Let's build a document generation flow that creates personalized documents based on user input:
+
+<Frame>
+![Document generation process example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/doc_plugin_upload_prev_ex.png)
+</Frame>
+
+### Step 1: Create a user input form
+
+1. Add a **User Task** node to your process
+2. Configure UI elements to collect the information needed for your document:
+   - Input fields (text, numbers, dates, etc.)
+   - Make sure to set appropriate keys for each field that match your template variables
+
+<video
+  autoPlay
+  muted
+  loop
+  className="w-full aspect-video"
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/generate_template1.mp4"
+></video>
+
+### Step 2: Configure the document generation request
+
+1. Add a **Send Message Task (Kafka)** node
+2. Configure the Kafka send action with the appropriate topic:
+   - For HTML template generation, use `ai.flowx.in.document.html.in` (or your configured equivalent)
+
+<Frame>
+![Kafka send action](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/gen_template_action.png)
+</Frame>
+
+<Tip>
+To find your environment's configured topics:
+1. Navigate to **FlowX Designer → Platform Status**
+2. Find the **document-plugin-mngt** component and click the eye icon
+3. Expand `KafkaTopicsHealthCheckIndicator → details → configuration → topic → document → generate`
+4. Look under HTML and PDF sections for your in/out topics
+
+![Kafka topics for document generation](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/kafka_topics_html_generate.png)
+</Tip>
+
+
+3. Create the request payload with the following structure:
+
+```json
+{ 
+  "documentList": [
+    {
+      "customId": "ClientsFolder",
+      "templateName": "AccountCreation",
+      "language": "en",
+      "data": {
+        "firstInput": "${application.client.firstName}",
+        "secondInput": "${application.client.lastName}",
+        "thirdInput": "${application.client.accountType}"
+      },
+      "includeBarcode": false
+    }
+  ]
+}
+```
+<Frame>
+![Kafka send action](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/gen_templ_payload.png)
+</Frame>
+
+
+Key parameters:
+- **customId**: Folder name where the file will be saved
+- **templateName**: Name of the template defined in Document templates
+- **language**: Must match the language configured on the template
+- **data**: Key-value pairs mapping template variables to process data
+- **includeBarcode**: Set to true if you need a barcode on the document
+
+<Info>
+When using templates in a process, the system uses default values from the default project language. For example, if English is your default project language, the template will use values from the English version.
+
+To check your default language: **FlowX Designer → Project Settings → Languages**
+</Info>
+
+
+### Step 3: Receive the generated document
+
+1. Add a **Receive Message Task (Kafka)** node
+2. Configure it with:
+   - The response topic: `ai.flowx.updates.document.html.generate.v1` (or your configured equivalent)
+   - Key for storing the response: `generatedDocuments`
+
+<Frame>
+![Receive message configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/generate_template_receive.png)
+</Frame>
+
+The response contains information about the generated documents:
+
+<Frame>
+![HTML generation response](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/html_generated_response.png)
+</Frame>
+
+Sample response structure:
+
+```json
+{
+  "generatedFiles": {
+    "ClientsFolder": {
+      "AccountCreation": {
+        "customId": "ClientsFolder",
+        "fileId": "320f4ec2-a509-4aa9-b049-87224594802e",
+        "documentType": "AccountCreation",
+        "documentLabel": "GENERATED_PDF",
+        "minioPath": "{{your_bucket}}/2024/2024-01-15/process-id-865759/ClientsFolder/6869_AccountCreation.pdf",
+        "downloadPath": "internal/files/320f4ec2-a509-4aa9-b049-87224594802e/download",
+        "noOfPages": 1,
+        "error": null
+      }
+    }
+  },
+  "error": null
+}
+```
+
+Response fields:
+- **fileId**: Unique identifier for the generated file
+- **documentType**: Template name used for generation
+- **minioPath**: Storage location (MinIO or S3)
+- **downloadPath**: URL path for downloading the file
+- **noOfPages**: Document page count
+- **error**: Error information (null if successful)
+
+## Displaying the generated document
+
+To display the generated document to the user:
+
+1. Add a **Task Node** to extract the document path from the response
+2. Add a **User Task** with the Document Preview UI Element:
+   - Configure the element with the download path from the previous node
+
+For detailed instructions on displaying documents, see:
+
+<Card title="Uploading a new document" href="./uploading-a-new-document" icon="file">
+</Card>

@@ -1,0 +1,301 @@
+---
+title: FlowX.AI architecture
+icon: "diagram-project"
+description: FlowX.AI is a comprehensive, event-driven platform designed to accelerate digital transformation by enabling rapid development of web and mobile applications without extensive coding. The architecture consists of several interconnected components that work together to provide a seamless experience for both developers and end users.
+---
+
+![FlowX.AI Architecture Overview](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/archi_final_ai.svg)
+
+## Core components
+
+The FlowX.AI platform is built on a microservices architecture, with each component serving a specific purpose in the overall ecosystem:
+
+### FlowX.AI Designer
+
+The **FlowX.AI Designer** is a collaborative, no-code/full-code web-based application development environment that serves as the central workspace for creating and managing processes, UIs, integrations, and other application components.
+
+**Key capabilities:**
+- Design processes using industry-standard [BPMN 2.0](./frameworks-and-standards/business-process-industry-standards/intro-to-bpmn) notation
+- Configure user interfaces for both generated and custom components
+- Define business rules and validations via [DMN](./frameworks-and-standards/business-process-industry-standards/intro-to-dmn) or [MVEL](./frameworks-and-standards/business-process-industry-standards/intro-to-mvel) scripting
+- Create visual integration connectors to external systems
+- Design and manage data models
+- Add extensibility through [custom plugins](../platform-deep-dive/plugins/custom-plugins)
+- Manage user access roles and permissions
+
+<Tip>
+The FlowX Designer is a web application that runs in the browser, residing outside a FlowX deployment, serving as the administrative interface for the entire platform.
+</Tip>
+
+<Card title="FlowX Designer" href="../flowx-designer" icon ="pencil"/>
+
+The no-code/full-code capabilities allow both business users (analysts, product managers) and experienced developers to collaboratively build applications, reducing the typical development cycle from months to days.
+
+### Microservices architecture
+
+FlowX.AI is built on a suite of specialized microservices that provide the foundation for the platform's capabilities. These microservices communicate through an event-driven architecture, primarily using Kafka for messaging, enabling scalability, resilience, and extensibility:
+
+#### FlowX.AI Engine
+
+The **FlowX.AI Engine** is the core orchestration component of the platform, serving as the central nervous system that executes process definitions, manages process instances, and coordinates communications between all platform components.
+
+<Frame>
+![FlowX Engine Components](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Engine%20Diagram%20%281%29.png)
+</Frame>
+
+**Key responsibilities:**
+- Executing business processes based on BPMN 2.0 definitions
+- Creating and managing process instances throughout their lifecycle
+- Coordinating real-time interactions between users, systems, and data
+- Orchestrating the event-driven communication across the platform
+- Dynamically generating and delivering UI components based on process state
+- Handling integration with external systems via Kafka messaging
+
+The Engine is built on [Kafka](./frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts), providing high-throughput, low-latency event processing. This architecture enables FlowX.AI to maintain a responsive user experience (0.2s response time) even when integrating with slow legacy systems by buffering load and managing asynchronous communication.
+
+**Technical infrastructure:**
+- PostgreSQL database for process definitions and instance data
+- MongoDB for runtime build information
+- Redis for caching process definitions and improving performance
+- Multiple script engine support including Python, JavaScript, and MVEL
+- Elasticsearch integration for efficient data indexing and searching
+
+The Engine works closely with the **Advancing Controller** to ensure efficient process instance progression, particularly in scaled environments.
+
+
+<Card title="FlowX.AI Engine" href="../platform-deep-dive/core-components/flowx-engine" icon="window-flip"/>
+
+#### FlowX.AI Application Manager
+
+The **Application Manager** is responsible for managing the application lifecycle, including:
+
+- Creating, updating, and deleting applications and their resources
+- Managing versions, manifests, and configurations
+- Serving as a proxy for front-end resource requests
+- Handling application builds and deployments
+
+This microservice maintains a comprehensive data model for applications, including all their components, versions, and dependencies, ensuring consistency across environments.
+
+<Card title="Projects" href="../projects" icon ="folder-open"/>
+
+#### FlowX.AI Runtime Manager
+
+The **Runtime Manager** works in conjunction with the Application Manager to:
+
+- Deploy application builds to runtime environments
+- Manage runtime configurations and environment-specific settings
+- Monitor and manage active application instances
+- Handle the runtime data and state of deployed applications
+
+
+
+#### FlowX.AI Integration Designer
+
+The **Integration Designer** provides a visual interface for creating and managing integrations with external systems:
+
+- Define REST API endpoints and authentication methods
+- Create and configure integration workflows
+- Map data between FlowX.AI processes and external systems
+- Test and monitor integrations in real-time
+
+This microservice simplifies the complex task of connecting to various enterprise systems, allowing for secure, scalable, and maintainable integrations without extensive coding.
+
+
+<Card title="Integration Designer" href="../platform-deep-dive/integrations/integration-designer" icon ="ruler-combined"/>
+
+
+
+#### FlowX.AI Content Management
+
+The **Content Management** microservice handles all taxonomies and structured content within the platform:
+
+- Manage enumerations (dropdown options, categories)
+- Store and serve localization content and translations
+- Organize media assets and reference data
+- Centralize content that needs to be shared across applications
+
+This Java-based service uses MongoDB for flexible storage of unstructured content, making it the go-to place for all shared taxonomies and content definitions.
+
+<Card title="Content Management" href="../platform-deep-dive/core-extensions/content-management" icon ="folder-grid"/>
+
+#### FlowX.AI Scheduler
+
+The **Scheduler** microservice handles time-based operations within processes:
+
+- Set process expiration dates and reminders
+- Trigger time-based events and activities
+- Manage recurring tasks and scheduled operations
+- Support delayed actions and follow-ups
+
+It communicates with the FlowX Engine through Kafka, creating time-based events that can be processed when needed, similar to a reminder application for business processes.
+
+<Card title="Scheduler" href="../platform-deep-dive/core-extensions/scheduler" icon ="clock"/>
+
+#### FlowX.AI Admin
+
+The **Admin** microservice is responsible for:
+
+- Storing and editing process definitions
+- Managing user roles and permissions
+- Configuring system-wide settings
+- Providing administrative functions for the platform
+
+This service connects to the same database as the FlowX Engine, ensuring consistency in process definitions and configurations.
+
+
+#### FlowX.AI Data Search
+
+The **Data Search** microservice enables search capabilities across the platform, allowing users to find data within process instances:
+
+- Searching for data across processes and applications using indexed keys
+- Indexing and retrieving information based on specific criteria
+- Supporting complex queries with filtering by process status, date ranges, and more
+- Enabling cross-application data discovery and access
+
+This service leverages Elasticsearch to execute efficient searches. It works by indexing process data automatically when process status changes or at specific trigger points, making the information searchable without impacting performance. The service communicates with the FlowX Engine through Kafka topics, receiving search requests and returning results that can be displayed in applications.
+
+
+<Card title="Data Search" href="../platform-deep-dive/core-extensions/search-data-service" icon ="magnifying-glass"/>
+
+#### FlowX.AI Events Gateway
+
+The **Events Gateway** microservice centralizes and manages the real-time communication between backend services and frontend clients through Server-Sent Events (SSE):
+
+- Processes events from various sources like the FlowX Engine and Task Management 
+- Routes and distributes messages to appropriate components based on their destination
+- Publishes events to frontend renderers enabling real-time UI updates
+- Integrates with Redis for efficient event distribution and ensuring messages reach the correct instance with the SSE connection
+
+![Events Gateway Architecture](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/events_gateway_archi.png)
+
+This component is crucial for maintaining the real-time, responsive nature of FlowX applications. It ensures that all UI updates, notifications, and system changes are immediately reflected across the platform without requiring page refreshes or manual polling. The Events Gateway reads messages from Kafka topics and distributes them appropriately, enabling features like instant form rendering when reaching user tasks or displaying real-time configuration errors.
+
+<Card title="Events Gateway" href="../platform-deep-dive/core-components/events-gateway" icon ="window-flip"/>
+
+### FlowX.AI SDKs
+
+The platform provides SDKs for different client platforms:
+
+- **Web SDK (Angular)**: For rendering process screens in web applications
+- **Android SDK**: For native Android application support
+- **Custom Component SDK**: For developing reusable UI components
+
+These SDKs communicate with the FlowX Engine to render dynamic UIs and orchestrate user interactions based on process definitions.
+
+<Card title="SDKs" href="../../sdks/sdks-overview" icon ="browser"/>
+
+
+
+
+### FlowX.AI plugins
+
+The platform's functionality can be extended through plugins:
+
+- **Notifications Plugin**: For sending and managing notifications
+- **Documents Plugin**: For document generation and management
+- **OCR Plugin**: For optical character recognition and document processing
+- **Task Management Plugin**: For handling human tasks and assignments
+
+<Frame>
+![Plugins Architecture](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-overview/plugins_architecture.png)
+</Frame>
+
+Plugins provide modular extensions to the core platform, allowing for customization without modifying the base architecture.
+
+
+<Card title="Plugins" href="../platform-deep-dive/plugins/custom-plugins" icon ="plug"/>
+
+## Platform infrastructure
+
+### Advancing Controller
+
+The **Advancing Controller** is a critical supporting service for the FlowX.AI Engine that enhances process execution efficiency, particularly in scaled deployments:
+
+- Manages the distribution of workload across Engine instances
+- Facilitates even redistribution during scale-up and scale-down scenarios
+- Utilizes database triggers in PostgreSQL or OracleDB configurations
+- Prevents process instances from getting stuck if a worker pod fails
+- Performs cleanup tasks and monitors worker pod status
+
+The Advancing Controller works in close coordination with the Engine to ensure uninterrupted process advancement. It must run concurrently with the Engine for optimal performance, particularly in production environments where reliability is crucial.
+
+
+<Card title="Advancing Controller" href="../platform-deep-dive/core-components/advancing-controller" icon ="window-flip"/>
+
+### Authorization & session management
+
+FlowX.AI recommends **Keycloak** or **Azure AD (Entra)** for identity and access management:
+
+- Create and manage users and credentials
+- Define groups and assign roles
+- Secure API access through token-based authentication
+- Integrate with existing identity providers
+
+Every communication from client applications passes through a public entry point (API Gateway), which validates authentication tokens before allowing access to the platform. The system supports OAuth2 authentication with multiple configuration options for securing microservice communication.
+
+<CardGroup>
+<Card title="Keycloak" href="../../setup-guides/access-management/configuring-an-iam-solution" icon ="key"/>
+<Card title="Azure AD (Entra)" href="../../setup-guides/access-management/configuring-an-iam-solution-entra" icon ="key"/>
+</CardGroup>
+
+### Integrations
+
+FlowX.AI can connect to external systems through custom integrations called connectors
+
+These integrations can be developed using any technology stack, with the only requirement being a connection to Kafka. This flexibility allows for seamless integration with:
+
+- Legacy APIs and systems
+- Custom file exchange solutions
+- Third-party services and platforms
+
+## Technical foundation
+
+### Data flow and event-driven communication
+
+The FlowX.AI platform uses an event-driven architecture based on Kafka for asynchronous communication between components:
+
+1. **Process Initiation**: Client applications initiate processes through the API Gateway
+2. **Event Processing**: The FlowX Engine processes events and coordinates activities
+3. **Integration Orchestration**: External system interactions are managed through integration workflows
+4. **UI Generation**: Dynamic user interfaces are generated and delivered to client applications
+5. **Data Management**: Process data is stored and managed throughout the execution lifecycle
+
+This event-driven approach enables the platform to handle complex, long-running processes while maintaining responsiveness and scalability. Each microservice communicates through predefined Kafka topics following a consistent naming convention (e.g., `ai.flowx.dev.core.trigger.advance.process.v1`), allowing for loosely coupled but highly cohesive system architecture.
+
+### Script engine support
+
+FlowX.AI supports multiple scripting languages for business rules, validations, and data transformations:
+
+- **MVEL**: Default scripting language for business rules
+- **Python**: Supported in both Python 2.7 (Jython) and Python 3 (GraalPy)
+- **JavaScript**: Available using GraalJS for high-performance execution
+
+This flexibility allows developers to use the most appropriate language for different use cases while maintaining performance and security.
+
+<Card title="Supported Scripts" href="../building-blocks/supported-scripts" icon ="code"/>
+
+
+## Deployment and scalability
+
+FlowX.AI is designed for containerized deployment, typically using Kubernetes:
+
+- Microservices can be scaled independently based on demand
+- Stateless components allow for horizontal scaling
+- Kafka provides resilient message handling and event streaming
+- Redis supports caching and real-time event distribution
+- Database configurations support both PostgreSQL and OracleDB
+
+### Monitoring and health checks
+
+The platform includes comprehensive monitoring and health check capabilities:
+
+- Prometheus metrics export for performance monitoring
+- Kubernetes health probes for service availability
+- Database connection health checks
+- Kafka cluster health monitoring
+
+These features ensure that the platform remains reliable and observable in production environments, with the ability to detect and resolve issues proactively.
+
+## Conclusion
+
+FlowX.AI offers a comprehensive, event-driven platform for rapidly developing and deploying digital applications without extensive coding. Its microservices architecture, combined with industry-standard technologies and a user-friendly design environment, enables organizations to accelerate their digital transformation initiatives while maintaining flexibility, scalability, and integration with existing systems.

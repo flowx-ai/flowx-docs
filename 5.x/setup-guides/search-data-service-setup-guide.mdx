@@ -1,0 +1,259 @@
+---
+title: FlowX Data Search setup
+description: Comprehensive guide for installing, configuring, and deploying the FlowX Data Search service
+icon: magnifying-glass
+---
+
+## Overview
+
+The FlowX Data Search service enables powerful searching capabilities across your FlowX platform. This guide provides detailed instructions for setting up, configuring, and deploying the service in your environment.
+
+## Quick start
+
+```bash
+# 1. Ensure infrastructure prerequisites are met (Redis, Kafka, Elasticsearch)
+# 2. Configure your environment variables in a data-search.yaml file
+# 3. Deploy the service
+kubectl apply -f data-search.yaml
+# 4. Verify the deployment
+kubectl get deployment data-search
+kubectl logs deployment/data-search
+```
+
+## Infrastructure prerequisites
+
+The FlowX Data Search service requires the following infrastructure components:
+
+| Component | Minimum Version | Purpose |
+|-----------|-----------------|---------|
+| **Redis** | 6.0+ | Caching search results and configurations |
+| **Kafka** | 2.8+ | Message-based communication with the engine |
+| **Elasticsearch** | 7.11.0+ | Indexing and searching data |
+
+## Configuration
+
+### Kafka configuration
+
+Configure Kafka communication using these environment variables and properties:
+
+#### Basic Kafka settings
+
+| Variable                         | Description                              | Default/Example        |
+| -------------------------------- | ---------------------------------------- | ---------------------- |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`  | Address of Kafka server(s)               | `localhost:9092`       |
+| `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol for Kafka              | `PLAINTEXT`            |
+| `KAFKA_CONSUMER_THREADS`         | Number of Kafka consumer threads         | `1`                    |
+| `KAFKA_MESSAGE_MAX_BYTES`        | Maximum message size                     | `52428800` (50MB)      |
+| `KAFKA_OAUTH_CLIENT_ID`          | OAuth client ID for Kafka authentication | `kafka`                |
+| `KAFKA_OAUTH_CLIENT_SECRET`      | OAuth client secret                      | `kafka-secret`         |
+| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint                     | `kafka.auth.localhost` |
+
+#### Topic naming configuration
+
+The Data Search service uses a structured topic naming convention:
+
+```
+{package}.{environment}.{component}.{action}.{version}
+```
+
+For example: `ai.flowx.dev.core.trigger.search.data.v1`
+
+| Variable                         | Description                        | Default     |
+| -------------------------------- | ---------------------------------- | ----------- |
+| `KAFKA_TOPIC_NAMING_SEPARATOR`   | Primary separator for topic naming | `.`         |
+| `KAFKA_TOPIC_NAMING_SEPARATOR2`  | Secondary separator                | `-`         |
+| `KAFKA_TOPIC_NAMING_PACKAGE`     | Package prefix                     | `ai.flowx.` |
+| `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Environment name                   | `dev.`      |
+| `KAFKA_TOPIC_NAMING_VERSION`     | Version suffix                     | `.v1`       |
+
+#### Kafka topics
+
+The service uses these specific topics:
+
+| Topic                         | Default Value                                             | Purpose                  |
+| ----------------------------- | --------------------------------------------------------- | ------------------------ |
+| `KAFKA_TOPIC_DATA_SEARCH_IN`  | `ai.flowx.dev.core.trigger.search.data.v1`                | Incoming search requests |
+| `KAFKA_TOPIC_DATA_SEARCH_OUT` | `ai.flowx.dev.engine.receive.core.search.data.results.v1` | Outgoing search results  |
+
+
+
+### Elasticsearch configuration
+
+Set up Elasticsearch connectivity with these environment variables:
+
+| Variable                                   | Description                              | Default            | Example                     |
+| ------------------------------------------ | ---------------------------------------- | ------------------ | --------------------------- |
+| `SPRING_ELASTICSEARCH_REST_URIS`           | Elasticsearch server address(es)         | -                  | `elasticsearch-master:9200` |
+| `SPRING_ELASTICSEARCH_REST_PROTOCOL`       | Protocol for Elasticsearch communication | `http`             | `https`                     |
+| `SPRING_ELASTICSEARCH_REST_DISABLESSL`     | Whether to disable SSL verification      | `false`            | `true`                      |
+| `SPRING_ELASTICSEARCH_REST_USERNAME`       | Elasticsearch username                   | -                  | `elastic`                   |
+| `SPRING_ELASTICSEARCH_REST_PASSWORD`       | Elasticsearch password                   | -                  | `changeme`                  |
+| `SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME` | Name of the index to use                 | `process_instance` | `flowx_data`                |
+
+
+### Security configuration
+
+Configure authentication and authorization with these variables:
+
+| Variable                              | Description                | Example                             |
+| ------------------------------------- | -------------------------- | ----------------------------------- |
+| `SECURITY_OAUTH2_BASESERVERURL`       | Base URL for OAuth2 server | `https://keycloak.example.com/auth` |
+| `SECURITY_OAUTH2_CLIENT_CLIENTID`     | OAuth2 client ID           | `data-search-service`               |
+| `SECURITY_OAUTH2_CLIENT_CLIENTSECRET` | OAuth2 client secret       | `data-search-service-secret`        |
+| `SECURITY_OAUTH2_REALM`               | OAuth2 realm name          | `flowx`                             |
+
+### Logging configuration
+
+Control the verbosity of logs with these variables:
+
+| Variable             | Description                    | Default | Example |
+| -------------------- | ------------------------------ | ------- | ------- |
+| `LOGGING_LEVEL_ROOT` | Root Spring Boot log level     | `INFO`  | `ERROR` |
+| `LOGGING_LEVEL_APP`  | Application-specific log level | `INFO`  | `DEBUG` |
+
+
+
+### Elasticsearch configuration
+
+Set up Elasticsearch connectivity with these environment variables:
+
+| Variable                                  | Description                              | Default            | Example                     |
+| ----------------------------------------- | ---------------------------------------- | ------------------ | --------------------------- |
+| `SPRING_ELASTICSEARCH_REST_URIS`          | Elasticsearch server address(es)         | `localhost:9200`   | `elasticsearch-master:9200` |
+| `SPRING_ELASTICSEARCH_REST_PROTOCOL`      | Protocol for Elasticsearch communication | `https`            | `https`                     |
+| `SPRING_ELASTICSEARCH_REST_DISABLESSL`    | Whether to disable SSL verification      | `false`            | `true`                      |
+| `SPRING_ELASTICSEARCH_REST_USERNAME`      | Elasticsearch username                   | `""` (empty)       | `elastic`                   |
+| `SPRING_ELASTICSEARCH_REST_PASSWORD`      | Elasticsearch password                   | `""` (empty)       | `changeme`                  |
+| `SPRING_ELASTICSEARCH_INDEXSETTINGS_NAME` | Name of the index to use                 | `process_instance` | `flowx_data`                |
+
+## Elasticsearch index configuration
+
+The Data Search service creates and manages Elasticsearch indices based on the configured index pattern. The default index name is `process_instance`.
+
+### Index pattern
+
+The service derives the index pattern from the `spring.elasticsearch.index-settings.name` property. This pattern is used to query across multiple indices that match the pattern.
+
+### Sample search query
+
+Below is an example of a search query generated by the Data Search service for Elasticsearch:
+
+```json
+{
+  "query": {
+    "bool": {
+      "adjust_pure_negative": true,
+      "boost": 1,
+      "must": [
+        {
+          "nested": {
+            "boost": 1,
+            "ignore_unmapped": false,
+            "path": "keyIdentifiers",
+            "query": {
+              "bool": {
+                "adjust_pure_negative": true,
+                "boost": 1,
+                "must": [
+                  {
+                    "match": {
+                      "keyIdentifiers.key.keyword": {
+                        "query": "astonishingAttribute",
+                        "operator": "OR"
+                      }
+                    }
+                  },
+                  {
+                    "match": {
+                      "keyIdentifiers.originalValue.keyword": {
+                        "query": "OriginalGangsta",
+                        "operator": "OR"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "score_mode": "none"
+          }
+        },
+        {
+          "terms": {
+            "boost": 1,
+            "processDefinitionName.keyword": [
+              "TEST_PORCESS_NAME_0",
+              "TEST_PORCESS_NAME_1"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+
+
+## Troubleshooting
+
+### Common issues
+
+1. **Elasticsearch connection problems**:
+   - Verify Elasticsearch is running and accessible
+   - Check if credentials are correct
+   - Ensure SSL settings match your environment
+
+2. **Kafka Communication Issues**:
+   - Verify Kafka topics exist and are properly configured
+   - Check Kafka permissions for the service
+   - Ensure bootstrap servers are correctly specified
+
+3. **Search Not Returning Results**:
+   - Verify index pattern matches existing indices
+   - Check if data is being properly indexed
+   - Review search query format for errors
+
+### Logs analysis
+
+Monitor logs for errors and warnings:
+
+```bash
+# For Docker
+docker logs flowx-data-search
+
+# For Kubernetes
+kubectl logs deployment/data-search
+```
+
+## Integration with Kibana
+
+Kibana provides a powerful interface for visualizing and exploring data indexed by the Data Search service.
+
+### Using Kibana with FlowX Data Search
+
+1. Connect Kibana to the same Elasticsearch instance
+2. Create an index pattern matching your configured index name
+3. Use the Discover tab to explore indexed data
+4. Create visualizations and dashboards based on your data
+
+<Info>
+Kibana is an open-source data visualization and exploration tool designed primarily for Elasticsearch. It serves as the visualization layer for the Elastic Stack, allowing users to interact with their data stored in Elasticsearch to perform various activities such as querying, analyzing, and visualizing data. For more information, visit the [Kibana official documentation](https://www.elastic.co/guide/en/kibana/current/index.html).
+</Info>
+
+## Best practices
+
+1. **Security**:
+   - Store sensitive credentials in Kubernetes Secrets
+   - Use TLS for Elasticsearch and Kafka communication
+   - Implement network policies to restrict access
+
+2. **Performance**:
+   - Scale the number of replicas based on query load
+   - Adjust Kafka consumer threads based on message volume
+   - Configure appropriate resource limits and requests
+
+3. **Monitoring**:
+   - Set up monitoring for Elasticsearch, Kafka, and Redis
+   - Create alerts for service availability and performance
+   - Monitor disk space for Elasticsearch data nodes
+
