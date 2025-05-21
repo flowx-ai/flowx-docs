@@ -449,6 +449,16 @@
                   "release-notes/overview",
 
                   {
+                    "group": "v5.0 - June 2025",  
+                    "icon": "sparkles",
+                    "pages": [
+                      "release-notes/v5.0.0-june-2025/v5.0.0-june-2025",
+                      "release-notes/v5.0.0-june-2025/deployment-guidelines-v5.0",
+                      "release-notes/v5.0.0-june-2025/migrating-from-v4.x-to-5.0"
+                    ]
+                  },
+
+                  {
                     "group": "v4.7.4 - May 2025",  
                     "icon": "wrench",
                     "pages": [
