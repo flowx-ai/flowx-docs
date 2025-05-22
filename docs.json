@@ -396,6 +396,7 @@
                     "pages": [
                       "5.x/docs/platform-deep-dive/integrations/integrations-overview",
                       "5.x/docs/platform-deep-dive/integrations/integration-designer",
+                      "5.x/docs/platform-deep-dive/integrations/flowx-database",
                       "5.x/docs/platform-deep-dive/integrations/building-a-connector",
                       "5.x/docs/platform-deep-dive/integrations/creating-a-kafka-consumer",
                       "5.x/docs/platform-deep-dive/integrations/creating-a-kafka-producer",

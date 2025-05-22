@@ -1,18 +1,237 @@
 ---
 title: FlowX.AI 5.0.0 Release Notes
+description: 'Latest features, improvements, and bug fixes in our newest release'
+mode: wide
 ---
 
-## **What's new? 🆕**
+<Tabs>
+  <Tab title="What's New">
+    ## **What's new? 🆕**
 
-✅ Project Data Model (PDM)                    
+    <Card title="Project Data Model (PDM)" icon="database" iconType="duotone">
 
+        <Tabs>
+          <Tab title="Overview">
+            <Frame>
+            ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm.png)
+            </Frame>
+            <div className="mt-4 text-gray-800 dark:text-gray-200">
+              The new Project Data Model feature enables you to define and manage data types at the project level, which can then be reused across all processes within your project.
+            </div>
+          </Tab>
+          
+          <Tab title="Key Features">
+            <CardGroup cols={2}>
+              <Card title="Centralized Management" icon="sitemap">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Define data types once at the project level and reuse them across multiple processes
+                </div>
+              </Card>
+              <Card title="Automatic Propagation" icon="arrows-rotate">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Changes to PDM data types automatically propagate to all referencing processes
+                </div>
+              </Card>
+              <Card title="Enhanced Governance" icon="shield-check">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Configure sensitive data and reporting settings at the project level
+                </div>
+              </Card>
+              <Card title="Library Integration" icon="books">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Use data types from libraries in your Project Data Model
+                </div>
+              </Card>
+            </CardGroup>
+          </Tab>
+          
+          <Tab title="Benefits">
+            <Steps>
+              <Step title="Reduce duplicate work">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Define common data types like Customer, Product, or Document once instead of recreating them in each process
+                </div>
+              </Step>
+              <Step title="Simplify maintenance">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Update a data type in one place and have changes apply everywhere it's used
+                </div>
+              </Step>
+              <Step title="Standardize data structures">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Enforce consistent naming, structure, and governance across your application
+                </div>
+              </Step>
+              <Step title="Accelerate development">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Create new processes faster by leveraging pre-defined data types
+                </div>
+              </Step>
+            </Steps>
+          </Tab>
+          
+          <Tab title="Example">
+            <Frame caption="Insurance claim processing example">
+            ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_example1.png)
+            </Frame>
+            
+            <Accordion title="View example data model">
+              ```json
+              {
+                "Customer": {
+                  "customerId": "string",
+                  "firstName": "string",
+                  "lastName": "string",
+                  "dateOfBirth": "date",
+                  "contactInformation": "ref:ContactInfo",
+                  "policyNumbers": "array:string",
+                  "customerSince": "date",
+                  "settings": {
+                    "sensitive": true,
+                    "reporting": true
+                  }
+                },
+                "Policy": {
+                  "policyNumber": "string",
+                  "policyType": "enum:['Auto', 'Home', 'Life', 'Health']",
+                  "startDate": "date",
+                  "endDate": "date",
+                  "coverageAmount": "number",
+                  "premium": "number",
+                  "policyStatus": "enum:['Active', 'Expired', 'Cancelled', 'Pending']",
+                  "settings": {
+                    "sensitive": false,
+                    "reporting": true
+                  }
+                }
+              }
+              ```
+            </Accordion>
+          </Tab>
+        </Tabs>
+      
+      <div className="flex justify-between items-center">
+        <a href="/5.x/docs/building-blocks/process/project-data-model" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+          Learn more about Project Data Model 
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+        
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-300">
+          New Feature
+        </span>
+      </div>
+    </Card>
 
-## **Bug fixes** 🐞  
+    <Card title="FlowX Database" icon="server" iconType="duotone">
 
+        <Tabs>
+          <Tab title="Overview">
+            <Frame>
+            ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db_overview.png)
+            </Frame>
+            
+            <div className="mt-4 text-gray-800 dark:text-gray-200">
+              FlowX Database is a new persistence layer that enables you to store and retrieve data across different processes and applications, without relying on external systems.
+            </div>
+          </Tab>
+          
+          <Tab title="Key Features">
+            <CardGroup cols={2}>
+              <Card title="Data Persistence" icon="database">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Store data that persists beyond process instances
+                </div>
+              </Card>
+              <Card title="MongoDB Operations" icon="code">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Find, insert, and manipulate data using familiar MongoDB operations
+                </div>
+              </Card>
+              <Card title="Workflow Integration" icon="diagram-project">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Seamlessly integrate with workflows through Data Source nodes
+                </div>
+              </Card>
+              <Card title="Document Collections" icon="folder-tree">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Organize your data in structured collections
+                </div>
+              </Card>
+            </CardGroup>
+          </Tab>
+          
+          <Tab title="Benefits">
+            <Steps>
+              <Step title="Share data between processes">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Enable communication and data sharing between different process instances
+                </div>
+              </Step>
+              <Step title="Reduce external dependencies">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Store operational data within FlowX instead of building custom connectors
+                </div>
+              </Step>
+              <Step title="Enable new use cases">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Build dashboards, caching solutions, and other applications that require persistent data
+                </div>
+              </Step>
+              <Step title="Simplify architecture">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Keep your data within the FlowX ecosystem for improved security and simplicity
+                </div>
+              </Step>
+            </Steps>
+          </Tab>
+          
+          <Tab title="UI Integration">
+            <Frame caption="FlowX Database as a Data Source type">
+            ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db_datasource.png)
+            </Frame>
+            
+            <div className="mt-4 text-gray-700 dark:text-gray-300">
+              FlowX Database integrates directly into the existing Integration Designer as a new Data Source type alongside RESTful System, making it easy to create and manage database collections without learning new interfaces.
+            </div>
+          </Tab>
+        </Tabs>
+      
+      <div className="flex justify-between items-center">
+        <a href="/5.x/docs/platform-deep-dive/core-extensions/flowx-database" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+          Learn more about FlowX Database 
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+        
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-300">
+          New Feature
+        </span>
+      </div>
+    </Card>
+  </Tab>
 
----
+  <Tab title="Bug Fixes">
+    ## **Bug fixes** 🐞  
 
-## **Additional information**  
+  </Tab>
 
-📌 [Deployment Guidelines v5.0](./deployment-guidelines-v5.0.0)  
-📌 [Migration Guide (from v4.x)](./migrating-from-v4.x-to-v5.0)
+  <Tab title="Info">
+    ## **Additional information**  
+
+    <CardGroup cols={2}>
+      <Card title="Deployment Guidelines v5.0" icon="server" href="./deployment-guidelines-v5.0.0">
+        <div className="text-gray-700 dark:text-gray-300">
+          Instructions for deploying FlowX.AI 5.0.0
+        </div>
+      </Card>
+      <Card title="Migration Guide (from v4.x)" icon="arrow-up-right-dots" href="./migrating-from-v4.x-to-v5.0">
+        <div className="text-gray-700 dark:text-gray-300">
+          Step-by-step guide for migrating from v4.x to v5.0
+        </div>
+      </Card>
+    </CardGroup>
+  </Tab>
+</Tabs>
