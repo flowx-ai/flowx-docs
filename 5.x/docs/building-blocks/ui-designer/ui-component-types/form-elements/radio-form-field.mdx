@@ -1,0 +1,295 @@
+---
+title: Radio
+description: Radio buttons are normally presented in radio groups (a collection of radio buttons describing a set of related options). Only one radio button in a group can be selected at the same time.
+---
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/radio_form_field.png)
+
+## Configuring the radio field element
+
+### Radio generic settings
+
+These allow you to customize the generic settings for the Radio element:
+
+- [**Process data key**](#process-data-key)
+- [**Properties**](#properties)
+- [**Datasource**](#datasource)
+- [**Validators**](#validators)
+- [**Expressions**](#expressions)
+- [**UI actions**](#ui-actions)
+- [**Radio styling**](#radio-styling)
+
+#### Process data key
+
+Process data key establishes the binding between the radio element and process data, enabling its later use in [decisions](../../../node/exclusive-gateway-node), [business rules](../../../actions/business-rule-action/business-rule-action) or [integrations](../../../node/message-send-received-task-node#from-integration).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/radio_process_key.png)
+</Frame>
+
+#### Properties
+
+* **Label**: The visible label for the radio element.
+* **Helpertext**: Additional information about the radio element, which can be optionally hidden within an infopoint.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/radio_label_info.png)
+</Frame>
+
+#### Datasource configuration
+
+* **Default value**: Autoselect an option from the radio element based on this value. You need to specify the value from the value/label pairs defined in the Datasource tab.
+* **Source Type**: The source can be Static, Enumeration, or Process Data.
+* **Add option**: Define label and value pairs here.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/radio_datasource.png)
+</Frame>
+
+#### Validators
+
+The following validators can be added to a radio: `required` and `custom` (more details [here](../../validators)).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/radio_validators.png)
+</Frame>
+
+#### Hide/disable expressions
+  
+The radio's element behavior can be defined using JavaScript expressions for hiding or disabling the element. The following properties can be configured for expressions:
+   
+* **Hide condition**: A JavaScript expression that hides the Radio element when it returns a truthy value.
+* **Disabled condition**: A JavaScript expression that disables the Radio element when it returns a truthy value.
+
+<Info>
+It's important to make sure that disabled fields have the same expression configured under the path expressions → hide.
+</Info>
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/building-blocks/ui-designer/radio_validators.png)
+
+#### UI actions
+
+UI actions can be added to the radio element to define its behavior and interactions.
+
+* **Event**: Possible value - `CHANGE`.
+* **Action Type**: Select the type of the action to be performed.
+
+<Tip>
+For more details on how to configure a UI action, click [**here**](../../ui-actions).
+</Tip>
+
+
+### Radio settings overrides
+
+There are instances where you may need to tailor settings configured in the **Generic** settings tab. This proves especially beneficial when you wish to adjust these settings to appear differently across various platforms such as Web, Android, or iOS.
+
+Available override settings:
+
+* Properties:
+    * **Label**: Override the radio label.
+    * **Helper**: Override helper text/info point.
+* Expressions:
+    * **Hide**: Override the hide expression.
+
+<Tip>
+Overrides can always be imported/pushed from one platform to another:
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/importing_pushing_overrides.gif)
+
+</Tip>
+
+### Radio styling
+
+<Tabs>
+<Tab title="Web">
+<Tabs>
+<Tab title ="Properties">
+
+* **Type**: Set the type of the radio. Possible values:
+
+    * bordered
+    * clear
+
+
+</Tab>
+<Tab title="Sizing">
+
+Adjusting the size of components is crucial for a responsive design. Fit W (width) offers three options:
+
+    * **fill**: Fills the available space.
+    * **fixed**: Maintains a fixed width.
+    * **auto**: Adjusts the width automatically based on content.
+
+</Tab>
+<Tab title ="Layout">
+
+* **Direction**: Determines the orientation of the layout, which can be either horizontal or vertical.
+* **Gap**: Specifies the size of the space between rows and columns.
+* **Columns**: Indicates the number of columns in the layout.
+
+</Tab>
+</Tabs>
+</Tab>
+<Tab title ="iOS">
+
+Similar styling considerations apply to iOS as for web.
+
+However, for mobile applications, there's a difference on Gap value:
+
+* **Gap**: pt - points instead of pixels
+
+</Tab>
+<Tab title ="Android">
+
+Similar styling considerations apply to Android as for web.
+
+However, for mobile applications, there's a difference on Gap value:
+
+* **Gap**: dp - density-independent pixels
+
+</Tab>
+</Tabs>
+
+#### Radio style overrides options
+
+Theme overrides refer to the ability to modify or customize the appearance and behavior of UI components by overriding default theme settings. This can be applied at various levels, such as specific elements or entire sections, and can be platform-specific (Web, iOS, Android).
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov.png)
+</Frame>
+
+Style options:
+
+<AccordionGroup>
+  <Accordion title="Common Properties">
+- Border radius **[TEXT]**
+- Border width  **[TEXT]**
+- Text style **[FONT]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_common.png)
+</Frame>
+
+</Accordion>
+
+  <Accordion title="Label">
+- Default state
+    - Text color **[COLOR]**
+- Disabled state
+    - Text color  **[COLOR]**
+- Text style **[FONT]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_label.png)
+</Frame>
+
+</Accordion>
+
+  <Accordion title="Helper">
+- Text color **[COLOR]**
+- Text style **[FONT]**
+- Helper Tooltip
+    - Text style **[FONT]**
+    - Text color **[COLOR]**
+    - Background color **[COLOR]**
+    - Icon Color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_helper.png)
+</Frame>
+
+</Accordion>
+
+<Accordion title="Error">
+
+- Text color **[COLOR]**
+- Text style **[FONT]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_error.png)
+</Frame>
+
+</Accordion>
+
+  <Accordion title="Unselected State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Icon color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_unselected.png)
+</Frame>
+
+  </Accordion>
+
+  <Accordion title="Selected State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Icon color **[COLOR]**
+
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_selected.png)
+</Frame>
+
+  </Accordion>
+
+  <Accordion title="Disabled Unselected State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Icon color **[COLOR]**
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_disabled_unselected_state.png)
+</Frame>
+
+</Accordion>
+
+ <Accordion title="Disabled Selected State">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Icon color **[COLOR]**
+
+<Frame> 
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_disabled_selected_state.png)
+</Frame>
+  </Accordion>
+
+  <Accordion title="Hover Unselected State (only for Web configuration)">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Icon color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_hover_unselected_state.png)
+</Frame>
+
+  </Accordion>
+
+  <Accordion title="Hover Selected State (only for Web configuration)">
+    - Border color **[COLOR]**
+    - Background color **[COLOR]**
+    - Text color **[COLOR]**
+    - Icon color **[COLOR]**
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/checkbox_ov_hover_selected_state.png)
+</Frame>
+
+  </Accordion>
+</AccordionGroup>
+
+
+<Info>
+You can import or push the overrides from one platform to another without having to configure them multiple times.
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/ov_push_import.gif)
+
+</Info>
+
+
+
