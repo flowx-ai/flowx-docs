@@ -631,7 +631,6 @@ The following MongoDB operations are supported in FlowX Database. Each tab inclu
 
     - **filter** (document, required): Criteria to match the document to update. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
     - **update** (document, required): Update operations to apply. See [Update Operators](https://www.mongodb.com/docs/manual/reference/operator/update/)
-    - **upsert** (boolean, optional): When true, creates a new document if no documents match the filter. See [Update with Upsert](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateOne/#upsert-behavior)
 
     <Accordion title="Example: Update customer status">
       This example updates a customer's status and records when the change occurred.
@@ -657,14 +656,9 @@ The following MongoDB operations are supported in FlowX Database. Each tab inclu
           }
           ```
         </Tab>
-        <Tab title="upsert">
-          ```
-          false
-          ```
-        </Tab>
       </Tabs>
       
-      This operation updates a customer's status along with the reason and timestamp. The upsert parameter is set to false to prevent creating a new customer if the ID doesn't exist.
+      This operation updates a customer's status along with the reason and timestamp. 
     </Accordion>
     
     <Accordion title="Example: Update order with tracking information">
@@ -711,7 +705,6 @@ The following MongoDB operations are supported in FlowX Database. Each tab inclu
 
     - **filter** (document, required): Criteria to match documents to update. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
     - **update** (document, required): Update operations to apply. See [Update Operators](https://www.mongodb.com/docs/manual/reference/operator/update/)
-    - **upsert** (boolean, optional): When true, creates a new document if no documents match the filter. See [Update with Upsert](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateMany/#upsert-behavior)
     <Accordion title="Example: Deactivate inactive customers">
       This example updates the status of multiple customers based on their last activity date.
       
