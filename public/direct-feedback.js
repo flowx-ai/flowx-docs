@@ -12,8 +12,8 @@ window.addEventListener('load', function() {
     button.target = '_blank';
     button.textContent = 'Feedback';
     button.style.position = 'fixed';
-    button.style.bottom = '30px';
-    button.style.right = '30px';
+    button.style.bottom = '25px';
+    button.style.left = '25px';
     button.style.backgroundColor = '#fdb913';
     button.style.color = 'white';
     button.style.padding = '12px 20px';
