@@ -48,16 +48,16 @@ Unlike the previous approach where FlowX functioned primarily as an orchestratio
   <Tab title="Operations">
     Operations define the actions you can perform on a collection. FlowX Database supports the full range of essential MongoDB operations:
     
-    | Operation    | Description                                   |
-    | ------------ | --------------------------------------------- |
-    | `find`       | Retrieve multiple documents based on criteria |
-    | `findOne`    | Retrieve a single document                    |
-    | `insertOne`  | Add a single document                         |
-    | `insertMany` | Add multiple documents at once                |
-    | `updateOne`  | Modify a single document                      |
-    | `updateMany` | Modify multiple documents at once             |
-    | `deleteOne`  | Remove a single document                      |
-    | `deleteMany` | Remove multiple documents at once             |
+| Operation    | Description                                   | MongoDB Docs                                                                                           |
+| ------------ | --------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `find`       | Retrieve multiple documents based on criteria | [MongoDB find()](https://www.mongodb.com/docs/manual/reference/method/db.collection.find/)             |
+| `findOne`    | Retrieve a single document                    | [MongoDB findOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.findOne/)       |
+| `insertOne`  | Add a single document                         | [MongoDB insertOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.insertOne/)   |
+| `insertMany` | Add multiple documents at once                | [MongoDB insertMany()](https://www.mongodb.com/docs/manual/reference/method/db.collection.insertMany/) |
+| `updateOne`  | Modify a single document                      | [MongoDB updateOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateOne/)   |
+| `updateMany` | Modify multiple documents at once             | [MongoDB updateMany()](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateMany/) |
+| `deleteOne`  | Remove a single document                      | [MongoDB deleteOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.deleteOne/)   |
+| `deleteMany` | Remove multiple documents at once             | [MongoDB deleteMany()](https://www.mongodb.com/docs/manual/reference/method/db.collection.deleteMany/) |
     
     Each operation is configured with specific parameters that determine how it interacts with the data.
   </Tab>
@@ -273,6 +273,11 @@ You can use static JSON or reference process variables using the expression synt
   }
   ```
   This filter will return all documents where the age is greater than 30 and the status is "active".
+
+<Info>
+For more information about MongoDB comparison operators like $gt, see [Comparison Query Operators](https://www.mongodb.com/docs/manual/reference/operator/query/comparison/).
+</Info>
+
 </Accordion>
 
 <Accordion title="Example: Using process variables in parameters">
@@ -282,21 +287,32 @@ You can use static JSON or reference process variables using the expression synt
   }
   ```
   This filter uses a value from the process instance to find documents matching a specific customer ID.
+
+<Info>
+Learn more about MongoDB query syntax in the [Query Documents Tutorial](https://www.mongodb.com/docs/manual/tutorial/query-documents/).
+</Info>
+
 </Accordion>
 
 ## MongoDB operations supported
 
-FlowX Database supports the following MongoDB operations. Each tab includes practical examples that you can use as a starting point for your own operations.
+FlowX Database leverages MongoDB's powerful query capabilities. For detailed information about MongoDB query operators, filters, and syntax, refer to the [MongoDB Query and Projection Operators documentation](https://www.mongodb.com/docs/manual/reference/operator/query/).
+
+The following MongoDB operations are supported in FlowX Database. Each tab includes practical examples that you can use as a starting point for your own operations.
+
 
 <Tabs>
   <Tab title="find">
     **Parameters:**
+
+    For complete documentation on find operations and query syntax, see [MongoDB db.collection.find()](https://www.mongodb.com/docs/manual/reference/method/db.collection.find/).
+
     
-    - **filter** (document, optional): Criteria to match documents
-    - **sort** (document, optional): Document specifying the sorting order
-    - **skip** (integer, optional): Number of documents to skip
-    - **limit** (integer, optional): Maximum number of documents to return
-    - **projection** (document, optional): Fields to include or exclude
+    - **filter** (document, optional): Criteria to match documents. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
+    - **sort** (document, optional): Document specifying the sorting order. See [Sort Query Results](https://www.mongodb.com/docs/manual/reference/method/cursor.sort/)
+    - **skip** (integer, optional): Number of documents to skip. See [Limit Query Results](https://www.mongodb.com/docs/manual/reference/method/cursor.skip/)
+    - **limit** (integer, optional): Maximum number of documents to return. See [Limit Query Results](https://www.mongodb.com/docs/manual/reference/method/cursor.limit/)
+    - **projection** (document, optional): Fields to include or exclude. See [Project Fields](https://www.mongodb.com/docs/manual/tutorial/project-fields-from-query-results/)
 
     <Accordion title="Example: List active customers">
       This example finds all active customers, sorts them by registration date (newest first), limits to 10 results, and returns only specific fields.
@@ -390,10 +406,12 @@ FlowX Database supports the following MongoDB operations. Each tab includes prac
   
   <Tab title="findOne">
     **Parameters:**
-    
-    - **filter** (document, optional): Criteria to match the document
-    - **projection** (document, optional): Fields to include or exclude
-    - **sort** (document, optional): Document specifying the sorting order
+
+    For complete documentation on findOne operations, see [MongoDB db.collection.findOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.findOne/).
+
+    - **filter** (document, optional): Criteria to match the document. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
+    - **projection** (document, optional): Fields to include or exclude. See [Project Fields](https://www.mongodb.com/docs/manual/tutorial/project-fields-from-query-results/)
+    - **sort** (document, optional): Document specifying the sorting order. See [Sort Query Results](https://www.mongodb.com/docs/manual/reference/method/cursor.sort/)
 
     <Accordion title="Example: Find customer by ID">
       This example retrieves a single customer by their unique customer ID.
@@ -467,8 +485,10 @@ FlowX Database supports the following MongoDB operations. Each tab includes prac
   
   <Tab title="insertOne">
     **Parameters:**
-    
-    - **document** (document, required): The document to insert
+
+    For complete documentation on insertOne operations, see [MongoDB db.collection.insertOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.insertOne/).
+
+    - **document** (document, required): The document to insert. See [Insert Documents](https://www.mongodb.com/docs/manual/tutorial/insert-documents/)
 
     <Accordion title="Example: Create a new customer">
       This example inserts a new customer record using data from a process instance.
@@ -527,9 +547,10 @@ FlowX Database supports the following MongoDB operations. Each tab includes prac
   
   <Tab title="insertMany">
     **Parameters:**
-    
-    - **documents** (array, required): Array of documents to insert
 
+    For complete documentation on insertMany operations, see [MongoDB db.collection.insertMany()](https://www.mongodb.com/docs/manual/reference/method/db.collection.insertMany/).
+
+    - **documents** (array, required): Array of documents to insert. See [Insert Documents](https://www.mongodb.com/docs/manual/tutorial/insert-documents/)
     <Accordion title="Example: Import multiple customers">
       This example inserts multiple customer records at once, typically from an imported data source.
       
@@ -605,10 +626,12 @@ FlowX Database supports the following MongoDB operations. Each tab includes prac
   
   <Tab title="updateOne">
     **Parameters:**
-    
-    - **filter** (document, required): Criteria to match the document to update
-    - **update** (document, required): Update operations to apply
-    - **upsert** (boolean, optional): When true, creates a new document if no documents match the filter
+
+    For complete documentation on updateOne operations, see [MongoDB db.collection.updateOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateOne/).
+
+    - **filter** (document, required): Criteria to match the document to update. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
+    - **update** (document, required): Update operations to apply. See [Update Operators](https://www.mongodb.com/docs/manual/reference/operator/update/)
+    - **upsert** (boolean, optional): When true, creates a new document if no documents match the filter. See [Update with Upsert](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateOne/#upsert-behavior)
 
     <Accordion title="Example: Update customer status">
       This example updates a customer's status and records when the change occurred.
@@ -683,11 +706,12 @@ FlowX Database supports the following MongoDB operations. Each tab includes prac
   
   <Tab title="updateMany">
     **Parameters:**
-    
-    - **filter** (document, required): Criteria to match documents to update
-    - **update** (document, required): Update operations to apply
-    - **upsert** (boolean, optional): When true, creates a new document if no documents match the filter
 
+    For complete documentation on updateMany operations, see [MongoDB db.collection.updateMany()](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateMany/).
+
+    - **filter** (document, required): Criteria to match documents to update. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
+    - **update** (document, required): Update operations to apply. See [Update Operators](https://www.mongodb.com/docs/manual/reference/operator/update/)
+    - **upsert** (boolean, optional): When true, creates a new document if no documents match the filter. See [Update with Upsert](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateMany/#upsert-behavior)
     <Accordion title="Example: Deactivate inactive customers">
       This example updates the status of multiple customers based on their last activity date.
       
@@ -754,8 +778,10 @@ FlowX Database supports the following MongoDB operations. Each tab includes prac
   
   <Tab title="deleteOne">
     **Parameters:**
-    
-    - **filter** (document, required): Criteria to match the document to delete
+
+    For complete documentation on deleteOne operations, see [MongoDB db.collection.deleteOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.deleteOne/).
+
+    - **filter** (document, required): Criteria to match the document to delete. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
 
     <Accordion title="Example: Delete a customer record">
       This example removes a single customer record by ID.
@@ -797,9 +823,11 @@ FlowX Database supports the following MongoDB operations. Each tab includes prac
   </Tab>
   
   <Tab title="deleteMany">
-    **Parameters:**
-    
-    - **filter** (document, required): Criteria to match documents to delete
+   **Parameters:**
+
+    For complete documentation on deleteMany operations, see [MongoDB db.collection.deleteMany()](https://www.mongodb.com/docs/manual/reference/method/db.collection.deleteMany/).
+
+    - **filter** (document, required): Criteria to match documents to delete. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
 
     <Accordion title="Example: Purge temporary records">
       This example removes all temporary records older than a specified date.
@@ -1147,9 +1175,29 @@ FlowX Database provides a powerful persistence layer that enables you to store a
 
 Start using FlowX Database today to create more robust, data-driven applications with FlowX.AI.
 
+
+
+## MongoDB learning resources
+
+To get the most out of FlowX Database, familiarize yourself with MongoDB concepts and operations:
+
+<CardGroup cols={2}>
+  <Card title="MongoDB Manual" icon="book" href="https://www.mongodb.com/docs/manual/">
+    Complete MongoDB documentation covering all operations and concepts
+  </Card>
+  <Card title="Query Tutorial" icon="magnifying-glass" href="https://www.mongodb.com/docs/manual/tutorial/query-documents/">
+    Learn how to construct effective MongoDB queries
+  </Card>
+  <Card title="Update Operations" icon="pen-to-square" href="https://www.mongodb.com/docs/manual/tutorial/update-documents/">
+    Master document update operations and operators
+  </Card>
+  <Card title="Data Modeling" icon="sitemap" href="https://www.mongodb.com/docs/manual/core/data-modeling-introduction/">
+    Best practices for structuring your data in MongoDB
+  </Card>
+</CardGroup>
+
+
 ## FAQs
-
-
 
 <Accordion title="When should I use Data Search vs. FlowX Database?">
 FlowX Database does not replace Data Search. Each serves different purposes in the platform.
