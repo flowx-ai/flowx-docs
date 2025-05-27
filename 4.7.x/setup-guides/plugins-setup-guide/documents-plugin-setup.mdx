@@ -203,7 +203,7 @@ Set the following values with the corresponding Redis-related values:
 ### File conversion
 
 | Environment Variable           | Description                       | Default Value                                                         |
-| `----------------------------` | --------------------------------- | `-------------------------------------------------------------------` |
+| ------------------------------ | --------------------------------- | --------------------------------------------------------------------- |
 | `KAFKA_TOPIC_FILE_CONVERT_OUT` | Topic for file conversion results | `ai.flowx.dev.engine.receive.plugin.document.convert.file.results.v1` |
 
 ### File persistence
@@ -238,6 +238,13 @@ Set the following values with the corresponding Redis-related values:
 | `APPLICATION_FILESTORAGE_DISKDIRECTORY`     | Directory for file storage when using filesystem                                                                                                                                                                                                                                                                  | `MS_SVC_DOCUMENT` |
 | `APPLICATION_FILESTORAGE_PARTITIONSTRATEGY` | Set the partition strategy for file storage. Use `NONE` to save documents in `minio/amazon-s3` as before, with a bucket for each process instance. Use `PROCESS_DATE` to save documents in a single bucket with a subfolder structure, for example: `bucket/2022/2022-07-04/process-id-xxxx/customer-id/file.pdf` | `NONE`            |
 | `APPLICATION_FILESTORAGE_DELETIONSTRATEGY`  | Strategy for deleting files (`delete`, `disabled`, or `deleteBypassingGovernanceRetention`)                                                                                                                                                                                                                       | `delete`          |
+
+<Info>
+
+`APPLICATION_FILESTORAGE_DELETIONSTRATEGY`:
+* `disabled`: This will disable entirely the deletion of temporary files from the temporary bucket, and the responsibility to delete and clean up the bucket will move in the ownership of the admins of the implementing project.
+* `deleteBypassingGovernanceRetention`: This will still delete the temporary files and further more will add in the delete request the header: `x-amz-bypass-governance-retention:true` , to enable deletion of governed files, in case the s3 configured user for document-plugin, will have the `s3:BypassGovernanceRetention` permission.
+</Info>
 
 ## S3-Compatible storage configuration
 

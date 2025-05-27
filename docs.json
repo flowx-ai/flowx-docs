@@ -3644,7 +3644,7 @@
     }
   },
   "search": {
-    "prompt": "Search...or ask a question",
+    "prompt": "Search...or use ASK AI",
     "shortcut": {
       "modifier": "ctrl",
       "key": "k"
