@@ -4422,7 +4422,7 @@
     }
   },
   "search": {
-    "prompt": "Search...or ask a question",
+    "prompt": "Search...or use ASK AI to ask a question",
     "shortcut": {
       "modifier": "ctrl",
       "key": "k"
