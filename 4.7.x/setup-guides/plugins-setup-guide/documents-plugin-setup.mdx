@@ -230,14 +230,14 @@ Set the following values with the corresponding Redis-related values:
 
 ### General storage configuration
 
-| Environment Variable                        | Description                                                                                 | Default Value     |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------- | ----------------- |
-| `APPLICATION_DEFAULTLOCALE`                 | Default locale for the application                                                          | `en`              |
-| `APPLICATION_SUPPORTEDLOCALES`              | Comma-separated list of supported locales                                                   | `en, ro`          |
-| `APPLICATION_FILESTORAGE_TYPE`              | Storage type to use (`s3` or `fileSystem`)                                                  | `s3`              |
-| `APPLICATION_FILESTORAGE_DISKDIRECTORY`     | Directory for file storage when using filesystem                                            | `MS_SVC_DOCUMENT` |
-| `APPLICATION_FILESTORAGE_PARTITIONSTRATEGY` | Strategy for file organization (`NONE` or `PROCESS_DATE`)                                   | `NONE`            |
-| `APPLICATION_FILESTORAGE_DELETIONSTRATEGY`  | Strategy for deleting files (`delete`, `disabled`, or `deleteBypassingGovernanceRetention`) | `delete`          |
+| Environment Variable                        | Description                                                                                                                                                                                                                                                                                                       | Default Value     |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| `APPLICATION_DEFAULTLOCALE`                 | Default locale for the application                                                                                                                                                                                                                                                                                | `en`              |
+| `APPLICATION_SUPPORTEDLOCALES`              | Comma-separated list of supported locales                                                                                                                                                                                                                                                                         | `en, ro`          |
+| `APPLICATION_FILESTORAGE_TYPE`              | Storage type to use (`s3` or `fileSystem`)                                                                                                                                                                                                                                                                        | `s3`              |
+| `APPLICATION_FILESTORAGE_DISKDIRECTORY`     | Directory for file storage when using filesystem                                                                                                                                                                                                                                                                  | `MS_SVC_DOCUMENT` |
+| `APPLICATION_FILESTORAGE_PARTITIONSTRATEGY` | Set the partition strategy for file storage. Use `NONE` to save documents in `minio/amazon-s3` as before, with a bucket for each process instance. Use `PROCESS_DATE` to save documents in a single bucket with a subfolder structure, for example: `bucket/2022/2022-07-04/process-id-xxxx/customer-id/file.pdf` | `NONE`            |
+| `APPLICATION_FILESTORAGE_DELETIONSTRATEGY`  | Strategy for deleting files (`delete`, `disabled`, or `deleteBypassingGovernanceRetention`)                                                                                                                                                                                                                       | `delete`          |
 
 ## S3-Compatible storage configuration
 
