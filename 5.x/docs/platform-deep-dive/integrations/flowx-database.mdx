@@ -16,7 +16,9 @@ FlowX Database (FlowX DB) is a persistence layer that allows you to store struct
 - Create a persistent data store within the FlowX ecosystem
 - Access structured data without directly interacting with external systems
 
-Unlike the previous approach where FlowX functioned primarily as an orchestration layer, FlowX Database adds a complete persistence layer that brings FlowX closer to an end-to-end business solution.
+<Info>
+FlowX Database is powered by the **nosql-db-runner** microservice, which provides pure MongoDB functionality within the FlowX ecosystem. This microservice enables native MongoDB operations while maintaining FlowX's workflow integration capabilities.
+</Info>
 
 ## Key concepts
 
@@ -79,7 +81,7 @@ Unlike the previous approach where FlowX functioned primarily as an orchestratio
     Reduce the need for creating custom connectors to external systems for basic data persistence
   </Card>
   <Card title="Native Integration" icon="link">
-    Seamlessly integrate with workflows through the existing workflow designer
+    Integrate with workflows through the existing workflow designer
   </Card>
   <Card title="Complete CRUD Operations" icon="database">
     Perform all standard Create, Read, Update, and Delete operations on your data
@@ -296,7 +298,7 @@ Learn more about MongoDB query syntax in the [Query Documents Tutorial](https://
 
 ## MongoDB operations supported
 
-FlowX Database leverages MongoDB's powerful query capabilities. For detailed information about MongoDB query operators, filters, and syntax, refer to the [MongoDB Query and Projection Operators documentation](https://www.mongodb.com/docs/manual/reference/operator/query/).
+FlowX Database leverages MongoDB's powerful query capabilities through the **nosql-db-runner** service, providing pure MongoDB functionality. For detailed information about MongoDB query operators, filters, and syntax, refer to the [MongoDB Query and Projection Operators documentation](https://www.mongodb.com/docs/manual/reference/operator/query/).
 
 The following MongoDB operations are supported in FlowX Database. Each tab includes practical examples that you can use as a starting point for your own operations.
 
@@ -1159,14 +1161,11 @@ Data validation based on a schema is not yet supported.
   <img src="/images/flowx-db-summary.png" alt="FlowX Database Summary" />
 </Frame>
 
-FlowX Database provides a powerful persistence layer that enables you to store and share data across different processes and projects. By leveraging MongoDB's capabilities, FlowX Database offers:
-
+FlowX Database provides a powerful persistence layer that enables you to store and share data across different processes and projects. By leveraging MongoDB's capabilities through the **nosql-db-runner** service, FlowX Database offers:
 1. **Flexible data storage** for any structured data
 2. **Data sharing** between process instances
-3. **Seamless integration** with workflows
+3. **Integration** with workflows
 4. **Independence** from external systems for basic data persistence
-
-Start using FlowX Database today to create more robust, data-driven applications with FlowX.AI.
 
 
 
@@ -1201,7 +1200,7 @@ FlowX Database does not replace Data Search. Each serves different purposes in t
     - Optimized for CRUD operations
     - Stores structured business data
     - Designed for sharing data across processes
-    - Uses MongoDB as the underlying technology
+    - Uses MongoDB as the underlying technology (via nosql-db-runner service)
   </Tab>
   <Tab title="Data Search">
     - Provides indexing and search capabilities
@@ -1213,3 +1212,72 @@ FlowX Database does not replace Data Search. Each serves different purposes in t
 </Tabs> 
 </Accordion>
 
+<Accordion title="What types of data should I store in FlowX Database?">
+FlowX Database is designed for **operational data with temporary character**, including:
+
+- **Dashboard data**: Aggregated information for reporting and visualization
+- **Cached data**: Frequently accessed information like daily exchange rates, product catalogs, or configuration data that changes periodically
+- **Shared process data**: Information that needs to be accessed across multiple process instances - this solves the key pain point of data sharing between different process instances
+- **Temporary operational data**: Working data that supports business processes but isn't part of your permanent records
+
+<Warning>
+**Important**: FlowX Database should **not become your primary book of records** or system of record. Use it for operational data that supports your processes, not for critical business data that requires long-term retention and governance.
+</Warning>
+</Accordion>
+
+<Accordion title="Can I share FlowX Database collections between different projects?">
+Yes, you can share collections between projects using the library approach:
+
+1. **Create collections in one project**: Set up your FlowX Database collections in a primary project
+2. **Include as libraries**: Add these collections as libraries in other projects that need access
+3. **Maintain consistency**: This approach ensures all projects use the same data structures and operations
+4. **Future-proof management**: Having centralized collection definitions makes updates and maintenance easier across all projects
+
+This pattern is particularly useful for shared reference data, common configurations, or cross-project operational data.
+</Accordion>
+
+<Accordion title="Why doesn't FlowX Database support automatic data migration?">
+FlowX Database intentionally does not provide automatic migration capabilities for several important reasons:
+
+- **Data integrity**: Many documents need to remain in their original format to maintain historical accuracy and compliance requirements
+- **Process dependencies**: Existing processes may depend on specific data structures, and automatic changes could break functionality
+- **Business context**: Data migration often requires business logic and context that automated systems cannot provide
+- **Risk management**: Manual migration allows for proper testing and validation before changes are applied
+
+When you need to modify data structures, plan for manual migration processes with proper testing and validation procedures handled by your DevOps team.
+</Accordion>
+
+<Accordion title="Can I store different types of documents in the same collection?">
+**No, this is strongly discouraged.** Each collection should contain documents with the same structure and purpose. 
+
+**DON'T DO IT** - Mixing different document types in one collection can lead to:
+
+- **Query complexity**: Filtering becomes more complex when documents have different schemas
+- **Performance issues**: Indexes become less effective with mixed document types
+- **Maintenance problems**: Updates and changes become harder to manage
+- **Data consistency**: Harder to ensure data quality and validation
+
+Instead, create separate collections for each document type, even if they seem related. This follows MongoDB best practices and keeps your data organized and manageable.
+</Accordion>
+
+<Accordion title="How does FlowX Database solve cross-process data sharing?">
+FlowX Database solves the key pain point of **accessing the same data from multiple process instances**:
+
+- **Cross-instance access**: Multiple process instances can read from and write to the same collections simultaneously
+- **Data persistence**: Data remains available even after individual processes complete
+- **Concurrent access**: The underlying MongoDB technology (via nosql-db-runner) handles concurrent read/write operations safely
+- **Shared state**: Enables complex workflows where processes need to coordinate through shared data
+
+This capability enables use cases like multi-step approval processes, shared customer data across different business processes, and coordinated workflows that span multiple process instances - addressing a major limitation of traditional process-scoped data storage.
+</Accordion>
+
+<Accordion title="What's the relationship between FlowX Database and the nosql-db-runner service?">
+FlowX Database is powered by the **nosql-db-runner** microservice, which provides:
+
+- **Pure MongoDB functionality**: Direct access to MongoDB operations within the FlowX ecosystem
+- **Native integration**: Connection between FlowX workflows and MongoDB operations
+- **Scalable architecture**: A dedicated service that can be scaled independently based on database operation needs
+- **Full MongoDB support**: Access to the complete range of MongoDB operations and query capabilities
+
+The nosql-db-runner acts as the bridge between FlowX's workflow engine and MongoDB, enabling you to leverage MongoDB's full power while maintaining FlowX's process orchestration capabilities.
+</Accordion>

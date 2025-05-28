@@ -105,8 +105,8 @@
                       "5.x/docs/flowx-designer/managing-a-project-flow/adding-an-action-to-a-node",
                       "5.x/docs/flowx-designer/managing-a-project-flow/handling-decisions-in-the-flow",
                       "5.x/docs/flowx-designer/managing-a-project-flow/adding-more-flow-branches",
-                      "4.7.x/docs/flowx-designer/managing-a-project-flow/creating-a-user-interface",
-                      "4.7.x/docs/flowx-designer/managing-a-project-flow/moving-a-token-backwards-in-a-process",
+                      "5.x/docs/flowx-designer/managing-a-project-flow/creating-a-user-interface",
+                      "5.x/docs/flowx-designer/managing-a-project-flow/moving-a-token-backwards-in-a-process",
                       "5.x/docs/flowx-designer/managing-a-project-flow/export-import-a-process-definition",
                       "5.x/docs/flowx-designer/managing-a-project-flow/starting-a-process"
                     ]
@@ -764,11 +764,12 @@
                   "5.x/setup-guides/scheduler-setup-guide",
                   "5.x/setup-guides/events-gateway-setup",
                   "5.x/setup-guides/audit-setup-guide",
-                  "4.7.x/setup-guides/search-data-service-setup-guide",
+                  "5.x/setup-guides/search-data-service-setup-guide",
                   "5.x/setup-guides/data-sync",
-                  "5.x/setup-guides/plugins-setup-guide/documents-plugin-setup",
-                  "5.x/setup-guides/plugins-setup-guide/notifications-plugin-setup",
-                  "5.x/setup-guides/plugins-setup-guide/task-management-plugin-setup"
+                  "5.x/setup-guides/documents-plugin-setup",
+                  "5.x/setup-guides/nosql-db-runner",
+                  "5.x/setup-guides/notifications-plugin-setup",
+                  "5.x/setup-guides/task-management-plugin-setup"
                 ]
               },
               {
