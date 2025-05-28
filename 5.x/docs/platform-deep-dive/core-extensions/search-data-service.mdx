@@ -1,258 +1,671 @@
 ---
-title: FlowX.AI Data Search
-description: The Data Search service is a microservice that enables data searches within processes defined in the current or any other application in the platform. It facilitates the creation of processes capable of conducting searches and retrieving data by utilizing Kafka actions in tandem with Elasticsearch mechanisms.
+title: FlowX.AI Data Search 
+description: Search for specific data across process instances using Elasticsearch-powered indexing for fast, precise results.
 ---
-<Tip>
-Data Search service leverages Elasticsearch to execute searches based on indexed keys, using existing mechanisms.
-</Tip>
-
-## Using the Data Search service
-
-### Use case
-
-- Search for data within other processes
-- Display results indicating where the search key was found in other processes
-
-For our example, two process definitions are necessary:
-
-- one process used to search data in another process - in our example ***"search_process_CDN"***
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/search_in_another_proc_34.png)
+![Data Search Service Overview](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/data_search_ov.png)
 </Frame>
 
+The Data Search service enables you to find specific data across process instances within your FlowX.AI platform. It uses Elasticsearch to perform fast, indexed searches across process data.
 
+<CardGroup cols={2}>
+  <Card title="Simple Search" icon="magnifying-glass" href="#simple-search">
+    Search by a single field and value
+  </Card>
+  <Card title="Advanced Search" icon="filter" href="#advanced-search">
+    Search using multiple criteria simultaneously
+  </Card>
+  <Card title="Cross-Application" icon="globe" href="#cross-application-search">
+    Search across multiple applications
+  </Card>
+  <Card title="Date Filtering" icon="calendar" href="#date-range-filtering">
+    Filter results by process creation dates
+  </Card>
+</CardGroup>
 
+## Prerequisites
 
-- one process where we look for data - in our example ***"add_new_clients"***
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/search_populate_data.png)
-</Frame>
-
-## Add data process example
-
-Firstly, create a process where data will be added. Subsequently, the second process will be used to search for data in this initial process.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/addDataProc.png)
-</Frame>
-
-<Warning>
-In the "Add Data Process Example" it's crucial to note that we add mock data here to simulate existing data within real processes.
-</Warning>
-
-Example of MVEL Business Rule:
-
-```json
-output.put ("application", {
-  "date": "22.08.2022",
-    "client": {
-      "identificationData": {
-        "firstName": "John",
-        "lastName": "Doe",
-        "cityOfBirth": "Anytown",
-        "primaryDocument": {
-          "number": 123456,
-          "series": "AB",
-          "issuedCountry": "USA",
-          "issuedBy": "Local Authority",
-          "issuedAt": "01.01.2010",
-          "type": "ID",
-          "expiresAt": "01.01.2030"
-        },
-        "countryOfBirth": "USA",
-        "personalIdentificationNumber": "1234567890",
-        "countyOfBirth": "Any County",
-        "isResident": true,
-        "residenceAddress": {
-          "country": "USA",
-          "city": "Anytown",
-          "street": "Main Street",
-          "streetNumber": 123
-        },
-        "mailingAddress": {
-          "country": "USA",
-          "city": "Anytown",
-          "street": "Main Street",
-          "streetNumber": 123
-        },
-        "pseudonym": null
-      },
-    }
-    }
-);
-```
-
-Now we can play with this process and create some process instances with different states.
-
-## Search process example
-
-Configure the "Search process" to search data in the first created process instances:
-
-<Steps>
-<Step title ="Create process">
-Create a process using the [**Process Designer**](../../building-blocks/process/process).
-</Step>
-<Step title ="Displaying the results (optional)">
-Add a [**Task node**](../../building-blocks/node/task-node) within the process. Configure this node and add a business rule if you want to customize the display of results, e.g:
-
-```java
-output.put("searchResult", {"result": []});
-output.put("resultsNumber", 0);
-```
-
-<Tip>
-For displaying results in the UI, you can also consider utilizing [**Collections**](../../building-blocks/ui-designer/ui-component-types/collection/) UI element.
-</Tip>
-</Step>
-
-<Step title ="Configure the search node">
-Add a **user task** and configure a send event using a [**Kafka send action**](../../building-blocks/node/message-send-received-task-node#send-message-task). Configure the following parameters:
+Before using the Data Search service, ensure you have:
 
 <AccordionGroup>
-<Accordion title ="Topic name">
-The Kafka topic for the search service requests (defined at `KAFKA_TOPIC_DATA_SEARCH_IN` environment variable in your deployment).
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/search_in_topic.png)
-
-</Accordion>
-<Accordion title="Body message">
-
-```json
-{
-  "searchKey": "application.client.identificationData.lastName",
-  "value": "12344",
-  "processStartDateAfter": "YYYY-MM-DDTHH:MM:SS", 
-  "processStartDateBefore": "YYYY-MM-DDTHH:MM:SS",
-  "processDefinitionNames": ["processDef1", "processDef2"],
-  "states": ["STARTED", "FINISHED", "ONHOLD"],
-  "applicationIds": ["8dd20844-2dc5-4445-83a5-bbbcc82bed5f"]
-}
-```
-
-* **searchKey** - Represents the process key used to search data stored in a process.
-
-<Warning>
-Indexing this key within the process is crucial for the Data Search service to effectively locate it. To enable indexing, navigate to your desired Application then choose the process definition and access **Process Settings → Data Search**.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/Screenshot%202024-11-19%20at%2018.37.53.png)
-
-❗️ Keys are indexed automatically when the process status changes (e.g., created, started, finished, failed, terminated, expired), when swimlanes are altered, or when stages are modified. To ensure immediate indexing, select the 'Update in Task Management' option either in the **node configuration** or within **Process Settings → General** tab.
-</Warning>
-
-* **value** -  The dynamic process key added on our input element that will store and send the data entered by a user to the front end.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/searchValue.png)
-</Frame>
-
-* **states** - `["STARTED", "FINISHED", "ONHOLD", "..."]` - If omitted, the process will display all statuses.
-
-<Info>
-Check the Understanding the [Process Status Data](../../projects/runtime/active-process/process-instance) section for more example of possible states.
-</Info>
-
-* **applicationIds**: 
-  * If omitted, the search will be performed in the current application.
-  * If multiple application IDs are provided, the search will be executed across all specified applications.
-
-</Accordion>
-
-<Accordion title="Data to send">
-- **Data to send (key)**: Used for validating data sent from the frontend via an action (refer to **User Task** configuration section). 
-</Accordion>
-<Accordion title ="Advanced configuration (Headers)">
-- **Headers**: Mandatory - `{"processInstanceId": ${processInstanceId}}`
-
-<Check>
-If you also use callbackActions, you will need to also add the following headers:
-`{"destinationId": "search_node", "callbacksForAction": "search_for_client"}`
-</Check>
-</Accordion>
+  <Accordion title="Elasticsearch Configuration">
+    - Elasticsearch cluster running and accessible
+    - Indexing enabled in FlowX Engine configuration
+    - Proper network connectivity between services
+  </Accordion>
+  
+  <Accordion title="Kafka Topics">
+    - `KAFKA_TOPIC_DATA_SEARCH_IN` configured for requests
+    - `KAFKA_TOPIC_DATA_SEARCH_OUT` configured for responses
+    - Proper topic permissions and access
+  </Accordion>
+  
+  <Accordion title="Process Data">
+    - Process instances with indexed data
+    - Searchable fields defined in Process Settings
+    - Completed process instances for reliable results
+  </Accordion>
 </AccordionGroup>
 
+---
 
-<Info>
-Example (dummy values extracted from a process):
+## Quick start
 
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/body_message_search_service.png)
-</Info>
-</Step>
-<Step title ="Performing the search">
-A custom microservice (a core extension) will receive this event and search the value in the Elasticsearch.
-</Step>
-<Step title ="Receiving the response">
-It will respond to the engine via a Kafka topic (defined at `KAFKA_TOPIC_DATA_SEARCH_OUT` env variable in your deployment). Add the topic in the **Node config** of the User task where you previously added the Kafka Send Action.
-
-<Frame>
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/search_result_topic.png)
-
-</Frame>
-
-</Step>
+<Steps>
+  <Step title="Set up your data process">
+    Create a process that stores searchable data and configure field indexing.
+  </Step>
+  <Step title="Create a search process">
+    Build a process with Kafka Send/Receive actions for search functionality.
+  </Step>
+  <Step title="Configure search parameters">
+    Define your search criteria using simple or advanced syntax.
+  </Step>
+  <Step title="Handle search results">
+    Process the returned data and display results to users.
+  </Step>
 </Steps>
 
-### Response
+### 1. Set up your data process
 
-The response's body message will look like this:
+First, create a process that contains searchable data. Add a Service Task with a business rule:
 
-####  If there is no result:
-
-```json
-{
-	"result": [],
-	"searchKey": "application.client.name.identificationData.lastName",
-	"tooManyResults": "false",
-	"searchValue": "random"
-
-}
-```
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/noResults.png)
-</Frame>
-
-Example (dummy values extracted from a process):
-
-<Tip>
-To access the view of your process variables, tokens and subprocesses go to **FLOWX.AI Designer > Active process > Process Instances**. Here you will find the response.
-</Tip>
-
-    
-####  If there is a list of results:
-
-```json
-{
-
-	"searchKey": "application.client.identificationData.personalIdentificationNumber"
-	"result":[{
-			"processInstanceUUID": "UUID",
-			"status": "FINISHED",
-			"processStartDate": date,
-			"data" : {"all data in elastic for that process"}
-	}],
-	"tooManyResults": true|false
-}
+<CodeGroup>
+```json Example Client Data
+output.put("application", {
+  "client": {
+    "personalInfo": {
+      "firstName": "Sarah",
+      "lastName": "Johnson", 
+      "email": "sarah.johnson@techcorp.com",
+      "phone": "+1-555-0101"
+    },
+    "address": {
+      "country": "USA",
+      "city": "San Francisco", 
+      "state": "California",
+      "zipCode": "94102"
+    },
+    "business": {
+      "company": "TechCorp Inc",
+      "industry": "Technology",
+      "position": "CTO"
+    },
+    "account": {
+      "type": "Premium",
+      "status": "Active",
+      "riskLevel": "Low"
+    }
+  }
+});
 ```
 
-<Info>
-**NOTE**: Up to 50 results will be received if `tooManyResults` is true.
-</Info>
-
-Example with dummy values extracted from a process:
+```json Employee Data Example
+output.put("employee", {
+  "personalInfo": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "employeeId": "EMP001",
+    "email": "john.doe@company.com"
+  },
+  "jobInfo": {
+    "department": "Engineering",
+    "position": "Senior Developer",
+    "startDate": "2023-03-15"
+  },
+  "location": {
+    "office": "New York",
+    "team": "Backend Team"
+  }
+});
+```
+</CodeGroup>
 
 <Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/search_data_response.png)
+![Process Data Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/payload_process_add.png)
 </Frame>
-
-
-#### Developer
 
 <Warning>
-Enabling Elasticsearch indexing **requires** activating the configuration in the **FlowX Engine**. Check the [**indexing section**](../../../setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/) for more details.
+**Critical Step**: After creating your data structure, you must configure field indexing in **Process Settings → Data Search** for the search to work.
 </Warning>
 
-<Card title="Data Search setup guide" href="../../../setup-guides/search-data-service-setup-guide" icon="gears">
-For deployment and service setup instructions
-</Card>
+#### Configure Field Indexing
+
+Navigate to **Process Settings → Data Search** and add the field paths you want to search:
+
+<Frame>
+![Index Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/index_keys.png)
+</Frame>
+
+**Fields that we indexed in our example:**
+- `application.client.personalInfo.firstName`
+- `application.client.personalInfo.lastName`
+- `application.client.personalInfo.email`
+
+
+### 2. Create your search process
+
+Create a new process with a **Send Message Task**:
+
+<Frame>
+![Search Process Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/search_topic_action.png)
+</Frame>
+
+**Configuration:**
+- **Action Type**: Kafka Send Action
+- **Topic**: `KAFKA_TOPIC_DATA_SEARCH_IN`
+
+### 3. Configure search parameters
+
+Choose your search approach based on your needs:
+
+<Tabs>
+  <Tab title="Simple Search">
+    Use when searching by a single field:
+
+    ```json
+    {
+      "searchKey": "application.client.personalInfo.lastName",
+      "value": "Johnson",
+      "processDefinitionNames": ["client_process"],
+      "states": ["FINISHED"]
+    }
+    ```
+
+    <Frame>
+    ![Simple Search Example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/simple_search_payload.png)
+    </Frame>
+  </Tab>
+  
+  <Tab title="Advanced Search">
+    Use when searching by multiple criteria (AND logic):
+
+    ```json
+    {
+      "searchKeys": [
+        {"key": "application.client.personalInfo.firstName", "value": "Sarah"},
+        {"key": "application.client.personalInfo.lastName", "value": "Johnson"}
+      ],
+      "processDefinitionNames": ["client_process"],
+      "states": ["FINISHED"]
+    }
+    ```
+
+    <Info>All conditions in `searchKeys` must match for a result to be returned.</Info>
+  </Tab>
+  
+  <Tab title="Cross-Application">
+    Search across multiple applications:
+
+    ```json
+    {
+      "searchKey": "application.client.account.type",
+      "value": "Premium",
+      "applicationIds": [
+        "app-1-uuid",
+        "app-2-uuid"
+      ]
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Date Filtering">
+    Filter by process creation dates:
+
+    ```json
+    {
+      "searchKey": "application.client.business.industry",
+      "value": "Technology",
+      "processStartDateAfter": "2024-01-01T00:00:00Z",
+      "processStartDateBefore": "2024-12-31T23:59:59Z",
+      "states": ["FINISHED"]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### 4. Handle search results
+
+Add a **Receive Message Task** with:
+- **Data Stream**: `KAFKA_TOPIC_DATA_SEARCH_OUT`
+
+<Frame>
+![Receive Search Results](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/receive_data_search.png)
+</Frame>
+
+**Success response example:**
+
+<Frame>
+![Search Results](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/result_simple.png)
+</Frame>
+
+<CodeGroup>
+```json Success Response
+{
+  "result": [
+    {
+      "processInstanceUUID": "b743ac99-4029-4b93-9ac3-4a45b4a62673",
+      "state": "FINISHED",
+      "processStartDate": "2025-05-28T12:18:50.532Z",
+      "data": {
+        "application": {
+          "client": {
+            "personalInfo": {
+              "firstName": "Sarah",
+              "lastName": "Johnson"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "tooManyResults": false,
+  "success": true
+}
+```
+
+```json No Results Response
+{
+  "result": [],
+  "searchKey": "application.client.personalInfo.lastName",
+  "searchValue": "Smith",
+  "tooManyResults": false,
+  "success": true
+}
+```
+</CodeGroup>
+
+
+## Search parameters reference
+
+### Quick reference table
+
+| Parameter                | Type   | Mandatory                | Description                            | Example                                      |
+| ------------------------ | ------ | ------------------------ | -------------------------------------- | -------------------------------------------- |
+| `searchKey`              | String | Yes                      | Single field path to search            | `"application.client.personalInfo.lastName"` |
+| `value`                  | String | Yes                      | Value to search for (with searchKey)   | `"Johnson"`                                  |
+| `searchKeys`             | Array  | Yes (if multiple fields) | Multiple field-value pairs (AND logic) | `[{"key": "field1", "value": "val1"}]`       |
+| `processDefinitionNames` | Array  | Yes                      | Limit to specific processes            | `["client_onboarding"]`                      |
+| `applicationIds`         | Array  | No                       | Search across applications             | `["uuid-1", "uuid-2"]`                       |
+| `states`                 | Array  | No                       | Filter by process states               | `["FINISHED", "STARTED"]`                    |
+| `processStartDateAfter`  | String | No                       | Include processes after date           | `"2024-01-01T00:00:00Z"`                     |
+| `processStartDateBefore` | String | No                       | Include processes before date          | `"2024-12-31T23:59:59Z"`                     |
+
+### Basic search parameters
+
+<AccordionGroup>
+  <Accordion title="searchKey (String)">
+    **Purpose**: The field path to search in for single-field searches.
+    
+    **Usage**: Use dot notation to specify the exact path to the field you want to search or a specific key in the payload.
+    
+    **Examples**:
+    - `"application.client.personalInfo.firstName"`
+    - `"application.client.address.city"`
+    - `"application.client.business.industry"`
+    
+    **Important**: This field must be indexed in Process Settings → Data Search to work.
+    
+    <Warning>Cannot be used together with `searchKeys`. Choose one approach.</Warning>
+  </Accordion>
+  
+  <Accordion title="value (String)">
+    **Purpose**: The exact value to search for when using `searchKey`.
+    
+    **Usage**: Must match the stored value exactly (case-sensitive).
+    
+    **Examples**:
+    - `"Johnson"` - searches for exact lastName match
+    - `"Technology"` - searches for exact industry match
+    - `"Active"` - searches for exact status match
+    
+    **Note**: Only used with `searchKey`, not with `searchKeys`.
+  </Accordion>
+  
+  <Accordion title="searchKeys (Array)">
+    **Purpose**: Array of key-value pairs for multi-field searches with AND logic.
+    
+    **Usage**: All conditions must match for a result to be returned.
+    
+    **Format**:
+    ```json
+    [
+      {"key": "field.path.1", "value": "value1"},
+      {"key": "field.path.2", "value": "value2"}
+    ]
+    ```
+    
+    **Example**:
+    ```json
+    [
+      {"key": "application.client.personalInfo.firstName", "value": "Sarah"},
+      {"key": "application.client.business.industry", "value": "Technology"}
+    ]
+    ```
+    
+    <Warning>Cannot be used together with `searchKey`. Choose one approach.</Warning>
+  </Accordion>
+</AccordionGroup>
+
+### Filtering parameters
+
+<AccordionGroup>
+  <Accordion title="processDefinitionNames (Array)">
+    **Purpose**: Limit search to specific process definitions.
+    
+    **Default**: Searches all processes if omitted.
+    
+    **Usage**: Improves performance by narrowing search scope.
+    
+    **Examples**:
+    - `["client_onboarding"]` - search only in client processes
+    - `["employee_registration", "contractor_onboarding"]` - search in multiple process types
+    
+    **Best Practice**: Always specify to improve search performance.
+  </Accordion>
+  
+  <Accordion title="applicationIds (Array)">
+    **Purpose**: Search across specific applications.
+    
+    **Default**: Searches current application if omitted.
+    
+    **Usage**: Enable cross-application searches.
+    
+    **Examples**:
+    - `["8dd20844-2dc5-4445-83a5-bbbcc82bed5f"]` - search in specific app
+    - `["app-1-uuid", "app-2-uuid", "app-3-uuid"]` - search across multiple apps
+    
+    **Use Case**: Useful for consolidated reporting across different business units.
+  </Accordion>
+  
+  <Accordion title="states (Array)">
+    **Purpose**: Filter results by process instance status.
+    
+    **Default**: Returns all states if omitted.
+    
+    **Available States**:
+    - `"CREATED"` - Process instance created but not started
+    - `"STARTED"` - Process is currently running
+    - `"FINISHED"` - Process completed successfully
+    - `"FAILED"` - Process encountered an error and stopped
+    - `"TERMINATED"` - Process was manually stopped/cancelled
+    - `"ONHOLD"` - Process is paused or waiting for external input
+    
+    **Examples**:
+    - `["FINISHED"]` - only completed processes
+    - `["STARTED", "ONHOLD"]` - active or paused processes
+    - `["FAILED", "TERMINATED"]` - processes that didn't complete normally
+    
+    **Best Practice**: Use `["FINISHED"]` for most business searches to get complete data.
+  </Accordion>
+</AccordionGroup>
+
+### Date range parameters
+
+<AccordionGroup>
+  <Accordion title="processStartDateAfter (String)">
+    **Purpose**: Include only processes started after the specified date.
+    
+    **Format**: ISO 8601 timestamp (`YYYY-MM-DDTHH:MM:SSZ`)
+    
+    **Examples**:
+    - `"2024-01-01T00:00:00Z"` - processes started after Jan 1, 2024
+    - `"2024-06-15T09:30:00Z"` - processes started after June 15, 2024 at 9:30 AM
+    
+    **Use Cases**:
+    - Monthly reports: `"2024-03-01T00:00:00Z"`
+    - Recent activity: `"2024-05-20T00:00:00Z"`
+  </Accordion>
+  
+  <Accordion title="processStartDateBefore (String)">
+    **Purpose**: Include only processes started before the specified date.
+    
+    **Format**: ISO 8601 timestamp (`YYYY-MM-DDTHH:MM:SSZ`)
+    
+    **Examples**:
+    - `"2024-12-31T23:59:59Z"` - processes started before end of 2024
+    - `"2024-06-30T23:59:59Z"` - processes started before end of June 2024
+    
+    **Use Cases**:
+    - Historical analysis: `"2024-01-01T00:00:00Z"`
+    - Quarterly reports: `"2024-03-31T23:59:59Z"`
+  </Accordion>
+</AccordionGroup>
+
+### Process states explained
+
+Understanding process states is crucial for effective searching:
+
+| State | Description | When to Use |
+|-------|-------------|-------------|
+| **CREATED** | Process instance exists but hasn't started execution | Rarely used for business searches |
+| **STARTED** | Process is actively running | Find ongoing processes, current workload |
+| **FINISHED** | Process completed successfully | Most common for business data searches |
+| **FAILED** | Process encountered an error | Error analysis, troubleshooting |
+| **TERMINATED** | Process was manually cancelled | Audit trails, cancelled applications |
+| **ONHOLD** | Process is paused/waiting | Active cases needing attention |
+
+<Info>
+**Recommendation**: Use `["FINISHED"]` for most business searches to ensure you're getting complete, reliable data.
+</Info>
+
+### Response structure
+
+The search returns a JSON object with these fields:
+
+- **`result`** (Array): List of matching process instances
+  - `processInstanceUUID`: Unique process identifier
+  - `state`: Current process state
+  - `processStartDate`: When the process started
+  - `data`: The actual process data with your searchable fields
+- **`tooManyResults`** (Boolean): True if more than 50 results found (limit applied)
+- **`success`** (Boolean): Whether the search completed successfully
+- **`errorMessage`** (String): Error details if search failed
+
+
+
+## Use cases & examples
+
+<CardGroup cols={1}>
+  <Card title="HR employee lookup" icon="users">
+    Search for employees by department, position, or location across HR systems.
+  </Card>
+  <Card title="Compliance Auditing" icon="shield-check">
+    Locate specific transactions or approvals for regulatory compliance.
+  </Card>
+  <Card title="Business Intelligence" icon="chart-bar">
+    Analyze process data patterns and generate reports.
+  </Card>
+</CardGroup>
+
+### Real-world example: Customer support search
+
+<Steps>
+  <Step title="Customer calls with issue">
+    Support agent needs to find customer's account quickly.
+  </Step>
+  <Step title="Search by multiple criteria">
+    ```json
+    {
+      "searchKeys": [
+        {"key": "customer.email", "value": "customer@email.com"},
+        {"key": "customer.status", "value": "Active"}
+      ],
+      "processDefinitionNames": ["customer_onboarding"],
+      "states": ["FINISHED"]
+    }
+    ```
+  </Step>
+  <Step title="Get comprehensive results">
+    Receive full customer profile with account details, order history, and support tickets.
+  </Step>
+  <Step title="Resolve customer issue">
+    Use the retrieved data to address the customer's concern effectively.
+  </Step>
+</Steps>
+
+---
+
+## Best practices
+
+<AccordionGroup>
+  <Accordion title="Performance optimization">
+    - **Limit search scope** using `processDefinitionNames` and `states`
+    - **Use date ranges** for time-sensitive searches
+    - **Index only frequently searched fields** to reduce storage overhead
+    - **Monitor search response times** and optimize queries
+    - **Avoid wildcard searches** on large datasets
+  </Accordion>
+  
+  <Accordion title="Data Modeling">
+    - **Use consistent field naming** across processes
+    - **Normalize data formats** (dates, phone numbers, etc.)
+    - **Consider search patterns** when designing data structures
+    - **Document indexed fields** for team reference
+    - **Plan for data growth** and scaling needs
+  </Accordion>
+  
+  <Accordion title="Security & Compliance">
+    - **Don't index sensitive data** (SSN, passwords, etc.)
+    - **Implement proper access controls** for search endpoints
+    - **Log search activities** for audit trails
+    - **Sanitize search inputs** to prevent injection attacks
+    - **Follow data retention policies** for search results
+  </Accordion>
+  
+  <Accordion title="Error Handling">
+    - **Handle empty results** gracefully in your UI
+    - **Implement retry logic** for failed searches
+    - **Provide meaningful error messages** to users
+    - **Set reasonable timeouts** for search operations
+    - **Monitor and alert** on search failures
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="No Search Results">
+    **Possible Causes:**
+    - Fields not indexed in Process Settings → Data Search
+    - Incorrect field path (case-sensitive)
+    - Process instances not in expected state
+    - Elasticsearch indexing delay
+    
+    **Solutions:**
+    - Verify field indexing configuration
+    - Check exact field paths in process data
+    - Ensure processes are in FINISHED state
+    - Wait 30-60 seconds after process completion
+  </Accordion>
+  
+  <Accordion title="Search Timeout Errors">
+    **Possible Causes:**
+    - Query too broad (searching all data)
+    - Elasticsearch cluster performance issues
+    - Large dataset without proper filtering
+    
+    **Solutions:**
+    - Add more specific filters (`processDefinitionNames`, `states`)
+    - Use date ranges to limit scope
+    - Check Elasticsearch cluster health
+    - Optimize indexing strategy
+  </Accordion>
+  
+  <Accordion title="Invalid Search Key Errors">
+    **Possible Causes:**
+    - Typos in field paths
+    - Field doesn't exist in process data
+    - Incorrect JSON format in request
+    
+    **Solutions:**
+    - Verify field paths exist in process instances
+    - Check for case sensitivity
+    - Validate JSON syntax
+    - Test with simple field paths first
+  </Accordion>
+  
+  <Accordion title="Connection Issues">
+    **Possible Causes:**
+    - Kafka topics not properly configured
+    - Network connectivity problems
+    - Service authentication issues
+    
+    **Solutions:**
+    - Verify Kafka topic configuration
+    - Check network connectivity
+    - Validate service credentials
+    - Review FlowX Engine logs
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Configuration templates
+
+<CodeGroup>
+```json Simple search template
+{
+  "searchKey": "your.field.path",
+  "value": "search_value",
+  "processDefinitionNames": ["your_process"],
+  "states": ["FINISHED"]
+}
+```
+
+```json Advanced search template
+{
+  "searchKeys": [
+    {"key": "field1", "value": "value1"},
+    {"key": "field2", "value": "value2"}
+  ],
+  "processDefinitionNames": ["your_process"],
+  "states": ["FINISHED"]
+}
+```
+
+```json Cross-application template
+{
+  "searchKey": "your.field.path",
+  "value": "search_value",
+  "applicationIds": ["app-uuid-1", "app-uuid-2"],
+  "states": ["FINISHED"]
+}
+```
+
+```json Date range template
+{
+  "searchKey": "your.field.path",
+  "value": "search_value",
+  "processStartDateAfter": "2024-01-01T00:00:00Z",
+  "processStartDateBefore": "2024-12-31T23:59:59Z",
+  "processDefinitionNames": ["your_process"]
+}
+```
+</CodeGroup>
+
+---
+
+## Related resources
+
+<CardGroup cols={2}>
+  <Card title="Elasticsearch setup" href="../../../setup-guides/flowx-engine-setup-guide/configuring-elasticsearch-indexing/" icon="gears">
+    Configure Elasticsearch indexing for FlowX Engine
+  </Card>
+  <Card title="Data search service setup" href="../../../setup-guides/search-data-service-setup-guide" icon="server">
+    Complete deployment and configuration guide
+  </Card>
+  <Card title="Process designer" href="../../building-blocks/process/process" icon="diagram-project">
+    Learn how to design processes with searchable data
+  </Card>
+  <Card title="Kafka configuration" href="../../../setup-guides/kafka-setup" icon="stream">
+    Set up Kafka topics for data search
+  </Card>
+</CardGroup>
+
+<Tip>
+Need help with implementation? Check our [community forum](https://community.flowx.ai) or contact our support team for assistance with complex search scenarios.
+</Tip>
