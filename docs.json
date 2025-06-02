@@ -257,6 +257,7 @@
                           "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/input-form-field",
                           "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/text-area",
                           "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/select-form-field",
+                          "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/multi-select",
                           "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/checkbox-form-field",
                           "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/radio-form-field",
                           "5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/switch-form-field",

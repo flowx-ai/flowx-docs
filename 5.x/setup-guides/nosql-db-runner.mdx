@@ -1,6 +1,6 @@
 ---
 title: NoSQL DB Runner
-description: The NoSQL DB Runner is a backend microservice that powers FlowX Database functionality. It provides MongoDB operations support for FlowX Database collections and handles data persistence operations across FlowX processes. This guide provides detailed instructions for setting up the service and configuring its components through environment variables.
+description: The NoSQL DB Runner is a backend microservice that powers FlowX Database functionality. It provides MongoDB and Azure Cosmos DB operations support for FlowX Database collections and handles data persistence operations across FlowX processes. This guide provides detailed instructions for setting up the service and configuring its components through environment variables.
 icon: database
 ---
 
@@ -9,7 +9,9 @@ icon: database
 Ensure the following infrastructure components are available before starting the NoSQL DB Runner service:
 
 - **Docker Engine**: Version 17.06 or higher
-- **MongoDB**: Version 4.4 or higher for data storage (replica set configuration recommended)
+- **Database Backend**: One of the following options:
+  - **MongoDB**: Version 4.4 or higher for data storage (replica set configuration recommended)
+  - **Azure Cosmos DB**: With MongoDB API enabled for cloud-native deployments
 - **Kafka**: Version 2.8 or higher for event messaging
 - **OAuth2 Provider**: For authentication and authorization
 
@@ -159,6 +161,28 @@ The NoSQL DB Runner works in conjunction with:
 - **FlowX Designer**: For collection and operation management
 - **MongoDB**: For data persistence
 - **Kafka**: For event-driven communication
+
+
+## Deployment considerations
+
+### Database backend selection
+
+Choose your database backend based on your requirements:
+
+**MongoDB (Native)**
+- Full MongoDB feature compatibility
+- On-premises or cloud deployment flexibility
+- Advanced indexing and query capabilities
+- Multi-collection transactions
+- Complex aggregation pipeline support
+
+**Azure Cosmos DB**
+- Managed cloud service with global distribution
+- Automatic scaling and high availability
+- Built-in security and compliance
+- Some MongoDB feature limitations
+- Requires careful partition key planning
+
 
 ## Environment template
 
