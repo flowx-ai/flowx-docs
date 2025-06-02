@@ -8,7 +8,7 @@ Dependencies in FlowX enable projects and libraries to share and reuse resources
 ## Overview
 
 <Frame>
-![Dependencies overview](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release50/dependencies_overview.png)
+![Dependencies overview](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/dependencies_ov.png)
 </Frame>
 
 Dependencies allow you to:
@@ -38,7 +38,7 @@ Dependencies allow you to:
     - Reusable integration workflows
 
     <Frame>
-    ![Project dependencies example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release50/project_dependencies.png)
+    ![Project dependencies example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/projects_dependencies.png)
     </Frame>
   </Tab>
   
@@ -58,7 +58,7 @@ Dependencies allow you to:
     - Team-based development with library ownership
 
     <Frame>
-    ![Library dependencies example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release50/library_dependencies.png)
+    ![Library dependencies example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/libs_dependencies.png)
     </Frame>
   </Tab>
 </Tabs>
@@ -95,10 +95,10 @@ Mortgage Project
 <Accordion title="Same library, same version (Allowed)">
 ```
 Mortgage Project
-├── Subprocesses Library (1.2.0)
-│   └── Enums Library (1.5.0)
+├── Subprocesses Library (1.3.0)
+│   └── Enums Library (1.6.0)
 └── Integrations Library (2.4.0)
-    └── Enums Library (1.5.0)  # ✅ Same version - ALLOWED
+    └── Enums Library (1.6.0)  # ✅ Same version - ALLOWED
 ```
 
 This scenario is permitted because both references use the same build (1.5.0) of the Enums Library.
@@ -110,7 +110,7 @@ This scenario is permitted because both references use the same build (1.5.0) of
 ```
 Mortgage Project
 ├── Enums Library (1.6.0)           # Direct dependency
-└── Subprocesses Library (1.2.0)
+└── Subprocesses Library (1.3.0)
     └── Enums Library (1.5.0)       # ❌ Different version - BLOCKED
 ```
 
@@ -168,7 +168,7 @@ When dependency conflicts occur, you have several resolution options:
     Click **Add Dependency** and select the library you want to add.
     
     <Frame>
-    ![Add project dependency](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release50/add_project_dependency.png)
+    ![Add project dependency](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/select_dependency.png)
     </Frame>
   </Step>
   
@@ -176,7 +176,7 @@ When dependency conflicts occur, you have several resolution options:
     Choose the specific build version of the library you want to use.
     
     <Warning>
-    Always select a **committed build** rather than WIP (Work in Progress) versions for stability.
+    Only committed builds are available.
     </Warning>
   </Step>
   
@@ -201,7 +201,7 @@ When dependency conflicts occur, you have several resolution options:
     Click **Add Dependency** and select another library as a dependency.
     
     <Frame>
-    ![Add library dependency](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release50/add_library_dependency.png)
+    ![Add library dependency](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/add_lib_dependency.png)
     </Frame>
   </Step>
   
@@ -214,10 +214,6 @@ When dependency conflicts occur, you have several resolution options:
   
   <Step title="Review Dependency Tree">
     Preview the complete dependency tree to understand all transitive dependencies.
-    
-    <Frame>
-    ![Library dependency tree](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release50/library_dependency_tree.png)
-    </Frame>
   </Step>
 </Steps>
 
@@ -231,6 +227,11 @@ When updating a single dependency:
 3. Choose the new build version
 4. FlowX validates the dependency tree for conflicts
 5. If conflicts exist, resolve them before proceeding
+
+
+<Frame>
+![Update dependency](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/single_dep_update.png)
+</Frame>
 </Accordion>
 
 <Accordion title="Bulk Dependency Updates">
@@ -240,6 +241,11 @@ For complex dependency trees, you may need to update multiple dependencies simul
 2. Update dependencies in the correct order (typically from leaf to root)
 3. Use the dependency tree view to validate changes
 4. Test in a development environment before applying to production
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/bulk_dep_update.png)
+</Frame>
+
 </Accordion>
 
 ## Resource resolution

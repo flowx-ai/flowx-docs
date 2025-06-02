@@ -4,14 +4,14 @@ title: Upgrade considerations
 
 ## Dependencies
 
-### Project-to-Library Dependencies
+### Project-to-library dependencies
 
 <Info>
 FlowX 5.0 maintains **full backwards compatibility** with existing project-to-library dependencies from FlowX 4.x. All existing project-to-library dependencies will continue to work without modification.
 </Info>
 
 
-### Upgrade Considerations
+### Upgrade considerations
 
 When upgrading to FlowX 5.0:
 
@@ -19,3 +19,15 @@ When upgrading to FlowX 5.0:
 2. **New library dependency features** become available immediately
 3. **No breaking changes** to existing functionality
 4. **Enhanced validation** may catch previously undetected issues
+
+### Post-migration requirements
+
+<Warning> 
+**Cache Clearing Required**: After the lib2lib migration is executed, you must clear the cache. This is necessary because a new field is added to the build mongo document, which is required for various operations. 
+</Warning>
+
+Steps to clear cache:
+
+1. Complete the lib2lib migration process
+2. Clear the application cache to ensure the new build document fields are properly recognized
+3. Verify that library-to-library dependencies are functioning correctly
