@@ -123,7 +123,8 @@
                     "pages": [
                       "5.x/docs/projects/managing-applications/application",
                       "5.x/docs/projects/managing-applications/libraries",
-                      "5.x/docs/projects/managing-applications/versioning"
+                      "5.x/docs/projects/managing-applications/versioning",
+                      "5.x/docs/projects/managing-applications/dependencies"
                     ]
                   },
                   {
@@ -456,7 +457,8 @@
                     "pages": [
                       "release-notes/v5.0.0-june-2025/v5.0.0-june-2025",
                       "release-notes/v5.0.0-june-2025/deployment-guidelines-v5.0",
-                      "release-notes/v5.0.0-june-2025/migrating-from-v4.x-to-5.0"
+                      "release-notes/v5.0.0-june-2025/migrating-from-v4.x-to-5.0",
+                      "release-notes/v5.0.0-june-2025/upgrade-considerations"
                     ]
                   },
 
