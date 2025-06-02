@@ -434,7 +434,7 @@ Understanding process states is crucial for effective searching:
 
 The search returns a JSON object with these fields:
 
-- **`result`** (Array): List of matching process instances
+- **`result`** (Array): List of matching process instances, **automatically sorted by `processStartDate` in descending order** (newest first)
   - `processInstanceUUID`: Unique process identifier
   - `state`: Current process state
   - `processStartDate`: When the process started
