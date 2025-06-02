@@ -129,7 +129,7 @@ mode: wide
         <Tabs>
           <Tab title="Overview">
             <Frame>
-            ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db_overview.png)
+            ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db_ov.png)
             </Frame>
             
             <div className="mt-4 text-gray-800 dark:text-gray-200">
@@ -189,7 +189,7 @@ mode: wide
           
           <Tab title="UI Integration">
             <Frame caption="FlowX Database as a Data Source type">
-            ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db_datasource.png)
+            ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db_select.png)
             </Frame>
             
             <div className="mt-4 text-gray-700 dark:text-gray-300">
@@ -199,7 +199,7 @@ mode: wide
         </Tabs>
       
       <div className="flex justify-between items-center">
-        <a href="/5.x/docs/platform-deep-dive/core-extensions/flowx-database" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+        <a href="/5.x/docs/platform-deep-dive/integrations/flowx-database" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
           Learn more about FlowX Database 
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -208,6 +208,100 @@ mode: wide
         
         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-300">
           New Feature
+        </span>
+      </div>
+    </Card>
+  
+  <Card title="Multi Select UI Component" icon="list-check" iconType="duotone">
+        <Tabs>
+          <Tab title="Overview">
+            <Frame>
+            ![Multi Select form field](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/multi_select.png)
+            </Frame>
+            <div className="mt-4 text-gray-800 dark:text-gray-200">
+              The new Multi Select component allows users to choose multiple options from a predefined list, expanding upon the existing single Select component to support multi-value scenarios.
+            </div>
+          </Tab>
+          
+          <Tab title="Key Features">
+            <CardGroup cols={2}>
+              <Card title="Multiple Selections" icon="check-double">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Users can select multiple options from dropdown lists, with values stored as arrays
+                </div>
+              </Card>
+              <Card title="Flexible Display Options" icon="eye">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Show selections as chips, comma-separated lists, or custom formats
+                </div>
+              </Card>
+              <Card title="Selection Limits" icon="hashtag">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Configure maximum number of selectable options to control user input
+                </div>
+              </Card>
+              <Card title="Search & Filter" icon="magnifying-glass">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Built-in search functionality to filter through large option lists
+                </div>
+              </Card>
+            </CardGroup>
+          </Tab>
+          
+          <Tab title="Use Cases">
+            <Steps>
+              <Step title="Skills & Competencies">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Allow users to select multiple skills, qualifications, or areas of expertise
+                </div>
+              </Step>
+              <Step title="Categories & Tags">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Enable selection of multiple categories, tags, or classification options
+                </div>
+              </Step>
+              <Step title="Product Features">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Let customers choose multiple product features, services, or add-ons
+                </div>
+              </Step>
+              <Step title="Preferences & Settings">
+                <div className="text-gray-700 dark:text-gray-300">
+                  Capture user preferences where multiple options can be active simultaneously
+                </div>
+              </Step>
+            </Steps>
+          </Tab>
+          
+          <Tab title="Configuration">
+            <Frame caption="Multi Select configuration options">
+            ![Multi Select configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/multi_select_skills_config.png)
+            </Frame>
+            
+            <div className="mt-4 text-gray-700 dark:text-gray-300">
+              Configure Multi Select components with the same ease as other form elements. Set maximum selections, display formats, search options, and validation rules through the familiar UI Designer interface.
+            </div>
+            
+            <Accordion title="Key Configuration Options">
+              - **Max. Options Selectable**: Limit the number of selections
+              - **Show selections**: Choose how selected items are displayed
+              - **Search for options**: Enable filtering within large lists
+              - **Has Clear**: Allow users to clear all selections at once
+              - **Validation rules**: Min/max selections, required validations
+            </Accordion>
+          </Tab>
+        </Tabs>
+      
+      <div className="flex justify-between items-center">
+        <a href="/5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/multi-select" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+          Learn more about Multi Select 
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+        
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-300">
+          New Component
         </span>
       </div>
     </Card>
