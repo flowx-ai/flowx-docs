@@ -518,17 +518,30 @@ mode: wide
     <Accordion title="👥 What This Means for Your Role">
       <Tabs>
         <Tab title="DevOps Engineer 🔧">
-          <Warning>
-            **Action Required**: Review existing library structures and plan migration strategy before upgrading to v5.0
-          </Warning>
+<Info>
+        **Full Backwards Compatibility**: FlowX 5.0 maintains full backwards compatibility with existing project-to-library dependencies from FlowX 4.x. All existing dependencies will continue to work without modification.
+      </Info>
 
-          **Key Changes:**
-          - **Build Export Changes**: Build exports now automatically include entire dependency trees (larger packages but self-contained)
-          - **Dependency Validation**: Build process now checks for dependency conflicts (builds may fail if conflicts exist)
-          - **Deployment Consistency**: Single-version constraint prevents runtime conflicts (more predictable deployments)
-          - **Migration Planning**: Update dependencies in correct order (coordinate with teams owning different library layers)
-        </Tab>
-        
+      **Upgrade Process:**
+      1. **Existing dependencies** will be automatically migrated
+      2. **New library dependency features** become available immediately  
+      3. **No breaking changes** to existing functionality
+      4. **Enhanced validation** may catch previously undetected issues
+
+      <Warning>
+        **Post-Migration Required**: After the lib2lib migration is executed, you must clear the cache. This is necessary because a new field is added to the build mongo document.
+      </Warning>
+
+      **Cache Clearing Steps:**
+      1. Complete the lib2lib migration process
+      2. Clear the application cache to ensure the new build document fields are properly recognized
+      3. Verify that library-to-library dependencies are functioning correctly
+
+      **Key Changes:**
+      - **Build Export Changes**: Build exports now automatically include entire dependency trees (larger packages but self-contained)
+      - **Dependency Validation**: Build process now checks for dependency conflicts (enhanced validation may catch previously undetected issues)
+      - **Deployment Consistency**: Single-version constraint prevents runtime conflicts (more predictable deployments)
+    </Tab>
         <Tab title="Process Configurator ⚙️">
           <Tip>
             **Enhanced Organization**: You can now create more sophisticated library structures where specialized libraries build upon common foundations. This reduces duplication and improves consistency.
