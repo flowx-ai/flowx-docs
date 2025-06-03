@@ -1,8 +1,8 @@
-name: docs-new
+name: docs-flowxai
 services:
     app:
-        image: docs-new:latest
-        container_name: docs-new
+        image: docs-flowxai:latest
+        container_name: docs-flowxai
         user: root
         working_dir: /home/$USER/app
         tty: true # keep container running
