@@ -262,115 +262,25 @@ The attribute `indexLastUpdatedTime` is new and will be populated for the kafka-
 
 ## Elasticsearch index template
 
-The mappings between messages and Elasticsearch data types need to be specified. This is achieved through an index template created by the process engine during startup. The template applies to indices starting with the value defined in `flowx.indexing.processInstance.index-name` config. Here's an example of the index template:
+The mappings between messages and Elasticsearch data types need to be specified through index templates. The process engine automatically handles template creation during startup, but the approach differs based on the indexing strategy:
 
-```json 
-//process_instance_template
-{
-    "index_patterns": ["process_instance*"],
-    "priority": 300,
-    "template":  
-    {
-	  "mappings": {
-	    "_doc": {
-	      "properties": {
-	        "_class": {
-	          "type": "keyword",
-	          "index": false,
-	          "doc_values": false
-	        },
-	        "dateStarted": {
-	          "type": "date",
-	          "format": "date_optional_time||epoch_millis"
-	        },
-	        "id": {
-	          "type": "text",
-	          "fields": {
-	            "keyword": {
-	              "type": "keyword",
-	              "ignore_above": 256
-	            }
-	          }
-	        },
-	        "indexLastUpdatedTime": {
-	          "type": "date",
-	          "format": "date_optional_time||epoch_millis"
-	        },
-	        "keyIdentifiers": {
-	          "type": "nested",
-	          "include_in_parent": true,
-	          "properties": {
-	            "_class": {
-	              "type": "keyword",
-	              "index": false,
-	              "doc_values": false
-	            },
-	            "key": {
-	              "type": "text",
-	              "fields": {
-	                "keyword": {
-	                  "type": "keyword",
-	                  "ignore_above": 256
-	                }
-	              }
-	            },
-	            "originalValue": {
-	              "type": "text",
-	              "fields": {
-	                "keyword": {
-	                  "type": "keyword",
-	                  "ignore_above": 256
-	                }
-	              }
-	            },
-	            "path": {
-	              "type": "text",
-	              "fields": {
-	                "keyword": {
-	                  "type": "keyword",
-	                  "ignore_above": 256
-	                }
-	              }
-	            },
-	            "value": {
-	              "type": "text",
-	              "fields": {
-	                "keyword": {
-	                  "type": "keyword",
-	                  "ignore_above": 256
-	                }
-	              }
-	            }
-	          }
-	        },
-	        "processDefinitionName": {
-	          "type": "text",
-	          "fields": {
-	            "keyword": {
-	              "type": "keyword",
-	              "ignore_above": 256
-	            }
-	          }
-	        },
-	        "state": {
-	          "type": "text",
-	          "fields": {
-	            "keyword": {
-	              "type": "keyword",
-	              "ignore_above": 256
-	            }
-	          }
-	        }
-	      }
-	    }
-	  },
-        "settings":{
-        "number_of_shards":5, //This value will be overwritten by the value that you set at `FLOWX_INDEXING_PROCESSINSTANCE_SHARDS` environment variable.
-        "number_of_replicas":1
-        }
-    }
-}
-```
+- When using the HTTP indexing strategy (indexing-type: http), the process engine:
+  - Automatically creates the index with the template applied
+  - Applies the number of shards and replicas directly from the configuration
+
+- When using the Kafka indexing strategy (indexing-type: kafka), the process engine:
+  - Creates an index template (if it doesn't exist) that Elasticsearch will use for dynamic index creation
+  - The template applies to indices matching the pattern derived from flowx.indexing.processInstance.index-name
+  - Kafka Connect creates indices dynamically based on the timestamp, and Elasticsearch applies the template automatically
+  - The number of shards and replicas are set dynamically based on configuration parameters
+
+<Info>
+The template creation is fully automated by the process engine. No manual intervention is required for template management. The `number_of_shards` and `number_of_replicas` values are automatically populated from your environment configuration (`FLOWX_INDEXING_PROCESSINSTANCE_SHARDS` and `FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS`).
+</Info>
+
+<Info>
+For the Kafka indexing strategy, the `indexLastUpdatedTime` attribute is automatically populated to track when the last operation was performed on the object in the index.
+</Info>
 
 
 ## Time-based partitioning and index deletion
