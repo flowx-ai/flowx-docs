@@ -8,108 +8,116 @@ mode: wide
   <Tab title="What's New">
     ## **What's new? 🆕**
 
-    <Card title="Project Data Model (PDM)" icon="database" iconType="duotone">
+    🆕 **Project Data Model (PDM)**             
+    🆕 **FlowX Database**                   
+    🆕 **Multi Select UI Component**         
+    🆕 **Library-to-Library Dependencies**
 
-        <Tabs>
-          <Tab title="Overview">
-            <Frame>
-            ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm.png)
-            </Frame>
-            <div className="mt-4 text-gray-800 dark:text-gray-200">
-              The new Project Data Model feature enables you to define and manage data types at the project level, which can then be reused across all processes within your project.
-            </div>
-          </Tab>
+    ---
+
+    ### **Project Data Model (PDM)**
+
+    <Card title="Project Data Model (PDM)" icon="database" iconType="duotone">
+      <Tabs>
+        <Tab title="Overview">
+          <Frame>
+          ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm.png)
+          </Frame>
+          <div className="mt-4 text-gray-800 dark:text-gray-200">
+            The new Project Data Model feature enables you to define and manage data types at the project level, which can then be reused across all processes within your project.
+          </div>
+        </Tab>
+        
+        <Tab title="Key Features">
+          <CardGroup cols={2}>
+            <Card title="Centralized Management" icon="sitemap">
+              <div className="text-gray-700 dark:text-gray-300">
+                Define data types once at the project level and reuse them across multiple processes
+              </div>
+            </Card>
+            <Card title="Automatic Propagation" icon="arrows-rotate">
+              <div className="text-gray-700 dark:text-gray-300">
+                Changes to PDM data types automatically propagate to all referencing processes
+              </div>
+            </Card>
+            <Card title="Enhanced Governance" icon="shield-check">
+              <div className="text-gray-700 dark:text-gray-300">
+                Configure sensitive data and reporting settings at the project level
+              </div>
+            </Card>
+            <Card title="Library Integration" icon="books">
+              <div className="text-gray-700 dark:text-gray-300">
+                Use data types from libraries in your Project Data Model
+              </div>
+            </Card>
+          </CardGroup>
+        </Tab>
+        
+        <Tab title="Benefits">
+          <Steps>
+            <Step title="Reduce duplicate work">
+              <div className="text-gray-700 dark:text-gray-300">
+                Define common data types like Customer, Product, or Document once instead of recreating them in each process
+              </div>
+            </Step>
+            <Step title="Simplify maintenance">
+              <div className="text-gray-700 dark:text-gray-300">
+                Update a data type in one place and have changes apply everywhere it's used
+              </div>
+            </Step>
+            <Step title="Standardize data structures">
+              <div className="text-gray-700 dark:text-gray-300">
+                Enforce consistent naming, structure, and governance across your application
+              </div>
+            </Step>
+            <Step title="Accelerate development">
+              <div className="text-gray-700 dark:text-gray-300">
+                Create new processes faster by leveraging pre-defined data types
+              </div>
+            </Step>
+          </Steps>
+        </Tab>
+        
+        <Tab title="Example">
+          <Frame caption="Insurance claim processing example">
+          ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_example1.png)
+          </Frame>
           
-          <Tab title="Key Features">
-            <CardGroup cols={2}>
-              <Card title="Centralized Management" icon="sitemap">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Define data types once at the project level and reuse them across multiple processes
-                </div>
-              </Card>
-              <Card title="Automatic Propagation" icon="arrows-rotate">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Changes to PDM data types automatically propagate to all referencing processes
-                </div>
-              </Card>
-              <Card title="Enhanced Governance" icon="shield-check">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Configure sensitive data and reporting settings at the project level
-                </div>
-              </Card>
-              <Card title="Library Integration" icon="books">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Use data types from libraries in your Project Data Model
-                </div>
-              </Card>
-            </CardGroup>
-          </Tab>
-          
-          <Tab title="Benefits">
-            <Steps>
-              <Step title="Reduce duplicate work">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Define common data types like Customer, Product, or Document once instead of recreating them in each process
-                </div>
-              </Step>
-              <Step title="Simplify maintenance">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Update a data type in one place and have changes apply everywhere it's used
-                </div>
-              </Step>
-              <Step title="Standardize data structures">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Enforce consistent naming, structure, and governance across your application
-                </div>
-              </Step>
-              <Step title="Accelerate development">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Create new processes faster by leveraging pre-defined data types
-                </div>
-              </Step>
-            </Steps>
-          </Tab>
-          
-          <Tab title="Example">
-            <Frame caption="Insurance claim processing example">
-            ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_example1.png)
-            </Frame>
-            
-            <Accordion title="View example data model">
-              ```json
-              {
-                "Customer": {
-                  "customerId": "string",
-                  "firstName": "string",
-                  "lastName": "string",
-                  "dateOfBirth": "date",
-                  "contactInformation": "ref:ContactInfo",
-                  "policyNumbers": "array:string",
-                  "customerSince": "date",
-                  "settings": {
-                    "sensitive": true,
-                    "reporting": true
-                  }
-                },
-                "Policy": {
-                  "policyNumber": "string",
-                  "policyType": "enum:['Auto', 'Home', 'Life', 'Health']",
-                  "startDate": "date",
-                  "endDate": "date",
-                  "coverageAmount": "number",
-                  "premium": "number",
-                  "policyStatus": "enum:['Active', 'Expired', 'Cancelled', 'Pending']",
-                  "settings": {
-                    "sensitive": false,
-                    "reporting": true
-                  }
+          <Accordion title="View example data model">
+            ```json
+            {
+              "Customer": {
+                "customerId": "string",
+                "firstName": "string",
+                "lastName": "string",
+                "dateOfBirth": "date",
+                "contactInformation": "ref:ContactInfo",
+                "policyNumbers": "array:string",
+                "customerSince": "date",
+                "settings": {
+                  "sensitive": true,
+                  "reporting": true
+                }
+              },
+              "Policy": {
+                "policyNumber": "string",
+                "policyType": "enum:['Auto', 'Home', 'Life', 'Health']",
+                "startDate": "date",
+                "endDate": "date",
+                "coverageAmount": "number",
+                "premium": "number",
+                "policyStatus": "enum:['Active', 'Expired', 'Cancelled', 'Pending']",
+                "settings": {
+                  "sensitive": false,
+                  "reporting": true
                 }
               }
-              ```
-            </Accordion>
-          </Tab>
-        </Tabs>
-      
+            }
+            ```
+          </Accordion>
+        </Tab>
+      </Tabs>
+    
       <div className="flex justify-between items-center">
         <a href="/5.x/docs/building-blocks/process/project-data-model" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
           Learn more about Project Data Model 
@@ -124,80 +132,195 @@ mode: wide
       </div>
     </Card>
 
-    <Card title="FlowX Database" icon="server" iconType="duotone">
+    <Accordion title="👥 What This Means for Your Role">
+      <Tabs>
+        <Tab title="DevOps Engineer 🔧">
+          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg mb-4">
+            <h4 className="font-medium text-blue-900 dark:text-blue-200 mb-2">Infrastructure Impact</h4>
+            <p className="text-sm text-blue-800 dark:text-blue-300">
+              PDM has minimal infrastructure impact - it's a design-time feature that improves development efficiency without affecting runtime resources.
+            </p>
+          </div>
+          
+          <div className="space-y-3">
+            <div className="flex items-start space-x-2">
+              <svg className="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <div>
+                <p className="font-medium text-sm">No deployment changes required</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">PDM is part of the design platform, not runtime</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-2">
+              <svg className="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <div>
+                <p className="font-medium text-sm">Backward compatible</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Existing processes continue to work unchanged</p>
+              </div>
+            </div>
+          </div>
+        </Tab>
+        
+        <Tab title="Process Configurator ⚙️">
+          <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg mb-4">
+            <h4 className="font-medium text-green-900 dark:text-green-200 mb-2">Game Changer for Process Development</h4>
+            <p className="text-sm text-green-800 dark:text-green-300">
+              Define data types once at project level, use everywhere. No more recreating Customer or Order objects in every process.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <h5 className="font-semibold mb-2">How to Use PDM</h5>
+              <ol className="text-sm space-y-2">
+                <li><strong>1.</strong> Navigate to Project → Config → Data Model</li>
+                <li><strong>2.</strong> Define your business entities (Customer, Product, etc.)</li>
+                <li><strong>3.</strong> Set governance rules (sensitive data, reporting)</li>
+                <li><strong>4.</strong> Use these types in any process within the project</li>
+              </ol>
+            </div>
+            <div>
+              <h5 className="font-semibold mb-2">Best Practices</h5>
+              <ul className="text-sm space-y-2">
+                <li>• Start with core business entities</li>
+                <li>• Use clear, consistent naming</li>
+                <li>• Mark sensitive fields appropriately</li>
+                <li>• Leverage library data types when available</li>
+              </ul>
+            </div>
+          </div>
+        </Tab>
+        
+        <Tab title="Business Analyst 📊">
+          <div className="p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg mb-4">
+            <h4 className="font-medium text-purple-900 dark:text-purple-200 mb-2">Strategic Business Value</h4>
+            <p className="text-sm text-purple-800 dark:text-purple-300">
+              PDM transforms how your organization manages business data definitions. Define business entities once and ensure consistency across all processes and teams.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <h5 className="font-semibold mb-2 text-green-700 dark:text-green-400">Business Benefits</h5>
+              <div className="space-y-2">
+                <div className="flex items-start space-x-2">
+                  <svg className="w-4 h-4 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                    <p className="font-medium text-sm">40-60% faster time-to-market</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">New processes using pre-defined business objects</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <svg className="w-4 h-4 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                    <p className="font-medium text-sm">Enhanced compliance</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">Centralized governance and data sensitivity controls</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h5 className="font-semibold mb-2 text-blue-700 dark:text-blue-400">ROI Indicators</h5>
+              <div className="space-y-2">
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-2 rounded">
+                  <p className="font-medium text-xs text-blue-900 dark:text-blue-200">Development Efficiency</p>
+                  <p className="text-xs text-blue-800 dark:text-blue-300">Measure: Reduction in process creation time</p>
+                </div>
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-2 rounded">
+                  <p className="font-medium text-xs text-blue-900 dark:text-blue-200">Error Reduction</p>
+                  <p className="text-xs text-blue-800 dark:text-blue-300">Measure: Fewer data-related production issues</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Tab>
+      </Tabs>
+    </Accordion>
 
-        <Tabs>
-          <Tab title="Overview">
-            <Frame>
-            ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db_ov.png)
-            </Frame>
-            
-            <div className="mt-4 text-gray-800 dark:text-gray-200">
-              FlowX Database is a new persistence layer that enables you to store and retrieve data across different processes and applications, without relying on external systems.
-            </div>
-          </Tab>
+    ---
+
+    ### **FlowX Database**
+
+    <Card title="FlowX Database" icon="server" iconType="duotone">
+      <Tabs>
+        <Tab title="Overview">
+          <Frame>
+          ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db_ov.png)
+          </Frame>
           
-          <Tab title="Key Features">
-            <CardGroup cols={2}>
-              <Card title="Data Persistence" icon="database">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Store data that persists beyond process instances
-                </div>
-              </Card>
-              <Card title="MongoDB Operations" icon="code">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Find, insert, and manipulate data using familiar MongoDB operations
-                </div>
-              </Card>
-              <Card title="Workflow Integration" icon="diagram-project">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Seamlessly integrate with workflows through Data Source nodes
-                </div>
-              </Card>
-              <Card title="Document Collections" icon="folder-tree">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Organize your data in structured collections
-                </div>
-              </Card>
-            </CardGroup>
-          </Tab>
+          <div className="mt-4 text-gray-800 dark:text-gray-200">
+            FlowX Database is a new persistence layer that enables you to store and retrieve data across different processes and applications, without relying on external systems.
+          </div>
+        </Tab>
+        
+        <Tab title="Key Features">
+          <CardGroup cols={2}>
+            <Card title="Data Persistence" icon="database">
+              <div className="text-gray-700 dark:text-gray-300">
+                Store data that persists beyond process instances
+              </div>
+            </Card>
+            <Card title="MongoDB Operations" icon="code">
+              <div className="text-gray-700 dark:text-gray-300">
+                Find, insert, and manipulate data using familiar MongoDB operations
+              </div>
+            </Card>
+            <Card title="Workflow Integration" icon="diagram-project">
+              <div className="text-gray-700 dark:text-gray-300">
+                Seamlessly integrate with workflows through Data Source nodes
+              </div>
+            </Card>
+            <Card title="Document Collections" icon="folder-tree">
+              <div className="text-gray-700 dark:text-gray-300">
+                Organize your data in structured collections
+              </div>
+            </Card>
+          </CardGroup>
+        </Tab>
+        
+        <Tab title="Benefits">
+          <Steps>
+            <Step title="Share data between processes">
+              <div className="text-gray-700 dark:text-gray-300">
+                Enable communication and data sharing between different process instances
+              </div>
+            </Step>
+            <Step title="Reduce external dependencies">
+              <div className="text-gray-700 dark:text-gray-300">
+                Store operational data within FlowX instead of building custom connectors
+              </div>
+            </Step>
+            <Step title="Enable new use cases">
+              <div className="text-gray-700 dark:text-gray-300">
+                Build dashboards, caching solutions, and other applications that require persistent data
+              </div>
+            </Step>
+            <Step title="Simplify architecture">
+              <div className="text-gray-700 dark:text-gray-300">
+                Keep your data within the FlowX ecosystem for improved security and simplicity
+              </div>
+            </Step>
+          </Steps>
+        </Tab>
+        
+        <Tab title="UI Integration">
+          <Frame caption="FlowX Database as a Data Source type">
+          ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db_select.png)
+          </Frame>
           
-          <Tab title="Benefits">
-            <Steps>
-              <Step title="Share data between processes">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Enable communication and data sharing between different process instances
-                </div>
-              </Step>
-              <Step title="Reduce external dependencies">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Store operational data within FlowX instead of building custom connectors
-                </div>
-              </Step>
-              <Step title="Enable new use cases">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Build dashboards, caching solutions, and other applications that require persistent data
-                </div>
-              </Step>
-              <Step title="Simplify architecture">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Keep your data within the FlowX ecosystem for improved security and simplicity
-                </div>
-              </Step>
-            </Steps>
-          </Tab>
-          
-          <Tab title="UI Integration">
-            <Frame caption="FlowX Database as a Data Source type">
-            ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db_select.png)
-            </Frame>
-            
-            <div className="mt-4 text-gray-700 dark:text-gray-300">
-              FlowX Database integrates directly into the existing Integration Designer as a new Data Source type alongside RESTful System, making it easy to create and manage database collections without learning new interfaces.
-            </div>
-          </Tab>
-        </Tabs>
-      
+          <div className="mt-4 text-gray-700 dark:text-gray-300">
+            FlowX Database integrates directly into the existing Integration Designer as a new Data Source type alongside RESTful System, making it easy to create and manage database collections without learning new interfaces.
+          </div>
+        </Tab>
+      </Tabs>
+    
       <div className="flex justify-between items-center">
         <a href="/5.x/docs/platform-deep-dive/integrations/flowx-database" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
           Learn more about FlowX Database 
@@ -211,87 +334,236 @@ mode: wide
         </span>
       </div>
     </Card>
-  
-  <Card title="Multi Select UI Component" icon="list-check" iconType="duotone">
-        <Tabs>
-          <Tab title="Overview">
-            <Frame>
-            ![Multi Select form field](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/multi_select.png)
-            </Frame>
-            <div className="mt-4 text-gray-800 dark:text-gray-200">
-              The new Multi Select component allows users to choose multiple options from a predefined list, expanding upon the existing single Select component to support multi-value scenarios.
-            </div>
-          </Tab>
-          
-          <Tab title="Key Features">
-            <CardGroup cols={2}>
-              <Card title="Multiple Selections" icon="check-double">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Users can select multiple options from dropdown lists, with values stored as arrays
-                </div>
-              </Card>
-              <Card title="Flexible Display Options" icon="eye">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Show selections as chips, comma-separated lists, or custom formats
-                </div>
-              </Card>
-              <Card title="Selection Limits" icon="hashtag">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Configure maximum number of selectable options to control user input
-                </div>
-              </Card>
-              <Card title="Search & Filter" icon="magnifying-glass">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Built-in search functionality to filter through large option lists
-                </div>
-              </Card>
-            </CardGroup>
-          </Tab>
-          
-          <Tab title="Use Cases">
-            <Steps>
-              <Step title="Skills & Competencies">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Allow users to select multiple skills, qualifications, or areas of expertise
-                </div>
-              </Step>
-              <Step title="Categories & Tags">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Enable selection of multiple categories, tags, or classification options
-                </div>
-              </Step>
-              <Step title="Product Features">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Let customers choose multiple product features, services, or add-ons
-                </div>
-              </Step>
-              <Step title="Preferences & Settings">
-                <div className="text-gray-700 dark:text-gray-300">
-                  Capture user preferences where multiple options can be active simultaneously
-                </div>
-              </Step>
-            </Steps>
-          </Tab>
-          
-          <Tab title="Configuration">
-            <Frame caption="Multi Select configuration options">
-            ![Multi Select configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/multi_select_skills_config.png)
-            </Frame>
+
+    <Accordion title="👥 What This Means for Your Role">
+      <Tabs>
+        <Tab title="DevOps Engineer 🔧">
+          <Warning>
+            Infrastructure Planning Required
             
-            <div className="mt-4 text-gray-700 dark:text-gray-300">
-              Configure Multi Select components with the same ease as other form elements. Set maximum selections, display formats, search options, and validation rules through the familiar UI Designer interface.
+            FlowX Database creates additional MongoDB collections and requires infrastructure planning for storage, monitoring, and backup procedures.
+          </Warning>
+          
+          <CardGroup cols={2}>
+            <Card title="Storage Planning" icon="database">
+              <div className="text-gray-700 dark:text-gray-300">
+                <strong>New collections:</strong> FlowX Database creates additional MongoDB collections
+                <br/><br/>
+                <strong>Monitor:</strong> Storage usage as processes adopt internal database
+              </div>
+            </Card>
+            <Card title="Performance Monitoring" icon="chart-line">
+              <div className="text-gray-700 dark:text-gray-300">
+                <strong>New metrics:</strong> Database operation performance and throughput
+                <br/><br/>
+                <strong>Alerts:</strong> Set up monitoring for FlowX Database query performance
+              </div>
+            </Card>
+            <Card title="Backup Strategy" icon="archive-box">
+              <div className="text-gray-700 dark:text-gray-300">
+                <strong>Include:</strong> FlowX Database collections in backup procedures
+                <br/><br/>
+                <strong>Test:</strong> Recovery procedures for internal database data
+              </div>
+            </Card>
+            <Card title="Connection Pooling" icon="arrows-pointing-out">
+              <div className="text-gray-700 dark:text-gray-300">
+                <strong>New pools:</strong> Additional connection pools for database operations
+                <br/><br/>
+                <strong>Tune:</strong> Connection limits based on usage patterns
+              </div>
+            </Card>
+          </CardGroup>
+
+          <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+            <h4 className="font-medium text-blue-900 dark:text-blue-200 mb-2">Infrastructure Sizing Guidance</h4>
+            <div className="text-sm text-blue-800 dark:text-blue-300">
+              <p><strong>MongoDB Storage:</strong> Plan for 20-30% increase if processes heavily adopt FlowX Database</p>
+              <p><strong>Memory:</strong> Additional 256MB-512MB per FlowX instance for database operations</p>
+              <p><strong>Network:</strong> Internal database traffic reduces external API calls but increases MongoDB traffic</p>
             </div>
-            
-            <Accordion title="Key Configuration Options">
-              - **Max. Options Selectable**: Limit the number of selections
-              - **Show selections**: Choose how selected items are displayed
-              - **Search for options**: Enable filtering within large lists
-              - **Has Clear**: Allow users to clear all selections at once
-              - **Validation rules**: Min/max selections, required validations
-            </Accordion>
-          </Tab>
-        </Tabs>
-      
+          </div>
+        </Tab>
+        
+        <Tab title="Process Configurator ⚙️">
+          <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg mb-4">
+            <h4 className="font-medium text-green-900 dark:text-green-200 mb-2">Powerful New Integration Option</h4>
+            <p className="text-sm text-green-800 dark:text-green-300">
+              FlowX Database appears as a new Data Source type in Integration Designer, right alongside RESTful System. Use it to store and share data between processes without external dependencies.
+            </p>
+          </div>
+
+          <CardGroup cols={2}>
+            <Card title="When to Use FlowX Database" icon="question-mark-circle">
+              <div className="text-gray-700 dark:text-gray-300">
+                <ul className="text-sm space-y-1">
+                  <li>• Customer data lookup across processes</li>
+                  <li>• Shared configuration and reference data</li>
+                  <li>• Process-to-process communication</li>
+                  <li>• Caching frequently accessed data</li>
+                  <li>• Temporary operational data storage</li>
+                </ul>
+              </div>
+            </Card>
+            <Card title="How to Implement" icon="cog">
+              <div className="text-gray-700 dark:text-gray-300">
+                <ol className="text-sm space-y-1">
+                  <li><strong>1.</strong> Add Data Source node to your process</li>
+                  <li><strong>2.</strong> Select "FlowX Database" as type</li>
+                  <li><strong>3.</strong> Configure collection and operations</li>
+                  <li><strong>4.</strong> Use familiar MongoDB syntax (find, insert, update)</li>
+                </ol>
+              </div>
+            </Card>
+          </CardGroup>
+
+          <div className="mt-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+            <h4 className="font-medium text-amber-900 dark:text-amber-200 mb-2">When NOT to Use FlowX Database</h4>
+            <p className="text-sm text-amber-800 dark:text-amber-300">
+              Don't replace your core business systems. FlowX Database is perfect for operational data, caching, and inter-process communication - but your CRM, ERP, and other systems of record should remain your primary data sources.
+            </p>
+          </div>
+        </Tab>
+        
+        <Tab title="Business Analyst 📊">
+          <div className="p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg mb-4">
+            <h4 className="font-medium text-purple-900 dark:text-purple-200 mb-2">Strategic Business Value</h4>
+            <p className="text-sm text-purple-800 dark:text-purple-300">
+              FlowX Database enables new operational patterns that were previously complex or impossible. It's not about replacing your core systems, but about enabling new ways to orchestrate business processes.
+            </p>
+          </div>
+
+          <CardGroup cols={2}>
+            <Card title="New Business Capabilities" icon="sparkles">
+              <div className="text-gray-700 dark:text-gray-300">
+                <ul className="text-sm space-y-1">
+                  <li>• <strong>Cross-process workflows:</strong> Loan application → Credit check → Approval across different process instances</li>
+                  <li>• <strong>Real-time dashboards:</strong> Operational data for business monitoring without system integration</li>
+                  <li>• <strong>Agile experimentation:</strong> Test new business rules without impacting core systems</li>
+                  <li>• <strong>Process orchestration:</strong> Complex business flows spanning multiple departments</li>
+                </ul>
+              </div>
+            </Card>
+            <Card title="ROI Considerations" icon="chart-bar">
+              <div className="text-gray-700 dark:text-gray-300">
+                <div className="space-y-2">
+                  <div>
+                    <p className="font-medium text-sm text-green-700 dark:text-green-400">Cost Savings</p>
+                    <p className="text-xs">Reduce custom integration development for operational data</p>
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm text-blue-700 dark:text-blue-400">Time to Market</p>
+                    <p className="text-xs">Faster implementation of new business processes</p>
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm text-purple-700 dark:text-purple-400">Agility</p>
+                    <p className="text-xs">Rapid prototyping and testing of business ideas</p>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </CardGroup>
+
+          <div className="mt-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+            <h4 className="font-medium text-yellow-900 dark:text-yellow-200 mb-2">Business Decision Framework</h4>
+            <div className="text-sm text-yellow-800 dark:text-yellow-300">
+              <p className="font-medium mb-1">Use FlowX Database when:</p>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Data is operational and process-specific (not master data)</li>
+                <li>You need rapid implementation without IT system changes</li>
+                <li>Process instances need to communicate with each other</li>
+                <li>You're prototyping new business capabilities</li>
+              </ul>
+            </div>
+          </div>
+        </Tab>
+      </Tabs>
+    </Accordion>
+
+    ---
+
+    ### **Multi Select UI Component**
+
+    <Card title="Multi Select UI Component" icon="list-check" iconType="duotone">
+      <Tabs>
+        <Tab title="Overview">
+          <Frame>
+          ![Multi Select form field](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/multi_select.png)
+          </Frame>
+          <div className="mt-4 text-gray-800 dark:text-gray-200">
+            The new Multi Select component allows users to choose multiple options from a predefined list, expanding upon the existing single Select component to support multi-value scenarios.
+          </div>
+        </Tab>
+        
+        <Tab title="Key Features">
+          <CardGroup cols={2}>
+            <Card title="Multiple Selections" icon="check-double">
+              <div className="text-gray-700 dark:text-gray-300">
+                Users can select multiple options from dropdown lists, with values stored as arrays
+              </div>
+            </Card>
+            <Card title="Flexible Display Options" icon="eye">
+              <div className="text-gray-700 dark:text-gray-300">
+                Show selections as chips, comma-separated lists, or custom formats
+              </div>
+            </Card>
+            <Card title="Selection Limits" icon="hashtag">
+              <div className="text-gray-700 dark:text-gray-300">
+                Configure maximum number of selectable options to control user input
+              </div>
+            </Card>
+            <Card title="Search & Filter" icon="magnifying-glass">
+              <div className="text-gray-700 dark:text-gray-300">
+                Built-in search functionality to filter through large option lists
+              </div>
+            </Card>
+          </CardGroup>
+        </Tab>
+        
+        <Tab title="Use Cases">
+          <Steps>
+            <Step title="Skills & Competencies">
+              <div className="text-gray-700 dark:text-gray-300">
+                Allow users to select multiple skills, qualifications, or areas of expertise
+              </div>
+            </Step>
+            <Step title="Categories & Tags">
+              <div className="text-gray-700 dark:text-gray-300">
+                Enable selection of multiple categories, tags, or classification options
+              </div>
+            </Step>
+            <Step title="Product Features">
+              <div className="text-gray-700 dark:text-gray-300">
+                Let customers choose multiple product features, services, or add-ons
+              </div>
+            </Step>
+            <Step title="Preferences & Settings">
+              <div className="text-gray-700 dark:text-gray-300">
+                Capture user preferences where multiple options can be active simultaneously
+              </div>
+            </Step>
+          </Steps>
+        </Tab>
+        
+        <Tab title="Configuration">
+          <Frame caption="Multi Select configuration options">
+          ![Multi Select configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/multi_select_skills_config.png)
+          </Frame>
+          
+          <div className="mt-4 text-gray-700 dark:text-gray-300">
+            Configure Multi Select components with the same ease as other form elements. Set maximum selections, display formats, search options, and validation rules through the familiar UI Designer interface.
+          </div>
+          
+          <Accordion title="Key Configuration Options">
+            - **Max. Options Selectable**: Limit the number of selections
+            - **Show selections**: Choose how selected items are displayed
+            - **Search for options**: Enable filtering within large lists
+            - **Has Clear**: Allow users to clear all selections at once
+            - **Validation rules**: Min/max selections, required validations
+          </Accordion>
+        </Tab>
+      </Tabs>
+    
       <div className="flex justify-between items-center">
         <a href="/5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/multi-select" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
           Learn more about Multi Select 
@@ -305,11 +577,432 @@ mode: wide
         </span>
       </div>
     </Card>
+
+    <Accordion title="👥 What This Means for Your Role">
+      <Tabs>
+        <Tab title="DevOps Engineer 🔧">
+          <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+            <h4 className="font-medium text-green-900 dark:text-green-200 mb-2">No Infrastructure Impact</h4>
+            <p className="text-sm text-green-800 dark:text-green-300">
+              Multi Select is a pure UI component with no backend requirements. It works with existing form handling and data storage mechanisms.
+            </p>
+          </div>
+          
+          <div className="mt-4 space-y-3">
+            <div className="flex items-start space-x-2">
+              <svg className="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <div>
+                <p className="font-medium text-sm">Zero deployment overhead</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Component is part of the UI framework upgrade</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-2">
+              <svg className="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <div>
+                <p className="font-medium text-sm">Existing data handling</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Uses standard array storage - no schema changes needed</p>
+              </div>
+            </div>
+          </div>
+        </Tab>
+        
+        <Tab title="Process Configurator ⚙️">
+          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg mb-4">
+            <h4 className="font-medium text-blue-900 dark:text-blue-200 mb-2">Perfect for Real-World Scenarios</h4>
+            <p className="text-sm text-blue-800 dark:text-blue-300">
+              Multi Select works just like other form elements in UI Designer. Drag, drop, configure - no new learning curve required.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+            <div className="lg:col-span-2">
+              <h5 className="font-semibold mb-3">Common Use Cases</h5>
+              <div className="space-y-3">
+                <div className="flex items-start space-x-2">
+                  <div className="w-6 h-6 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-xs font-medium text-blue-600 dark:text-blue-400">1</span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm">Skills Selection</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">Job applications, team member profiles, contractor skills</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <div className="w-6 h-6 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-xs font-medium text-green-600 dark:text-green-400">2</span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm">Product Features</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">Insurance coverage options, software licensing features</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <div className="w-6 h-6 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-xs font-medium text-purple-600 dark:text-purple-400">3</span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm">Categories & Tags</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">Document classification, customer segmentation</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h5 className="font-semibold mb-3">Key Configuration</h5>
+              <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded text-sm">
+                <ul className="space-y-1">
+                  <li><strong>Max selections:</strong> Control input limits</li>
+                  <li><strong>Display format:</strong> Chips, lists, custom</li>
+                  <li><strong>Search:</strong> Filter large option sets</li>
+                  <li><strong>Clear all:</strong> Easy reset functionality</li>
+                  <li><strong>Validation:</strong> Min/max rules</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </Tab>
+        
+        <Tab title="Business Analyst 📊">
+          <div className="p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg mb-4">
+            <h4 className="font-medium text-purple-900 dark:text-purple-200 mb-2">Enhanced User Experience Impact</h4>
+            <p className="text-sm text-purple-800 dark:text-purple-300">
+              Multi Select eliminates user frustration in scenarios where single selection doesn't match real-world needs. This improves data quality and user satisfaction.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <h5 className="font-semibold mb-3">User Experience Impact</h5>
+              <div className="space-y-3">
+                <div className="flex items-start space-x-3">
+                  <div className="w-8 h-8 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-red-600 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm">Before: User Frustration</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">"I can only select one skill, but I have multiple certifications"</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm">After: Natural Interaction</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">"Perfect! I can select all my relevant skills at once"</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h5 className="font-semibold mb-3">Business Process Examples</h5>
+              <div className="space-y-3">
+                <div className="border-l-4 border-blue-500 pl-3">
+                  <p className="font-medium text-sm">Employee Onboarding</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Select multiple: Skills, Certifications, Department Access</p>
+                </div>
+                <div className="border-l-4 border-green-500 pl-3">
+                  <p className="font-medium text-sm">Product Configuration</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Select multiple: Features, Add-ons, Support Packages</p>
+                </div>
+                <div className="border-l-4 border-purple-500 pl-3">
+                  <p className="font-medium text-sm">Customer Preferences</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Select multiple: Communication Channels, Product Interests</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg">
+            <h4 className="font-medium text-indigo-900 dark:text-indigo-200 mb-2">Analytics & Insights</h4>
+            <p className="text-sm text-indigo-800 dark:text-indigo-300">
+              Multi-select data provides richer analytics. Instead of knowing a customer chose "Primary Interest: Technology," you know they selected "AI, Cloud Computing, Cybersecurity, Mobile Development" - much more actionable for business intelligence.
+            </p>
+          </div>
+        </Tab>
+      </Tabs>
+    </Accordion>
+
+    ---
+
+    ### **Library-to-Library Dependencies**
+
+    <Card title="Library-to-Library Dependencies" icon="hierarchy" iconType="duotone">
+      <Tabs>
+        <Tab title="Overview">
+          <Frame>
+          ![Library dependencies example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/libs_dependencies.png)
+          </Frame>
+          <div className="mt-4 text-gray-800 dark:text-gray-200">
+            FlowX 5.0 introduces the ability for libraries to depend on other libraries, enabling hierarchical dependency structures and more sophisticated modular architectures.
+          </div>
+        </Tab>
+        
+        <Tab title="Key Features">
+          <CardGroup cols={2}>
+            <Card title="Hierarchical Structure" icon="sitemap">
+              <div className="text-gray-700 dark:text-gray-300">
+                Create complex dependency trees with multiple levels of library-to-library relationships
+              </div>
+            </Card>
+            <Card title="Resource Inheritance" icon="arrow-down">
+              <div className="text-gray-700 dark:text-gray-300">
+                Projects automatically gain access to resources from the entire dependency hierarchy
+              </div>
+            </Card>
+            <Card title="Version Control" icon="tag">
+              <div className="text-gray-700 dark:text-gray-300">
+                Single-version constraint ensures consistency across the dependency tree
+              </div>
+            </Card>
+            <Card title="Conflict Prevention" icon="shield-exclamation">
+              <div className="text-gray-700 dark:text-gray-300">
+                Built-in validation prevents circular dependencies and version conflicts
+              </div>
+            </Card>
+          </CardGroup>
+        </Tab>
+        
+        <Tab title="Benefits">
+          <Steps>
+            <Step title="Enhanced Modularity">
+              <div className="text-gray-700 dark:text-gray-300">
+                Break down complex functionality into smaller, focused libraries that can depend on each other
+              </div>
+            </Step>
+            <Step title="Team-based Development">
+              <div className="text-gray-700 dark:text-gray-300">
+                Enable different teams to own and maintain specific libraries while building on shared foundations
+              </div>
+            </Step>
+            <Step title="Specialized Libraries">
+              <div className="text-gray-700 dark:text-gray-300">
+                Create country-specific or domain-specific libraries that extend common base libraries
+              </div>
+            </Step>
+            <Step title="Simplified Architecture">
+              <div className="text-gray-700 dark:text-gray-300">
+                Organize libraries hierarchically, reducing complexity and improving maintainability
+              </div>
+            </Step>
+          </Steps>
+        </Tab>
+        
+        <Tab title="Example Structure">
+          <Frame caption="Example dependency tree with library-to-library dependencies">
+          ![Dependency tree visualization](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/example_dependency_tree.png)
+          </Frame>
+          
+          <Accordion title="Sample dependency hierarchy">
+            ```
+            Mortgage Project
+            ├── Enums Library (1.6.0)
+            ├── Integrations Library (2.5.0)
+            │   ├── Commons Library (1.1.0)  
+            │   └── Enums Library (1.6.0) # Transitive dependency
+            └── Subprocesses Library (1.3.0)
+                └── Enums Library (1.6.0)  # Transitive dependency
+            ```
+            
+            In this example, both Integrations Library and Subprocesses Library depend on other libraries, creating a multi-level hierarchy that the Mortgage Project can leverage.
+          </Accordion>
+        </Tab>
+      </Tabs>
+        <div className="flex justify-between items-center">
+          <a href="/5.x/docs/building-blocks/libraries/dependencies" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+            Learn more about Library Dependencies 
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-300">
+            Major Enhancement
+          </span>
+        </div>
+      </Card>
+
+    <Accordion title="👥 What This Means for Your Role">
+      <Tabs>
+        <Tab title="DevOps Engineer 🔧">
+          <Warning>
+            Action Required for v5.0 Deployment
+            
+            Review existing library structures and plan migration strategy before upgrading to v5.0
+          </Warning>
+
+          <CardGroup cols={2}>
+            <Card title="Build Export Changes" icon="download">
+              <div className="text-gray-700 dark:text-gray-300">
+                <strong>New behavior:</strong> Build exports now automatically include entire dependency trees
+                <br/><br/>
+                <strong>Impact:</strong> Export packages will be larger but completely self-contained
+              </div>
+            </Card>
+            <Card title="Dependency Validation" icon="shield-check">
+              <div className="text-gray-700 dark:text-gray-300">
+                <strong>Enhanced validation:</strong> Build process now checks for dependency conflicts
+                <br/><br/>
+                <strong>Impact:</strong> Failed builds if version conflicts exist in dependency tree
+              </div>
+            </Card>
+            <Card title="Deployment Consistency" icon="sync">
+              <div className="text-gray-700 dark:text-gray-300">
+                <strong>Version locking:</strong> Single-version constraint prevents runtime conflicts
+                <br/><br/>
+                <strong>Impact:</strong> More predictable deployments across environments
+              </div>
+            </Card>
+            <Card title="Migration Planning" icon="calendar">
+              <div className="text-gray-700 dark:text-gray-300">
+                <strong>Staged approach:</strong> Update dependencies in correct order
+                <br/><br/>
+                <strong>Impact:</strong> Coordinate with teams owning different library layers
+              </div>
+            </Card>
+          </CardGroup>
+
+          <div className="mt-6">
+            <h5 className="text-lg font-semibold mb-3">Pre-Deployment Checklist</h5>
+            <div className="space-y-2">
+              <div className="flex items-center">
+                <input type="checkbox" className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                <span className="ml-2 text-sm">Audit existing library dependency structures</span>
+              </div>
+              <div className="flex items-center">
+                <input type="checkbox" className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                <span className="ml-2 text-sm">Identify potential version conflicts in current setup</span>
+              </div>
+              <div className="flex items-center">
+                <input type="checkbox" className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                <span className="ml-2 text-sm">Plan migration sequence for complex dependency trees</span>
+              </div>
+              <div className="flex items-center">
+                <input type="checkbox" className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                <span className="ml-2 text-sm">Update deployment scripts to handle new validation</span>
+              </div>
+              <div className="flex items-center">
+                <input type="checkbox" className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                <span className="ml-2 text-sm">Test in development environment before production</span>
+              </div>
+            </div>
+          </div>
+        </Tab>
+        
+        <Tab title="Process Configurator ⚙️">
+          <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg mb-4">
+            <h4 className="font-medium text-green-900 dark:text-green-200 mb-2">Enhanced Library Organization</h4>
+            <p className="text-sm text-green-800 dark:text-green-300">
+              You can now create more sophisticated library structures where specialized libraries build upon common foundations. This reduces duplication and improves consistency.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <h5 className="font-semibold mb-2">How It Works</h5>
+              <ol className="text-sm space-y-2">
+                <li><strong>1.</strong> Navigate to Library → Config → Dependencies</li>
+                <li><strong>2.</strong> Add other libraries as dependencies</li>
+                <li><strong>3.</strong> FlowX validates for conflicts automatically</li>
+                <li><strong>4.</strong> Resources from all dependency levels become available</li>
+              </ol>
+            </div>
+            <div>
+              <h5 className="font-semibold mb-2">Best Practices</h5>
+              <ul className="text-sm space-y-2">
+                <li>• Plan your library hierarchy before implementation</li>
+                <li>• Keep dependencies focused and purposeful</li>
+                <li>• Avoid circular dependencies</li>
+                <li>• Use semantic versioning consistently</li>
+                <li>• Document dependency relationships clearly</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+            <h4 className="font-medium text-blue-900 dark:text-blue-200 mb-2">Example: Country-Specific Implementation</h4>
+            <p className="text-sm text-blue-800 dark:text-blue-300">
+              Create a "US Banking Library" that depends on "Global Banking Library" and "US Compliance Library". This way, US-specific processes get both global banking functionality and local compliance requirements automatically.
+            </p>
+          </div>
+        </Tab>
+        
+        <Tab title="Business Analyst 📊">
+          <div className="p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg mb-4">
+            <h4 className="font-medium text-purple-900 dark:text-purple-200 mb-2">Enterprise Architecture Enabler</h4>
+            <p className="text-sm text-purple-800 dark:text-purple-300">
+              Library-to-Library Dependencies enable sophisticated organizational structures where different teams can own specific business domains while building on shared foundations.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+            <div className="lg:col-span-2">
+              <h5 className="font-semibold mb-3">Enterprise Use Cases</h5>
+              <div className="space-y-4">
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                  <h6 className="font-medium text-sm mb-2">Multi-Country Operations</h6>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+                    Global Insurance Company: US-specific library depends on Global Compliance library
+                  </p>
+                  <div className="bg-gray-50 dark:bg-gray-800 p-2 rounded text-xs font-mono">
+                    US Insurance Library → Global Compliance Library → Base Insurance Library
+                  </div>
+                </div>
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                  <h6 className="font-medium text-sm mb-2">Product Line Specialization</h6>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+                    Bank: Mortgage processes use specialized libraries that extend common banking operations
+                  </p>
+                  <div className="bg-gray-50 dark:bg-gray-800 p-2 rounded text-xs font-mono">
+                    Mortgage Library → Lending Library → Core Banking Library
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h5 className="font-semibold mb-3">Business Impact</h5>
+              <div className="space-y-3">
+                <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded border border-green-200 dark:border-green-800">
+                <p className="font-medium text-sm text-green-900 dark:text-green-200">Team Autonomy</p>
+                  <p className="text-xs text-green-800 dark:text-green-300">Teams work independently while leveraging shared assets</p>
+                </div>
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded border border-blue-200 dark:border-blue-800">
+                  <p className="font-medium text-sm text-blue-900 dark:text-blue-200">Faster Innovation</p>
+                  <p className="text-xs text-blue-800 dark:text-blue-300">New products build on proven foundation components</p>
+                </div>
+                <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded border border-purple-200 dark:border-purple-800">
+                  <p className="font-medium text-sm text-purple-900 dark:text-purple-200">Risk Reduction</p>
+                  <p className="text-xs text-purple-800 dark:text-purple-300">Tested, validated components reduce implementation risk</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+            <h4 className="font-medium text-amber-900 dark:text-amber-200 mb-2">Change Management Consideration</h4>
+            <p className="text-sm text-amber-800 dark:text-amber-300">
+              This capability requires coordination between teams. Establish clear ownership models, communication protocols, and upgrade procedures before implementing complex dependency hierarchies.
+            </p>
+          </div>
+        </Tab>
+      </Tabs>
+    </Accordion>
+
   </Tab>
 
   <Tab title="Bug Fixes">
     ## **Bug fixes** 🐞  
 
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   </Tab>
 
   <Tab title="Info">
@@ -324,6 +1017,11 @@ mode: wide
       <Card title="Migration Guide (from v4.x)" icon="arrow-up-right-dots" href="./migrating-from-v4.x-to-v5.0">
         <div className="text-gray-700 dark:text-gray-300">
           Step-by-step guide for migrating from v4.x to v5.0
+        </div>
+      </Card>
+      <Card title="Upgrade Considerations" icon="arrow-up-right-dots" href="./upgrade-considerations">
+        <div className="text-gray-700 dark:text-gray-300">
+          Upgrade considerations for FlowX.AI 5.0.0
         </div>
       </Card>
     </CardGroup>
