@@ -12,7 +12,6 @@ Ensure the following infrastructure components are available before starting the
 - **Database Backend**: One of the following options:
   - **MongoDB**: Version 4.4 or higher for data storage (replica set configuration recommended)
   - **Azure Cosmos DB**: With MongoDB API enabled for cloud-native deployments
-- **Kafka**: Version 2.8 or higher for event messaging
 - **OAuth2 Provider**: For authentication and authorization
 
 ## Configuration
@@ -54,25 +53,7 @@ Connect the NoSQL DB Runner to an OAuth 2.0 identity management platform:
 | `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` | Secret key for client authentication (stored as secret) | `secret(keycloak-generic)`              |
 | `SECURITY_OAUTH2_REALM`                | OAuth 2.0 realm name                                    | `paperflow`                             |
 
-### Configuring Kafka
 
-Set up Kafka connectivity for event-driven communication:
-
-| Environment Variable             | Description                                   | Example Value                                                                            |
-| -------------------------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `KAFKA_OAUTH_CLIENT_ID`          | OAuth client ID for Kafka authentication      | `team-b-client`                                                                          |
-| `KAFKA_OAUTH_CLIENT_SECRET`      | OAuth client secret for Kafka authentication  | `team-b-client-secret`                                                                   |
-| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint for Kafka authentication | `https://auth.devmain.flowxai.dev/auth/realms/kafka-authz/protocol/openid-connect/token` |
-| `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Environment prefix for Kafka topic naming     | *(empty for default)*                                                                    |
-
-### Configuring file upload limits
-
-Configure multipart file upload limits for the service:
-
-| Environment Variable              | Description                                  | Default Value |
-| --------------------------------- | -------------------------------------------- | ------------- |
-| `HTTP_MULTIPART_MAX_FILE_SIZE`    | Maximum size for individual file uploads     | `25MB`        |
-| `HTTP_MULTIPART_MAX_REQUEST_SIZE` | Maximum size for complete multipart requests | `25MB`        |
 
 ### Configuring logging
 
@@ -98,7 +79,6 @@ Configure management endpoints and monitoring capabilities:
 | `MANAGEMENT_SERVER_PORT`                             | Port for management endpoints      | `8081`                      |
 | `MANAGEMENT_ENDPOINT_HEALTH_GROUP_LIVENESS_INCLUDE`  | Health checks for liveness probes  | `ping,accessInfo,buildInfo` |
 | `MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE` | Health checks for readiness probes | `ping,accessInfo,buildInfo` |
-| `MANAGEMENT_HEALTH_KAFKA_ENABLED`                    | Enable Kafka health checks         | `false`                     |
 | `MANAGEMENT_HEALTH_KUBERNETES_ENABLED`               | Enable Kubernetes health checks    | `false`                     |
 
 ### Prometheus metrics configuration
@@ -135,15 +115,6 @@ Enable Prometheus metrics export for monitoring:
 - Validate token endpoint URI configuration
 </Accordion>
 
-<Accordion title="Kafka connectivity issues">
-**Problem**: Unable to connect to Kafka or consume/produce messages
-
-**Solutions**:
-- Verify Kafka OAuth configuration
-- Check Kafka broker accessibility
-- Validate topic naming and permissions
-- Review Kafka authentication settings
-</Accordion>
 
 ## Health checks
 
@@ -160,7 +131,7 @@ The NoSQL DB Runner works in conjunction with:
 - **FlowX Engine**: For process execution and data operations
 - **FlowX Designer**: For collection and operation management
 - **MongoDB**: For data persistence
-- **Kafka**: For event-driven communication
+
 
 
 ## Deployment considerations
@@ -205,15 +176,6 @@ SECURITY_OAUTH2_CLIENT_CLIENT_ID: "your-client-id"
 SECURITY_OAUTH2_CLIENT_CLIENT_SECRET: "your-client-secret"
 SECURITY_OAUTH2_REALM: "your-realm"
 
-# Kafka Configuration
-KAFKA_OAUTH_CLIENT_ID: "your-kafka-client-id"
-KAFKA_OAUTH_CLIENT_SECRET: "your-kafka-client-secret"
-KAFKA_OAUTH_TOKEN_ENDPOINT_URI: "https://your-auth-server/auth/realms/kafka-authz/protocol/openid-connect/token"
-KAFKA_TOPIC_NAMING_ENVIRONMENT: ""
-
-# File Upload Configuration
-HTTP_MULTIPART_MAX_FILE_SIZE: "25MB"
-HTTP_MULTIPART_MAX_REQUEST_SIZE: "25MB"
 
 # Logging Configuration
 LOGGING_CONFIG_FILE: "logback-spring.xml"

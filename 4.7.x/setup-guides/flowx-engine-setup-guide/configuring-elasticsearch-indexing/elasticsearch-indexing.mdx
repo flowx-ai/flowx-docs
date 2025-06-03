@@ -1,31 +1,29 @@
 ---
 title: Configuring Elasticsearch indexing
-description: This section provides configuration steps for enabling process instance indexing using the Kafka transport strategy.
+description: This section provides configuration steps for enabling process instance indexing using the Kafka or HTTP transport strategy.
 ---
 
 <Tip>
 Before proceeding, it is recommended to familiarize yourself with Elasticsearch and its indexing process by referring to the Intro to Elasticsearch section.
 </Tip>
 
-<Card title="Intro to Elasticsearch" href="../../../docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch" icon="file">
-</Card>
-
+<Card title="Intro to Elasticsearch" href="../../../docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch" icon="file"/>
 
 ## Configuration
 
-To enable Kafka indexing strategy, the previous configuration parameter `flowx.use-elasticsearch` is being replaced. However, to ensure backward compatibility, it will still be preserved in the configuration. Below is an example of how to configure it:
+Old configuration:
 
 ```yaml
 spring:
   elasticsearch:
     index-settings:
       name: process_instance
-      shards: 1
-      replicas: 1
+      shards: 2
+      replicas: 2
 
 ```
 
-Instead of the removed configuration, a new configuration area has been added:
+New configuration:
 
 ```yaml
 flowx:
@@ -38,6 +36,10 @@ flowx:
       shards: 1
       replicas: 1
 ```
+
+<Info>
+The `flowx.indexing.optimistic-locking-retries` property is available only for the HTTP indexing strategy.
+</Info>
 
 The `flowx.indexing.enabled` property determines whether indexing with Elasticsearch is enabled. When set to false or missing, no indexing will be performed for any entities defined below. When set to true, indexing with Elasticsearch is enabled.
 
@@ -56,7 +58,7 @@ The `flowx.indexing.processInstance.indexing-type` property defines the indexing
 
 To enable indexing with Elasticsearch for the entire application, update the process-engine configuration with the following parameters:
 
-* `FLOWX_INDEXING_ENABLED`: Set this parameter to `true` to enable indexing with Elastisearch for the entire application.
+* `FLOWX_INDEXING_ENABLED`: Set this parameter to `true` to enable indexing with Elasticsearch for the entire application.
 
 | Variable Name          | Enabled | Description                                               |
 | ---------------------- | ------- | --------------------------------------------------------- |
@@ -99,8 +101,8 @@ For Kafka indexing, the Kafka Connect with Elasticsearch Sink Connector must be 
 
 ### Kafka Connect
 
-  * Assumes kafka cluster installed with strimzi operator and Elasticsearch with eck-operator
-  * Can save the image built by kafka connect to a local registry and comment build section
+  * Assumes Kafka cluster installed with Strimzi operator and Elasticsearch with eck-operator
+  * Can save the image built by Kafka Connect to a local registry and comment build section
 
 ```yaml
 apiVersion: kafka.strimzi.io/v1beta2
@@ -156,7 +158,7 @@ spec:
             key: elastic
 ```
 
-### Kafka Elasticsearch Connector
+### Kafka Elasticsearch connector
 
 ```yaml
 spec:
@@ -207,8 +209,8 @@ flowx:
     processInstance:
       indexing-type: http
       index-name: process_instance
-      shards: 1
-      replicas: 1
+      shards: 2
+      replicas: 2
 ```
 
 If you don't want to remove the existing configuration parameters, you can use the following example:
@@ -218,8 +220,8 @@ spring:
   elasticsearch:
     index-settings:
       name: process_instance
-      shards: 1
-      replicas: 1
+      shards: 2
+      replicas: 2
 flowx.use-elasticsearch: true
 flowx:
   indexing:
@@ -254,11 +256,11 @@ This topic is used for sending the data to be indexed from Process engine. The d
 
 The topic name, defined in the value, will be used by Kafka Connect as source for the messages to be sent to Elasticsearch for indexing.
 
-The attribute `indexLastUpdatedTime` is new and will be populated for the kafka-connect strategy. This will tell the timestamp when the last operation was done on the object in the index.ß
+The attribute `indexLastUpdatedTime` is new and will be populated for the kafka-connect strategy. This will tell the timestamp when the last operation was done on the object in the index.
 
 </Info>
 
-## Elasticsearch update (index template)
+## Elasticsearch index template
 
 The mappings between messages and Elasticsearch data types need to be specified. This is achieved through an index template created by the process engine during startup. The template applies to indices starting with the value defined in `flowx.indexing.processInstance.index-name` config. Here's an example of the index template:
 
@@ -399,5 +401,4 @@ For optimal performance, align your Elasticsearch time-based partitioning with y
 
 Here are some guidelines to help you get started:
 
-<Card title="Configuration guidelines" href="./process-instance-indexing-config-guidelines" icon= "file">
-</Card>
+<Card title="Configuration guidelines" href="./process-instance-indexing-config-guidelines" icon= "file"/>

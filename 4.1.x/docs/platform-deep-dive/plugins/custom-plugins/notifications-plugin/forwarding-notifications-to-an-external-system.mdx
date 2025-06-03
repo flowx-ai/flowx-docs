@@ -5,7 +5,7 @@ description: If the Notification service is not directly connected to an SMTP / 
 
 ### Check needed Kafka topics
 
-Yu will need the name of the kafka topics defined at the following environment variables:
+Yu will need the name of the Kafka topics defined at the following environment variables:
 
 * `KAFKA_TOPIC_NOTIFICATION_INTERNAL_IN` - topic used to trigger the request to send a notification
 * `KAFKA_TOPIC_NOTIFICATION_EXTERNAL_OUT` - the notification will be forwarded on this topic to be handled by an external system

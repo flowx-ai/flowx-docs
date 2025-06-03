@@ -240,6 +240,11 @@ viewModelScope.launch {
 
 ### Changing current locale settings
 
+<Info>
+For locale, use the format BCP 47. BCP 47 is the standard for representing language and region codes, here is a [link](https://www.w3.org/International/articles/language-tags/) to the BCP 47 specification.
+An example of BCP 47 is `en-us` (language code - `en` and region code - `us`).
+</Info>
+
 The current `locale` and `language` can be also changed after the [initial setup](#configuring-the-library), by calling the `changeLocaleSettings` function:
 
 ```kotlin
