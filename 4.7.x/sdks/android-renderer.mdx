@@ -38,7 +38,7 @@ dependencyResolutionManagement {
 ```kotlin
 dependencies {
     ...
-    implementation("ai.flowx.android:android-sdk:4.0.9")
+    implementation("ai.flowx.android:android-sdk:4.0.24")
     ...
 }
 ```
@@ -131,7 +131,10 @@ class MyApplication : Application() {
             customComponentsProvider = object : CustomComponentsProvider {...},
             customStepperHeaderProvider = object : CustomStepperHeaderProvider {...},
             analyticsCollector = { event ->
-                Log.i("Analytics", "Event(type = ${event.type}, value = ${event.value})")
+                when (event) {
+                    is Event.Screen -> Log.i("Analytics", "Event.Screen(value = ${event.data.value})")
+                    is Event.Action -> Log.i("Analytics", "Event.Action(value = ${event.data.value}, screen = ${event.data.screen}, component = ${event.data.component}, label = ${event.data.label})")
+                }
             },
             onNewProcessStarted = { processInstanceUuid ->
                 // Send a broadcast message to notify the Activity currently displaying the running process.
@@ -741,9 +744,24 @@ fun interface AnalyticsCollector {
 ```
 where the `Event` looks like this:
 ```kotlin
-interface Event {
-    val type: String
-    val value: String
+sealed interface Event {
+    interface Screen : Event {
+        val data: Screen.Data
+
+        interface Data {
+            val value: String
+        }
+    }
+    interface Action : Event {
+        val data: Action.Data
+
+        interface Data {
+            val value: String
+            val screen: String?
+            val component: String?
+            val label: String?
+        }
+    }
 }
 ```
 
@@ -754,9 +772,22 @@ The implementation can be passed as a lambda, like:
 ```kotlin
 analyticsCollector = { event ->
     // do whatever is needed (e.g. log the event)
-    Log.i("Analytics", "Event(type = ${event.type}, value = ${event.value})")
+    when (it) {
+        is Event.Screen -> Log.i("Analytics", "Event.Screen(value = ${it.data.value})")
+        is Event.Action -> Log.i("Analytics", "Event.Action(value = ${it.data.value}, screen = ${it.data.screen}, component = ${it.data.component}, label = ${it.data.label})")
+    }
 }
 ```
+
+<Info>
+The value property represents the identifier set in the process definition.
+
+For action type events there are some additional properties provided:
+
+- component - The type of component triggering the action
+- label - The label of the component, if available. (E.g. title of a button or label of a form element)
+- screen - The identifier of the screen containing the component, if set
+</Info>
 
 ## Handling "Start of a new process"
 
