@@ -267,6 +267,12 @@ fun changeLocaleSettings(locale: Locale, language: String)
 FlowxSdkApi.getInstance().changeLocaleSettings(locale = Locale("en", "US"), language = "en")
 ```
 
+<Info>
+For locale, use the format BCP 47. BCP 47 is the standard for representing language and region codes, here is a [link](https://www.w3.org/International/articles/language-tags/) to the BCP 47 specification.
+An example of BCP 47 is `en-us` (language code - `en` and region code - `us`).
+</Info>
+
+
 ### Start a FlowX process
 
 <Warning>Prior starting a process, make sure the [authentication](#authentication) and [theming](#theming) were correctly set up</Warning>
