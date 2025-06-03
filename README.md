@@ -50,26 +50,26 @@ For macOS, [Docker Desktop](https://www.docker.com/products/docker-desktop/) is 
 
 From the project root folder, run: ```source docker/run.sh --build```.
 
-The resulting image is named `docs-new:latest` and is based on the official **Node 20.12 Alpine** image.
+The resulting image is named `docs-flowxai:latest` and is based on the official **Node 24.1.0 Alpine** image.
 
 ##### Creating and starting the container
 
 From the project root folder, run: ```source docker/run.sh --up```.
 
-As a result, a Docker container, named `docs-new`, is created and started.<br/>
+As a result, a Docker container, named `docs-flowxai`, is created and started.<br/>
 At this point, the Mintlify instance is **NOT** running yet and container access is needed start it.
 
 ##### Stopping and removing the container
 
 From the project root folder, run: ```source docker/run.sh --down```.
 
-This will stop and remove the existing `docs-new` container.
+This will stop and remove the existing `docs-flowxai` container.
 
 ##### Starting the existing container
 
 From the project root folder, run: ```source docker/run.sh --start```.
 
-This command will start the already existing `docs-new` container.
+This command will start the already existing `docs-flowxai` container.
 
 Starting the container can have some extra parameters:
 - `--run-mintlify`: starts and exposes the Mintlify instance to external traffic (a.k.a. it also executes the `mintlify dev` command)
@@ -106,5 +106,5 @@ source docker/run.sh --start --run-mintlify
 Clean-up resources:
 ```
 source docker/run.sh --down
-docker image rm docs-new
+docker image rm docs-flowxai
 ```
