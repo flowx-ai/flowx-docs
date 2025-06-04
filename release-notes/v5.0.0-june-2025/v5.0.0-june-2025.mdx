@@ -65,39 +65,6 @@ mode: wide
           <Frame caption="Insurance claim processing example">
           ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_example1.png)
           </Frame>
-          
-          <Accordion title="View example data model">
-            ```json
-            {
-              "Customer": {
-                "customerId": "string",
-                "firstName": "string",
-                "lastName": "string",
-                "dateOfBirth": "date",
-                "contactInformation": "ref:ContactInfo",
-                "policyNumbers": "array:string",
-                "customerSince": "date",
-                "settings": {
-                  "sensitive": true,
-                  "reporting": true
-                }
-              },
-              "Policy": {
-                "policyNumber": "string",
-                "policyType": "enum:['Auto', 'Home', 'Life', 'Health']",
-                "startDate": "date",
-                "endDate": "date",
-                "coverageAmount": "number",
-                "premium": "number",
-                "policyStatus": "enum:['Active', 'Expired', 'Cancelled', 'Pending']",
-                "settings": {
-                  "sensitive": false,
-                  "reporting": true
-                }
-              }
-            }
-            ```
-          </Accordion>
         </Tab>
       </Tabs>
     
@@ -357,7 +324,7 @@ mode: wide
         
         <Tab title="Configuration">
           <Frame caption="Multi Select configuration options">
-          ![Multi Select configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/multi_select_skills_config.png)
+          ![Multi Select configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/multi_select_props.png)
           </Frame>
           
           Configure Multi Select components with the same ease as other form elements. Set maximum selections, display formats, search options, and validation rules through the familiar UI Designer interface.
