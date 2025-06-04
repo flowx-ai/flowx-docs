@@ -153,6 +153,75 @@ The entry point of the library is the `<FlxProcessRenderer />` component. A list
 | projectInfo      | Defines which FlowX Project will be run inside the process renderer.                                                                                         | json    | true      | -             | `{ "projectId": "111111-222222-333333-44444"}`   |
 
 
+### Analytics
+
+<Info>
+The SDK provides a mechanism for collecting analytics events through a unified `CustomEvent` system. These events can be used to track screens and action events.
+</Info>
+
+To use analytics features, make sure you've imported the necessary SDK module:
+
+```ts
+import {
+   ANALYTICS_EVENTS,
+   AnalyticsData,
+   pushAnalyticsData,
+} from '@flowx/core-sdk';
+```
+
+#### Emitting Analytics Events
+
+Analytics events are dispatched using the `pushAnalyticsData(payload: AnalyticsData)` method. The SDK defines two event types:
+
+```ts
+enum ANALYTICS_EVENTS {
+  SCREEN = 'SCREEN',
+  ACTION = 'ACTION',
+}
+```
+
+Each analytics event should be an object of type AnalyticsData:
+
+```ts
+type AnalyticsData = {
+  type: ANALYTICS_EVENTS;
+  value: string;
+  screen?: string;
+  component?: string;
+  label?: string;
+}
+```
+
+<Info>
+The value property represents the identifier set in the process definition.
+
+For ACTION type events there are some additional properties provided:
+
+- component - The type of component triggering the action
+- label - The label of the component
+- screen - The identifier of the screen containing the component, if set
+</Info>
+
+#### Listening for Analytics Events
+
+You can subscribe to analytics events using the standard CustomEvent API:
+
+```ts
+const analyticsListener = (event: CustomEvent<AnalyticsData>) => {
+  console.log('Received flowx:analytics event:', event.detail);
+}
+
+useEffect(() => {
+  document.addEventListener('flowx:analytics', analyticsListener)
+
+  return () => {
+    document.removeEventListener('flowx:analytics', analyticsListener)
+  }
+}, [])
+```
+
+<Check> Ensure that you remove the event listener on component destruction to avoid memory leaks. </Check>
+
 ## Starting a process
 
 ### Prerequisites

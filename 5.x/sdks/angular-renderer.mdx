@@ -1,6 +1,6 @@
 ---
 title: Angular SDK
-icon: angular 
+icon: angular
 description: FlowxProcessRenderer is a library designed to render the UI of processes created via the Flowx Process Designer.
 ---
 
@@ -38,7 +38,7 @@ The library uses Angular version **@angular\~19**, **npm v10.1.0** and **node v2
 </Info>
 
 <Check>
-If you are using an older version of Angular (for example, v16), please consult the following link for update instructions: 
+If you are using an older version of Angular (for example, v16), please consult the following link for update instructions:
 
 [**Update Angular from v16.0 to v19.0**](https://angular.dev/update-guide?v=16.0-19.0&l=1)
 </Check>
@@ -78,7 +78,7 @@ A few configurations are needed in the projects `angular.json`:
 
 ## Initial setup
 
-Once installed, `FlxProcessModule` will be imported in the `AppModule` as `FlxProcessModule.withConfig({})`. 
+Once installed, `FlxProcessModule` will be imported in the `AppModule` as `FlxProcessModule.withConfig({})`.
 
 You **MUST** also import the dependencies of `FlxProcessModule`: `HttpClientModule` from `@angular/common/http`
 
@@ -152,9 +152,9 @@ FlxProcessModule.withConfig({
   validators: { currentOrLastYear },
 })
 
-  // example of a custom validator that restricts data selection to 
-  // the current or the previous year 
-   
+  // example of a custom validator that restricts data selection to
+  // the current or the previous year
+
   currentOrLastYear: function currentOrLastYear(AC: AbstractControl): { [key: string]: any } {
     if (!AC) {
       return null;
@@ -253,7 +253,7 @@ Action names are configurable via the process editor.
 data: {
     actionsFn: {
       action_one: () => void;
-      action_two: () => void; 
+      action_two: () => void;
     }
   }
 ```
@@ -379,16 +379,16 @@ const interceptor: (custom: any) => HttpRequestInterceptor[] = (customService: C
 }]
 
 // Add the interceptor to the providers array in the main app module
-{  
+{
   provide: FLX_REQUEST_INTERCEPTORS_CONFIG,
   useFactory: (customService: CustomService) => [
-    interceptorFactory(customService), 
+    interceptorFactory(customService),
   ],
   deps: [CustomService], // provider factory dependencies
 }
 ```
 
-### Using custom icons 
+### Using custom icons
 
 The SDK provides a mechanism for using custom icons. Providers for custom icons should be included in the main app module in order to be available for the whole application.
 
@@ -400,10 +400,10 @@ const customIconDictionary = {
   'custom-icon': 'custom icon svg'
 }
 
-// add the custom icon dictionary to the providers array in the main app module. 
+// add the custom icon dictionary to the providers array in the main app module.
 providers: [
   ...
-  importProvidersFrom(FlxIconModule), 
+  importProvidersFrom(FlxIconModule),
   provideExtraIconSet(customIconDictionary),
 ]
 ```
@@ -459,9 +459,79 @@ const localize = new FlxLocalizePipe()
 const translatedText = localize.transform('@@substitution_tag')
 ```
 
-### Caching 
+### Analytics
 
-The SDK provides a caching mechanism for static resources. The cache is enabled by default and can be disabled by setting the [cache input](../../4.7.x/sdks/angular-renderer#parameters) of the `flx-process-renderer` component to `false`. When turned on, the cache will store the static resources in the browser's cache storage. 
+<Info>
+The SDK provides a mechanism for collecting analytics events through a unified `CustomEvent` system. These events can be used to track screens and action events.
+</Info>
+
+To use analytics features, make sure you've imported the necessary SDK module:
+
+```ts
+import {
+   ANALYTICS_EVENTS,
+   AnalyticsData,
+   pushAnalyticsData,
+} from '@flowx/core-sdk';
+```
+
+#### Emitting Analytics Events
+
+Analytics events are dispatched using the `pushAnalyticsData(payload: AnalyticsData)` method. The SDK defines two event types:
+
+```ts
+enum ANALYTICS_EVENTS {
+  SCREEN = 'SCREEN',
+  ACTION = 'ACTION',
+}
+```
+
+Each analytics event should be an object of type AnalyticsData:
+
+```ts
+type AnalyticsData = {
+  type: ANALYTICS_EVENTS;
+  value: string;
+  screen?: string;
+  component?: string;
+  label?: string;
+}
+```
+
+<Info>
+The value property represents the identifier set in the process definition.
+
+For ACTION type events there are some additional properties provided:
+
+- component - The type of component triggering the action
+- label - The label of the component
+- screen - The identifier of the screen containing the component, if set
+</Info>
+
+#### Listening for Analytics Events
+
+You can subscribe to analytics events using the standard CustomEvent API:
+
+```ts
+ngOnInit(): void {
+  document.addEventListener('flowx:analytics', this.analyticsListener);
+}
+
+analyticsListener = (event: CustomEvent<AnalyticsData>) => {
+  console.log('Received flowx:analytics event:', event.detail);
+};
+
+ngOnDestroy(): void {
+  document.removeEventListener('flowx:analytics', this.analyticsListener);
+}
+
+```
+
+<Check> Ensure that you remove the event listener on component destruction to avoid memory leaks. </Check>
+
+### Caching
+
+The SDK provides a caching mechanism for static resources. The cache is enabled by default and can be disabled by setting the [cache input](../../4.7.x/sdks/angular-renderer#parameters) of the `flx-process-renderer` component to `false`. When turned on, the cache will store the static resources in the browser's cache storage.
 
 <Info>
 Common Scenario: When making updates to CMS resources (like substitution tags or media library images) during development, you may find that after a browser refresh, the changes don't appear.
