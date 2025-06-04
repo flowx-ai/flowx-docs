@@ -1,7 +1,7 @@
 # NOTE: this will work as it is only on MacOS
 # TODO: add Linux support
 
-FROM node:20.12-alpine
+FROM node:24.1.0-alpine
 ARG GROUP
 ARG GID
 ARG USER

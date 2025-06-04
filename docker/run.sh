@@ -55,7 +55,7 @@ mintlify_command() {
     run_mintlify="mintlify dev"
   fi
   
-  docker exec -ti docs-new /bin/sh -c "$run_mintlify"
+  docker exec -ti docs-flowxai /bin/sh -c "$run_mintlify"
 }
 
 prepare_env_file() {

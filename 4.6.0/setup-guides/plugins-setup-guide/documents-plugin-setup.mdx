@@ -172,7 +172,7 @@ Each of these Kafka topics corresponds to a specific action or functionality wit
 Depending on your use case, you can choose either a file system or an S3-compatible cloud storage solution for document storage. Configure the file storage solution using the following environment variables:
 
 * `APPLICATION_FILE_STORAGE_PARTITION_STRATEGY`: Set the partition strategy for file storage. Use `NONE` to save documents in `minio/amazon-s3` as before, with a bucket for each process instance. Use `PROCESS_DATE` to save documents in a single bucket with a subfolder structure, for example: `bucket/2022/2022-07-04/process-id-xxxx/customer-id/file.pdf`.      
-* `APPLICATION_FILE_STORAGE_DELETION_STRATEGY` (default value: **delete**): This will keep the current behaviour of deleting the temporary files.
+* `APPLICATION_FILE_STORAGE_DELETION_STRATEGY` (default value: **delete**): This will keep the current behavior of deleting the temporary files.
 Other possible values:
   * **disabled**: This will disable entirely the deletion of temporary files from the temporary bucket, and the responsibility to delete and clean up the bucket will move in the ownership of the admins of the implementing project.
   * **deleteBypassingGovernanceRetention**: This will still delete the temporary files and further more will add in the delete request the header: `x-amz-bypass-governance-retention:true` , to enable deletion of governed files, in case the s3 configured user for document-plugin, will have the `s3:BypassGovernanceRetention` permission.
