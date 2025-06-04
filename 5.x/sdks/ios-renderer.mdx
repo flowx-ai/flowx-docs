@@ -133,13 +133,7 @@ FXConfig.sharedInstance.configure { (config) in
 ```
 
 
-
 #### Changing the current language
-
-<Info>
-For locale, use the format BCP 47. BCP 47 is the standard for representing language and region codes, here is a [link](https://www.w3.org/International/articles/language-tags/) to the BCP 47 specification.
-An example of BCP 47 is `en-us` (language code - `en` and region code - `us`).
-</Info>
 
 The current language and locale can be changed after the initial configuration, by calling the `changeLocaleSettings` method:
 
@@ -147,6 +141,11 @@ The current language and locale can be changed after the initial configuration, 
 FXConfig.sharedInstance.changeLocaleSettings(locale: "ro-ro",
                                              language: "en")
 ```
+
+<Info>
+For locale, use the format BCP 47. BCP 47 is the standard for representing language and region codes, here is a [link](https://www.w3.org/International/articles/language-tags/) to the BCP 47 specification.
+An example of BCP 47 is `en-us` (language code - `en` and region code - `us`).
+</Info>
 
 ### FXSessionConfig
 
@@ -584,7 +583,7 @@ public protocol FXDataSource: AnyObject {
     
     func viewForStepperHeader(stepViewModel: StepViewModel) -> AnyView?
 
-    func track(event: TrackEvent)
+    func collect(event: AnalyticsEvent)
  
     func newProcessStarted(processInstanceUuid: String)
 }
@@ -625,16 +624,9 @@ The container app is responsible with dismissing the UI and calling the stop pro
 
 This method is used for providing a custom SwiftUI view for the stepper navigation header.
 
-* `func track(event: TrackEvent)`
+* `func collect(event: AnalyticsEvent)`
 
-This method is used for collecting analytics events from the SDK. The parameter is a `TrackEvent` enum, which can represent a screen or an action.
-
-```swift
-public enum TrackEvent {
-    case screen(String)
-    case action(String)
-}
-```
+This method is used for collecting analytics events from the SDK. The parameter is a `AnalyticsEvent` enum, which can represent a screen or an action.
 
 * `func newProcessStarted(processInstanceUuid: String)`
 
@@ -700,8 +692,8 @@ class MyFXDataSource: FXDataSource {
         return AnyView(CustomStepperHeaderView(stepViewModel: stepViewModel))
     }
 
-    func track(event: TrackEvent) {
-        //TODO: track event using the desired analytics tool.
+    func collect(event: AnalyticsEvent) {
+        //TODO: collect event using the desired analytics tool.
     }
  
     func newProcessStarted(processInstanceUuid: String) {
@@ -958,6 +950,42 @@ public func getMediaItemURL(withKey key: String) -> String?
 All media items will be retrieved by the SDK before starting the first process and will be stored in memory.
 
 Whenever the container app needs a media item url for populating the UI of the custom components, it can request the url using the method above, providing the key.
+
+### Collecting analytics events
+
+In order to collect analytics events from the SDK, the `collect(event: AnalyticsEvent)` func of the `FXDataSource` protocol needs to be implemented.
+
+The func will be called by the SDK each time a screen or an action analytics event occurs.
+
+The type of the event and relevant metadata are included in the func parameter `event` which is a `AnalyticsEvent` enum case.
+
+```Swift
+public enum AnalyticsEvent {
+    case screen(AnalyticsScreenData)
+    case action(AnalyticsActionData)
+}
+
+public struct AnalyticsScreenData {
+    public var value: String
+}
+
+public struct AnalyticsActionData {
+    public var value: String
+    public var component: String?
+    public var label: String?
+    public var screen: String?
+}
+```
+
+<Info>
+The value property represents the identifier set in the process definition.
+
+For action type events there are some additional properties provided:
+
+- component - The type of component triggering the action
+- label - The label of the component, if available. (E.g. title of a button or label of a form element)
+- screen - The identifier of the screen containing the component, if set
+</Info>
 
 ### Handling authorization token changes
 
