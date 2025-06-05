@@ -127,7 +127,7 @@ For Kafka indexing, the Kafka Connect with Elastic Search Sink Connector must be
 
 #### Topics related to process event messages
 
-##### Process engine new kafka topics
+##### Process engine new Kafka topics
 
 | Default parameter (env var)   | Default FLOWX.AI value (can be overwritten) |
 | ----------------------------- | ------------------------------------------- |
@@ -154,7 +154,7 @@ The events-gateway is designed specifically for handling events. Previously, eac
 
 Now, instead of a server holding the messages, they are stored in Redis. However, the process-engine sends the messages to the events-gateway, which is responsible for sending them to Redis. Users connect to the events-gateway using an HTTP request and wait for Server-Sent Events (SSE) to flow in that request. They keep the request open for as long as they want SSE on a specific instance.
 
-### Events-gateway kafka topics
+### Events-gateway Kafka topics
 
 New Kafka topics have been added for the events-gateway. These topics are used to send and receive messages between the events-gateway and the process-engine.
 
@@ -164,7 +164,7 @@ New Kafka topics have been added for the events-gateway. These topics are used t
 | KAFKA_TOPIC_EVENTS_GATEWAY_OUT_DISCONNECT | Disconnect commands from process-engine to events-gateway | ai.flowx.eventsgateway.engine.commands.disconnect.v1 |
 | KAFKA_TOPIC_EVENTS_GATEWAY_OUT_CONNECT    | Connect commands from process-engine to events-gateway    | ai.flowx.eventsgateway.engine.commands.connect.v1    |
 
-New kafka topics that should be added in the events-gateway configuration.
+New Kafka topics that should be added in the events-gateway configuration.
 
 | Topic Name                                                | Description                                                   | Value                                                |
 | --------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------- |
@@ -206,7 +206,7 @@ npm install event-source-polyfill@1.0.31
 
 #### Topics related to message events
 
-New kafka topics that should be added in the process-engine configuration.
+New Kafka topics that should be added in the process-engine configuration.
 
 | Default parameter (env var)            | Default FLOWX.AI value (can be overwritten)          | Definition                                                   |
 | -------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------ |
@@ -215,7 +215,7 @@ New kafka topics that should be added in the process-engine configuration.
 
 ### Bulk updates
 
-New kafka topics that should be added in the process-engine configuration, related to task management plugin - bulk updates.
+New Kafka topics that should be added in the process-engine configuration, related to task management plugin - bulk updates.
 
 | Default parameter (env var)            | Default FLOWX.AI value (can be overwritten) | Definition                                                                                                                                                                |
 | -------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

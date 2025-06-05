@@ -50,7 +50,7 @@ Using a specific flow on FlowX.AI offers several advantages:
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/platform-deep-dive/ocr_doc_template.gif)
 
-2. Create a process and add a [**Kafka Send Action**](../../../building-blocks/node/message-send-received-task-node#configuring-a-message-send-task-node) to a [**Send Message Task**](../../../building-blocks/node/message-send-received-task-node#send-message-task) node. Here you specify the [**kafka topic**](../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts#topics) (address) where the template will be generated.
+2. Create a process and add a [**Kafka Send Action**](../../../building-blocks/node/message-send-received-task-node#configuring-a-message-send-task-node) to a [**Send Message Task**](../../../building-blocks/node/message-send-received-task-node#send-message-task) node. Here you specify the [**Kafka topic**](../../../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts#topics) (address) where the template will be generated.
 
 <Frame>
 
@@ -116,9 +116,9 @@ Ensure that the topic matches the one defined in the **`KAFKA_TOPIC_DOCUMENT_GEN
 
 </Frame>
 
-7. Next, the response will be sent back to the kafka topic defined by **`KAFKA_TOPIC_DOCUMENT_PERSIST_OUT`** environment variable through a callback action/subprocess.
+7. Next, the response will be sent back to the Kafka topic defined by **`KAFKA_TOPIC_DOCUMENT_PERSIST_OUT`** environment variable through a callback action/subprocess.
 8. Next, send the response to the OCR Kafka topic defined at **`KAFKA_TOPIC_OCR_IN`** variable (representing the path to the S3 file)
-9. Display the result of the OCR validation on the kafka topic defined at **`KAFKA_TOPIC_OCR_OUT`**. 
+9. Display the result of the OCR validation on the Kafka topic defined at **`KAFKA_TOPIC_OCR_OUT`**. 
 
 ### Setup guide
 

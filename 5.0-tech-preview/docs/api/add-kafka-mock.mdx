@@ -1,0 +1,26 @@
+---
+title: Add new Kafka exchange mock
+api: POST {MOCK_ADAPTER_URL}/api/kafka-exchanges/
+---
+
+View all available Kafka exchanges
+
+
+
+<ParamField path="mock-adapter-url" type="string">
+  The URL of the mock adapter.
+</ParamField>
+
+
+<ParamField body="sentMessageJson" type="string" >
+The mocked JSON message that the integration will send
+</ParamField>
+<ParamField body="receivedMesssageJson" type="string">
+The JSON message the integration should reply with
+</ParamField>
+<ParamField body="outgoingTopic" type="string">
+Should match the topic the engine listens on for replies from the integration
+</ParamField>
+<ParamField body="incomingTopic" type="string" >
+Should match the topic name that the integration listens on
+</ParamField>

@@ -1,0 +1,199 @@
+---
+title: NoSQL DB Runner
+description: The NoSQL DB Runner is a backend microservice that powers FlowX Database functionality. It provides MongoDB and Azure Cosmos DB operations support for FlowX Database collections and handles data persistence operations across FlowX processes. This guide provides detailed instructions for setting up the service and configuring its components through environment variables.
+icon: database
+---
+
+## Dependencies overview
+
+Ensure the following infrastructure components are available before starting the NoSQL DB Runner service:
+
+- **Docker Engine**: Version 17.06 or higher
+- **Database Backend**: One of the following options:
+  - **MongoDB**: Version 4.4 or higher for data storage (replica set configuration recommended)
+  - **Azure Cosmos DB**: With MongoDB API enabled for cloud-native deployments
+- **OAuth2 Provider**: For authentication and authorization
+
+## Configuration
+
+The service comes with most of the needed configuration properties filled in, but there are several environment variables that need to be set up for your specific deployment.
+
+### General configuration
+
+Set basic service configuration parameters:
+
+| Environment Variable     | Description                                     | Default/Example Value          |
+| ------------------------ | ----------------------------------------------- | ------------------------------ |
+| `CONFIG_PROFILE`         | Configuration profiles for service setup        | `k8stemplate_v2,kafka-no-auth` |
+| `FLOWX_ENVIRONMENT_NAME` | Environment identifier for the FlowX deployment | `devmain`                      |
+| `SERVER_PORT`            | HTTP port for the service                       | `8080`                         |
+
+### Database configuration
+
+The NoSQL DB Runner connects to MongoDB for data persistence. Configure the following variables:
+
+| Environment Variable      | Description                                   | Example Value                                                                                                                                                                                                                                                                      |
+| ------------------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DB_USERNAME`             | MongoDB username for the service              | `nosql-db-runner`                                                                                                                                                                                                                                                                  |
+| `DB_PASSWORD`             | MongoDB password (should be stored as secret) | `secret(mongodb-generic-devenv)`                                                                                                                                                                                                                                                   |
+| `SPRING_DATA_MONGODB_URI` | Complete MongoDB connection string            | `mongodb://${DB_USERNAME}:${DB_PASSWORD}@nosql-db-runner-mongodb-0.nosql-db-runner-mongodb-headless,nosql-db-runner-mongodb-1.nosql-db-runner-mongodb-headless,nosql-db-runner-mongodb-arbiter-0.nosql-db-runner-mongodb-arbiter-headless:27017/nosql-db-runner?retryWrites=false` |
+
+<Note>
+The MongoDB URI supports replica set configuration for high availability. The connection string includes multiple MongoDB instances and an arbiter for proper replica set functionality.
+</Note>
+
+### Configuring authorization & access roles
+
+Connect the NoSQL DB Runner to an OAuth 2.0 identity management platform:
+
+| Environment Variable                   | Description                                             | Example Value                           |
+| -------------------------------------- | ------------------------------------------------------- | --------------------------------------- |
+| `SECURITY_OAUTH2_BASE_SERVER_URL`      | Base URL for the OAuth 2.0 Authorization Server         | `https://auth.devmain.flowxai.dev/auth` |
+| `SECURITY_OAUTH2_CLIENT_CLIENT_ID`     | Unique identifier for the client application            | `paperflow-service`                     |
+| `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET` | Secret key for client authentication (stored as secret) | `secret(keycloak-generic)`              |
+| `SECURITY_OAUTH2_REALM`                | OAuth 2.0 realm name                                    | `paperflow`                             |
+
+
+
+### Configuring logging
+
+Control log levels for different components of the service:
+
+| Environment Variable   | Description                                   | Default Value        |
+| ---------------------- | --------------------------------------------- | -------------------- |
+| `LOGGING_CONFIG_FILE`  | Path to the logging configuration file        | `logback-spring.xml` |
+| `LOGGING_LEVEL_ROOT`   | Root logger level for the Spring Boot service | `DEBUG`              |
+| `LOGGING_LEVEL_APP`    | Application-specific log level                | `DEBUG`              |
+| `LOGGING_LEVEL_SOCKET` | Socket communication log level                | `DEBUG`              |
+
+<Warning>
+Using DEBUG log levels in production environments may impact performance and generate large log volumes. Consider using INFO or WARN levels for production deployments.
+</Warning>
+
+### Configuring application management
+
+Configure management endpoints and monitoring capabilities:
+
+| Environment Variable                                 | Description                        | Default Value               |
+| ---------------------------------------------------- | ---------------------------------- | --------------------------- |
+| `MANAGEMENT_SERVER_PORT`                             | Port for management endpoints      | `8081`                      |
+| `MANAGEMENT_ENDPOINT_HEALTH_GROUP_LIVENESS_INCLUDE`  | Health checks for liveness probes  | `ping,accessInfo,buildInfo` |
+| `MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE` | Health checks for readiness probes | `ping,accessInfo,buildInfo` |
+| `MANAGEMENT_HEALTH_KUBERNETES_ENABLED`               | Enable Kubernetes health checks    | `false`                     |
+
+### Prometheus metrics configuration
+
+Enable Prometheus metrics export for monitoring:
+
+| Environment Variable                           | Description                      | Default Value |
+| ---------------------------------------------- | -------------------------------- | ------------- |
+| `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED` | Enable Prometheus metrics export | `true`        |
+
+
+
+## Troubleshooting
+
+### Common issues
+
+<Accordion title="MongoDB connection failures">
+**Problem**: Service fails to connect to MongoDB
+
+**Solutions**:
+- Verify MongoDB connection string format and credentials
+- Ensure MongoDB replica set is properly configured and accessible
+- Check network connectivity between service and MongoDB instances
+- Verify MongoDB user permissions and database access rights
+</Accordion>
+
+<Accordion title="OAuth authentication errors">
+**Problem**: Authentication failures with OAuth provider
+
+**Solutions**:
+- Verify OAuth client ID and client secret are correct
+- Check OAuth server URL and realm configuration
+- Ensure OAuth provider is accessible from the service
+- Validate token endpoint URI configuration
+</Accordion>
+
+
+## Health checks
+
+The service provides several health check endpoints:
+
+- **Liveness probe**: `http://localhost:8081/actuator/health/liveness`
+- **Readiness probe**: `http://localhost:8081/actuator/health/readiness`
+- **General health**: `http://localhost:8081/actuator/health`
+
+## Related services
+
+The NoSQL DB Runner works in conjunction with:
+
+- **FlowX Engine**: For process execution and data operations
+- **FlowX Designer**: For collection and operation management
+- **MongoDB**: For data persistence
+
+
+
+## Deployment considerations
+
+### Database backend selection
+
+Choose your database backend based on your requirements:
+
+**MongoDB (Native)**
+- Full MongoDB feature compatibility
+- On-premises or cloud deployment flexibility
+- Advanced indexing and query capabilities
+- Multi-collection transactions
+- Complex aggregation pipeline support
+
+**Azure Cosmos DB**
+- Managed cloud service with global distribution
+- Automatic scaling and high availability
+- Built-in security and compliance
+- Some MongoDB feature limitations
+- Requires careful partition key planning
+
+
+## Environment template
+
+Here's a complete environment configuration template:
+
+```yaml
+# General Configuration
+CONFIG_PROFILE: "k8stemplate_v2,kafka-no-auth"
+FLOWX_ENVIRONMENT_NAME: "your-environment-name"
+SERVER_PORT: "8080"
+
+# Database Configuration
+DB_USERNAME: "nosql-db-runner"
+DB_PASSWORD: "your-mongodb-password"
+SPRING_DATA_MONGODB_URI: "mongodb://${DB_USERNAME}:${DB_PASSWORD}@your-mongodb-hosts:27017/nosql-db-runner?retryWrites=false"
+
+# OAuth2 Configuration
+SECURITY_OAUTH2_BASE_SERVER_URL: "https://your-auth-server/auth"
+SECURITY_OAUTH2_CLIENT_CLIENT_ID: "your-client-id"
+SECURITY_OAUTH2_CLIENT_CLIENT_SECRET: "your-client-secret"
+SECURITY_OAUTH2_REALM: "your-realm"
+
+
+# Logging Configuration
+LOGGING_CONFIG_FILE: "logback-spring.xml"
+LOGGING_LEVEL_ROOT: "INFO"
+LOGGING_LEVEL_APP: "INFO"
+LOGGING_LEVEL_SOCKET: "WARN"
+
+# Management Configuration
+MANAGEMENT_SERVER_PORT: "8081"
+MANAGEMENT_ENDPOINT_HEALTH_GROUP_LIVENESS_INCLUDE: "ping,accessInfo,buildInfo"
+MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE: "ping,accessInfo,buildInfo"
+MANAGEMENT_HEALTH_KAFKA_ENABLED: "false"
+MANAGEMENT_HEALTH_KUBERNETES_ENABLED: "false"
+MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED: "true"
+```
+
+<Note>
+Replace placeholder values with your actual configuration values. Store sensitive information like passwords and secrets in secure configuration management systems.
+</Note>
+
+

@@ -1,0 +1,210 @@
+---
+title: Initiating processes
+description: Learn the different methods for starting process instances in FlowX.AI, including user interaction, automated triggers, and system integration options.
+---
+
+
+Once you've designed your process definitions, you'll need to know how to start process instances. FlowX.AI provides multiple ways to initiate processes, from manual user-triggered starts to fully automated system-initiated flows.
+
+<CardGroup cols={2}>
+  <Card title="User Interface" icon="hand-pointer">
+    The most common way to start processes through user interaction
+  </Card>
+  <Card title="Kafka Messages" icon="message">
+    Start processes through Kafka events from other systems
+  </Card>
+  <Card title="Timer Events" icon="clock">
+    Schedule processes to start automatically at specific times
+  </Card>
+  <Card title="Message Events" icon="envelope">
+    Trigger processes through message events from other processes
+  </Card>
+</CardGroup>
+
+## Starting a process via Kafka
+
+
+One of the most powerful ways to initiate processes is through Kafka messaging, which allows systems to communicate and trigger processes without direct user interaction.
+
+<Steps>
+  <Step title="Access Your Project">
+    1. Open **FlowX.AI Designer** and navigate to your project
+    2. Select an existing process definition or create a new one that will send the Kafka message
+  </Step>
+  
+  <Step title="Add a Send Message Task">
+    1. Add a **Send Message Task** node to your process flow
+    2. Attach a **Kafka Send Action** to this node
+    
+    <Tip>
+      This task will send the message that initiates another process. You can place it at any appropriate point in your process flow.
+    </Tip>
+  </Step>
+  
+  <Step title="Configure the Kafka Topic">
+    1. In the Kafka Send Action configuration, specify the topic linked to the `KAFKA_TOPIC_PROCESS_START_BY_NAME` environment variable
+    2. This variable is shared between the **application-manager** and **runtime-manager** deployments
+    
+    <Frame caption="Process Start Topic Configuration">
+      ![Process Start Topic Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/start_process_by_name_topic.png)
+    </Frame>
+    
+    <Info>
+      To verify the topic in FlowX Designer, navigate to: **Platform status → FlowX Components → application-manager-mngt -> kafkaTopicHealthCheckIndicator → details → configuration → topic → process → start-by-name**
+      
+      <Frame caption="Topic Verification">
+        ![Topic Verification](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/topic_kafka.png)
+      </Frame>
+    </Info>
+  </Step>
+  
+  <Step title="Add Message Content">
+    Add any required data in the message body that should be passed to the new process:
+    
+    ```json
+    {"test": "something"}
+    ```
+    
+    <Note>
+      This data will be available to the process being started, providing it with initial context or parameters.
+    </Note>
+  </Step>
+  
+  <Step title="Configure Required Headers">
+    1. Expand the **Advanced Configuration** section
+    2. In the headers section, add these required headers:
+       - `Fx-ProcessName`: The name of the process you want to start
+       - `Fx-AppId`: The ID of the project (application) where the process resides
+       - `jwt`: Your JWT token for authentication
+    
+    <Frame caption="Headers Configuration">
+      ![Headers Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/start_process_by_name_headers.png)
+    </Frame>
+    
+    The headers should look something like this:
+    
+    ```json
+    {
+      "Fx-ProcessName": "test_kafka",
+      "Fx-AppId": "afcc6452-f50e-4d95-ae3b-6b35caed68bd",
+      "jwt": "your_jwt"
+    }
+    ```
+    
+    <Warning>
+      Without an active policy and proper authentication, the process may not start even if the Kafka message is correctly configured.
+    </Warning>
+  </Step>
+  
+  <Step title="Test and Monitor">
+    1. Run your process to send the Kafka message
+    2. To monitor the results, you can use tools like AKHQ to check the response on the `KAFKA_TOPIC_PROCESS_START_BY_NAME_OUT` topic
+    
+    <Frame caption="Kafka Response Monitoring">
+      ![Kafka Response Monitoring](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-02-11%20at%2017.33.58.png)
+    </Frame>
+  </Step>
+</Steps>
+
+## Timer start event
+
+
+Timer Start Events allow you to schedule processes to start automatically at defined times or intervals, enabling automated workflows without manual intervention.
+
+<Steps>
+  <Step title="Configure a Process with Timer Start">
+    1. Open **FlowX.AI Designer** and navigate to your project
+    2. Select an existing process definition or create a new one
+    3. Add a **Start Timer Event** to your process instead of a regular Start node
+    
+    <Frame caption="Timer Start Event Configuration">
+      ![Timer Start Event Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/start_timer_process.png)
+    </Frame>
+  </Step>
+  
+  <Step title="Configure Timer Settings">
+    Configure the timer according to your requirements:
+    
+    1. **Date Specific**: Set a specific date and time for the process to start
+    2. **Cycle**: Configure a recurring schedule using cron expressions
+    
+    <Warning>
+      Starting processes through registered timers requires sending a process start message to Kafka, which needs a service account and authentication. See [Service Accounts](../../../setup-guides/access-management/configuring-an-iam-solution#scheduler-service-account) for details.
+    </Warning>
+  </Step>
+</Steps>
+
+For more detailed information about Timer Start Events, refer to the [Start Timer Event](../../building-blocks/node/timer-events/timer-start-event) documentation.
+
+## Message catch start event
+
+Message Catch Start Events allow one process to initiate another through message-based communication, creating dependencies and workflows between processes.
+
+<Steps>
+  <Step title="Configure the Sender Process">
+    1. Open **FlowX.AI Designer** and create or edit the process that will send the message
+    2. Add a **Message Throw Intermediate Event** node at the point where you want to trigger the other process
+    3. Configure data that will be used for correlation (e.g., a key value like 'key1')
+    
+    <Frame caption="Correlation Data Configuration">
+      ![Correlation Data Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/correlation_data.png)
+    </Frame>
+    
+    4. Configure the message correlation in the node properties:
+    
+    <Frame caption="Message Correlation Configuration">
+      ![Message Correlation Configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/message_correlation.png)
+    </Frame>
+  </Step>
+  
+  <Step title="Configure the Receiver Process">
+    1. Create or edit the process that should be started by the message
+    2. Add a **Start Message Catch Event** node as the starting point
+    3. Configure the node with:
+       - The same message name used in the throw event (e.g., 'start_correlation')
+       - The correlation key in the Receive data tab (e.g., 'key1')
+  </Step>
+  
+  <Step title="Test the Configuration">
+    Run the sender process and watch as it automatically triggers the receiver process when the Message Throw Event is reached.
+    
+    <Frame caption="Message Start Event in Action">
+      ![Message Start Event in Action](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/start_with_message_event.gif)
+    </Frame>
+  </Step>
+</Steps>
+
+<Info>
+Message correlation is essential for message-based communication between processes. It's achieved through the message name (which must be identical in both throw and catch events) and the correlation key (or value).
+</Info>
+## Best Practices
+
+<Tip>
+**When implementing process initiation:**
+
+- **Choose the appropriate method** based on your use case (user-triggered, scheduled, event-based, etc.)
+- **Consider authentication requirements** for system-initiated processes
+- **Use correlation keys thoughtfully** to ensure reliable message delivery
+- **Test your initiation methods** thoroughly in a development environment
+- **Monitor process starts** to identify any failures or performance issues
+- **Document your initiation methods** for easier maintenance and troubleshooting
+</Tip>
+
+## Next Steps
+
+After setting up your process initiation methods, you can:
+
+<CardGroup cols={2}>
+  <Card title="Configure Process Data Models" icon="database" href="../../building-blocks/process/process-data-model">
+    Define the data structure for your process instances
+  </Card>
+  <Card title="Set Up User Interfaces" icon="palette" href="../managing-a-process-flow/creating-a-user-interface">
+    Create user interfaces for human-interactive processes
+  </Card>
+  <Card title="Implement Business Rules" icon="code" href="../../building-blocks/actions/business-rule-action/business-rule-action">
+    Add decision logic to your processes
+  </Card>
+  <Card title="Configure Integrations" icon="plug" href="../../platform-deep-dive/integrations/integration-designer">
+    Connect your processes to external systems
+  </Card>
+</CardGroup>
