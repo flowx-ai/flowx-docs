@@ -40,7 +40,6 @@
       
       {
         "version": "v5.0-tech-preview",
-        "label": "5.0 Tech Preview",
         "default": true,
         "tabs": [
           {
@@ -453,7 +452,7 @@
                   "release-notes/overview",
 
                   {
-                    "group": "v5.0 - June 2025",  
+                    "group": "v5.0.0 - June 2025",  
                     "icon": "sparkles",
                     "pages": [
                       "release-notes/v5.0.0-june-2025/v5.0.0-june-2025",
@@ -508,7 +507,7 @@
 
                   {
                     "group": "v4.7.0 - February 2025",
-                    "icon": "sparkles",
+                    "icon": "scroll",
                     "pages": [
                       "release-notes/v4.7.0-february-2025/v4.7.0-february-2025",
                       "release-notes/v4.7.0-february-2025/deployment-guidelines-v4.7.0",
@@ -2356,8 +2355,6 @@
           }
         ]
       },
-
-  
 
       {
         "version": "v4.1.x",
