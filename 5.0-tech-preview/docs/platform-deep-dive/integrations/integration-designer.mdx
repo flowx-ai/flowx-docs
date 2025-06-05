@@ -62,7 +62,7 @@ With **Systems** feature you can create, update, and organize endpoints used in 
 
 Go to the **Systems** section in FlowX Designer at **Projects** -> **Your project** -> **Integrations** -> **Systems**.
         
-1. Add a **New System**, set the system’s unique code, name, and description:
+1. Add a **New System**, set the system's unique code, name, and description:
     * **Name**: The system's name.
     * **Code**: A unique identifier for the external system.
     * **Base URL**: The base URL is the main address of a website or web application, typically consisting of the protocol (`http` or `https`), domain name, and a path.
@@ -146,7 +146,7 @@ Elements embedded directly within the URL path of an API request that acts as a 
 </Frame>
 
 <Tip>
-Path parameters must always be included, while query and header parameters are optional but can be set as required based on the endpoint’s design.
+Path parameters must always be included, while query and header parameters are optional but can be set as required based on the endpoint's design.
 </Tip>
 
 #### Query parameters
@@ -351,260 +351,163 @@ A workflow defines a series of tasks and processes to automate system integratio
 </Frame>
 
 
-### Workflow nodes 
+### Workflow Nodes Overview
 
-Users can visually build workflows by adding various nodes, including:
+<Info>
+Workflow nodes are the building blocks of your integration logic. Each node type serves a specific function, allowing you to design, automate, and orchestrate complex processes visually.
+</Info>
 
-* Workflow start node
-* REST endpoint nodes
-* Data mapping nodes (scripts)
-* Fork nodes (conditions)
-* End node
+| Node Type           | Purpose                                                      |
+|---------------------|--------------------------------------------------------------|
+| Start Node          | Defines workflow input and initializes data                  |
+| REST Endpoint Node  | Makes REST API calls to external systems                     |
+| FlowX Database Node | Reads/writes data to the FlowX Database                      |
+| Condition (Fork)    | Adds conditional logic and parallel branches                 |
+| Script Node         | Transforms or maps data using JavaScript or Python           |
+| Subworkflow Node    | Invokes another workflow as a modular, reusable subcomponent |
+| End Node            | Captures and outputs the final result of the workflow        |
 
-#### Worflow start node
+---
 
-The Start node is the default and mandatory first node in any workflow. It initializes the workflow and defines the input parameters defined on it for subsequent nodes.
+### Start Node
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/workflow_start_node.png)
-</Frame>
-
-The Start node defines the initial data model for the workflow. This input data model can be customized. You can enter custom JSON data by clicking inside the code editor and typing their input. This input data will be passed to subsequent nodes in the workflow.
-
+The Start node is the mandatory first node in any workflow. It defines the input data model and passes this data to subsequent nodes.
 
 <Tip>
-For example, if you want to define a **first name** parameter, you can add it like this in the **Start Node**:
-
-```json
-{
-  "firstName": "John"
-}
-```
-
-Later, in the body of a subsequent workflow node, you can reference this input using:
-
-```json
-{
-  "First Name": "${firstName}"
-}
-```
-This ensures that the data from the Start node is dynamically passed through the workflow.
+Define all required input fields in the Start node to ensure seamless data mapping from processes or user tasks.
 </Tip>
 
+---
 
-When you try to send input data from a process to a workflow, you can use the Start workflow node to map the data coming from a process and to send it acrross the entire workflow.
+### REST Endpoint Node
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/start_input.png)
-</Frame>
+Enables communication with external systems via REST API calls. Supports GET, POST, PUT, PATCH, and DELETE methods. Endpoints are selected from a dropdown, grouped by system.
+
+- **Params**: Configure path, query, and header parameters.
+- **Input/Output**: Input is auto-populated from the previous node; output displays the API response.
+
+<Tip>
+You can test REST endpoint nodes independently to validate connections and data retrieval.
+</Tip>
+
+---
+
+### FlowX Database Node
+
+Allows you to read and write data to the FlowX Database within your workflow.
+
+---
+
+### Condition (Fork) Node
+
+Evaluates logical conditions (JavaScript or Python) to direct workflow execution along different branches.
+
+- **If/Else**: Routes based on condition evaluation.
+- **Parallel Processing**: Supports multiple branches for concurrent execution.
+
+<Info>
+Use fork nodes to implement business rules, error handling, or multi-path logic.
+</Info>
+
+---
+
+### Script Node
+
+Executes custom JavaScript or Python code to transform, map, or enrich data between nodes.
+
+---
+
+### Subworkflow Node
+
+The Subworkflow node allows you to modularize complex workflows by invoking other workflows as reusable subcomponents. This approach streamlines process design, promotes reuse, and simplifies maintenance.
+
+<Steps>
+<Step title="Add a Subworkflow Node">
+Select <strong>Start Subworkflow</strong> from the <strong>Select Next Node</strong> dropdown. Choose from workflows categorized as <strong>Local</strong> or <strong>Libraries</strong>.
+</Step>
+<Step title="Configure the Subworkflow Node">
+- <strong>Workflow Selection</strong>: Pick the workflow to invoke.
+- <strong>Open</strong>: Edit the subworkflow in a new tab.
+- <strong>Preview</strong>: View the workflow canvas in a popup.
+- <strong>Response Key</strong>: Set a key (e.g., <code>response_key</code>) for output.
+- <strong>Input</strong>: Provide input in JSON format.
+- <strong>Output</strong>: Output is read-only JSON after execution.
+</Step>
+</Steps>
+
+<Tip>
+Use subworkflows for reusable logic such as data enrichment, validation, or external system calls.
+</Tip>
+
+#### Execution logic and error handling
+
+- Parent workflow waits for subworkflow completion before proceeding.
+- If the subworkflow fails, the parent workflow halts at this node.
+- Subworkflow output is available to downstream nodes via the response key.
+- Logs include workflow name, instance ID, and node statuses for both parent and subworkflow.
+
+<Warning>
+If a subworkflow is deleted, an error displays: <code>[name] subworkflow not found.</code>
+</Warning>
 
 <Check>
-Make sure the data is also mapped in the **Start Integration Workflow** node action where you have the data.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/data_input_start.png)
-
+Subworkflow runs are recorded in workflow instance history for traceability.
 </Check>
 
+#### Console logging, navigation, and read-only mode
+
+- Console shows input/output, workflow name, and instance ID for each subworkflow run.
+- Open subworkflow in a new tab for debugging from the console.
+- Breadcrumbs enable navigation between parent and subworkflow details.
+- In committed/upper environments, subworkflow configuration is read-only and node runs are disabled (preview/open only).
+
 <Info>
-Only one Start node is allowed per workflow. The Start node is always the first node in the workflow and cannot have any incoming connections. Its sole function is to provide the initial data for the workflow.
+Subworkflow instances are logged in history, and you can navigate between parent and child workflow runs for comprehensive debugging.
 </Info>
 
 
-<Info>
-The Start node cannot be altered in name, nor can it be deleted from the workflow.
-</Info>
+#### Use case: CRM Data Retrieval with Subworkflows
 
+Suppose you need to retrieve CRM details in a subworkflow and use the output for further actions in the parent workflow.
 
-#### REST endpoint nodes
+<Steps>
+<Step title="Create the Subworkflow">
+Design a workflow that connects to your CRM system, fetches user details, and outputs the data in a structured JSON format.
+</Step>
+<Step title="Add a Subworkflow Node in the Parent Workflow">
+In your main workflow, add a Subworkflow Node and select the CRM retrieval workflow. Map any required input parameters.
+</Step>
+<Step title="Use Subworkflow Output in Parent Workflow">
+Downstream nodes in the parent workflow can reference the subworkflow's output using the defined <code>responseKey</code>.
 
-The REST endpoint node enables communication with external systems to retrieve or update data by making REST API calls. It supports multiple methods like GET, POST, PUT, PATCH, and DELETE. Endpoints are selected via a dropdown menu, where available endpoints are grouped by the system they belong to.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/add_rest_endpoint.gif)
-</Frame>
-
-The node is added by selecting it from the "Add Connection" dropdown in the workflow designer.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/rest_endpoint_add.png)
-</Frame>
-
-<Info>
-You can include multiple REST endpoint nodes within the same workflow, allowing for integration with various systems or endpoints.
-</Info>
-
-<Tip>
-Unlike some nodes, the Endpoint Call node can be run independently, making it possible to test the connection or retrieve data without executing the entire workflow.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/run_endpoint_node.gif)
-
-</Tip>
-
-**Input and output**
-
-Each REST endpoint node includes some essential tabs:
-
-* **Params**: 
-* **Response key**: The response from the endpoint node, including both data and metadata, is organized under a predefined response key.
-* **Input**:
-    * This tab contains read-only JSON data that is automatically populated with the output from the previous node in the workflow.
-* **Output**:
-    * It displays the API response in JSON format.
-
-
-<Frame>
-<video
-  autoPlay
-  muted
-  loop
-  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/input_output.mp4"
-></video>
-</Frame>
-
-
-#### Condition (fork) nodes
-
-The Condition node evaluates incoming data from a connected node based on defined logical conditions(if/else if with). It directs the workflow along different paths depending on whether the condition evaluates to TRUE or FALSE.
+```json
+{
+  "crmData": "${responseKey}"
+}
+```
+</Step>
+<Step title="Monitor and Debug">
+Use the console to view input/output data, workflow names, and instance IDs. Open subworkflow runs in new tabs for detailed debugging.
+</Step>
+</Steps>
 
 <Info>
-**Defining Conditions in JavaScript or Python**
-
-Logical conditions for the Condition Node can be written in either JavaScript or Python, depending on the requirements of your workflow.
+This modular approach allows you to build scalable, maintainable integrations by composing workflows from reusable building blocks.
 </Info>
 
-* If the condition evaluates to TRUE, the workflow follows the If path.
-* If the condition evaluates to FALSE, it follows the Else if path.
+---
 
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/fork_condition_node.png)
-</Frame>
-
-You can include multiple Condition nodes within a single workflow, enabling the creation of complex branching logic and decision-making flows.
-
-**Parallel processing and forking**
-
-The Condition node can split the workflow into parallel branches, allowing for multiple conditions to be evaluated simultaneously. This capability makes it ideal for efficiently processing different outcomes at the same time.
-
-#### Data mapping nodes (scripts)
-
-The Script node allows you to transform and map data between different systems during workflow execution by writing and executing custom code in JavaScript or Python. It enables complex data transformations and logic to be applied directly within the workflow.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/script_node.png)
-</Frame>
-
-#### End node
+### End Node
 
 The End node signifies the termination of a workflow's execution. It collects the final output and completes the workflow process.
 
-<Info>
-Multiple End nodes can be included within a single workflow. This allows the workflow to have multiple possible end points based on different execution paths.
-
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/end_1.png)
-
-</Info>
-
-The End node automatically receives input in JSON format from the previous node, and you can modify this input by editing it directly in the code editor. If the node's output doesn't meet mandatory requirements, it will be flagged as an error to ensure all necessary data is included. 
-
-The output of the End node represents the final data model of the workflow once execution is complete.
-
-#### Testing the workflow
-
-<Tip>
-You can always test your endpoints in the context of the workflow. Run the endpoints separately (where is the case or run the entire workflow).
-</Tip>
-
-#### Debugging 
-
-Use the integrated console after running each workflow (either if you test your workflow in the workflow designer or in a process definition). It provides useful info like logs, input and output data about eacg endpoint and other details like execution time etc.
-
-
-<Frame>
-<video
-  autoPlay
-  muted
-  loop
-  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/console.mp4"
-></video>
-</Frame>
-
-
-
-### Workflow integration
-
-Integrating workflows into a BPMN process allows for structured handling of tasks like user interactions, data processing, and external system integrations. 
-
-This is achieved by connecting workflow nodes to User Tasks and Service Tasks using the [**Start Integration Workflow**](../../building-blocks/actions/start-integration-workflow) action.
-
-
-<Steps>
-
-<Step title="Create a BPMN Process">
-
-1. **Open the FlowX Process Designer**:
-   - Navigate to **Projects -> Your application -> Processes**.
-   - Create a new process or edit an existing one.
-
-2. **Define the Data Model**:
+- Receives input in JSON format from the previous node.
+- Output represents the final data model of the workflow.
+- Multiple End nodes are allowed for different execution paths.
 
 <Info>
-Needed if you want to send data from your user task to the workflow.
+If the node's output doesn't meet mandatory requirements, it will be flagged as an error to ensure all necessary data is included.
 </Info>
-
-   - Establish the data model that will be shared between the process and the workflow.
-   - Ensure all necessary data fields that the workflow will use are included.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/data_model_int.png)
-</Frame>
-
-</Step>
-
-<Step title="Configure a User Task or Service Task">
-
-1. **Add a Task**:
-   - Insert a **User Task** or **Service Task** into your BPMN diagram.
-   - A **User Task** requires user input, while a **Service Task** can trigger automated actions without manual intervention.
-
-2. **Configure Actions for the Task**:
-   - In the node config, add a **Start Integration Workflow** action.
-   - Select the target workflow you want to integrate. This links the task with the predefined workflow in the Integration Designer.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/add_action.png)
-</Frame>
-
-3. **Map the Payload**:
-   - If input data is defined in the **Start Node** of the workflow, it will be **automatically mapped** in the **Start Integration Workflow** action. Ensure that the workflow’s Start Node contains the fields you need.
-   - Additional payload keys and values can also be set up as needed to facilitate data flow from the process to the workflow.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/add_start_integration_workflow.gif)
-</Frame>
-
-
-</Step>
-
-
-<Step title="Receive Data from the Workflow">
-
-1. **Add a Receive Message Task**:
-   - To handle data returned by the workflow, add a **Receive Message Task** in the BPMN diagram.
-   - This task captures the workflow’s output data, such as processing status or results sent via Kafka.
-
-<Frame>
-![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/receive_kafka_workflow.png)
-</Frame>
-
-
-2. **Set Up a Data Stream Topic**:
-   - In the **Receive Message Task**, select your workflow from the **Data Stream Topics** dropdown.
-   - Ensure that the workflow output data, including status or returned values, is accurately captured under a predefined key.
-
-</Step>
-
-</Steps>
-
 
 ---
 
@@ -745,6 +648,7 @@ input.responseKey.data.records[0].fields["Credit Score"] < 300
 
 <video
   autoPlay
+  controls
   muted
   loop
   src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/integration_designer/create_workflow.mp4"
@@ -785,6 +689,7 @@ In this example, we'll use a User Task because we need to capture user data and 
 
 <video
   autoPlay
+  controls
   muted
   loop
   src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.5/workflow_action.mp4"
@@ -856,3 +761,5 @@ This example demonstrates how to integrate Airtable with FlowX to automate data 
 For now, you can manually define your endpoints by entering the necessary details directly in the system.
 </Accordion>
 </AccordionGroup>
+
+

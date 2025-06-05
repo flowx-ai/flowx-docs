@@ -1,5 +1,5 @@
 ---
-title: Deployment Guidelines for FlowX.AI 5.0
+title: Deployment guidelines for FlowX.AI 5.0
 ---
 
 <Info>
@@ -12,27 +12,27 @@ After upgrading to a new platform version, always ensure that your installed com
 After upgrading to the 5.0 FlowX.AI release, you cannot import old process definitions or resources from versions older than 5.0.
 </Warning>
 
-## Quick Reference
+## Quick reference
 
-### Current Release Status
+### Current release status
 - **Production Ready:** FlowX.AI 4.7.4 (December 2024)
-- **Technology Preview:** FlowX.AI 5.0 (Q1 2025)
+- **Technology Preview:** FlowX.AI 5.0 (June 2025)
 
-### Version Compatibility
+### Version compatibility
 
 
 <Warning>
 FlowX components must be upgraded together as a complete set. Mixed versions across different releases are not supported and will cause system instability.
 </Warning>
 
-| FlowX Release | Compatible Component Range | Upgrade Path |
-|---------------|----------------------------|--------------|
-| **5.0** | 5.0.x only | Breaking changes - requires migration |
-| **4.7.x** | 4.7.0 - 4.7.4 | Patch versions are interchangeable |
-| **4.6.x** | 4.6.0 - 4.6.1 | Limited forward compatibility |
-| **4.1.x** | 4.1.1 - 4.1.4 | Must upgrade to 4.7.4 first, then to 5.0 |
+| FlowX Release | Compatible Component Range | Upgrade Path                             |
+| ------------- | -------------------------- | ---------------------------------------- |
+| **5.0**       | 5.0.x only                 | Breaking changes - requires migration    |
+| **4.7.x**     | 4.7.0 - 4.7.4              | Patch versions are interchangeable       |
+| **4.6.x**     | 4.6.0 - 4.6.1              | Limited forward compatibility            |
+| **4.1.x**     | 4.1.1 - 4.1.4              | Must upgrade to 4.7.4 first, then to 5.0 |
 
-## Pre-Upgrade Requirements
+## Pre-upgrade requirements
 
 <Warning title="Action Required: Upgrade Dependencies Before FlowX 5.0">
 
@@ -49,153 +49,111 @@ FlowX components must be upgraded together as a complete set. Mixed versions acr
 </Warning>
 
 
-## Component Versions
+## Component versions
 
 <Info>
 **Note:** Version 5.0 components will be published with the official release. This document shows compatibility matrices for upgrade planning purposes.
 </Info>
 
-### Core Platform Components
+### Core platform components
 
-| Component | Description | 5.0* | 4.7.4 | 4.7.3 | 4.7.2 | Support Status |
-|-----------|-------------|------|-------|-------|-------|----------------|
-| **process-engine** | Core workflow execution engine | TBD | 8.15.2 | 8.13.0 | 8.9.0 | ✅ Active |
-| **admin** | Platform administration interface | TBD | 7.9.2 | 7.8.13 | 7.8.5 | ✅ Active |
-| **designer** | Visual process design tool | TBD | 5.93.1 | 5.91.2 | 5.84.5 | ✅ Active |
-| **cms-core** | Content management system | TBD | 5.4.16 | 5.4.12 | 5.4.8 | ✅ Active |
-| **scheduler-core** | Task scheduling service | TBD | 5.0.13 | 5.0.11 | 5.0.10 | ✅ Active |
-| **events-gateway** | Event processing hub | TBD | 5.0.19 | 5.0.17 | 5.0.16 | ✅ Active |
-| **audit-core** | System audit and compliance | TBD | 6.0.17 | 6.0.15 | 6.0.14 | ✅ Active |
-| **data-search** | Enterprise search functionality | TBD | 4.0.16 | 4.0.14 | 4.0.13 | ✅ Active |
-| **advancing-controller** | Process advancement logic | TBD | 4.0.16 | 4.0.14 | 4.0.12 | ✅ Active |
-| **integration-designer** | Integration design interface | TBD | 2.7.2 | 2.6.0 | 2.3.16 | ✅ Active |
-| **application-manager** | Application lifecycle management | TBD | 2.15.6 | 2.14.0 | 2.10.9 | ✅ Active |
-| **data-sync** | Real-time data synchronization (New in 4.6) | TBD | 2.3.2 | 2.2.11 | 2.2.9 | ✅ Active |
-| **nosql-db-runner** | NoSQL database integration (New in 5.0) | TBD | - | - | - | 🆕 New |
+| Component                  | Description                                 | 5.0 | 4.7.4  | 4.7.3  | 4.7.2  | Support Status |
+| -------------------------- | ------------------------------------------- | --- | ------ | ------ | ------ | -------------- |
+| **process-engine**         | Core workflow execution engine              | TBD | 8.15.2 | 8.13.0 | 8.9.0  | ✅ Active      |
+| **admin**                  | Platform administration interface           | TBD | 7.9.2  | 7.8.13 | 7.8.5  | ✅ Active      |
+| **designer**               | Visual process design tool                  | TBD | 5.93.1 | 5.91.2 | 5.84.5 | ✅ Active      |
+| **cms-core**               | Content management system                   | TBD | 5.4.16 | 5.4.12 | 5.4.8  | ✅ Active      |
+| **scheduler-core**         | Task scheduling service                     | TBD | 5.0.13 | 5.0.11 | 5.0.10 | ✅ Active      |
+| **events-gateway**         | Event processing hub                        | TBD | 5.0.19 | 5.0.17 | 5.0.16 | ✅ Active      |
+| **audit-core**             | System audit and compliance                 | TBD | 6.0.17 | 6.0.15 | 6.0.14 | ✅ Active      |
+| **data-search**            | Enterprise search functionality             | TBD | 4.0.16 | 4.0.14 | 4.0.13 | ✅ Active      |
+| **advancing-controller**   | Process advancement logic                   | TBD | 4.0.16 | 4.0.14 | 4.0.12 | ✅ Active      |
+| **integration-designer**   | Integration design interface                | TBD | 2.7.2  | 2.6.0  | 2.3.16 | ✅ Active      |
+| **application-manager**    | Application lifecycle management            | TBD | 2.15.6 | 2.14.0 | 2.10.9 | ✅ Active      |
+| **data-sync**              | Real-time data synchronization (New in 4.6) | TBD | 2.3.2  | 2.2.11 | 2.2.9  | ✅ Active      |
+| **nosql-db-runner**        | NoSQL database integration (New in 5.0)     | TBD | -      | -      | -      | 🆕 New         |
+| **notification-plugin**    | Email, SMS, push notifications              | TBD | 6.1.15 | 6.1.13 | 6.1.12 | ✅ Active      |
+| **document-plugin**        | Document generation and management          | TBD | 6.3.18 | 6.3.16 | 6.3.13 | ✅ Active      |
+| **task-management-plugin** | Task assignment and tracking                | TBD | 7.2.17 | 7.2.15 | 7.2.14 |                |
+
 
 <Info>
 **Application Manager Note:** The same container image and Helm chart are used for both Application Manager and Runtime Manager components.
 </Info>
 
-### Plugin Components
+### Plugin components
 
-| Component | Description | 5.0* | 4.7.4 | 4.7.3 | 4.7.2 |
-|-----------|-------------|------|-------|-------|-------|
-| **notification-plugin** | Email, SMS, push notifications | TBD | 6.1.15 | 6.1.13 | 6.1.12 |
-| **document-plugin** | Document generation and management | TBD | 6.3.18 | 6.3.16 | 6.3.13 |
-| **ocr-plugin** | Optical character recognition | TBD | 1.0.17 | 1.0.17 | 1.0.17 |
-| **task-management-plugin** | Task assignment and tracking | TBD | 7.2.17 | 7.2.15 | 7.2.14 |
-| **reporting-plugin** | Business intelligence and reports | TBD | 0.2.0 | 0.2.0 | 0.2.0 |
+| Component                  | Description                        | 5.0 | 4.7.4  | 4.7.3  | 4.7.2  |
+| -------------------------- | ---------------------------------- | --- | ------ | ------ | ------ |
+| **ocr-plugin**             | Optical character recognition      | TBD | 1.0.17 | 1.0.17 | 1.0.17 |
+| **reporting-plugin**       | Business intelligence and reports  | TBD | 0.2.0  | 0.2.0  | 0.2.0  |
 
-### Client-Side Components
+### Client-side components
 
-#### Mobile Renderers
+#### Mobile renderers
 
-| Component | Description | 5.0* | 4.7.4 | 4.7.3 | 4.7.2 |
-|-----------|-------------|------|-------|-------|-------|
-| **iOS renderer** | Native iOS application renderer | TBD | 4.0.19 | 4.0.14 | 4.0.7 |
-| **Android renderer** | Native Android application renderer | TBD | 4.0.23 | 4.0.15 | 4.0.13 |
+| Component            | Description                         | 5.0 | 4.7.4  | 4.7.3  | 4.7.2  |
+| -------------------- | ----------------------------------- | ---- | ------ | ------ | ------ |
+| **iOS renderer**     | Native iOS application renderer     | TBD  | 4.0.19 | 4.0.14 | 4.0.7  |
+| **Android renderer** | Native Android application renderer | TBD  | 4.0.23 | 4.0.15 | 4.0.13 |
 
-#### Web SDKs
+#### Web SDKs   
 
-| Component | Description | 5.0* | 4.7.4 | 4.7.3 | 4.7.2 |
-|-----------|-------------|------|-------|-------|-------|
-| **@flowx/angular-sdk** | Angular integration SDK (New in 4.6) | TBD | 5.93.1 | 5.91.2 | 5.84.5 |
-| **@flowx/angular-theme** | Angular UI theme package (New in 4.6) | TBD | 5.93.1 | 5.91.2 | 5.84.5 |
-| **@flowx/angular-ui-toolkit** | Angular UI components library | TBD | 5.93.1 | 5.91.2 | 5.84.5 |
-| **@flowx/react-sdk** | React integration SDK (New in 4.6) | TBD | 5.93.1 | 5.91.2 | 5.84.5 |
-| **@flowx/react-theme** | React UI theme package (New in 4.6) | TBD | 5.93.1 | 5.91.2 | 5.84.5 |
-| **@flowx/react-ui-toolkit** | React UI components library (New in 4.6) | TBD | 5.93.1 | 5.91.2 | 5.84.5 |
-| **@flowx/core-sdk** | Framework-agnostic core SDK (New in 4.6) | TBD | 5.93.1 | 5.91.2 | 5.84.5 |
-| **@flowx/core-theme** | Universal theming system (New in 4.6) | TBD | 5.93.1 | 5.91.2 | 5.84.5 |
+| Component                     | Description                              | 5.0 | 4.7.4  | 4.7.3  | 4.7.2  |
+| ----------------------------- | ---------------------------------------- | ---- | ------ | ------ | ------ |
+| **@flowx/angular-sdk**        | Angular integration SDK (New in 4.6)     | TBD  | 5.93.1 | 5.91.2 | 5.84.5 |
+| **@flowx/angular-theme**      | Angular UI theme package (New in 4.6)    | TBD  | 5.93.1 | 5.91.2 | 5.84.5 |
+| **@flowx/angular-ui-toolkit** | Angular UI components library            | TBD  | 5.93.1 | 5.91.2 | 5.84.5 |
+| **@flowx/react-sdk**          | React integration SDK (New in 4.6)       | TBD  | 5.93.1 | 5.91.2 | 5.84.5 |
+| **@flowx/react-theme**        | React UI theme package (New in 4.6)      | TBD  | 5.93.1 | 5.91.2 | 5.84.5 |
+| **@flowx/react-ui-toolkit**   | React UI components library (New in 4.6) | TBD  | 5.93.1 | 5.91.2 | 5.84.5 |
+| **@flowx/core-sdk**           | Framework-agnostic core SDK (New in 4.6) | TBD  | 5.93.1 | 5.91.2 | 5.84.5 |
+| **@flowx/core-theme**         | Universal theming system (New in 4.6)    | TBD  | 5.93.1 | 5.91.2 | 5.84.5 |
 
-### AI-Powered Components
+### AI-powered components
 
-| Component | Description | 5.0* | 4.7.4 | 4.7.3 | 4.7.2 |
-|-----------|-------------|------|-------|-------|-------|
-| **ai-designer** | AI-assisted process design | TBD | 1.9.39 | 1.9.37 | 1.9.35 |
-| **ai-assistant** | Intelligent user assistance | TBD | 1.8.17 | 1.8.12 | 1.8.9 |
-| **ai-analyst** | Business intelligence AI | TBD | 1.10.28 | 1.10.26 | 1.10.24 |
-| **ai-developer** | Code generation assistant | TBD | 1.7.13 | 1.7.11 | 1.7.9 |
-| **di-platform** | Data intelligence platform | TBD | 1.4.5 | 1.4.3 | 1.4.1 |
+| Component        | Description                 | 5.0 | 4.7.4   | 4.7.3   | 4.7.2   |
+| ---------------- | --------------------------- | ---- | ------- | ------- | ------- |
+| **ai-designer**  | AI-assisted process design  | TBD  | 1.9.39  | 1.9.37  | 1.9.35  |
+| **ai-assistant** | Intelligent user assistance | TBD  | 1.8.17  | 1.8.12  | 1.8.9   |
+| **ai-analyst**   | Business intelligence AI    | TBD  | 1.10.28 | 1.10.26 | 1.10.24 |
+| **ai-developer** | Code generation assistant   | TBD  | 1.7.13  | 1.7.11  | 1.7.9   |
+| **di-platform**  | Data intelligence platform  | TBD  | 1.4.5   | 1.4.3   | 1.4.1   |
 
-### Infrastructure Components
+### Infrastructure components
 
-| Component | Description | 5.0* | 4.7.4 | 4.7.3 | 4.7.2 |
-|-----------|-------------|------|-------|-------|-------|
-| **authorization-system** | Built on SpiceDB, integrated for FlowX | TBD | - | - | - |
+| Component                | Description                            | 5.0 | 4.7.4 | 4.7.3 | 4.7.2 |
+| ------------------------ | -------------------------------------- | --- | ----- | ----- | ----- |
+| **authorization-system** | Built on SpiceDB, integrated for FlowX | TBD | -     | -     | -     |
 
-*Component versions for FlowX.AI 5.0 will be updated when the release is finalized.
 
-## Third-Party Dependencies
+## Third-party dependencies
 
-### Required Components
+### Required components
 
-| FlowX.AI Version | 3rd Party Dependency | Recommended Version | Minimum Version | Notes |
-|------------------|---------------------|-------------------|-----------------|-------|
-| 5.0 | **Keycloak** | 26.x | 26.0 | Identity and access management |
-| 5.0 | **Kafka** | 3.9.x | 3.9.0 | Event streaming platform |
-| 5.0 | **PostgreSQL** | 16.2.x | 16.0 | Primary database |
-| 5.0 | **OracleDB** | 23ai | 21c | Enterprise database option |
-| 5.0 | **MongoDB** | 7.0.x | 7.0.0 | Document database |
-| 5.0 | **Redis** | 7.4.x | 7.4.0 | In-memory data store |
-| 5.0 | **Elasticsearch** | 7.17.x | 7.17.0 | Search and analytics |
+| FlowX.AI Version | 3rd Party Dependency | Recommended Version | Minimum Version | Notes                          |
+| ---------------- | -------------------- | ------------------- | --------------- | ------------------------------ |
+| 5.0              | **Keycloak**         | 26.x                | 22.0            | Identity and access management |
+| 5.0              | **Kafka**            | 3.9.x               | 3.2             | Event streaming platform       |
+| 5.0              | **PostgreSQL**       | 16.2.x              | 16.0            | Primary database               |
+| 5.0              | **OracleDB**         | 23ai                | 21c             | Enterprise database option     |
+| 5.0              | **MongoDB**          | 7.0.x               | 7.0.0           | Document database              |
+| 5.0              | **Redis**            | 7.4.x               | 7.4.0           | In-memory data store           |
+| 5.0              | **Elasticsearch**    | 7.17.x              | 7.17.0          | Search and analytics           |
 
-### Development Dependencies
+### Development dependencies
 
-| Component | Recommended Version | Notes |
-|-----------|-------------------|-------|
-| **Angular** | 19.x | For web SDK development |
-| **React** | 18.x | For web SDK development |
-| **Node.js** | 20.x LTS | Build tools and development |
-| **Docker** | 24.x | Container runtime |
-| **Kubernetes** | 1.28.x | Container orchestration |
+| Component      | Recommended Version | Notes                       |
+| -------------- | ------------------- | --------------------------- |
+| **Angular**    | 19.x                | For web SDK development     |
+| **React**      | 18.x                | For web SDK development     |
+| **Node.js**    | 20.x LTS            | Build tools and development |
+| **Docker**     | 24.x                | Container runtime           |
+| **Kubernetes** | 1.28.x              | Container orchestration     |
 
 <Info>
 **Compatibility Testing:** FlowX.AI releases are validated against the recommended versions listed above. While other versions may work, we strongly recommend using tested versions for production environments.
 
 For compatibility issues, please open a support ticket at [FlowX Support Portal](https://flowxai.zendesk.com/).
 </Info>
-
-## Upgrade Process
-
-### Upgrade Sequence
-
-<Warning>
-Components must be upgraded in the specified order to prevent dependency conflicts and ensure system stability.
-</Warning>
-
-#### Phase 1: Infrastructure (30-45 minutes)
-1. **Third-party dependencies** (Keycloak, Kafka, Redis, etc.)
-2. **Database migrations** (PostgreSQL/Oracle schema updates)
-3. **Elasticsearch indices** (reindex if required)
-
-#### Phase 2: Core Platform (60-90 minutes)
-1. **process-engine** (stop all running processes first)
-2. **admin** (administration services)
-3. **events-gateway** (event processing)
-4. **scheduler-core** (task scheduling)
-
-#### Phase 3: Services & Plugins (45-60 minutes)
-1. **cms-core** (content management)
-2. **audit-core** (auditing services)
-3. **All plugins** (notification, document, OCR, task-management, reporting)
-4. **data-search** (search functionality)
-
-#### Phase 4: User Interfaces (30-45 minutes)
-1. **designer** (process designer)
-2. **integration-designer** (integration tools)
-3. **application-manager** (application management)
-
-#### Phase 5: Client Components (15-30 minutes)
-1. **Mobile renderers** (iOS, Android)
-2. **Web SDKs** (Angular, React packages)
-
-#### Phase 6: AI Components (30-45 minutes)
-1. **ai-designer** (AI design assistance)
-2. **ai-assistant** (user assistance)
-3. **ai-analyst** (business intelligence)
-4. **ai-developer** (development assistance)
-5. **di-platform** (data intelligence)
-
 
