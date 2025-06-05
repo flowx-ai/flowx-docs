@@ -40,7 +40,6 @@
       
       {
         "version": "v5.0-tech-preview",
-        "default": true,
         "tabs": [
           {
             "tab": "Documentation",
@@ -824,6 +823,7 @@
 
       {
         "version": "v4.7.x",
+        "default": true,
         "tabs": [
           {
             "tab": "Documentation",
