@@ -25,7 +25,7 @@ FlowX 5.0 provides a structured role hierarchy designed to support multi-tenant 
   </Card>
 </CardGroup>
 
-## Organization Level Roles
+## Organization level roles
 
 ### Organization Admin (`org_admin`)
 
@@ -55,7 +55,7 @@ FlowX 5.0 provides a structured role hierarchy designed to support multi-tenant 
 The Organization Admin role should be assigned sparingly and only to users who need full cross-workspace administrative access.
 </Warning>
 
-## Workspace Level Roles
+## Workspace level roles
 
 ### Workspace Admin (`workspace_admin`)
 
@@ -132,7 +132,7 @@ The Organization Admin role should be assigned sparingly and only to users who n
   - Marketing team members managing brand assets
 </Card>
 
-## Project Level Roles
+## Project level roles
 
 ### Project Owner (`project_owner`)
 
@@ -213,9 +213,9 @@ The Organization Admin role should be assigned sparingly and only to users who n
   - New team members during onboarding
 </Card>
 
-## Role Management Rules
+## Role management rules
 
-### Predefined Role Restrictions
+### Predefined role restrictions
 
 <AccordionGroup>
   <Accordion title="Cannot Be Deleted" icon="ban">
@@ -241,7 +241,7 @@ The Organization Admin role should be assigned sparingly and only to users who n
   </Accordion>
 </AccordionGroup>
 
-### Role Visibility Rules
+### Role visibility rules
 
 <Tabs>
   <Tab title="Organization Interface">
@@ -265,9 +265,9 @@ The Organization Admin role should be assigned sparingly and only to users who n
   </Tab>
 </Tabs>
 
-## Default Groups
+## Default groups
 
-### Everyone in Workspace Group
+### Everyone in workspace group
 
 <Card title="all_users_[workspace_name]" icon="users">
   **Automatically managed group for simplified access control**
@@ -291,85 +291,85 @@ The Organization Admin role should be assigned sparingly and only to users who n
   - Default group for shared resources
 </Card>
 
-## Permission Matrix
+## Permission matrix
 
-### Organization Permissions
+### Organization permissions
 
-| Permission | org_admin |
-|------------|-----------|
-| **Workspaces** |
-| Create workspace | ✅ |
-| Edit workspace settings | ✅ |
-| Delete workspace | ✅ |
-| View all workspaces | ✅ |
-| **Organization Users** |
-| Add users to organization | ✅ |
-| Remove users from organization | ✅ |
-| Assign organization roles | ✅ |
-| View all user access | ✅ |
-| **Global Settings** |
-| Configure organization settings | ✅ |
-| Manage global policies | ✅ |
-| Access system configurations | ✅ |
+| Permission                      | org_admin |
+| ------------------------------- | --------- |
+| **Workspaces**                  |           |
+| Create workspace                | ✅        |
+| Edit workspace settings         | ✅        |
+| Delete workspace                | ✅        |
+| View all workspaces             | ✅        |
+| **Organization Users**          |           |
+| Add users to organization       | ✅        |
+| Remove users from organization  | ✅        |
+| Assign organization roles       | ✅        |
+| View all user access            | ✅        |
+| **Global Settings**             |           |
+| Configure organization settings | ✅        |
+| Manage global policies          | ✅        |
+| Access system configurations    | ✅        |
 
-### Workspace Permissions
+### Workspace permissions
 
-| Permission | workspace_admin | workspace_user | theme_editor |
-|------------|-----------------|----------------|--------------|
-| **Projects** |
-| Create project | ✅ | ✅ | ✅ |
-| View projects | ✅ | ✅ | ✅ |
-| Delete any project | ✅ | ❌ | ❌ |
-| **Libraries** |
-| Create library | ✅ | ✅ | ✅ |
-| View libraries | ✅ | ✅ | ✅ |
-| Delete any library | ✅ | ❌ | ❌ |
-| **Themes & Branding** |
-| Create themes | ✅ | ❌ | ✅ |
-| Edit themes | ✅ | ❌ | ✅ |
-| Delete themes | ✅ | ❌ | ✅ |
-| Manage fonts | ✅ | ❌ | ✅ |
-| **User Management** |
-| Add workspace users | ✅ | ❌ | ❌ |
-| Remove workspace users | ✅ | ❌ | ❌ |
-| Assign workspace roles | ✅ | ❌ | ❌ |
-| Create user groups | ✅ | ❌ | ❌ |
-| **Workspace Settings** |
-| Configure workspace | ✅ | ❌ | ❌ |
-| Manage workspace policies | ✅ | ❌ | ❌ |
-| View audit logs | ✅ | ❌ | ❌ |
+| Permission                | workspace_admin | workspace_user | theme_editor |
+| ------------------------- | --------------- | -------------- | ------------ |
+| **Projects**              |                 |                |              |
+| Create project            | ✅              | ✅             | ✅           |
+| View projects             | ✅              | ✅             | ✅           |
+| Delete any project        | ✅              | ❌             | ❌           |
+| **Libraries**             |                 |                |              |
+| Create library            | ✅              | ✅             | ✅           |
+| View libraries            | ✅              | ✅             | ✅           |
+| Delete any library        | ✅              | ❌             | ❌           |
+| **Themes & Branding**     |                 |                |              |
+| Create themes             | ✅              | ❌             | ✅           |
+| Edit themes               | ✅              | ❌             | ✅           |
+| Delete themes             | ✅              | ❌             | ✅           |
+| Manage fonts              | ✅              | ❌             | ✅           |
+| **User Management**       |                 |                |              |
+| Add workspace users       | ✅              | ❌             | ❌           |
+| Remove workspace users    | ✅              | ❌             | ❌           |
+| Assign workspace roles    | ✅              | ❌             | ❌           |
+| Create user groups        | ✅              | ❌             | ❌           |
+| **Workspace Settings**    |                 |                |              |
+| Configure workspace       | ✅              | ❌             | ❌           |
+| Manage workspace policies | ✅              | ❌             | ❌           |
+| View audit logs           | ✅              | ❌             | ❌           |
 
-### Project Permissions
+### Project permissions
 
-| Permission | project_owner | project_editor | project_viewer |
-|------------|---------------|----------------|----------------|
-| **Process Design** |
-| Create processes | ✅ | ✅ | ❌ |
-| Edit processes | ✅ | ✅ | ❌ |
-| Delete processes | ✅ | ✅ | ❌ |
-| View processes | ✅ | ✅ | ✅ |
-| **Configuration** |
-| Manage enumerations | ✅ | ✅ | ❌ |
-| Configure templates | ✅ | ✅ | ❌ |
-| Set up integrations | ✅ | ✅ | ❌ |
-| Manage parameters | ✅ | ✅ | ❌ |
-| **Runtime Management** |
-| Create builds | ✅ | ✅ | ❌ |
-| Deploy to runtime | ✅ | ✅ | ❌ |
-| Manage active policies | ✅ | ✅ | ❌ |
-| View runtime status | ✅ | ✅ | ✅ |
-| **Access Control** |
-| Grant project access | ✅ | ❌ | ❌ |
-| Modify project permissions | ✅ | ❌ | ❌ |
-| Remove project access | ✅ | ❌ | ❌ |
-| **Project Administration** |
-| Delete project | ✅ | ❌ | ❌ |
-| Archive project | ✅ | ❌ | ❌ |
-| Export project | ✅ | ✅ | ❌ |
+| Permission                 | project_owner | project_editor | project_viewer |
+| -------------------------- | ------------- | -------------- | -------------- |
+| **Process Design**         |               |                |                |
+| Create processes           | ✅            | ✅             | ❌             |
+| Edit processes             | ✅            | ✅             | ❌             |
+| Delete processes           | ✅            | ✅             | ❌             |
+| View processes             | ✅            | ✅             | ✅             |
+| **Configuration**          |               |                |                |
+| Manage enumerations        | ✅            | ✅             | ❌             |
+| Configure templates        | ✅            | ✅             | ❌             |
+| Set up integrations        | ✅            | ✅             | ❌             |
+| Manage parameters          | ✅            | ✅             | ❌             |
+| **Runtime Management**     |               |                |                |
+| Create builds              | ✅            | ✅             | ❌             |
+| Deploy to runtime          | ✅            | ✅             | ❌             |
+| Manage active policies     | ✅            | ✅             | ❌             |
+| View runtime status        | ✅            | ✅             | ✅             |
+| **Access Control**         |               |                |                |
+| Grant project access       | ✅            | ❌             | ❌             |
+| Modify project permissions | ✅            | ❌             | ❌             |
+| Remove project access      | ✅            | ❌             | ❌             |
+| **Project Administration** |               |                |                |
+| Delete project             | ✅            | ❌             | ❌             |
+| Archive project            | ✅            | ❌             | ❌             |
+| Export project             | ✅            | ✅             | ❌             |
 
 ## Migration from FlowX 4.x
 
-### Role Mapping Guide
+### Role mapping guide
 
 <Warning>
 FlowX 4.x roles stored in Keycloak are not automatically migrated. Manual role assignment is required.
@@ -396,7 +396,7 @@ FlowX 4.x roles stored in Keycloak are not automatically migrated. Manual role a
   </Card>
 </CardGroup>
 
-### Migration Process
+### Migration process
 
 <Steps>
   <Step title="Inventory Current Roles">
@@ -420,9 +420,9 @@ FlowX 4.x roles stored in Keycloak are not automatically migrated. Manual role a
   </Step>
 </Steps>
 
-## Best Practices
+## Best practices
 
-### Role Assignment Strategy
+### Role assignment strategy
 
 <AccordionGroup>
   <Accordion title="Principle of Least Privilege" icon="shield-check">
@@ -452,7 +452,7 @@ FlowX 4.x roles stored in Keycloak are not automatically migrated. Manual role a
     - Document access decisions and approvals
   </Accordion>
   
-  <Accordion title="Clear Role Documentation" icon="file-text">
+  <Accordion title="Clear Role Documentation" icon="file">
     **Maintain role assignment documentation**
     
     - Document who has what roles and why
@@ -462,7 +462,7 @@ FlowX 4.x roles stored in Keycloak are not automatically migrated. Manual role a
   </Accordion>
 </AccordionGroup>
 
-### Common Role Assignment Patterns
+### Common role assignment patterns
 
 <Tabs>
   <Tab title="Small Team (5-15 users)">
@@ -496,7 +496,7 @@ FlowX 4.x roles stored in Keycloak are not automatically migrated. Manual role a
 
 ## Troubleshooting
 
-### Common Role Issues
+### Common role issues
 
 <AccordionGroup>
   <Accordion title="User Cannot Access Workspace" icon="ban">
@@ -512,7 +512,7 @@ FlowX 4.x roles stored in Keycloak are not automatically migrated. Manual role a
     4. Review workspace permissions
   </Accordion>
   
-  <Accordion title="Role Assignment Failed" icon="exclamation-triangle">
+  <Accordion title="Role Assignment Failed" icon="exclamation">
     **Possible Causes:**
     - Insufficient permissions to assign role
     - Role not available in current context
@@ -539,7 +539,7 @@ FlowX 4.x roles stored in Keycloak are not automatically migrated. Manual role a
   </Accordion>
 </AccordionGroup>
 
-## Custom Roles (Future)
+## Custom roles (future)
 
 <Note>
 Custom roles will be available in future FlowX versions, allowing organizations to create tailored access patterns.
@@ -554,7 +554,7 @@ Custom roles will be available in future FlowX versions, allowing organizations 
 
 ---
 
-## Related Documentation
+## Related documentation
 
 - [Workspaces Setup Guide](../authorization-setup-guide)
 - [Workspaces Feature Guide](../../docs/projects/workspaces)
