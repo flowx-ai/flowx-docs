@@ -5,27 +5,43 @@ description: In modern application development, the ability to create dynamic an
 
 ## Dynamic values
 
-Dynamic values exemplify the capacity to dynamically populate various properties of UI elements in response to process parameters or substitution tags. This dynamic customization occurs at runtime, allowing the application to adapt to specific scenarios or user inputs. With dynamic values, the UI can be tailored down to details, including labels, placeholders, error messages, and other properties.
+Dynamic values give you the flexibility to fill various UI properties at runtime, based on process parameters or substitution tags. By doing so, your application can adapt to specific scenarios or user inputs. 
 
-This capability is now extended to an array of UI elements and their corresponding properties, utilizing process parameters or [**substitution tags**](../../platform-deep-dive/core-extensions/content-management/substitution-tags):
+Use this feature to fine-tune how your application appears and behaves without needing to rebuild or redeploy. The table below outlines which UI elements support dynamic values and the corresponding properties that can accept parameters or substitution tags.
 
+| **Element**                                                                                                                                           | **Properties**                                                                                                                    | **Accepts**                                      |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| [**Form Elements**](./ui-component-types/form-elements)<br/> _Input, Textarea, Select, Checkbox, Radio, Switch, Datepicker, Slider, Segmented Button_ | - **Default Value**<br/>- **Label**<br/>- **Placeholder**<br/>- **Helper Text**<br/>- **Validators**<br/>- **Prefix**, **Suffix** | **Yes:** Process parameters or Substitution tags |
+| [**Document Preview**](./ui-component-types/file-preview)                                                                                             | - **Title**<br/>- **Subtitle**                                                                                                    | **Yes:** Process parameters or Substitution tags |
+| [**Card**](./ui-component-types/root-components/card)                                                                                                 | - **Title**<br/>- **Subtitle**                                                                                                    | **Yes:** Process parameters or Substitution tags |
+| **Form**                                                                                                                                              | - **Title**                                                                                                                       | **Yes:** Process parameters or Substitution tags |
+| **Message**                                                                                                                                           | - **Message**                                                                                                                     | **Yes:** Process parameters or Substitution tags |
+| [**Button**](./ui-component-types/buttons), [**Upload**](./ui-component-types/buttons)                                                                | - **Label**                                                                                                                       | **Yes:** Process parameters or Substitution tags |
+| **Select**, **Checkbox**, **Radio**, **Segmented Button**<br/>(_Static source type only_)                                                             | - **Label**<br/>- **Value**                                                                                                       | **Substitution tags only**                       |
+| **Text**                                                                                                                                              | - **Text**                                                                                                                        | **Yes:** Process parameters or Substitution tags |
+| **Link**                                                                                                                                              | - **Link Text**                                                                                                                   | **Yes:** Process parameters or Substitution tags |
+| **Modal** <br/>_(`modalDismissAlert` properties)_                                                                                                     | - **Title**<br/>- **Message**<br/>- **ConfirmLabel**<br/>- **CancelLabel**                                                        | **Yes:** Process parameters or Substitution tags |
+| **Step**                                                                                                                                              | - **Label**                                                                                                                       | **Yes:** Process parameters or Substitution tags |
+| **Tab**                                                                                                                                               | - **Title**                                                                                                                       | **Yes:** Process parameters or Substitution tags |
 
-| Element                                                              | Property                                                         | Accepts Params/Subst Tags |
-| -------------------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------- |
-| [**Form Elements**](./ui-component-types/form-elements)              | Default Value (except switch)                                    | Yes                       |
-|                                                                      | Label, Placeholder                                               | Yes                       |
-|                                                                      | Helper Text, Validators                                          | Yes                       |
-| [**Document Preview**](./ui-component-types/file-preview)            | Title, Subtitle                                                  | Yes                       |
-| [**Card**](./ui-component-types/root-components/card)                | Title, Subtitle                                                  | Yes                       |
-| Form                                                                 | Title                                                            | Yes                       |
-| Message                                                              | Message                                                          | Yes                       |
-| [**Buttons**](./ui-component-types/buttons)                          | Label                                                            | Yes                       |
-| Select, Checkbox, Radio,Segmented Button (Static)                    | Label, Value                                                     | Subst Tags Only           |
-| Text                                                                 | Text                                                             | Yes                       |
-| Link                                                                 | Link Text                                                        | Yes                       |
+<Info>
+Default Value is not available for the **Switch** element.
+</Info>
 
+### How it works
+
+* **Process Parameters**: At runtime, values can be injected from backend logic or state, such as the outcome of an API call or an action, which then populate the relevant UI element properties.
+* **Substitution Tags**: Whenever a UI property references a substitution tag key (e.g., `test`), the application replaces it with the appropriate content at runtime. This is particularly useful for rapid localization, real-time data injection, and user-specific content.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202025-01-16%20at%2014.10.36.png)
+</Frame>
 
 ### Example using Substitution tags
+
+<Tip>
+Use keys beginning with "@@" to return their value. If a valid key isn't found, you'll get an empty string. If the key format is incorrect, the original string is returned.
+</Tip>
 
 ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release-notes/dynamic_val.gif)
 
@@ -105,7 +121,6 @@ if ( !isNaN(parseInt(${application.client.amount})) ) {
 * If the input is a valid number, the minimum value for the slider is calculated as 15% of the entered value `(0.15 * parseInt(${application.client.amount}))`.
 * If the input is not a valid number `(NaN)`, the minimum value for the slider is set to 10000.
 
-
 #### Maximum Value
 
 ```js
@@ -120,11 +135,9 @@ if ( !isNaN(parseInt(${application.client.amount})) ) {
 * If the input is a valid number, the maximum value for the slider is calculated as 35% of the entered value `(0.35 * parseInt(${application.client.amount}))`.
 * If the input is not a valid number `(NaN)`, the maximum value for the slider is set to 20000.
 
-
 #### Summary
 
 In summary, the above expressions provide a dynamic range for the slider based on the value entered on the input field. If a valid numeric value is entered, the slider's range will be dynamically adjusted between 15% and 35% of that value. If the input is not a valid number, a default range of 10000 to 20000 is set for the slider. This can be useful for scenarios where you want the slider's range to be proportional to a user-provided value.
-
 
 ### Text example (using computed strings)
 
@@ -188,13 +201,11 @@ The UI Designer allows the inclusion of JavaScript expressions for generating co
 | Text                                   | Text                                |
 | Link                                   | Link Text                           |
 
-
 - **Slider**: The min value, max value, and default value for sliders can be set using JavaScript expressions applied to process parameters. This allows for dynamic configuration based on numeric values.
 - **Any UI Element that accepts validators min, max, minLength, maxLength**: The "params" field for these elements can also accept JavaScript expressions applied to process parameters. This enables flexibility in setting validator parameters dynamically.
 - **Default Value**: For input elements like text inputs or number inputs, the default value can be a variable from the process or a computed value determined by JavaScript expressions.
 - **Text**: The content of a text element can be set using JavaScript expressions, allowing for dynamic text generation or displaying process-related information.
 - **Link**: The link text can also accept JavaScript expressions, enabling dynamic generation of the link text based on process parameters or other conditions.
-
 
 <Tip>
 When working with computed values, it's important to note that they are designed to be displayed as integers and strings.
@@ -204,3 +215,151 @@ When working with computed values, it's important to note that they are designed
 For input elements (e.g., text input), you may require a default value from a process variable, while a number input may need a computed value.
 </Info>
 
+## Understanding the return statement
+
+### Why the return statement is essential
+
+When working with computed values in the UI Designer, **the `return` statement is mandatory** for your JavaScript expressions to function correctly. This is a fundamental requirement that ensures your computed values are properly evaluated and applied to UI elements.
+
+**Technical Reason**: Computed values are executed as JavaScript functions in the UI Designer's evaluation engine. Like any JavaScript function, they must explicitly return a value to provide output to the calling context.
+
+### The role of return in computed values
+
+Computed values use JavaScript expressions that must explicitly return a value using the `return` statement. Without it, your expression will not produce any output, and the UI element will not receive the expected value.
+
+<Warning>
+**Critical**: If you forget the `return` statement, your computed value will evaluate to `undefined`, which can cause:
+- UI elements to display blank or default values
+- Validation rules to fail unexpectedly  
+- Slider ranges to become invalid
+- Text elements to appear empty
+</Warning>
+
+#### ✅ Correct Implementation
+
+```javascript
+// Slider minimum value calculation
+if (!isNaN(parseInt(${application.client.amount}))) {
+    return 0.15 * parseInt(${application.client.amount});
+} else {
+    return 10000;
+}
+```
+
+#### ❌ Incorrect Implementation
+
+```javascript
+// This will NOT work - missing return statements
+if (!isNaN(parseInt(${application.client.amount}))) {
+    0.15 * parseInt(${application.client.amount}); // No return!
+} else {
+    10000; // No return!
+}
+```
+
+### Best practices for testing
+
+#### Always include return statements
+Every code path in your computed value expression should have a `return` statement.
+
+#### Handle edge cases
+```javascript
+// Good practice: Handle both valid and invalid inputs
+if (!isNaN(parseInt(${application.client.amount}))) {
+    return 0.15 * parseInt(${application.client.amount});
+} else {
+    return 10000; // Fallback value
+}
+```
+
+#### Test different scenarios
+When testing your computed values, ensure you test:
+- **Valid input values** - Normal expected data
+- **Invalid or empty input values** - `null`, `undefined`, empty strings
+- **Edge cases** - Zero, negative numbers, very large numbers
+- **Different data types** - Strings that look like numbers, boolean values
+- **Network delays** - Process parameters that might not be loaded yet
+
+<Info>
+**Pro Tip**: Use your browser's developer console to test computed value logic before implementing it in the UI Designer. You can copy your expression and test it with sample data.
+</Info>
+
+#### Use meaningful default values
+```javascript
+// Provide sensible defaults for fallback scenarios
+if ("${application.loanType}" == "conventional") {
+    return "Single-Family Home, Townhouse, Condo, Multi-Family Dwelling";
+} else {
+    return "Please select a loan type first"; // Clear user guidance
+}
+```
+
+## Troubleshooting common issues
+
+### Issue: Computed value not updating
+**Symptoms**: UI element shows old values or doesn't change when process parameters change
+**Solution**: 
+- Ensure every code path has a `return` statement
+- Check that process parameter syntax uses `${}` correctly
+- Verify the process parameter actually exists and has data
+
+### Issue: Getting `undefined` values
+**Symptoms**: UI elements appear blank or show "undefined"
+**Solution**: 
+- Check that your JavaScript expression syntax is correct and includes `return`
+- Add fallback `return` statements for all possible conditions
+- Use defensive programming: `return ${application.value} || "default value"`
+
+### Issue: Values not calculating correctly
+**Symptoms**: Math operations produce unexpected results
+**Solution**: 
+- Verify that process parameters are properly referenced with `${}` syntax
+- Use `parseInt()` or `parseFloat()` for numeric operations
+- Add type checking: `if (typeof ${application.value} === 'number')`
+
+### Issue: Expression works in console but not in UI Designer
+**Symptoms**: Logic works when tested separately but fails in computed values
+**Solution**:
+- Remember that process parameters use `${}` syntax, not regular JavaScript variables
+- Ensure all code paths return values, not just the main logic
+- Check for syntax errors specific to the UI Designer's JavaScript engine
+
+## Summary
+
+The `return` statement is not optional in computed values—it's a requirement. When testing your computed value rules:
+
+1. **Always** include `return` statements in your JavaScript expressions
+2. **Test** all possible code paths and scenarios  
+3. **Provide** meaningful fallback values for edge cases
+4. **Verify** that your expressions work correctly across different input conditions
+5. **Debug** using browser console before implementing in UI Designer
+
+<Warning>
+**Final Reminder**: Without the `return` statement, your computed values will not function as expected, and your UI elements will not receive the calculated values they need to display correctly. This is the #1 cause of computed value failures.
+</Warning>
+
+### Quick Reference: Common Return Patterns
+
+```javascript
+// Simple conditional return
+return ${application.value} > 100 ? "High" : "Low";
+
+// Multiple conditions with fallback
+if (${application.status} === "active") {
+    return "Status: Active";
+} else if (${application.status} === "pending") {
+    return "Status: Pending";
+} else {
+    return "Status: Unknown";
+}
+
+// Numeric calculations with validation
+if (!isNaN(parseFloat(${application.amount}))) {
+    return parseFloat(${application.amount}) * 1.1;
+} else {
+    return 0;
+}
+
+// String operations
+return (${application.firstName} || "") + " " + (${application.lastName} || "");
+```

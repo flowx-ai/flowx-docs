@@ -28,7 +28,6 @@ Use this feature to fine-tune how your application appears and behaves without n
 Default Value is not available for the **Switch** element.
 </Info>
 
-
 ### How it works
 
 * **Process Parameters**: At runtime, values can be injected from backend logic or state, such as the outcome of an API call or an action, which then populate the relevant UI element properties.
@@ -122,7 +121,6 @@ if ( !isNaN(parseInt(${application.client.amount})) ) {
 * If the input is a valid number, the minimum value for the slider is calculated as 15% of the entered value `(0.15 * parseInt(${application.client.amount}))`.
 * If the input is not a valid number `(NaN)`, the minimum value for the slider is set to 10000.
 
-
 #### Maximum Value
 
 ```js
@@ -137,11 +135,9 @@ if ( !isNaN(parseInt(${application.client.amount})) ) {
 * If the input is a valid number, the maximum value for the slider is calculated as 35% of the entered value `(0.35 * parseInt(${application.client.amount}))`.
 * If the input is not a valid number `(NaN)`, the maximum value for the slider is set to 20000.
 
-
 #### Summary
 
 In summary, the above expressions provide a dynamic range for the slider based on the value entered on the input field. If a valid numeric value is entered, the slider's range will be dynamically adjusted between 15% and 35% of that value. If the input is not a valid number, a default range of 10000 to 20000 is set for the slider. This can be useful for scenarios where you want the slider's range to be proportional to a user-provided value.
-
 
 ### Text example (using computed strings)
 
@@ -205,13 +201,11 @@ The UI Designer allows the inclusion of JavaScript expressions for generating co
 | Text                                   | Text                                |
 | Link                                   | Link Text                           |
 
-
 - **Slider**: The min value, max value, and default value for sliders can be set using JavaScript expressions applied to process parameters. This allows for dynamic configuration based on numeric values.
 - **Any UI Element that accepts validators min, max, minLength, maxLength**: The "params" field for these elements can also accept JavaScript expressions applied to process parameters. This enables flexibility in setting validator parameters dynamically.
 - **Default Value**: For input elements like text inputs or number inputs, the default value can be a variable from the process or a computed value determined by JavaScript expressions.
 - **Text**: The content of a text element can be set using JavaScript expressions, allowing for dynamic text generation or displaying process-related information.
 - **Link**: The link text can also accept JavaScript expressions, enabling dynamic generation of the link text based on process parameters or other conditions.
-
 
 <Tip>
 When working with computed values, it's important to note that they are designed to be displayed as integers and strings.
@@ -221,3 +215,151 @@ When working with computed values, it's important to note that they are designed
 For input elements (e.g., text input), you may require a default value from a process variable, while a number input may need a computed value.
 </Info>
 
+## Understanding the return statement
+
+### Why the return statement is essential
+
+When working with computed values in the UI Designer, **the `return` statement is mandatory** for your JavaScript expressions to function correctly. This is a fundamental requirement that ensures your computed values are properly evaluated and applied to UI elements.
+
+**Technical Reason**: Computed values are executed as JavaScript functions in the UI Designer's evaluation engine. Like any JavaScript function, they must explicitly return a value to provide output to the calling context.
+
+### The role of return in computed values
+
+Computed values use JavaScript expressions that must explicitly return a value using the `return` statement. Without it, your expression will not produce any output, and the UI element will not receive the expected value.
+
+<Warning>
+**Critical**: If you forget the `return` statement, your computed value will evaluate to `undefined`, which can cause:
+- UI elements to display blank or default values
+- Validation rules to fail unexpectedly  
+- Slider ranges to become invalid
+- Text elements to appear empty
+</Warning>
+
+#### ✅ Correct Implementation
+
+```javascript
+// Slider minimum value calculation
+if (!isNaN(parseInt(${application.client.amount}))) {
+    return 0.15 * parseInt(${application.client.amount});
+} else {
+    return 10000;
+}
+```
+
+#### ❌ Incorrect Implementation
+
+```javascript
+// This will NOT work - missing return statements
+if (!isNaN(parseInt(${application.client.amount}))) {
+    0.15 * parseInt(${application.client.amount}); // No return!
+} else {
+    10000; // No return!
+}
+```
+
+### Best practices for testing
+
+#### Always include return statements
+Every code path in your computed value expression should have a `return` statement.
+
+#### Handle edge cases
+```javascript
+// Good practice: Handle both valid and invalid inputs
+if (!isNaN(parseInt(${application.client.amount}))) {
+    return 0.15 * parseInt(${application.client.amount});
+} else {
+    return 10000; // Fallback value
+}
+```
+
+#### Test different scenarios
+When testing your computed values, ensure you test:
+- **Valid input values** - Normal expected data
+- **Invalid or empty input values** - `null`, `undefined`, empty strings
+- **Edge cases** - Zero, negative numbers, very large numbers
+- **Different data types** - Strings that look like numbers, boolean values
+- **Network delays** - Process parameters that might not be loaded yet
+
+<Info>
+**Pro Tip**: Use your browser's developer console to test computed value logic before implementing it in the UI Designer. You can copy your expression and test it with sample data.
+</Info>
+
+#### Use meaningful default values
+```javascript
+// Provide sensible defaults for fallback scenarios
+if ("${application.loanType}" == "conventional") {
+    return "Single-Family Home, Townhouse, Condo, Multi-Family Dwelling";
+} else {
+    return "Please select a loan type first"; // Clear user guidance
+}
+```
+
+## Troubleshooting common issues
+
+### Issue: Computed value not updating
+**Symptoms**: UI element shows old values or doesn't change when process parameters change
+**Solution**: 
+- Ensure every code path has a `return` statement
+- Check that process parameter syntax uses `${}` correctly
+- Verify the process parameter actually exists and has data
+
+### Issue: Getting `undefined` values
+**Symptoms**: UI elements appear blank or show "undefined"
+**Solution**: 
+- Check that your JavaScript expression syntax is correct and includes `return`
+- Add fallback `return` statements for all possible conditions
+- Use defensive programming: `return ${application.value} || "default value"`
+
+### Issue: Values not calculating correctly
+**Symptoms**: Math operations produce unexpected results
+**Solution**: 
+- Verify that process parameters are properly referenced with `${}` syntax
+- Use `parseInt()` or `parseFloat()` for numeric operations
+- Add type checking: `if (typeof ${application.value} === 'number')`
+
+### Issue: Expression works in console but not in UI Designer
+**Symptoms**: Logic works when tested separately but fails in computed values
+**Solution**:
+- Remember that process parameters use `${}` syntax, not regular JavaScript variables
+- Ensure all code paths return values, not just the main logic
+- Check for syntax errors specific to the UI Designer's JavaScript engine
+
+## Summary
+
+The `return` statement is not optional in computed values—it's a requirement. When testing your computed value rules:
+
+1. **Always** include `return` statements in your JavaScript expressions
+2. **Test** all possible code paths and scenarios  
+3. **Provide** meaningful fallback values for edge cases
+4. **Verify** that your expressions work correctly across different input conditions
+5. **Debug** using browser console before implementing in UI Designer
+
+<Warning>
+**Final Reminder**: Without the `return` statement, your computed values will not function as expected, and your UI elements will not receive the calculated values they need to display correctly. This is the #1 cause of computed value failures.
+</Warning>
+
+### Quick Reference: Common Return Patterns
+
+```javascript
+// Simple conditional return
+return ${application.value} > 100 ? "High" : "Low";
+
+// Multiple conditions with fallback
+if (${application.status} === "active") {
+    return "Status: Active";
+} else if (${application.status} === "pending") {
+    return "Status: Pending";
+} else {
+    return "Status: Unknown";
+}
+
+// Numeric calculations with validation
+if (!isNaN(parseFloat(${application.amount}))) {
+    return parseFloat(${application.amount}) * 1.1;
+} else {
+    return 0;
+}
+
+// String operations
+return (${application.firstName} || "") + " " + (${application.lastName} || "");
+```
