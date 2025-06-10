@@ -1,0 +1,1329 @@
+---
+title: "Centralized Authorization System (CAS) Setup"
+description: "Setup and configuration guide for the CAS microservice that manages workspace permissions, user access control, and ACL rules in FlowX 5.0"
+icon: shield
+---
+
+<Info>
+The Centralized Authorization System (CAS) is a new microservice introduced in FlowX 5.0 that manages workspace permissions, user access control, and ACL (Access Control List) rules for the multi-tenant architecture.
+</Info>
+
+## Overview
+
+The CAS microservice provides centralized authorization services for the FlowX platform, managing workspaces, users, groups, roles, and permissions. It works alongside SpiceDB to deliver fine-grained access control and supports the new multi-tenant Workspaces feature.
+
+### Key components
+
+<CardGroup cols={2}>
+  <Card title="CAS Microservice" icon="server">
+    Manages workspaces, users, roles, and permissions with REST and gRPC APIs
+  </Card>
+  <Card title="SpiceDB" icon="database">
+    Stores ACL relationships and provides permission validation queries
+  </Card>
+  <Card title="CAS Client Library" icon="code">
+    Java library for FlowX microservices to integrate with CAS for authorization
+  </Card>
+  <Card title="PostgreSQL Database" icon="cylinder">
+    Stores workspace data, user information, roles, and organizational structure
+  </Card>
+</CardGroup>
+
+## Prerequisites
+
+Before installing CAS, ensure the following components are available:
+
+### Infrastructure requirements
+
+- **PostgreSQL**: Version 13 or higher for CAS database
+- **SpiceDB**: Latest version for ACL storage
+- **Kafka**: Version 2.8 or higher (existing FlowX requirement)
+- **Keycloak**: Existing FlowX identity provider
+
+
+### Dependencies
+
+CAS requires the following FlowX components to be operational:
+
+- Existing FlowX infrastructure (Engine, Admin, Designer)
+- Keycloak or compatible OAuth2 identity provider
+- PostgreSQL database for FlowX (can be same or separate instance)
+
+## SpiceDB installation
+
+SpiceDB is required for ACL (Access Control List) management and must be installed before CAS.
+
+### Docker deployment
+
+<CodeGroup>
+```yaml Docker Compose
+version: '3.8'
+
+services:
+  spicedb:
+    image: authzed/spicedb:latest
+    command: serve
+    ports:
+      - "50051:50051"
+      - "8080:8080"
+    environment:
+      - SPICEDB_GRPC_PRESHARED_KEY=${SPICEDB_PRESHARED_KEY}
+      - SPICEDB_DATASTORE_ENGINE=postgres
+      - SPICEDB_DATASTORE_CONN_URI=postgres://${DB_USER}:${DB_PASS}@postgres:5432/spicedb
+      - SPICEDB_DATASTORE_GC_WINDOW=1h
+      - SPICEDB_DATASTORE_REVISION_QUANTIZATION=5s
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:14
+    environment:
+      - POSTGRES_DB=spicedb
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    volumes:
+      - spicedb_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  spicedb_data:
+```
+
+```bash Standalone Docker
+# Run SpiceDB with PostgreSQL (production recommended)
+docker run --name spicedb \
+  -p 50051:50051 \
+  -p 8080:8080 \
+  -e SPICEDB_GRPC_PRESHARED_KEY="your_secure_key_here" \
+  -e SPICEDB_DATASTORE_ENGINE=postgres \
+  -e SPICEDB_DATASTORE_CONN_URI="postgres://user:password@host:5432/spicedb" \
+  -e SPICEDB_DATASTORE_GC_WINDOW=1h \
+  -e SPICEDB_DATASTORE_REVISION_QUANTIZATION=5s \
+  -d authzed/spicedb serve
+```
+</CodeGroup>
+
+### Kubernetes deployment
+
+<CodeGroup>
+```yaml SpiceDB Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spicedb
+  namespace: flowx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spicedb
+  template:
+    metadata:
+      labels:
+        app: spicedb
+    spec:
+      containers:
+      - name: spicedb
+        image: authzed/spicedb:latest
+        command: ["serve"]
+        ports:
+        - containerPort: 50051
+          name: grpc
+        - containerPort: 8080
+          name: http
+        env:
+        - name: SPICEDB_GRPC_PRESHARED_KEY
+          valueFrom:
+            secretKeyRef:
+              name: spicedb-secret
+              key: preshared-key
+        - name: SPICEDB_DATASTORE_ENGINE
+          value: "postgres"
+        - name: SPICEDB_DATASTORE_CONN_URI
+          valueFrom:
+            secretKeyRef:
+              name: spicedb-secret
+              key: database-uri
+        - name: SPICEDB_DATASTORE_GC_WINDOW
+          value: "1h"
+        - name: SPICEDB_DATASTORE_REVISION_QUANTIZATION
+          value: "5s"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /v1/schema/read
+            port: 8080
+            httpHeaders:
+            - name: Authorization
+              value: "Bearer ${SPICEDB_TOKEN}"
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /v1/schema/read
+            port: 8080
+            httpHeaders:
+            - name: Authorization
+              value: "Bearer ${SPICEDB_TOKEN}"
+          initialDelaySeconds: 5
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spicedb-service
+  namespace: flowx
+spec:
+  selector:
+    app: spicedb
+  ports:
+  - name: grpc
+    port: 50051
+    targetPort: 50051
+  - name: http
+    port: 8080
+    targetPort: 8080
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: spicedb-secret
+  namespace: flowx
+type: Opaque
+data:
+  preshared-key: <base64-encoded-key>
+  database-uri: <base64-encoded-database-uri>
+```
+</CodeGroup>
+
+### SpiceDB schema configuration
+
+Apply the FlowX Workspaces schema to SpiceDB:
+
+<CodeGroup>
+```yaml FlowX Workspaces Schema
+definition user {}
+
+definition organisation {
+  relation admin: user
+  relation member: user
+  
+  permission create_workspace = admin
+  permission manage_organisation = admin
+  permission view_organisation = member + admin
+}
+
+definition workspace {
+  relation organisation: organisation
+  relation admin: user
+  relation member: user
+  relation viewer: user
+  
+  permission create_project = admin + member
+  permission create_library = admin + member
+  permission manage_workspace = admin
+  permission view_workspace = viewer + member + admin + organisation->view_organisation
+}
+
+definition project {
+  relation owning_workspace: workspace
+  relation owner: user
+  relation editor: user
+  relation viewer: user
+  
+  permission read = viewer + editor + owner + owning_workspace->view_workspace
+  permission edit = editor + owner + owning_workspace->create_project
+  permission admin = owner + owning_workspace->manage_workspace
+  permission delete = owner + owning_workspace->manage_workspace
+}
+
+definition library {
+  relation owning_workspace: workspace
+  relation owner: user
+  relation editor: user
+  relation viewer: user
+  
+  permission read = viewer + editor + owner + owning_workspace->view_workspace
+  permission edit = editor + owner + owning_workspace->create_library
+  permission admin = owner + owning_workspace->manage_workspace
+  permission delete = owner + owning_workspace->manage_workspace
+}
+
+definition theme {
+  relation owning_workspace: workspace
+  
+  permission read = owning_workspace->view_workspace
+  permission edit = owning_workspace->create_project
+  permission admin = owning_workspace->manage_workspace
+}
+
+definition font {
+  relation owning_workspace: workspace
+  
+  permission read = owning_workspace->view_workspace
+  permission edit = owning_workspace->create_project
+  permission admin = owning_workspace->manage_workspace
+}
+
+definition role_binding {
+  relation role: role
+  relation user: user
+  relation granted: user
+  
+  permission view = user + granted
+}
+
+definition role {
+  permission assigned = user
+}
+
+caveat is_tenant(actual_tenant string, expected_tenant string) {
+  actual_tenant == expected_tenant
+}
+```
+
+```bash Apply Schema
+# Save schema to file
+cat > flowx_workspace_schema.yaml << 'EOF'
+# [Schema content from above]
+EOF
+
+# Apply schema to SpiceDB
+curl -X POST http://spicedb-service:8080/v1/schema/write \
+  -H "Authorization: Bearer ${SPICEDB_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d @flowx_workspace_schema.yaml
+
+# Verify schema application
+curl -H "Authorization: Bearer ${SPICEDB_TOKEN}" \
+  http://spicedb-service:8080/v1/schema/read
+```
+</CodeGroup>
+
+## CAS database setup
+
+### Create CAS database
+
+<CodeGroup>
+```sql PostgreSQL Setup
+-- Create CAS database
+CREATE DATABASE flowx_cas;
+
+-- Create dedicated user (recommended)
+CREATE USER cas_user WITH PASSWORD 'secure_password';
+GRANT ALL PRIVILEGES ON DATABASE flowx_cas TO cas_user;
+
+-- Connect to CAS database
+\c flowx_cas;
+
+-- Grant schema privileges
+GRANT ALL ON SCHEMA public TO cas_user;
+```
+</CodeGroup>
+
+### Database schema creation
+
+<CodeGroup>
+```sql Core Tables
+-- Organizations table
+CREATE TABLE organisations (
+  id VARCHAR(255) PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  display_name VARCHAR(255),
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  settings JSONB,
+  is_active BOOLEAN DEFAULT TRUE
+);
+
+-- Workspaces table
+CREATE TABLE workspaces (
+  id VARCHAR(255) PRIMARY KEY,
+  organisation_id VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  display_name VARCHAR(255),
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  settings JSONB,
+  is_active BOOLEAN DEFAULT TRUE,
+  FOREIGN KEY (organisation_id) REFERENCES organisations(id) ON DELETE CASCADE,
+  UNIQUE (organisation_id, name)
+);
+
+-- Users table (FlowX database storage)
+CREATE TABLE flowx_users (
+  id VARCHAR(255) PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  first_name VARCHAR(255),
+  last_name VARCHAR(255),
+  external_id VARCHAR(255), -- Keycloak user ID
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_login TIMESTAMP,
+  is_active BOOLEAN DEFAULT TRUE
+);
+```
+
+```sql Permission Tables
+-- Groups table
+CREATE TABLE groups (
+  id VARCHAR(255) PRIMARY KEY,
+  workspace_id VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  is_default BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (workspace_id) REFERENCES workspaces(id) ON DELETE CASCADE,
+  UNIQUE (workspace_id, name)
+);
+
+-- Roles table
+CREATE TABLE roles (
+  id VARCHAR(255) PRIMARY KEY,
+  workspace_id VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  display_name VARCHAR(255),
+  description TEXT,
+  permissions JSONB,
+  is_default BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (workspace_id) REFERENCES workspaces(id) ON DELETE CASCADE,
+  UNIQUE (workspace_id, name)
+);
+
+-- Workspace users table
+CREATE TABLE workspace_users (
+  id BIGSERIAL PRIMARY KEY,
+  workspace_id VARCHAR(255) NOT NULL,
+  user_id VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_by VARCHAR(255),
+  FOREIGN KEY (workspace_id) REFERENCES workspaces(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES flowx_users(id) ON DELETE CASCADE,
+  UNIQUE (workspace_id, user_id)
+);
+```
+
+```sql Relationship Tables
+-- User group memberships
+CREATE TABLE user_group_memberships (
+  id BIGSERIAL PRIMARY KEY,
+  user_id VARCHAR(255) NOT NULL,
+  group_id VARCHAR(255) NOT NULL,
+  workspace_id VARCHAR(255) NOT NULL,
+  assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  assigned_by VARCHAR(255),
+  FOREIGN KEY (user_id) REFERENCES flowx_users(id) ON DELETE CASCADE,
+  FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
+  FOREIGN KEY (workspace_id) REFERENCES workspaces(id) ON DELETE CASCADE,
+  UNIQUE (user_id, group_id, workspace_id)
+);
+
+-- User role assignments
+CREATE TABLE user_role_assignments (
+  id BIGSERIAL PRIMARY KEY,
+  user_id VARCHAR(255) NOT NULL,
+  role_id VARCHAR(255) NOT NULL,
+  workspace_id VARCHAR(255) NOT NULL,
+  assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  assigned_by VARCHAR(255),
+  FOREIGN KEY (user_id) REFERENCES flowx_users(id) ON DELETE CASCADE,
+  FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
+  FOREIGN KEY (workspace_id) REFERENCES workspaces(id) ON DELETE CASCADE,
+  UNIQUE (user_id, role_id, workspace_id)
+);
+
+-- Asset workspace relations
+CREATE TABLE asset_workspace_relations (
+  id BIGSERIAL PRIMARY KEY,
+  asset_id VARCHAR(255) NOT NULL,
+  asset_type VARCHAR(100) NOT NULL,
+  workspace_id VARCHAR(255) NOT NULL,
+  relation_type VARCHAR(50) DEFAULT 'owning_workspace',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (workspace_id) REFERENCES workspaces(id) ON DELETE CASCADE,
+  UNIQUE (asset_id, asset_type, workspace_id, relation_type)
+);
+```
+
+```sql Indexes
+-- Performance indexes
+CREATE INDEX idx_workspaces_org ON workspaces(organisation_id);
+CREATE INDEX idx_workspace_users_workspace ON workspace_users(workspace_id);
+CREATE INDEX idx_workspace_users_user ON workspace_users(user_id);
+CREATE INDEX idx_groups_workspace ON groups(workspace_id);
+CREATE INDEX idx_roles_workspace ON roles(workspace_id);
+CREATE INDEX idx_user_groups_user ON user_group_memberships(user_id);
+CREATE INDEX idx_user_groups_workspace ON user_group_memberships(workspace_id);
+CREATE INDEX idx_user_roles_user ON user_role_assignments(user_id);
+CREATE INDEX idx_user_roles_workspace ON user_role_assignments(workspace_id);
+CREATE INDEX idx_asset_relations_workspace ON asset_workspace_relations(workspace_id);
+CREATE INDEX idx_asset_relations_asset ON asset_workspace_relations(asset_id, asset_type);
+```
+</CodeGroup>
+
+## CAS microservice installation
+
+### Docker deployment
+
+<CodeGroup>
+```yaml Docker Compose
+version: '3.8'
+
+services:
+  cas-authorization-system:
+    image: flowx/authorization-system:5.0.0
+    ports:
+      - "8090:8080"
+    environment:
+      # Database Configuration
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/flowx_cas
+      - SPRING_DATASOURCE_USERNAME=${CAS_DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${CAS_DB_PASS}
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      
+      # SpiceDB Configuration
+      - SPICEDB_ENDPOINT=spicedb:50051
+      - SPICEDB_TOKEN=${SPICEDB_PRESHARED_KEY}
+      - SPICEDB_INSECURE=false
+      
+      # Keycloak Integration
+      - KEYCLOAK_AUTH_SERVER_URL=${KEYCLOAK_URL}/auth
+      - KEYCLOAK_REALM=${KEYCLOAK_REALM}
+      - KEYCLOAK_RESOURCE=flowx-cas
+      - KEYCLOAK_SECRET=${KEYCLOAK_CAS_CLIENT_SECRET}
+      
+      # Organization Configuration
+      - ORGANIZATION_DEFAULT_UUID=${ORGANIZATION_UUID:-default-organization}
+      - ORGANIZATION_DEFAULT_NAME=${ORGANIZATION_NAME:-Default Organization}
+      
+      # Security Configuration
+      - SECURITY_TYPE=oauth2
+      - SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_INTROSPECTION_URI=${KEYCLOAK_URL}/auth/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token/introspect
+      - SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_ID=flowx-cas
+      - SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_OPAQUE_TOKEN_CLIENT_SECRET=${KEYCLOAK_CAS_CLIENT_SECRET}
+      
+      # Kafka Configuration (for audit events)
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+      - KAFKA_TOPIC_AUDIT_OUT=ai.flowx.dev.core.trigger.save.audit.v1
+      
+    depends_on:
+      - postgres
+      - spicedb
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: postgres:14
+    environment:
+      - POSTGRES_DB=flowx_cas
+      - POSTGRES_USER=${CAS_DB_USER}
+      - POSTGRES_PASSWORD=${CAS_DB_PASS}
+    volumes:
+      - cas_db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  cas_db_data:
+```
+
+```bash Standalone Docker
+# Run CAS microservice
+docker run --name cas-authorization-system \
+  -p 8090:8080 \
+  -e SPRING_DATASOURCE_URL=jdbc:postgresql://host:5432/flowx_cas \
+  -e SPRING_DATASOURCE_USERNAME=cas_user \
+  -e SPRING_DATASOURCE_PASSWORD=cas_password \
+  -e SPICEDB_ENDPOINT=spicedb:50051 \
+  -e SPICEDB_TOKEN="your_spicedb_token" \
+  -e KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8080/auth \
+  -e KEYCLOAK_REALM=flowx \
+  -e KEYCLOAK_RESOURCE=flowx-cas \
+  -e KEYCLOAK_SECRET=your_keycloak_secret \
+  -d flowx/authorization-system:5.0.0
+```
+</CodeGroup>
+
+### Kubernetes deployment
+
+<CodeGroup>
+```yaml CAS Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cas-authorization-system
+  namespace: flowx
+  labels:
+    app: cas-authorization-system
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cas-authorization-system
+  template:
+    metadata:
+      labels:
+        app: cas-authorization-system
+    spec:
+      containers:
+      - name: cas-authorization-system
+        image: flowx/authorization-system:5.0.0
+        ports:
+        - containerPort: 8080
+          name: http
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://postgres-service:5432/flowx_cas"
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: cas-secret
+              key: db-username
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cas-secret
+              key: db-password
+        - name: SPICEDB_ENDPOINT
+          value: "spicedb-service:50051"
+        - name: SPICEDB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: cas-secret
+              key: spicedb-token
+        - name: KEYCLOAK_AUTH_SERVER_URL
+          value: "http://keycloak-service:8080/auth"
+        - name: KEYCLOAK_REALM
+          value: "flowx"
+        - name: KEYCLOAK_RESOURCE
+          value: "flowx-cas"
+        - name: KEYCLOAK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: cas-secret
+              key: keycloak-secret
+        - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+          value: "kafka-service:9092"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cas-authorization-system-service
+  namespace: flowx
+spec:
+  selector:
+    app: cas-authorization-system
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cas-secret
+  namespace: flowx
+type: Opaque
+data:
+  db-username: <base64-encoded-username>
+  db-password: <base64-encoded-password>
+  spicedb-token: <base64-encoded-spicedb-token>
+  keycloak-secret: <base64-encoded-keycloak-secret>
+```
+</CodeGroup>
+
+## FlowX Services Configuration
+
+Update existing FlowX microservices to integrate with CAS:
+
+### CAS Client Library Dependency
+
+Add to all FlowX microservices that need authorization:
+
+<CodeGroup>
+```xml Maven Dependency
+<dependency>
+    <groupId>ai.flowx</groupId>
+    <artifactId>cas-client-library</artifactId>
+    <version>5.0.0</version>
+</dependency>
+```
+
+```gradle Gradle Dependency
+implementation 'ai.flowx:cas-client-library:5.0.0'
+```
+</CodeGroup>
+
+### Admin Service Configuration
+
+<CodeGroup>
+```bash Environment Variables
+# Workspace feature control
+WORKSPACE_ENABLED=true
+WORKSPACE_DEFAULT_ID=default-workspace
+
+# CAS integration
+CAS_SERVICE_URL=http://cas-authorization-system-service:8080
+CAS_CLIENT_TIMEOUT=30000
+CAS_CLIENT_RETRY_ATTEMPTS=3
+
+# Database configuration for user storage
+FLOWX_DATABASE_USER_STORAGE_ENABLED=true
+USER_MIGRATION_ENABLED=true
+USER_MIGRATION_ON_FIRST_LOGIN=true
+
+# IAM endpoints migration
+IAM_ENDPOINTS_MIGRATED_TO_CAS=true
+
+# SpiceDB configuration (for direct queries if needed)
+SPICEDB_ENDPOINT=spicedb-service:50051
+SPICEDB_TOKEN=${SPICEDB_TOKEN}
+SPICEDB_INSECURE=false
+```
+
+```properties Application Properties
+# Workspace configuration
+flowx.workspace.enabled=true
+flowx.workspace.default.id=${WORKSPACE_DEFAULT_ID}
+flowx.workspace.default.name=Default Workspace
+
+# CAS service integration
+flowx.cas.service.url=${CAS_SERVICE_URL}
+flowx.cas.client.timeout=${CAS_CLIENT_TIMEOUT:30000}
+flowx.cas.client.retry.attempts=${CAS_CLIENT_RETRY_ATTEMPTS:3}
+
+# User storage and migration
+flowx.user.storage.database.enabled=true
+flowx.user.storage.provider=database
+flowx.user.migration.enabled=${USER_MIGRATION_ENABLED:true}
+flowx.user.migration.on-first-login=${USER_MIGRATION_ON_FIRST_LOGIN:true}
+
+# Security enhancements
+flowx.security.workspace.validation.enabled=true
+flowx.security.workspace.isolation.strict=true
+
+# IAM endpoint migration
+flowx.iam.endpoints.migrated=${IAM_ENDPOINTS_MIGRATED_TO_CAS:true}
+flowx.iam.cas.enabled=true
+```
+</CodeGroup>
+
+### Engine service configuration
+
+<CodeGroup>
+```bash Environment Variables
+# Workspace processing
+WORKSPACE_VALIDATION_ENABLED=true
+WORKSPACE_RESOURCE_ISOLATION=true
+WORKSPACE_CONTEXT_REQUIRED=true
+
+# CAS integration
+CAS_SERVICE_URL=http://cas-authorization-system-service:8080
+CAS_CLIENT_TIMEOUT=30000
+
+# Asset workspace validation
+ASSET_WORKSPACE_VALIDATION_ENABLED=true
+CROSS_WORKSPACE_ACCESS_DENIED=true
+
+# Enhanced audit logging
+AUDIT_WORKSPACE_ENABLED=true
+AUDIT_PERMISSION_CHECKS=true
+```
+
+```properties Application Properties
+# Workspace processing
+flowx.engine.workspace.enabled=true
+flowx.engine.workspace.validation.enabled=${WORKSPACE_VALIDATION_ENABLED:true}
+flowx.engine.workspace.context.required=${WORKSPACE_CONTEXT_REQUIRED:true}
+
+# Resource isolation
+flowx.engine.resource.workspace.isolation=${WORKSPACE_RESOURCE_ISOLATION:true}
+flowx.engine.resource.cross.workspace.access=false
+
+# CAS client configuration
+flowx.cas.service.url=${CAS_SERVICE_URL}
+flowx.cas.client.timeout=${CAS_CLIENT_TIMEOUT:30000}
+
+# Asset management
+flowx.engine.asset.workspace.validation=${ASSET_WORKSPACE_VALIDATION_ENABLED:true}
+flowx.engine.asset.creation.workspace.required=true
+
+# Audit enhancements
+flowx.audit.workspace.enabled=${AUDIT_WORKSPACE_ENABLED:true}
+flowx.audit.workspace.detailed=true
+flowx.audit.permission.checks.enabled=${AUDIT_PERMISSION_CHECKS:true}
+
+# Performance settings
+flowx.engine.permission.cache.enabled=true
+flowx.engine.permission.cache.ttl=300
+```
+</CodeGroup>
+
+### Designer service configuration
+
+<CodeGroup>
+```bash Environment Variables
+# Workspace UI features
+WORKSPACE_UI_ENABLED=true
+WORKSPACE_SELECTION_REQUIRED=true
+WORKSPACE_SWITCH_ENABLED=true
+
+# Multi-workspace user flow
+WORKSPACE_AUTO_SELECT_SINGLE=true
+WORKSPACE_REMEMBER_SELECTION=true
+
+# CAS integration for UI
+CAS_SERVICE_URL=http://cas-authorization-system-service:8080
+UI_PERMISSION_CHECKS_ENABLED=true
+
+# Resource management
+RESOURCE_WORKSPACE_SCOPING=true
+CROSS_WORKSPACE_RESOURCE_ACCESS=false
+```
+
+```properties Application Properties
+# Workspace UI configuration
+flowx.designer.workspace.ui.enabled=${WORKSPACE_UI_ENABLED:true}
+flowx.designer.workspace.selection.required=${WORKSPACE_SELECTION_REQUIRED:true}
+flowx.designer.workspace.switch.enabled=${WORKSPACE_SWITCH_ENABLED:true}
+
+# User experience enhancements
+flowx.designer.workspace.auto.select.single=${WORKSPACE_AUTO_SELECT_SINGLE:true}
+flowx.designer.workspace.remember.selection=${WORKSPACE_REMEMBER_SELECTION:true}
+flowx.designer.workspace.selection.timeout=300
+
+# Permission-based UI
+flowx.designer.ui.permission.checks.enabled=${UI_PERMISSION_CHECKS_ENABLED:true}
+flowx.designer.ui.dynamic.permissions=true
+flowx.designer.ui.workspace.context.aware=true
+
+# Resource management
+flowx.designer.resource.workspace.scoping=${RESOURCE_WORKSPACE_SCOPING:true}
+flowx.designer.resource.isolation.enabled=true
+
+# CAS integration
+flowx.cas.service.url=${CAS_SERVICE_URL}
+flowx.cas.ui.integration.enabled=true
+```
+</CodeGroup>
+
+## Initial setup
+
+### For new installations
+
+<Steps>
+  <Step title="Create Default Organization">
+    ```sql
+    INSERT INTO organisations (id, name, display_name, description, is_active)
+    VALUES (
+      'default-organization',
+      'default-organization',
+      'Default Organization',
+      'Primary organization for FlowX deployment',
+      TRUE
+    );
+    ```
+  </Step>
+  
+  <Step title="Create Initial Workspace">
+    ```sql
+    INSERT INTO workspaces (id, organisation_id, name, display_name, description, is_active)
+    VALUES (
+      'main-workspace',
+      'default-organization',
+      'main-workspace',
+      'Main Workspace',
+      'Primary workspace for development',
+      TRUE
+    );
+    ```
+  </Step>
+  
+  <Step title="Create Default Roles">
+    ```sql
+    INSERT INTO roles (id, workspace_id, name, display_name, description, permissions, is_default) VALUES
+    ('role-admin', 'main-workspace', 'admin', 'Administrator', 'Full workspace administration', 
+     '{"platform": ["read", "edit", "admin"], "processes": ["read", "edit", "admin"], "configurations": ["read", "edit", "admin"], "users": ["read", "edit", "admin"]}', TRUE),
+    ('role-configurator', 'main-workspace', 'configurator', 'Configurator', 'Process and project configuration', 
+     '{"platform": ["read"], "processes": ["read", "edit"], "configurations": ["read", "edit"], "users": ["read"]}', TRUE),
+    ('role-designer', 'main-workspace', 'ui_ux_designer', 'UI/UX Designer', 'Interface design capabilities', 
+     '{"platform": ["read"], "processes": ["read", "edit"], "configurations": ["read"], "users": ["read"]}', TRUE),
+    ('role-viewer', 'main-workspace', 'project_viewer', 'Project Viewer', 'Read-only project access', 
+     '{"platform": ["read"], "processes": ["read"], "configurations": ["read"], "users": ["read"]}', TRUE);
+    ```
+  </Step>
+  
+  <Step title="Create Default Group">
+    ```sql
+    INSERT INTO groups (id, workspace_id, name, description, is_default)
+    VALUES ('group-everyone', 'main-workspace', 'Everyone in workspace', 'Default group for all workspace users', TRUE);
+    ```
+  </Step>
+  
+  <Step title="Create Initial Admin User">
+    This is done through the FlowX Designer UI or API after services are running.
+  </Step>
+</Steps>
+
+### For existing customer migration
+
+<Warning>
+Migration requires careful planning and should be performed during maintenance windows.
+</Warning>
+
+<Steps>
+  <Step title="Pre-Migration Backup">
+    Create full database backup:
+    ```bash
+    pg_dump -h database-host -U username flowx_db > pre_migration_backup.sql
+    ```
+  </Step>
+  
+  <Step title="Deploy CAS Infrastructure">
+    Deploy SpiceDB and CAS microservice alongside existing FlowX services without updating service configurations.
+  </Step>
+  
+  <Step title="Create Default Organization and Workspace">
+    ```sql
+    -- Create default organization
+    INSERT INTO organisations (id, name, display_name, description, settings, is_active)
+    VALUES (
+      'default-organization',
+      'default-organization',  
+      'Default Organization',
+      'Automatically created organization for migration from single-tenant FlowX',
+      '{"autoMigrated": true, "migrationDate": "2024-01-01"}',
+      TRUE
+    );
+
+    -- Create default workspace
+    INSERT INTO workspaces (id, organisation_id, name, display_name, description, settings, is_active)
+    VALUES (
+      'default-workspace',
+      'default-organization',
+      'default-workspace',
+      'Default Workspace', 
+      'Automatically created workspace for migration from single-tenant FlowX',
+      '{"allowCrossWorkspaceSharing": true, "autoMigrated": true}',
+      TRUE
+    );
+    ```
+  </Step>
+  
+  <Step title="Update Existing Asset Tables">
+    Add workspace_id columns to existing FlowX resource tables:
+    ```sql
+    -- Add workspace_id to projects table
+    ALTER TABLE projects ADD COLUMN workspace_id VARCHAR(255);
+    UPDATE projects SET workspace_id = 'default-workspace' WHERE workspace_id IS NULL;
+    CREATE INDEX idx_projects_workspace_id ON projects(workspace_id);
+
+    -- Add workspace_id to libraries table  
+    ALTER TABLE libraries ADD COLUMN workspace_id VARCHAR(255);
+    UPDATE libraries SET workspace_id = 'default-workspace' WHERE workspace_id IS NULL;
+    CREATE INDEX idx_libraries_workspace_id ON libraries(workspace_id);
+
+    -- Add workspace_id to themes table
+    ALTER TABLE themes ADD COLUMN workspace_id VARCHAR(255);
+    UPDATE themes SET workspace_id = 'default-workspace' WHERE workspace_id IS NULL;
+    CREATE INDEX idx_themes_workspace_id ON themes(workspace_id);
+    ```
+  </Step>
+  
+  <Step title="Migrate Users">
+    Run user migration process (typically done through migration application):
+    ```bash
+    # Example migration command
+    java -jar flowx-user-migration-tool.jar \
+      --keycloak-url=http://keycloak:8080 \
+      --keycloak-realm=flowx \
+      --cas-url=http://cas-authorization-system:8080 \
+      --default-workspace=default-workspace
+    ```
+  </Step>
+  
+  <Step title="Update Service Configurations">
+    Update all FlowX microservices with CAS integration environment variables and restart services.
+  </Step>
+  
+  <Step title="Validate Migration">
+    ```sql
+    -- Verify all resources have workspace_id
+    SELECT COUNT(*) FROM projects WHERE workspace_id IS NULL;
+    SELECT COUNT(*) FROM libraries WHERE workspace_id IS NULL;
+    SELECT COUNT(*) FROM themes WHERE workspace_id IS NULL;
+
+    -- Verify users have been migrated
+    SELECT COUNT(*) FROM flowx_users;
+    SELECT COUNT(*) FROM workspace_users WHERE workspace_id = 'default-workspace';
+    ```
+  </Step>
+</Steps>
+
+## Health checks and monitoring
+
+### Health check endpoints
+
+<AccordionGroup>
+  <Accordion title="CAS Health Checks" icon="heart-pulse">
+    ```bash
+    # Basic health check
+    curl http://cas-authorization-system:8080/actuator/health
+    
+    # Detailed health check
+    curl http://cas-authorization-system:8080/actuator/health/full
+    
+    # Database connectivity
+    curl http://cas-authorization-system:8080/actuator/health/db
+    
+    # SpiceDB connectivity
+    curl http://cas-authorization-system:8080/actuator/health/spicedb
+    ```
+  </Accordion>
+  
+  <Accordion title="SpiceDB Health Checks" icon="database">
+    ```bash
+    # SpiceDB schema validation
+    curl -H "Authorization: Bearer ${SPICEDB_TOKEN}" \
+      http://spicedb-service:8080/v1/schema/read
+    
+    # SpiceDB readiness
+    curl http://spicedb-service:8080/readyz
+    
+    # SpiceDB liveness  
+    curl http://spicedb-service:8080/livez
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Key metrics to monitor
+
+<CardGroup cols={2}>
+  <Card title="CAS Performance" icon="tachometer-alt">
+    - API response times
+    - Database connection pool usage
+    - Permission check latency
+    - User authentication success rate
+  </Card>
+  <Card title="SpiceDB Performance" icon="chart-line">
+    - Permission query latency
+    - Schema validation success rate
+    - Connection pool utilization
+    - Query success/failure rates
+  </Card>
+</CardGroup>
+
+### Logging configuration
+
+<CodeGroup>
+```yaml CAS Logging
+# Add to CAS application.yml
+logging:
+  level:
+    ai.flowx.cas: INFO
+    ai.flowx.cas.service: DEBUG
+    org.springframework.security: WARN
+    org.springframework.web: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: /var/log/cas/cas-authorization-system.log
+    max-size: 100MB
+    max-history: 30
+```
+</CodeGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="CAS Connection Issues" icon="plug">
+    **Symptoms**: FlowX services cannot connect to CAS
+    
+    **Diagnosis**:
+    ```bash
+    # Test CAS connectivity
+    curl -f http://cas-authorization-system:8080/actuator/health
+    
+    # Check CAS logs
+    docker logs cas-authorization-system
+    kubectl logs -l app=cas-authorization-system -n flowx
+    ```
+    
+    **Solutions**:
+    - Verify CAS service is running and healthy
+    - Check network connectivity between services
+    - Validate environment variables and configuration
+    - Confirm firewall rules allow connections on port 8080
+  </Accordion>
+  
+  <Accordion title="SpiceDB Permission Issues" icon="ban">
+    **Symptoms**: Permission checks failing or returning unexpected results
+    
+    **Diagnosis**:
+    ```bash
+    # Test permission check
+    curl -X POST -H "Authorization: Bearer ${SPICEDB_TOKEN}" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "resource": {"object_type": "project", "object_id": "project-123"},
+        "permission": "read",
+        "subject": {"object": {"object_type": "user", "object_id": "user-456"}}
+      }' \
+      http://spicedb-service:8080/v1/permissions/check
+    ```
+    
+    **Solutions**:
+    - Verify SpiceDB schema is correctly applied
+    - Check workspace role assignments
+    - Validate ACL permissions for specific resources
+    - Review audit logs for permission check details
+  </Accordion>
+  
+  <Accordion title="Database Migration Errors" icon="database">
+    **Symptoms**: Migration scripts fail or data is not properly migrated
+    
+    **Diagnosis**:
+    ```sql
+    -- Check migration status
+    SELECT * FROM organisations;
+    SELECT * FROM workspaces;
+    SELECT COUNT(*) FROM projects WHERE workspace_id IS NULL;
+    ```
+    
+    **Solutions**:
+    - Ensure database user has sufficient privileges
+    - Check for existing conflicting data
+    - Verify sufficient disk space
+    - Run migrations in smaller batches if needed
+  </Accordion>
+  
+  <Accordion title="User Authentication Problems" icon="user-xmark">
+    **Symptoms**: Users cannot access workspaces after migration
+    
+    **Diagnosis**:
+    ```sql
+    -- Check user migration
+    SELECT * FROM flowx_users WHERE email = 'user@company.com';
+    SELECT * FROM workspace_users WHERE user_id = 'user-id';
+    SELECT * FROM user_role_assignments WHERE user_id = 'user-id';
+    ```
+    
+    **Solutions**:
+    - Verify users are created in FlowX database
+    - Check workspace assignments and role grants
+    - Validate Keycloak configuration
+    - Clear user sessions and retry authentication
+  </Accordion>
+</AccordionGroup>
+
+## Performance tuning
+
+### CAS performance optimization
+
+<CodeGroup>
+```yaml CAS JVM Settings
+# Add to CAS deployment
+environment:
+  - JAVA_OPTS=-Xms1g -Xmx2g -XX:+UseG1GC -XX:MaxGCPauseMillis=200
+  - SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=20
+  - SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=5
+  - SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT=30000
+  - SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT=600000
+```
+
+```sql Database Optimization
+-- Analyze tables for query optimization
+ANALYZE organisations;
+ANALYZE workspaces;
+ANALYZE flowx_users;
+ANALYZE workspace_users;
+ANALYZE user_role_assignments;
+
+-- Additional indexes for performance
+CREATE INDEX CONCURRENTLY idx_user_roles_lookup 
+ON user_role_assignments(user_id, workspace_id);
+
+CREATE INDEX CONCURRENTLY idx_workspace_users_lookup 
+ON workspace_users(user_id, workspace_id);
+```
+</CodeGroup>
+
+### SpiceDB performance tuning
+
+<CodeGroup>
+```yaml SpiceDB Configuration
+# Add to SpiceDB deployment
+environment:
+  - SPICEDB_GRPC_MAX_CONN_AGE=30s
+  - SPICEDB_GRPC_KEEPALIVE_TIME=5s
+  - SPICEDB_GRPC_KEEPALIVE_TIMEOUT=1s
+  - SPICEDB_DATASTORE_GC_WINDOW=1h
+  - SPICEDB_DATASTORE_REVISION_QUANTIZATION=5s
+  - SPICEDB_DATASTORE_MAX_OPEN_CONNS=50
+  - SPICEDB_DATASTORE_MAX_IDLE_CONNS=10
+```
+</CodeGroup>
+
+## Security considerations
+
+### Network security
+
+<CodeGroup>
+```yaml Network Policies (Kubernetes)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cas-network-policy
+  namespace: flowx
+spec:
+  podSelector:
+    matchLabels:
+      app: cas-authorization-system
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: flowx-admin
+    - podSelector:
+        matchLabels:
+          app: flowx-engine
+    - podSelector:
+        matchLabels:
+          app: flowx-designer
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: postgres
+    ports:
+    - protocol: TCP
+      port: 5432
+  - to:
+    - podSelector:
+        matchLabels:
+          app: spicedb
+    ports:
+    - protocol: TCP
+      port: 50051
+```
+</CodeGroup>
+
+### Secrets management
+
+<Warning>
+Store all sensitive configuration values in Kubernetes secrets or secure secret management systems.
+</Warning>
+
+**Required Secrets:**
+- Database passwords
+- SpiceDB preshared key
+- Keycloak client secrets
+- JWT signing keys
+
+## Backup and recovery
+
+### Database backup strategy
+
+<CodeGroup>
+```bash Automated Backup Script
+#!/bin/bash
+
+# CAS Database Backup
+pg_dump -h cas-db-host -U cas_user -d flowx_cas \
+  --format=custom --compress=9 \
+  --file="cas_backup_$(date +%Y%m%d_%H%M%S).dump"
+
+# SpiceDB Database Backup (if using PostgreSQL)
+pg_dump -h spicedb-db-host -U spicedb_user -d spicedb \
+  --format=custom --compress=9 \
+  --file="spicedb_backup_$(date +%Y%m%d_%H%M%S).dump"
+```
+
+```bash Restore Procedure
+#!/bin/bash
+
+# Restore CAS Database
+pg_restore -h cas-db-host -U cas_user -d flowx_cas \
+  --clean --if-exists cas_backup_20240101_120000.dump
+
+# Restore SpiceDB Database
+pg_restore -h spicedb-db-host -U spicedb_user -d spicedb \
+  --clean --if-exists spicedb_backup_20240101_120000.dump
+
+# Restart services after restore
+kubectl rollout restart deployment/cas-authorization-system -n flowx
+kubectl rollout restart deployment/spicedb -n flowx
+```
+</CodeGroup>
+
+### Recovery testing
+
+Regularly test backup and recovery procedures:
+
+<Steps>
+  <Step title="Schedule Regular Backups">
+    Set up automated daily backups of both CAS and SpiceDB databases
+  </Step>
+  <Step title="Test Restore Process">
+    Monthly testing of restore procedures in non-production environment
+  </Step>
+  <Step title="Validate Functionality">
+    Verify that restored systems function correctly with workspace permissions
+  </Step>
+  <Step title="Document Recovery Time">
+    Measure and document recovery time objectives (RTO) and recovery point objectives (RPO)
+  </Step>
+</Steps>
+
+---
+
+## Related documentation
+
+- [Workspaces Feature Overview](../../docs/building-blocks/workspaces)  
+- [Workspaces Migration Guide](./workspaces-migration)
+- [CAS Access Rights](../access-management/cas-access-rights)
+- [Access Management Overview](./access-management-overview)
+- [FlowX Architecture](../../docs/platform-overview/flowx-architecture)
