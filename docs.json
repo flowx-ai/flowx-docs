@@ -741,6 +741,7 @@
                 "group": "Microservices",
                 "pages": [
                   "5.0-tech-preview/setup-guides/setup-guides-overview",
+                  "5.0-tech-preview/setup-guides/authorization-setup-guide",
                   {
                     "group": "FlowX Engine setup",
                     "icon": "engine",
@@ -798,6 +799,7 @@
                     "icon": "lock",
                     "pages": [
                       "5.0-tech-preview/setup-guides/access-management/access-management-overview",
+                      "5.0-tech-preview/setup-guides/access-management/workspaces-access-rights",
                       "5.0-tech-preview/setup-guides/access-management/configuring-an-iam-solution",
                       "5.0-tech-preview/setup-guides/access-management/configuring-an-iam-solution-entra",
                       "5.0-tech-preview/setup-guides/access-management/default-roles"
