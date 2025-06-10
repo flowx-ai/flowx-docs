@@ -115,6 +115,7 @@
               {
                 "group": "Building projects",
                 "pages": [
+                  "5.0-tech-preview/docs/projects/workspaces",
                   "5.0-tech-preview/docs/projects/resources",
                   {
                     "group": "Configuration",

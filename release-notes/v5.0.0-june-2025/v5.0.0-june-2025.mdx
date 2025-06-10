@@ -1,6 +1,6 @@
 ---
 title: FlowX.AI 5.0.0 Release Notes
-description: 'Latest features, improvements, and bug fixes in our newest release'
+description: Latest features, improvements, and bug fixes in our newest release
 mode: wide
 ---
 
@@ -13,12 +13,142 @@ This documentation covers FlowX.AI 5.0 Technology Preview.
   <Tab title="What's New">
     ## **What's new? 🆕**
 
+    🆕 [**Workspaces (Multi-Tenant Architecture)**](#workspaces-multi-tenant-architecture)                   
     🆕 [**Project Data Model (PDM)**](#project-data-model-pdm)            
     🆕 [**FlowX Database**](#flowx-database)                   
     🆕 [**Multi Select UI Component**](#multi-select-ui-component)         
-    🆕 [**Library-to-Library Dependencies**](#library-to-library-dependencies)
+    🆕 [**Library-to-Library Dependencies**](#library-to-library-dependencies)                  
+
 
     ---
+
+    ### **Workspaces (Multi-Tenant Architecture)**
+
+<Card title="Workspaces" icon="building-columns" iconType="duotone">
+  <Tabs>
+    <Tab title="Overview">
+      <Frame>
+      ![Workspaces multi-tenant architecture](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/workspaces_overview.png)
+      </Frame>
+      
+      FlowX 5.0 introduces Workspaces, enabling organizations to manage multiple business lines, verticals, or countries within a single FlowX instance while maintaining complete data isolation.
+    </Tab>
+    
+    <Tab title="Key Features">
+      <CardGroup cols={2}>
+        <Card title="Multi-Tenant Architecture" icon="building-columns">
+          Logical separation of business contexts with shared infrastructure for cost optimization
+        </Card>
+        <Card title="Enhanced Access Control" icon="shield-check">
+          Role-based access control (RBAC) and Access Control Lists (ACLs) with workspace-specific permissions
+        </Card>
+        <Card title="Data Isolation" icon="lock">
+          Complete logical isolation between workspaces while enabling controlled resource sharing
+        </Card>
+        <Card title="User Groups & Roles" icon="users-gear">
+          Simplified permission management through groups and workspace-specific roles
+        </Card>
+      </CardGroup>
+    </Tab>
+    
+    <Tab title="Benefits">
+      <Steps>
+        <Step title="Accelerated Onboarding">
+          Onboard new business verticals in days instead of weeks with shared platform capabilities
+        </Step>
+        <Step title="Enhanced Governance">
+          Implement fine-grained access control with workspace-specific roles and permissions
+        </Step>
+        <Step title="Operational Efficiency">
+          Centralize platform upgrades, maintenance, and monitoring across all business units
+        </Step>
+      </Steps>
+    </Tab>
+    
+    <Tab title="Use Cases">
+      <CardGroup cols={2}>
+        <Card title="Multi-National Operations" icon="globe">
+          Separate workspaces for different countries/regions with shared global processes
+        </Card>
+        <Card title="Business Unit Separation" icon="building">
+          Independent workspaces for retail, corporate, and investment banking divisions
+        </Card>
+        <Card title="Regulatory Compliance" icon="scale-balanced">
+          Isolate processes subject to different regulatory requirements
+        </Card>
+        <Card title="Team-Based Development" icon="users">
+          Enable different teams to work independently while sharing common resources
+        </Card>
+      </CardGroup>
+    </Tab>
+  </Tabs>
+
+  <div className="flex justify-between items-center">
+    <a href="../../5.0-tech-preview/docs/projects/workspaces" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+      Learn more about Workspaces 
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </a>
+    
+    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300">
+      Platform Evolution
+    </span>
+  </div>
+</Card>
+
+<Accordion title="👥 What This Means for Your Role">
+  <Tabs>
+    <Tab title="DevOps Engineer 🔧">
+      <Warning>
+        **Major Infrastructure Changes**: Workspaces introduces SpiceDB integration and new database schemas for multi-tenant architecture.
+      </Warning>
+
+      **Key Changes:**
+      - **SpiceDB Integration**: New permission management system requiring deployment
+      - **Database Migration**: Schema updates for workspace support
+      - **User Storage**: Users now stored in FlowX database
+      - **Default Workspace**: Existing customers get automatic migration to default workspace
+
+      <Check>**Backward Compatibility**: All existing functionality preserved in default workspace</Check>
+    </Tab>
+    
+    <Tab title="Process Configurator ⚙️">
+      <Tip>
+        **New Login Flow**: After authentication, select your workspace before accessing FlowX Designer. Once inside a workspace, everything works as before.
+      </Tip>
+      
+      **What's New:**
+      - **Workspace Selection**: Choose workspace after login
+      - **Resource Isolation**: Projects, libraries, themes are workspace-specific
+      - **Enhanced Permissions**: Fine-grained access control with user groups and ACLs
+      - **Workspace Management**: Create and manage workspaces (admin users)
+
+      **What Stays the Same:**
+      - Process design and configuration
+      - UI Designer capabilities
+      - Integration patterns
+      - All existing FlowX Designer features
+    </Tab>
+    
+    <Tab title="Business Analyst 📊">
+      <Note>
+        **Strategic Transformation**: Workspaces enables enterprise multi-tenant architecture with independent business unit governance while sharing platform capabilities.
+      </Note>
+      
+      **Business Impact:**
+      - **Faster time-to-market** for new business verticals
+      - **Enhanced compliance** with workspace-specific controls
+      - **Improved governance** with fine-grained access management
+
+      **Enterprise Benefits:**
+      - Business unit autonomy with shared platform
+      - Regulatory compliance through data isolation
+      - Centralized upgrades and maintenance
+      - Cross-business unit resource sharing when appropriate
+    </Tab>
+  </Tabs>
+</Accordion>
 
     ### **Project Data Model (PDM)**
 
@@ -74,7 +204,7 @@ This documentation covers FlowX.AI 5.0 Technology Preview.
       </Tabs>
     
       <div className="flex justify-between items-center">
-        <a href="/5.x/docs/building-blocks/process/project-data-model" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+        <a href="../../5.0-tech-preview/docs/building-blocks/process/project-data-model" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
           Learn more about Project Data Model 
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -86,6 +216,7 @@ This documentation covers FlowX.AI 5.0 Technology Preview.
         </span>
       </div>
     </Card>
+
 
     <Accordion title="👥 What This Means for Your Role">
       <Tabs>
@@ -205,7 +336,7 @@ This documentation covers FlowX.AI 5.0 Technology Preview.
       </Tabs>
     
       <div className="flex justify-between items-center">
-        <a href="/5.x/docs/platform-deep-dive/integrations/flowx-database" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+        <a href="../../5.0-tech-preview/docs/platform-deep-dive/integrations/flowx-database" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
           Learn more about FlowX Database 
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -351,7 +482,7 @@ This documentation covers FlowX.AI 5.0 Technology Preview.
       </Tabs>
     
       <div className="flex justify-between items-center">
-        <a href="/5.x/docs/building-blocks/ui-designer/ui-component-types/form-elements/multi-select" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+        <a href="../../5.0-tech-preview/docs/building-blocks/ui-designer/ui-component-types/form-elements/multi-select" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
           Learn more about Multi Select 
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -481,7 +612,7 @@ This documentation covers FlowX.AI 5.0 Technology Preview.
         </Tab>
       </Tabs>
         <div className="flex justify-between items-center">
-          <a href="/5.x/docs/building-blocks/libraries/dependencies" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+          <a href="../../5.0-tech-preview/docs/projects/managing-applications/dependencies" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
             Learn more about Library Dependencies 
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
