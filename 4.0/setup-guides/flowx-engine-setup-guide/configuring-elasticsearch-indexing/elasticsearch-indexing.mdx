@@ -49,7 +49,7 @@ The `flowx.indexing.processInstance.indexing-type` property defines the indexing
 
 * **no-indexing**: No indexing will be performed for process instances.
 * **http**: Direct connection from the process engine to Elasticsearch through HTTP calls.
-* **kafka**: Data will be sent to be indexed via a Kafka topic using the new strategy. To implement this strategy, the Kafka Connect with Elasticsearch Sink Connector must be deployed in the infrastructure.
+* **Kafka**: Data will be sent to be indexed via a Kafka topic using the new strategy. To implement this strategy, the Kafka Connect with Elasticsearch Sink Connector must be deployed in the infrastructure.
 
 ## Configuration steps
 
@@ -98,8 +98,8 @@ For Kafka indexing, the Kafka Connect with Elasticsearch Sink Connector must be 
 
 ### Kafka Connect
 
-  * Assumes kafka cluster installed with strimzi operator and Elasticsearch with eck-operator
-  * Can save the image built by kafka connect to a local registry and comment build section
+  * Assumes Kafka cluster installed with Strimzi operator and Elasticsearch with eck-operator
+  * Can save the image built by Kafka Connect to a local registry and comment build section
 
 ```yaml
 apiVersion: kafka.strimzi.io/v1beta2

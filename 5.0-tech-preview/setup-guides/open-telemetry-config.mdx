@@ -1,0 +1,639 @@
+---
+title: Deployment configuration for OpenTelemetry
+description: Guide to deploying OpenTelemetry components and configuring associated services.
+icon: chart-line
+---
+
+### Step 1: Install OpenTelemetry Operator
+
+Ensure you have the OpenTelemetry Operator version **0.56.1** or higher:
+
+```yaml
+    - repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
+      chart: opentelemetry-operator
+      targetRevision: 0.56.1
+```
+
+#### Configuration:
+
+```yaml
+# Source: https://github.com/open-telemetry/opentelemetry-helm-charts/blob/opentelemetry-operator-0.56.1/charts/opentelemetry-operator/values.yaml
+## Provide OpenTelemetry Operator manager container image and resources.
+manager:
+  image:
+    repository: ghcr.io/open-telemetry/opentelemetry-operator/opentelemetry-operator
+    tag: ""
+  collectorImage:
+    repository: "otel/opentelemetry-collector-contrib"
+    tag: 0.98.0
+  opampBridgeImage:
+    repository: ""
+    tag: ""
+  targetAllocatorImage:
+    repository: ""
+    tag: ""
+  autoInstrumentationImage:
+    java:
+      repository: ""
+      tag: ""
+    nodejs:
+      repository: ""
+      tag: ""
+    python:
+      repository: ""
+      tag: ""
+    dotnet:
+      repository: ""
+      tag: ""
+    # The Go instrumentation support in the operator is disabled by default.
+    # To enable it, use the operator.autoinstrumentation.go feature gate.
+    go:
+      repository: ""
+      tag: ""
+  # Feature Gates are a comma-delimited list of feature gate identifiers.
+  # Prefix a gate with '-' to disable support.
+  # Prefixing a gate with '+' or no prefix will enable support.
+  # A full list of valid identifiers can be found here: https://github.com/open-telemetry/opentelemetry-operator/blob/main/pkg/featuregate/featuregate.go
+  featureGates: ""
+  ports:
+    metricsPort: 8080
+    webhookPort: 9443
+    healthzPort: 8081
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+  ## Adds additional environment variables
+  ## e.g ENV_VAR: env_value
+  env:
+    ENABLE_WEBHOOKS: "true"
+
+## Admission webhooks make sure only requests with correctly formatted rules will get into the Operator.
+## They also enable the sidecar injection for OpenTelemetryCollector and Instrumentation CR's
+admissionWebhooks:
+  create: true
+  servicePort: 443
+  failurePolicy: Fail
+```
+
+<Info>
+Ensure you use the appropriate distribution and version:
+</Info>
+
+```yaml
+    repository: "otel/opentelemetry-collector-contrib"
+    tag: 0.98.0
+```
+
+### Step 2: Deploy OpenTelemetry Resources
+
+Apply the OpenTelemetry resources: 
+
+#### OpenTelemetry Collector
+
+```yaml
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: otel
+  namespace: {{ .Release.Namespace }}
+spec:
+  mode: deployment
+  resources:
+    limits:
+      cpu: "2"
+      memory: 6Gi
+    requests:
+      cpu: 200m
+      memory: 2Gi
+
+  config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            # Since this collector needs to receive data from the web, enable cors for all origins
+            # `allowed_origins` can be refined for your deployment domain
+            endpoint: 0.0.0.0:4318
+            cors:
+              allowed_origins:
+                - "http://*"
+                - "https://*"
+      zipkin:
+    exporters:
+      debug: {}
+      ## Create an exporter to Jaeger using the standard `otlp` export format
+      otlp/tempo:
+        endpoint: 'otel-tempo:4317'
+        tls:
+          insecure: true
+      # Create an exporter to Prometheus (metrics)
+      otlphttp/prometheus:
+        endpoint: 'http://otel-prometheus-server:9090/api/v1/otlp'
+        tls:
+          insecure: true
+      loki:
+        endpoint: "http://otel-loki:3100/loki/api/v1/push"
+        default_labels_enabled:
+          exporter: true
+          job: true
+
+
+    extensions:
+      health_check:
+      memory_ballast: {}
+
+    processors:
+      batch: {}
+      k8sattributes:
+        extract:
+          metadata:
+          - k8s.namespace.name
+          - k8s.deployment.name
+          - k8s.statefulset.name
+          - k8s.daemonset.name
+          - k8s.cronjob.name
+          - k8s.job.name
+          - k8s.node.name
+          - k8s.pod.name
+          - k8s.pod.uid
+          - k8s.pod.start_time
+        passthrough: false
+        pod_association:
+        - sources:
+          - from: resource_attribute
+            name: k8s.pod.ip
+        - sources:
+          - from: resource_attribute
+            name: k8s.pod.uid
+        - sources:
+          - from: connection
+      resource:
+        attributes:
+        - key: service.instance.id
+          from_attribute: k8s.pod.uid
+          action: insert
+      memory_limiter:
+        check_interval: 5s
+        limit_percentage: 80
+        spike_limit_percentage: 25
+
+    connectors:
+      spanmetrics: {}
+
+    service:
+      extensions:
+        - health_check
+        - memory_ballast
+      pipelines:
+        traces:
+          processors: [memory_limiter, resource, batch]
+          exporters: [otlp/tempo, debug, spanmetrics]
+          receivers: [otlp]
+        metrics:
+          receivers: [otlp, spanmetrics]
+          processors: [memory_limiter, resource, batch]
+          exporters: [otlphttp/prometheus, debug]
+        logs:
+          processors: [memory_limiter, resource, batch]
+          exporters: [loki, debug]
+          receivers: [otlp]
+```
+
+#### OpenTelemetry Instrumentation
+
+```yaml
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: flowx-otel-instrumentation
+  namespace: {{ .Release.Namespace }}
+spec:
+  exporter:
+    endpoint: http://otel-collector:4317
+  propagators:
+    - tracecontext
+    - baggage
+  sampler:
+    type: parentbased_traceidratio
+    argument: "1"
+  java:
+    image: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:2.1.0
+    env:
+      - name: OTEL_INSTRUMENTATION_LOGBACKAPPENDER_ENABLED
+        value: "true"
+      - name: OTEL_LOGS_EXPORTER
+        value: otlp
+      - name: OTEL_EXPORTER_OTLP_ENDPOINT
+        value: http://otelcol-operator-collector:4317
+      - name: OTEL_EXPORTER_OTLP_PROTOCOL
+        value: grpc
+```
+
+### Step 3: Instrument Flowx Services
+
+Update Flowx services to enable Java instrumentation by adding the following pod annotation:
+
+```yaml
+podAnnotations:
+  instrumentation.opentelemetry.io/inject-java: "true"
+```
+
+### Step 4: Configure Grafana, Prometheus and Tempo
+
+#### Configure Grafana
+
+```yaml
+##Source: https://github.com/grafana/helm-charts/blob/grafana-7.3.10/charts/grafana/values.yaml
+rbac:
+  create: true
+  namespaced: true
+serviceAccount:
+  create: true
+replicas: 1
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  path: /
+  hosts:
+  - {{ .Values.flowx.ingress.grafana }}
+
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 5Gi
+  finalizers: []
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Loki
+        uid: loki
+        type: loki
+        access: proxy
+        url: http://otel-loki:3100
+        timeout: 300
+        version: 1
+        jsonData:
+          derivedFields:
+            - datasourceUid: tempo
+              # matches variations of "traceID" fields, either in JSON or logfmt
+              # marian-fx: matcherRegex: '"traceid":"(\w+)"'
+              matcherRegex: (?:[Tt]race[-_]?[Ii][Dd])[\\]?["]?[=:][ ]?[\\]?["]?(\w+)
+              name: traceid
+              # url will be interpreted as query for the datasource
+              url: "$${__value.raw}"
+              urlDisplayLabel: See traces
+
+      - name: Prometheus
+        uid: prometheus
+        type: prometheus
+        url: 'http://otel-prometheus-server:9090'
+        editable: true
+        isDefault: true
+        jsonData:
+          exemplarTraceIdDestinations:
+            - datasourceUid: tempo
+              name: traceid
+
+      - name: Tempo
+        uid: tempo
+        type: tempo
+        access: proxy
+        url: http://otel-tempo:3100
+        version: 1
+        jsonData:
+          tracesToLogs:
+            datasourceUid: loki
+          lokiSearch:
+            datasourceUid: loki
+          nodeGraph:
+            enabled: true
+          serviceMap:
+            datasourceUid: prometheus
+          tracesToLogsV2:
+            customQuery: false
+            datasourceUid: loki
+            filterBySpanID: true
+            filterByTraceID: true
+            spanEndTimeShift: 1s
+            spanStartTimeShift: '-1s'
+            tags:
+              - key: service.name
+                value: job
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+
+resources:
+  limits:
+    memory: 150Mi
+
+grafana.ini:
+  auth:
+    disable_login_form: true
+  auth.anonymous:
+    enabled: false
+    org_name: Main Org.
+    org_role: Admin
+  auth.generic_oauth:
+    enabled: true
+    name: Keycloak-OAuth
+    allow_sign_up: true
+    client_id: private-management-sa
+    client_secret: xTs4yGYySrHaNDIpCiniHJUGqBKbyCtp
+    scopes: openid email profile offline_access roles
+    email_attribute_path: email
+    login_attribute_path: username
+    name_attribute_path: full_name
+    auth_url: https://{{ .Values.flowx.keycloak.host }}/auth/realms/{{ .Values.flowx.keycloak.realm }}/protocol/openid-connect/auth
+    token_url: https://{{ .Values.flowx.keycloak.host }}/auth/realms/{{ .Values.flowx.keycloak.realm }}/protocol/openid-connect/token
+    api_url: https://{{ .Values.flowx.keycloak.host }}/auth/realms/{{ .Values.flowx.keycloak.realm }}/protocol/openid-connect/userinfo
+    # role_attribute_path: contains(roles[*], 'admin') && 'Admin' || contains(roles[*], 'editor') && 'Editor' || 'Viewer'
+  server:
+    root_url: "https://{{ .Values.flowx.ingress.grafana }}/grafana"
+    serve_from_sub_path: true
+adminPassword: admin
+
+
+# assertNoLeakedSecrets is a helper function defined in _helpers.tpl that checks if secret
+# values are not exposed in the rendered grafana.ini configmap. It is enabled by default.
+#
+# To pass values into grafana.ini without exposing them in a configmap, use variable expansion:
+# https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#variable-expansion
+#
+# Alternatively, if you wish to allow secret values to be exposed in the rendered grafana.ini configmap,
+# you can disable this check by setting assertNoLeakedSecrets to false.
+assertNoLeakedSecrets: false
+```
+
+#### Configure Prometheus
+
+```yaml
+# https://github.com/prometheus-community/helm-charts/blob/prometheus-22.6.7/charts/prometheus/values.yaml
+
+rbac:
+  create: true
+
+podSecurityPolicy:
+  enabled: false
+
+## Define serviceAccount names for components. Defaults to component's fully qualified name.
+##
+serviceAccounts:
+  server:
+    create: true
+
+alertmanager:
+  enabled: false
+alertmanagerFiles:
+  alertmanager.yml:
+    global: {}
+      # slack_api_url: ''
+
+    receivers:
+      - name: default-receiver
+        # slack_configs:
+        #  - channel: '@you'
+        #    send_resolved: true
+
+    route:
+      group_wait: 10s
+      group_interval: 5m
+      receiver: default-receiver
+      repeat_interval: 3h
+
+configmapReload:
+  prometheus:
+    enabled: false
+kube-state-metrics:
+  enabled: false
+prometheus-node-exporter:
+  enabled: false
+prometheus-pushgateway:
+  enabled: false
+
+server:
+  useExistingClusterRoleName: prometheus-server
+
+  ## If set it will override prometheus.server.fullname value for ClusterRole and ClusterRoleBinding
+  ##
+  clusterRoleNameOverride: ""
+
+  # Enable only the release namespace for monitoring. By default all namespaces are monitored.
+  # If releaseNamespace and namespaces are both set a merged list will be monitored.
+  releaseNamespace: false
+
+  ## namespaces to monitor (instead of monitoring all - clusterwide). Needed if you want to run without Cluster-admin privileges.
+  # namespaces:
+  #   - namespace
+
+  extraFlags:
+    - "web.enable-lifecycle"
+    - "enable-feature=exemplar-storage"
+    - "enable-feature=otlp-write-receiver"
+  global:
+    scrape_interval: 5s
+    scrape_timeout: 3s
+    evaluation_interval: 30s
+  persistentVolume:
+    enabled: true
+    mountPath: /data
+    ## Prometheus server data Persistent Volume size
+    ##
+    size: 10Gi
+
+  service:
+    servicePort: 9090
+  ## Prometheus server resource requests and limits
+  ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ##
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 4096Mi
+    requests:
+      cpu: 500m
+      memory: 2048Mi
+  ## Prometheus data retention period (default if not specified is 15 days)
+  ##
+  retention: "3d"
+
+  ## Prometheus' data retention size. Supported units: B, KB, MB, GB, TB, PB, EB.
+  ##
+  retentionSize: ""
+
+serverFiles:
+  prometheus.yml:
+    scrape_configs:
+      - job_name: prometheus
+        static_configs:
+          - targets:
+            - localhost:9090
+
+      - job_name: 'otel-collector'
+        honor_labels: true
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              own_namespace: true
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_annotation_opentelemetry_community_demo]
+            action: keep
+            regex: true
+```
+
+####  Configure Loki with a Minio backend
+
+```yaml
+# https://raw.githubusercontent.com/grafana/loki/helm-loki-6.2.0/production/helm/loki/single-binary-values.yaml
+loki:
+  auth_enabled: false # https://grafana.com/docs/loki/latest/operations/multi-tenancy/#multi-tenancy
+  commonConfig:
+    replication_factor: 1
+  schemaConfig:
+    configs:
+      - from: 2024-04-01
+        store: tsdb
+        object_store: s3
+        schema: v13
+        index:
+          prefix: loki_index_
+          period: 24h
+  ingester:
+    chunk_encoding: snappy
+  tracing:
+    enabled: true
+  querier:
+    # Default is 4, if you have enough memory and CPU you can increase, reduce if OOMing
+    max_concurrent: 2
+
+
+deploymentMode: SingleBinary
+singleBinary:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 3
+      memory: 4Gi
+    requests:
+      cpu: 1
+      memory: 2Gi
+  extraEnv:
+    # Keep a little bit lower than memory limits
+    - name: GOMEMLIMIT
+      value: 3750MiB
+
+chunksCache:
+  # default is 500MB, with limited memory keep this smaller
+  writebackSizeLimit: 10MB
+
+# Enable minio for storage
+minio:
+  enabled: true
+  rootUser: enterprise-logs
+  rootPassword: supersecret
+  buckets:
+    - name: chunks
+      policy: none
+      purge: false
+    - name: ruler
+      policy: none
+      purge: false
+    - name: admin
+      policy: none
+      purge: false
+  persistence:
+    size: 10Gi
+
+lokiCanary:
+  enabled: false
+
+# Zero out replica counts of other deployment modes
+backend:
+  replicas: 0
+read:
+  replicas: 0
+write:
+  replicas: 0
+
+ingester:
+  replicas: 0
+querier:
+  replicas: 0
+queryFrontend:
+  replicas: 0
+queryScheduler:
+  replicas: 0
+distributor:
+  replicas: 0
+compactor:
+  replicas: 0
+indexGateway:
+  replicas: 0
+bloomCompactor:
+  replicas: 0
+bloomGateway:
+  replicas: 0
+```
+
+#### Configure Tempo
+
+```yaml
+# https://github.com/grafana/helm-charts/blob/tempo-1.7.2/charts/tempo/values.yaml
+
+tempo:
+  # configure a 3 days retention by default
+  retention: 72h
+  # enable opentelemetry protocol & jaeger receivers
+  # this configuration will listen on all ports and protocols that tempo is capable of.
+  # the receives all come from the OpenTelemetry collector.  more configuration information can
+  # be found there: https://github.com/open-telemetry/opentelemetry-collector/tree/master/receiver
+  receivers:
+    jaeger:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:14250
+        thrift_binary:
+          endpoint: 0.0.0.0:6832
+        thrift_compact:
+          endpoint: 0.0.0.0:6831
+        thrift_http:
+          endpoint: 0.0.0.0:14268
+    otlp:
+      protocols:
+        grpc:
+          endpoint: "0.0.0.0:4317"
+        http:
+          endpoint: "0.0.0.0:4318"
+persistence:
+  enabled: true
+  size: 10Gi
+
+# -- Pod Annotations
+podAnnotations:
+  prometheus.io/port: prom-metrics
+  prometheus.io/scrape: "true"
+```
+

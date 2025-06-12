@@ -1,0 +1,167 @@
+---
+title: Runtime manager setup
+description: This guide provides a step-by-step process for setting up and configuring the Runtime Manager module, including database, Kafka, and OAuth2 authentication settings to manage runtime and build configurations.
+icon: database
+---
+
+
+<Info>
+The [**Application Manager**](./application-manager) and **Runtime Manager** share the same container image and Helm chart. Refer to the **Deployment Guidelines** in the release notes to ensure compatibility and verify the correct version.
+</Info>
+
+## Infrastructure prerequisites
+
+The Runtime Manager service requires the following components to be set up before it can be started:
+
+* **PostgreSQL** - version 13 or higher for managing application data
+* **MongoDB** - version 4.4 or higher for managing runtime data
+* **Redis** - version 6.0 or higher (if required)
+* **Kafka** - version 2.8 or higher for event-driven communication between services
+* **OAuth2 Authentication** - Ensure a compatible OAuth2 authorization server is configured.
+
+## Dependencies
+
+* [**Database configuration**](#database-configuration)
+* [**Kafka configuration**](#configuring-kafka)
+* [**Authentication & access roles**](#configuring-authentication-and-access-roles)
+* [**Logging**](./setup-guides-overview#logging)
+
+
+## Change the application name
+
+| Environment Variable         | Description                                               | Example Value        |
+| ---------------------------- | --------------------------------------------------------- | -------------------- |
+| `SPRING_APPLICATION_NAME`    | Service identifier used for service discovery and logging | `runtime-manager`    |
+
+<Warning>
+Default Value: `application-manager -> must be changed to `runtime-manager
+</Warning>
+
+
+## Core service configuration
+
+| Environment Variable         | Description                                               | Example Value        |
+| ---------------------------- | --------------------------------------------------------- | -------------------- |
+| `CONFIG_PROFILE`             | Spring configuration profiles to activate                 | `k8stemplate_v2`     |
+| `FLOWX_ENVIRONMENT_NAME`     | Environment identifier (dev, staging, prod, etc.)         | `pr`                 |
+| `LOGGING_CONFIG_FILE`        | Path to logging configuration file                        | `logback-spring.xml` |
+| `MULTIPART_MAX_FILE_SIZE`    | Maximum file size for uploads                             | `25MB`               |
+| `MULTIPART_MAX_REQUEST_SIZE` | Maximum total request size                                | `25MB`               |
+
+
+## Database configuration
+
+The Runtime Manager uses the same PostgreSQL (to store application data) and MongoDB (to manage runtime data) as [**application-manager**](application-manager). Configure these database connections with the following environment variables:
+
+### PostgreSQL (Application data)
+
+
+| Environment Variable         | Description                        | Example Value                                   |
+| ---------------------------- | ---------------------------------- | ----------------------------------------------- |
+| `SPRING_DATASOURCE_URL`      | JDBC URL for PostgreSQL connection | `jdbc:postgresql://postgresql:5432/app_manager` |
+| `SPRING_DATASOURCE_USERNAME` | PostgreSQL username                | `flowx`                                         |
+| `SPRING_DATASOURCE_PASSWORD` | PostgreSQL password                | *sensitive*                                     |
+
+### MongoDB (Runtime data)
+
+| Environment Variable      | Description                | Example Value                                                                                                                                                         |
+| ------------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SPRING_DATA_MONGODB_URI` | URI for MongoDB connection | `mongodb://${DB_USERNAME}:${DB_PASSWORD}@mongodb-0.mongodb-headless,mongodb-1.mongodb-headless,mongodb-arbiter-0.mongodb-headless:27017/${DB_NAME}?retryWrites=false` |
+| `DB_NAME`                 | MongoDB database name      | `app-runtime`                                                                                                                                                         |
+| `DB_USERNAME`             | MongoDB username           | `app-runtime`                                                                                                                                                         |
+| `DB_PASSWORD`             | MongoDB password           | *sensitive*                                                                                                                                                           |
+
+
+
+## Redis configuration
+
+| Environment Variable         | Description                       | Example Value  |
+| ---------------------------- | --------------------------------- | -------------- |
+| `SPRING_DATA_REDIS_HOST`     | Redis server hostname             | `redis-master` |
+| `SPRING_DATA_REDIS_PASSWORD` | Redis password                    | *sensitive*    |
+| `SPRING_DATA_REDIS_PORT`     | Redis server port                 | `6379`         |
+| `SPRING_REDIS_TTL`           | Default Redis TTL in milliseconds | `5000000`      |
+
+
+## Kafka configuration
+
+### Kafka connection
+
+| Environment Variable             | Description                         | Example Value                      |
+| -------------------------------- | ----------------------------------- | ---------------------------------- |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`  | Kafka broker addresses              | `kafka-flowx-kafka-bootstrap:9092` |
+| `KAFKA_TOPIC_NAMING_ENVIRONMENT` | Environment prefix for Kafka topics |                                    |
+
+### Kafka OAuth Authentication
+
+| Environment Variable             | Description                    | Example Value                                                     |
+| -------------------------------- | ------------------------------ | ----------------------------------------------------------------- |
+| `KAFKA_OAUTH_CLIENT_ID`          | OAuth client ID for Kafka      | `flowx-service-client`                                            |
+| `KAFKA_OAUTH_CLIENT_SECRET`      | OAuth client secret for Kafka  | `flowx-service-client-secret`                                     |
+| `KAFKA_OAUTH_TOKEN_ENDPOINT_URI` | OAuth token endpoint for Kafka | `{baseUrl}/auth/realms/kafka-authz/protocol/openid-connect/token` |
+
+<Info>
+Kafka OAuth authentication secures communication between services using the Kafka message broker. The client ID and secret are used to obtain an access token from the token endpoint.
+</Info>
+
+
+## Authentication configuration
+
+### OpenID Connect configuration
+
+| Environment Variable                                  | Description                  | Example Value              |
+| ----------------------------------------------------- | ---------------------------- | -------------------------- |
+| `SECURITY_OAUTH2_BASE_SERVER_URL`                     | OAuth2 server base URL       | `{baseUrl}/auth`           |
+| `SECURITY_OAUTH2_REALM`                               | OAuth2 realm name            | `flowx`                    |
+| `SECURITY_OAUTH2_CLIENT_CLIENT_ID`                    | OAuth2 client ID             | `flowx-platform-authorize` |
+| `SECURITY_OAUTH2_CLIENT_CLIENT_SECRET`                | OAuth2 client secret         | *sensitive*                |
+| `SECURITY_OAUTH2_SERVICE_ACCOUNT_ADMIN_CLIENT_SECRET` | Admin service account secret | *sensitive*                |
+
+<Warning>
+The service account configuration approach is deprecated but still supported for backward compatibility. In newer deployments, consider using the standard OAuth2 client configuration.
+</Warning>
+
+## File storage configuration
+
+| Environment Variable                     | Description                      | Example Value       |
+| ---------------------------------------- | -------------------------------- | ------------------- |
+| `APPLICATION_FILE_STORAGE_S3_SERVER_URL` | S3-compatible storage server URL | `http://minio:9000` |
+| `APPLICATION_FILE_STORAGE_S3_ACCESS_KEY` | S3 access key                    | *sensitive*         |
+| `APPLICATION_FILE_STORAGE_S3_SECRET_KEY` | S3 secret key                    | *sensitive*         |
+
+<Info>
+S3-compatible storage is used for storing application files, exports, and imports. The Runtime Manager supports MinIO, AWS S3, and other S3-compatible storage solutions.
+</Info>
+
+## Ingress configuration
+
+
+For exposing the Runtime manager service, configure public, admin and adminInstances ingress settings:
+
+```yaml
+ingress:
+  enabled: true
+  public:
+    enabled: true
+    hostname: "{{ .Values.flowx.ingress.public }}"
+    path: /rtm/api/runtime(/|$)(.*)
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /api/runtime/$2
+      nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,platform,Flowx-Platform
+  admin:
+    enabled: true
+    hostname: "{{ .Values.flowx.ingress.admin }}"
+    path: /rtm/api/build-mgmt(/|$)(.*)
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /api/build-mgmt/$2
+      nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,platform,Flowx-Platform
+  adminInstances:
+    enabled: true
+    hostname: "{{ .Values.flowx.ingress.admin }}"
+    path: /rtm/api/(runtime|runtime-internal)/(.*)
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /api/$1/$2
+      nginx.ingress.kubernetes.io/cors-allow-headers: DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-
+```
+
+> **Note:** Replace placeholders in environment variables with the appropriate values for your environment before starting the service.

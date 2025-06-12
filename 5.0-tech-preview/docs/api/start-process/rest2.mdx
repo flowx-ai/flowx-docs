@@ -1,0 +1,187 @@
+---
+title: Start process by build id and process name
+api: POST https://admin.devmain.flowxai.dev/rtm/api/runtime/app/{appId}/build/{buildId}/process-name/{processDefinitionName}/start
+description: This endpoint initiates a process in the application runtime environment using the specified `buildId` and `processDefinitionName`.
+---
+
+
+## Base URL
+
+* Always prepend the endpoint with the correct Base URL.
+* For different environments (like staging or production), switch the base URL accordingly.
+
+
+## Path Parameters
+
+<ParamField path="appId" type="string" example="dbe0ab87-539b-4015-962d-6e73226b9e58" required>
+The ID of the application. 
+</ParamField>
+
+<ParamField path="buildId" type="string" example="7d5560be-3846-49fa-9c17-4059c54c7c5f" required> 
+The build ID for the runtime environment. 
+</ParamField> 
+
+<ParamField path="processDefinitionName" type="string" example="[DOCS]customer_onboarding" required> 
+The name of the process definition to start. 
+</ParamField>
+
+## Request headers
+
+<ParamField header="Authorization" type="string" required={true}>
+  Bearer token required for authentication. Format: `Bearer <token>`.
+</ParamField>
+
+<ParamField header="Content-Type" type="string" required={true}>
+  Indicates the media type of the request body. Must be set to `application/json`.
+</ParamField>
+
+<ParamField header="Flowx-Platform" type="string" required={true}>
+  Identifies the client platform (e.g., `web`).
+</ParamField>
+
+<ParamField header="Accept" type="string" required={false}>
+  Specifies the media types that are acceptable for the response. Example: `application/json, text/plain, */*`.
+</ParamField>
+
+<ParamField header="Accept-Encoding" type="string" required={false}>
+  Indicates supported content encoding algorithms for the response. Example: `gzip, deflate, br, zstd`.
+</ParamField>
+
+<ParamField header="Accept-Language" type="string" required={false}>
+  Specifies language preferences for the response. Example: `en-GB,en-US;q=0.9,en;q=0.8`.
+</ParamField>
+
+<ParamField header="User-Agent" type="string" required={false}>
+  Identifies the client software making the request (e.g., browser or tool).
+</ParamField>
+
+<ParamField header="Referer" type="string" required={false}>
+  The address of the previous web page from which the request was made.
+</ParamField>
+
+
+## Request Body
+
+This endpoint requires a JSON request body. The exact payload structure should conform to the process definition schema associated with `{processDefinitionName}`.
+
+<ParamField body="key1" type="string" required> 
+Description of what key1 represents 
+</ParamField> 
+<ParamField body="key2" type="string" required>
+Description of what key2 represents 
+</ParamField> 
+
+### Example Request Body
+
+```json
+{
+  "key1": "value1",
+  "key2": "value2"
+}
+```
+## Response
+
+<ResponseField name="processDefinitionFlowxUuid" type="string" example="66e74ea1-0775-42b4-b27e-a4a21ea78dfc">
+  The unique identifier of the process definition within FlowX.
+</ResponseField>
+
+<ResponseField name="buildId" type="string" example="7d5560be-3846-49fa-9c17-4059c54c7c5f">
+  The ID of the build associated with the process.
+</ResponseField>
+
+<ResponseField name="buildStatusAtStart" type="string" example="COMMITTED">
+  The status of the build at the time the process was started (e.g., "COMMITTED").
+</ResponseField>
+
+<ResponseField name="applicationId" type="string" example="dbe0ab87-539b-4015-962d-6e73226b9e58">
+  The ID of the application where the process was initiated.
+</ResponseField>
+
+<ResponseField name="parentApplicationId" type="string or null" example="null">
+  The ID of the parent application if applicable, otherwise `null`.
+</ResponseField>
+
+<ResponseField name="rootApplicationId" type="string or null" example="null">
+  The ID of the root application if applicable, otherwise `null`.
+</ResponseField>
+
+<ResponseField name="processDefinitionName" type="string" example="[DOCS]customer_onboarding">
+  The name of the process definition that was started.
+</ResponseField>
+
+<ResponseField name="tokens" type="array" example='[{"id": 2112691, "state": "ACTIVE", "statusCurrentNode": "ARRIVED"}]'>
+  A list of tokens representing active workflow states within the process.
+</ResponseField>
+
+<ResponseField name="state" type="string" example="STARTED">
+  The current state of the process instance (e.g., "STARTED").
+</ResponseField>
+
+<ResponseField name="uuid" type="string" example="24cb4216-83a4-4782-84cb-d702b54b9b7d">
+  The unique identifier for the process instance.
+</ResponseField>
+
+<ResponseField name="instanceMetadata" type="object" example='{"processInstanceId": 2112617, "processInstanceUuid": "24cb4216-83a4-4782-84cb-d702b54b9b7d"}'>
+  Metadata related to the process instance, including:
+  - `processInstanceId`: The numeric ID of the process instance.
+  - `processInstanceUuid`: The UUID of the process instance.
+</ResponseField>
+
+
+
+### Response Headers
+
+<ResponseField name="Access-Control-Allow-Credentials" type="boolean" example="true">
+  Indicates whether the response can be exposed when credentials are present. Value is `true`.
+</ResponseField>
+
+<ResponseField name="Access-Control-Allow-Headers" type="string" example="DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,flowx-platform">
+  Lists the allowed headers in the actual request. Example: `DNT, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Range, Authorization, flowx-platform`.
+</ResponseField>
+
+<ResponseField name="Access-Control-Allow-Methods" type="string" example="GET, PUT, POST, DELETE, PATCH">
+  Specifies the allowed HTTP methods. Example: `GET, PUT, POST, DELETE, PATCH`.
+</ResponseField>
+
+<ResponseField name="Access-Control-Allow-Origin" type="string" example="https://demo-angular.devmain.flowxai.dev">
+  Indicates the allowed origin for cross-origin requests. Example: `https://demo-angular.devmain.flowxai.dev`.
+</ResponseField>
+
+<ResponseField name="Content-Encoding" type="string" example="gzip">
+  Specifies the encoding used to compress the response. Example: `gzip`.
+</ResponseField>
+
+<ResponseField name="Content-Type" type="string" example="application/json">
+  Indicates the media type of the response content. Example: `application/json`.
+</ResponseField>
+
+<ResponseField name="Strict-Transport-Security" type="string" example="max-age=31536000 ; includeSubDomains">
+  Enforces secure (HTTPS) connections to the server. Example: `max-age=31536000 ; includeSubDomains`.
+</ResponseField>
+
+<ResponseField name="Vary" type="string" example="Accept-Encoding">
+  Specifies that the response may vary based on the `Accept-Encoding` request header. Example: `Accept-Encoding`.
+</ResponseField>
+
+<ResponseField name="X-Content-Type-Options" type="string" example="nosniff">
+  Prevents the browser from MIME-sniffing a response away from the declared `Content-Type`. Example: `nosniff`.
+</ResponseField>
+
+<ResponseField name="X-XSS-Protection" type="string" example="0">
+  Controls the cross-site scripting (XSS) filter. Example: `0` (disabled).
+</ResponseField>
+
+<RequestExample>
+```bash
+curl -X POST "https://admin.devmain.flowxai.dev/rtm/api/runtime/app/{appId}/build/{buildId}/process-name/{processDefinitionName}/start" \
+  -H "Authorization: Bearer <token>" \                    # Required
+  -H "Content-Type: application/json" \                   # Required
+  -H "flowx-platform: web" \                              # Required
+  -H "Accept: application/json, text/plain, */*" \        # Optional
+  -H "Accept-Encoding: gzip, deflate, br, zstd" \         # Optional
+  -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" \      # Optional
+  -d '{
+    "key": "value"
+  }'
+```
+</RequestExample>
