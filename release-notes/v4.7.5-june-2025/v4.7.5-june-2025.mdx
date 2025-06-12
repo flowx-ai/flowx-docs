@@ -4,11 +4,11 @@ description: FlowX.AI 4.7.5 enhances system stability with extended 3rd party de
 ---
 
 ## **What's new? 🆕**
+             
 
-✅ **Extended 3rd Party Dependency Support**                
-✅ **Redis Sentinel Mode Support for High Availability**                
-✅ **Platform stability improvements**
-
+✅ **Platform enhancements**                
+✅ **Analytics enhancements**                           
+           
 
 ### Platform enhancements ⚙️
 
@@ -16,8 +16,28 @@ description: FlowX.AI 4.7.5 enhances system stability with extended 3rd party de
 - Enhanced High Availability configurations with Redis Sentinel mode compatibility - Redis Sentinel mode is now supported for High Availability setups, providing enhanced fault tolerance and automatic failover capabilities.
 - Latest security patches
 
+
+### Analytics enhancements ⚙️
+
+- Improved analytics events with enriched metadata for action events across all platforms (Web, iOS, Android). Action events now include screen context, component type identification, and component labels, providing deeper insights into user interactions and enabling more granular analytics tracking for better user experience optimization.
+
+
+More details:
+
+<CardGroup cols={2}>
+<Card title="Angular Renderer" href="../../4.7.x/sdks/angular-renderer#analytics" icon="file"/>
+<Card title="React Renderer" href="../../4.7.x/sdks/react-renderer.mdx#analytics" icon="file"/>
+<Card title="iOS Renderer" href="../../4.7.x/sdks/ios-renderer.mdx#collecting-analytics-events" icon="file"/>
+<Card title="Android Renderer" href="../../4.7.x/sdks/android-renderer.mdx#collecting-analytics-events" icon="file"/>
+</CardGroup>
+
 ## **Bug fixes** 🐞  
 
+- **Fixed Task Manager loading issue with data type changes** - Resolved critical issue where Task Manager would fail to load and throw `NullPointerException`   when process variables were changed from date to string data types, even after updating the data model and clearing cache
+- **Fixed All Tasks view missing on build import** - Resolved issue where importing builds from one environment to another would fail to create the All Tasks view, causing 400 "View not found" errors at runtime when accessing the Task Manager area
+- **Fixed unassign operation causing runtime errors** - Resolved 500 Internal Server Error when accessing process data after performing unassign operations via Kafka messages, where null ownerDetails would cause `NullPointerException` during JSON serialization
+- **Fixed CMS-Core export failures with AWS S3 buckets** - Resolved issue where CMS-Core would add double slashes in S3 object paths when creating exports, causing 404 NoSuchKey errors with AWS S3 (while working correctly with MinIO). Fixed path construction to ensure compatibility with both AWS S3 and MinIO storage backends
+- **Fixed active policy version resolution** - Resolved issue where importing application versions to environments with existing WIP versions would incorrectly activate the stashed WIP version instead of the imported committed version, causing graph display failures and incorrect active policy settings
 
 
 ---
