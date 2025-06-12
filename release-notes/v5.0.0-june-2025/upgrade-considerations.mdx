@@ -31,3 +31,158 @@ Steps to clear cache:
 1. Complete the lib2lib migration process
 2. Clear the application cache to ensure the new build document fields are properly recognized
 3. Verify that library-to-library dependencies are functioning correctly
+
+---
+
+## Authentication & authorization
+
+###  Authentication & authorization architecture changes in FlowX 5.0
+
+<Tabs>
+  <Tab title="Authentication vs Authorization">
+    **Authentication (Keycloak)**:
+    - User login and identity verification
+    - Token generation for authenticated users
+    - User creation and management
+    - Service account identification with `SA_FLOWX` role
+    
+    **Authorization (CAS/auth-system)**:
+    - Endpoint access control
+    - Workspace and project permissions
+    - Role and group management
+    - ACL-based fine-grained access control
+  </Tab>
+  
+  <Tab title="Database Architecture">
+    **CAS PostgreSQL Database**:
+    - Primary database for auth-system microservice
+    - Stores workspaces, users, roles, and permissions
+    - **Exclusive write access** by auth-system only
+    - **Exception**: data-sync may need temporary access during migrations
+    
+    **SpiceDB (PostgreSQL Backend)**:
+    - Graph database for ACL relationships
+    - Uses PostgreSQL as backend storage
+    - All communication through SpiceDB gRPC API
+    - No direct database connections allowed
+  </Tab>
+</Tabs>
+
+### Migration from FlowX 4.x
+
+#### Role mapping guide
+
+<Warning>
+FlowX 4.x roles stored in Keycloak are not automatically migrated. Manual role assignment is required.
+</Warning>
+
+<CardGroup cols={2}>
+  <Card title="Legacy Role Mapping" icon="arrow-right">
+    **FlowX 4.x** → **FlowX 5.0**
+    
+    - `FLOWX_ADMIN` → `workspace_admin`
+    - `FLOWX_CONFIGURATOR` → `workspace_user` or `project_editor`
+    - `FLOWX_UI_DESIGNER` → `theme_editor`
+    - `FLOWX_VIEWER` → `project_viewer`
+    - Custom Keycloak roles → Manual review required
+  </Card>
+  
+  <Card title="Migration Considerations" icon="lightbulb">
+    **Important Changes**
+    
+    - Roles are now workspace-scoped
+    - More granular permission structure
+    - Database-stored instead of token-based
+    - New role hierarchy requires review
+  </Card>
+</CardGroup>
+
+#### Migration process
+
+<Steps>
+  <Step title="Inventory Current Roles">
+    Document all existing Keycloak roles and their assigned users before migration
+  </Step>
+  
+  <Step title="Map to New Structure">
+    Determine appropriate FlowX 5.0 roles for each user based on their current access needs
+  </Step>
+  
+  <Step title="Plan Workspace Structure">
+    Decide how to organize users into workspaces based on business requirements
+  </Step>
+  
+  <Step title="Assign New Roles">
+    Use the FlowX 5.0 interface to assign appropriate roles to users in their respective workspaces
+  </Step>
+  
+  <Step title="Validate Access">
+    Test user access to ensure proper permissions are granted and restrictions are enforced
+  </Step>
+</Steps>
+
+### For existing customer migration
+
+<Warning>
+**Migration Configuration**: Set `CREATE_DEFAULT_WORKSPACE=true` for all upgrades from previous FlowX versions. This is required to migrate existing projects to the default workspace.
+</Warning>
+
+<Steps>
+  <Step title="Pre-Migration Preparation">
+    **Required Configuration:**
+    - `CREATE_DEFAULT_WORKSPACE=true` (mandatory for migrations)
+    - `DEFAULT_ORG_ADMIN_USERNAME=admin@flowx.ai` (or existing admin username)
+    - Ensure admin user exists in Keycloak before migration
+    
+    **Create full database backup:**
+    ```bash
+    pg_dump -h database-host -U username flowx_db > pre_migration_backup.sql
+    ```
+  </Step>
+  
+  <Step title="Deploy auth-system Infrastructure">
+    Deploy SpiceDB and auth-system microservice with migration configuration:
+    ```bash
+    # Key migration environment variables
+    CREATE_DEFAULT_WORKSPACE=true
+    DEFAULT_ORG_ADMIN_USERNAME=admin@flowx.ai
+    ```
+  </Step>
+  
+  <Step title="Automatic Default Workspace Creation">
+    The auth-system will automatically:
+    - Create default organization and workspace
+    - Import the admin user from Keycloak
+    - Assign organization admin privileges
+    - Set up default roles and groups
+  </Step>
+  
+  <Step title="data-sync Migration Process">
+    The data-sync service will:
+    - Migrate existing projects from app-manager database to CAS database
+    - Assign all existing resources to the default workspace
+    - Preserve all existing functionality
+    - Require temporary write access to CAS database
+    
+    **Note**: This is the only exception to the exclusive write access rule.
+  </Step>
+  
+  <Step title="Update Service Configurations">
+    Update all FlowX microservices with CAS integration configuration and restart services.
+  </Step>
+  
+  <Step title="Validate Migration">
+    ```sql
+    -- Verify workspace creation
+    SELECT * FROM organisations;
+    SELECT * FROM workspaces;
+    
+    -- Verify admin user migration
+    SELECT * FROM flowx_users WHERE email = 'admin@flowx.ai';
+    
+    -- Verify resource migration
+    SELECT COUNT(*) FROM projects WHERE workspace_id = 'default-workspace';
+    SELECT COUNT(*) FROM libraries WHERE workspace_id = 'default-workspace';
+    ```
+  </Step>
+</Steps>

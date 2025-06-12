@@ -11,7 +11,12 @@ FlowX 5.0 introduces a comprehensive role-based access control system with prede
 
 FlowX 5.0 provides a structured role hierarchy designed to support multi-tenant workspace architecture while maintaining security and governance. The system includes predefined roles that cannot be modified, ensuring consistent access patterns across all FlowX deployments.
 
-### Role Architecture
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/default_roles.png)
+</Frame>
+
+
+### Role architecture
 
 <CardGroup cols={3}>
   <Card title="Organization Level" icon="building">
@@ -366,59 +371,6 @@ The Organization Admin role should be assigned sparingly and only to users who n
 | Delete project             | ✅            | ❌             | ❌             |
 | Archive project            | ✅            | ❌             | ❌             |
 | Export project             | ✅            | ✅             | ❌             |
-
-## Migration from FlowX 4.x
-
-### Role mapping guide
-
-<Warning>
-FlowX 4.x roles stored in Keycloak are not automatically migrated. Manual role assignment is required.
-</Warning>
-
-<CardGroup cols={2}>
-  <Card title="Legacy Role Mapping" icon="arrow-right">
-    **FlowX 4.x** → **FlowX 5.0**
-    
-    - `FLOWX_ADMIN` → `workspace_admin`
-    - `FLOWX_CONFIGURATOR` → `workspace_user` or `project_editor`
-    - `FLOWX_UI_DESIGNER` → `theme_editor`
-    - `FLOWX_VIEWER` → `project_viewer`
-    - Custom Keycloak roles → Manual review required
-  </Card>
-  
-  <Card title="Migration Considerations" icon="lightbulb">
-    **Important Changes**
-    
-    - Roles are now workspace-scoped
-    - More granular permission structure
-    - Database-stored instead of token-based
-    - New role hierarchy requires review
-  </Card>
-</CardGroup>
-
-### Migration process
-
-<Steps>
-  <Step title="Inventory Current Roles">
-    Document all existing Keycloak roles and their assigned users before migration
-  </Step>
-  
-  <Step title="Map to New Structure">
-    Determine appropriate FlowX 5.0 roles for each user based on their current access needs
-  </Step>
-  
-  <Step title="Plan Workspace Structure">
-    Decide how to organize users into workspaces based on business requirements
-  </Step>
-  
-  <Step title="Assign New Roles">
-    Use the FlowX 5.0 interface to assign appropriate roles to users in their respective workspaces
-  </Step>
-  
-  <Step title="Validate Access">
-    Test user access to ensure proper permissions are granted and restrictions are enforced
-  </Step>
-</Steps>
 
 ## Best practices
 
