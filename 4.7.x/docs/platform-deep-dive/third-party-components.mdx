@@ -22,40 +22,42 @@ icon: cube
 ### Third-party open-source components supported/tested versions
 
 <Info>
-**FlowX.AI 4.7.x Series Third-Party Support**
+**FlowX.AI 4.7.5: Support for more 3rd Party Dependencies**
 
-The FlowX.AI 4.7.x series provides comprehensive support for third-party dependencies:
+FlowX.AI 4.7.5 introduces support for more versions of third-party dependencies:
+- All versions are officially supported throughout the entire LTS lifetime
+- Upgrades can be performed during the LTS lifetime to prepare for the minimum requirements of the next FlowX.AI major release
 
-- **4.7.0 - 4.7.4**: Standard recommended versions with proven stability
-- **4.7.5+**: Extended support ranges introduced, providing greater flexibility in technology stack choices
-
-For optimal performance and reliability, our internal QA process validates new releases using the latest stable versions within each supported range. Legacy versions are supported but may have limited testing coverage.
-
-While exploring alternative versions within the supported ranges, we recommend referring to the compatibility matrix and considering the End-of-Life (EOL) dates for long-term planning.
+For optimal performance and reliability, our internal QA process validates new releases using the latest stable versions within each supported range.
 
 In the unlikely event that you encounter any compatibility issues with FlowX.AI, please open a support ticket [**here**](https://support.flowx.ai/), and our dedicated team will address and resolve any identified bugs following our standard support process.
 </Info>
 
-| FlowX.AI Version | 3rd Party Dependency     | 4.7.0-4.7.4 Recommended | 4.7.5+ Extended Range | EOL Information |
-| ---------------- | ------------------------ | ----------------------- | --------------------- | --------------- |
-| 4.7.x            | Keycloak                 | 22.x, 26.x              | 22 → 26+ (rolling)    | 22.x legacy support |
-| 4.7.x            | Kafka                    | 3.2.x                   | 3.2 → 3.9             | 3.9 EOL: Feb 19, 2027 |
-| 4.7.x            | PostgreSQL               | 16.2.x                  | 16 → 17               | v16 EOL: Nov 09, 2028<br/>v17 EOL: Nov 08, 2029 |
-| 4.7.x            | MongoDB                  | 7.0.x                   | 7 → 8                 | v7 EOL: Aug 31, 2026<br/>v8: No EOL yet |
-| 4.7.x            | Redis                    | 7.2.x                   | 7.2 → 8.0             | 7.2.x legacy support<br/>8.0: No EOL yet |
-| 4.7.x            | NGINX Ingress Controller | 1.2.x                   | 1.2.x                 | - |
-| 4.7.x            | Elasticsearch            | 7.17.x                  | 7 → 9                 | v7 EOL: Jan 15, 2026<br/>v9: No EOL yet |
-| 4.7.x            | minio                    | 2024-02-26T09-33-48Z    | 2024-02-26T09-33-48Z  | - |
+| FlowX.AI Version | 3rd Party Dependency     | Supported Versions |
+| ---------------- | ------------------------ | ------------------ |
+| 4.7.5            | Keycloak                 | 22, 26+            |
+| 4.7.5            | Kafka                    | 3.2 - 3.9          |
+| 4.7.5            | PostgreSQL               | 16 - 17            |
+| 4.7.5            | MongoDB                  | 7 - 8              |
+| 4.7.5            | Redis                    | 7.2 - 8.0          |
+| 4.7.5            | NGINX Ingress Controller | 1.2.x              |
+| 4.7.5            | Elasticsearch            | 7 - 9              |
+| 4.7.5            | minio                    | 2024-02-26T09-33-48Z |
 
 ### Third-party components supported/tested versions
 
-| FlowX.AI Version | 3rd Party Dependency | 4.7.0-4.7.4 Recommended | 4.7.5+ Extended Range | EOL Information |
-| ---------------- | -------------------- | ----------------------- | --------------------- | --------------- |
-| 4.7.x            | OracleDB             | 21c, 23ai               | 21c → 23ai            | 21c EOL: Jul 31, 2027<br/>23ai EOL: Dec 31, 2031 |
+| FlowX.AI Version | 3rd Party Dependency | Supported Versions |
+| ---------------- | -------------------- | ------------------ |
+| 4.7.5            | OracleDB             | 21c, 23ai          |
+
+### Deprecation notice 
 
 <Warning>
-**Legacy Support Timeline for 4.7.5:**
-- Legacy versions (marked with warning status) are supported until FlowX.AI 4.7.x LTS EOL on January 1st, 2026
+Starting FlowX 5.0, the following versions of 3rd Party Dependencies will no longer be supported:
+
+* Keycloak versions older than 26
+* Kafka versions older than 3.9
+* Redis versions older than 7.4
 </Warning>
 
 ### Summary
@@ -64,7 +66,7 @@ In the unlikely event that you encounter any compatibility issues with FlowX.AI,
 
 Keycloak is an open-source software product to allow single sign-on with Identity and Access Management aimed at modern applications and services.
 
-**FlowX.AI 4.7.x Support**: Extended support introduced in 4.7.5 - Versions 22 through 26+ with rolling support for future releases. Version 22 is marked as legacy but remains supported. Earlier 4.7.x versions support 22.x and 26.x as recommended versions.
+**FlowX.AI 4.7.5 Support**: Support for more versions of Keycloak (22, 26+) with rolling support for future releases, officially supported throughout the entire LTS lifetime.
 
 [Keycloak documentation](https://www.keycloak.org/documentation)
 
@@ -76,7 +78,7 @@ Kafka is a unified platform for handling all the real-time data feeds. Kafka sup
 
 Kafka is very fast and performs 2 million writes/sec. Kafka persists all data to the disk, which essentially means that all the writes go to the page cache of the OS (RAM). This makes it very efficient to transfer data from a page cache to a network socket.
 
-**FlowX.AI 4.7.x Support**: Extended support introduced in 4.7.5 - Versions 3.2 through 3.9. Version 3.2 is marked as legacy but remains supported until 3.9 reaches EOL on February 19, 2027. Earlier 4.7.x versions support 3.2.x as recommended version.
+**FlowX.AI 4.7.5 Support**: Support for more versions of Kafka (3.2 - 3.9), officially supported throughout the entire LTS lifetime with the ability to upgrade during LTS to prepare for next major release requirements.
 
 [Intro to Kafka](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts)
 
@@ -86,7 +88,7 @@ Kafka is very fast and performs 2 million writes/sec. Kafka persists all data to
 
 PostgreSQL, also known as Postgres, is a free and open-source relational database management system emphasizing extensibility and SQL compliance.
 
-**FlowX.AI 4.7.x Support**: Extended support introduced in 4.7.5 - Versions 16 through 17, providing long-term support with v16 EOL on November 09, 2028 and v17 EOL on November 08, 2029. Earlier 4.7.x versions support 16.2.x as recommended version.
+**FlowX.AI 4.7.5 Support**: Support for more versions of PostgreSQL (16 - 17), officially supported throughout the entire LTS lifetime with the ability to upgrade during LTS to prepare for next major release requirements.
 
 [PostgreSQL documentation](https://www.postgresql.org/docs/)
 
@@ -96,7 +98,7 @@ MongoDB is a source-available cross-platform document-oriented database program.
 
 Used by FlowX to store business process data and configuration information on the core/plugin components.
 
-**FlowX.AI 4.7.x Support**: Extended support introduced in 4.7.5 - Versions 7 through 8, with v7 supported until August 31, 2026 and v8 having no announced EOL date yet. Earlier 4.7.x versions support 7.0.x as recommended version.
+**FlowX.AI 4.7.5 Support**: Support for more versions of MongoDB (7 - 8), officially supported throughout the entire LTS lifetime with the ability to upgrade during LTS to prepare for next major release requirements.
 
 [MongoDB documentation](https://www.mongodb.com/docs/)
 
@@ -110,7 +112,7 @@ It is also be used as a Pub/Sub messaging solution, allowing messages to be pass
 
 It is used by FLOWX.AI for caching the process definitions-related data.
 
-**FlowX.AI 4.7.x Support**: Extended support introduced in 4.7.5 - Versions 7.2.x through 8.0. Version 7.2.x is marked as legacy but remains supported. Enhanced support now includes Redis Sentinel mode for High Availability setups starting with 4.7.5. Earlier 4.7.x versions support 7.2.x as recommended version.
+**FlowX.AI 4.7.5 Support**: Support for more versions of Redis (7.2 - 8.0), officially supported throughout the entire LTS lifetime. Enhanced support now includes Redis Sentinel mode for High Availability setups starting with 4.7.5.
 
 [Intro to Redis](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis)
 
@@ -136,7 +138,7 @@ As the heart of the Elastic Stack, it centrally stores your data for lightning-f
 
 Used by FLOWX.AI in the core component and optionally to allow searching for business process transaction data.
 
-**FlowX.AI 4.7.x Support**: Extended support introduced in 4.7.5 - Elasticsearch versions 7 through 9, with v7 supported until January 15, 2026 and v9 having no announced EOL date yet. Earlier 4.7.x versions support 7.17.x as recommended version.
+**FlowX.AI 4.7.5 Support**: Support for more versions of Elasticsearch (7 - 9), officially supported throughout the entire LTS lifetime with the ability to upgrade during LTS to prepare for next major release requirements.
 
 [Elastic stack documentation](https://www.elastic.co/elastic-stack/)
 
@@ -158,7 +160,7 @@ FLOWX.AI uses [Min.IO](http://min.io/) as a cloud storage solution.
 
 Oracle Database is a relational database management system (RDBMS).
 
-**FlowX.AI 4.7.x Support**: Extended support introduced in 4.7.5 - Versions 21c through 23ai, with 21c supported until July 31, 2027 and 23ai supported until December 31, 2031. Earlier 4.7.x versions support 21c and 23ai as recommended versions.
+**FlowX.AI 4.7.5 Support**: Support for more versions of Oracle (21c, 23ai), officially supported throughout the entire LTS lifetime with the ability to upgrade during LTS to prepare for next major release requirements.
 
 [Oracle DB documentation](https://www.oracle.com/database/technologies/)
 
