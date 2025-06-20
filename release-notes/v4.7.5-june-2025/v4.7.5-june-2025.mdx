@@ -54,20 +54,7 @@ You may need to delete the existing runtime-manager deployment before upgrading 
 ## **Bug fixes** 🐞  
 
 - **Fixed Task Manager loading issue with data type changes** - Resolved critical issue where Task Manager would fail to load and throw `NullPointerException`   when process variables were changed from date to string data types, even after updating the data model and clearing cache
-- **Fixed All Tasks view missing on build import** - Resolved issue where importing builds from one environment to another would fail to create the All Tasks view, causingRuntime Manager Deployment Changes
-<Info>
-**Prior to 4.7.5:** Runtime Manager was deployed using `application-manager` chart/image with manual `SPRING_APPLICATION_NAME: "runtime-manager"` configuration.
-Starting with 4.7.5: Runtime Manager has its own dedicated chart and image with proper defaults.
-</Info>
-Migration Required
-
-Switch to new chart: Use runtime-manager chart instead of application-manager
-Verify image: Ensure image name is runtime-manager (default in new chart)
-Remove override: SPRING_APPLICATION_NAME: "runtime-manager" can be removed (optional)
-
-<Warning>
-You may need to delete the existing runtime-manager deployment before upgrading due to Kubernetes label changes that cause `kubectl apply` to fail.
-</Warning> 400 "View not found" errors at runtime when accessing the Task Manager area
+- **Fixed All Tasks view missing on build import** - Resolved issue where importing builds from one environment to another would fail to create the All Tasks view, when accessing the Task Manager area
 - **Fixed unassign operation causing runtime errors** - Resolved 500 Internal Server Error when accessing process data after performing unassign operations via Kafka messages, where null ownerDetails would cause `NullPointerException` during JSON serialization
 - **Fixed CMS-Core export failures with AWS S3 buckets** - Resolved issue where CMS-Core would add double slashes in S3 object paths when creating exports, causing 404 NoSuchKey errors with AWS S3 (while working correctly with MinIO). Fixed path construction to ensure compatibility with both AWS S3 and MinIO storage backends
 - **Fixed active policy version resolution** - Resolved issue where importing application versions to environments with existing WIP versions would incorrectly activate the stashed WIP version instead of the imported committed version, causing graph display failures and incorrect active policy settings
