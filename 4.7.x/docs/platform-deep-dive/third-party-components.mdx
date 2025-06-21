@@ -22,32 +22,33 @@ icon: cube
 ### Third-party open-source components supported/tested versions
 
 <Info>
-FlowX.AI supports any version of the third-party components listed as prerequisites.
+**FlowX.AI 4.7.5: Support for more 3rd Party Dependencies**
 
-For optimal performance and reliability, our internal QA process validates new releases using specific versions as indicated in the provided table.
-While exploring alternative versions that suit your company's specific requirements, we recommend referring to the compatibility matrix for guidance.
+FlowX.AI 4.7.5 introduces support for more versions of third-party dependencies:
+- All versions are officially supported throughout the entire LTS lifetime
+- Upgrades can be performed during the LTS lifetime to prepare for the minimum requirements of the next FlowX.AI major release
+
+For optimal performance and reliability, our internal QA process validates new releases using the latest stable versions within each supported range.
 
 In the unlikely event that you encounter any compatibility issues with FlowX.AI, please open a support ticket [**here**](https://support.flowx.ai/), and our dedicated team will address and resolve any identified bugs following our standard support process.
 </Info>
 
-| FlowX.AI Version | 3rd Party Dependency     | Recommended Supported Version |
-| ---------------- | ------------------------ | ----------------------------- |
-| 4.7.0            | Keycloak                 | 22.x, 26.x                    |
-| 4.7.0            | Kafka                    | 3.2.x                         |
-| 4.7.0            | PostgreSQL               | 16.2.x                        |
-| 4.7.0            | MongoDB                  | 7.0.x                         |
-| 4.7.0            | Redis                    | 7.2.x                         |
-| 4.7.0            | NGINX Ingress Controller | 1.2.x                         |
-| 4.7.0            | Elasticsearch            | 7.17.x                        |
-| 4.7.0            | minio                    | 2024-02-26T09-33-48Z          |
-
+| FlowX.AI Version | 3rd Party Dependency     | Supported Versions |
+| ---------------- | ------------------------ | ------------------ |
+| 4.7.5            | Keycloak                 | 22, 26+            |
+| 4.7.5            | Kafka                    | 3.2 - 3.9          |
+| 4.7.5            | PostgreSQL               | 16 - 17            |
+| 4.7.5            | MongoDB                  | 7 - 8              |
+| 4.7.5            | Redis                    | 7.2 - 8.0          |
+| 4.7.5            | NGINX Ingress Controller | 1.2.x              |
+| 4.7.5            | Elasticsearch            | 7 - 9              |
+| 4.7.5            | minio                    | 2024-02-26T09-33-48Z |
 
 ### Third-party components supported/tested versions
 
-| FlowX.AI Version | 3rd Party Dependency | Recommended Supported Version |
-| ---------------- | -------------------- | ----------------------------- |
-| 4.7.0            | OracleDB             | 21c, 23ai                     |
-
+| FlowX.AI Version | 3rd Party Dependency | Supported Versions |
+| ---------------- | -------------------- | ------------------ |
+| 4.7.5            | OracleDB             | 21c, 23ai          |
 
 ### Deprecation notice 
 
@@ -59,12 +60,13 @@ Starting FlowX 5.0, the following versions of 3rd Party Dependencies will no lon
 * Redis versions older than 7.4
 </Warning>
 
-
 ### Summary
 
 #### Keycloak
 
 Keycloak is an open-source software product to allow single sign-on with Identity and Access Management aimed at modern applications and services.
+
+**FlowX.AI 4.7.5 Support**: Support for more versions of Keycloak (22, 26+) with rolling support for future releases, officially supported throughout the entire LTS lifetime.
 
 [Keycloak documentation](https://www.keycloak.org/documentation)
 
@@ -76,6 +78,8 @@ Kafka is a unified platform for handling all the real-time data feeds. Kafka sup
 
 Kafka is very fast and performs 2 million writes/sec. Kafka persists all data to the disk, which essentially means that all the writes go to the page cache of the OS (RAM). This makes it very efficient to transfer data from a page cache to a network socket.
 
+**FlowX.AI 4.7.5 Support**: Support for more versions of Kafka (3.2 - 3.9), officially supported throughout the entire LTS lifetime with the ability to upgrade during LTS to prepare for next major release requirements.
+
 [Intro to Kafka](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-kafka-concepts)
 
 [Kafka documentation](https://kafka.apache.org/documentation/)
@@ -84,6 +88,8 @@ Kafka is very fast and performs 2 million writes/sec. Kafka persists all data to
 
 PostgreSQL, also known as Postgres, is a free and open-source relational database management system emphasizing extensibility and SQL compliance.
 
+**FlowX.AI 4.7.5 Support**: Support for more versions of PostgreSQL (16 - 17), officially supported throughout the entire LTS lifetime with the ability to upgrade during LTS to prepare for next major release requirements.
+
 [PostgreSQL documentation](https://www.postgresql.org/docs/)
 
 #### MongoDB
@@ -91,6 +97,8 @@ PostgreSQL, also known as Postgres, is a free and open-source relational databas
 MongoDB is a source-available cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional [schemas](https://en.wikipedia.org/wiki/Database\_schema).
 
 Used by FlowX to store business process data and configuration information on the core/plugin components.
+
+**FlowX.AI 4.7.5 Support**: Support for more versions of MongoDB (7 - 8), officially supported throughout the entire LTS lifetime with the ability to upgrade during LTS to prepare for next major release requirements.
 
 [MongoDB documentation](https://www.mongodb.com/docs/)
 
@@ -104,9 +112,9 @@ It is also be used as a Pub/Sub messaging solution, allowing messages to be pass
 
 It is used by FLOWX.AI for caching the process definitions-related data.
 
+**FlowX.AI 4.7.5 Support**: Support for more versions of Redis (7.2 - 8.0), officially supported throughout the entire LTS lifetime. Enhanced support now includes Redis Sentinel mode for High Availability setups starting with 4.7.5.
 
 [Intro to Redis](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-redis)
-
 
 [Redis documentation](https://redis.io/docs/)
 
@@ -118,9 +126,7 @@ FLOWX utilizes the Nginx engine as a load balancer and for routing the web traff
 
 The FLOWX.AI Designer SPA will use the backend service to manage the platform via REST calls, will use API calls to manage specific content for the plugins, and will use REST and SSE calls to connect to the engine.
 
-
 [Intro to NGINX](../platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-nginx)
-
 
 [NGINX documentation](https://nginx.org/en/docs/)
 
@@ -131,6 +137,8 @@ Elasticsearch is a distributed, RESTful search and analytics engine capable of a
 As the heart of the Elastic Stack, it centrally stores your data for lightning-fast search, fine‑tuned relevancy, and powerful analytics that scale with ease.
 
 Used by FLOWX.AI in the core component and optionally to allow searching for business process transaction data.
+
+**FlowX.AI 4.7.5 Support**: Support for more versions of Elasticsearch (7 - 9), officially supported throughout the entire LTS lifetime with the ability to upgrade during LTS to prepare for next major release requirements.
 
 [Elastic stack documentation](https://www.elastic.co/elastic-stack/)
 
@@ -148,10 +156,11 @@ FLOWX.AI uses [Min.IO](http://min.io/) as a cloud storage solution.
 
 [Docker available here](https://quay.io/repository/minio/minio?tab=tags&tag=RELEASE.2022-05-26T05-48-41Z)
 
-
 #### Oracle DB
 
 Oracle Database is a relational database management system (RDBMS).
+
+**FlowX.AI 4.7.5 Support**: Support for more versions of Oracle (21c, 23ai), officially supported throughout the entire LTS lifetime with the ability to upgrade during LTS to prepare for next major release requirements.
 
 [Oracle DB documentation](https://www.oracle.com/database/technologies/)
 

@@ -5,10 +5,6 @@ icon: database
 ---
 
 
-<Info>
-The [**Application Manager**](./application-manager) and **Runtime Manager** share the same container image and Helm chart. Refer to the **Deployment Guidelines** in the release notes to ensure compatibility and verify the correct version.
-</Info>
-
 ## Infrastructure prerequisites
 
 The Runtime Manager service requires the following components to be set up before it can be started:
@@ -34,7 +30,9 @@ The Runtime Manager service requires the following components to be set up befor
 | `SPRING_APPLICATION_NAME`    | Service identifier used for service discovery and logging | `runtime-manager`    |
 
 <Warning>
-Default Value: `application-manager -> must be changed to `runtime-manager
+Default Value: `application-manager -> must be changed to `runtime-manager (valid for <4.7.5 releases).
+
+**Starting with 4.7.5 version this property is no longer needed**.
 </Warning>
 
 
