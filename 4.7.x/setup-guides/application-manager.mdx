@@ -9,21 +9,19 @@ The Application Manager is a backend microservice in FlowX.AI that:
 ✅ Manages FlowX applications, versions, manifests, and configurations.       
 ✅ Acts as a proxy for front-end resource requests.
 
-<Info> 
-The **Application Manager** and [**Runtime Manager**](./runtime-manager) share the same container image and Helm chart. Check the **Deployment Guidelines** in the release notes for version compatibility. 
-</Info>
+
 
 ## Infrastructure prerequisites
 
 Before you start setting up the Application Manager service, ensure the following infrastructure components are in place:
 
-| Component     | Version | Purpose                               |
-| ------------- | ------- | ------------------------------------- |
-| PostgreSQL    | 13+     | Storing application data              |
-| MongoDB       | 4.4+    | Managing runtime builds               |
-| Redis         | 6.0+    | Caching needs                         |
-| Kafka         | 2.8+    | Event-driven communication            |
-| OAuth2 Server | -       | Authentication (Keycloak recommended) |
+| Component     | Purpose                               |
+| ------------- | ------------------------------------- |
+| PostgreSQL    | Storing application data              |
+| MongoDB       | Managing runtime builds               |
+| Redis         | Caching needs                         |
+| Kafka         | Event-driven communication            |
+| OAuth2 Server | Authentication (Keycloak recommended) |
 
 <Info>
 Ensure that the database for storing application data is properly set up and configured before starting the service.
