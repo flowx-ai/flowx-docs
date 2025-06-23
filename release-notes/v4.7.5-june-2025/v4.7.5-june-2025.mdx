@@ -40,11 +40,13 @@ More details:
 Starting with 4.7.5: Runtime Manager has its own dedicated chart and image with proper defaults.
 </Info>
 
+<Check>
 Migration Required
+</Check>
 
-Switch to new chart: Use runtime-manager chart instead of application-manager
-Verify image: Ensure image name is runtime-manager (default in new chart)
-Remove override: `SPRING_APPLICATION_NAME`: "runtime-manager" can be removed (optional)
+* Switch to new chart: Use runtime-manager chart instead of application-manager
+* Verify image: Ensure image name is runtime-manager (default in new chart)
+* Remove override: `SPRING_APPLICATION_NAME`: "runtime-manager" can be removed (optional)
 
 <Warning>
 You may need to delete the existing runtime-manager deployment before upgrading due to Kubernetes label changes that cause `kubectl apply` to fail.
