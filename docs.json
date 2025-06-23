@@ -463,6 +463,16 @@
                   },
 
                   {
+                    "group": "v4.7.5 - June 2025",  
+                    "icon": "wrench",
+                    "pages": [
+                      "release-notes/v4.7.5-june-2025/v4.7.5-june-2025",
+                      "release-notes/v4.7.5-june-2025/deployment-guidelines-v4.7.5",
+                      "release-notes/v4.7.5-june-2025/migrating-from-v4.1.x-to-v4.7.5"
+                    ]
+                  },
+
+                  {
                     "group": "v4.7.4 - May 2025",  
                     "icon": "wrench",
                     "pages": [
@@ -1233,6 +1243,18 @@
                 "pages": [
                   "release-notes/overview",
 
+                  {
+                    "group": "v5.0.0 - June 2025",  
+                    "icon": "sparkles",
+                    "pages": [
+                      "release-notes/v5.0.0-june-2025/v5.0.0-june-2025",
+                      "release-notes/v5.0.0-june-2025/deployment-guidelines-v5.0",
+                      "release-notes/v5.0.0-june-2025/migrating-from-v4.x-to-5.0",
+                      "release-notes/v5.0.0-june-2025/upgrade-considerations"
+                    ]
+                  },
+
+
 
                   {
                     "group": "v4.7.5 - June 2025",  
@@ -1995,6 +2017,18 @@
                   "release-notes/overview",
 
                   {
+                    "group": "v5.0.0 - June 2025",  
+                    "icon": "sparkles",
+                    "pages": [
+                      "release-notes/v5.0.0-june-2025/v5.0.0-june-2025",
+                      "release-notes/v5.0.0-june-2025/deployment-guidelines-v5.0",
+                      "release-notes/v5.0.0-june-2025/migrating-from-v4.x-to-5.0",
+                      "release-notes/v5.0.0-june-2025/upgrade-considerations"
+                    ]
+                  },
+
+
+                  {
                     "group": "v4.7.5 - June 2025",  
                     "icon": "wrench",
                     "pages": [
@@ -2712,6 +2746,18 @@
                 "pages": [
                   "release-notes/overview",
 
+                  {
+                    "group": "v5.0.0 - June 2025",  
+                    "icon": "sparkles",
+                    "pages": [
+                      "release-notes/v5.0.0-june-2025/v5.0.0-june-2025",
+                      "release-notes/v5.0.0-june-2025/deployment-guidelines-v5.0",
+                      "release-notes/v5.0.0-june-2025/migrating-from-v4.x-to-5.0",
+                      "release-notes/v5.0.0-june-2025/upgrade-considerations"
+                    ]
+                  },
+
+
 
                   {
                     "group": "v4.7.5 - June 2025",  
@@ -3422,6 +3468,18 @@
                 "pages": [
                   "release-notes/overview",
 
+                  {
+                    "group": "v5.0.0 - June 2025",  
+                    "icon": "sparkles",
+                    "pages": [
+                      "release-notes/v5.0.0-june-2025/v5.0.0-june-2025",
+                      "release-notes/v5.0.0-june-2025/deployment-guidelines-v5.0",
+                      "release-notes/v5.0.0-june-2025/migrating-from-v4.x-to-5.0",
+                      "release-notes/v5.0.0-june-2025/upgrade-considerations"
+                    ]
+                  },
+
+
 
                   {
                     "group": "v4.7.5 - June 2025",  
@@ -4116,6 +4174,17 @@
                 "group": "Release Notes",
                 "pages": [
                   "release-notes/overview",
+
+                  {
+                    "group": "v5.0.0 - June 2025",  
+                    "icon": "sparkles",
+                    "pages": [
+                      "release-notes/v5.0.0-june-2025/v5.0.0-june-2025",
+                      "release-notes/v5.0.0-june-2025/deployment-guidelines-v5.0",
+                      "release-notes/v5.0.0-june-2025/migrating-from-v4.x-to-5.0",
+                      "release-notes/v5.0.0-june-2025/upgrade-considerations"
+                    ]
+                  },
 
 
                   {
