@@ -10,7 +10,7 @@ description: Define reusable data types at the project level to ensure consisten
 ![Project Data Model](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm.png)
 </Frame>
 
-The Project Data Model (PDM) lets you define reusable data types at the project level. These data types propagate to processes within your project, ensuring data consistency across your FlowX.AI applications.
+The Project Data Model (PDM) lets you define reusable data types at the project level. These data types propagate to the process data models, ensuring data consistency across yensuring data consistency across your FlowX.AI applications, including in Reusable Business Rules, Persistence Layer schemas, and other components.
 
 With PDM, you create a centralized data structure that serves as the foundation for all processes within your project. This ensures that core data types like Customer, Product, or Document maintain consistent definitions throughout your application.
 
@@ -23,13 +23,17 @@ With PDM, you create a centralized data structure that serves as the foundation 
 
 <Tabs>
   <Tab title="Data Model Types">
-    FlowX.AI supports several types of data models, each serving different purposes:
+FlowX.AI supports several data model layers, each serving different purposes:
 
-    | Data Model Type          | Description                                                                                                                                 |
-    | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-    | Project Data Model (PDM) | Centralized at the project level. Defines data types that can be reused across processes within the project.                                |
-    | Process Data Model       | Specific to an individual process. Contains data types used within that process. Can leverage data types defined in the Project Data Model. |
-    | Library Data Model       | Defined within a library. Allows data types to be reused across multiple projects, promoting standardization.                               |
+    | Data Model Layer         | Description                                                                                                   |
+    | ------------------------ | ------------------------------------------------------------------------------------------------------------- |
+    | Process Data Model       | Can leverage data types defined in the Project Data Model or Library Data Model.                              |
+    | Project Data Model (PDM) | Defines data types that can be reused across processes and other resources within the project                 |
+    | Library Data Model       | Defined within a library. Allows data types to be reused across multiple projects, promoting standardization. |
+
+    <Frame>
+    ![Data Model Types](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_process.png)
+    </Frame>
   </Tab>
   <Tab title="Data Types & Attributes">
     A **data type** defines the structure of a particular set of data. For example, a `Customer` data type might contain attributes like `name`, `email`, and `address`.
@@ -52,10 +56,10 @@ With PDM, you create a centralized data structure that serves as the foundation 
 
 <CardGroup cols={2}>
   <Card title="Consistency" icon="check-double">
-    Ensures data structure consistency across multiple processes
+    Ensures data structure consistency across multiple processes and resources
   </Card>
   <Card title="Reusability" icon="recycle">
-    Define once, use many times
+    Define once, use many times across processes, business rules, and other components
   </Card>
   <Card title="Efficiency" icon="bolt">
     Reduces development time by eliminating duplicate definitions
@@ -139,6 +143,10 @@ With PDM, you create a centralized data structure that serves as the foundation 
 <Info>
 Changes to data types propagate to all processes referencing them. If a process is using this data type, it will automatically get the updated structure.
 
+<Warning>
+However, changes do NOT propagate to UI Designer paths, which will need to be adjusted manually.
+</Warning>
+
 <video
   autoPlay
   muted
@@ -167,12 +175,12 @@ You can either delete an entire object or just a single attribute.
     Click the remove button.
   </Step>
   <Step title="Confirm deletion">
-    Confirm the deletion if the data type is not in use.
+   You can delete the data type even if it's in use. The system will show you a warning message indicating which processes reference the data type.
   </Step>
 </Steps>
 
 <Warning>
-If the data type is in use by processes, you will receive a warning message and cannot delete it until all references are removed.
+If the data type is in use by processes, you will receive a warning message showing which processes reference it. You can still proceed with the deletion, but this may affect the referenced processes.
 
 
 ![Delete data type](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_delete.png)
@@ -205,7 +213,7 @@ When a data type from the Project Data Model is used in a Process Data Model:
         The changes automatically propagate to all processes using that key.
       </Step>
       <Step title="Updates">
-        Referenced components in processes will be updated to reflect the changes.
+        Referenced components in processes will be updated to reflect the changes, but UI Designer paths require manual adjustment.
       </Step>
     </Steps>
   </Tab>
@@ -222,12 +230,7 @@ When a data type from the Project Data Model is used in a Process Data Model:
         System checks if the key is in use by any process.
       </Step>
       <Step title="Result">
-        <ParamField name="Key in use">
-          A warning modal prevents the deletion.
-        </ParamField>
-        <ParamField name="Key not in use">
-          The key is successfully removed.
-        </ParamField>
+      A warning modal shows references but allows deletion.
       </Step>
     </Steps>
   </Tab>
@@ -244,12 +247,9 @@ When a data type from the Project Data Model is used in a Process Data Model:
         System will prompt for confirmation as this might break processes.
       </Step>
       <Step title="Result">
-        <ParamField name="Incompatible change">
-          References will be broken and removed from UI templates.
-        </ParamField>
-        <ParamField name="Compatible change">
-          No changes to references are required.
-        </ParamField>
+   **Incompatible change**: References will be broken and removed from UI templates.
+   
+   **Compatible change**: No changes to references are required.
       </Step>
     </Steps>
   </Tab>
@@ -279,6 +279,10 @@ When a data type from the Project Data Model is used in a Process Data Model:
 </Frame>
 
 3. Library data types become available in your Project Data Model.
+
+<Warning>
+Library data types are not visible by default! You must select the library source in the filter to display them.
+</Warning>
 
 <Tip>
 To filter by library types you can use the "Filter by source" feature.
@@ -506,8 +510,8 @@ The company created multiple processes using the PDM:
   <Card>
     This example shows how the Project Data Model:
 
-    - **Ensures data consistency**: Core entities like Customer and Policy maintain consistent structures across all processes.
-    - **Promotes reusability**: Common data types are defined once and reused in multiple processes.
+    - **Ensures data consistency**: Core entities like Customer and Policy maintain consistent structures across all processes and resources.
+    - **Promotes reusability**: Common data types are defined once and reused in in multiple processes, business rules, and other resources.
     - **Simplifies changes**: Updates to data types are propagated automatically to all processes.
     - **Enforces governance**: Sensitive data is marked at the project level for consistent handling.
     - **Allows flexibility**: Process-specific data can extend the PDM while maintaining core data integrity.
@@ -521,15 +525,19 @@ The company created multiple processes using the PDM:
 </Check>
 
 <Check>
+**Always provide example values**: Example values will be used in data mapping and other operations.
+</Check>
+
+<Check>
 **Use descriptive names**: Choose clear, descriptive names for data types and attributes.
 </Check>
 
 <Check>
-**Document your model**: Add descriptions to data types and attributes for better understanding.
+**Document your model**: Add descriptions to data types and attributes for better understanding and for AI agents.
 </Check>
 
 <Check>
-**Consider reusability**: Design data types with reusability in mind.
+**Consider reusability**: Design data types with reusability in mind across processes and resources.
 </Check>
 
 <Check>
