@@ -14,42 +14,36 @@ Before proceeding, it is recommended to familiarize yourself with Elasticsearch 
 
 Old configuration:
 
-```yaml
-spring:
-  elasticsearch:
-    index-settings:
-      name: process_instance
-      shards: 2
-      replicas: 2
 
-```
+* `FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME`: `process_instance`
+* `FLOWX_INDEXING_PROCESSINSTANCE_SHARDS`: `2`
+* `FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS`: `2`
+
+
 
 New configuration:
 
-```yaml
-flowx:
-  indexing:
-    optimistic-locking-retries: 3 //controls how many times the engine will retry indexing when it encounters concurrent-update errors on key identifiers.  
-    enabled: true  // true | false - specifies if the indexing with Elasticsearch for the whole app is enabled or disabled.
-    processInstance:  // set of configurations for indexing process instances. Can be duplicated for other objects.
-      indexing-type: kafka  // no-indexing | http | kafka - the chosen indexing strategy.
-      index-name: process_instance  // the index name that is part of the search pattern.
-      shards: 2
-      replicas: 2
-```
+
+* `FLOWX_INDEXING_OPTIMISTIC_LOCKING_RETRIES`: `3`
+* `FLOWX_INDEXING_ENABLED`: `true`
+* `FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE`: `kafka`
+* `FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME`: `process_instance`
+* `FLOWX_INDEXING_PROCESSINSTANCE_SHARDS`: `2`
+* `FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS`: `2`
+
 
 <Info>
-The `flowx.indexing.optimistic-locking-retries` property is available only for the HTTP indexing strategy.
+The `FLOWX_INDEXING_OPTIMISTIC_LOCKING_RETRIES` property is available only for the HTTP indexing strategy.
 </Info>
 
-The `flowx.indexing.enabled` property determines whether indexing with Elasticsearch is enabled. When set to false or missing, no indexing will be performed for any entities defined below. When set to true, indexing with Elasticsearch is enabled.
+The `FLOWX_INDEXING_ENABLED` property determines whether indexing with Elasticsearch is enabled. When set to false or missing, no indexing will be performed for any entities defined below. When set to true, indexing with Elasticsearch is enabled.
 
 
 <Info>
 If the FlowX indexing configuration is set to false, the following configuration information and guidelines are not applicable to your use case.
 </Info>
 
-The `flowx.indexing.processInstance.indexing-type` property defines the indexing strategy for process instances. It can have one of the following values:
+The `FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE` property defines the indexing strategy for process instances. It can have one of the following values:
 
 * **no-indexing**: No indexing will be performed for process instances.
 * **http**: Direct connection from the process engine to Elasticsearch through HTTP calls.
@@ -105,135 +99,143 @@ For Kafka indexing, the Kafka Connect with Elasticsearch Sink Connector must be 
   * Assumes Kafka cluster installed with Strimzi operator and Elasticsearch with eck-operator
   * Can save the image built by Kafka Connect to a local registry and comment build section
 
+
 ```yaml
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaConnect
 metadata:
-  name: kafka-connect-kafka-flowx
+  name: flowx-elasticsearch-kafka-connect
   annotations:
     strimzi.io/use-connector-resources: "true"
 spec:
-  version: 3.0.0
+  version: 3.9.0 # match with kind: Kafka version
   replicas: 1
-  bootstrapServers: kafka-flowx-kafka-bootstrap:9093
-  tls:
-    trustedCertificates:
-      - secretName: kafka-flowx-cluster-ca-cert
-        certificate: ca.crt
-  image: ttl.sh/strimzi-connect-ttlsh266-3.0.0:24h
+  bootstrapServers: flowx-kafka-bootstrap:9092
+  # add this only if using oauth for kafka
+  authentication:
+    type: oauth
+    clientId: flowx-service-client
+    clientSecret:
+      secretName: keycloak-kafka-cluster-client
+      key: KEYCLOAK_KAFKA_CLUSTER_CLIENT_SECRET
+    tokenEndpointUri: https://< keycloak url >/auth/realms/< realm >/protocol/openid-connect/token
+    # add this only if keycloak is using self signed certificates
+    tlsTrustedCertificates:
+      - secretName: self-signed-certificate
+        certificate: tls.crt
+    disableTlsHostnameVerification: true
+
   config:
-    group.id: flowx-kafka-connect
-    offset.storage.topic: kafka-connect-cluster-offsets
-    config.storage.topic: kafka-connect-cluster-configs
-    status.storage.topic: kafka-connect-cluster-status
+    group.id: flowx-kafka-connect-es-plugin
+    offset.storage.topic: ai.flowx.kafka-connect-cluster-offsets
+    config.storage.topic: ai.flowx.kafka-connect-cluster-configs
+    status.storage.topic: ai.flowx.kafka-connect-cluster-status
     # -1 means it will use the default replication factor configured in the broker
     config.storage.replication.factor: -1
     offset.storage.replication.factor: -1
     status.storage.replication.factor: -1
     topic.creation.enable: true
+    # enable environment variables for the connector configuration
+    config.providers: env
+    config.providers.env.class: org.apache.kafka.common.config.provider.EnvVarConfigProvider
+
   build:
-   output:
-     type: docker
-     # This image will last only for 24 hours and might be overwritten by other users
-     # Strimzi will use this tag to push the image. But it will use the digest to pull
-     # the container image to make sure it pulls exactly the image we just built. So
-     # it should not happen that you pull someone else's container image. However, we
-     # recommend changing this to your own container registry or using a different
-     # image name for any other than demo purposes.
-     image: ttl.sh/strimzi-connect-ttlsh266-3.0.0:24h
-   plugins:
-     - name: kafka-connect-elasticsearch
-       artifacts:
-         - type: zip
-           url: https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-elasticsearch/versions/14.0.6/confluentinc-kafka-connect-elasticsearch-14.0.6.zip
-  externalConfiguration:
-    volumes:
-      - name: elasticsearch-keystore-volume
-        secret:
-          secretName: elasticsearch-keystore
-    env:
-      - name: SPRING_ELASTICSEARCH_REST_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: elasticsearch-es-elastic-user
-            key: elastic
+    output:
+      type: docker
+      # This image will last only for 24 hours and might be overwritten by other users
+      # Strimzi will use this tag to push the image. But it will use the digest to pull
+      # the container image to make sure it pulls exactly the image we just built. So
+      # it should not happen that you pull someone else's container image. However, we
+      # recommend changing this to your own container registry or using a different
+      # image name for any other than demo purposes.
+      image: ttl.sh/strimzi-connect-ttlsh266-3.0.0:24h
+    plugins:
+      - name: kafka-connect-elasticsearch
+        artifacts:
+          - type: zip
+            url: https://d2p6pa21dvn84.cloudfront.net/api/plugins/confluentinc/kafka-connect-elasticsearch/versions/15.0.0/confluentinc-kafka-connect-elasticsearch-15.0.0.zip
+
+  template:
+    # Elasticsearch Sink Connector requires JKS format for the certificate and
+    # eck-operator generates the certificate in PEM format.
+    # Before installing this resource, you need to convert the certificate to JKS format and create a secret.
+    #
+    # 1. kubectl get secret elasticsearch-es-http-certs-public -n flowx -o jsonpath='{.data.ca\.crt}' | base64 --decode > es-ca.crt
+    # 2. keytool -importcert -alias elasticsearch -file es-ca.crt -keystore keystore.jks -storepass flowx123456 -noprompt
+    # 3. kubectl -n flowx create secret generic kafka-connect-elastic-jks --from-file=keystore.jks
+    pod:
+      volumes:
+        - name: elasticsearch-keystore
+          secret:
+            secretName: kafka-connect-elastic-jks
+    connectContainer:
+      env:
+        - name: ELASTIC_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              # secret is generated by eck-operator when creating the elasticsearch cluster
+              name: elasticsearch-es-elastic-user
+              key: elastic
+      volumeMounts:
+        - name: elasticsearch-keystore
+          mountPath: /mnt/elasticsearch-keystore
+          readOnly: true
 ```
 
 ### Kafka Elasticsearch Connector
 
+
 ```yaml
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnector
+metadata:
+  name: flowx-elasticsearch-sink-connector
+  labels:
+    strimzi.io/cluster: flowx-elasticsearch-kafka-connect
 spec:
   class: io.confluent.connect.elasticsearch.ElasticsearchSinkConnector
-  tasksMax: 2
   config:
-    tasks.max: "2" # The maximum number of tasks that can be run in parallel for this connector, which is 2 in this case. You can start with 2 and increase in case of huge load, but pay attention to the load that will be produced on Elasticsearch and also to the resources that you allocate to KafkaConnect so that it can support the threads.
-    topics: "ai.flowx.core.index.process.v1" # Source Kafka topic. Must be the same as the one declared in the process defined as ${kafka.topic.naming.prefix}.core.index.process${kafka.topic.naming.suffix}
-    key.ignore: "false" # Don't change this value! This tells Kafka Connect (KC) to process the key of the message - it will be used as the ID of the object in Elasticsearch.  
-    schema.ignore: "true" # Don't change this value!!! This tells KC to ignore the mapping from the Kafka message. Elasticsearch will use internal mapping. See below. 
-    connection.url: "https://elasticsearch-es-http:9200" # The URL to Elasticsearch. You should configure this.
-    connection.username: "elastic" # The username to authenticate with Elasticsearch. You should configure this.
-    connection.password: "Yyh03ZI66310Hyw59MXcR8xt" # The password to authenticate with Elasticsearch. You should configure this.
-    elastic.security.protocol: "SSL" # The security protocol to use for connecting to Elasticsearch. You should use SSL if possible.
-    elastic.https.ssl.keystore.location: "/opt/kafka/external-configuration/elasticsearch-keystore-volume/keystore.jks" # You should configure the path to the keystore where the Elasticsearch key is added.
-    elastic.https.ssl.keystore.password: "MPx57vkACsRWKVap" # The password for the keystore file. You should configure this.
-    elastic.https.ssl.key.password: "MPx57vkACsRWKVap" # The password for the key within the keystore file.
-    elastic.https.ssl.keystore.type: "JKS" # The type of the keystore file. It is set to "JKS" (Java KeyStore).
-    elastic.https.ssl.truststore.location: "/opt/kafka/external-configuration/elasticsearch-keystore-volume/keystore.jks" # you should configure the path to the keystore where the Elasticsearch key is added.
-    elastic.https.ssl.truststore.password: "MPx57vkACsRWKVap" # The password for the truststore file. You should configure this
-    elastic.https.ssl.truststore.type: "JKS" # The type of the truststore file. It is set to "JKS".
-    elastic.https.ssl.protocol: "TLS" # The SSL/TLS protocol to use for communication. It is set to "TLS".
     batch.size: 1000 # The size of the message batch that KC will process. This should be fine as default value. If you experience slowness and want to increase the speed, changing this may help but it will be based on your scenario. Consult the documentation for more details.
-    linger.ms: 1 # #Start with this value and change it only if needed. Consult the documentation for connector for more details.
     read.timeout.ms: 30000 # Increased to 30000 from the default 3000 due to flush.synchronously = true.
-    flush.synchronously: "true" # Don't change this value! The way of writing to Elasticsearch. It must stay "true" for the router below to work.
+    behavior.on.malformed.documents: IGNORE
+    behavior.on.null.values: IGNORE
+    connection.url: https://elasticsearch-es-http.flowx.svc:9200 # The URL to Elasticsearch. You should configure this.
+    connection.username: elastic # The username to authenticate with Elasticsearch. You should configure this.
+    connection.password: ${env:ELASTIC_PASSWORD}  # The password to authenticate with Elasticsearch. You should configure this.
     drop.invalid.message: "true" # Don't change this value! If set to false, the connector will wait for a configuration that allows processing the message. If set to true, the connector will drop the invalid message.
-    behavior.on.null.values: "IGNORE" # Don't change this value! Must be set to IGNORE to avoid blocking the processing of null messages.
-    behavior.on.malformed.documents: "IGNORE" # Don't change this value!  Must be IGNORE to avoid blocking the processing of invalid JSONs.
-    write.method: "UPSERT" # Don't change this value!  UPSERT to create or update the index.
-    type.name: "_doc" # Don't change this value! This is the name of the Elasticsearch type for indexing. 
-    key.converter: "org.apache.kafka.connect.storage.StringConverter" # Don't change this value!
+    elastic.security.protocol: SSL # The security protocol to use for connecting to Elasticsearch. You should use SSL if possible.
+    elastic.https.ssl.truststore.type: JKS # The type of the truststore file. It is set to "JKS".
+    elastic.https.ssl.truststore.location: /mnt/elasticsearch-keystore/keystore.jks # You should configure the path to the keystore where the Elasticsearch key is added.
+    elastic.https.ssl.truststore.password: "flowx123456" # The password for the truststore file. You should configure this.
+    flush.synchronously: "true" # Don't change this value! The way of writing to Elasticsearch. It must stay "true" for the router below to work.
+    schema.ignore: "true" # Don't change this value!!! This tells KC to ignore the mapping from the Kafka message. Elasticsearch will use internal mapping. See below. 
+    topics: ai.flowx.core.index.process.v1 # Source Kafka topic. Must be the same as the one declared in the process defined as ${kafka.topic.naming.prefix}.core.index.process${kafka.topic.naming.suffix}
+    transforms: routeTS # Don't change this value! This represents router that helps create indices dynamically based on the timestamp (process instance start date).
+    transforms.routeTS.timestamp.format: yyyyMM # This format ensures that the timestamp is represented consistently and can be easily parsed when creating or searching for indices based on the process instance start date. You can change this with the value you want. If you want monthly indexes set it to "yyyyMM". But be aware that once you set it, when you change it, the existing object indexed will not be updated anymore. The update messages will be treated as new objects and indexed again because they are going to be sent to new indexes. This is important! Try to find your index size and stick with it.
+    transforms.routeTS.topic.format: process_instance-${timestamp} # You should configure this. It is important that this value must start with the value defined in process-engine config: flowx.indexing.processInstance.index-name. The name of the index will start with a prefix ("process_instance-" in this example) and must have the timestamp appended after for dynamically creating indices. For backward compatibility (utilizing the data in the existing index), the prefix must be "process_instance-". However, backward compatibility isn't specifically required here.
+    transforms.routeTS.type: org.apache.kafka.connect.transforms.TimestampRouter # Don't change this value! It helps with routing the message to the correct index.
+    type.name: _doc # Don't change this value! This is the name of the Elasticsearch type for indexing. 
+    write.method: UPSERT
+    key.converter: org.apache.kafka.connect.storage.StringConverter  # Don't change this value!
     key.converter.schemas.enable: "false" # Don't change this value! No schema defined for the key in the message.
-    value.converter: "org.apache.kafka.connect.json.JsonConverter" # Don't change this value!
+    value.converter: org.apache.kafka.connect.json.JsonConverter # Don't change this value!
     value.converter.schemas.enable: "false" # Don't change this value! No schema defined for the value in the message body.
-    transforms: "routeTS" # Don't change this value! This represents router that helps create indices dynamically based on the timestamp (process instance start date).
-    transforms.routeTS.type: "org.apache.kafka.connect.transforms.TimestampRouter" # Don't change this value! It helps with routing the message to the correct index.
-    transforms.routeTS.topic.format: "process_instance-${timestamp}" # You should configure this. It is important that this value must start with the value defined in process-engine config: flowx.indexing.processInstance.index-name. The name of the index will start with a prefix ("process_instance-" in this example) and must have the timestamp appended after for dynamically creating indices. For backward compatibility (utilizing the data in the existing index), the prefix must be "process_instance-". However, backward compatibility isn't specifically required here.
-    transforms.routeTS.timestamp.format: "yyyyMMdd" # This format ensures that the timestamp is represented consistently and can be easily parsed when creating or searching for indices based on the process instance start date. You can change this with the value you want. If you want monthly indexes set it to "yyyyMM". But be aware that once you set it, when you change it, the existing object indexed will not be updated anymore. The update messages will be treated as new objects and indexed again because they are going to be sent to new indexes. This is important! Try to find your index size and stick with it.
 ```
-
 ### HTTP indexing
-
-```yaml
-flowx:
-  indexing:
-    enabled: true
-    processInstance:
-      indexing-type: http
-      index-name: process_instance
-      shards: 2
-      replicas: 2
-```
 
 If you don't want to remove the existing configuration parameters, you can use the following example:
 
-```yaml
-spring:
-  elasticsearch:
-    index-settings:
-      name: process_instance
-      shards: 2
-      replicas: 2
-flowx.use-elasticsearch: true
-flowx:
-  indexing:
-    enabled: ${flowx.use-elasticsearch}
-    processInstance:
-      indexing-type: http
-      index-name: ${spring.elasticsearch.index-settings.name}
-      shards: ${spring.elasticsearch.index-settings.shards}
-      replicas: ${spring.elasticsearch.index-settings.replicas}
 
-```
+* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME`: `process_instance`
+* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_SHARDS`: `2`
+* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_REPLICAS`: `2`
+* `FLOWX_USE_ELASTICSEARCH`: `true`
+* FLOWX_INDEXING_ENABLED=${FLOWX_USE_ELASTICSEARCH}
+* FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE=http
+* FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME=${SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME}
+* FLOWX_INDEXING_PROCESSINSTANCE_SHARDS=${SPRING_ELASTICSEARCH_INDEX_SETTINGS_SHARDS}
+* FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS=${SPRING_ELASTICSEARCH_INDEX_SETTINGS_REPLICAS}
+
 
 ## Querying Elasticsearch
 
@@ -245,8 +247,8 @@ To read from multiple indices, queries in Elasticsearch have been updated. The q
 
 This topic is used for sending the data to be indexed from Process engine. The data from this topic will be read by Kafka Connect.
 
-- Key: `${kafka.topic.process.index.out}`
-- Value: `${kafka.topic.naming.prefix}.core.index.process${kafka.topic.naming.suffix}`
+- Key: `KAFKA_TOPIC_PROCESS_INDEX_OUT`
+- Value: `ai.flowx.dev.core.index.process.v1`
 
 
 | Default parameter (env var)   | Default FLOWX.AI value (can be overwritten) |
