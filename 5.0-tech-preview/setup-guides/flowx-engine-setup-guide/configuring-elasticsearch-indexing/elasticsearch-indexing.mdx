@@ -31,30 +31,37 @@ description: This guide shows you how to enable process instance indexing using 
 All indexing is controlled by these core settings:
 
 ### Global indexing control
+
 ```bash
-FLOWX_INDEXING_ENABLED=true  # Master switch - must be true to enable any indexing
+FLOWX_INDEXING_ENABLED=false  # Set only when you want to disable indexing
 ```
+
+<Info>
+`FLOWX_INDEXING_ENABLED` defaults to true. Only set this variable if you want to disable indexing by setting it to false.
+</Info>
 
 ### Strategy selection
 ```bash
 FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE=kafka  # Options: kafka, http, no-indexing
 ```
 
-### Performance considerations (FlowX recommendations)
+### Performance considerations (FlowX defaults)
 
-**Starting configuration (recommended):**
-- **Monthly indices**: `yyyyMM` format for time-based partitioning
-- **2 shards + 1 replica**: Handles up to 200k process instances per day
-- **Total shards per month**: 4 (2 primary + 2 replica)
-- **Annual impact**: 48 shards per year (well under Elasticsearch's 1000 shard default limit)
+**Default configuration:**
+- **Monthly indices**: `yyyyMM` format for time-based partitioning (Kafka only)
+- **2 shards + 2 replicas**: Handles up to 200k process instances per day
+- **Total shards per month**: 6 (2 primary + 4 replica shards)
+- **Annual impact**: 72 shards per year (well under Elasticsearch's 1000 shard default limit)
 
 **Scaling guidelines:**
 - **If indexing becomes slow**: Check physical resources and shard size
 - **If monthly indices become too large**: Switch to weekly indices (`yyyyww`)
 - **For high parallel indexing load**: Add more primary shards
-- **High availability**: Always use at least 1 replica
+- **High availability**: The default 2 replicas provide good redundancy
 
-> **Important**: Each replica is applied per shard, so monitor resource usage when increasing replicas.
+<Warning>
+**Important**: Each replica is applied per shard, so monitor resource usage when increasing replicas.
+</Warning>
 
 ### HTTP-only setting
 ```bash
@@ -70,13 +77,10 @@ FLOWX_INDEXING_OPTIMISTIC_LOCKING_RETRIES=3  # Only used with HTTP strategy
 Add these environment variables to your process-engine configuration:
 
 ```bash
-# Enable indexing globally
-FLOWX_INDEXING_ENABLED=true
-
 # Use Kafka strategy
 FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE=kafka
 
-# Index settings
+# Index settings (optional - these are the defaults)
 FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME=process_instance
 FLOWX_INDEXING_PROCESSINSTANCE_SHARDS=2
 FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS=2
@@ -177,7 +181,6 @@ spec:
 - `transforms.routeTS.topic.format`: Must start with your configured index name
 - `batch.size`: Adjust based on throughput needs (1000 is good default)
 
-
 <Warning>
 **Process instance data archiving integration**: If you're using FlowX's process instance data archiving feature, ensure your Elasticsearch partitioning configuration aligns with your database partitioning strategy. This is essential because:
 
@@ -266,38 +269,16 @@ curl -k -u elastic:$ELASTIC_PASSWORD https://localhost:9200/_cat/indices?v
 For HTTP indexing, update your process-engine configuration:
 
 ```bash
-# Enable indexing globally
-FLOWX_INDEXING_ENABLED=true
-
 # Use HTTP strategy
 FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE=http
 
-# Index settings
+# Index settings (optional - these are the defaults)
 FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME=process_instance
 FLOWX_INDEXING_PROCESSINSTANCE_SHARDS=2
 FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS=2
 
 # HTTP-specific setting
 FLOWX_INDEXING_OPTIMISTIC_LOCKING_RETRIES=3
-```
-
-### Backward compatibility option
-
-If you want to keep existing configuration parameters:
-
-```bash
-# Legacy settings
-SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME=process_instance
-SPRING_ELASTICSEARCH_INDEX_SETTINGS_SHARDS=2
-SPRING_ELASTICSEARCH_INDEX_SETTINGS_REPLICAS=2
-FLOWX_USE_ELASTICSEARCH=true
-
-# New settings referencing legacy ones
-FLOWX_INDEXING_ENABLED=${FLOWX_USE_ELASTICSEARCH}
-FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE=http
-FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME=${SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME}
-FLOWX_INDEXING_PROCESSINSTANCE_SHARDS=${SPRING_ELASTICSEARCH_INDEX_SETTINGS_SHARDS}
-FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS=${SPRING_ELASTICSEARCH_INDEX_SETTINGS_REPLICAS}
 ```
 
 ---
@@ -353,7 +334,7 @@ curl -X DELETE "https://localhost:9200/process_instance-2024*"
 ### Common issues
 
 **Indexing not working:**
-1. Check `FLOWX_INDEXING_ENABLED=true`
+1. Check if indexing is disabled (only if you explicitly set `FLOWX_INDEXING_ENABLED=false`)
 2. Verify Elasticsearch connectivity
 3. Check process-engine logs for errors
 
@@ -398,5 +379,3 @@ curl -k -u elastic:$PASSWORD -X GET "https://localhost:9200/process_instance-*/_
   -H "Content-Type: application/json" \
   -d '{"query": {"match_all": {}}}'
 ```
-
-
