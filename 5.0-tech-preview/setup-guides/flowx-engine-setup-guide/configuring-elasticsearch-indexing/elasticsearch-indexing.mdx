@@ -1,105 +1,109 @@
 ---
 title: Configuring Elasticsearch indexing
-description: This section provides configuration steps for enabling process instance indexing using the Kafka or HTTP transport strategy.
+description: This guide shows you how to enable process instance indexing using either Kafka or HTTP transport strategies.
 ---
 
+## Before you start
+
+- **Read the prerequisites**: Review the [Intro to Elasticsearch](../../../docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch) section first
+- **Choose your strategy**: Decide between Kafka (recommended for production) or HTTP indexing based on your infrastructure
+- **Check permissions**: Ensure you have access to modify process-engine configurations
+
+## Quick decision: Kafka vs HTTP
+
+| Strategy                | Best for                                     | Pros                                                                                               | Cons                                                              |
+| ----------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Kafka** (recommended) | Production environments with high throughput | Fire-and-forget communication, time-based partitioning, better performance, decoupled architecture | Requires Kafka Connect setup                                      |
+| **HTTP**                | Development or simple setups                 | Direct connection, easier setup                                                                    | Blocking operations, no time-based partitioning, tighter coupling |
+
 <Tip>
-Before proceeding, it is recommended to familiarize yourself with Elasticsearch and its indexing process by referring to the Intro to Elasticsearch section.
+ **Why Kafka is recommended**: The Kafka strategy allows for fire-and-forget communication, eliminating the need for the process engine to wait for indexing requests to complete. This significantly improves performance in high-throughput scenarios.
 </Tip>
 
-<Card title="Intro to Elasticsearch" href="../../../docs/platform-overview/frameworks-and-standards/event-driven-architecture-frameworks/intro-to-elasticsearch" icon="file"/>
-
-
-## Configuration
-
-Old configuration:
-
-
-* `FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME`: `process_instance`
-* `FLOWX_INDEXING_PROCESSINSTANCE_SHARDS`: `2`
-* `FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS`: `2`
-
-
-
-New configuration:
-
-
-* `FLOWX_INDEXING_OPTIMISTIC_LOCKING_RETRIES`: `3`
-* `FLOWX_INDEXING_ENABLED`: `true`
-* `FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE`: `kafka`
-* `FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME`: `process_instance`
-* `FLOWX_INDEXING_PROCESSINSTANCE_SHARDS`: `2`
-* `FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS`: `2`
-
-
 <Info>
-The `FLOWX_INDEXING_OPTIMISTIC_LOCKING_RETRIES` property is available only for the HTTP indexing strategy.
+**Critical difference**: Only the Kafka strategy provides out-of-the-box support for time-based partitioning through the `transforms.routeTS.timestamp.format` configuration (see later in this guide). The HTTP strategy does not support time-based partitioning as a built-in feature.
 </Info>
 
-The `FLOWX_INDEXING_ENABLED` property determines whether indexing with Elasticsearch is enabled. When set to false or missing, no indexing will be performed for any entities defined below. When set to true, indexing with Elasticsearch is enabled.
+---
 
+## Configuration overview
 
-<Info>
-If the FlowX indexing configuration is set to false, the following configuration information and guidelines are not applicable to your use case.
-</Info>
+All indexing is controlled by these core settings:
 
-The `FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE` property defines the indexing strategy for process instances. It can have one of the following values:
+### Global indexing control
+```bash
+FLOWX_INDEXING_ENABLED=true  # Master switch - must be true to enable any indexing
+```
 
-* **no-indexing**: No indexing will be performed for process instances.
-* **http**: Direct connection from the process engine to Elasticsearch through HTTP calls.
-* **kafka**: Data will be sent to be indexed via a Kafka topic using the new strategy. To implement this strategy, the Kafka Connect with Elasticsearch Sink Connector must be deployed in the infrastructure.
+### Strategy selection
+```bash
+FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE=kafka  # Options: kafka, http, no-indexing
+```
 
-## Configuration steps
+### Performance considerations (FlowX recommendations)
 
-To enable indexing with Elasticsearch for the entire application, update the process-engine configuration with the following parameters:
+**Starting configuration (recommended):**
+- **Monthly indices**: `yyyyMM` format for time-based partitioning
+- **2 shards + 1 replica**: Handles up to 200k process instances per day
+- **Total shards per month**: 4 (2 primary + 2 replica)
+- **Annual impact**: 48 shards per year (well under Elasticsearch's 1000 shard default limit)
 
-* `FLOWX_INDEXING_ENABLED`: Set this parameter to `true` to enable indexing with Elastisearch for the entire application.
+**Scaling guidelines:**
+- **If indexing becomes slow**: Check physical resources and shard size
+- **If monthly indices become too large**: Switch to weekly indices (`yyyyww`)
+- **For high parallel indexing load**: Add more primary shards
+- **High availability**: Always use at least 1 replica
 
-| Variable Name          | Enabled | Description                                               |
-| ---------------------- | ------- | --------------------------------------------------------- |
-| FLOWX_INDEXING_ENABLED | true    | Indexing with Elasticsearch for the whole app is enabled  |
-| FLOWX_INDEXING_ENABLED | false   | Indexing with Elasticsearch for the whole app is disabled |
+> **Important**: Each replica is applied per shard, so monitor resource usage when increasing replicas.
 
-* `FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE`: Set this parameter to `kafka` to use the Kafka transport strategy for indexing process instances.
+### HTTP-only setting
+```bash
+FLOWX_INDEXING_OPTIMISTIC_LOCKING_RETRIES=3  # Only used with HTTP strategy
+```
 
-| Variable Name                                | Indexing Type - Values | Definition                                                                                                                          |
-| -------------------------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE | no-indexing            | No indexing is performed for process instances                                                                                      |
-| FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE | http                   | Process instances are indexed via HTTP (direct connection from process-engine to Elasticsearch thorugh HTTP calls)                  |
-| FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE | kafka                  | Process instances are indexed via Kafka (send data to be indexed through a Kafka topic - the new strategy for the applied solution) |
+---
 
-* `FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME`: Specify the name of the index used for process instances.
+## Setup: Kafka indexing (recommended)
 
-| Variable Name                                      | Values           | Definition                                                                                      |
-| -------------------------------------------------- | ---------------- | ----------------------------------------------------------------------------------------------- |
-| FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_INDEX_NAME | process_instance | The name of the index used for storing process instances. It is also part of the search pattern |
+### Step 1: Configure the process engine
 
-* `FLOWX_INDEXING_PROCESSINSTANCE_SHARDS`: Set the number of shards for the index.
+Add these environment variables to your process-engine configuration:
 
-| Variable Name                         | Values | Definition                                                                 |
-| ------------------------------------- | ------ | -------------------------------------------------------------------------- |
-| FLOWX_INDEXING_PROCESSINSTANCE_SHARDS | 1      | The number of shards for the Elasticsearch index storing process instances |
+```bash
+# Enable indexing globally
+FLOWX_INDEXING_ENABLED=true
 
-* `FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS`: Set the number of replicas for the index.
+# Use Kafka strategy
+FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE=kafka
 
-| Variable Name                           | Values | Definition                                                                   |
-| --------------------------------------- | ------ | ---------------------------------------------------------------------------- |
-| FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS | 1      | The number of replicas for the Elasticsearch index storing process instances |
+# Index settings
+FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME=process_instance
+FLOWX_INDEXING_PROCESSINSTANCE_SHARDS=2
+FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS=2
+```
 
-<Info>
-For Kafka indexing, the Kafka Connect with Elasticsearch Sink Connector must be deployed in the infrastructure.
-</Info>
+### Step 2: Deploy Kafka Connect
 
-[Elasticsearch Service Sink Connector](https://docs.confluent.io/kafka-connectors/elasticsearch/current/overview.html)
+**Prerequisites:**
+- Kafka cluster (installed with Strimzi operator)
+- Elasticsearch cluster (installed with eck-operator)
+- Convert ES certificates to JKS format (see commands below)
 
-## Configuration examples
+**Certificate conversion commands:**
+```bash
+# 1. Extract the CA certificate
+kubectl get secret elasticsearch-es-http-certs-public -n flowx \
+  -o jsonpath='{.data.ca\.crt}' | base64 --decode > es-ca.crt
 
-### Kafka Connect
+# 2. Create JKS keystore
+keytool -importcert -alias elasticsearch -file es-ca.crt \
+  -keystore keystore.jks -storepass flowx123456 -noprompt
 
-  * Assumes Kafka cluster installed with Strimzi operator and Elasticsearch with eck-operator
-  * Can save the image built by Kafka Connect to a local registry and comment build section
+# 3. Create Kubernetes secret
+kubectl -n flowx create secret generic kafka-connect-elastic-jks --from-file=keystore.jks
+```
 
-
+**Deploy KafkaConnect:**
 ```yaml
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaConnect
@@ -108,18 +112,18 @@ metadata:
   annotations:
     strimzi.io/use-connector-resources: "true"
 spec:
-  version: 3.9.0 # match with kind: Kafka version
+  version: 3.9.0  # Match your Kafka cluster version
   replicas: 1
   bootstrapServers: flowx-kafka-bootstrap:9092
-  # add this only if using oauth for kafka
+  
+  # OAuth configuration (if using Keycloak)
   authentication:
     type: oauth
     clientId: flowx-service-client
     clientSecret:
       secretName: keycloak-kafka-cluster-client
       key: KEYCLOAK_KAFKA_CLUSTER_CLIENT_SECRET
-    tokenEndpointUri: https://< keycloak url >/auth/realms/< realm >/protocol/openid-connect/token
-    # add this only if keycloak is using self signed certificates
+    tokenEndpointUri: https://YOUR_KEYCLOAK_URL/auth/realms/YOUR_REALM/protocol/openid-connect/token
     tlsTrustedCertificates:
       - secretName: self-signed-certificate
         certificate: tls.crt
@@ -130,25 +134,17 @@ spec:
     offset.storage.topic: ai.flowx.kafka-connect-cluster-offsets
     config.storage.topic: ai.flowx.kafka-connect-cluster-configs
     status.storage.topic: ai.flowx.kafka-connect-cluster-status
-    # -1 means it will use the default replication factor configured in the broker
     config.storage.replication.factor: -1
     offset.storage.replication.factor: -1
     status.storage.replication.factor: -1
     topic.creation.enable: true
-    # enable environment variables for the connector configuration
     config.providers: env
     config.providers.env.class: org.apache.kafka.common.config.provider.EnvVarConfigProvider
 
   build:
     output:
       type: docker
-      # This image will last only for 24 hours and might be overwritten by other users
-      # Strimzi will use this tag to push the image. But it will use the digest to pull
-      # the container image to make sure it pulls exactly the image we just built. So
-      # it should not happen that you pull someone else's container image. However, we
-      # recommend changing this to your own container registry or using a different
-      # image name for any other than demo purposes.
-      image: ttl.sh/strimzi-connect-ttlsh266-3.0.0:24h
+      image: ttl.sh/strimzi-connect-flowx-$(date +%s):24h  # Change this for production
     plugins:
       - name: kafka-connect-elasticsearch
         artifacts:
@@ -156,13 +152,6 @@ spec:
             url: https://d2p6pa21dvn84.cloudfront.net/api/plugins/confluentinc/kafka-connect-elasticsearch/versions/15.0.0/confluentinc-kafka-connect-elasticsearch-15.0.0.zip
 
   template:
-    # Elasticsearch Sink Connector requires JKS format for the certificate and
-    # eck-operator generates the certificate in PEM format.
-    # Before installing this resource, you need to convert the certificate to JKS format and create a secret.
-    #
-    # 1. kubectl get secret elasticsearch-es-http-certs-public -n flowx -o jsonpath='{.data.ca\.crt}' | base64 --decode > es-ca.crt
-    # 2. keytool -importcert -alias elasticsearch -file es-ca.crt -keystore keystore.jks -storepass flowx123456 -noprompt
-    # 3. kubectl -n flowx create secret generic kafka-connect-elastic-jks --from-file=keystore.jks
     pod:
       volumes:
         - name: elasticsearch-keystore
@@ -173,7 +162,6 @@ spec:
         - name: ELASTIC_PASSWORD
           valueFrom:
             secretKeyRef:
-              # secret is generated by eck-operator when creating the elasticsearch cluster
               name: elasticsearch-es-elastic-user
               key: elastic
       volumeMounts:
@@ -182,8 +170,21 @@ spec:
           readOnly: true
 ```
 
-### Kafka Elasticsearch Connector
+### Step 3: Configure the Elasticsearch Sink Connector
 
+**Key settings explained:**
+- `transforms.routeTS.timestamp.format`: Controls index partitioning (monthly=`yyyyMM`, daily=`yyyyMMdd`)
+- `transforms.routeTS.topic.format`: Must start with your configured index name
+- `batch.size`: Adjust based on throughput needs (1000 is good default)
+
+
+<Warning>
+**Process instance data archiving integration**: If you're using FlowX's process instance data archiving feature, ensure your Elasticsearch partitioning configuration aligns with your database partitioning strategy. This is essential because:
+
+- When archiving process instances, data must be deleted from both the database and Elasticsearch
+- The partitioning intervals should be similar between database and Elasticsearch for consistent data lifecycle management
+- Elasticsearch indexing strategy must be enabled when partitioning is configured
+</Warning>
 
 ```yaml
 apiVersion: kafka.strimzi.io/v1beta2
@@ -195,122 +196,207 @@ metadata:
 spec:
   class: io.confluent.connect.elasticsearch.ElasticsearchSinkConnector
   config:
-    batch.size: 1000 # The size of the message batch that KC will process. This should be fine as default value. If you experience slowness and want to increase the speed, changing this may help but it will be based on your scenario. Consult the documentation for more details.
-    read.timeout.ms: 30000 # Increased to 30000 from the default 3000 due to flush.synchronously = true.
+    # Connection settings - UPDATE THESE
+    connection.url: https://elasticsearch-es-http.flowx.svc:9200
+    connection.username: elastic
+    connection.password: ${env:ELASTIC_PASSWORD}
+    
+    # SSL settings
+    elastic.security.protocol: SSL
+    elastic.https.ssl.truststore.type: JKS
+    elastic.https.ssl.truststore.location: /mnt/elasticsearch-keystore/keystore.jks
+    elastic.https.ssl.truststore.password: "flowx123456"
+    
+    # Source topic - must match your Kafka topic naming
+    topics: ai.flowx.core.index.process.v1
+    
+    # Time-based routing - IMPORTANT: Choose your partitioning strategy
+    transforms: routeTS
+    transforms.routeTS.type: org.apache.kafka.connect.transforms.TimestampRouter
+    transforms.routeTS.timestamp.format: yyyyMM  # Monthly indices (change as needed)
+    transforms.routeTS.topic.format: process_instance-${timestamp}  # Must start with your index name
+    
+    # Performance settings
+    batch.size: 1000
+    read.timeout.ms: 30000
+    flush.synchronously: "true"
+    
+    # Data handling
     behavior.on.malformed.documents: IGNORE
     behavior.on.null.values: IGNORE
-    connection.url: https://elasticsearch-es-http.flowx.svc:9200 # The URL to Elasticsearch. You should configure this.
-    connection.username: elastic # The username to authenticate with Elasticsearch. You should configure this.
-    connection.password: ${env:ELASTIC_PASSWORD}  # The password to authenticate with Elasticsearch. You should configure this.
-    drop.invalid.message: "true" # Don't change this value! If set to false, the connector will wait for a configuration that allows processing the message. If set to true, the connector will drop the invalid message.
-    elastic.security.protocol: SSL # The security protocol to use for connecting to Elasticsearch. You should use SSL if possible.
-    elastic.https.ssl.truststore.type: JKS # The type of the truststore file. It is set to "JKS".
-    elastic.https.ssl.truststore.location: /mnt/elasticsearch-keystore/keystore.jks # You should configure the path to the keystore where the Elasticsearch key is added.
-    elastic.https.ssl.truststore.password: "flowx123456" # The password for the truststore file. You should configure this.
-    flush.synchronously: "true" # Don't change this value! The way of writing to Elasticsearch. It must stay "true" for the router below to work.
-    schema.ignore: "true" # Don't change this value!!! This tells KC to ignore the mapping from the Kafka message. Elasticsearch will use internal mapping. See below. 
-    topics: ai.flowx.core.index.process.v1 # Source Kafka topic. Must be the same as the one declared in the process defined as ${kafka.topic.naming.prefix}.core.index.process${kafka.topic.naming.suffix}
-    transforms: routeTS # Don't change this value! This represents router that helps create indices dynamically based on the timestamp (process instance start date).
-    transforms.routeTS.timestamp.format: yyyyMM # This format ensures that the timestamp is represented consistently and can be easily parsed when creating or searching for indices based on the process instance start date. You can change this with the value you want. If you want monthly indexes set it to "yyyyMM". But be aware that once you set it, when you change it, the existing object indexed will not be updated anymore. The update messages will be treated as new objects and indexed again because they are going to be sent to new indexes. This is important! Try to find your index size and stick with it.
-    transforms.routeTS.topic.format: process_instance-${timestamp} # You should configure this. It is important that this value must start with the value defined in process-engine config: flowx.indexing.processInstance.index-name. The name of the index will start with a prefix ("process_instance-" in this example) and must have the timestamp appended after for dynamically creating indices. For backward compatibility (utilizing the data in the existing index), the prefix must be "process_instance-". However, backward compatibility isn't specifically required here.
-    transforms.routeTS.type: org.apache.kafka.connect.transforms.TimestampRouter # Don't change this value! It helps with routing the message to the correct index.
-    type.name: _doc # Don't change this value! This is the name of the Elasticsearch type for indexing. 
+    drop.invalid.message: "true"
+    schema.ignore: "true"
     write.method: UPSERT
-    key.converter: org.apache.kafka.connect.storage.StringConverter  # Don't change this value!
-    key.converter.schemas.enable: "false" # Don't change this value! No schema defined for the key in the message.
-    value.converter: org.apache.kafka.connect.json.JsonConverter # Don't change this value!
-    value.converter.schemas.enable: "false" # Don't change this value! No schema defined for the value in the message body.
+    type.name: _doc
+    
+    # Converters
+    key.converter: org.apache.kafka.connect.storage.StringConverter
+    key.converter.schemas.enable: "false"
+    value.converter: org.apache.kafka.connect.json.JsonConverter
+    value.converter.schemas.enable: "false"
 ```
-### HTTP indexing
 
-If you don't want to remove the existing configuration parameters, you can use the following example:
+### Step 4: Verify the setup
 
+**Check Kafka Connect status:**
+```bash
+kubectl get kafkaconnect flowx-elasticsearch-kafka-connect -o yaml
+```
 
-* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME`: `process_instance`
-* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_SHARDS`: `2`
-* `SPRING_ELASTICSEARCH_INDEX_SETTINGS_REPLICAS`: `2`
-* `FLOWX_USE_ELASTICSEARCH`: `true`
-* FLOWX_INDEXING_ENABLED=${FLOWX_USE_ELASTICSEARCH}
-* FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE=http
-* FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME=${SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME}
-* FLOWX_INDEXING_PROCESSINSTANCE_SHARDS=${SPRING_ELASTICSEARCH_INDEX_SETTINGS_SHARDS}
-* FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS=${SPRING_ELASTICSEARCH_INDEX_SETTINGS_REPLICAS}
+**Check connector status:**
+```bash
+kubectl get kafkaconnector flowx-elasticsearch-sink-connector -o yaml
+```
 
+**Verify indices are being created:**
+```bash
+# Port-forward to Elasticsearch
+kubectl port-forward svc/elasticsearch-es-http 9200:9200
 
-## Querying Elasticsearch
+# Check indices (should see process_instance-YYYYMM pattern)
+curl -k -u elastic:$ELASTIC_PASSWORD https://localhost:9200/_cat/indices?v
+```
 
-To read from multiple indices, queries in Elasticsearch have been updated. The queries now run against an index pattern that identifies multiple indices instead of a single index. The index pattern is derived from the value defined in the configuration property:
+---
 
-`flowx.indexing.processInstance.index-name`
+## Setup: HTTP indexing (simple)
 
-## Kafka topics - process events messages
+### Configure the process engine
 
-This topic is used for sending the data to be indexed from Process engine. The data from this topic will be read by Kafka Connect.
+For HTTP indexing, update your process-engine configuration:
 
-- Key: `KAFKA_TOPIC_PROCESS_INDEX_OUT`
-- Value: `ai.flowx.dev.core.index.process.v1`
+```bash
+# Enable indexing globally
+FLOWX_INDEXING_ENABLED=true
 
+# Use HTTP strategy
+FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE=http
 
-| Default parameter (env var)   | Default FLOWX.AI value (can be overwritten) |
-| ----------------------------- | ------------------------------------------- |
-| KAFKA_TOPIC_PROCESS_INDEX_OUT | ai.flowx.dev.core.index.process.v1          |
+# Index settings
+FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME=process_instance
+FLOWX_INDEXING_PROCESSINSTANCE_SHARDS=2
+FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS=2
 
-<Info>
+# HTTP-specific setting
+FLOWX_INDEXING_OPTIMISTIC_LOCKING_RETRIES=3
+```
 
-The topic name, defined in the value, will be used by Kafka Connect as source for the messages to be sent to Elasticsearch for indexing.
+### Backward compatibility option
 
-The attribute `indexLastUpdatedTime` is new and will be populated for the kafka-connect strategy. This will tell the timestamp when the last operation was done on the object in the index.
+If you want to keep existing configuration parameters:
 
-</Info>
+```bash
+# Legacy settings
+SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME=process_instance
+SPRING_ELASTICSEARCH_INDEX_SETTINGS_SHARDS=2
+SPRING_ELASTICSEARCH_INDEX_SETTINGS_REPLICAS=2
+FLOWX_USE_ELASTICSEARCH=true
 
-## Elasticsearch index template
+# New settings referencing legacy ones
+FLOWX_INDEXING_ENABLED=${FLOWX_USE_ELASTICSEARCH}
+FLOWX_INDEXING_PROCESSINSTANCE_INDEXING_TYPE=http
+FLOWX_INDEXING_PROCESSINSTANCE_INDEX_NAME=${SPRING_ELASTICSEARCH_INDEX_SETTINGS_NAME}
+FLOWX_INDEXING_PROCESSINSTANCE_SHARDS=${SPRING_ELASTICSEARCH_INDEX_SETTINGS_SHARDS}
+FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS=${SPRING_ELASTICSEARCH_INDEX_SETTINGS_REPLICAS}
+```
 
-The mappings between messages and Elasticsearch data types need to be specified through index templates. The process engine automatically handles template creation during startup, but the approach differs based on the indexing strategy:
+---
 
-- When using the HTTP indexing strategy (indexing-type: http), the process engine:
-  - Automatically creates the index with the template applied
-  - Applies the number of shards and replicas directly from the configuration
+## Kafka topics
 
-- When using the Kafka indexing strategy (indexing-type: kafka), the process engine:
-  - Creates an index template (if it doesn't exist) that Elasticsearch will use for dynamic index creation
-  - The template applies to indices matching the pattern derived from flowx.indexing.processInstance.index-name
-  - Kafka Connect creates indices dynamically based on the timestamp, and Elasticsearch applies the template automatically
-  - The number of shards and replicas are set dynamically based on configuration parameters
+The process engine publishes indexing data to this topic:
 
-<Info>
-The template creation is fully automated by the process engine. No manual intervention is required for template management. The `number_of_shards` and `number_of_replicas` values are automatically populated from your environment configuration (`FLOWX_INDEXING_PROCESSINSTANCE_SHARDS` and `FLOWX_INDEXING_PROCESSINSTANCE_REPLICAS`).
-</Info>
+| Environment Variable            | Default Value                        |
+| ------------------------------- | ------------------------------------ |
+| `KAFKA_TOPIC_PROCESS_INDEX_OUT` | `ai.flowx.dev.core.index.process.v1` |
 
-<Info>
-For the Kafka indexing strategy, the `indexLastUpdatedTime` attribute is automatically populated to track when the last operation was performed on the object in the index.
-</Info>
+**Important:** The topic name in your Kafka Sink Connector configuration must match this value.
 
-## Time-based partitioning and index deletion
+---
 
-When working with large volumes of data, it's recommended to implement time-based partitioning for Elasticsearch indices to improve performance and manageability.
+## Index management
 
-### Partitioning with Kafka vs HTTP
+### Automatic template creation
 
-While both HTTP and Kafka indexing strategies support basic Elasticsearch sharding, **only the Kafka strategy provides out-of-the-box support for time-based partitioning** through the `transforms.routeTS.timestamp.format` in the Kafka Sink Connector configuration.
+The process engine automatically creates Elasticsearch index templates during startup:
 
-<Warning>
-Time-based partitioning (creating separate indices for different time periods like daily/weekly/monthly) is not available as a built-in feature when using the HTTP indexing strategy. For efficient time-based partitioning and index lifecycle management, we recommend using the Kafka indexing strategy.
-</Warning>
+- **HTTP strategy**: Creates the index directly with configured shards/replicas
+- **Kafka strategy**: Creates an index template that applies to dynamically created indices
+
+### Time-based partitioning (Kafka only)
+
+Choose your partitioning strategy based on data volume and retention needs:
+
+| Database Partitioning | Elasticsearch Format | Index Pattern               | Best For         |
+| --------------------- | -------------------- | --------------------------- | ---------------- |
+| Monthly               | `yyyyMM`             | `process_instance-202406`   | Medium volume    |
+| Weekly                | `yyyyww`             | `process_instance-202426`   | High volume      |
+| Daily                 | `yyyyMMdd`           | `process_instance-20240615` | Very high volume |
 
 ### Efficient data deletion
 
-When deleting data from Elasticsearch, it's significantly more efficient to delete entire indices rather than deleting individual documents. This is particularly important for maintaining performance in systems with high data volumes.
+**Best practice:** Delete entire indices rather than individual documents for better performance.
 
-The Kafka indexing strategy automatically creates time-based indices that can be deleted as entire units when they're no longer needed. This aligns well with database partitioning strategies, allowing for consistent data lifecycle management across your database and Elasticsearch.
+With time-based partitioning, you can:
+```bash
+# Delete old monthly index
+curl -X DELETE "https://localhost:9200/process_instance-202401"
 
-For optimal performance, align your Elasticsearch time-based partitioning with your database partitioning strategy:
+# Delete multiple old indices
+curl -X DELETE "https://localhost:9200/process_instance-2024*"
+```
 
-| Database partitioning | Recommended Elasticsearch timestamp format |
-|-----------------------|-------------------------------------------|
-| `MONTH`               | `yyyyMM` (monthly indices)                |
-| `WEEK`                | `yyyyww` (weekly indices)                 |
-| `DAY`                 | `yyyyMMdd` (daily indices)                |
+---
 
-Here are some guidelines to help you get started:
+## Troubleshooting
 
-<Card title="Configuration guidelines" href="./process-instance-indexing-config-guidelines" icon= "file"/>
+### Common issues
+
+**Indexing not working:**
+1. Check `FLOWX_INDEXING_ENABLED=true`
+2. Verify Elasticsearch connectivity
+3. Check process-engine logs for errors
+
+**Kafka Connect issues:**
+```bash
+# Check connect cluster status
+kubectl describe kafkaconnect flowx-elasticsearch-kafka-connect
+
+# Check connector logs
+kubectl logs -l strimzi.io/kind=KafkaConnect -f
+```
+
+**Certificate issues:**
+```bash
+# Verify JKS keystore
+keytool -list -keystore keystore.jks -storepass flowx123456
+
+# Check secret exists
+kubectl get secret kafka-connect-elastic-jks -o yaml
+```
+
+**Performance issues:**
+- Increase `batch.size` in connector config
+- Adjust number of shards based on cluster size
+- Monitor Elasticsearch cluster health
+
+### Verification queries
+
+**Check index pattern:**
+```bash
+# List all process instance indices
+curl -k -u elastic:$PASSWORD "https://localhost:9200/_cat/indices/process_instance*?v"
+
+# Check template exists
+curl -k -u elastic:$PASSWORD "https://localhost:9200/_template/process_instance*"
+```
+
+**Query across time-based indices:**
+```bash
+# Search across all process instance indices
+curl -k -u elastic:$PASSWORD -X GET "https://localhost:9200/process_instance-*/_search" \
+  -H "Content-Type: application/json" \
+  -d '{"query": {"match_all": {}}}'
+```
+
+
