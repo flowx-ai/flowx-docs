@@ -1,11 +1,11 @@
 ---
 title: Centralized Authorization System (CAS) setup
-description: Setup and configuration guide for the CAS microservice (auth-system) that manages workspace permissions, user access control, and ACL rules in FlowX 5.0
+description: Setup and configuration guide for the CAS microservice (authorization-system) that manages workspace permissions, user access control, and ACL rules in FlowX 5.0
 icon: shield-check
 ---
 
 <Info>
-The Centralized Authorization System (CAS), implemented as the **auth-system** microservice, is introduced in FlowX 5.0 to manage workspace permissions, user access control, and ACL (Access Control List) rules for the multi-tenant architecture.
+The Centralized Authorization System (CAS), implemented as the **authorization-system** microservice, is introduced in FlowX 5.0 to manage workspace permissions, user access control, and ACL (Access Control List) rules for the multi-tenant architecture.
 </Info>
 
 ## Overview
@@ -13,7 +13,7 @@ The Centralized Authorization System (CAS), implemented as the **auth-system** m
 The CAS microservice provides centralized authorization services for the FlowX platform, managing workspaces, users, groups, roles, and permissions. It works alongside SpiceDB to deliver fine-grained access control and supports the new multi-tenant Workspaces feature.
 
 <Warning>
-**Important**: Only the auth-system microservice should have direct write access to the CAS PostgreSQL database. Other services communicate through the CAS client library and REST APIs.
+**Important**: Only the authorization-system microservice should have direct write access to the CAS PostgreSQL database. Other services communicate through the CAS client library and REST APIs.
 </Warning>
 
 ## Prerequisites
@@ -45,26 +45,26 @@ SpiceDB is required for ACL (Access Control List) management and must be install
 The CAS system follows a strict communication pattern to ensure data integrity and security:
 
 <Info>
-**Database Access Control**: Only the auth-system microservice has direct access to the CAS PostgreSQL database. All other services communicate exclusively through REST APIs via the CAS client library.
+**Database Access Control**: Only the authorization-system microservice has direct access to the CAS PostgreSQL database. All other services communicate exclusively through REST APIs via the CAS client library.
 </Info>
 
 **Communication Methods:**
-- **auth-system**: Direct database access (exclusive write access)
-- **admin service**: REST API communication with auth-system via CAS client library
+- **authorization-system**: Direct database access (exclusive write access)
+- **admin service**: REST API communication with authorization-system via CAS client library
 - **data-sync**: Temporary database write access during migrations only (exception for migrating existing projects)
 - **Other FlowX services**: REST API communication only via CAS client library
 - **SpiceDB**: All services communicate via gRPC through CAS client library
 
 ### Database architecture
 
-- **CAS PostgreSQL Database**: Used exclusively by auth-system for authorization data
+- **CAS PostgreSQL Database**: Used exclusively by authorization-system for authorization data
 - **Migration Exception**: data-sync service requires temporary write access to migrate existing projects from app-manager database to CAS database
 - **No Direct Database Access**: Other services do not connect directly to the CAS database - all communication is through REST APIs
 - **SpiceDB Integration**: Uses PostgreSQL as backend storage, accessed via gRPC through CAS client library
 
-### Auth-system environment variables
+### Authorization-system environment variables
 
-The auth-system microservice requires the following configuration:
+The authorization-system microservice requires the following configuration:
 
 ```yaml
 spring:
@@ -106,7 +106,7 @@ SPRING_LIQUIBASE_PARAMETERS_DEFAULT_TEST_USERNAMES=
 #### Database configuration
 
 <Warning>
-**Important**: The auth-system requires its own dedicated PostgreSQL database. This database should only be accessed directly by the auth-system microservice.
+**Important**: The authorization-system requires its own dedicated PostgreSQL database. This database should only be accessed directly by the authorization-system microservice.
 </Warning>
 
 **Database Configuration Parameters:**
@@ -150,7 +150,7 @@ Keycloak parameters inherit from existing FlowX OAuth2 configuration - no additi
 ### Organization admin bootstrap
 
 <Warning>
-The auth-system uses a fallback mechanism to create the first organization administrator when no admin users exist.
+The authorization-system uses a fallback mechanism to create the first organization administrator when no admin users exist.
 </Warning>
 
 <Steps>
@@ -167,7 +167,7 @@ The auth-system uses a fallback mechanism to create the first organization admin
     Set `DEFAULT_ORG_ADMIN_SUBJECT_ID` with a specific Keycloak subject ID
     
     **Process**:
-    1. Creates user directly in auth-system database
+    1. Creates user directly in authorization-system database
     2. Assigns organization admin roles
     3. Used when username method fails or is set to null
   </Step>
@@ -185,10 +185,10 @@ The auth-system uses a fallback mechanism to create the first organization admin
 ### CAS client library integration
 
 <Info>
-All FlowX microservices integrate with the auth-system through the CAS client library, which handles communication with both CAS REST APIs and SpiceDB gRPC APIs.
+All FlowX microservices integrate with the authorization-system through the CAS client library, which handles communication with both CAS REST APIs and SpiceDB gRPC APIs.
 </Info>
 
-**CAS Client Library Configuration**: Each FlowX service requires a `{microservice}-cas.yml` configuration file that defines connectivity to both auth-system and SpiceDB through the CAS client library.
+**CAS Client Library Configuration**: Each FlowX service requires a `{microservice}-cas.yml` configuration file that defines connectivity to both authorization-system and SpiceDB through the CAS client library.
 
 #### CAS client configuration structure
 
@@ -218,14 +218,14 @@ flowx:
 - **`spicedb.host`**: SpiceDB service hostname
 - **`spicedb.port`**: SpiceDB gRPC port (typically 50051)
 - **`spicedb.token`**: Authentication token for SpiceDB access
-- **`authorization-system.base-url`**: auth-system service REST endpoint
+- **`authorization-system.base-url`**: authorization-system service REST endpoint
 - **`web-client.response-timeout`**: HTTP response timeout in seconds
 - **`web-client.connection-timeout`**: HTTP connection timeout in seconds
 - **`web-client.max-in-memory-size`**: Maximum memory buffer size for HTTP responses
 
 ### Admin service configuration
 
-The admin service requires the CAS client configuration file for integration with auth-system and SpiceDB.
+The admin service requires the CAS client configuration file for integration with authorization-system and SpiceDB.
 
 <CodeGroup>
 ```yaml application-cas.yml
@@ -259,7 +259,7 @@ FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_MAX_IN_MEMORY_SIZE=5242880
 
 ### Engine service configuration
 
-The engine service requires the CAS client configuration file for integration with auth-system and SpiceDB.
+The engine service requires the CAS client configuration file for integration with authorization-system and SpiceDB.
 
 <CodeGroup>
 ```yaml application-cas.yml
@@ -292,7 +292,7 @@ FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_MAX_IN_MEMORY_SIZE=5242880
 
 ### Application manager service configuration
 
-The application manager service requires the CAS client configuration file for integration with auth-system and SpiceDB.
+The application manager service requires the CAS client configuration file for integration with authorization-system and SpiceDB.
 
 <CodeGroup>
 ```yaml application-cas.yml
@@ -327,7 +327,7 @@ FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_MAX_IN_MEMORY_SIZE=5242880
 
 ### CMS core service configuration
 
-The CMS core service requires the CAS client configuration file for integration with auth-system and SpiceDB.
+The CMS core service requires the CAS client configuration file for integration with authorization-system and SpiceDB.
 
 <CodeGroup>
 ```yaml application-cas.yml
@@ -492,8 +492,8 @@ The permission system is structured around different entity types:
     - Ensure admin user exists in Keycloak before migration
   </Step>
   
-  <Step title="Deploy auth-system Infrastructure">
-    Deploy SpiceDB and auth-system microservice with migration configuration:
+  <Step title="Deploy authorization-system Infrastructure">
+    Deploy SpiceDB and authorization-system microservice with migration configuration:
     ```bash
     # Key migration environment variables
     CREATE_DEFAULT_WORKSPACE=true
@@ -502,7 +502,7 @@ The permission system is structured around different entity types:
   </Step>
   
   <Step title="Automatic Default Workspace Creation">
-    The auth-system will automatically:
+    The authorization-system will automatically:
     - Create default organization and workspace
     - Import the admin user from Keycloak
     - Assign organization admin privileges
@@ -516,7 +516,7 @@ The permission system is structured around different entity types:
     - Assign all existing resources to the default workspace
     - Preserve all existing functionality
     
-    **Note**: data-sync is the only service (besides auth-system) with write access to CAS database during migration.
+    **Note**: data-sync is the only service (besides authorization-system) with write access to CAS database during migration.
   </Step>
   
   <Step title="Update Service Configurations">
@@ -543,15 +543,15 @@ The permission system is structured around different entity types:
     **Diagnosis**:
     ```bash
     # Test CAS connectivity
-    curl -f http://auth-system-service:8080/actuator/health
+    curl -f http://authorization-system-service:8080/actuator/health
     
     # Check CAS logs
-    docker logs auth-system-service
-    kubectl logs -l app=auth-system -n flowx
+    docker logs authorization-system-service
+    kubectl logs -l app=authorization-system -n flowx
     ```
     
     **Solutions**:
-    - Verify auth-system service is running and healthy
+    - Verify authorization-system service is running and healthy
     - Check network connectivity between services
     - Validate CAS client library configuration
     - Confirm firewall rules allow connections on port 8080
@@ -564,7 +564,7 @@ The permission system is structured around different entity types:
     **Diagnosis**:
     ```bash
     # Test SpiceDB connectivity through CAS client library
-    curl http://auth-system-service:8080/actuator/health/spicedb
+    curl http://authorization-system-service:8080/actuator/health/spicedb
     
     # Check SpiceDB service health
     curl http://spicedb-service:8080/readyz
@@ -582,7 +582,7 @@ The permission system is structured around different entity types:
     **Symptoms**: Migration scripts fail or data is not properly migrated
     
     **Solutions**:
-    - Ensure auth-system has exclusive write access to CAS database
+    - Ensure authorization-system has exclusive write access to CAS database
     - Verify data-sync has temporary write access during migration
     - Check that existing projects are readable from app-manager database
     - Confirm sufficient disk space and database permissions
@@ -601,7 +601,7 @@ The permission system is structured around different entity types:
   </Accordion>
   
   <Accordion title="Service Communication Errors" icon="network-wired">
-    **Symptoms**: Services cannot communicate with auth-system or SpiceDB
+    **Symptoms**: Services cannot communicate with authorization-system or SpiceDB
     
     **Solutions**:
     - Verify all services use CAS client library for communication

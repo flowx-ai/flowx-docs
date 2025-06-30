@@ -56,6 +56,19 @@ For detailed role and access configuration, refer to:
 <Card title ="FlowX CMS access rights" href="./access-management/configuring-access-rights-for-cms" icon ="file">
 </Card>
 
+
+### Configuring Runtime Manager service account
+
+The CMS service requires access to the Runtime Manager service account for operations such as merging media file updates, managing builds, and handling application version transitions.
+
+| Environment variable             | Description                                             | Default value              |
+| -------------------------------- | ------------------------------------------------------- | -------------------------- |
+| `APPLICATION_FLOWXRUNTIMESANAME` | Name of the Runtime Manager service account in Keycloak | `flowx-runtime-manager-sa` |
+
+<Info>
+This service account is required for CMS to perform operations like merging media file updates and coordinating with the Runtime Manager service. The service account must exist in Keycloak with the appropriate roles assigned.
+</Info>
+
 ### Configuring MongoDB
 
 The CMS requires MongoDB for taxonomy and content storage. Configure MongoDB with the following variables:

@@ -9,7 +9,7 @@ icon: chevron-right
 Before setting up the Advancing Controller, ensure the following components are properly set up:
 
 * **FlowX.AI Engine Deployment**: The Advancing Controller depends on the FlowX Engine and must be deployed in the same environment. Refer to the FlowX Engine [**setup guide**](./flowx-engine-setup-guide/engine-setup) for more information on setting up the Engine.
-* **Database Instance**: The Advancing Controller uses a PostgreSQL or OracleDB instance as its database.
+* **Database Instance**: The Advancing Controller uses a PostgreSQL or Oracle database instance as its database.
 
 ## Dependencies
 
@@ -22,10 +22,10 @@ Ensure the following dependencies are met:
 
 ### Database compatibility
 
-The Advancing Controller supports both PostgreSQL and OracleDB databases. However, the FlowX.AI Engine and the Advancing Controller must be configured to use the same type of database at any given time. The FlowX.AI Engine employs two databases: one shared with the FlowX.AI Admin microservice for process metadata and instances, and the other dedicated to advancement. 
+The Advancing Controller supports both PostgreSQL and Oracle databases. However, the FlowX.AI Engine and the Advancing Controller must be configured to use the same type of database at any given time. The FlowX.AI Engine employs two databases: one shared with the FlowX.AI Admin microservice for process metadata and instances, and the other dedicated to advancement. 
 
 <Warning>
-Mixing PostgreSQL and OracleDB is not supported; both databases must be of the same type.
+Mixing PostgreSQL and Oracle Database is not supported; both databases must be of the same type.
 </Warning>
 
 ## Database configuration

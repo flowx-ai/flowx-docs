@@ -3,7 +3,7 @@ title: FlowX.AI Advancing Controller
 description: The Advancing Controller is a support service for the FlowX.AI Engine that enhances the efficiency of advancing operations. It facilitates equal distribution and redistribution of the workload during scale-up and scale-down scenarios.
 ---
 
-To achieve its functionality, the Advancing Controller microservice utilizes database triggers in both PostgreSQL and OracleDB configurations.
+To achieve its functionality, the Advancing Controller microservice utilizes database triggers in both PostgreSQL and Oracle Database configurations.
 
 <Info>
 A database trigger is a function that is automatically executed whenever specific events, such as inserts, updates, or deletions, occur in the database.
@@ -12,7 +12,7 @@ A database trigger is a function that is automatically executed whenever specifi
 
 ## Usage
 
-The Advancing Controller service is responsible for managing and optimizing the advancement process in the PostgreSQL or OracleDB databases. It ensures efficient workload distribution, performs cleanup tasks, and monitors the status of worker pods. 
+The Advancing Controller service is responsible for managing and optimizing the advancement process in the PostgreSQL or Oracle databases. It ensures efficient workload distribution, performs cleanup tasks, and monitors the status of worker pods. 
 
 If a worker pod fails, the service reassigns its work to other pods to prevent [**process instances**](../../projects/runtime/active-process/process-instance) from getting stuck. 
 
