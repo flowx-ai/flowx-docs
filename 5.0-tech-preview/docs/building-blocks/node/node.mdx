@@ -1,0 +1,72 @@
+---
+title: BPMN nodes
+description: A Business Process Model and Notation (BPMN) node is a visual representation of a point in your process. Nodes are added at specific process points to denote the entrance or transition of a record within the process.
+---
+
+<Tip>
+For a comprehensive understanding of BPMN, start with the following section:
+[**Intro to BPMN**](/4.0/docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn).
+</Tip>
+
+
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release40/BPMN%20nodes.png)
+
+
+FlowX.AI platforms support various node types, each requiring distinct configurations to fulfill its role in the business flow.
+
+## Types of BPMN nodes
+
+Let's explore the key types of BPMN nodes available in FlowX:
+
++ **Start and End nodes** - Mark the initiation and conclusion of a [process flow](../../platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-bpmn). A [process definition](../process/process-definition) may have multiple start nodes (each linked with a start condition) and end nodes based on the flow outcomes.
++ **Send Message and Receive Message tasks** - Used for communication with external systems, integrations, and plugins.
++ **Message Events** - Capture interactions between different process participants by referencing messages.
++ **Timer Events** - Introduce time-based behavior into processes, triggering actions at specific intervals, durations, or cycles. They support configurations like specific dates, durations, or recurring cycles and can pause, start, or monitor tasks based on time conditions.
++ **Error Events** -  Manage error handling in processes by interrupting tasks or subprocesses upon specific error conditions. Configured as boundary events, they catch and handle errors thrown within the process, ensuring robust error management and control.
++ **Task** nodes - Added when a [business rule](../actions/business-rule-action/business-rule-action) needs to execute during a process flow.
++ **User Task** nodes - Configure the appearance and behavior of the UI and send data to custom components.
++ **Exclusive Gateways** - Mark decision points in the process flow, determining the branch to be followed.
++ **Parallel Gateways** - Split the process flow into two or more [branches](../../flowx-designer/managing-a-project-flow/adding-more-flow-branches) occurring simultaneously.
++ **Call Subprocess Tasks**:
+    + **Call Activity** - Call activity is a node that provides advanced options for starting **subprocesses**.
+    + **Start Embedded Subprocess** - The Start Embedded Subprocess node initiates subprocesses within a parent process, allowing for encapsulated functionality and enhanced process management.
++ **Boundary Events** - Specialized nodes that attach to specific tasks or subprocesses to handle predefined events during execution. They can be configured as interrupting or non-interrupting, with the following key types:
+    + **Message Catch Boundary Event** -  Waits for a specific message while the task or subprocess is active, interrupting or initiating a parallel flow based on configuration.
+    + **Timer Boundary Event** -  Triggers based on a specific time duration, date, or cycle. It can interrupt a task or start an additional flow without stopping the task.
+    + **Error Boundary Event** - Interrupts the associated task or subprocess upon an error, redirecting the process to a defined error-handling flow. Boundary events enhance process flexibility by enabling workflows to adapt dynamically to real-time conditions, ensuring robust error, message, and timeout handling.
+
+For comprehensive insights into BPMN and its various node types, explore our course at FlowX Academy:
+
+<Card title ="BPMN 101" href="https://academy.flowx.ai/explore/bpmn-101" icon ="school">
+- What's BPMN (Business Process Model Notation) and how does it work?
+- How is BPMN used in FlowX?
+</Card>
+
+### Boundary events
+
+Boundary events attach to the boundary of specific nodes (e.g., User Task, Service Task, Subprocess, or Call Activity) and are triggered when predefined conditions occur. These events can interrupt the ongoing activity or allow it to continue while starting a parallel flow. They include:
+
+- **Message Catch Boundary Event**: Waits for and responds to a specific incoming message during a task.
+- **Timer Boundary Event**: Activates based on elapsed time, a specific date, or a recurring cycle, useful for timeouts or deadlines.
+- **Error Boundary Event**: Catches errors during a task or subprocess and redirects the process flow to handle them appropriately.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/4.6/Screenshot%202024-12-03%20at%2012.17.17.png)
+</Frame>
+
+**Compatibility Matrix**:
+
+Boundary events can attach to the following node types:
+
+- **User Task**
+- **Service Task**
+- **Send Message/Receive Message Tasks**
+- **Subprocess (Embedded and Call Activity)**
+
+
+Boundary events are a critical element for creating resilient and adaptive processes, enabling efficient error handling, timeout management, and real-time interactions.
+
+
+After gaining a comprehensive overview of each node, you can experiment with them to create a process. More details are available in the following section:
+
+[Managing a process flow](../../flowx-designer/managing-a-project-flow/)

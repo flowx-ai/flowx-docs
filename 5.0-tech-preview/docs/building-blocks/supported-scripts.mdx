@@ -1,0 +1,212 @@
+---
+title: Supported scripts  
+icon: file-code  
+description: "Scripts are used to define and run actions but also properties inside nodes. For now, the following script languages are supported."
+---
+
+## Business rules scripting
+
+<CardGroup>
+
+<Card title="Python 3" icon="python" href="#python-3"></Card>
+<Card title="Python 2.7" icon="python" href="#python-2-7"></Card>
+<Card title="DMN" icon="code" href="#dmn"></Card>
+<Card title="MVEL" icon="code" href="#mvel"></Card>
+<Card title="Groovy" icon="code" href="#groovy"></Card>
+<Card title="JavaScript" icon="js" href="#javascript"></Card>
+
+
+
+
+
+</CardGroup>
+
+| Scripting Language | Language Version     | Scripting Engine                         | Scripting Engine Version |
+| ------------------ | -------------------- | ---------------------------------------- | ------------------------ |
+| JavaScript         | ECMAScript 15 (2024) | GraalJS                                  | GraalVM 24.1.2           |
+| Python 3           | 3.11.7               | GraalPy                                  | GraalVM 24.1.2           |
+| Python 2.7         | 2.7                  | org.python.jython » jython-standalone    | 2.7.2                    |
+| DMN                | 1.3                  | org.camunda.bpm.dmn » camunda-engine-dmn | 7.20.0                   |
+| MVEL               | 2                    | org.mvel » mvel2                         | 2.5.2.Final              |
+| Groovy             | 3.0.21               | org.codehaus.groovy » groovy-jsr223      | 3.0.21                   |
+
+
+<Info>
+In version 4.7.2, we've deprecated the **DMN (Decision Model and Notation)** business rule actions. This change affects how business rules are configured on task/user task nodes in business processes.
+</Info>
+
+<Warning>
+**Looking ahead**: Python 2.7 support will be deprecated in FlowX.AI 5.0. We recommend migrating your Python scripts to Python 3 to take advantage of improved performance and modern language features.
+</Warning>
+
+<Info>
+By default, FlowX.AI uses Python 2.7 (Jython) for script execution. Python 3 support is available but must be explicitly enabled. See [Configuring script engine](/4.7.x/setup-guides/flowx-engine-setup-guide/engine-setup#configuring-script-engine) example for more details.
+</Info>
+
+## Integration designer scripting
+
+| Scripting Language | Language Version     | Scripting Engine | Scripting Engine Version |
+| ------------------ | -------------------- | ---------------- | ------------------------ |
+| JavaScript         | ECMAScript 15 (2024) | GraalJS          | GraalVM 24.1.2           |
+| Python             | 3.11.7               | GraalPy          | GraalVM 24.1.2           |
+
+---
+
+## JavaScript
+
+<Info>
+**New in v4.7.1**: JavaScript support has been upgraded from Nashorn (ECMAScript 5.1) to GraalJS (ECMAScript 15/2024), providing significantly improved performance and modern language features.
+</Info>
+
+JavaScript in FlowX.AI is powered by GraalJS, which supports ECMAScript 15 (2024) standards. This provides modern JavaScript capabilities for your business rules and integrations.
+
+### What is GraalJS?
+
+GraalJS is an ECMAScript compliant JavaScript implementation built on GraalVM. It supports the latest ECMAScript features and offers high performance through the GraalVM's JIT compiler.
+
+### Properties
+
+* Supports ECMAScript 15 (2024) features including modern syntax and APIs
+* Provides consistent scripting across business rules and integration designer
+* Runs in a secure sandboxed environment
+
+### Limitations
+
+JavaScript scripts run in a sandboxed environment. Here is a list of JavaScript features not available in the sandbox:
+* import.meta (ES2020)
+* top-level await (ES2022)
+* set operations (ES2024)
+* Array.fromAsync (ES2024)
+
+### Useful links
+
+<Card title="GraalJS Documentation" href="https://www.graalvm.org/javascript/" icon="link"></Card>
+<Card title="ECMAScript 2024 Language Specification" href="https://tc39.es/ecma262/" icon="link"></Card>
+
+---
+
+## Python 3
+
+<Info>
+**Important Configuration Note**: Python 2.7 (Jython) is the default Python runtime in FlowX.AI. To enable Python 3 via GraalPy, you must set the feature toggle `FLOWX_SCRIPTENGINE_USEGRAALVM` to `true` in the [**Process Engine configuration**](/4.7.x/setup-guides/flowx-engine-setup-guide/engine-setup) and in the AI Developer agent configuration. If this configuration variable is missing or set to `false`, Python 2.7 will be used.
+</Info>
+
+
+Python is a high-level, interpreted programming language known for its simplicity and readability. FlowX.AI uses Python 3.11.7 via GraalPy for executing Python scripts.
+
+### What is GraalPy?
+
+GraalPy is an implementation of Python that runs on the GraalVM. It offers high compatibility with standard Python (CPython) while providing the ability to run within the Java ecosystem. GraalPy supports Python 3 and provides access to a large subset of the standard Python library.
+
+### Properties
+
+* Supports Python 3.11.7 with access to most common Python libraries
+* Runs up to 3x faster than Python 2.7 via Jython
+* Runs in a sandboxed environment for better security
+
+### Python Library Support
+
+Python 3 support in FlowX comes with a subset of the [standard Python library](https://docs.python.org/3.11/library/index.html). Python runs in a sandboxed environment and the following modules are not available:
+
+"stringprep", "sqlite3", "plistlib", "getpass", "curses", "curses.textpad", "curses.ascii", "curses.panel", "xml.parsers.expat", "xmlrpc.client", "xmlrpc.server", "turtle", "tkinter", "test.support", "symtable", "pyclbr", "msvcrt", "winreg", "winsound", "grp", "termios", "tty", "pty", "syslog", "audioop", "msilib", "nis", "ossaudiodev", "smtpd", "spwd", "crypt"
+
+<Warning>
+Available modules might provide limited access to system resources due to the execution in a sandbox environment.
+</Warning>
+
+### Useful links
+
+<Card title="Python 3.11 Documentation" href="https://docs.python.org/3.11/" icon="link"></Card>
+<Card title="GraalPy Documentation" href="https://www.graalvm.org/python/" icon="link"></Card>
+
+---
+
+## Python 2.7
+
+<Info>
+Python 2.7 is the default runtime in FlowX.AI 4.7.1 and is implemented via Jython. While it remains fully supported in this version, we recommend migrating to Python 3 for all new development to prepare for future releases.
+</Info>
+
+**Jython** is an implementation of the high-level, dynamic, object-oriented language [Python](http://www.python.org/) seamlessly integrated with the [Java](http://www.javasoft.com/) platform. Jython is an open-source solution.
+
+<Card title ="Jython Book" href="https://jython.readthedocs.io/en/latest/" icon ="link">
+</Card>
+
+### Properties
+
+* Supports **Python 2.7** most common python libs can be imported, ex: math, time, etc.
+* Java libs can also be imported: [details here ](https://www.tutorialspoint.com/jython/jython_importing_java_libraries.htm)
+
+### Useful links
+
+<Card title = "Python 2.7 documentation" href= "https://docs.python.org/2.7/" icon ="link"></Card>
+
+<Card title = "Jython" href="https://www.jython.org/" icon = "link"></Card>
+
+<Card title ="Jython FAQs" href="https://wiki.python.org/jython/JythonFaq" icon ="link"></Card>
+
+---
+
+## DMN
+
+Decision Model and Notation (DMN) is a standard for Business Decision Management.
+
+FlowX.AI uses [BPMN.io](https://bpmn.io/) (based on **camunda-engine-dmn** version **7.20.0**) which is built on [DMN 1.3](https://www.omg.org/spec/DMN/1.3/PDF) standards.
+
+### Properties
+
+**camunda-engine-dmn** supports [DMN 1.3](https://www.omg.org/spec/DMN/1.3/PDF), including Decision Tables, Decision Literal Expressions, Decision Requirements Graphs, and the Friendly Enough Expression Language (FEEL)
+
+### Useful links
+
+<Card title ="Decision Model and Notation (DMN)" href ="https://www.omg.org/dmn/" icon ="link"></Card>
+
+<Card title ="DMN 1.3 specs" href="https://www.omg.org/spec/DMN/1.3/PDF" icon = "link"></Card>
+
+**More information:**
+<CardGroup>
+<Card title ="DMN Overview" href= "../../docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-dmn"/>
+<Card title ="DMN Business Rule Action" href= "../../docs/building-blocks/actions/business-rule-action/dmn-business-rule-action"/>
+</CardGroup>
+---
+
+## MVEL
+
+MVEL is a powerful expression language for Java-based applications. It provides a plethora of features and is suited for everything from the smallest property binding and extraction, to full-blown scripts.
+
+* FlowX.AI uses [**mvel2 - 2.5.2.Final version**](https://mvnrepository.com/artifact/org.mvel/mvel2/2.5.2.Final)
+
+### Useful links
+
+<Card title ="MVEL Documentation" href="http://mvel.documentnode.com/" icon ="link"/>
+
+<Card title ="Maven repository: Mvel 2.5.2 Final" href = "https://github.com/mvel/mvel/tags" icon ="link"/>
+
+**More information:**
+
+<Card title = "Intro to MVEL" href= "../../docs/platform-overview/frameworks-and-standards/business-process-industry-standards/intro-to-mvel"/>
+
+
+---
+
+## Groovy
+
+Groovy is a multi-faceted language for the Java platform. The language can be used to combine Java modules, extend existing Java applications and write new applications
+
+We use and recommend **Groovy 3.0.21** version, using **groovy-jsr223** engine.
+
+<Info>
+**Groovy** has multiple ways of integrating with Java, some of which provide richer options than available with **JSR-223** (e.g. greater configurability and more security control). **JSR-223** is recommended when you need to keep the choice of language used flexible and you don't require integration mechanisms not supported by **JSR-223**.
+</Info>
+
+<Info>
+**JSR-223** (spec) is **a standard scripting API for Java Virtual Machine (JVM) languages** . The JVM languages provide varying levels of support for the JSR-223 API and interoperability with the Java runtime.
+</Info>
+
+### Useful links
+
+<Card title ="Groovy Language Documentation" href="https://docs.groovy-lang.org/docs/groovy-3.0.21/html/documentation/" icon ="link"/>
+
+<Card title ="[Java] Class GroovyScriptEngineImpl" href ="https://docs.groovy-lang.org/latest/html/gapi/org/codehaus/groovy/jsr223/GroovyScriptEngineImpl.html" icon ="link"/>
+
+<Card title ="groovy-jsr223" href = "https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-jsr223" icon ="link"/> 

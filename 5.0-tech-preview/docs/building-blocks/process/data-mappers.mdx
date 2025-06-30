@@ -1,0 +1,300 @@
+---
+title: Data mappers
+description: Visually map data transfers between components with intuitive drag-and-drop functionality while maintaining full backward compatibility.
+---
+
+
+
+<Info>
+Data Mappers provide a standardized way to define how data flows between different components in your FlowX processes, promoting reusability and simplifying integration.
+</Info>
+
+## Overview
+
+Data Mappers enable users to visually map data transfers between components clearly and intuitively, ensuring simplicity, flexibility to include custom code when needed, and full backward compatibility with existing implementations.
+
+### Key concepts
+
+<CardGroup cols={2}>
+  <Card title="Source Components" icon="paper-plane">
+    Send data to another component to trigger execution
+    - Parent processes
+    - Integration flows
+    - Business rules
+  </Card>
+  <Card title="Destination Components" icon="bullseye">
+    Receive input from a source component to execute
+    - Subprocesses
+    - Workflows
+    - Business rules
+  </Card>
+</CardGroup>
+
+### Parameters & variables
+
+<Tabs>
+  <Tab title="Input Parameters">
+    **Input Parameters**: The structure a component expects to receive to execute successfully.
+    
+    **Input Variables**: The actual data sent from source to destination component for execution.
+  </Tab>
+  <Tab title="Output Parameters">
+    **Output Parameters**: The structure a component returns to the source component after execution.
+    
+    **Output Variables**: The actual data returned from destination to source component after execution.
+  </Tab>
+</Tabs>
+
+#### Parameter types by origin
+
+<AccordionGroup>
+  <Accordion title="Predefined Parameters">
+    Established before the mapping action (e.g., input of a subprocess or workflow). These typically belong to **destination components** with fixed requirements.
+  </Accordion>
+  <Accordion title="Flexible Parameters">
+    Defined during the mapping process. Associated with **source components** that specify where destination component data comes from.
+  </Accordion>
+</AccordionGroup>
+
+## Configuration
+
+### Setting up process parameters
+
+<Steps>
+  <Step title="Configure Input Parameters">
+    - Open the process you want to configure
+    - Navigate to the **Start node**
+    - Select the **Input parameters** tab
+    - Define the schema based on the process's Data Model
+  </Step>
+  <Step title="Configure Output Parameters">
+    - Navigate to the **End node**
+    - Select the **Output parameters** tab
+    - Define the schema based on the process's Data Model
+  </Step>
+</Steps>
+
+<Warning>
+Ensure your process has a defined Data Model before configuring parameters.
+</Warning>
+
+## Mapping scenarios
+
+### Call activity mapping
+
+#### Synchronous call activity
+
+<CodeGroup>
+```yaml Prerequisites
+- Parent process with defined Data Model
+- Child process with input/output parameters on Start & End nodes
+```
+
+```yaml Configuration Steps
+1. Define call-activity type node
+2. Select subprocess to be called
+3. Choose Data Mapper implementation
+4. Configure input/output mapping
+5. Save configuration
+```
+</CodeGroup>
+
+<Steps>
+  <Step title="Set Up Call Activity">
+    - In a process, define a **call-activity** type node
+    - Select the subprocess to be called
+    - Choose between **Data Mapper** or existing implementation
+  </Step>
+  <Step title="Map Input Parameters">
+    - View the subprocess's input parameters
+    - Select relevant parameters from parent process data model
+    - Map parent process parameters (source) to subprocess parameters (destination)
+  </Step>
+  <Step title="Map Output Parameters">
+    - Select the **Output** tab
+    - View subprocess's output parameters
+    - Select attributes in parent process data model for storing output
+    - Map subprocess output parameters (source) to parent process parameters (destination)
+  </Step>
+  <Step title="Save Configuration">
+    Save the mapping configuration for both input and output
+  </Step>
+</Steps>
+
+#### Asynchronous call activity
+
+<Note>
+For async nodes, output cannot be mapped as the parent process doesn't wait for completion.
+</Note>
+
+<Steps>
+  <Step title="Set Up Async Call Activity">
+    - Define **call-activity** node or **Start Subprocess** action on User Task
+    - Select subprocess to be called
+    - Check the **Run async** toggle
+  </Step>
+  <Step title="Map Input Only">
+    - Choose Data Mapper implementation
+    - Map input parameters from parent process (source) to subprocess (destination)
+    - Save input mapping configuration
+  </Step>
+</Steps>
+
+### Integration workflow mapping
+
+<Tabs>
+  <Tab title="Starting Workflow">
+    <Steps>
+      <Step title="Set Up Integration Action">
+        - Define **Start Integration Designer** action on a node
+        - Select the workflow to be started
+        - Choose Data Mapper implementation
+      </Step>
+      <Step title="Map Input Parameters">
+        - View workflow's required input parameters
+        - Select relevant attributes from current process data model
+        - Map source component parameters to destination component parameters
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Receiving Workflow Output">
+    <Steps>
+      <Step title="Set Up Receive Message">
+        - Create a **Receive Message** node
+        - Select the workflow that will send the message
+        - Choose Data Mapper implementation
+      </Step>
+      <Step title="Map Output Parameters">
+        - View workflow's output parameters
+        - Select relevant attributes from current process data model
+        - Map source component parameters to destination component parameters
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+### Workflow node-to-node mapping
+
+<CardGroup cols={2}>
+  <Card title="REST Endpoint" icon="globe">
+    - Choose between existing method and Data Mapper
+    - **Input**: Map to schema of previous node
+    - **Output**: Map to schema of upcoming node
+  </Card>
+  <Card title="Data Persistence" icon="database">
+    - Choose between existing method and Data Mapper
+    - **Input**: Map to schema of previous node
+    - **Output**: Map to schema of upcoming node
+  </Card>
+</CardGroup>
+
+## Backward compatibility
+
+<Tip>
+Data Mappers maintain 100% backward compatibility. No migration required!
+</Tip>
+
+Users can choose between:
+
+<Tabs>
+  <Tab title="New Data Mapper">
+    Visual mapping interface with enhanced functionality and intuitive drag-and-drop experience.
+  </Tab>
+  <Tab title="Current Implementation">
+    Existing methods like `append to parent process` or `output.[outputKey]` continue to work unchanged.
+  </Tab>
+</Tabs>
+
+### Migration strategy
+
+<AccordionGroup>
+  <Accordion title="Start Subprocess">
+    Option to use Data Mapping functionality or configure via existing solution.
+  </Accordion>
+  <Accordion title="Workflows">
+    Choice between new Data Mapping experience or existing methods on Start Workflow/Receive Message nodes.
+  </Accordion>
+</AccordionGroup>
+
+## Managing parameter changes
+
+<Warning>
+Parameter changes require manual updates to existing mappings.
+</Warning>
+
+### Modifying defined parameters
+
+When parameters are modified in Start or End nodes:
+- Changes do **not** automatically propagate to existing mappings
+- Mappings must be manually updated in the Data Mapper
+
+### Data Model Changes
+
+When changes are made to Project or Process Data Model:
+
+<CardGroup cols={3}>
+  <Card title="Renamed Parameters" icon="pen">
+    Parameters are renamed if primitive names change
+  </Card>
+  <Card title="Removed Parameters" icon="trash">
+    Parameters are removed if primitives are deleted from Data Types
+  </Card>
+  <Card title="New Parameters" icon="plus">
+    New parameters are not automatically selected and must be manually configured
+  </Card>
+</CardGroup>
+
+## Use Cases
+
+<AccordionGroup>
+  <Accordion title="Process-to-Subprocess Communication">
+    Parent process passes customer data to validation subprocess, which returns validation results to the parent process.
+  </Accordion>
+  <Accordion title="Process-to-Integration Workflow">
+    Process triggers external API calls through Integration Designer. Workflow processes external responses and returns formatted data.
+  </Accordion>
+  <Accordion title="Multi-Step Workflow Processing">
+    Sequential data transformation through multiple workflow nodes, where each node receives processed data from the previous step.
+  </Accordion>
+</AccordionGroup>
+
+## Best practices
+
+<CardGroup cols={2}>
+  <Card title="Define Clear Schemas" icon="sitemap">
+    Establish well-defined input/output schemas before mapping
+  </Card>
+  <Card title="Use Descriptive Names" icon="tag">
+    Name parameters clearly to indicate their purpose
+  </Card>
+  <Card title="Document Dependencies" icon="link">
+    Note any dependencies between mapped parameters
+  </Card>
+  <Card title="Test Mappings" icon="flask">
+    Validate mappings with sample data before deployment
+  </Card>
+</CardGroup>
+
+## Limitations
+
+<Warning>
+Current limitations to be aware of:
+</Warning>
+
+- **Async Processes**: Output mapping not available for asynchronous call activities
+- **Manual Updates**: Parameter changes require manual mapping updates  
+- **Parallel Multi-Instance**: Handling under consideration for future releases
+
+## Related documentation
+
+<CardGroup cols={3}>
+  <Card title="Call Activity Node" icon="arrow-right" href="/building-blocks/node/call-subprocess-tasks/call-activity-node">
+    Learn about call activity nodes and subprocess execution
+  </Card>
+  <Card title="Integration Designer" icon="puzzle-piece" href="/platform-deep-dive/integrations/integration-designer">
+    Discover workflow automation and external system integration
+  </Card>
+  <Card title="Data Model" icon="database" href="/building-blocks/process/data-model">
+    Understand process data structure and management
+  </Card>
+</CardGroup>

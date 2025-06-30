@@ -27,7 +27,7 @@ Afterwards, a retention period can be setup (eg: 3 partitions). A flowx engine-d
 * **Data Management**: Better data organization and management by dividing data based on specific criteria such as date, range, or list.
 
 <Info>
-Database Compatibility: OracleDB and PostgreSQL.
+Database Compatibility: Oracle Database and PostgreSQL.
 </Info>
 
 ## Archiving 
@@ -40,13 +40,13 @@ Archiving involves moving old data from the primary tables to separate archive t
 * **Performance Improvement**: Reduces the volume of data in primary tables, leading to faster query responses.
 * **Historical Data Management**: Maintains historical data in a separate, manageable form.
 
-## Partitioning and archiving in OracleDB
+## Partitioning and archiving in Oracle Database
 
-### OracleDB partitioning
+### Oracle Database partitioning
 
 <Steps>
 <Step title ="Concept">
-OracleDB [**partitioned tables**](https://docs.oracle.com/en/database/oracle/oracle-database/18/vldbg/partition-concepts.html#GUID-6D369646-16AF-487B-BF32-5F6569D27C8A) are utilized, allowing for efficient data management and query performance. 
+Oracle Database [**partitioned tables**](https://docs.oracle.com/en/database/oracle/oracle-database/18/vldbg/partition-concepts.html#GUID-6D369646-16AF-487B-BF32-5F6569D27C8A) are utilized, allowing for efficient data management and query performance. 
 </Step>
 <Step title ="Implementation">
 
@@ -61,7 +61,7 @@ Simplified maintenance tasks like backups and archiving.
 </Step>
 </Steps>
 
-### OracleDB archiving
+### Oracle Database archiving
 
 <Steps>
 <Step title="Process">
@@ -113,7 +113,7 @@ Creating a new table for the partition being archived.
 Moving data from the main table to the new archive table (in batches).
 
 <Info>
-Since here the DB has more work to do than just changing some labels (actual data insert and delete vs relabel a partition into a table, for OracleDB) the data move is batched and the batch size is configurable.
+Since here the DB has more work to do than just changing some labels (actual data insert and delete vs relabel a partition into a table, for Oracle Database) the data move is batched and the batch size is configurable.
 </Info>
 
 </Step>
@@ -123,7 +123,7 @@ Identify partitions eligible for archiving based on retention settings.
 Create a new table following this naming convention: `archived__${table_name}__${interval_name}_${reference}`, example: *archived__process_instance__weekly_2024_09* .
 
 <Tip>
-The new table is created (same name format as for OracleDB: `archived__${table_name}__${interval_name}_${reference}`) and data is moved from the primary table here. 
+The new table is created (same name format as for Oracle Database: `archived__${table_name}__${interval_name}_${reference}`) and data is moved from the primary table here. 
 </Tip>
 
 Configure the batch size for data movement to control the load on the database.
@@ -141,9 +141,9 @@ Batch processing allows for better control over the archiving process and system
 </Steps>
 
 <Info>
-Differences from Oracle DBs:
+Differences from Oracle databases:
 
-Archiving involves actual data movement (insert and delete operations), unlike OracleDBs  where it is mainly a relabeling of partitions.
+Archiving involves actual data movement (insert and delete operations), unlike Oracle databases  where it is mainly a relabeling of partitions.
 
 The batch size for data movement is configurable, allowing fine-tuning of the archiving process.
 </Info>

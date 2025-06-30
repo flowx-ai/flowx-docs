@@ -1,0 +1,690 @@
+---
+title: "Collection Prototype"
+description: "Create dynamic, data-driven interfaces with different layouts based on item properties using collection prototypes."
+---
+
+<Note>
+  Collection prototypes allow you to display items within a collection using different layouts based on their properties, creating more dynamic and context-aware user interfaces.
+</Note>
+
+## What are Collection Prototypes?
+
+Collection prototypes are specialized components that define different display formats for items within a single collection. They act as templates that are applied conditionally based on item properties, allowing you to:
+
+- Display collection items with different layouts based on their data properties
+- Create visually distinct displays for featured or highlighted items
+- Apply specialized formatting for different item types or states
+- Integrate custom components for enhanced functionality
+- Add interactive features like item selection
+
+<Info>
+  Collection prototypes always work as child components within a parent [Collection component](../collection). While a Collection iterates through a data array, Collection Prototypes determine how each individual item should be displayed.
+</Info>
+
+## How Collection Prototypes Work
+
+### Core Concepts
+
+Collection prototypes use a simple but powerful mechanism to determine which layout to apply to each item:
+
+<CardGroup cols={2}>
+  <Card title="Prototype Identifier Key" icon="key">
+    The data property used to determine which prototype to apply (e.g., `type`, `status`, `priority`)
+  </Card>
+  <Card title="Prototype Identifier Value" icon="tag">
+    The specific value that triggers this prototype layout (e.g., `featured`, `active`, `high`)
+  </Card>
+</CardGroup>
+
+When the collection renders, each item is evaluated against all available prototypes. The first prototype whose identifier key and value match the item's data is used to render that item.
+
+### Visual Example
+
+Here's how collection prototypes can display products with different layouts based on their `type` property:
+
+<Frame caption="Collection with multiple prototypes in action">
+  ![Animated demonstration of collection prototypes rendering different layouts](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/render_collection.gif)
+</Frame>
+
+<AccordionGroup>
+  <Accordion title="Normal product display">
+    <Frame>
+      ![Example of a normal product prototype layout](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/c.prototype1.png)
+    </Frame>
+  </Accordion>
+  <Accordion title="Recommended product display">
+    <Frame>
+      ![Example of a recommended product prototype layout](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/c.prototype2.png)
+    </Frame>
+  </Accordion>
+</AccordionGroup>
+
+## Implementation Guide
+
+### 1. Prepare Your Data
+
+Before implementing collection prototypes, you need to prepare the data structure that will determine which prototype applies to each item.
+
+#### Using a Service Task Node
+
+The most common approach is to use a Service Task node with business rules:
+
+<Steps>
+  <Step title="Add a Service Task Node">
+    In the FlowX.AI Designer, add a **Service Task** node before your User Task node and connect them with a sequence flow.
+    
+    <Frame caption="Adding a Service Task node">
+      ![Adding a Service Task node to your process](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/task_node_array.png)
+    </Frame>
+  </Step>
+  
+  <Step title="Configure the Business Rule">
+    Select your Service Task node, go to the **Business Rules** tab, and add a new business rule or edit an existing one.
+    
+    <Frame caption="Configuring a business rule">
+      ![Configuring a business rule in a Service Task node](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/prepare_array_of_products.png)
+    </Frame>
+  </Step>
+  
+  <Step title="Write the Data Preparation Code">
+    Use JavaScript to create your data structure and assign it to the process context:
+    
+  ```javascript
+ // Create the data structure for products
+const products = [
+  {
+    "name": "Product One Plus",
+    "description": "The plus option",
+    "type": "normal",  // This property will determine which prototype to use
+    "price": 99.99
+  },
+  {
+    "name": "Product Two Premium",
+    "description": "This is premium product",
+    "type": "recommended",  // This will use a different prototype
+    "price": 149.99
+  },
+  {
+    "name": "Product Basic",
+    "description": "The most basic option",
+    "type": "normal",
+    "price": 49.99
+  }
+];
+
+// Add the products array to the process data
+output.put("products", products);
+```
+  </Step>
+  
+  <Step title="Test Your Data">
+    Save your configuration, and test your business rule by using the **Test Rule** feature in the business rules editor to make sure the data is correctly added to the process context.
+    
+    <Frame caption="Verifying business rule output">
+      ![Verifying business rule output](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/test_your_data.png)
+    </Frame>
+  </Step>
+</Steps>
+
+
+### 2. Create the UI Components
+
+Once your data is prepared, you can implement the collection and its prototypes in the UI Designer:
+
+<Steps>
+  <Step title="Create a User Task Node">
+    In the FlowX.AI Designer, create or select an existing **User Task** node in your process and click the **brush icon** to open the UI Designer.
+    
+    <Frame caption="Opening the UI Designer for a User Task node">
+      ![Opening the UI Designer from a User Task node](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/add_user_task_node_for_collection.gif)
+    </Frame>
+  </Step>
+  
+  <Step title="Add a Collection Component">
+    Add a **root component** (like a Card or Container) to your node, then add a **Collection** component inside it. Configure the Collection's **source** to point to your data array (e.g., `products`).
+    
+    <Frame caption="Adding a Collection component">
+      ![Adding a Collection component in the UI Designer](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/collection_prototype_source.png)
+    </Frame>
+    
+    <Info>
+      The `collectionSource` property specifies the process key where your list can be found. It should be a valid array of objects. For example, if your data is at `processData.products`, you would set the source to `products`.
+    </Info>
+  </Step>
+  
+  <Step title="Add Collection Prototypes">
+    For each different display type:
+    
+    1. Click on your Collection component to select it
+    2. Add a **Collection Prototype** as a child component
+    3. Configure the prototype's settings:
+       - **Prototype Identifier Key**: The field to check (e.g., `type`)
+       - **Prototype Identifier Value**: The value to match (e.g., `normal`)
+    
+    <Frame caption="Configuring a Collection Prototype">
+      ![Configuring a Collection Prototype in the UI Designer](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/collection_prototype_source1.png)
+    </Frame>
+    
+    4. (If different prototypes identifier values are needed) Repeat for each different prototype you need, using different identifier values
+  </Step>
+  
+  <Step title="Design Each Prototype's Layout">
+    For each prototype, add the UI components that will display your data:
+    
+    1. Select a Collection Prototype
+    2. Add components like **Text**, **Image**, **Button**, etc.
+    3. Configure each component to use relative paths to the collection item data saved in the Data Model:
+       - Use text UI element with the key `${name}`
+       - Use text UI element with the key `${description}` 
+    
+    <Frame caption="Adding components to a prototype">
+      ![Adding components to a Collection Prototype](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/collection_prototype_elements.gif)
+    </Frame>
+    
+    <Info>
+      Components within a collection use **relative paths** to the collection source. This means that wherever the collection is found inside the process data, the components inside the collection need their keys configured relative to that collection.
+      
+      <Frame>
+        ![Relative path configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/collection_relative_key.png)
+      </Frame>
+    
+    </Info>
+  </Step>
+</Steps>
+
+### 3. Add Interactivity
+
+To make your collection items interactive, such as allowing users to select an item:
+
+<Steps>
+  <Step title="Create a Node Action">
+    Add an [Action](../../../actions/actions) to your [User task node](../../../node/user-task-node):
+    
+    1. Go back to the process designer
+    2. Select your User Task node
+    3. Go to the **Actions** tab
+    4. Add a new action with:
+       - Type: **Manual**
+       - Name: (e.g., `selectItem`)
+    
+    <Frame caption="Adding a Node Action">
+      ![Configuration screen for node action setup](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/add_interactivity.png)
+    </Frame>
+
+    **Configuration options:**
+    - Set as **Manual** since users trigger it
+    - Mark as **Mandatory** if selection is required to proceed
+    - Enable **Repeatable** for changeable selections
+  
+  </Step>
+
+  <Step title="Configure a UI Action">
+    Add a UI action to your collection prototype:
+    
+    1. Return to the UI Designer
+    2. Select the component in your prototype that should trigger the action
+    3. In the Settings panel, add a UI Action
+    4. Add a  **Collection Item Save Key**.
+    5. Add a **Custom Key** and make sure it matches the **Collection Item Save Key**.
+    
+    <Frame caption="Adding a UI Action">
+      ![Configuration screen for UI action setup](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/collection_item_save_key.png)
+    </Frame>
+    
+  </Step>
+  
+  <Step title="Test the Interaction">
+    Save your changes and test your process to verify that:
+    
+    - Different items display with the correct prototype layouts
+    - Interactive elements work as expected
+    - Selected data is properly saved to your process data
+    
+    <AccordionGroup>
+      <Accordion title="Before selection">
+        <Frame>
+          ![Process data state before item selection](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/c.prototype_result.png)
+        </Frame>
+      </Accordion>
+      <Accordion title="After selection">
+        <Frame>
+          ![Process data state after item selection showing selected product data](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/release34/c.prototype_result_final.png)
+        </Frame>
+      </Accordion>
+    </AccordionGroup>
+  </Step>
+</Steps>
+
+## Best Practices
+
+### Working with Custom Components
+
+<Check>
+When integrating custom components into collection prototypes, follow these best practices:
+</Check>
+
+1. **Use relative paths for data access**
+   - Configure input keys relative to collection items
+   - Example: Use `name` instead of `app.clients.name`
+
+2. **Maintain consistent data structures**
+   - Ensure required data exists in collection items
+   - Follow consistent data patterns across all items
+
+### Data Access Patterns
+
+<Tabs>
+  <Tab title="Outside collections">
+    Components use full paths from data root:
+    ```jsx
+    // Input keys:
+    // app.name
+    // app.signatureImageURL
+    
+    data: {
+        app: {
+            name: "John Doe",
+            signatureImageURL: "http://example.com/signature1.png"
+        }
+    }
+    ```
+  </Tab>
+  <Tab title="Inside collections">
+    Components use relative paths:
+    ```jsx
+    // Input keys:
+    // name
+    // signatureImageURL
+    
+    data: {
+        name: "John Doe",
+        signatureImageURL: "http://example.com/signature1.png"
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Performance Optimization
+
+- Limit the number of items in your collection when possible
+- Simplify complex prototype layouts
+- Consider pagination for large data sets
+- Optimize images and other media within prototypes
+- Avoid deeply nested components within prototypes
+
+<Check>
+**Pro tips:**
+- Test your collection prototypes with various data scenarios
+- Verify data flow through the entire selection process
+- Monitor the process data for correct updates
+- Ensure your UI provides clear visual feedback when an item is selected
+</Check>
+
+## Troubleshooting
+
+When working with collection prototypes, you might encounter some common issues:
+
+### Common Issues and Solutions
+
+<AccordionGroup>
+  <Accordion title="Prototype not displaying correctly">
+    **Symptoms:**
+    - Collection items appear with incorrect layouts
+    - All items use the same prototype regardless of identifier values
+    - Some items don't render at all
+    
+    **Solutions:**
+    - Verify that your **Prototype Identifier Key** exactly matches the property name in your data
+    - Ensure the **Prototype Identifier Value** matches the expected values in your data
+    - Check for case sensitivity issues in both keys and values
+    - Validate your data structure using the process debugger
+    - Confirm that the parent Collection component has the correct source path
+  </Accordion>
+  
+  <Accordion title="UI actions not working">
+    **Symptoms:**
+    - Clicking on items doesn't trigger the expected action
+    - Selected data isn't saved to the process
+    - No visual feedback when items are selected
+    
+    **Solutions:**
+    - Confirm that the **Collection Item Save Key** matches exactly with the **Data to send** field in your node action
+    - Verify that your node action is properly configured as **Manual** and **Repeatable** if needed
+    - Check that the UI action is attached to the correct element within the prototype
+    - Ensure the node action has the correct permissions and is properly linked
+    - Verify that your root UI element includes the necessary Message parameters to pass data
+  </Accordion>
+  
+  <Accordion title="Data binding issues">
+    **Symptoms:**
+    - Components inside prototypes show empty or incorrect data
+    - Dynamic content doesn't update properly
+    - Error messages in the console related to undefined properties
+    
+    **Solutions:**
+    - Remember that components inside collections must use relative paths (e.g., `name` instead of `app.clients.name`)
+    - Verify your data structure matches what the components expect
+    - Use the process debugger to inspect the actual data being passed to the collection
+    - Check for null or undefined values that might cause rendering issues
+    - Ensure your data is properly structured as an array of objects
+  </Accordion>
+</AccordionGroup>
+
+### Known Limitations
+
+<Warning>
+- **Nested collections** (collections inside collection prototypes) may cause performance issues and should be used sparingly
+- **Deep data structures** might require careful handling of relative paths for proper data binding
+</Warning>
+
+### Debugging Tips
+
+1. **Use process data inspection:**
+   - Monitor the process data before and after interactions with collection prototypes
+   - Verify that selected items are correctly saved to the expected process data keys
+
+2. **Test with simplified data:**
+   - Start with a minimal data set to confirm basic functionality
+   - Gradually add complexity to identify where issues might occur
+
+3. **Isolate components:**
+   - Test individual UI components outside the collection context
+   - Add components to prototypes one by one to identify problematic elements
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Can I use different layouts for mobile and desktop?">
+    Yes, you can create platform-specific overrides for your collection prototypes. Configure different layouts, spacing, and styling for Web, iOS, and Android platforms through the platform tabs in the UI Designer.
+  </Accordion>
+  
+  <Accordion title="How do I handle missing identifier values?">
+    If an item doesn't have the specified identifier key or value, it won't match any prototype. Consider adding a default prototype with a common value like "default" and ensure all items have at least this value as a fallback.
+  </Accordion>
+  
+  <Accordion title="Can I use expressions in prototype identifier values?">
+    No, prototype identifier values must be static strings that exactly match the values in your data. However, you can transform your data before it reaches the collection to achieve dynamic prototype selection.
+  </Accordion>
+  
+  <Accordion title="Is there a limit to how many prototypes I can define?">
+    There's no hard limit on the number of prototypes, but for performance and maintainability reasons, it's recommended to keep the number reasonable (typically under 5-7 different prototypes).
+  </Accordion>
+  
+  <Accordion title="What's the difference between Collection and Collection Prototype?">
+    A **Collection** is a container that iterates through an array of data items, while a **Collection Prototype** defines how each individual item should be displayed based on its properties. You need at least one Collection Prototype inside a Collection, but you can have multiple prototypes to handle different item types or states.
+  </Accordion>
+</AccordionGroup>
+
+## Code Examples
+
+### Different Prototype Layouts Based on Item Status
+
+This example shows how to display items differently based on their status (active, pending, completed):
+
+<CodeGroup>
+```java Process Data Setup
+// Setting up process data with items of different statuses
+output.put("processData", {
+  "tasks": [
+    {
+      "id": "task-001",
+      "title": "Review application",
+      "description": "Initial review of customer application",
+      "status": "active",
+      "priority": "high"
+    },
+    {
+      "id": "task-002",
+      "title": "Verify documents",
+      "description": "Check submitted documentation for completeness",
+      "status": "pending",
+      "priority": "medium"
+    },
+    {
+      "id": "task-003",
+      "title": "Send confirmation",
+      "description": "Email confirmation to customer",
+      "status": "completed",
+      "priority": "low"
+    }
+  ]
+});
+```
+
+```javascript Collection Configuration
+// Collection component configuration
+{
+  "type": "COLLECTION",
+  "settings": {
+    "source": "tasks",
+    "direction": "vertical"
+  },
+  "children": [
+    // Active task prototype
+    {
+      "type": "COLLECTION_PROTOTYPE",
+      "settings": {
+        "prototypeIdentifierKey": "status",
+        "prototypeIdentifierValue": "active"
+      },
+      "children": [
+        // Active task UI elements with highlighted styling
+      ]
+    },
+    // Pending task prototype
+    {
+      "type": "COLLECTION_PROTOTYPE",
+      "settings": {
+        "prototypeIdentifierKey": "status",
+        "prototypeIdentifierValue": "pending"
+      },
+      "children": [
+        // Pending task UI elements with standard styling
+      ]
+    },
+    // Completed task prototype
+    {
+      "type": "COLLECTION_PROTOTYPE",
+      "settings": {
+        "prototypeIdentifierKey": "status",
+        "prototypeIdentifierValue": "completed"
+      },
+      "children": [
+        // Completed task UI elements with muted styling
+      ]
+    }
+  ]
+}
+```
+</CodeGroup>
+
+### Multiple Identifier Keys for Complex Conditions
+
+You can use multiple collection prototypes with different identifier keys to handle complex display logic:
+
+<CodeGroup>
+```java Process Data with Multiple Attributes
+// Setting up process data with items having multiple attributes
+output.put("processData", {
+  "notifications": [
+    {
+      "id": "notif-001",
+      "message": "Your application has been approved",
+      "type": "success",
+      "priority": "high",
+      "read": false
+    },
+    {
+      "id": "notif-002",
+      "message": "Please review updated terms",
+      "type": "info",
+      "priority": "low",
+      "read": true
+    },
+    {
+      "id": "notif-003",
+      "message": "Action required: Missing information",
+      "type": "warning",
+      "priority": "high",
+      "read": false
+    }
+  ]
+});
+```
+
+```javascript Multiple Prototype Configuration
+// Collection with multiple prototype conditions
+{
+  "type": "COLLECTION",
+  "settings": {
+    "source": "notifications",
+    "direction": "vertical"
+  },
+  "children": [
+    // High priority unread success notification
+    {
+      "type": "COLLECTION_PROTOTYPE",
+      "settings": {
+        "prototypeIdentifierKey": "type",
+        "prototypeIdentifierValue": "success",
+        "additionalConditions": [
+          {
+            "key": "priority",
+            "value": "high"
+          },
+          {
+            "key": "read",
+            "value": false
+          }
+        ]
+      },
+      "children": [
+        // UI elements for high priority unread success notifications
+      ]
+    },
+    // Other prototypes for different combinations...
+  ]
+}
+```
+</CodeGroup>
+
+### Nested Data Structures
+
+Working with nested data in collection prototypes:
+
+<CodeGroup>
+```java Nested Data Structure
+// Setting up process data with nested objects
+output.put("processData", {
+  "orders": [
+    {
+      "id": "order-001",
+      "customer": {
+        "name": "John Smith",
+        "tier": "premium"
+      },
+      "items": [
+        { "name": "Product A", "quantity": 2 },
+        { "name": "Product B", "quantity": 1 }
+      ],
+      "status": "processing"
+    },
+    {
+      "id": "order-002",
+      "customer": {
+        "name": "Jane Doe",
+        "tier": "standard"
+      },
+      "items": [
+        { "name": "Product C", "quantity": 3 }
+      ],
+      "status": "shipped"
+    }
+  ]
+});
+```
+
+```javascript Accessing Nested Data
+// Collection prototype accessing nested data
+{
+  "type": "COLLECTION",
+  "settings": {
+    "source": "orders",
+    "direction": "vertical"
+  },
+  "children": [
+    // Premium customer prototype
+    {
+      "type": "COLLECTION_PROTOTYPE",
+      "settings": {
+        "prototypeIdentifierKey": "customer.tier",
+        "prototypeIdentifierValue": "premium"
+      },
+      "children": [
+        // UI elements for premium customers
+        {
+          "type": "TEXT",
+          "settings": {
+            "text": "Premium Customer",
+            "style": "heading"
+          }
+        },
+        {
+          "type": "TEXT",
+          "settings": {
+            "text": "${customer.name}",
+            "style": "subheading"
+          }
+        },
+        // Collection for order items
+        {
+          "type": "COLLECTION",
+          "settings": {
+            "source": "items",
+            "direction": "horizontal"
+          },
+          "children": [
+            // Item prototype
+            {
+              "type": "COLLECTION_PROTOTYPE",
+              "settings": {},
+              "children": [
+                {
+                  "type": "TEXT",
+                  "settings": {
+                    "text": "${name} (${quantity})",
+                    "style": "body"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    // Standard customer prototype
+    {
+      "type": "COLLECTION_PROTOTYPE",
+      "settings": {
+        "prototypeIdentifierKey": "customer.tier",
+        "prototypeIdentifierValue": "standard"
+      },
+      "children": [
+        // UI elements for standard customers
+      ]
+    }
+  ]
+}
+```
+</CodeGroup>
+
+## Related Components
+
+<CardGroup cols={2}>
+  <Card title="Collection Component" icon="layer-group" href="../collection">
+    The parent component that iterates through data arrays and contains Collection Prototypes
+  </Card>
+  <Card title="UI Actions" icon="bolt" href="../../ui-actions">
+    Add interactivity to your Collection Prototypes with UI Actions
+  </Card>
+</CardGroup>

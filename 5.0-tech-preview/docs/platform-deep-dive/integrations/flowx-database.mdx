@@ -1,0 +1,1289 @@
+---
+title: FlowX Database
+description: Store and access structured data between processes and applications
+---
+
+## What is FlowX Database?
+
+<Frame>
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  controls
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/flowx_db_demo.mp4"
+></video>
+</Frame>
+
+FlowX Database (FlowX DB) is a persistence layer that allows you to store structured data independently of process instances. This enables you to:
+
+- Share data between different process instances
+- Store and retrieve data across multiple processes
+- Create a persistent data store within the FlowX ecosystem
+- Access structured data without directly interacting with external systems
+
+<Info>
+FlowX Database is powered by the **nosql-db-runner** microservice, which provides MongoDB functionality within the FlowX ecosystem. This service supports both **native MongoDB** and **Azure Cosmos DB (MongoDB API)**, enabling you to choose the database backend that best fits your infrastructure needs while maintaining FlowX's workflow integration capabilities.
+
+
+For more information about the **nosql-db-runner** service and CosmosDB considerations, see the [nosql-db-runner documentation](/5.x/docs/platform-deep-dive/integrations/nosql-db-runner).
+</Info>
+
+## Key concepts
+
+<Tabs>
+  <Tab title="Data Sources">
+    In the FlowX platform, Data Sources represent connections to different data repositories. With the introduction of FlowX Database, there are now two types of data sources available in the Integration Designer:
+    
+    | Data Source Type | Description                                                    |
+    | ---------------- | -------------------------------------------------------------- |
+    | RESTful System   | Traditional integration with external REST APIs                |
+    | FlowX Database   | Connection to the internal FlowX Database for data persistence |
+    
+    <Frame>
+    ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/data_sources.png)
+    </Frame>
+    
+    Each FlowX Database data source represents a collection in the underlying MongoDB database.
+  </Tab>
+  <Tab title="Collections">
+    Collections are containers for storing documents in FlowX Database. Each collection:
+    
+    - Stores documents with similar structure
+    - Has a unique identifier
+    - Can be accessed from different processes
+    - Functions similarly to a database table, but with more flexibility
+    
+    Collections are created and managed through the Data Sources section in the Integration Designer.
+  </Tab>
+  <Tab title="Operations">
+    Operations define the actions you can perform on a collection. FlowX Database supports the full range of essential MongoDB operations:
+    
+| Operation    | Description                                   | MongoDB Docs                                                                                           |
+| ------------ | --------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `find`       | Retrieve multiple documents based on criteria | [MongoDB find()](https://www.mongodb.com/docs/manual/reference/method/db.collection.find/)             |
+| `findOne`    | Retrieve a single document                    | [MongoDB findOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.findOne/)       |
+| `insertOne`  | Add a single document                         | [MongoDB insertOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.insertOne/)   |
+| `insertMany` | Add multiple documents at once                | [MongoDB insertMany()](https://www.mongodb.com/docs/manual/reference/method/db.collection.insertMany/) |
+| `updateOne`  | Modify a single document                      | [MongoDB updateOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateOne/)   |
+| `updateMany` | Modify multiple documents at once             | [MongoDB updateMany()](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateMany/) |
+| `deleteOne`  | Remove a single document                      | [MongoDB deleteOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.deleteOne/)   |
+| `deleteMany` | Remove multiple documents at once             | [MongoDB deleteMany()](https://www.mongodb.com/docs/manual/reference/method/db.collection.deleteMany/) |
+    
+    Each operation is configured with specific parameters that determine how it interacts with the data.
+  </Tab>
+</Tabs>
+
+## Benefits of FlowX Database
+
+<CardGroup cols={2}>
+  <Card title="Data Sharing" icon="share-nodes">
+    Share data between different process instances, enabling more complex workflows and business scenarios
+  </Card>
+  <Card title="Independence" icon="unlock">
+    Store data structured according to your needs, independent of external systems
+  </Card>
+  <Card title="Extended Use Cases" icon="expand">
+    Enable new business cases that require persistent data across multiple processes
+  </Card>
+  <Card title="Simplified Integration" icon="puzzle-piece">
+    Reduce the need for creating custom connectors to external systems for basic data persistence
+  </Card>
+  <Card title="Native Integration" icon="link">
+    Integrate with workflows through the existing workflow designer
+  </Card>
+  <Card title="Complete CRUD Operations" icon="database">
+    Perform all standard Create, Read, Update, and Delete operations on your data
+  </Card>
+  <Card title="Bulk Operations" icon="layer-group">
+    Handle multiple documents efficiently with insertMany, updateMany, and deleteMany operations
+  </Card>
+  <Card title="Flexible Querying" icon="filter">
+    Use MongoDB's powerful query syntax to filter, sort, and project your data
+  </Card>
+</CardGroup>
+
+
+## How to use FlowX Database
+
+### Creating a collection
+
+<Steps>
+  <Step title="Access Data Sources">
+    Navigate to the 'Integrations' section in the left sidebar of FlowX Designer, then click on 'Data Sources'.
+    <Frame caption="Accessing Data Sources in the navigation menu">
+    ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db.png)
+    </Frame>
+  </Step>
+  <Step title="Add a new Data Source">
+    Click the "+" button to add a new Data Source. In the "Add Data Source" dialog, select "FlowX Database" from the dropdown list.
+    <Frame caption="Adding a new FlowX Database data source">
+    ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db_select.png)
+    </Frame>
+  </Step>
+  <Step title="Configure the collection">
+    Provide a name and description for your collection. The name will be used to identify this database collection in your workflows.
+    <Frame caption="Configuring the collection">
+    ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db_create.png)
+    </Frame>
+  </Step>
+  <Step title="Create the collection">
+    Click "Create" to save the collection in FlowX Database. Your new collection will appear in the Data Sources list with the type "FlowX Database".
+  </Step>
+</Steps>
+
+<Note>
+Each FlowX Database data source represents a collection in the underlying MongoDB database. When you create a new data source with the FlowX Database type, you're essentially creating a new collection where your documents will be stored.
+</Note>
+
+### Viewing collection data
+
+<Steps>
+  <Step title="Navigate to collection">
+    Go to the collection you want to view in the 'Data Sources' section.
+  </Step>
+  <Step title="Access Documents tab">
+    Click the 'Documents' section within the collection.
+  </Step>
+  <Step title="Browse documents">
+    You'll see a listing of currently saved documents in the collection.
+  </Step>
+  <Step title="Search and filter">
+    Use the search functionality to find specific documents in the collection.
+  </Step>
+</Steps>
+
+### Creating database operations
+
+<Tabs>
+  <Tab title="Create operation">
+    <Steps>
+      <Step title="Access operations list">
+        Navigate to your FlowX Database collection in the Data Sources section.
+      </Step>
+      <Step title="Create new operation">
+        Click the "+" button to create a new operation.
+        <Frame caption="Creating a new operation for a FlowX Database collection">
+        ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/new_operation.png)
+        </Frame>
+      </Step>
+      <Step title="Select operation type">
+        Choose the operation type from the dropdown (find, findOne, insertOne, insertMany, etc.).
+        <Frame caption="Selecting the operation type">
+        ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/operation_type_selection.png)
+        </Frame>
+      </Step>
+      <Step title="Name the operation">
+        Give your operation a meaningful name and description that indicates its purpose.
+      </Step>
+      <Step title="Define the operation parameters">
+        Configure the parameters for your operation based on its type. For example, for a find operation:
+        <Frame caption="Configuring operation parameters">
+        ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/operation_parameters.png)
+        </Frame>
+        
+        - **Filter**: Define the criteria to match documents
+        - **Sort**: Specify the sorting order
+        - **Projection**: Select which fields to include in the results
+        - **Skip**: For find operations, specify the number of documents to skip
+        - **Limit**: Set the maximum number of documents to return
+  
+      </Step>
+      <Step title="Test the operation">
+        Use the test functionality to verify your operation works correctly.
+        <Frame caption="Testing an operation">
+        ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/test_endpoint.png)
+        </Frame>
+      </Step>
+      <Step title="Save the operation">
+        Click "Save" to add the operation to your collection. It will now be available for use in workflows.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Update operation">
+    <Steps>
+      <Step title="Select operation">
+        From the list of operations, select the one you want to update.
+      </Step>
+      <Step title="Make changes">
+        Update the operation name, description, or parameters as needed.
+      </Step>
+      <Step title="Test updated operation">
+        Test the updated operation to ensure it works as expected.
+      </Step>
+      <Step title="Save changes">
+        Save your changes to apply them to the operation.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Delete operation">
+    <Steps>
+      <Step title="Select operation">
+        From the list of operations, select the one you want to delete.
+      </Step>
+      <Step title="Delete operation">
+        Click the delete button and confirm the deletion when prompted.
+      </Step>
+      <Step title="Verify removal">
+        Verify that the operation has been removed from the collection.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Working with FlowX Database in workflows
+
+<Frame caption="Database node in a workflow">
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/database_node_workflow.png)
+</Frame>
+
+FlowX Database integrates directly with the workflow designer through the "Data Source" node type:
+
+<Steps>
+  <Step title="Add Data Source node">
+    In your workflow, add a new node and select the 'DATA_SOURCE' type.
+  </Step>
+  <Step title="Configure data source">
+    In the node properties panel:
+    <Frame caption="Data Source node configuration">
+    ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/data_source_node_config.png)
+    </Frame>
+    
+    1. Choose "FlowX Database" as the system type from the dropdown
+    2. Select your collection from the available options
+    3. Choose the operation you want to perform (find, findOne, insertOne, insertMany, updateOne, updateMany, deleteOne, deleteMany)
+  </Step>
+  <Step title="Configure operation parameters">
+    Set the parameters for your selected operation. The available parameters will depend on the operation type:
+    
+* **filter** - For find operations, define the criteria to match documents
+* **sort** - For find operations, specify the sorting order for results
+* **document** - For insert operations, define the document to insert
+* **update** - For update operations, define the document to update
+* **delete** - For delete operations, define the criteria to match documents
+* **skip** - For find operations, specify the number of documents to skip
+* **limit** - For find operations, specify the maximum number of documents to return
+* **projection** - For find operations, specify the fields to include or exclude in the results
+
+<Frame caption="Configuring operation parameters">
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/config_operation_params.png)
+</Frame>
+
+You can use static JSON or reference process variables using the expression syntax.
+</Step>
+  <Step title="Set response key">
+    Specify where the operation result should be stored in the process instance. This makes the data available to subsequent nodes in your workflow.
+  </Step>
+</Steps>
+
+<Accordion title="Example: Using filter parameter in find operation">
+  ```json
+  {
+    "age": { "$gt": 30 },
+    "status": "active"
+  }
+  ```
+  This filter will return all documents where the age is greater than 30 and the status is "active".
+
+<Info>
+For more information about MongoDB comparison operators like $gt, see [Comparison Query Operators](https://www.mongodb.com/docs/manual/reference/operator/query/comparison/).
+</Info>
+
+</Accordion>
+
+<Accordion title="Example: Using process variables in parameters">
+  ```json
+  {
+    "customerId": "${processInstance.customerData.id}"
+  }
+  ```
+  This filter uses a value from the process instance to find documents matching a specific customer ID.
+
+<Info>
+Learn more about MongoDB query syntax in the [Query Documents Tutorial](https://www.mongodb.com/docs/manual/tutorial/query-documents/).
+</Info>
+
+</Accordion>
+
+## MongoDB operations supported
+
+FlowX Database leverages MongoDB's powerful query capabilities through the **nosql-db-runner** service, providing pure MongoDB functionality. For detailed information about MongoDB query operators, filters, and syntax, refer to the [MongoDB Query and Projection Operators documentation](https://www.mongodb.com/docs/manual/reference/operator/query/).
+
+The following MongoDB operations are supported in FlowX Database. Each tab includes practical examples that you can use as a starting point for your own operations.
+
+
+<Tabs>
+  <Tab title="find">
+    **Parameters:**
+
+    For complete documentation on find operations and query syntax, see [MongoDB db.collection.find()](https://www.mongodb.com/docs/manual/reference/method/db.collection.find/).
+
+    
+    - **filter** (document, optional): Criteria to match documents. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
+    - **sort** (document, optional): Document specifying the sorting order. See [Sort Query Results](https://www.mongodb.com/docs/manual/reference/method/cursor.sort/)
+    - **skip** (integer, optional): Number of documents to skip. See [Limit Query Results](https://www.mongodb.com/docs/manual/reference/method/cursor.skip/)
+    - **limit** (integer, optional): Maximum number of documents to return. See [Limit Query Results](https://www.mongodb.com/docs/manual/reference/method/cursor.limit/)
+    - **projection** (document, optional): Fields to include or exclude. See [Project Fields](https://www.mongodb.com/docs/manual/tutorial/project-fields-from-query-results/)
+
+    <Accordion title="Example: List active customers">
+      This example finds all active customers, sorts them by registration date (newest first), limits to 10 results, and returns only specific fields.
+      
+      Operation name: listActiveCustomers
+      
+      <Tabs>
+        <Tab title="filter">
+          ```json
+          {
+            "status": "active"
+          }
+          ```
+        </Tab>
+        <Tab title="sort">
+          ```json
+          {
+            "customerSince": -1
+          }
+          ```
+        </Tab>
+        <Tab title="projection">
+          ```json
+          {
+            "customerId": 1,
+            "firstName": 1,
+            "lastName": 1,
+            "email": 1,
+            "status": 1,
+            "_id": 0
+          }
+          ```
+        </Tab>
+        <Tab title="skip">
+          ```
+          0
+          ```
+        </Tab>
+        <Tab title="limit">
+          ```
+          10
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation will return up to 10 active customers, with the most recently registered customers first.
+    </Accordion>
+    
+    <Accordion title="Example: Find products by category and price">
+      This example finds products in a specific category within a price range.
+      
+      Operation name: findAffordableElectronics
+      
+      <Tabs>
+        <Tab title="filter">
+          ```json
+          {
+            "category": "electronics",
+            "price": { "$gte": 10, "$lte": 100 }
+          }
+          ```
+        </Tab>
+        <Tab title="sort">
+          ```json
+          {
+            "price": 1
+          }
+          ```
+        </Tab>
+        <Tab title="projection">
+          ```json
+          {
+            "productName": 1,
+            "price": 1,
+            "rating": 1,
+            "inStock": 1,
+            "_id": 0
+          }
+          ```
+        </Tab>
+        <Tab title="limit">
+          ```
+          20
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation will return up to 20 electronics products with prices between $10 and $100, sorted from lowest to highest price.
+    </Accordion>
+  </Tab>
+  
+  <Tab title="findOne">
+    **Parameters:**
+
+    For complete documentation on findOne operations, see [MongoDB db.collection.findOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.findOne/).
+
+    - **filter** (document, optional): Criteria to match the document. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
+    - **projection** (document, optional): Fields to include or exclude. See [Project Fields](https://www.mongodb.com/docs/manual/tutorial/project-fields-from-query-results/)
+    - **sort** (document, optional): Document specifying the sorting order. See [Sort Query Results](https://www.mongodb.com/docs/manual/reference/method/cursor.sort/)
+
+    <Accordion title="Example: Find customer by ID">
+      This example retrieves a single customer by their unique customer ID.
+      
+      Operation name: findCustomerById
+      
+      <Tabs>
+        <Tab title="filter">
+          ```json
+          {
+            "customerId": "${processInstance.customerId}"
+          }
+          ```
+        </Tab>
+        <Tab title="projection">
+          ```json
+          {
+            "firstName": 1,
+            "lastName": 1,
+            "email": 1,
+            "phone": 1,
+            "status": 1,
+            "customerSince": 1,
+            "address": 1,
+            "_id": 0
+          }
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation uses a process variable for the customer ID and returns specific customer fields. Since findOne only returns one document, sort is usually unnecessary unless you need the first document matching certain criteria.
+    </Accordion>
+    
+    <Accordion title="Example: Find latest order">
+      This example finds the most recent order for a customer.
+      
+      Operation name: findLatestOrder
+      
+      <Tabs>
+        <Tab title="filter">
+          ```json
+          {
+            "customerId": "${processInstance.customerId}"
+          }
+          ```
+        </Tab>
+        <Tab title="sort">
+          ```json
+          {
+            "orderDate": -1
+          }
+          ```
+        </Tab>
+        <Tab title="projection">
+          ```json
+          {
+            "orderId": 1,
+            "orderDate": 1,
+            "totalAmount": 1,
+            "status": 1,
+            "items": 1,
+            "_id": 0
+          }
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation will find the most recent order for a specific customer by sorting by orderDate in descending order and returning only the first match.
+    </Accordion>
+  </Tab>
+  
+  <Tab title="insertOne">
+    **Parameters:**
+
+    For complete documentation on insertOne operations, see [MongoDB db.collection.insertOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.insertOne/).
+
+    - **document** (document, required): The document to insert. See [Insert Documents](https://www.mongodb.com/docs/manual/tutorial/insert-documents/)
+
+    <Accordion title="Example: Create a new customer">
+      This example inserts a new customer record using data from a process instance.
+      
+      Operation name: createCustomer
+      
+      <Tabs>
+        <Tab title="document">
+          ```json
+          {
+            "customerId": "${processInstance.customerData.id}",
+            "firstName": "${processInstance.customerData.firstName}",
+            "lastName": "${processInstance.customerData.lastName}",
+            "email": "${processInstance.customerData.email}",
+            "phone": "${processInstance.customerData.phone}",
+            "status": "active",
+            "customerSince": "${processInstance.customerData.registrationDate}",
+            "address": {
+              "street": "${processInstance.customerData.address.street}",
+              "city": "${processInstance.customerData.address.city}",
+              "state": "${processInstance.customerData.address.state}",
+              "zipCode": "${processInstance.customerData.address.zipCode}"
+            }
+          }
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation creates a new customer document with nested address data, using values from the process instance.
+    </Accordion>
+    
+    <Accordion title="Example: Log a system event">
+      This example logs a system event with static and dynamic data.
+      
+      Operation name: logSystemEvent
+      
+      <Tabs>
+        <Tab title="document">
+          ```json
+          {
+            "eventType": "user_action",
+            "action": "${processInstance.actionType}",
+            "timestamp": "${processInstance.currentDateTime}",
+            "userId": "${processInstance.userId}",
+            "details": "${processInstance.actionDetails}",
+            "source": "workflow",
+            "processId": "${processInstance.id}"
+          }
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation creates an event log entry with information about user actions in the system.
+    </Accordion>
+  </Tab>
+  
+  <Tab title="insertMany">
+    **Parameters:**
+
+    For complete documentation on insertMany operations, see [MongoDB db.collection.insertMany()](https://www.mongodb.com/docs/manual/reference/method/db.collection.insertMany/).
+
+    - **documents** (array, required): Array of documents to insert. See [Insert Documents](https://www.mongodb.com/docs/manual/tutorial/insert-documents/)
+    <Accordion title="Example: Import multiple customers">
+      This example inserts multiple customer records at once, typically from an imported data source.
+      
+      Operation name: importCustomers
+      
+      <Tabs>
+        <Tab title="documents">
+          ```json
+          [
+            {
+              "customerId": "CUST001",
+              "firstName": "John",
+              "lastName": "Doe",
+              "email": "john.doe@example.com",
+              "status": "active",
+              "customerSince": "2025-01-15"
+            },
+            {
+              "customerId": "CUST002",
+              "firstName": "Jane",
+              "lastName": "Smith",
+              "email": "jane.smith@example.com",
+              "status": "active",
+              "customerSince": "2025-01-20"
+            },
+            {
+              "customerId": "CUST003",
+              "firstName": "Robert",
+              "lastName": "Johnson",
+              "email": "robert.j@example.com",
+              "status": "inactive",
+              "customerSince": "2024-11-05"
+            }
+          ]
+          ```
+        </Tab>
+      </Tabs>
+      
+        This operation inserts multiple customer records at once. In a real scenario, you would typically reference a process variable containing the array: `{processInstance.importedCustomers}`
+    </Accordion>
+    
+    <Accordion title="Example: Create order items">
+      This example creates multiple order items for a single order.
+      
+      Operation name: createOrderItems
+      
+      <Tabs>
+        <Tab title="documents">
+          ```json
+          [
+            {
+              "orderId": "${processInstance.orderId}",
+              "productId": "${processInstance.items[0].productId}",
+              "quantity": "${processInstance.items[0].quantity}",
+              "unitPrice": "${processInstance.items[0].price}",
+              "subtotal": "${processInstance.items[0].subtotal}"
+            },
+            {
+              "orderId": "${processInstance.orderId}",
+              "productId": "${processInstance.items[1].productId}",
+              "quantity": "${processInstance.items[1].quantity}",
+              "unitPrice": "${processInstance.items[1].price}",
+              "subtotal": "${processInstance.items[1].subtotal}"
+            }
+          ]
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation creates multiple order item records for a single order. In practice, you would use `{processInstance.items}` directly if your process data model matches the database structure.
+    </Accordion>
+  </Tab>
+  
+  <Tab title="updateOne">
+    **Parameters:**
+
+    For complete documentation on updateOne operations, see [MongoDB db.collection.updateOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateOne/).
+
+    - **filter** (document, required): Criteria to match the document to update. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
+    - **update** (document, required): Update operations to apply. See [Update Operators](https://www.mongodb.com/docs/manual/reference/operator/update/)
+
+    <Accordion title="Example: Update customer status">
+      This example updates a customer's status and records when the change occurred.
+      
+      Operation name: updateCustomerStatus
+      
+      <Tabs>
+        <Tab title="filter">
+          ```json
+          {
+            "customerId": "${processInstance.customerId}"
+          }
+          ```
+        </Tab>
+        <Tab title="update">
+          ```json
+          {
+            "$set": {
+              "status": "${processInstance.newStatus}",
+              "lastUpdated": "${processInstance.currentDate}",
+              "statusReason": "${processInstance.statusChangeReason}"
+            }
+          }
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation updates a customer's status along with the reason and timestamp. 
+    </Accordion>
+    
+    <Accordion title="Example: Update order with tracking information">
+      This example updates an order with shipping details and increments a counter.
+      
+      Operation name: updateOrderShipping
+      
+      <Tabs>
+        <Tab title="filter">
+          ```json
+          {
+            "orderId": "${processInstance.orderId}"
+          }
+          ```
+        </Tab>
+        <Tab title="update">
+          ```json
+          {
+            "$set": {
+              "status": "shipped",
+              "shippingDetails": {
+                "carrier": "${processInstance.shippingData.carrier}",
+                "trackingNumber": "${processInstance.shippingData.trackingNumber}",
+                "estimatedDelivery": "${processInstance.shippingData.estimatedDelivery}"
+              },
+              "lastUpdated": "${processInstance.currentDateTime}"
+            },
+            "$inc": {
+              "statusUpdates": 1
+            }
+          }
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation updates an order with shipping information, sets the status to "shipped", and increments a counter tracking the number of status updates.
+    </Accordion>
+  </Tab>
+  
+  <Tab title="updateMany">
+    **Parameters:**
+
+    For complete documentation on updateMany operations, see [MongoDB db.collection.updateMany()](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateMany/).
+
+    - **filter** (document, required): Criteria to match documents to update. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
+    - **update** (document, required): Update operations to apply. See [Update Operators](https://www.mongodb.com/docs/manual/reference/operator/update/)
+    <Accordion title="Example: Deactivate inactive customers">
+      This example updates the status of multiple customers based on their last activity date.
+      
+      Operation name: deactivateInactiveCustomers
+      
+      <Tabs>
+        <Tab title="filter">
+          ```json
+          {
+            "lastActivityDate": { "$lt": "${processInstance.thresholdDate}" },
+            "status": "active"
+          }
+          ```
+        </Tab>
+        <Tab title="update">
+          ```json
+          {
+            "$set": {
+              "status": "inactive",
+              "deactivationDate": "${processInstance.currentDate}",
+              "deactivationReason": "inactivity"
+            }
+          }
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation identifies all active customers whose last activity date is older than a threshold date and marks them as inactive.
+    </Accordion>
+    
+    <Accordion title="Example: Apply discount to products">
+      This example applies a discount to all products in a specific category.
+      
+      Operation name: applySeasonalDiscount
+      
+      <Tabs>
+        <Tab title="filter">    
+          ```json
+          {
+            "category": "${processInstance.discountCategory}",
+            "onSale": false
+          }
+          ```
+        </Tab>
+        <Tab title="update">
+          ```json
+          {
+            "$mul": {
+              "price": ${processInstance.discountFactor}
+            },
+            "$set": {
+              "onSale": true,
+              "discountPercent": "${processInstance.discountPercent}",
+              "saleEndDate": "${processInstance.saleEndDate}"
+            }
+          }
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation applies a discount to all products in a specific category by multiplying the price by a discount factor (e.g., 0.8 for 20% off) and setting sale-related fields.
+    </Accordion>
+  </Tab>
+  
+  <Tab title="deleteOne">
+    **Parameters:**
+
+    For complete documentation on deleteOne operations, see [MongoDB db.collection.deleteOne()](https://www.mongodb.com/docs/manual/reference/method/db.collection.deleteOne/).
+
+    - **filter** (document, required): Criteria to match the document to delete. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
+
+    <Accordion title="Example: Delete a customer record">
+      This example removes a single customer record by ID.
+      
+      Operation name: deleteCustomer
+      
+      <Tabs>
+        <Tab title="filter">
+          ```json
+          {
+            "customerId": "${processInstance.customerIdToDelete}"
+          }
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation deletes a customer record with the specified ID. Make sure to implement proper validation and confirmation before executing deletion operations.
+    </Accordion>
+    
+    <Accordion title="Example: Remove abandoned cart">
+      This example removes an abandoned shopping cart after confirmation.
+      
+      Operation name: removeAbandonedCart
+      
+      <Tabs>
+        <Tab title="filter">
+          ```json
+          {
+            "cartId": "${processInstance.cartId}",
+            "status": "abandoned",
+            "lastUpdated": { "$lt": "${processInstance.thresholdDate}" }
+          }
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation deletes a shopping cart that's been marked as abandoned and hasn't been updated since a specific date.
+    </Accordion>
+  </Tab>
+  
+  <Tab title="deleteMany">
+   **Parameters:**
+
+    For complete documentation on deleteMany operations, see [MongoDB db.collection.deleteMany()](https://www.mongodb.com/docs/manual/reference/method/db.collection.deleteMany/).
+
+    - **filter** (document, required): Criteria to match documents to delete. See [Query Filter Documents](https://www.mongodb.com/docs/manual/tutorial/query-documents/)
+
+    <Accordion title="Example: Purge temporary records">
+      This example removes all temporary records older than a specified date.
+      
+      Operation name: purgeTemporaryRecords
+      
+      <Tabs>
+        <Tab title="filter">
+          ```json
+          {
+            "status": "temporary",
+            "createdDate": { "$lt": "${processInstance.purgeThresholdDate}" }
+          }
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation removes all documents marked as "temporary" that were created before a specific date. Use with caution as this will delete all matching records.
+    </Accordion>
+    
+    <Accordion title="Example: Clear completed tasks">
+      This example removes all completed tasks for a specific user.
+      
+      Operation name: clearCompletedTasks
+      
+      <Tabs>
+        <Tab title="filter">
+          ```json
+          {
+            "assignedTo": "${processInstance.userId}",
+            "status": "completed",
+            "completedDate": { "$lt": "${processInstance.olderThanDate}" }
+          }
+          ```
+        </Tab>
+      </Tabs>
+      
+      This operation removes all tasks that are marked as completed, were assigned to a specific user, and were completed before a certain date.
+    </Accordion>
+  </Tab>
+</Tabs>
+
+<Warning>
+Always use caution with update and delete operations, especially those that affect multiple documents (updateMany, deleteMany). Always include specific filter criteria to avoid unintended changes to your data.
+</Warning>
+
+## Real-world example: Customer management system
+
+This example demonstrates how a customer management system could use FlowX Database to persist and share customer data across different processes.
+
+<Accordion title="Setup">
+  <Steps>
+    <Step title="Create Customer collection">
+      Create a new FlowX Database data source named "Customers".
+
+
+      <Frame>
+      ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/create_cs_db.png)
+      </Frame>
+    </Step>
+    <Step title="Define operations">
+      Create the following operations:
+  <Tabs>
+    <Tab title="findCustomer">
+      **Operation Type**: findOne
+      
+    <Frame>
+    ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/findCustomer.png)
+    </Frame>
+
+      **Parameters**:
+      ```json
+      {
+        "filter": {
+          "customerId": "${processInstance.customerId}"
+        },
+        "projection": {
+          "firstName": 1,
+          "lastName": 1,
+          "email": 1,
+          "phone": 1,
+          "status": 1,
+          "customerSince": 1,
+          "_id": 0
+        }
+      }
+      ```
+      This operation retrieves a single customer by their customerId, returning only selected fields.
+    </Tab>
+    
+    <Tab title="createCustomer">
+      **Operation Type**: insertOne
+      
+    <Frame>
+    ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/createCustomer.png)
+    </Frame>
+
+
+      **Parameters**:
+      ```json
+      {
+        "document": {
+          "customerId": "${processInstance.customerData.id}",
+          "firstName": "${processInstance.customerData.firstName}",
+          "lastName": "${processInstance.customerData.lastName}",
+          "email": "${processInstance.customerData.email}",
+          "phone": "${processInstance.customerData.phone}",
+          "status": "active",
+          "customerSince": "${processInstance.customerData.registrationDate}",
+          "address": {
+            "street": "${processInstance.customerData.address.street}",
+            "city": "${processInstance.customerData.address.city}",
+            "state": "${processInstance.customerData.address.state}",
+            "zipCode": "${processInstance.customerData.address.zipCode}"
+          }
+        }
+      }
+      ```
+      This operation inserts a new customer document using data from the process instance.
+    </Tab>
+    
+    <Tab title="updateCustomerStatus">
+      **Operation Type**: updateOne
+
+
+      <Frame>
+      ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/updateCustomerStatus.png)
+      </Frame>
+
+      **Parameters**:
+      ```json
+      {
+        "filter": {
+          "customerId": "${processInstance.customerId}"
+        },
+        "update": {
+          "$set": {
+            "status": "${processInstance.newStatus}",
+            "lastUpdated": "${processInstance.currentDate}"
+          }
+        }
+      }
+      ```
+      This operation updates a customer's status and sets the lastUpdated timestamp.
+    </Tab>
+    
+    <Tab title="listActiveCustomers">
+      **Operation Type**: find()
+
+      <Frame>
+      ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/listActiveCustomers.png)
+      </Frame>
+      
+      **Parameters**:
+      ```json
+      {
+        "filter": {
+          "status": "active"
+        },
+        "sort": {
+          "customerSince": -1
+        },
+        "limit": 50,
+        "projection": {
+          "customerId": 1,
+          "firstName": 1,
+          "lastName": 1,
+          "email": 1,
+          "status": 1,
+          "_id": 0
+        }
+      }
+      ```
+      This operation retrieves a list of active customers, sorted by registration date (newest first), limited to 50 results.
+    </Tab>
+  </Tabs>
+</Step>
+  </Steps>
+</Accordion>
+
+<Accordion title="Customer support process">
+  <Frame caption="Customer support workflow with FlowX DB">
+    <img src="/images/flowx-db-example-support.png" alt="Customer Support Workflow" />
+  </Frame>
+  
+  In this process:
+  1. Support agent enters the customer ID
+  2. A Data Source node retrieves the customer details from the Customers collection
+  3. Customer information is displayed to the agent
+  4. After resolving the issue, the support agent updates the customer status
+  5. Another Data Source node updates the customer record in the database
+</Accordion>
+
+<Accordion title="Benefits demonstrated">
+  <Card>
+    This example shows how FlowX Database:
+    
+    - Enables data persistence across multiple processes
+    - Provides a single source of truth for customer data
+    - Simplifies data retrieval and updates
+    - Eliminates the need for external systems to store basic customer information
+  </Card>
+</Accordion>
+
+## Limitations and considerations
+
+<Expandable title="Current limitations of FlowX Database">
+
+
+<Warning>
+Multiple versions of documents are stored in the collection. Upon retrieval, all data that fits the filter conditions will be retrieved regardless of version.
+</Warning>
+
+<Warning>
+No automatic migration capabilities are available. Any migration will need to be done manually by the DevOps team.
+</Warning>
+
+<Warning>
+In the initial release, FlowX Database does not support transactions across multiple collections.
+</Warning>
+
+<Warning>
+Data validation based on a schema is not yet supported.
+</Warning>
+
+</Expandable>
+
+## Best practices
+
+<Check>
+**Design before implementation**: Plan your collections and operations carefully before implementation.
+</Check>
+
+<Check>
+**Keep document structure simple**: Avoid deeply nested structures for better performance and easier querying.
+</Check>
+
+<Check>
+**Use meaningful names**: Choose clear names for collections and operations.
+</Check>
+
+<Check>
+**Limit document size**: Keep individual documents under 16MB for optimal performance.
+</Check>
+
+<Check>
+**Test operations thoroughly**: Use the testing functionality to ensure operations work as expected.
+</Check>
+
+<Check>
+**Consider indexing**: For large collections, consider indexing frequently queried fields.
+</Check>
+
+<Check>
+**Provide default values**: Ensure all data types have default values (e.g., empty string for null, 0 for integers).
+</Check>
+
+## Troubleshooting
+
+<Accordion title="Operation fails with filter error">
+  <Steps>
+    <Step title="Problem">
+      Find operation fails with an error related to the filter syntax.
+    </Step>
+    <Step title="Solution">
+      Check your filter syntax to ensure it follows MongoDB query syntax. Common issues:
+      - Missing quotes around string values
+      - Incorrect operator syntax (e.g., using > instead of $gt)
+      - Mismatched brackets or braces
+    </Step>
+  </Steps>
+</Accordion>
+
+<Accordion title="Documents not appearing in results">
+  <Steps>
+    <Step title="Problem">
+      Your query doesn't return expected documents.
+    </Step>
+    <Step title="Solution">
+      - Verify your filter conditions are correct
+      - Check if documents actually exist in the collection
+      - Try a more general query to see if documents are returned
+      - Check if field names in your filter match exactly with the document structure
+    </Step>
+  </Steps>
+</Accordion>
+
+<Accordion title="Performance issues with large result sets">
+  <Steps>
+    <Step title="Problem">
+      Queries returning large amounts of data are slow.
+    </Step>
+    <Step title="Solution">
+      - Add pagination using skip and limit parameters
+      - Add more specific filter conditions
+      - Use projection to return only needed fields
+      - Consider indexing frequently queried fields
+    </Step>
+  </Steps>
+</Accordion>
+
+<Accordion title="Insert operation fails">
+  <Steps>
+    <Step title="Problem">
+      Insert operation fails with an error.
+    </Step>
+    <Step title="Solution">
+      - Check that your document JSON is valid
+      - Ensure document size is under 16MB
+      - Verify all required fields are present
+      - Check for any unique constraint violations
+    </Step>
+  </Steps>
+</Accordion>
+
+## Related features
+
+<CardGroup cols={2}>
+  <Card title="Data Search" icon="magnifying-glass" href="/docs/platform-deep-dive/core-extensions/search-data-service">
+    Learn about the Data Search service for indexing and searching process data.
+  </Card>
+  <Card title="Integration Management" icon="plug" href="/docs/platform-deep-dive/core-extensions/integration-management">
+    Understand how to manage integrations with external systems.
+  </Card>
+  <Card title="Workflow" icon="diagram-project" href="/docs/building-blocks/process/workflow">
+    See how workflows can interact with data sources.
+  </Card>
+  <Card title="Process Data Model" icon="sitemap" href="/docs/building-blocks/process/data-model">
+    Learn about data models used within processes.
+  </Card>
+</CardGroup>
+
+## Summary
+
+
+FlowX Database provides a powerful persistence layer that enables you to store and share data across different processes and projects. By leveraging MongoDB's capabilities through the **nosql-db-runner** service, FlowX Database offers:
+1. **Flexible data storage** for any structured data
+2. **Data sharing** between process instances
+3. **Integration** with workflows
+4. **Independence** from external systems for basic data persistence
+
+
+
+## MongoDB learning resources
+
+To get the most out of FlowX Database, familiarize yourself with MongoDB concepts and operations:
+
+<CardGroup cols={2}>
+  <Card title="MongoDB Manual" icon="book" href="https://www.mongodb.com/docs/manual/">
+    Complete MongoDB documentation covering all operations and concepts
+  </Card>
+  <Card title="Query Tutorial" icon="magnifying-glass" href="https://www.mongodb.com/docs/manual/tutorial/query-documents/">
+    Learn how to construct effective MongoDB queries
+  </Card>
+  <Card title="Update Operations" icon="pen-to-square" href="https://www.mongodb.com/docs/manual/tutorial/update-documents/">
+    Master document update operations and operators
+  </Card>
+  <Card title="Data Modeling" icon="sitemap" href="https://www.mongodb.com/docs/manual/core/data-modeling-introduction/">
+    Best practices for structuring your data in MongoDB
+  </Card>
+</CardGroup>
+
+
+## FAQs
+
+<Accordion title="When should I use Data Search vs. FlowX Database?">
+FlowX Database does not replace Data Search. Each serves different purposes in the platform.
+
+<Tabs>
+  <Tab title="FlowX Database">
+    - Acts as a persistent data store
+    - Optimized for CRUD operations
+    - Stores structured business data
+    - Designed for sharing data across processes
+    - Uses MongoDB as the underlying technology (via nosql-db-runner service)
+  </Tab>
+  <Tab title="Data Search">
+    - Provides indexing and search capabilities
+    - Optimized for quick lookups and aggregations
+    - Used for debugging and analytics
+    - Enables searching across process instances
+    - Uses Elasticsearch as the underlying technology
+  </Tab>
+</Tabs> 
+</Accordion>
+
+<Accordion title="What types of data should I store in FlowX Database?">
+FlowX Database is designed for **operational data with temporary character**, including:
+
+- **Dashboard data**: Aggregated information for reporting and visualization
+- **Cached data**: Frequently accessed information like daily exchange rates, product catalogs, or configuration data that changes periodically
+- **Shared process data**: Information that needs to be accessed across multiple process instances - this solves the key pain point of data sharing between different process instances
+- **Temporary operational data**: Working data that supports business processes but isn't part of your permanent records
+
+<Warning>
+**Important**: FlowX Database should **not become your primary book of records** or system of record. Use it for operational data that supports your processes, not for critical business data that requires long-term retention and governance.
+</Warning>
+</Accordion>
+
+<Accordion title="Can I share FlowX Database collections between different projects?">
+Yes, you can share collections between projects using the library approach:
+
+1. **Create collections in one project**: Set up your FlowX Database collections in a primary project
+2. **Include as libraries**: Add these collections as libraries in other projects that need access
+3. **Maintain consistency**: This approach ensures all projects use the same data structures and operations
+4. **Future-proof management**: Having centralized collection definitions makes updates and maintenance easier across all projects
+
+This pattern is particularly useful for shared reference data, common configurations, or cross-project operational data.
+</Accordion>
+
+<Accordion title="Why doesn't FlowX Database support automatic data migration?">
+FlowX Database intentionally does not provide automatic migration capabilities for several important reasons:
+
+- **Data integrity**: Many documents need to remain in their original format to maintain historical accuracy and compliance requirements
+- **Process dependencies**: Existing processes may depend on specific data structures, and automatic changes could break functionality
+- **Business context**: Data migration often requires business logic and context that automated systems cannot provide
+- **Risk management**: Manual migration allows for proper testing and validation before changes are applied
+
+When you need to modify data structures, plan for manual migration processes with proper testing and validation procedures handled by your DevOps team.
+</Accordion>
+
+<Accordion title="Can I store different types of documents in the same collection?">
+**No, this is strongly discouraged.** Each collection should contain documents with the same structure and purpose. 
+
+**DON'T DO IT** - Mixing different document types in one collection can lead to:
+
+- **Query complexity**: Filtering becomes more complex when documents have different schemas
+- **Performance issues**: Indexes become less effective with mixed document types
+- **Maintenance problems**: Updates and changes become harder to manage
+- **Data consistency**: Harder to ensure data quality and validation
+
+Instead, create separate collections for each document type, even if they seem related. This follows MongoDB best practices and keeps your data organized and manageable.
+</Accordion>
+
+<Accordion title="How does FlowX Database solve cross-process data sharing?">
+FlowX Database solves the key pain point of **accessing the same data from multiple process instances**:
+
+- **Cross-instance access**: Multiple process instances can read from and write to the same collections simultaneously
+- **Data persistence**: Data remains available even after individual processes complete
+- **Concurrent access**: The underlying MongoDB technology (via nosql-db-runner) handles concurrent read/write operations safely
+- **Shared state**: Enables complex workflows where processes need to coordinate through shared data
+
+This capability enables use cases like multi-step approval processes, shared customer data across different business processes, and coordinated workflows that span multiple process instances - addressing a major limitation of traditional process-scoped data storage.
+</Accordion>
+
+<Accordion title="What's the relationship between FlowX Database and the nosql-db-runner service?">
+FlowX Database is powered by the **nosql-db-runner** microservice, which provides:
+
+- **Pure MongoDB functionality**: Direct access to MongoDB operations within the FlowX ecosystem
+- **Native integration**: Connection between FlowX workflows and MongoDB operations
+- **Scalable architecture**: A dedicated service that can be scaled independently based on database operation needs
+
+The nosql-db-runner acts as the bridge between FlowX's workflow engine and MongoDB, enabling you to leverage MongoDB's full power while maintaining FlowX's process orchestration capabilities.
+</Accordion>

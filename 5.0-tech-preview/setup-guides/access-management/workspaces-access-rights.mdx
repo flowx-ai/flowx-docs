@@ -1,0 +1,514 @@
+---
+title: Workspaces access rights
+description: "Comprehensive guide to FlowX workspaces access rights"
+---
+
+<Info>
+FlowX 5.0 introduces a comprehensive role-based access control system with predefined roles at organization, workspace, and project levels.
+</Info>
+
+## Overview of workspaces access rights
+
+FlowX 5.0 provides a structured role hierarchy designed to support multi-tenant workspace architecture while maintaining security and governance. The system includes predefined roles that cannot be modified, ensuring consistent access patterns across all FlowX deployments.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/default_roles.png)
+</Frame>
+
+
+### Role architecture
+
+<CardGroup cols={3}>
+  <Card title="Organization Level" icon="building">
+    Cross-workspace administrative access for managing the entire FlowX organization
+  </Card>
+  <Card title="Workspace Level" icon="users">
+    Workspace-specific roles for managing resources, users, and configurations within a workspace
+  </Card>
+  <Card title="Project Level" icon="folder">
+    Project-specific roles for controlling access to individual projects and their resources
+  </Card>
+</CardGroup>
+
+## Organization level roles
+
+### Organization Admin (`org_admin`)
+
+<Card title="Organization Admin" icon="crown">
+  **Full administrative access across the entire FlowX organization**
+
+  **Key Characteristics:**
+  - Cannot be edited, duplicated, or deleted
+  - Can only be assigned in the Organization admin interface
+  - Hidden from workspace role lists
+  - Highest level of access in the FlowX hierarchy
+
+  **Permissions:**
+  - Create, manage, and delete workspaces
+  - Manage organization-wide users and access
+  - Configure global roles and groups
+  - Access all workspace resources across the organization
+  - Manage system-wide settings and configurations
+
+  **Use Cases:**
+  - Platform administrators
+  - IT managers responsible for FlowX deployment
+  - System architects managing multi-workspace environments
+</Card>
+
+<Warning>
+The Organization Admin role should be assigned sparingly and only to users who need full cross-workspace administrative access.
+</Warning>
+
+## Workspace level roles
+
+### Workspace Admin (`workspace_admin`)
+
+<Card title="Workspace Admin" icon="shield-check">
+  **Complete control over workspace-level resources and users**
+
+  **Key Characteristics:**
+  - Cannot be edited or deleted
+  - Can be assigned to users and groups within the workspace
+  - Listed in workspace role management interfaces
+  - Cannot manage organization-wide settings
+
+  **Permissions:**
+  - Manage workspace users, roles, and groups
+  - Create, configure, and delete projects and libraries
+  - Manage themes, fonts, and media assets
+  - Configure workspace settings and policies
+  - Grant and revoke access to workspace resources
+  - View workspace-specific audit logs
+
+  **Use Cases:**
+  - Business unit managers
+  - Workspace administrators
+  - Team leads with full workspace responsibility
+</Card>
+
+### Workspace User (`workspace_user`)
+
+<Card title="Workspace User" icon="user">
+  **Standard workspace access with project creation capabilities**
+
+  **Key Characteristics:**
+  - Cannot be edited or deleted
+  - Can be duplicated to create custom variations
+  - Default role for most workspace members
+  - Limited administrative capabilities
+
+  **Permissions:**
+  - Create and manage own projects
+  - View and use existing libraries
+  - Read-only access to themes and fonts
+  - Basic workspace navigation and resource access
+  - Cannot manage users, roles, or workspace settings
+
+  **Use Cases:**
+  - Business analysts and configurators
+  - Process designers and developers
+  - Team members who build projects within defined boundaries
+  - Users who need to create and manage their own work
+</Card>
+
+### Theme Editor (`theme_editor`)
+
+<Card title="Theme Editor" icon="palette">
+  **Specialized role for visual design and branding management**
+
+  **Key Characteristics:**
+  - Same base permissions as workspace_user
+  - Additional permissions for visual asset management
+  - Can be duplicated for custom variations
+  - Focused on design and branding elements
+
+  **Permissions:**
+  - All workspace_user permissions
+  - Create, edit, and delete themes
+  - Manage font resources and typography
+  - Upload and organize media assets
+  - Configure visual branding elements
+
+  **Use Cases:**
+  - UI/UX designers
+  - Brand managers
+  - Visual design specialists
+  - Marketing team members managing brand assets
+</Card>
+
+## Project level roles
+
+### Project Owner (`project_owner`)
+
+<Card title="Project Owner" icon="crown">
+  **Complete ownership and governance of project resources**
+
+  **Key Characteristics:**
+  - Automatically assigned to project creator
+  - Cannot be edited, duplicated, deleted, or manually assigned
+  - Hidden from role selection interfaces
+  - System-managed role with highest project-level access
+
+  **Permissions:**
+  - Full control over all project configuration
+  - Manage project access and permissions
+  - Configure runtime settings and deployments
+  - Delete or archive the project
+  - Grant access to other users and groups
+  - Override project-level restrictions
+
+  **Assignment:**
+  - Automatically granted when creating a project
+  - Cannot be transferred or reassigned through UI
+  - Permanent assignment for project lifecycle
+</Card>
+
+### Project Editor (`project_editor`)
+
+<Card title="Project Editor" icon="pen-to-square">
+  **Full project configuration and management capabilities**
+
+  **Key Characteristics:**
+  - Can be duplicated for custom variations
+  - Assignable to users and groups
+  - Comprehensive project access without ownership rights
+  - Standard role for project team members
+
+  **Permissions:**
+  - Create, edit, and delete processes and workflows
+  - Manage enumerations and data structures
+  - Configure notification and document templates
+  - Set up system integrations and endpoints
+  - Manage project configurations and parameters
+  - Access runtime settings and build management
+  - Configure project dependencies
+
+  **Use Cases:**
+  - Senior developers and configurators
+  - Technical leads on project teams
+  - Business analysts with advanced permissions
+  - Team members with full project configuration needs
+</Card>
+
+### Project Viewer (`project_viewer`)
+
+<Card title="Project Viewer" icon="eye">
+  **Read-only access to project configuration and settings**
+
+  **Key Characteristics:**
+  - Can be assigned when granting project access
+  - Safe role for stakeholders needing visibility
+  - No modification capabilities
+  - Suitable for audit and review purposes
+
+  **Permissions:**
+  - View process definitions and workflows
+  - Read enumeration values and data structures
+  - View template configurations
+  - See system integrations and endpoints
+  - Read project settings and parameters
+  - View runtime configurations and build status
+
+  **Use Cases:**
+  - Business stakeholders and executives
+  - Quality assurance team members
+  - External consultants needing project visibility
+  - Audit and compliance personnel
+  - New team members during onboarding
+</Card>
+
+## Role management rules
+
+### Predefined role restrictions
+
+<AccordionGroup>
+  <Accordion title="Cannot Be Deleted" icon="ban">
+    All predefined roles are protected from deletion to ensure system consistency and security. This prevents accidental removal of critical access controls.
+  </Accordion>
+  
+  <Accordion title="Cannot Be Fundamentally Modified" icon="lock">
+    Core permission structures of predefined roles cannot be altered. This ensures consistent behavior across all FlowX deployments and prevents security vulnerabilities.
+  </Accordion>
+  
+  <Accordion title="Duplication Rules" icon="copy">
+    Some roles can be duplicated to create custom variations:
+    - **Can duplicate**: `workspace_user`, `theme_editor`, `project_editor`, `project_viewer`
+    - **Cannot duplicate**: `org_admin`, `workspace_admin`, `project_owner`
+  </Accordion>
+  
+  <Accordion title="Assignment Restrictions" icon="user-plus">
+    Role assignment follows specific rules:
+    - **Organization roles**: Only assignable in organization admin interface
+    - **Workspace roles**: Assignable within workspace boundaries
+    - **Project roles**: Can be assigned when granting project access
+    - **Owner roles**: System-assigned only, cannot be manually granted
+  </Accordion>
+</AccordionGroup>
+
+### Role visibility rules
+
+<Tabs>
+  <Tab title="Organization Interface">
+    - `org_admin`: Visible and assignable
+    - Workspace roles: Not visible in organization interface
+    - Project roles: Not visible in organization interface
+  </Tab>
+  
+  <Tab title="Workspace Interface">
+    - `org_admin`: Hidden from workspace role lists
+    - `workspace_admin`, `workspace_user`, `theme_editor`: Visible and assignable
+    - `project_owner`: Hidden from role selection
+    - `project_editor`, `project_viewer`: Visible when granting project access
+  </Tab>
+  
+  <Tab title="Project Access Management">
+    - Organization roles: Not applicable at project level
+    - Workspace roles: Available when granting workspace-wide access
+    - `project_owner`: Not selectable (system-assigned)
+    - `project_editor`, `project_viewer`: Primary options for project access
+  </Tab>
+</Tabs>
+
+## Default groups
+
+### Everyone in workspace group
+
+<Card title="all_users_[workspace_name]" icon="users">
+  **Automatically managed group for simplified access control**
+
+  **Characteristics:**
+  - Created automatically when workspace is provisioned
+  - Hidden from Groups management interface
+  - Cannot be edited, deleted, or duplicated
+  - System-managed membership
+
+  **Behavior:**
+  - Users automatically added when granted workspace access
+  - Users automatically removed when workspace access is revoked
+  - Pre-selected when granting project or library access
+  - Appears in user/group search for access management
+
+  **Use Cases:**
+  - Granting project access to all workspace members
+  - Applying workspace-wide policies
+  - Simplifying bulk access management
+  - Default group for shared resources
+</Card>
+
+## Permission matrix
+
+### Organization permissions
+
+| Permission                      | org_admin |
+| ------------------------------- | --------- |
+| **Workspaces**                  |           |
+| Create workspace                | ✅        |
+| Edit workspace settings         | ✅        |
+| Delete workspace                | ✅        |
+| View all workspaces             | ✅        |
+| **Organization Users**          |           |
+| Add users to organization       | ✅        |
+| Remove users from organization  | ✅        |
+| Assign organization roles       | ✅        |
+| View all user access            | ✅        |
+| **Global Settings**             |           |
+| Configure organization settings | ✅        |
+| Manage global policies          | ✅        |
+| Access system configurations    | ✅        |
+
+### Workspace permissions
+
+| Permission                | workspace_admin | workspace_user | theme_editor |
+| ------------------------- | --------------- | -------------- | ------------ |
+| **Projects**              |                 |                |              |
+| Create project            | ✅              | ✅             | ✅           |
+| View projects             | ✅              | ✅             | ✅           |
+| Delete any project        | ✅              | ❌             | ❌           |
+| **Libraries**             |                 |                |              |
+| Create library            | ✅              | ✅             | ✅           |
+| View libraries            | ✅              | ✅             | ✅           |
+| Delete any library        | ✅              | ❌             | ❌           |
+| **Themes & Branding**     |                 |                |              |
+| Create themes             | ✅              | ❌             | ✅           |
+| Edit themes               | ✅              | ❌             | ✅           |
+| Delete themes             | ✅              | ❌             | ✅           |
+| Manage fonts              | ✅              | ❌             | ✅           |
+| **User Management**       |                 |                |              |
+| Add workspace users       | ✅              | ❌             | ❌           |
+| Remove workspace users    | ✅              | ❌             | ❌           |
+| Assign workspace roles    | ✅              | ❌             | ❌           |
+| Create user groups        | ✅              | ❌             | ❌           |
+| **Workspace Settings**    |                 |                |              |
+| Configure workspace       | ✅              | ❌             | ❌           |
+| Manage workspace policies | ✅              | ❌             | ❌           |
+| View audit logs           | ✅              | ❌             | ❌           |
+
+### Project permissions
+
+| Permission                 | project_owner | project_editor | project_viewer |
+| -------------------------- | ------------- | -------------- | -------------- |
+| **Process Design**         |               |                |                |
+| Create processes           | ✅            | ✅             | ❌             |
+| Edit processes             | ✅            | ✅             | ❌             |
+| Delete processes           | ✅            | ✅             | ❌             |
+| View processes             | ✅            | ✅             | ✅             |
+| **Configuration**          |               |                |                |
+| Manage enumerations        | ✅            | ✅             | ❌             |
+| Configure templates        | ✅            | ✅             | ❌             |
+| Set up integrations        | ✅            | ✅             | ❌             |
+| Manage parameters          | ✅            | ✅             | ❌             |
+| **Runtime Management**     |               |                |                |
+| Create builds              | ✅            | ✅             | ❌             |
+| Deploy to runtime          | ✅            | ✅             | ❌             |
+| Manage active policies     | ✅            | ✅             | ❌             |
+| View runtime status        | ✅            | ✅             | ✅             |
+| **Access Control**         |               |                |                |
+| Grant project access       | ✅            | ❌             | ❌             |
+| Modify project permissions | ✅            | ❌             | ❌             |
+| Remove project access      | ✅            | ❌             | ❌             |
+| **Project Administration** |               |                |                |
+| Delete project             | ✅            | ❌             | ❌             |
+| Archive project            | ✅            | ❌             | ❌             |
+| Export project             | ✅            | ✅             | ❌             |
+
+## Best practices
+
+### Role assignment strategy
+
+<AccordionGroup>
+  <Accordion title="Principle of Least Privilege" icon="shield-check">
+    **Always start with the minimum required access**
+    
+    - Begin with `project_viewer` for new users
+    - Upgrade to `project_editor` only when needed
+    - Reserve `workspace_admin` for actual administrators
+    - Limit `org_admin` to platform administrators
+  </Accordion>
+  
+  <Accordion title="Use Groups for Scale" icon="users">
+    **Leverage groups for efficient management**
+    
+    - Create groups for teams, departments, or functions
+    - Assign roles to groups rather than individuals
+    - Use the default "Everyone in workspace" group for common access
+    - Document group purposes and membership criteria
+  </Accordion>
+  
+  <Accordion title="Regular Access Reviews" icon="calendar-check">
+    **Implement periodic access auditing**
+    
+    - Review role assignments quarterly
+    - Remove access for inactive users
+    - Validate that permissions match current responsibilities
+    - Document access decisions and approvals
+  </Accordion>
+  
+  <Accordion title="Clear Role Documentation" icon="file">
+    **Maintain role assignment documentation**
+    
+    - Document who has what roles and why
+    - Maintain approval records for sensitive role assignments
+    - Create role assignment procedures for your organization
+    - Train administrators on proper role management
+  </Accordion>
+</AccordionGroup>
+
+### Common role assignment patterns
+
+<Tabs>
+  <Tab title="Small Team (5-15 users)">
+    **Simple structure for small organizations**
+    
+    - 1-2 `workspace_admin` (team leads)
+    - Most users as `workspace_user`
+    - 1 `theme_editor` (if visual customization needed)
+    - `project_editor` assigned per project as needed
+  </Tab>
+  
+  <Tab title="Department (15-50 users)">
+    **Structured approach for departments**
+    
+    - Department manager as `workspace_admin`
+    - Team leads as `workspace_user` with `project_editor` on their projects
+    - Specialists as `theme_editor` or specific project roles
+    - Junior members start as `project_viewer`
+  </Tab>
+  
+  <Tab title="Enterprise (50+ users)">
+    **Scalable structure for large organizations**
+    
+    - Multiple workspaces by business unit or region
+    - `workspace_admin` per business unit
+    - Role-based groups (Analysts, Developers, Designers)
+    - Project-specific access using ACLs
+    - Regular access reviews and automation
+  </Tab>
+</Tabs>
+
+## Troubleshooting
+
+### Common role issues
+
+<AccordionGroup>
+  <Accordion title="User Cannot Access Workspace" icon="ban">
+    **Possible Causes:**
+    - User not assigned to workspace
+    - No role assigned in workspace
+    - User not in any workspace groups
+    
+    **Solutions:**
+    1. Verify user is in workspace user list
+    2. Check role assignments
+    3. Validate group memberships
+    4. Review workspace permissions
+  </Accordion>
+  
+  <Accordion title="Role Assignment Failed" icon="exclamation">
+    **Possible Causes:**
+    - Insufficient permissions to assign role
+    - Role not available in current context
+    - System-managed role being manually assigned
+    
+    **Solutions:**
+    1. Verify assigner has `workspace_admin` role
+    2. Check role availability in current interface
+    3. Confirm role can be manually assigned
+    4. Review role assignment restrictions
+  </Accordion>
+  
+  <Accordion title="Permissions Not Working" icon="key">
+    **Possible Causes:**
+    - Role permissions not properly configured
+    - Cached permissions not updated
+    - Conflicting role assignments
+    
+    **Solutions:**
+    1. Clear user session and re-login
+    2. Verify role permission matrix
+    3. Check for multiple conflicting roles
+    4. Review ACL overrides
+  </Accordion>
+</AccordionGroup>
+
+## Custom roles (future)
+
+<Note>
+Custom roles will be available in future FlowX versions, allowing organizations to create tailored access patterns.
+</Note>
+
+**Planned Custom Role Features:**
+- Workspace-level custom roles with configurable permissions
+- Project-level custom roles for specific access patterns
+- Role templates for common organizational patterns
+- Bulk role management and assignment tools
+- Advanced permission inheritance models
+
+---
+
+## Related documentation
+
+- [Workspaces Setup Guide](../authorization-setup-guide)
+- [Workspaces Feature Guide](../../docs/projects/workspaces)
+- [User Management Guide](../../docs/platform-deep-dive/admin/user-management)
+- [Default roles](./default-roles)

@@ -1,0 +1,637 @@
+---
+title: Project data model
+description: Define reusable data types at the project level to ensure consistency across processes
+---
+
+
+## What is a project data model?
+
+<Frame>
+![Project Data Model](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm.png)
+</Frame>
+
+The Project Data Model (PDM) lets you define reusable data types at the project level. These data types propagate to the process data models, ensuring data consistency across yensuring data consistency across your FlowX.AI applications, including in Reusable Business Rules, Persistence Layer schemas, and other components.
+
+With PDM, you create a centralized data structure that serves as the foundation for all processes within your project. This ensures that core data types like Customer, Product, or Document maintain consistent definitions throughout your application.
+
+<Frame>
+![Project Data Model](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_process.png)
+</Frame>
+
+
+## Key concepts
+
+<Tabs>
+  <Tab title="Data Model Types">
+FlowX.AI supports several data model layers, each serving different purposes:
+
+    | Data Model Layer         | Description                                                                                                   |
+    | ------------------------ | ------------------------------------------------------------------------------------------------------------- |
+    | Process Data Model       | Can leverage data types defined in the Project Data Model or Library Data Model.                              |
+    | Project Data Model (PDM) | Defines data types that can be reused across processes and other resources within the project                 |
+    | Library Data Model       | Defined within a library. Allows data types to be reused across multiple projects, promoting standardization. |
+
+    <Frame>
+    ![Data Model Types](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_process.png)
+    </Frame>
+  </Tab>
+  <Tab title="Data Types & Attributes">
+    A **data type** defines the structure of a particular set of data. For example, a `Customer` data type might contain attributes like `name`, `email`, and `address`.
+
+    An **attribute** is an individual property of a data type that specifies its data structure.
+
+    Data types and attributes can be categorized based on their usage:
+
+    - **Used/Unused**: A data type or attribute is considered "used" when it's incorporated into the structure of another data type.
+    - **Referenced/Unreferenced**: Refers to data types or attributes from the Project Data Model being used within a Process Data Model or a UI Template.
+
+<Frame>
+![PDM usage](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_usage.gif)
+</Frame>
+
+  </Tab>
+</Tabs>
+
+## Benefits of project data model
+
+<CardGroup cols={2}>
+  <Card title="Consistency" icon="check-double">
+    Ensures data structure consistency across multiple processes and resources
+  </Card>
+  <Card title="Reusability" icon="recycle">
+    Define once, use many times across processes, business rules, and other components
+  </Card>
+  <Card title="Efficiency" icon="bolt">
+    Reduces development time by eliminating duplicate definitions
+  </Card>
+  <Card title="Maintainability" icon="wrench">
+    Centralized management of data structures
+  </Card>
+  <Card title="Standardization" icon="ruler">
+    Promotes the use of common data structures across projects
+  </Card>
+</CardGroup>
+
+## How to use the project data model
+
+### Access the project data model
+
+<Steps>
+  <Step title="Open FlowX.AI Designer">
+    Open FlowX.AI Designer.
+  </Step>
+  <Step title="Navigate to your project">
+    Select the project where you want to configure the Project Data Model.
+  </Step>
+  <Step title="Select Data Model">
+    Select "Project Data Model" from the project menu.
+  
+  <Frame>
+  ![Project Data Model](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/where_to_find_pdm.png)
+  </Frame>
+  
+  </Step>
+</Steps>
+
+### Define a project data model
+
+<Steps>
+  <Step title="Add a new data type">
+    In the Project Data Model view, click "+" to add a new data type.
+  
+   <Frame>
+   ![Add data type](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/add_new_data_type.png)
+   </Frame>
+  </Step>
+  <Step title="Name the data type">
+    Provide a name for the data type.
+  </Step>
+  <Step title="Add attributes">
+    Add attributes to the data type:
+    - Specify attribute name
+    - Select attribute type (string, number, boolean, object, array, enum)
+
+<Frame>
+![Add attributes](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/add_attributes.png)
+</Frame>
+</Step>
+</Steps>
+
+### Manage data types
+
+#### Add a data type
+
+1. Click the "+" button in the Data Types panel.
+2. Enter the name and properties of the data type.
+3. Add attributes as needed.
+4. Save changes.
+
+### Edit a data type
+
+<Steps>
+  <Step title="Select the data type">
+    Select the data type in the Project Data Model.
+  </Step>
+  <Step title="Make changes">
+    Click the three dots menu next to the data type and select "Settings".
+  </Step>
+  <Step title="Edit the data type">
+    Edit the data type as needed and click "Save".
+  </Step>
+</Steps>
+
+<Info>
+Changes to data types propagate to all processes referencing them. If a process is using this data type, it will automatically get the updated structure.
+
+<Warning>
+However, changes do NOT propagate to UI Designer paths, which will need to be adjusted manually.
+</Warning>
+
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_usage.mp4"
+></video>
+</Info>
+
+### Remove a data type
+
+<Steps>
+  <Step title="Select the data type">
+    Select the data type to remove.
+
+<Info>
+You can either delete an entire object or just a single attribute.
+</Info>
+
+<Frame>
+![Delete data type](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/remove_dm_obj.png)
+</Frame>
+
+  </Step>
+  <Step title="Click remove">
+    Click the remove button.
+  </Step>
+  <Step title="Confirm deletion">
+   You can delete the data type even if it's in use. The system will show you a warning message indicating which processes reference the data type.
+  </Step>
+</Steps>
+
+<Warning>
+If the data type is in use by processes, you will receive a warning message showing which processes reference it. You can still proceed with the deletion, but this may affect the referenced processes.
+
+
+![Delete data type](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_delete.png)
+
+
+</Warning>
+
+
+### Working with referenced data types
+
+When a data type from the Project Data Model is used in a Process Data Model:
+
+1. The Process Data Model will display the referenced data type.
+2. The referenced data type cannot be modified at the process level.
+3. Changes to the data type in the Project Data Model will propagate to all referencing processes.
+
+
+## Common scenarios
+
+<Tabs>
+  <Tab title="Edit a Key">
+    <Steps>
+      <Step title="Access PDM">
+        Navigate to the Project Data Model.
+      </Step>
+      <Step title="Make changes">
+        Make changes to an existing key or attribute.
+      </Step>
+      <Step title="Propagation">
+        The changes automatically propagate to all processes using that key.
+      </Step>
+      <Step title="Updates">
+        Referenced components in processes will be updated to reflect the changes, but UI Designer paths require manual adjustment.
+      </Step>
+    </Steps>
+  </Tab>
+  
+  <Tab title="Remove a Key">
+    <Steps>
+      <Step title="Access PDM">
+        Navigate to the Project Data Model.
+      </Step>
+      <Step title="Remove key">
+        Attempt to remove a key or object.
+      </Step>
+      <Step title="System check">
+        System checks if the key is in use by any process.
+      </Step>
+      <Step title="Result">
+      A warning modal shows references but allows deletion.
+      </Step>
+    </Steps>
+  </Tab>
+  
+  <Tab title="Change Type">
+    <Steps>
+      <Step title="Access PDM">
+        Navigate to the Project Data Model.
+      </Step>
+      <Step title="Change type">
+        Change the type of an attribute (e.g., from string to boolean).
+      </Step>
+      <Step title="Confirmation">
+        System will prompt for confirmation as this might break processes.
+      </Step>
+      <Step title="Result">
+   **Incompatible change**: References will be broken and removed from UI templates.
+   
+   **Compatible change**: No changes to references are required.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+### Use the Project Data Model in processes
+
+1. Navigate to a process within your project.
+2. Open the Process Data Model.
+3. Project data types are available for selection.
+4. Select the desired project data type to use in your process.
+5. The data type is added to your Process Data Model, maintaining reference to the Project Data Model.
+
+### Work with libraries
+
+<Frame>
+![Library PDM](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/library_pdm.png)
+</Frame>
+
+#### Integrate Library Data Models
+
+1. Navigate to your project dependencies.
+2. Add a library as a dependency. The library must have a build created.
+
+<Frame>
+![Library PDM](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/lib_pdm_dependency.png)
+</Frame>
+
+3. Library data types become available in your Project Data Model.
+
+<Warning>
+Library data types are not visible by default! You must select the library source in the filter to display them.
+</Warning>
+
+<Tip>
+To filter by library types you can use the "Filter by source" feature.
+<Frame>
+![Library PDM](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_lib_filter.png)
+</Frame>
+</Tip>
+
+
+4. You can now use the library data types in your data model.
+
+<Frame>
+![Library PDM](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/lib_pdm_flow.gif)
+</Frame>
+
+#### Handle duplicate types from libraries
+
+When multiple libraries contain data types with the same name:
+1. Both types will be visible in the Project Data Model with visual indicators.
+2. Namespacing functionality will prevent technical issues.
+
+
+<Frame>
+![Library PDM](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/lib_multiple.png)
+</Frame>
+
+## Configure reporting and sensitive data settings
+
+1. Go to the Project Data Model.
+2. Click the "3 dots menu" in the upper right corner of the side panel.
+3. Choose "show details".
+
+<Frame>
+![PDM Show Details](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_show_details.png)
+</Frame>
+
+4. Update the sensitive/reporting settings as needed.
+
+
+<Frame>
+![Reporting Sensitive](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_reporting_sensitive.png)
+</Frame>
+
+<Note>
+These settings apply to all instances of the attribute across processes.
+</Note>
+
+## Project Data Model after version commitment
+
+After committing a project version:
+1. The Project Data Model becomes read-only.
+2. You can still view the diagram and monitor usage.
+
+<Frame>
+![PDM after version commitment](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_read_only.png)
+</Frame>
+
+3. To make changes to the data model, you will require a new project version.
+
+<Frame>
+![PDM after version commitment](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_new_version.png)
+</Frame>
+
+## Search and filter
+
+The Project Data Model interface provides tools to help you find and work with your data types:
+
+1. Navigate to the Project Data Model.
+2. By default, only project-level types are displayed.
+3. Use filters to view library types as well.
+4. Use the search function to find specific types by name.
+
+## Update library dependencies
+
+When updating library dependencies:
+
+1. Navigate to the dependencies section.
+2. Select the new library version.
+3. The system will inform you of any breaking changes to data types.
+4. You can decide whether to proceed with the update.
+5. If you proceed, changes will propagate to processes according to compatibility rules.
+
+## Real-world example: Insurance claims processing
+
+<Info>
+This example demonstrates how an insurance company uses project data model for their claims processing system.
+</Info>
+
+<Accordion title="Core data types in PDM">
+
+The insurance company created these data types in their Project Data Model:
+
+<Frame>
+![Insurance PDM](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_example2.png)
+</Frame>
+
+1. **Customer**
+   - `customerId`: string
+   - `firstName`: string
+   - `lastName`: string
+   - `dateOfBirth`: date
+   - `contactInformation`: ContactInfo (reference)
+   - `policyNumbers`: array of string
+   - `customerSince`: date
+   - `riskProfile`: RiskProfile (reference)
+   - *Settings*: Sensitive data = True, Used in reporting = True
+
+2. **ContactInfo**
+   - `email`: string
+   - `phone`: string
+   - `address`: Address (reference)
+   - *Settings*: Sensitive data = True, Used in reporting = False
+
+3. **Claim**
+   - `claimId`: string
+   - `policyNumber`: string (reference to Policy)
+   - `claimType`: enum ["Auto", "Property", "Medical", "Liability"]
+   - `incidentDate`: date
+   - `reportedDate`: date
+   - `status`: enum ["New", "Under Review", "Pending Documents", "Approved", "Denied", "Closed"]
+   - `estimatedAmount`: number
+   - `approvedAmount`: number
+   - `documents`: array of Document (reference)
+   - *Settings*: Sensitive data = False, Used in reporting = True
+
+4. **Document**
+   - `documentId`: string
+   - `documentType`: string
+   - `fileName`: string
+   - `fileUrl`: string
+   - `uploadDate`: date
+   - *Settings*: Sensitive data = False, Used in reporting = False
+</Accordion>
+
+<Accordion title="Process-specific data models">
+
+The company created multiple processes using the PDM:
+
+<Tabs>
+  <Tab title="Auto Claim Processing">
+    **Root**: ClaimProcess
+
+
+<Frame>
+![Auto Claim Processing](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_example1.png)
+</Frame>
+
+    **Data Structure**:
+    - **ClaimProcess** (Process-specific type)
+      - `claim`: Claim (reference from PDM)
+      - `assignedAdjuster`: string
+      - `vehicleInfo`: AutoClaimDetails (reference)
+      - `processingStage`: enum ["Initial Review", "Damage Assessment", "Liability Determination", "Settlement Negotiation", "Payment Processing"]
+
+    - **AutoClaimDetails** (Process-specific type)
+      - `vehicleMake`: string
+      - `vehicleModel`: string
+      - `vehicleYear`: number
+      - `vin`: string
+      - `accidentLocation`: Address (reference from PDM)
+      - `damageDescription`: string
+  
+
+  </Tab>
+  
+  <Tab title="Policy Renewal Process">
+    **Root**: RenewalProcess
+
+<Frame>
+![Policy Renewal Process](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_example3.png)
+</Frame>
+
+    **Data Structure**:
+    - **RenewalProcess** (Process-specific type)
+      - `customer`: Customer (reference from PDM)
+      - `renewalDate`: date
+      - `premiumChange`: number
+      - `renewalStatus`: enum ["Pending Review", "Offer Generated", "Offer Sent", "Accepted", "Declined", "Expired"]
+  </Tab>
+</Tabs>
+</Accordion>
+
+<Accordion title="Example use cases">
+
+<Tabs>
+  <Tab title="Add an attribute">
+
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_new.mp4"
+></video>
+
+    1. A configurator adds a new attribute `loyaltyTier` to the Customer data type in the PDM.
+    2. This attribute is an enum ["Bronze", "Silver", "Gold", "Platinum"].
+    3. The new attribute automatically propagates to all processes using the Customer data type.
+    4. The Policy Renewal Process now has access to the customer's loyalty tier without any process-level changes.
+  </Tab>
+  
+  <Tab title="Remove a field">
+    <Frame caption="Warning when trying to remove a field in use">
+      <img src="/images/pdm-remove-warning.png" alt="Remove field warning" />
+    </Frame>
+    
+    1. A configurator tries to remove the `contactInformation` attribute from the Customer data type.
+    2. The system displays a warning that the attribute is in use by multiple processes.
+    3. The configurator is prevented from making the change until the references are resolved.
+  </Tab>
+  
+  <Tab title="Library integration">
+    <Frame caption="Using a library-defined Vehicle data type">
+      <img src="/images/pdm-library-integration.png" alt="Library integration" />
+    </Frame>
+    
+    1. The company uses a "Common Insurance Standards" library with standardized data types.
+    2. After setting the library as a dependency, they can use the library's "Vehicle" data type in their PDM.
+    3. When the library updates, the configurator can choose to adopt the changes.
+  </Tab>
+</Tabs>
+</Accordion>
+
+<Accordion title="Benefits demonstrated">
+  <Card>
+    This example shows how the Project Data Model:
+
+    - **Ensures data consistency**: Core entities like Customer and Policy maintain consistent structures across all processes and resources.
+    - **Promotes reusability**: Common data types are defined once and reused in in multiple processes, business rules, and other resources.
+    - **Simplifies changes**: Updates to data types are propagated automatically to all processes.
+    - **Enforces governance**: Sensitive data is marked at the project level for consistent handling.
+    - **Allows flexibility**: Process-specific data can extend the PDM while maintaining core data integrity.
+  </Card>
+</Accordion>
+
+## Best practices
+
+<Check>
+**Plan before implementation**: Design your Project Data Model before creating processes to ensure consistency.
+</Check>
+
+<Check>
+**Always provide example values**: Example values will be used in data mapping and other operations.
+</Check>
+
+<Check>
+**Use descriptive names**: Choose clear, descriptive names for data types and attributes.
+</Check>
+
+<Check>
+**Document your model**: Add descriptions to data types and attributes for better understanding and for AI agents.
+</Check>
+
+<Check>
+**Consider reusability**: Design data types with reusability in mind across processes and resources.
+</Check>
+
+<Check>
+**Review impact of changes**: Before modifying data types, check their usage across processes.
+</Check>
+
+<Check>
+**Use libraries for cross-project standards**: For data types needed across multiple projects, define them in libraries.
+</Check>
+
+<Check>
+**Maintain regularly**: Periodically review and clean up unused data types.
+</Check>
+
+## Limitations
+
+<Expandable title="Current limitations of the Project Data Model">
+
+<Warning>
+Data types from the Project Data Model cannot be modified at the process level.
+</Warning>
+
+<Warning>
+Removing or changing data types in use may break processes.
+</Warning>
+
+<Warning>
+Project Data Model becomes read-only after version commitment.
+</Warning>
+
+<Warning>
+Library updates with breaking changes to data types require careful handling.
+</Warning>
+
+<Warning>
+Project Data Model definitions are not currently used for resources (e.g., Workflows, Business Rules).
+</Warning>
+
+</Expandable>
+
+## Troubleshooting
+
+<Accordion title="Cannot modify a referenced data type in process">
+  <Steps>
+    <Step title="Problem">
+      You're trying to edit a data type from the PDM within a process, but the fields are read-only.
+    </Step>
+    <Step title="Solution">
+      Make changes at the project level instead:
+      1. Navigate to the Project Data Model
+      2. Locate and edit the data type
+      3. Save changes
+      4. The changes will propagate to all processes
+    </Step>
+  </Steps>
+</Accordion>
+
+<Accordion title="Cannot delete a data type that is in use">
+  <Steps>
+    <Step title="Problem">
+      You're trying to delete a data type, but receive an error that it's in use.
+    </Step>
+    <Step title="Solution">
+      Either:
+      - Remove all references to the data type first
+      - Create a new version of your project to make the change
+    </Step>
+  </Steps>
+</Accordion>
+
+<Accordion title="References broken after type change">
+  <Steps>
+    <Step title="Problem">
+      After changing a data type (e.g., from string to number), references are broken in processes.
+    </Step>
+    <Step title="Solution">
+      Review affected processes and update references manually:
+      1. Check the warning message that lists affected processes
+      2. Open each process
+      3. Update UI templates or other components that referenced the changed attribute
+    </Step>
+  </Steps>
+</Accordion>
+
+<Accordion title="Library update warning about breaking changes">
+  <Steps>
+    <Step title="Problem">
+      When updating a library dependency, you receive warnings about breaking changes to data types.
+    </Step>
+    <Step title="Solution">
+      Carefully review the changes and their impact before proceeding:
+      1. Check which data types are affected
+      2. Review how these types are used in your processes
+      3. Decide whether to proceed with the update or maintain the current version
+    </Step>
+  </Steps>
+</Accordion>

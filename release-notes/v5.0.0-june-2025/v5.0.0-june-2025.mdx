@@ -1,0 +1,731 @@
+---
+title: FlowX.AI 5.0.0 Release Notes
+description: Latest features, improvements, and bug fixes in our newest release
+mode: wide
+---
+
+<Warning type="technology-preview">
+This documentation covers FlowX.AI 5.0 Technology Preview. 
+**Not intended for production use.**
+</Warning>
+
+<Tabs>
+  <Tab title="What's New">
+    ## **What's new? 🆕**
+
+    🆕 [**Workspaces (Multi-Tenant Architecture)**](#workspaces-multi-tenant-architecture)                   
+    🆕 [**Project Data Model (PDM)**](#project-data-model-pdm)            
+    🆕 [**FlowX Database**](#flowx-database)                   
+    🆕 [**Multi Select UI Component**](#multi-select-ui-component)         
+    🆕 [**Library-to-Library Dependencies**](#library-to-library-dependencies)                  
+
+
+    ---
+
+    ### **Workspaces (Multi-Tenant Architecture)**
+
+<Card title="Workspaces" icon="building-columns" iconType="duotone">
+  <Tabs>
+    <Tab title="Overview">
+      <Frame>
+      ![Workspaces multi-tenant architecture](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/workspaces_overview.png)
+      </Frame>
+      
+      FlowX 5.0 introduces Workspaces, enabling organizations to manage multiple business lines, verticals, or countries within a single FlowX instance while maintaining complete data isolation.
+    </Tab>
+    
+    <Tab title="Key Features">
+      <CardGroup cols={2}>
+        <Card title="Multi-Tenant Architecture" icon="building-columns">
+          Logical separation of business contexts with shared infrastructure
+        </Card>
+        <Card title="Enhanced Access Control" icon="shield-check">
+          Role-based access control (RBAC) and Access Control Lists (ACLs) with workspace-specific permissions
+        </Card>
+        <Card title="Data Isolation" icon="lock">
+          Complete logical isolation between workspaces while enabling controlled resource sharing
+        </Card>
+        <Card title="User Groups & Roles" icon="users-gear">
+          Simplified permission management through groups and workspace-specific roles
+        </Card>
+      </CardGroup>
+    </Tab>
+    
+    <Tab title="Benefits">
+      <Steps>
+        <Step title="Accelerated Onboarding">
+          Onboard new business verticals in days instead of weeks with shared platform capabilities
+        </Step>
+        <Step title="Enhanced Governance">
+          Implement fine-grained access control with workspace-specific roles and permissions
+        </Step>
+        <Step title="Operational Efficiency">
+          Centralize platform upgrades, maintenance, and monitoring across all business units
+        </Step>
+      </Steps>
+    </Tab>
+    
+    <Tab title="Use Cases">
+      <CardGroup cols={2}>
+        <Card title="Multi-National Operations" icon="globe">
+          Separate workspaces for different countries/regions with shared global processes
+        </Card>
+        <Card title="Business Unit Separation" icon="building">
+          Independent workspaces for retail, corporate, and investment banking divisions
+        </Card>
+        <Card title="Regulatory Compliance" icon="scale-balanced">
+          Isolate processes subject to different regulatory requirements
+        </Card>
+        <Card title="Team-Based Development" icon="users">
+          Enable different teams to work independently while sharing common resources
+        </Card>
+      </CardGroup>
+    </Tab>
+  </Tabs>
+
+  <div className="flex justify-between items-center">
+    <a href="../../5.0-tech-preview/docs/projects/workspaces" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+      Learn more about Workspaces 
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </a>
+    
+    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300">
+      Platform Evolution
+    </span>
+  </div>
+</Card>
+
+<Accordion title="👥 What This Means for Your Role">
+  <Tabs>
+    <Tab title="DevOps Engineer 🔧">
+      <Warning>
+        **Major Infrastructure Changes**: Workspaces introduces SpiceDB integration and new database schemas for multi-tenant architecture.
+      </Warning>
+
+      **Key Changes:**
+      - **SpiceDB Integration**: New permission management system requiring deployment
+      - **Database Migration**: Schema updates for workspace support
+      - **User Storage**: Users now stored in FlowX database
+      - **Default Workspace**: Existing customers get automatic migration to default workspace
+
+      <Check>**Backward Compatibility**: All existing functionality preserved in default workspace</Check>
+    </Tab>
+    
+    <Tab title="Process Configurator ⚙️">
+      <Tip>
+        **New Login Flow**: After authentication, select your workspace before accessing FlowX Designer. Once inside a workspace, everything works as before.
+      </Tip>
+      
+      **What's New:**
+      - **Workspace Selection**: Choose workspace after login
+      - **Resource Isolation**: Projects, libraries, themes are workspace-specific
+      - **Enhanced Permissions**: Fine-grained access control with user groups and ACLs
+      - **Workspace Management**: Create and manage workspaces (admin users)
+
+      **What Stays the Same:**
+      - Process design and configuration
+      - UI Designer capabilities
+      - Integration patterns
+      - All existing FlowX Designer features
+    </Tab>
+    
+    <Tab title="Business Analyst 📊">
+      <Note>
+        **Strategic Transformation**: Workspaces enables enterprise multi-tenant architecture with independent business unit governance while sharing platform capabilities.
+      </Note>
+      
+      **Business Impact:**
+      - **Faster time-to-market** for new business verticals
+      - **Enhanced compliance** with workspace-specific controls
+      - **Improved governance** with fine-grained access management
+
+      **Enterprise Benefits:**
+      - Business unit autonomy with shared platform
+      - Regulatory compliance through data isolation
+      - Centralized upgrades and maintenance
+      - Cross-business unit resource sharing when appropriate
+    </Tab>
+  </Tabs>
+</Accordion>
+
+    ### **Project Data Model (PDM)**
+
+    <Card title="Project Data Model (PDM)" icon="database" iconType="duotone">
+      <Tabs>
+        <Tab title="Overview">
+          <Frame>
+          ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm.png)
+          </Frame>
+          
+          The new Project Data Model feature enables you to define and manage data types at the project level, which can then be reused across all processes within your project.
+        </Tab>
+        
+        <Tab title="Key Features">
+          <CardGroup cols={2}>
+            <Card title="Centralized Management" icon="sitemap">
+              Define data types once at the project level and reuse them across multiple processes
+            </Card>
+            <Card title="Automatic Propagation" icon="arrows-rotate">
+              Changes to PDM data types automatically propagate to all referencing processes
+            </Card>
+            <Card title="Enhanced Governance" icon="shield-check">
+              Configure sensitive data and reporting settings at the project level
+            </Card>
+            <Card title="Library Integration" icon="books">
+              Use data types from libraries in your Project Data Model
+            </Card>
+          </CardGroup>
+        </Tab>
+        
+        <Tab title="Benefits">
+          <Steps>
+            <Step title="Reduce duplicate work">
+              Define common data types like Customer, Product, or Document once instead of recreating them in each process
+            </Step>
+            <Step title="Simplify maintenance">
+              Update a data type in one place and have changes apply everywhere it's used
+            </Step>
+            <Step title="Standardize data structures">
+              Enforce consistent naming, structure, and governance across your application
+            </Step>
+            <Step title="Accelerate development">
+              Create new processes faster by leveraging pre-defined data types
+            </Step>
+          </Steps>
+        </Tab>
+        
+        <Tab title="Example">
+          <Frame caption="Insurance claim processing example">
+          ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/pdm_example1.png)
+          </Frame>
+        </Tab>
+      </Tabs>
+    
+      <div className="flex justify-between items-center">
+        <a href="../../5.0-tech-preview/docs/building-blocks/process/project-data-model" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+          Learn more about Project Data Model 
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+        
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-300">
+          New Feature
+        </span>
+      </div>
+    </Card>
+
+
+    <Accordion title="👥 What This Means for Your Role">
+      <Tabs>
+        <Tab title="DevOps Engineer 🔧">
+          <Info>
+            **Infrastructure Impact**: PDM has minimal infrastructure impact - it's a design-time feature that improves development efficiency without affecting runtime resources.
+          </Info>
+          
+          <Warning>
+           New roles have been created in the FlowX platform in the **admin** microservice:
+            - ROLE_ADMIN_MANAGE_PROJECT_DATA_TYPES_READ 
+            - ROLE_ADMIN_MANAGE_PROJECT_DATA_TYPES_IMPORT
+            - ROLE_ADMIN_MANAGE_PROJECT_DATA_TYPES_EDIT
+            - ROLE_ADMIN_MANAGE_PROJECT_DATA_TYPES_ADMIN
+          </Warning>
+          <Check>**No deployment changes required** - PDM is part of the design platform, not runtime</Check>
+          <Check>**Backward compatible** - Existing processes continue to work unchanged</Check>      
+        </Tab>
+        
+        <Tab title="Process Configurator ⚙️">
+          <Tip>
+            **Game Changer**: Define data types once at project level, use everywhere. No more recreating Customer or Order objects in every process.
+          </Tip>
+          
+          **How to Use PDM:**
+          1. Navigate to Project → Config → Data Model
+          2. Define your business entities (Customer, Product, etc.)
+          3. Set governance rules (sensitive data, reporting)
+          4. Use these types in any process within the project
+
+          **Best Practices:**
+          - Start with core business entities
+          - Use clear, consistent naming
+          - Mark sensitive fields appropriately
+          - Leverage library data types when available
+        </Tab>
+        
+        <Tab title="Business Analyst 📊">
+          <Note>
+            **Strategic Value**: PDM transforms how your organization manages business data definitions. Define business entities once and ensure consistency across all processes and teams.
+          </Note>
+          
+          **Business Benefits:**
+          - **Enhanced compliance** through centralized governance and data sensitivity controls
+          - **Reduced errors** from consistent data definitions
+          
+          **ROI Indicators:**
+          - Development Efficiency: Measure reduction in process creation time
+          - Error Reduction: Track fewer data-related production issues
+          - Maintenance Cost: Monitor time spent on data structure updates
+        </Tab>
+      </Tabs>
+    </Accordion>
+
+    ---
+
+    ### **FlowX Database**
+
+    <Card title="FlowX Database" icon="server" iconType="duotone">
+      <Tabs>
+        <Tab title="Overview">
+ <Frame>
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  controls
+  src="https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/flowx_db_demo.mp4"
+></video>
+</Frame>
+          FlowX Database is a new persistence layer that enables you to store and retrieve data across different processes and applications, without relying on external systems.
+        </Tab>
+        
+        <Tab title="Key Features">
+          <CardGroup cols={2}>
+            <Card title="Data Persistence" icon="database">
+              Store data that persists beyond process instances
+            </Card>
+            <Card title="MongoDB Operations" icon="code">
+              Find, insert, and manipulate data using familiar MongoDB operations
+            </Card>
+            <Card title="Workflow Integration" icon="diagram-project">
+              Seamlessly integrate with workflows through Data Source nodes
+            </Card>
+            <Card title="Document Collections" icon="folder-tree">
+              Organize your data in structured collections
+            </Card>
+          </CardGroup>
+        </Tab>
+        
+        <Tab title="Benefits">
+          <Steps>
+            <Step title="Share data between processes">
+              Enable communication and data sharing between different process instances
+            </Step>
+            <Step title="Reduce external dependencies">
+              Store operational data within FlowX instead of building custom connectors
+            </Step>
+            <Step title="Enable new use cases">
+              Build dashboards, caching solutions, and other applications that require persistent data
+            </Step>
+            <Step title="Simplify architecture">
+              Keep your data within the FlowX ecosystem for improved security and simplicity
+            </Step>
+          </Steps>
+        </Tab>
+        
+        <Tab title="UI Integration">
+          <Frame caption="FlowX Database as a Data Source type">
+          ![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/470/flowx_db_select.png)
+          </Frame>
+          
+          FlowX Database integrates directly into the existing Integration Designer as a new Data Source type alongside RESTful System, making it easy to create and manage database collections without learning new interfaces.
+        </Tab>
+      </Tabs>
+    
+      <div className="flex justify-between items-center">
+        <a href="../../5.0-tech-preview/docs/platform-deep-dive/integrations/flowx-database" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+          Learn more about FlowX Database 
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+        
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-300">
+          New Feature
+        </span>
+      </div>
+    </Card>
+
+    <Accordion title="👥 What This Means for Your Role">
+      <Tabs>
+        <Tab title="DevOps Engineer 🔧">
+          <Warning>
+            **Infrastructure Planning Required**: FlowX Database creates additional MongoDB collections and requires infrastructure planning for storage, monitoring, and backup procedures.
+          </Warning>
+
+          <Check>
+          New microservice: NoSQL DB Runner. Check the [setup guide](../../5.x/setup-guides/nosql-db-runner) for more details.
+          </Check>
+          
+          **Key Considerations:**
+          - **Storage Planning**: Monitor usage as processes adopt internal database (plan for 20-30% increase)
+          - **Performance Monitoring**: Set up alerts for FlowX Database query performance
+          - **Backup Strategy**: Include FlowX Database collections in backup procedures
+          - **Connection Pooling**: Additional connection pools for database operations
+          - **Memory**: Additional 256MB-512MB per FlowX instance for database operations
+        </Tab>
+        
+        <Tab title="Process Configurator ⚙️">
+          <Tip>
+            **New Integration Option**: FlowX Database appears as a new Data Source type in Integration Designer, right alongside RESTful System.
+          </Tip>
+          
+          **When to Use FlowX Database:**
+          - Customer data lookup across processes
+          - Shared configuration and reference data
+          - Process-to-process communication
+          - Caching frequently accessed data
+          - Temporary operational data storage
+
+          **How to Implement:**
+          1. Add Data Source node to your process
+          2. Select "FlowX Database" as type
+          3. Configure collection and operations
+          4. Use familiar MongoDB syntax (find, insert, update)
+
+          <Warning>
+            **When NOT to Use**: Don't replace your core business systems. FlowX Database is perfect for operational data, caching, and inter-process communication - but your CRM, ERP, and other systems of record should remain your primary data sources.
+          </Warning>
+        </Tab>
+        
+        <Tab title="Business Analyst 📊">
+          <Note>
+            **Strategic Value**: FlowX Database enables new operational patterns that were previously complex or impossible. It's not about replacing your core systems, but about enabling new ways to orchestrate business processes.
+          </Note>
+          
+          **New Business Capabilities:**
+          - **Cross-process workflows**: Loan application → Credit check → Approval across different process instances
+          - **Real-time dashboards**: Operational data for business monitoring without system integration
+          - **Agile experimentation**: Test new business rules without impacting core systems
+          - **Process orchestration**: Complex business flows spanning multiple departments
+
+          **ROI Considerations:**
+          - **Time to Market**: Faster implementation of new business processes
+          - **Agility**: Rapid prototyping and testing of business ideas
+
+          **Use FlowX Database when:**
+          - Data is operational and process-specific (not master data)
+          - You need rapid implementation without IT system changes
+          - Process instances need to communicate with each other
+          - You're prototyping new business capabilities
+        </Tab>
+      </Tabs>
+    </Accordion>
+
+    ---
+
+    ### **Multi Select UI Component**
+
+    <Card title="Multi Select UI Component" icon="list-check" iconType="duotone">
+      <Tabs>
+        <Tab title="Overview">
+          <Frame>
+          ![Multi Select form field](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/multi_select.png)
+          </Frame>
+          
+          The new Multi Select component allows users to choose multiple options from a predefined list, expanding upon the existing single Select component to support multi-value scenarios.
+        </Tab>
+        
+        <Tab title="Key Features">
+          <CardGroup cols={2}>
+            <Card title="Multiple Selections" icon="check-double">
+              Users can select multiple options from dropdown lists, with values stored as arrays
+            </Card>
+            <Card title="Flexible Display Options" icon="eye">
+              Show selections as chips, comma-separated lists, or custom formats
+            </Card>
+            <Card title="Selection Limits" icon="hashtag">
+              Configure maximum number of selectable options to control user input
+            </Card>
+            <Card title="Search & Filter" icon="magnifying-glass">
+              Built-in search functionality to filter through large option lists
+            </Card>
+          </CardGroup>
+        </Tab>
+        
+        <Tab title="Use Cases">
+          <Steps>
+            <Step title="Skills & Competencies">
+              Allow users to select multiple skills, qualifications, or areas of expertise
+            </Step>
+            <Step title="Categories & Tags">
+              Enable selection of multiple categories, tags, or classification options
+            </Step>
+            <Step title="Product Features">
+              Let customers choose multiple product features, services, or add-ons
+            </Step>
+            <Step title="Preferences & Settings">
+              Capture user preferences where multiple options can be active simultaneously
+            </Step>
+          </Steps>
+        </Tab>
+        
+        <Tab title="Configuration">
+          <Frame caption="Multi Select configuration options">
+          ![Multi Select configuration](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/multi_select_props.png)
+          </Frame>
+          
+          Configure Multi Select components with the same ease as other form elements. Set maximum selections, display formats, search options, and validation rules through the familiar UI Designer interface.
+          
+          <Accordion title="Key Configuration Options">
+            - **Max. Options Selectable**: Limit the number of selections
+            - **Show selections**: Choose how selected items are displayed
+            - **Search for options**: Enable filtering within large lists
+            - **Has Clear**: Allow users to clear all selections at once
+            - **Validation rules**: Min/max selections, required validations
+          </Accordion>
+        </Tab>
+      </Tabs>
+    
+      <div className="flex justify-between items-center">
+        <a href="../../5.0-tech-preview/docs/building-blocks/ui-designer/ui-component-types/form-elements/multi-select" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+          Learn more about Multi Select 
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+        
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-300">
+          New Component
+        </span>
+      </div>
+    </Card>
+
+    <Accordion title="👥 What This Means for Your Role">
+      <Tabs>
+        <Tab title="DevOps Engineer 🔧">
+          <Check>**No Infrastructure Impact**: Multi Select is a pure UI component with no backend requirements. It works with existing form handling and data storage mechanisms.</Check>
+          
+          <Check>**Zero deployment overhead** - Component is part of the UI framework upgrade</Check>
+          <Check>**Existing data handling** - Uses standard array storage, no schema changes needed</Check>
+        </Tab>
+        
+        <Tab title="Process Configurator ⚙️">
+          <Tip>
+            **Easy Integration**: Multi Select works just like other form elements in UI Designer. Drag, drop, configure - no new learning curve required.
+          </Tip>
+          
+          **Common Use Cases:**
+          1. **Skills Selection**: Job applications, team member profiles, contractor skills
+          2. **Product Features**: Insurance coverage options, software licensing features  
+          3. **Categories & Tags**: Document classification, customer segmentation
+
+          **Key Configuration:**
+          - **Max selections**: Control input limits
+          - **Display format**: Chips, lists, custom
+          - **Search**: Filter large option sets
+          - **Clear all**: Easy reset functionality
+          - **Validation**: Min/max rules
+        </Tab>
+        
+        <Tab title="Business Analyst 📊">
+          <Note>
+            **User Experience Impact**: Multi Select eliminates user frustration in scenarios where single selection doesn't match real-world needs. This improves data quality and user satisfaction.
+          </Note>
+          
+          **Before vs After:**
+          - ❌ **Before**: "I can only select one skill, but I have multiple certifications"
+          - ✅ **After**: "Perfect! I can select all my relevant skills at once"
+
+          **Business Process Examples:**
+          - **Employee Onboarding**: Select multiple skills, certifications, department access
+          - **Product Configuration**: Select multiple features, add-ons, support packages  
+          - **Customer Preferences**: Select multiple communication channels, product interests
+
+          <Tip>
+            **Analytics Benefit**: Multi-select data provides richer analytics. Instead of knowing a customer chose "Primary Interest: Technology," you know they selected "AI, Cloud Computing, Cybersecurity, Mobile Development" - much more actionable for business intelligence.
+          </Tip>
+        </Tab>
+      </Tabs>
+    </Accordion>
+
+    ---
+
+    ### **Library-to-Library Dependencies**
+
+    <Card title="Library-to-Library Dependencies" icon="list" iconType="duotone">
+      <Tabs>
+        <Tab title="Overview">
+          <Frame>
+          ![Library dependencies example](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/libs_dependencies.png)
+          </Frame>
+          
+          FlowX 5.0 introduces the ability for libraries to depend on other libraries, enabling hierarchical dependency structures and more sophisticated modular architectures.
+        </Tab>
+        
+        <Tab title="Key Features">
+          <CardGroup cols={2}>
+            <Card title="Hierarchical Structure" icon="sitemap">
+              Create complex dependency trees with multiple levels of library-to-library relationships
+            </Card>
+            <Card title="Resource Inheritance" icon="arrow-down">
+              Projects automatically gain access to resources from the entire dependency hierarchy
+            </Card>
+            <Card title="Version Control" icon="tag">
+              Single-version constraint ensures consistency across the dependency tree
+            </Card>
+            <Card title="Conflict Prevention" icon="shield-exclamation">
+              Built-in validation prevents circular dependencies and version conflicts
+            </Card>
+          </CardGroup>
+        </Tab>
+        
+        <Tab title="Benefits">
+          <Steps>
+            <Step title="Enhanced Modularity">
+              Break down complex functionality into smaller, focused libraries that can depend on each other
+            </Step>
+            <Step title="Team-based Development">
+              Enable different teams to own and maintain specific libraries while building on shared foundations
+            </Step>
+            <Step title="Specialized Libraries">
+              Create country-specific or domain-specific libraries that extend common base libraries
+            </Step>
+            <Step title="Simplified Architecture">
+              Organize libraries hierarchically, reducing complexity and improving maintainability
+            </Step>
+          </Steps>
+        </Tab>
+        
+        <Tab title="Example Structure">
+          <Frame caption="Example dependency tree with library-to-library dependencies">
+          ![Dependency tree visualization](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/5.x/example_dependency_tree.png)
+          </Frame>
+          
+          <Accordion title="Sample dependency hierarchy">
+            ```
+            Mortgage Project
+            ├── Enums Library (1.6.0)
+            ├── Integrations Library (2.5.0)
+            │   ├── Commons Library (1.1.0)  
+            │   └── Enums Library (1.6.0) # Transitive dependency
+            └── Subprocesses Library (1.3.0)
+                └── Enums Library (1.6.0)  # Transitive dependency
+            ```
+            
+            In this example, both Integrations Library and Subprocesses Library depend on other libraries, creating a multi-level hierarchy that the Mortgage Project can leverage.
+          </Accordion>
+        </Tab>
+      </Tabs>
+        <div className="flex justify-between items-center">
+          <a href="../../5.0-tech-preview/docs/projects/managing-applications/dependencies" className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors">
+            Learn more about Library Dependencies 
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-300">
+            Major Enhancement
+          </span>
+        </div>
+      </Card>
+
+    <Accordion title="👥 What This Means for Your Role">
+      <Tabs>
+        <Tab title="DevOps Engineer 🔧">
+<Info>
+        **Full Backwards Compatibility**: FlowX 5.0 maintains full backwards compatibility with existing project-to-library dependencies from FlowX 4.x. All existing dependencies will continue to work without modification.
+      </Info>
+
+      **Upgrade Process:**
+      1. **Existing dependencies** will be automatically migrated
+      2. **New library dependency features** become available immediately  
+      3. **No breaking changes** to existing functionality
+      4. **Enhanced validation** may catch previously undetected issues
+
+      <Warning>
+        **Post-Migration Required**: After the lib2lib migration is executed, you must clear the cache. This is necessary because a new field is added to the build mongo document.
+      </Warning>
+
+      **Cache Clearing Steps:**
+      1. Complete the lib2lib migration process
+      2. Clear the application cache to ensure the new build document fields are properly recognized
+      3. Verify that library-to-library dependencies are functioning correctly
+
+      **Key Changes:**
+      - **Build Export Changes**: Build exports now automatically include entire dependency trees (larger packages but self-contained)
+      - **Dependency Validation**: Build process now checks for dependency conflicts (enhanced validation may catch previously undetected issues)
+      - **Deployment Consistency**: Single-version constraint prevents runtime conflicts (more predictable deployments)
+    </Tab>
+        <Tab title="Process Configurator ⚙️">
+          <Tip>
+            **Enhanced Organization**: You can now create more sophisticated library structures where specialized libraries build upon common foundations. This reduces duplication and improves consistency.
+          </Tip>
+          
+          **How It Works:**
+          1. Navigate to Library → Config → Dependencies
+          2. Add other libraries as dependencies
+          3. FlowX validates for conflicts automatically
+          4. Resources from all dependency levels become available
+
+          **Best Practices:**
+          - Plan your library hierarchy before implementation
+          - Keep dependencies focused and purposeful
+          - Avoid circular dependencies
+          - Use semantic versioning consistently
+          - Document dependency relationships clearly
+
+          <Info>
+            **Example**: Create a "US Banking Library" that depends on "Global Banking Library" and "US Compliance Library". This way, US-specific processes get both global banking functionality and local compliance requirements automatically.
+          </Info>
+        </Tab>
+        
+        <Tab title="Business Analyst 📊">
+          <Note>
+            **Enterprise Architecture**: Library-to-Library Dependencies enable sophisticated organizational structures where different teams can own specific business domains while building on shared foundations.
+          </Note>
+          
+          **Enterprise Use Cases:**
+          
+          **Multi-Country Operations:**
+          Global Insurance Company: US-specific library depends on Global Compliance library
+          ```
+          US Insurance Library → Global Compliance Library → Base Insurance Library
+          ```
+
+          **Product Line Specialization:**
+          Bank: Mortgage processes use specialized libraries that extend common banking operations
+          ```
+          Mortgage Library → Lending Library → Core Banking Library
+          ```
+
+          **Business Impact:**
+          - **Team Autonomy**: Teams work independently while leveraging shared assets
+          - **Faster Innovation**: New products build on proven foundation components
+          - **Risk Reduction**: Tested, validated components reduce implementation risk
+
+          <Warning>
+            **Change Management**: This capability requires coordination between teams. Establish clear ownership models, communication protocols, and upgrade procedures before implementing complex dependency hierarchies.
+          </Warning>
+        </Tab>
+      </Tabs>
+    </Accordion>
+
+  </Tab>
+
+  <Tab title="Bug Fixes">
+    ## **Bug fixes** 🐞  
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </Tab>
+
+  <Tab title="Info">
+    ## **Additional information**  
+
+    <CardGroup cols={2}>
+      <Card title="Deployment Guidelines v5.0" icon="server" href="./deployment-guidelines-v5.0.0">
+        Instructions for deploying FlowX.AI 5.0.0
+      </Card>
+      <Card title="Migration Guide (from v4.x)" icon="arrow-up-right-dots" href="./migrating-from-v4.x-to-v5.0">
+        Step-by-step guide for migrating from v4.x to v5.0
+      </Card>
+      <Card title="Upgrade Considerations" icon="arrow-up-right-dots" href="./upgrade-considerations">
+        Upgrade considerations for FlowX.AI 5.0.0
+      </Card>
+    </CardGroup>
+  </Tab>
+</Tabs>

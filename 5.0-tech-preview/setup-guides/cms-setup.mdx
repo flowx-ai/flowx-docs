@@ -1,0 +1,283 @@
+---
+title: FlowX CMS setup
+description: The CMS service is a microservice designed for managing taxonomies and content inside an application. Delivered as a Docker image, it simplifies content editing and analysis. This guide provides step-by-step instructions for setting up the service and configuring it to suit your needs.
+icon: folder-grid
+---
+
+Ensure the following infrastructure components are available before starting the CMS service:
+
+- **Docker Engine**: Version 17.06 or higher.
+- **MongoDB**: Version 4.4 or higher for storing taxonomies and content.
+- **Redis**: Version 6.0 or higher.
+- **Kafka**: Version 2.8 or higher.
+- **Elasticsearch**: Version 7.11.0 or higher.
+
+
+<Info>
+The service is pre-configured with most default values. However, some environment variables require customization during setup.
+</Info>
+
+## Dependencies overview
+
+* [**MongoDB instance**](#mongodb-database)
+* [**Authorization & access roles**](#configuring-authorization-access-roles)
+* [**Redis**](#configuring-redis)
+* [**Kafka**](#configuring-kafka)
+
+## Configuration
+
+### Set application defaults
+
+
+Define the default application name for retrieving content:
+
+```yaml
+application:
+    defaultApplication: ${DEFAULT_APPLICATION:flowx}
+```
+
+<Info>
+If this configuration is not provided, the default value will be set to `flowx`.
+</Info>
+
+### Configuring authorization & access roles
+
+Connect the CMS to an OAuth 2.0 identity management platform by setting the following variables:
+
+| Environment variable                  | Description                                      |
+| ------------------------------------- | ------------------------------------------------ |
+| `SECURITY_OAUTH2_BASESERVERURL`       | Base URL for the OAuth 2.0 Authorization Server  |
+| `SECURITY_OAUTH2_CLIENT_CLIENTID`     | Unique identifier for the client application     |
+| `SECURITY_OAUTH2_CLIENT_CLIENTSECRET` | Secret key to authenticate client requests       |
+| `SECURITY_OAUTH2_REALM`               | Realm name for OAuth 2.0 provider authentication |
+
+For detailed role and access configuration, refer to:  
+
+<Card title ="FlowX CMS access rights" href="./access-management/configuring-access-rights-for-cms" icon ="file">
+</Card>
+
+
+### Configuring Runtime Manager service account
+
+The CMS service requires access to the Runtime Manager service account for operations such as merging media file updates, managing builds, and handling application version transitions.
+
+| Environment variable             | Description                                             | Default value              |
+| -------------------------------- | ------------------------------------------------------- | -------------------------- |
+| `APPLICATION_FLOWXRUNTIMESANAME` | Name of the Runtime Manager service account in Keycloak | `flowx-runtime-manager-sa` |
+
+<Info>
+This service account is required for CMS to perform operations like merging media file updates and coordinating with the Runtime Manager service. The service account must exist in Keycloak with the appropriate roles assigned.
+</Info>
+
+### Configuring MongoDB
+
+The CMS requires MongoDB for taxonomy and content storage. Configure MongoDB with the following variables:
+
+| Environment variable         | Description                                         | Default value                                                                                                        |
+| ---------------------------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `SPRING_DATA_MONGODB_URI`    | URI for connecting to the CMS MongoDB instance      | Format: `mongodb://${DB_USERNAME}:${DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${DB_NAME}?retryWrites=false` |
+| `DB_USERNAME`                | MongoDB username                                    | `cms-core`                                                                                                           |
+| `DB_NAME`                    | MongoDB database name                               | `cms-core`                                                                                                           |
+| `DB_PASSWORD`                | MongoDB password                                    |                                                                                                                      |
+| `MONGOCK_TRANSACTIONENABLED` | Enables transactions in MongoDB for Mongock library | `false` (Set to `false` to support successful migrations)                                                            |
+
+<Info>
+Set `MONGOCK_TRANSACTIONENABLED` to `false` due to known issues with transactions in MongoDB version 5.
+</Info>
+
+
+#### Configuring MongoDB (runtime database - additional data)
+
+CMS also connects to a Runtime MongoDB instance for operational data:
+
+
+| Environment variable              | Description                                                | Default value                                                                                                                                |
+| --------------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SPRING_DATA_MONGODB_RUNTIME_URI` | URI for connecting to Runtime MongoDB                      | Format: `mongodb://${RUNTIME_DB_USERNAME}:${RUNTIME_DB_PASSWORD}@<host1>,<host2>,<arbiter-host>:<port>/${RUNTIME_DB_NAME}?retryWrites=false` |
+| `RUNTIME_DB_USERNAME`             | Runtime MongoDB username                                   | `app-runtime`                                                                                                                                |
+| `RUNTIME_DB_NAME`                 | Runtime MongoDB database name                              | `app-runtime`                                                                                                                                |
+| `RUNTIME_DB_PASSWORD`             | Runtime MongoDB password                                   |                                                                                                                                              |
+| `SPRING_DATA_MONGODB_STORAGE`     | Storage type for Runtime MongoDB (Azure environments only) | `mongodb` (Options: `mongodb`, `cosmosdb`)                                                                                                   |
+
+### Configuring Redis
+
+<Info>
+The service can use the same Redis component deployed for the engine. See [Redis Configuration](./setup-guides-overview#redis-configuration).
+</Info>
+
+| Environment variable         | Description                                            |
+| ---------------------------- | ------------------------------------------------------ |
+| `SPRING_DATA_REDIS_HOST`     | Hostname or IP of the Redis server                     |
+| `SPRING_DATA_REDIS_PASSWORD` | Authentication password for Redis                      |
+| `SPRING_REDIS_TTL`           | Maximum time-to-live for Redis cache keys (in seconds) |
+
+### Configuring Kafka 
+
+#### Connection settings
+
+| Environment variable             | Description                 | Default value    |
+| -------------------------------- | --------------------------- | ---------------- |
+| `SPRING_KAFKA_BOOTSTRAPSERVERS`  | Address of the Kafka server | `localhost:9092` |
+| `SPRING_KAFKA_SECURITY_PROTOCOL` | Security protocol for Kafka | `"PLAINTEXT"`    |
+
+
+#### Auth and retry configuration
+
+| Environment variable               | Description                                     | Default value     |
+| ---------------------------------- | ----------------------------------------------- | ----------------- |
+| `KAFKA_AUTHEXCEPTIONRETRYINTERVAL` | Retry interval after an authorization exception | `10`              |
+| `KAFKA_MESSAGE_MAX_BYTES`          | Maximum message size in bytes                   | `52428800` (50MB) |
+
+#### Consumer group configuration
+
+| Environment variable                        | Description                            | Default value                    |
+| ------------------------------------------- | -------------------------------------- | -------------------------------- |
+| `KAFKA_CONSUMER_GROUPID_CONTENTTRANSLATE`   | Group ID for content translation       | `cms-consumer-preview`           |
+| `KAFKA_CONSUMER_GROUPID_RESUSAGEVALIDATION` | Group ID for resource usage validation | `cms-res-usage-validation-group` |
+
+#### Consumer thread configuration
+
+| Environment variable                        | Description                           | Default value |
+| ------------------------------------------- | ------------------------------------- | ------------- |
+| `KAFKA_CONSUMER_THREADS_CONTENTTRANSLATE`   | Threads for content translation       | `1`           |
+| `KAFKA_CONSUMER_THREADS_RESUSAGEVALIDATION` | Threads for resource usage validation | `2`           |
+
+
+#### Topic configuration
+
+The suggested topic pattern naming convention:
+
+```yaml
+topic:
+  naming:
+    package: "ai.flowx."
+    environment: "dev."
+    version: ".v1"
+    prefix: ${kafka.topic.naming.package}${kafka.topic.naming.environment}
+    suffix: ${kafka.topic.naming.version}
+    engineReceivePattern: engine.receive.
+```
+
+#### Content request topics
+
+| Environment variable              | Description                                   | Default value                                                        |
+| --------------------------------- | --------------------------------------------- | -------------------------------------------------------------------- |
+| `KAFKA_TOPIC_REQUEST_CONTENT_IN`  | Topic for incoming content retrieval requests | `ai.flowx.dev.plugin.cms.trigger.retrieve.content.v1`                |
+| `KAFKA_TOPIC_REQUEST_CONTENT_OUT` | Topic for content retrieval results           | `ai.flowx.dev.engine.receive.plugin.cms.retrieve.content.results.v1` |
+
+#### Audit topics
+
+| Environment variable    | Description                  | Default value                             |
+| ----------------------- | ---------------------------- | ----------------------------------------- |
+| `KAFKA_TOPIC_AUDIT_OUT` | Topic for sending audit logs | `ai.flowx.dev.core.trigger.save.audit.v1` |
+
+#### Application resource usage validation
+
+| Environment variable                            | Description                         | Default value                                                                 |
+| ----------------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------- |
+| `KAFKA_TOPIC_APPLICATION_IN_RESUSAGEVALIDATION` | Topic for resource usage validation | `ai.flowx.dev.application-version.resources-usages.sub-res-validation.cms.v1` |
+
+<Tip>
+All actions that match a configured pattern will be consumed by the engine.
+</Tip>
+
+#### Inter-Service topic coordination
+
+When configuring Kafka topics in the FlowX ecosystem, it's critical to ensure proper coordination between services:
+
+1. **Topic name matching**: Output topics from one service must match the expected input topics of another service.
+   
+   For example:
+   - `KAFKA_TOPIC_APPLICATION_RESOURCE_RESELEMUSAGEVALIDATION_OUT_CMS` on Application Manager must match `KAFKA_TOPIC_APPLICATION_IN_RESUSAGEVALIDATION` on CMS
+
+2. **Pattern consistency**: The pattern values must be consistent across services:
+   
+   - Process Engine listens to topics matching: `ai.flowx.dev.engine.receive.*`
+   - Integration Designer listens to topics matching: `ai.flowx.dev.integration.receive.*`
+
+3. **Communication flow**:
+   - Other services write to topics matching the Engine's pattern → Process Engine listens
+   - Process Engine writes to topics matching the Integration Designer's pattern → Integration Designer listens
+
+<Info>
+The exact pattern value isn't critical, but it must be identical across all connected services. Some deployments require manually creating Kafka topics in advance rather than dynamically. In these cases, all topic names must be explicitly defined and coordinated.
+</Info>
+
+#### Kafka authentication
+
+For secure environments, enable OAuth authentication with the following configuration:
+
+```yaml
+spring.config.activate.on-profile: kafka-auth
+
+spring:
+  kafka:
+    security.protocol: "SASL_PLAINTEXT"
+    properties:
+      sasl:
+        mechanism: "OAUTHBEARER"
+        jaas.config: "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required oauth.client.id=\"${KAFKA_OAUTH_CLIENT_ID:kafka}\" oauth.client.secret=\"${KAFKA_OAUTH_CLIENT_SECRET:kafka-secret}\"  oauth.token.endpoint.uri=\"${KAFKA_OAUTH_TOKEN_ENDPOINT_URI:kafka.auth.localhost}\" ;"
+        login.callback.handler.class: io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler
+```
+
+### Configuring logging
+
+| Environment variable         | Description                             |
+| ---------------------------- | --------------------------------------- |
+| `LOGGING_LEVEL_ROOT`         | Log level for root service logs         |
+| `LOGGING_LEVEL_APP`          | Log level for application-specific logs |
+
+### Configuring file storage
+
+#### Public storage
+
+| Environment variable                       | Description                                             |
+| ------------------------------------------ | ------------------------------------------------------- |
+| `APPLICATION_FILESTORAGE_S3_SERVERURL`     | URL of S3 server for file storage                       |
+| `APPLICATION_FILESTORAGE_S3_BUCKETNAME`    | S3 bucket name                                          |
+| `APPLICATION_FILESTORAGE_S3_ROOTDIRECTORY` | Root directory in S3 bucket                             |
+| `APPLICATION_FILESTORAGE_S3_CREATEBUCKET`  | Auto-create bucket if it doesn't exist (`true`/`false`) |
+| `APPLICATION_FILESTORAGE_S3_PUBLICURL`     | Public URL for accessing files                          |
+
+#### Private storage
+
+Private CMS securely stores uploaded documents and AI-generated documents, ensuring they are accessible only via authenticated endpoints.
+
+<Info>
+Private CMS ensures secure file storage by keeping documents hidden from the Media Library and accessible only through authenticated endpoints with access token permissions. Files can be retrieved using tags (e.g., ai_document, ref:UUID_doc) and are excluded from application builds.
+</Info>
+
+| Environment variable                             | Description                                 |
+| ------------------------------------------------ | ------------------------------------------- |
+| `APPLICATION_FILESTORAGE_S3_PRIVATESERVERURL`    | URL of S3 server for private storage        |
+| `APPLICATION_FILESTORAGE_S3_PRIVATEBUCKETNAME`   | S3 bucket name for private storage          |
+| `APPLICATION_FILESTORAGE_S3_PRIVATECREATEBUCKET` | Auto-create private bucket (`true`/`false`) |
+| `APPLICATION_FILESTORAGE_S3_PRIVATEACCESSKEY`    | Access key for private S3 server            |
+| `APPLICATION_FILESTORAGE_S3_PRIVATESECRETKEY`    | Secret key for private S3 server            |
+
+### Configuring file upload size
+
+| Environment variable                      | Description                      | Default value |
+| ----------------------------------------- | -------------------------------- | ------------- |
+| `SPRING_SERVLET_MULTIPART_MAXFILESIZE`    | Maximum file size for uploads    | `50MB`        |
+| `SPRING_SERVLET_MULTIPART_MAXREQUESTSIZE` | Maximum request size for uploads | `50MB`        |
+
+<Warning>
+Setting high file size limits may increase vulnerability to potential attacks. Consider security implications before increasing these limits.
+</Warning>
+
+### Configuring application management
+
+<Warning>
+The following configuration from versions before 4.1 will be deprecated in version 5.0:
+
+* `MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED`: Enables or disables Prometheus metrics export.
+</Warning>
+
+<Info>
+Starting from version 4.1, use the following configuration. This setup is backwards compatible until version 5.0.
+</Info>
+
+| Environment variable                           | Description                       | Default value |
+| ---------------------------------------------- | --------------------------------- | ------------- |
+| `MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED` | Enables Prometheus metrics export | `false`       |

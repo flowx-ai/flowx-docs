@@ -1,0 +1,304 @@
+---
+title: Partitioning & archiving
+description: Improving data management using data partitioning and the archival processes.
+---
+
+## Overview
+
+<Tip>
+Starting with release v4.1.1 you can enable data partitioning on FlowX.AI Engine.
+</Tip>
+
+Partitioning and archiving are data management strategies used to handle large volumes of data efficiently. They improve database performance, manageability, and storage optimization. By dividing data into partitions and archiving older or less frequently accessed data, organizations can ensure better data management, quicker query responses, and optimized storage use.
+
+## Partitioning 
+
+Partitioning is the process of dividing a large database table into smaller, more manageable pieces, called partitions. Each partition can be managed and queried independently. The primary goal is to improve performance, enhance manageability, and simplify maintenance tasks such as backups and archiving.
+
+Partitions can be created per day, week or month. This means that a partition ID is computed at insert time for each row of process_instance and related tables.
+
+Afterwards, a retention period can be setup (eg: 3 partitions). A flowx engine-driven cron job (with configurable start interval) will check if there is any partition which needs to be archived and will perform the necessary actions.
+
+
+### Benefits of partitioning
+
+* **Improved Query Performance**: By scanning only relevant partitions instead of the entire table.
+* **Simplified Maintenance**: Easier to perform maintenance tasks like backups and index maintenance.
+* **Data Management**: Better data organization and management by dividing data based on specific criteria such as date, range, or list.
+
+<Info>
+Database Compatibility: Oracle Database and PostgreSQL.
+</Info>
+
+## Archiving 
+
+Archiving involves moving old data from the primary tables to separate archive tables. This helps in reducing the load on the primary tables, thus improving performance and manageability.
+
+### Benefits of archiving
+
+* **Storage Optimization**: Archived data can be compressed, saving storage space.
+* **Performance Improvement**: Reduces the volume of data in primary tables, leading to faster query responses.
+* **Historical Data Management**: Maintains historical data in a separate, manageable form.
+
+## Partitioning and archiving in Oracle Database
+
+### Oracle Database partitioning
+
+<Steps>
+<Step title ="Concept">
+Oracle Database [**partitioned tables**](https://docs.oracle.com/en/database/oracle/oracle-database/18/vldbg/partition-concepts.html#GUID-6D369646-16AF-487B-BF32-5F6569D27C8A) are utilized, allowing for efficient data management and query performance. 
+</Step>
+<Step title ="Implementation">
+
+Each partition can be managed and queried independently.
+
+Example: The `process_instance` table can be partitioned by day, week, or month.
+</Step>
+<Step title ="Benefits">
+Improved query performance by scanning only relevant partitions.
+
+Simplified maintenance tasks like backups and archiving.
+</Step>
+</Steps>
+
+### Oracle Database archiving
+
+<Steps>
+<Step title="Process">
+Detaching the partition from the main table.
+
+Converting the detached partition into a new table named `archived_${table_name}_${interval_name}_${reference}` for example: `archived_process_instance_monthly_2024_03` .
+
+<Info>
+The DATE is in the format `yyyy-MM-dd` if the interval is `DAY`, or in the format `yyyy-MM` if the interval is `MONTH`, or in the format `yyyy-weekOfYear` if the interval is `WEEK`.
+</Info>
+
+</Step>
+<Step title ="Steps">
+Identify partitions eligible for archiving based on retention settings.
+
+Detach the partition from the main table.
+
+Create a new table with the data from the detached partition.
+
+Optionally compress the new table to save space.
+</Step>
+<Step title ="Benefits">
+
+Manages historical data by moving it to separate tables, reducing the load on the main table.
+
+Compression options (OFF, BASIC, ADVANCED) further optimize storage.
+
+<Info>
+Oracle offers several compression options—OFF, BASIC, and ADVANCED—that optimize storage. Each option provides varying levels of data compression, impacting storage savings and performance differently.
+
+* **OFF**: No compression is applied.
+* **BASIC**: Suitable for read-only or read-mostly environments, it compresses data without requiring additional licenses.
+* **ADVANCED**: Offers the highest level of compression, supporting a wide range of data types and operations. It requires an Advanced Compression license and provides significant storage savings and performance improvements by keeping data compressed in memory.
+
+For more details, you can refer to Oracle's [**Advanced Compression documentation**](https://www.oracle.com/database/advanced-compression/#rc30related).
+
+</Info>
+
+</Step>
+</Steps>
+
+
+## PostgreSQL archiving
+
+<Steps>
+<Step title ="Process">
+Creating a new table for the partition being archived.
+
+Moving data from the main table to the new archive table (in batches).
+
+<Info>
+Since here the DB has more work to do than just changing some labels (actual data insert and delete vs relabel a partition into a table, for Oracle Database) the data move is batched and the batch size is configurable.
+</Info>
+
+</Step>
+<Step title ="Steps">
+Identify partitions eligible for archiving based on retention settings.
+
+Create a new table following this naming convention: `archived__${table_name}__${interval_name}_${reference}`, example: *archived__process_instance__weekly_2024_09* .
+
+<Tip>
+The new table is created (same name format as for Oracle Database: `archived__${table_name}__${interval_name}_${reference}`) and data is moved from the primary table here. 
+</Tip>
+
+Configure the batch size for data movement to control the load on the database.
+
+</Step>
+
+<Step title ="Benefits">
+
+Efficiently manages historical data.
+
+Batch processing allows for better control over the archiving process and system performance.
+
+</Step>
+
+</Steps>
+
+<Info>
+Differences from Oracle DBs:
+
+Archiving involves actual data movement (insert and delete operations), unlike Oracle Databases where it is mainly a relabeling of partitions.
+
+The batch size for data movement is configurable, allowing fine-tuning of the archiving process.
+</Info>
+
+
+## Daily operations
+
+Once set up, the partitioning and archiving process involves the following operations:
+
+<Steps>
+<Step title= "Partition ID Calculation">
+The `partition_id` is automatically calculated based on the configured interval (DAY, WEEK, MONTH).
+Example for daily partitioning: `2024-03-01 13:00:00` results in `partition_id = 124061`. See the [**Partition ID calculation**](#partition-id-calculation) section.
+</Step>
+<Step title="Retention Management">
+Data older than the configured retention interval becomes eligible for archiving and compressing.
+</Step>
+<Step title ="Archiving process">
+
+A cron job checks for eligible partitions.
+
+Eligible partitions are archived and optionally compressed.
+
+The process includes deactivating foreign keys, creating new archive tables, moving data references, reactivating foreign keys, and dropping the original partition.
+</Step>
+<Step title ="Space management">
+Archived tables remain in the database but occupy less space if compression is enabled.
+
+**Recommendation**: to free up space, consider moving archived tables to a different database or tablespace. Additionally, you have the option to move only process instances or copy definitions depending on your needs.
+
+</Step>
+</Steps>
+
+
+<Warning>
+When enabling partitioning, please consider the following:
+
+**Ensure Process Termination**: Make sure that process instances get terminated. Archiving removes process instance data from the working data, making it not available in FlowX. Started instances should be finished before archiving takes place.
+
+**Set Process Expiry**: To ensure termination of process instances prior to archiving, it is recommended to configure process expiration. Refer to the following section for guidance on setting up process expiry using FlowX Designer:
+
+[Timer Expressions](../../docs/building-blocks/node/timer-events/timer-expressions)
+
+</Warning>
+
+
+
+<Info>
+Future schema updates or migrations will not affect archived tables. They retain the schema from the moment of archiving.
+</Info>
+
+## Configuring partitioning and archiving
+
+<Info>
+The Partitioning and Archiving feature is optional and can be configured as needed.
+</Info>
+
+<Tip>
+When starting a new version of the process-engine, we recommend manually executing the setup SQL commands from Liquibase, as they may take more time. After setup, all existing information will go into the initial partition.
+</Tip>
+
+This section contains environment variables that control the settings for data partitioning and archiving and also for the archiving scheduler. These settings determine how data is partitioned, retained, and managed, including compression and batch processing.
+
+
+| Environment Variable                                     | Description                                                                  | Default Value                         | Possible Values                       |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------- |
+| `FLOWX_DATA_PARTITIONING_ENABLED`                        | Activates data partitioning.                                                 | `false`                               | `true`, `false`                       |
+| `FLOWX_DATA_PARTITIONING_INTERVAL`                       | Interval for partitioning (the time interval contained in a partition).      | `MONTH`                               | `DAY`, `WEEK`, `MONTH`                |
+| `FLOWX_DATA_PARTITIONING_RETENTION_INTERVALS`            | Number of intervals retained in the FlowX database (for partitioned tables). | `3`                                   | Integer values (e.g., `1`, `2`, `3`)  |
+| `FLOWX_DATA_PARTITIONING_DETACHED_PARTITION_COMPRESSION` | Enables compression for archived (detached) partitions (Oracle only).        | `OFF`                                 | `OFF`, `BASIC`, `ADVANCED`            |
+| `FLOWX_DATA_PARTITIONING_MOVED_DATA_BATCH_SIZE`          | Batch size for moving data (PostgreSQL only).                                | `5000`                                | Integer values (e.g., `1000`, `5000`) |
+| `SCHEDULER_DATA_PARTITIONING_ENABLED`                    | Activates the cron job for archiving partitions.                             | `true`                                | `true`, `false`                       |
+| `SCHEDULER_DATA_PARTITIONING_CRON_EXPRESSION`            | Cron expression for the data partitioning scheduler.                         | `0 0 1 * * ?` -> every day at 1:00AM  | Cron expression (e.g., `0 0 1 * * ?`) |
+
+<Info>
+Compression for archived (detached) partitions is available only for Oracle DBs.
+</Info>
+
+<Info>
+The batch size setting for archiving data is available only for PostgreSQL DBs.
+</Info>
+
+
+## Logging information
+
+Partitioning and archiving actions are logged in two tables:
+
+- `DATA_PARTITIONING_LOG`: For tracking archived partitions.
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/partitioning_log.png)
+</Frame>
+
+- `DATA_PARTITIONING_LOG_ENTRY`: For logging SQL commands executed for archiving.
+
+
+<Frame>
+![](https://s3.eu-west-1.amazonaws.com/docx.flowx.ai/post41/partitioning_log_entry.png)
+</Frame>
+
+## Enabling partitioning and Elasticsearch indexing strategy
+
+When partitioning is enabled, the Elasticsearch indexing strategy must also be enabled and configured on FlowX Engine setup.
+
+<Card icon="info">
+**Why?**
+
+* When archiving process instances, data from Elasticsearch must be deleted, not just the cache but also indexed keys (e.g., those indexed for data search on process instances).
+</Card>
+
+### Elasticsearch indexing configuration
+
+Check the Elasticsearch indexing setup here:
+
+<Card title ="Elasticsearch indexing setup" href="./configuring-elasticsearch-indexing/" icon ="link">
+</Card>
+
+The partitioning configuration must be aligned with the configuration extracted from the Kafka Elasticsearch Connector, especially with the following environment variables, so the intervals are similar:
+
+### Index partitioning
+
+* `transforms.routeTS.topic.format: "process_instance-${timestamp}"`: This value must start with the index name defined in the process-engine config: flowx.indexing.processInstance.index-name. In this example, the index name is prefixed with "process_instance-" and appended with a timestamp for dynamic index creation. For backward compatibility, the prefix must be "process_instance-". However, backward compatibility is not strictly required here.
+yaml
+
+* `transforms.routeTS.timestamp.format: "yyyyMMdd"`: This format ensures that timestamps are consistently represented and easily parsed when creating or searching for indices based on the process instance start date. You can adjust this value as needed (e.g., for monthly indexes, use "yyyyMM"). However, note that changing this format will cause existing indexed objects to remain unchanged, and update messages will be treated as new objects, indexed again in new indices. It is crucial to determine your index size and maintain consistency.
+
+Check the following Kafka Elasticsearch Connector configuration example for more details:
+
+<Card title ="Kafka Elasticsearch Connector" href="./configuring-elasticsearch-indexing/elasticsearch-indexing#kafka-elasticsearch-connector" icon="link">
+</Card>
+
+
+## Technical details
+
+### Partition ID calculation
+    
+- The `partition_id` format follows this structure: `<LEVEL || YEAR || BIN_ID_OF_YEAR>`. This ID is calculated based on the start date of the `process_instance`, the partition interval, and the partition level.
+  - `LEVEL`: This represents the "Partitioning level," which increments with each change in the partitioning interval (for example, if it changes from `DAY` to `MONTH` or vice versa).
+  - `YEAR`: The year extracted from the `process_instance` date.
+  - `BIN_ID_OF_YEAR`: This is the ID of a bucket associated with the `YEAR`. It is created for all instances within the selected partitioning interval. The maximum number of buckets is determined by the partitioning frequency:
+    - **Daily**: Up to 366 buckets per year
+    - **Weekly**: Up to 53 buckets per year
+    - **Monthly**: Up to 12 buckets per year
+
+#### Calculation example
+
+For a timestamp of `2024-03-01 13:00:00` with a daily partitioning interval, the `partition_id`would be `124061`:
+  - `1`: Partitioning Level (`LEVEL`)
+  - `24`:  Year - 2024 (`YEAR`)
+  - `061`: Bucket per configuration (61st day of the year)
+
+### Archived tables
+    
+- Naming format: `archived__${table_name}__${interval_name}_${reference}`. Examples: 
+  - archived__process_instance__monthly_2024_03
+  - archived__process_instance__weekly_2024_09
+  - archived__process_instance__daily_2024_03_06
+

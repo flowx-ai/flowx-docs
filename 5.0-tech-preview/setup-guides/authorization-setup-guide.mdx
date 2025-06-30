@@ -1,0 +1,623 @@
+---
+title: Centralized Authorization System (CAS) setup
+description: Setup and configuration guide for the CAS microservice (authorization-system) that manages workspace permissions, user access control, and ACL rules in FlowX 5.0
+icon: shield-check
+---
+
+<Info>
+The Centralized Authorization System (CAS), implemented as the **authorization-system** microservice, is introduced in FlowX 5.0 to manage workspace permissions, user access control, and ACL (Access Control List) rules for the multi-tenant architecture.
+</Info>
+
+## Overview
+
+The CAS microservice provides centralized authorization services for the FlowX platform, managing workspaces, users, groups, roles, and permissions. It works alongside SpiceDB to deliver fine-grained access control and supports the new multi-tenant Workspaces feature.
+
+<Warning>
+**Important**: Only the authorization-system microservice should have direct write access to the CAS PostgreSQL database. Other services communicate through the CAS client library and REST APIs.
+</Warning>
+
+## Prerequisites
+
+Before installing CAS, ensure the following components are available:
+
+### Infrastructure requirements
+
+- **PostgreSQL**: Version 13 or higher for CAS database
+- **Kafka**: Version 2.8 or higher (existing FlowX requirement)
+- **Keycloak**: Existing FlowX identity provider
+
+### Dependencies
+
+CAS requires the following FlowX components to be operational:
+
+- Existing FlowX infrastructure (Engine, Admin, Designer)
+- Keycloak or compatible OAuth2 identity provider
+- PostgreSQL database for FlowX (can be same or separate instance)
+
+## SpiceDB installation
+
+SpiceDB is required for ACL (Access Control List) management and must be installed before CAS.
+
+## CAS microservice installation
+
+### Service communication architecture
+
+The CAS system follows a strict communication pattern to ensure data integrity and security:
+
+<Info>
+**Database Access Control**: Only the authorization-system microservice has direct access to the CAS PostgreSQL database. All other services communicate exclusively through REST APIs via the CAS client library.
+</Info>
+
+**Communication Methods:**
+- **authorization-system**: Direct database access (exclusive write access)
+- **admin service**: REST API communication with authorization-system via CAS client library
+- **data-sync**: Temporary database write access during migrations only (exception for migrating existing projects)
+- **Other FlowX services**: REST API communication only via CAS client library
+- **SpiceDB**: All services communicate via gRPC through CAS client library
+
+### Database architecture
+
+- **CAS PostgreSQL Database**: Used exclusively by authorization-system for authorization data
+- **Migration Exception**: data-sync service requires temporary write access to migrate existing projects from app-manager database to CAS database
+- **No Direct Database Access**: Other services do not connect directly to the CAS database - all communication is through REST APIs
+- **SpiceDB Integration**: Uses PostgreSQL as backend storage, accessed via gRPC through CAS client library
+
+### Authorization-system environment variables
+
+The authorization-system microservice requires the following configuration:
+
+```yaml
+spring:
+  application:
+    name: authorization-system
+  liquibase:
+    change-log: classpath:config/liquibase/master.xml
+    parameters:
+      spice-db-host: ${flowx.lib.cas-client.spicedb.host}
+      spice-db-port: ${flowx.lib.cas-client.spicedb.port}
+      spice-db-token: ${flowx.lib.cas-client.spicedb.token}
+      create-default-workspace: true
+      default-org-admin-user-subject-id: # left empty on purpose
+      default-org-admin-username: admin@flowx.ai
+      openid-realm-name: ${security.oauth2.realm}
+      openid-base-server-url: ${security.oauth2.base-server-url}
+      openid-admin-client-id: ${security.oauth2.service-account.admin.client-id}
+      openid-admin-client-secret: ${security.oauth2.service-account.admin.client-secret}
+      default-test-usernames: ${flowx.service.authorization-system.migration.default-test-usernames}
+```
+
+
+```bash Environment Variables
+SPRING_APPLICATION_NAME=authorization-system
+SPRING_LIQUIBASE_CHANGE_LOG=classpath:config/liquibase/master.xml
+SPRING_LIQUIBASE_PARAMETERS_SPICE_DB_HOST=localhost
+SPRING_LIQUIBASE_PARAMETERS_SPICE_DB_PORT=50051
+SPRING_LIQUIBASE_PARAMETERS_SPICE_DB_TOKEN=flowx_test_token
+SPRING_LIQUIBASE_PARAMETERS_CREATE_DEFAULT_WORKSPACE=true
+SPRING_LIQUIBASE_PARAMETERS_DEFAULT_ORG_ADMIN_USER_SUBJECT_ID=
+SPRING_LIQUIBASE_PARAMETERS_DEFAULT_ORG_ADMIN_USERNAME=admin@flowx.ai
+SPRING_LIQUIBASE_PARAMETERS_OPENID_REALM_NAME=flowx
+SPRING_LIQUIBASE_PARAMETERS_OPENID_BASE_SERVER_URL=http://localhost:8080/auth
+SPRING_LIQUIBASE_PARAMETERS_OPENID_ADMIN_CLIENT_ID=flowx-admin-client
+SPRING_LIQUIBASE_PARAMETERS_OPENID_ADMIN_CLIENT_SECRET=flowx-admin-client-secret
+SPRING_LIQUIBASE_PARAMETERS_DEFAULT_TEST_USERNAMES=
+```
+
+#### Database configuration
+
+<Warning>
+**Important**: The authorization-system requires its own dedicated PostgreSQL database. This database should only be accessed directly by the authorization-system microservice.
+</Warning>
+
+**Database Configuration Parameters:**
+- `SPRING_DATASOURCE_URL`: JDBC connection string to the CAS PostgreSQL database
+- `SPRING_DATASOURCE_USERNAME`: Database username with full access to the CAS database
+- `SPRING_DATASOURCE_PASSWORD`: Database password
+- `SPRING_DATASOURCE_DRIVER_CLASS_NAME`: Database driver class name (org.postgresql.Driver)
+
+#### Migration parameters
+
+<Warning>
+**Custom configurations are only required during migration from previous FlowX versions.**
+</Warning>
+
+- **`create-default-workspace: true`**: Required for upgrades to migrate existing projects to default workspace
+- **`default-org-admin-username: admin@flowx.ai`**: Bootstrap first organization admin from Keycloak
+- **`default-org-admin-user-subject-id`**: Leave empty - fallback method if username approach fails
+- **`default-test-usernames`**: Optional - for creating test users during development
+
+#### SpiceDB integration parameters
+
+<Info>
+SpiceDB parameters are automatically retrieved from CAS client library configuration - no manual setup required.
+</Info>
+
+- **`spice-db-host`**: Inherited from `${flowx.lib.cas-client.spicedb.host}`
+- **`spice-db-port`**: Inherited from `${flowx.lib.cas-client.spicedb.port}`
+- **`spice-db-token`**: Inherited from `${flowx.lib.cas-client.spicedb.token}`
+
+#### Keycloak integration parameters
+
+<Info>
+Keycloak parameters inherit from existing FlowX OAuth2 configuration - no additional setup required.
+</Info>
+
+- **`openid-realm-name`**: Inherited from existing FlowX security configuration
+- **`openid-base-server-url`**: Inherited from existing FlowX security configuration
+- **`openid-admin-client-id`**: Inherited from existing FlowX security configuration
+- **`openid-admin-client-secret`**: Inherited from existing FlowX security configuration
+
+### Organization admin bootstrap
+
+<Warning>
+The authorization-system uses a fallback mechanism to create the first organization administrator when no admin users exist.
+</Warning>
+
+<Steps>
+  <Step title="Primary Method (Recommended)">
+    Set `DEFAULT_ORG_ADMIN_USERNAME` (default: `admin@flowx.ai`)
+    
+    **Process**:
+    1. System searches for this username in Keycloak
+    2. Copies the user's `sub_id` (subject ID) to CAS database
+    3. Grants organization admin privileges automatically
+  </Step>
+  
+  <Step title="Fallback Method">
+    Set `DEFAULT_ORG_ADMIN_SUBJECT_ID` with a specific Keycloak subject ID
+    
+    **Process**:
+    1. Creates user directly in authorization-system database
+    2. Assigns organization admin roles
+    3. Used when username method fails or is set to null
+  </Step>
+  
+  <Step title="Error Handling">
+    **If incorrect subject_id is provided**:
+    - Login will fail
+    - No org-admin privileges granted
+    - Manual database correction required
+  </Step>
+</Steps>
+
+## FlowX services configuration
+
+### CAS client library integration
+
+<Info>
+All FlowX microservices integrate with the authorization-system through the CAS client library, which handles communication with both CAS REST APIs and SpiceDB gRPC APIs.
+</Info>
+
+**CAS Client Library Configuration**: Each FlowX service requires a `{microservice}-cas.yml` configuration file that defines connectivity to both authorization-system and SpiceDB through the CAS client library.
+
+#### CAS client configuration structure
+
+Each microservice needs the following configuration file (`{microservice}-cas.yml`):
+
+```yaml
+spring.config.import: application-cas-client.yaml
+---
+flowx:
+  lib:
+    cas-client:
+      spicedb:
+        host: localhost
+        port: 50051
+        token: flowx_test_token
+      services:
+        authorization-system:
+          base-url: http://localhost:8100
+          web-client:
+            response-timeout: 5
+            connection-timeout: 5
+            max-in-memory-size: 5242880
+```
+
+**Configuration Parameters:**
+
+- **`spicedb.host`**: SpiceDB service hostname
+- **`spicedb.port`**: SpiceDB gRPC port (typically 50051)
+- **`spicedb.token`**: Authentication token for SpiceDB access
+- **`authorization-system.base-url`**: authorization-system service REST endpoint
+- **`web-client.response-timeout`**: HTTP response timeout in seconds
+- **`web-client.connection-timeout`**: HTTP connection timeout in seconds
+- **`web-client.max-in-memory-size`**: Maximum memory buffer size for HTTP responses
+
+### Admin service configuration
+
+The admin service requires the CAS client configuration file for integration with authorization-system and SpiceDB.
+
+<CodeGroup>
+```yaml application-cas.yml
+flowx:
+  lib:
+    cas-client:
+      spicedb:
+        host: localhost
+        port: 50051
+        token: flowx_test_token
+      services:
+        authorization-system:
+          base-url: http://localhost:8100
+          web-client:
+            response-timeout: 5
+            connection-timeout: 5
+            max-in-memory-size: 5242880
+
+```
+
+```bash Environment Variables
+FLOWX_LIB_CAS_CLIENT_SPICEDB_HOST=localhost
+FLOWX_LIB_CAS_CLIENT_SPICEDB_PORT=50051
+FLOWX_LIB_CAS_CLIENT_SPICEDB_TOKEN=flowx_test_token
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_BASE_URL=http://localhost:8100
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_RESPONSE_TIMEOUT=5
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_CONNECTION_TIMEOUT=5
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_MAX_IN_MEMORY_SIZE=5242880 
+```
+</CodeGroup>
+
+### Engine service configuration
+
+The engine service requires the CAS client configuration file for integration with authorization-system and SpiceDB.
+
+<CodeGroup>
+```yaml application-cas.yml
+flowx:
+  lib:
+    cas-client:
+      spicedb:
+        host: localhost
+        port: 50051
+        token: flowx_test_token
+      services:
+        authorization-system:
+          base-url: http://authorization-system:80
+          web-client:
+            response-timeout: 5
+            connection-timeout: 5
+            max-in-memory-size: 5242880
+```
+
+```bash Environment Variables 
+FLOWX_LIB_CAS_CLIENT_SPICEDB_HOST=localhost
+FLOWX_LIB_CAS_CLIENT_SPICEDB_PORT=50051
+FLOWX_LIB_CAS_CLIENT_SPICEDB_TOKEN=flowx_test_token
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_BASE_URL=http://authorization-system:80
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_RESPONSE_TIMEOUT=5
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_CONNECTION_TIMEOUT=5
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_MAX_IN_MEMORY_SIZE=5242880 
+```
+</CodeGroup>
+
+### Application manager service configuration
+
+The application manager service requires the CAS client configuration file for integration with authorization-system and SpiceDB.
+
+<CodeGroup>
+```yaml application-cas.yml
+flowx:
+  lib:
+    cas-client:
+      spicedb:
+        host: localhost
+        port: 50051
+        token: flowx_test_token
+      services:
+        authorization-system:
+          base-url: http://authorization-system:80
+          web-client:
+            response-timeout: 5
+            connection-timeout: 5
+            max-in-memory-size: 5242880
+```
+
+```bash Environment Variables
+
+FLOWX_LIB_CAS_CLIENT_SPICEDB_HOST=localhost
+FLOWX_LIB_CAS_CLIENT_SPICEDB_PORT=50051
+FLOWX_LIB_CAS_CLIENT_SPICEDB_TOKEN=flowx_test_token
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_BASE_URL=http://authorization-system:80
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_RESPONSE_TIMEOUT=5
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_CONNECTION_TIMEOUT=5
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_MAX_IN_MEMORY_SIZE=5242880 
+```
+
+</CodeGroup>
+
+### CMS core service configuration
+
+The CMS core service requires the CAS client configuration file for integration with authorization-system and SpiceDB.
+
+<CodeGroup>
+```yaml application-cas.yml
+flowx:
+  lib:
+    cas-client:
+      spicedb:
+        host: localhost
+        port: 50051
+        token: flowx_test_token
+      services:
+        authorization-system:
+          base-url: http://authorization-system:80
+          web-client:
+            response-timeout: 5
+            connection-timeout: 5
+            max-in-memory-size: 5242880
+```
+
+```bash Environment Variables
+
+FLOWX_LIB_CAS_CLIENT_SPICEDB_HOST=localhost
+FLOWX_LIB_CAS_CLIENT_SPICEDB_PORT=50051
+FLOWX_LIB_CAS_CLIENT_SPICEDB_TOKEN=flowx_test_token
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_BASE_URL=http://authorization-system:80
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_RESPONSE_TIMEOUT=5
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_CONNECTION_TIMEOUT=5
+FLOWX_LIB_CAS_CLIENT_AUTHORIZATION_SYSTEM_WEB_CLIENT_MAX_IN_MEMORY_SIZE=5242880 
+```
+</CodeGroup>
+
+
+
+
+
+## Default roles and permissions
+
+FlowX 5.0 includes a comprehensive set of predefined roles that provide different levels of access across the platform. Understanding these roles is crucial for proper workspace setup and user management.
+
+### Role hierarchy
+
+<Tabs>
+  <Tab title="Organization Level">
+    **Organization Admin (`org_admin`)**
+    - Has full administrative access to manage users, workspaces, groups, roles, and system settings across the organization
+    - Cannot be edited, duplicated, or deleted
+    - Can only be assigned in the Organization admin space
+    - Hidden from workspace role lists
+  </Tab>
+  
+  <Tab title="Workspace Level">
+    **Workspace Admin (`workspace_admin`)**
+    - Manages all workspace-level resources including users, roles, themes
+    - Can configure access and content but cannot manage organization-wide settings
+    - Cannot be edited or deleted, but can be assigned to users/groups
+    
+    **Workspace User (`workspace_user`)**
+    - Limited access to view workspace assets
+    - Can create projects but cannot manage users, roles, or settings
+    - Ideal for configurators building projects within defined boundaries
+    - Can be duplicated to create custom variations
+    
+    **Theme Editor (`theme_editor`)**
+    - Can manage and customize themes, fonts, and media assets
+    - Focused purely on visual and branding elements
+    - Same base permissions as workspace_user with additional theme management
+  </Tab>
+  
+  <Tab title="Project Level">
+    **Project Owner (`project_owner`)**
+    - Full ownership and governance rights over project configuration and runtime
+    - Automatically assigned to the user who creates the project
+    - Cannot be edited, duplicated, deleted, or assigned directly
+    - Hidden from role lists - system managed only
+    
+    **Project Editor (`project_editor`)**
+    - Full access to manage and configure all project resources
+    - Can manage processes, workflows, content, and runtime settings
+    - Can be duplicated and assigned to users/groups
+    
+    **Project Viewer (`project_viewer`)**
+    - Read-only access to project configuration and runtime settings
+    - Ideal for users who need visibility without editing capabilities
+    - Can be assigned when granting access to specific projects/libraries
+  </Tab>
+</Tabs>
+
+### Default groups
+
+<Info>
+Each workspace automatically includes an "Everyone in workspace" group that simplifies permission management.
+</Info>
+
+**Auto-Generated Group: `all_users_[workspace_name]`**
+- Created automatically when provisioning a workspace
+- Not displayed in the Groups list interface
+- Cannot be edited, deleted, or duplicated by users
+- Users are automatically added/removed when their workspace access changes
+- Pre-selected when creating projects/libraries for easy access management
+
+### Permission matrix overview
+
+The permission system is structured around different entity types:
+
+<AccordionGroup>
+  <Accordion title="Organization Permissions" icon="building">
+    - **Workspaces**: Create, read, edit, delete workspaces
+    - **Users**: Manage organization-wide user access
+    - **Groups**: Create and manage organization-level groups
+    - **Roles**: Define and manage organization-level roles
+  </Accordion>
+  
+  <Accordion title="Workspace Permissions" icon="users">
+    - **Projects**: Create, read, edit, delete projects within workspace
+    - **Libraries**: Manage library resources and dependencies
+    - **Themes**: Customize visual elements and branding
+    - **Fonts**: Manage font resources
+    - **Users**: Manage workspace user access and assignments
+    - **Roles**: Create and manage workspace-specific roles
+    - **Groups**: Manage workspace user groups
+  </Accordion>
+  
+  <Accordion title="Project/Library Permissions" icon="folder">
+    - **Processes**: Design and configure business processes
+    - **Workflows**: Create and manage workflow definitions
+    - **Enumerations**: Manage data enumerations and values
+    - **Templates**: Configure notification and document templates
+    - **Systems**: Define external system integrations
+    - **Configurations**: Manage project settings and parameters
+    - **Runtime**: Control deployment and execution settings
+  </Accordion>
+</AccordionGroup>
+
+### Role management rules
+
+<CardGroup cols={2}>
+  <Card title="Predefined Roles" icon="lock">
+    - Cannot be deleted or fundamentally altered
+    - Permission structures are fixed for consistency
+    - Can be duplicated to create custom variations
+    - Ensure consistent access patterns across workspaces
+  </Card>
+  <Card title="Custom Roles" icon="key">
+    - Out of scope for FlowX 5.0 initial release
+    - Will be available in future versions
+    - Will support both workspace and project-level customization
+    - Will allow full permission customization
+  </Card>
+</CardGroup>
+
+## Migration for existing customers
+
+<Warning>
+**Migration Configuration**: Set `CREATE_DEFAULT_WORKSPACE=true` for all upgrades from previous FlowX versions. This is required to migrate existing projects to the default workspace.
+</Warning>
+
+<Steps>
+  <Step title="Pre-Migration Preparation">
+    **Required Configuration:**
+    - `CREATE_DEFAULT_WORKSPACE=true` (mandatory for migrations)
+    - `DEFAULT_ORG_ADMIN_USERNAME=admin@flowx.ai` (or existing admin username)
+    - Ensure admin user exists in Keycloak before migration
+  </Step>
+  
+  <Step title="Deploy authorization-system Infrastructure">
+    Deploy SpiceDB and authorization-system microservice with migration configuration:
+    ```bash
+    # Key migration environment variables
+    CREATE_DEFAULT_WORKSPACE=true
+    DEFAULT_ORG_ADMIN_USERNAME=admin@flowx.ai
+    ```
+  </Step>
+  
+  <Step title="Automatic Default Workspace Creation">
+    The authorization-system will automatically:
+    - Create default organization and workspace
+    - Import the admin user from Keycloak
+    - Assign organization admin privileges
+    - Set up default roles and groups
+  </Step>
+  
+  <Step title="data-sync Migration Process">
+    The data-sync service will:
+    - Read existing projects from app-manager PostgreSQL database
+    - Migrate projects to the CAS database
+    - Assign all existing resources to the default workspace
+    - Preserve all existing functionality
+    
+    **Note**: data-sync is the only service (besides authorization-system) with write access to CAS database during migration.
+  </Step>
+  
+  <Step title="Update Service Configurations">
+    Update all FlowX microservices with CAS integration configuration and restart services.
+  </Step>
+  
+  <Step title="Validate Migration">
+    Verify successful migration by checking:
+    - Organization and workspace creation
+    - Admin user import and role assignment
+    - Project migration to default workspace
+    - Service connectivity to CAS and SpiceDB
+  </Step>
+</Steps>
+
+
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="CAS Connection Issues" icon="plug">
+    **Symptoms**: FlowX services cannot connect to CAS
+    
+    **Diagnosis**:
+    ```bash
+    # Test CAS connectivity
+    curl -f http://authorization-system-service:8080/actuator/health
+    
+    # Check CAS logs
+    docker logs authorization-system-service
+    kubectl logs -l app=authorization-system -n flowx
+    ```
+    
+    **Solutions**:
+    - Verify authorization-system service is running and healthy
+    - Check network connectivity between services
+    - Validate CAS client library configuration
+    - Confirm firewall rules allow connections on port 8080
+    - Ensure services are using REST API communication (not direct database access)
+  </Accordion>
+  
+  <Accordion title="SpiceDB Permission Issues" icon="ban">
+    **Symptoms**: Permission checks failing or returning unexpected results
+    
+    **Diagnosis**:
+    ```bash
+    # Test SpiceDB connectivity through CAS client library
+    curl http://authorization-system-service:8080/actuator/health/spicedb
+    
+    # Check SpiceDB service health
+    curl http://spicedb-service:8080/readyz
+    ```
+    
+    **Solutions**:
+    - Verify SpiceDB schema is correctly applied
+    - Check workspace role assignments through CAS
+    - Validate gRPC communication through CAS client library
+    - Review audit logs for permission check details
+    - Ensure services are not attempting direct SpiceDB connections
+  </Accordion>
+  
+  <Accordion title="Database Migration Errors" icon="database">
+    **Symptoms**: Migration scripts fail or data is not properly migrated
+    
+    **Solutions**:
+    - Ensure authorization-system has exclusive write access to CAS database
+    - Verify data-sync has temporary write access during migration
+    - Check that existing projects are readable from app-manager database
+    - Confirm sufficient disk space and database permissions
+    - Validate that `CREATE_DEFAULT_WORKSPACE=true` is properly set
+  </Accordion>
+  
+  <Accordion title="User Authentication Problems" icon="user-xmark">
+    **Symptoms**: Users cannot access workspaces after migration
+    
+    **Solutions**:
+    - Verify admin user exists in Keycloak before migration
+    - Check organization admin bootstrap process completed successfully
+    - Validate workspace assignments through CAS REST API
+    - Ensure Keycloak integration parameters are correctly inherited
+    - Clear user sessions and retry authentication
+  </Accordion>
+  
+  <Accordion title="Service Communication Errors" icon="network-wired">
+    **Symptoms**: Services cannot communicate with authorization-system or SpiceDB
+    
+    **Solutions**:
+    - Verify all services use CAS client library for communication
+    - Check that no services attempt direct database connections to CAS
+    - Validate REST API endpoints are accessible
+    - Ensure gRPC communication to SpiceDB goes through CAS client library
+    - Review network policies and service discovery configuration
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related documentation
+
+- [Workspaces Feature Overview](../../docs/building-blocks/workspaces)  
+- [Workspaces Migration Guide](./workspaces-migration)
+- [CAS Access Rights](../access-management/cas-access-rights)
+- [Access Management Overview](./access-management-overview)
+- [FlowX Architecture](../../docs/platform-overview/flowx-architecture)
